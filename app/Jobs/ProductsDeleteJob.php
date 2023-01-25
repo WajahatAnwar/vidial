@@ -10,8 +10,8 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
 use Osiset\ShopifyApp\Objects\Values\ShopDomain;
 use stdClass;
-use Osiset\ShopifyApp\Contracts\Commands\Shop;
-use Osiset\ShopifyApp\Contracts\Queries\Shop as QueriesShop;
+use Osiset\ShopifyApp\Contracts\Commands\Shop as IShopCommand;
+use Osiset\ShopifyApp\Contracts\Queries\Shop as IShopQuery;
 use Osiset\ShopifyApp\Actions\CancelCurrentPlan;
 
 class ProductsDeleteJob implements ShouldQueue
@@ -23,7 +23,7 @@ class ProductsDeleteJob implements ShouldQueue
      *
      * @var ShopDomain|string
      */
-    public $shopDomain;
+    public $domain;
 
     /**
      * The webhook data
@@ -40,22 +40,26 @@ class ProductsDeleteJob implements ShouldQueue
      *
      * @return void
      */
-    public function __construct($shopDomain, $data)
+    public function __construct(string $domain, $data)
     {
-        $this->shopDomain = $shopDomain;
+        $this->domain = $domain;
         $this->data = $data;
     }
 
     /**
      * Execute the job.
      *
-     * @return void
+     * @param IShopCommand      $shopCommand             The commands for shops.
+     * @param IShopQuery        $shopQuery               The querier for shops.
+     * @param CancelCurrentPlan $cancelCurrentPlanAction The action for cancelling the current plan.
+     *
+     * @return bool
      */
-    public function handle(Shop $shopCommand, QueriesShop $shopQuery, CancelCurrentPlan $cancelCurrentPlanAction): bool
+    public function handle(IShopCommand $shopCommand, IShopQuery $shopQuery, CancelCurrentPlan $cancelCurrentPlanAction): bool
     {
-        $this->shopDomain = ShopDomain::fromNative($this->shopDomain);
+        $this->domain = ShopDomain::fromNative($this->domain);
 
-        $shop = $shopQuery->getByDomain($this->shopDomain);
+        $shop = $shopQuery->getByDomain($this->domain);
         $shopId = $shop->getId();
 
         // sync_products($shop);

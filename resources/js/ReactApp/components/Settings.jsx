@@ -184,7 +184,7 @@ const Settings = () => {
                                     />
                                     <div style={{display:"flex",justifyContent:"space-between"}}>
                                         <div style={{fontWeight: "500",fontSize: "16px",paddingTop: "12px"}}>Current Image</div>
-                                        <img src={`https://phpstack-921796-3199864.cloudwaysapps.com/${savedImageLink}`} width="50" alt="image"></img>
+                                        <img src={`https://4e1f-2400-adc5-1b3-b500-c4af-fdd3-6142-5728.in.ngrok.io/${savedImageLink}`} width="50" alt="image"></img>
                                     </div>
                                 </Stack>
                             </div>
@@ -203,7 +203,7 @@ const Settings = () => {
                     <Card title="Preview">
                         <Card.Section>
                             <div>
-                                <img src={`https://phpstack-921796-3199864.cloudwaysapps.com/images/preview.png`} width="268" alt=""></img>
+                                <img src={`https://4e1f-2400-adc5-1b3-b500-c4af-fdd3-6142-5728.in.ngrok.io/images/preview.png`} width="268" alt=""></img>
                             </div>
                         </Card.Section>
                     </Card>

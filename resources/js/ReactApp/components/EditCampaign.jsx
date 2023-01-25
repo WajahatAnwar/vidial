@@ -36,6 +36,11 @@ function EditCampaign() {
                 setCampaignName(data.data3.name);
                 setSelectedFurtherOption(data.data3.discount_on_data);
                 setSelectedApplyOnOptions(data.data3.discount_on);
+
+                if(data.data3.discount_on == "all_store") {
+                    setShowProductCollection(false);
+                }
+
                 setSelectedDiscount(data.data3.discount_type);
 
                 // setSelectedTags(JSON.parse(data.data3.discount_tags));
@@ -245,6 +250,9 @@ function EditCampaign() {
                 setSaveLoading(false);
             } else if(data.success === false) {
                 setSaveLoading(false);
+                setMyError(data.message)
+                setMyErrorVisibility(true);
+                window.scrollTo(0,0);
             }
         });
     }

@@ -210,6 +210,9 @@ function NewCampaign() {
                 setSaveLoading(false);
             } else if(data.success === false) {
                 setSaveLoading(false);
+                setMyError(data.message)
+                setMyErrorVisibility(true);
+                window.scrollTo(0,0);
             }
         });
     }

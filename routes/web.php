@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CampaignController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\RulesController;
 use App\Http\Controllers\SettingsController;
 use Illuminate\Support\Facades\Route;
@@ -45,5 +46,7 @@ Route::get('delete_campaign',[CampaignController::class,'delete_campaign'])->mid
 Route::get('get_current_settings',[SettingsController::class,'get_current_settings'])->middleware(['verify.shopify']);
 
 Route::post('change_pop_up_type',[SettingsController::class,'change_pop_up_type'])->middleware(['verify.shopify']);
+
+Route::post('get_dashboard_data',[DashboardController::class,'get_dashboard_data'])->middleware(['verify.shopify']);
 
 Route::view('/{any}', 'welcome')->where('any', '^(?!webhook).*$')->middleware(['verify.shopify'])->name('welcome');

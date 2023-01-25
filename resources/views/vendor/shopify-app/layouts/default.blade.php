@@ -20,8 +20,7 @@
         </div>
     </div>
 
-    @if (\Osiset\ShopifyApp\Util::getShopifyConfig('appbridge_enabled') &&
-        \Osiset\ShopifyApp\Util::useNativeAppBridge())
+    @if (\Osiset\ShopifyApp\Util::getShopifyConfig('appbridge_enabled') && \Osiset\ShopifyApp\Util::useNativeAppBridge())
         <script
             src="https://unpkg.com/@shopify/app-bridge{{ \Osiset\ShopifyApp\Util::getShopifyConfig('appbridge_version') ? '@' . config('shopify-app.appbridge_version') : '' }}">
         </script>
@@ -33,14 +32,13 @@
             var actions = AppBridge.actions;
             var utils = window['app-bridge-utils'];
             var createApp = AppBridge.default;
-            var shopData = {
+            var app = createApp({
                 apiKey: "{{ \Osiset\ShopifyApp\Util::getShopifyConfig('api_key', $shopDomain ?? Auth::user()->name) }}",
-                shopOrigin: "{{ $shopDomain ?? Auth::user()->name }}",
                 host: "{{ \Request::get('host') }}",
                 forceRedirect: true,
-            };
-            var app = createApp(shopData);
-            shopNm = shopData.shopOrigin;
+            });
+
+            let shopNm = "{{ $shopDomain ?? Auth::user()->name }}";
 
             const {
                 fetch: originalFetch
@@ -62,7 +60,6 @@
                 // response interceptor here
                 return response;
             };
-
         </script>
 
         @include('shopify-app::partials.token_handler')

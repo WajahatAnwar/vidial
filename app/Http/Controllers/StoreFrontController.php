@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Campaign;
 use App\Models\CampaignDiscount;
+use App\Models\DiscountView;
 use App\Models\Setting;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -89,7 +90,7 @@ class StoreFrontController extends Controller
             ]
         ]);
 
-        Log::info(json_encode($createPriceRule));
+        // Log::info(json_encode($createPriceRule));
 
         $priceRule = $createPriceRule['body']['price_rule'];
         $discountCode = $shop->api()->rest('POST', '/admin/api/2022-01/price_rules/' . $priceRule['id'] . '/discount_codes.json', [
@@ -98,7 +99,7 @@ class StoreFrontController extends Controller
             ]
         ]);
 
-        Log::info(json_encode($discountCode));
+        // Log::info(json_encode($discountCode));
 
         $new_discount_code = new CampaignDiscount;
         $new_discount_code->user_id = $shop->id;
@@ -109,6 +110,13 @@ class StoreFrontController extends Controller
         $new_discount_code->discount_tag = $campaign->discount_tags[$index];
         $new_discount_code->save();
 
+        $new_view = new DiscountView;
+        $new_view->user_id = $shop->id;
+        $new_view->campaign_id = $campaign->id;
+        $new_view->discount_code = $code;
+        $new_view->click = 1;
+        $new_view->save();
+
         return response()->json([
             'success' => true,
             'message' => 'New discount Generated.',
@@ -118,7 +126,6 @@ class StoreFrontController extends Controller
             'data3' => $campaign->end_date,
             'data4' => $shop_settings->pop_up_type,
             'data5' => $shop_settings->pop_up_data,
-
         ]);
     }
 }

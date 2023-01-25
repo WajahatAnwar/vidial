@@ -11,6 +11,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use stdClass;
 
@@ -68,14 +69,14 @@ class CampaignController extends Controller
         $current_user = Auth::user();
         $shop = User::find($current_user->id);
 
-        $check = Product::where('user_id',$shop->id)->first();
+        $check = Product::where('user_id', $shop->id)->first();
 
-        if(empty($check)) {
+        if (empty($check)) {
             sync_products($shop);
         }
 
-        $products = Product::where('user_id',$shop->id)->get();
-        $collections = Collection::where('user_id',$shop->id)->get();
+        $products = Product::where('user_id', $shop->id)->get();
+        $collections = Collection::where('user_id', $shop->id)->get();
 
         $response = $shop->api()->rest('get', '/admin/api/2023-01/webhooks.json', []);
 
@@ -92,30 +93,63 @@ class CampaignController extends Controller
     {
         // return $request;
 
-        $current_user = Auth::user();
-        $shop = User::find($current_user->id);
+        $validator = Validator::make($request->all(), [
+            'campaign_name' => 'required',
+            'discount_by' => 'required',
+            'discount_type' => 'required',
+            'end_date' => 'required',
+            'start_date' => 'required',
+            'further_option' => 'required',
+        ], []);
 
-        //INITIAL VARIABLES
-        $discount_rule = "";
-        $message = "New Campaign Created Successfully";
-        $start_date_inside = Carbon::now()->subDays(10);
-        $end_date_inside = Carbon::now()->subDays(10);
-
-        if (isset($request->editing_check)) {
-            $discount_rule = Campaign::find($request->campaign_id);
+        if ($validator->fails()) {
+            $str['success'] = false;
+            $error = $validator->errors()->toArray();
+            foreach ($error as $x_value) {
+                $err[] = $x_value[0];
+            }
+            $str['message'] = $err['0'];
+            // $str['data'] = $validator->errors()->toArray();
+            return $str;
         } else {
-            $discount_rule = new Campaign;
-        }
 
-        $discount_rule->user_id = $shop->id;
-        $discount_rule->name = $request->campaign_name;
-        $discount_rule->discount_on = $request->discount_by;
-        $discount_rule->discount_on_data = $request->further_option;
-        $discount_rule->start_date = $request->start_date;
-        $discount_rule->end_date = $request->end_date;
-        $discount_rule->discount_type = $request->discount_type;
-        $discount_rule->discount_tags = $request->discount_tags;
-        $discount_rule->save();
+            //VALIDATING DISCOUNT CODES
+            if(count(json_decode($request->discount_tags)) == 0) {
+                $str['success'] = false;
+                $str['message'] = "At least one discount amount is required.";
+                return $str;
+            }
+
+            $current_user = Auth::user();
+            $shop = User::find($current_user->id);
+
+            //INITIAL VARIABLES
+            $discount_rule = "";
+            $message = "New Campaign Created Successfully";
+            $start_date_inside = Carbon::now()->subDays(10);
+            $end_date_inside = Carbon::now()->subDays(10);
+
+            if (isset($request->editing_check)) {
+                $discount_rule = Campaign::find($request->campaign_id);
+            } else {
+                $discount_rule = new Campaign;
+            }
+
+            $discount_rule->user_id = $shop->id;
+            $discount_rule->name = $request->campaign_name;
+            $discount_rule->discount_on = $request->discount_by;
+            $discount_rule->discount_on_data = $request->further_option;
+            $discount_rule->start_date = $request->start_date;
+            $discount_rule->end_date = $request->end_date;
+            $discount_rule->discount_type = $request->discount_type;
+            $discount_rule->discount_tags = $request->discount_tags;
+            $discount_rule->save();
+
+            return response()->json([
+                'success' => true,
+                'message' =>  $message,
+            ]);
+        }
 
         // if (isset($request->editing_check)) {
 
@@ -157,11 +191,6 @@ class CampaignController extends Controller
 
         // $this->manage_campaign($request,$shop,$target_selection_type,$discount_type,$product_ids_list,
         // $collection_ids_list,$start_date_inside,$end_date_inside,$discount_rule);
-
-        return response()->json([
-            'success' => true,
-            'message' =>  $message,
-        ]);
     }
 
     public function get_all_campaigns()
@@ -236,25 +265,61 @@ class CampaignController extends Controller
     public function make_campaign_duplicate(Request $request)
     {
         // return $request;
-        $current_user = Auth::user();
-        $shop = User::find($current_user->id);
 
-        // $start_date_inside = Carbon::now()->subDays(10);
-        // $end_date_inside = Carbon::now()->subDays(10);
+        // return $request;
 
-        $discount_rule = Campaign::find($request->campaign_id);
+        $validator = Validator::make($request->all(), [
+            'campaign_name' => 'required',
+            'discount_by' => 'required',
+            'discount_type' => 'required',
+            'end_date' => 'required',
+            'start_date' => 'required',
+            'further_option' => 'required',
+        ], []);
 
-        $d_discount_rule = new Campaign;
-        $d_discount_rule->user_id = $shop->id;
-        $d_discount_rule->name = $discount_rule->name." Copy";
-        $d_discount_rule->discount_on = $discount_rule->discount_on;
-        $d_discount_rule->discount_on_data = $discount_rule->discount_on_data;
-        $d_discount_rule->start_date = $discount_rule->start_date;
-        $d_discount_rule->end_date = $discount_rule->end_date;
-        $d_discount_rule->discount_type = $discount_rule->discount_type;
-        $d_discount_rule->discount_tags = $discount_rule->discount_tags;
-        $d_discount_rule->save();
+        if ($validator->fails()) {
+            $str['success'] = false;
+            $error = $validator->errors()->toArray();
+            foreach ($error as $x_value) {
+                $err[] = $x_value[0];
+            }
+            $str['message'] = $err['0'];
+            // $str['data'] = $validator->errors()->toArray();
+            return $str;
+        } else {
 
+            //VALIDATING DISCOUNT CODES
+            if(count(json_decode($request->discount_tags)) == 0) {
+                $str['success'] = false;
+                $str['message'] = "At least one discount amount is required.";
+                return $str;
+            }
+
+            $current_user = Auth::user();
+            $shop = User::find($current_user->id);
+
+            // $start_date_inside = Carbon::now()->subDays(10);
+            // $end_date_inside = Carbon::now()->subDays(10);
+
+            $discount_rule = Campaign::find($request->campaign_id);
+
+            $d_discount_rule = new Campaign;
+            $d_discount_rule->user_id = $shop->id;
+            $d_discount_rule->name = $discount_rule->name . " Copy";
+            $d_discount_rule->discount_on = $discount_rule->discount_on;
+            $d_discount_rule->discount_on_data = $discount_rule->discount_on_data;
+            $d_discount_rule->start_date = $discount_rule->start_date;
+            $d_discount_rule->end_date = $discount_rule->end_date;
+            $d_discount_rule->discount_type = $discount_rule->discount_type;
+            $d_discount_rule->discount_tags = $discount_rule->discount_tags;
+            $d_discount_rule->save();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Campaign Duplicated Successfully',
+            ]);
+
+        }
         // $discount_type = "fixed_amount";
         // $target_selection_type = "all";
         // $product_ids_list = [];
@@ -282,11 +347,6 @@ class CampaignController extends Controller
 
         // $this->manage_campaign($request,$shop,$target_selection_type,$discount_type,$product_ids_list,
         // $collection_ids_list,$start_date_inside,$end_date_inside,$discount_rule);
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Campaign Duplicated Successfully',
-        ]);
     }
 
     public function delete_campaign(Request $request)

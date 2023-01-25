@@ -43,7 +43,7 @@ function sync_products($request)
 {
     $user = User::where('name', $request->name)->first();
 
-    Log::info(json_encode($user));
+    // Log::info(json_encode($user));
 
     $perPage = 250;
     $productCount = $user->api()->rest('GET', '/admin/api/2022-01/products/count.json')['body']['count'];
