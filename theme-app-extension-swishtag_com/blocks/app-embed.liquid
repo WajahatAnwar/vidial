@@ -28,7 +28,7 @@
 </div>
 
 <script>
-  console.log('MYSTERY APP BLOCK 24-01-2023');
+  console.log('MYSTERY APP BLOCK 25-01-2023 v1');
 
   function setCookie(cname, cvalue, exdays) {
     const d = new Date();
@@ -103,13 +103,13 @@
             console.log("3");
             document.getElementById('extra_things_id').innerHTML +=
             `<div style="display:flex;justify-content:center">
-                <img src="https://4e1f-2400-adc5-1b3-b500-c4af-fdd3-6142-5728.in.ngrok.io/images/basic_animation.gif" alt="animation" width="400" height="400">
+                <img src="https://phpstack-926973-3217189.cloudwaysapps.com/images/basic_animation.gif" alt="animation" width="400" height="400">
             </div>`;
         } else if(getCookie('pop_up_type') != '' && getCookie('pop_up_type') == 'client_gif' ) {
             console.log("4");
             document.getElementById('extra_things_id').innerHTML +=
             `<div style="display:flex;justify-content:center">
-                <img src="https://4e1f-2400-adc5-1b3-b500-c4af-fdd3-6142-5728.in.ngrok.io/${getCookie('pop_up_data')}" alt="animation" width="400">
+                <img src="https://phpstack-926973-3217189.cloudwaysapps.com/${getCookie('pop_up_data')}" alt="animation" width="400">
             </div>`;
         }
 
@@ -123,7 +123,7 @@
           campaign_id: campaign_id,
         };
 
-        fetch(`https://4e1f-2400-adc5-1b3-b500-c4af-fdd3-6142-5728.in.ngrok.io/api/get_campaign_discount`, {
+        fetch(`https://phpstack-926973-3217189.cloudwaysapps.com/api/get_campaign_discount`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -176,13 +176,13 @@
                     console.log("3");
                     document.getElementById('extra_things_id').innerHTML +=
                     `<div style="display:flex;justify-content:center">
-                        <img src="https://4e1f-2400-adc5-1b3-b500-c4af-fdd3-6142-5728.in.ngrok.io/images/basic_animation.gif" alt="animation" width="400" height="400">
+                        <img src="https://phpstack-926973-3217189.cloudwaysapps.com/images/basic_animation.gif" alt="animation" width="400" height="400">
                     </div>`;
                 } else if(data.data4 == 'client_gif' ) {
                     console.log("4");
                     document.getElementById('extra_things_id').innerHTML +=
                     `<div style="display:flex;justify-content:center">
-                        <img src="https://4e1f-2400-adc5-1b3-b500-c4af-fdd3-6142-5728.in.ngrok.io/${data.data5}" alt="animation" width="400">
+                        <img src="https://phpstack-926973-3217189.cloudwaysapps.com/${data.data5}" alt="animation" width="400">
                     </div>`;
                 }
 
