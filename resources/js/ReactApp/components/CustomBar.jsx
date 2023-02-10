@@ -7,19 +7,7 @@ function TabsExample() {
     const navigate = useNavigate();
     let location = useLocation();
 
-    useEffect(() => {
-        // console.log(location.pathname);
 
-        if(location.pathname == "/") {
-            setSelected(0);
-        } else if(location.pathname == "/campaigns") {
-            setSelected(1);
-        } else if(location.pathname == "/new-campaign") {
-            setSelected(2);
-        } else if(location.pathname == "/settings") {
-            setSelected(3);
-        }
-    }, [location]);
 
     const [selected, setSelected] = useState(0);
 
@@ -29,12 +17,14 @@ function TabsExample() {
         if (selectedTabIndex == 0) {
             navigate("/");
         } else if (selectedTabIndex == 1) {
-            navigate("/campaigns");
+            navigate("/videos-to-review");
         } else if (selectedTabIndex == 2) {
-            navigate("/new-campaign");
+            navigate("/approved-videos");
         } else if (selectedTabIndex == 3) {
             navigate("/settings");
-        }
+        } else if (selectedTabIndex == 4) {
+        navigate("/plans");
+    }
     }, []);
 
     const tabs = [
@@ -44,15 +34,19 @@ function TabsExample() {
         },
         {
             id: "accepts-marketing-1",
-            content: "Campaigns",
+            content: <div>Videos To Review<sup style={{background: "rgba(255, 59, 44, 0.75)",padding: "1px 6px",borderRadius:"50%",marginLeft:"5px"}}>4</sup></div>,
         },
         {
             id: "repeat-customers-1",
-            content: "New Campaign +",
+            content: "Approved Videos",
         },
         {
             id: "teteat-customers-1",
             content: "Settings",
+        },
+        {
+            id: "plans-customers-1",
+            content: "Plans",
         },
     ];
 

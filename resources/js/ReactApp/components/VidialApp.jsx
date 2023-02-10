@@ -6,12 +6,13 @@ import CustomBar from "./CustomBar";
 // import NavigationCustom from "./NavigationCustom";
 
 import Loading from "./Loading";
-import Campaign from "./Campaign";
+import VideosToReview from "./VideosToReview";
 import Dashboard from "./Dashboard";
-import NewCampaign from "./NewCampaign";
+import ApprovedVideos from "./ApprovedVideos";
 import React from "react";
 import EditCampaign from "./EditCampaign";
 import Settings from "./Settings";
+import Plans from "./Plans";
 
 const MysteryDiscountApp = () => {
     return (
@@ -19,10 +20,10 @@ const MysteryDiscountApp = () => {
             <CustomBar />
             <Routes>
                 <Route path="/" element={<Dashboard />} />
-                <Route path="/campaigns" element={<Campaign />} />
-                <Route path="/edit-campaign/:id" element={<EditCampaign />} />
-                <Route path="/new-campaign" element={<NewCampaign />} />
+                <Route path="/videos-to-review" element={<VideosToReview />} />
+                <Route path="/approved-videos" element={<ApprovedVideos />} />
                 <Route path="/settings" element={<Settings />} />
+                <Route path="/plans" element={<Plans />} />
                 <Route path="*" element={<Loading login={false} />} />
             </Routes>
         </AppProvider>

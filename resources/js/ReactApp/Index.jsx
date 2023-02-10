@@ -1,12 +1,12 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
-import MysteryDiscountApp from "./components/MysteryDiscountApp";
+import VidialApp from "./components/VidialApp";
 
 export default function ReactApp() {
     return (
         <BrowserRouter>
-            <MysteryDiscountApp />
+            <VidialApp />
         </BrowserRouter>
     );
 }

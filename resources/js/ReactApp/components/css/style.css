@@ -54,6 +54,20 @@
     .position_check {
         position: absolute;
     }
+
+    .colorOptions {
+        width: 26px !important;
+        height: 26px !important;
+    }
+    .colorWheel
+    {
+        width: 26px !important;
+        height: 26px !important;
+    }
+    .buttonColorPicker{
+        margin-left: 111px !important;
+    }
+
 }
 .addNew{
     width: 120px;
@@ -132,3 +146,40 @@ th.Polaris-DataTable__Cell.Polaris-DataTable__Cell--verticalAlignTop.Polaris-Dat
 }
 
 /* datePicker css end */
+.upload-btn-wrapper {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+  }
+
+  .btnCustomUpload {
+    border: none;
+    color: white;
+    background-color: #008060;
+    padding: 8px 20px;
+    border-radius: 4px;
+    font-size: 15px;
+    font-weight: 500;
+  }
+
+  .upload-btn-wrapper input[type=file] {
+    font-size: 100px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+  }
+  .colorOptions{
+    padding: 9px;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    margin-left: 10px;
+  }
+  .colorWheel{
+    width: 40px !important;
+    height: 40px !important;
+}
+.buttonColorPicker{
+    margin-left: 500px;
+}
