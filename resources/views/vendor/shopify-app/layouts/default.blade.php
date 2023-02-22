@@ -6,8 +6,6 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ \Osiset\ShopifyApp\Util::getShopifyConfig('app_name') }}</title>
-    {{-- <link rel="stylesheet" href="https://unpkg.com/@shopify/polaris@10.16.1/build/esm/styles.css" /> --}}
-
     @yield('styles')
 </head>
 
@@ -37,7 +35,6 @@
                 host: "{{ \Request::get('host') }}",
                 forceRedirect: true,
             });
-
             let shopNm = "{{ $shopDomain ?? Auth::user()->name }}";
 
             const {

@@ -17,6 +17,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
+
 Route::get('/', function () {
     return view('welcome');
 })->middleware(['verify.shopify'])->name('home');
@@ -49,4 +51,7 @@ Route::post('change_pop_up_type',[SettingsController::class,'change_pop_up_type'
 
 Route::post('get_dashboard_data',[DashboardController::class,'get_dashboard_data'])->middleware(['verify.shopify']);
 
-Route::view('/{any}', 'welcome')->where('any', '^(?!webhook).*$')->middleware(['verify.shopify'])->name('welcome');
+Route::post('save_settings',[SettingsController::class,'saveSettings'])->middleware(['verify.shopify']);
+Route::get('get_settings',[SettingsController::class,'getSettings'])->middleware(['verify.shopify']);
+
+// Route::view('/{any}', 'welcome')->where('any', '^(?!webhook).*$')->middleware(['verify.shopify'])->name('welcome');

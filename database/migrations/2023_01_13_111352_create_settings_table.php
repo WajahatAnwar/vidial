@@ -16,8 +16,15 @@ return new class extends Migration
         Schema::create('settings', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->string('pop_up_type')->default("basic");
-            $table->string('pop_up_data')->default("images/placeholder_image.png");
+            $table->integer('store_credit');
+            $table->string('logo');
+            $table->text('instructions');
+            $table->string('video');
+            $table->string('page_color');
+            $table->integer('page_display_to_customers');
+            $table->integer('email_sent_to_customer');
+            $table->integer('page_link');
+
             $table->timestamps();
         });
     }

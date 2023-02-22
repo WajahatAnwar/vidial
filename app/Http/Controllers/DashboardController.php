@@ -144,4 +144,13 @@ class DashboardController extends Controller
             'data' => $data,
         ]);
     }
+
+    // test Function
+
+    public function test(Request $request){
+        return response()->json([
+            'success' => true,
+            'message' => 'Dashboard data retrieved successfully!',
+        ]);
+    }
 }

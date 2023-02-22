@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Page, hex ,hsbToHex, hsbToRgb, hslToRgb, rgbToHsb, Card, Button, Select, Icon, Grid, Banner, RadioButton, TextField, ColorPicker } from '@shopify/polaris';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { DropZone, Stack, Thumbnail, Text } from '@shopify/polaris';
+import { DropZone, Stack, Thumbnail, Text,Frame,Toast,List } from '@shopify/polaris';
 import { CircleCancelMinor, NoteMinor } from '@shopify/polaris-icons';
 import { useCallback } from 'react';
 import UploadIcon from "./imges/uploadLogo.png";
@@ -11,7 +11,13 @@ import DellIcon from "./imges/dellIcon.png";
 import ColorWheel from "./imges/collorWheel.png";
 
 const Settings = () => {
+    const [active, setActive] = useState(false);
+    const [error,setError] = useState(false);
+    const toggleActive = useCallback(() => setActive((active) => !active), []);
 
+    const toastMarkup = active ? (
+      <Toast content="Settings Added Successfully" onDismiss={toggleActive} />
+    ) : null;
     const [selected, setSelected] = useState('today');
 
     const handleSelectChange = useCallback((value) => setSelected(value), ["english"]);
@@ -24,7 +30,7 @@ const Settings = () => {
     const [priceValue, setPriceValue] = useState('50');
 
     const priceValueHandler = useCallback(
-      (value) => setPriceValue(value),
+      (value) =>  setPriceValue(value),
       [],
     );
     const [landingPageValue, setLandingPage] = useState('12');
@@ -79,10 +85,109 @@ const Settings = () => {
         saturation: 0,
     });
     const [gradientCheck, setGradientCheck] = useState(false);
+     const [logoImage,setLogoImage] = useState('');
+     const [video,setVideo] = useState('');
+    const logoHandler = (e)=>{
+        setLogoImage(e.target.files[0]);
+    };
+    const videoHandler = (e)=>{
+        setVideo(e.target.files[0]);
+    };
+
+
+   /********  get Settings Data  ******/
+   useEffect(()=>{
+      fetch('/get_settings')
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Something went wrong');
+      }
+      return response.json();
+    })
+    .then(data => {
+        if(data.success){
+            setPriceValue(data.data.store_credit);
+            setLandingPage(data.data.page_display_to_customers);
+            setEmailSentToValue(data.data.email_sent_to_customer);
+            setLandingPageDisplayedValue(data.data.page_link);
+            setRows(data.data.instructions);
+            setLogoImage(data.data.logo);
+            setVideo(data.data.video);
+        }
+
+    })
+    .catch(error => {
+        console.log(error.message());
+    });
+
+   },[])
+    /******** save settings into DB ******/
+    const saveSettings = (e)=>{
+
+        e.preventDefault();
+
+        const formData = new FormData();
+
+        formData.append( "store_credit",priceValue);
+        formData.append( "page_display_to_customers",landingPageValue);
+        formData.append( "email_sent_to_customer",emailSentToValue);
+        formData.append( "page_link",landingPageDisplayedValue);
+        formData.append( "instructions",JSON.stringify(rows));
+        formData.append( "page_color",JSON.stringify(buttonColor));
+        formData.append( "logo",logoImage);
+        formData.append( "video",video);
+  if(priceValue=='' || landingPageValue=='' || emailSentToValue=='' || landingPageDisplayedValue=='' || rows=='',logoImage==''){
+    setError(true);
+  }else{
+    setError(false);
+        // Generating request for sending Data to the server
+        fetch('/save_settings',{
+            method:"post",
+
+              body:formData
+        })
+        .then(response => {
+
+          if (!response.ok) {
+            console.log(response);
+            throw new Error('Something went wrong');
+          }
+          return response.json();
+        })
+        .then(data => {
+          if(data.success){
+            toggleActive();
+
+          }
+        })
+        .catch(error => {
+            console.log(error);
+        });
+
+
+    }
+
+    }
     return (
         <Page>
+            <Frame>
             <Grid>
                 <Grid.Cell columnSpan={{ xs: 6, sm: 6, md: 6, lg: 12, xl: 12 }}>
+                    {error &&
+                    <Card sectioned >
+                    <Banner>
+                    <List type="bullet">
+                    {priceValue.length <=0 && <List.Item>Store Credit Field is required</List.Item>}
+                    {landingPageValue.length <=0 && <List.Item>Customer Display Field is required</List.Item>}
+                    {emailSentToValue.length <=0 && <List.Item>Email Field is required</List.Item>}
+                    {landingPageDisplayedValue.length <=0 && <List.Item>Landing Page Field is required</List.Item>}
+                    {rows.length <=0 && <List.Item>Instruction Required</List.Item>}
+                    {logoImage.length <=0 && <List.Item>Logo image is required</List.Item>}
+
+                    </List>
+                 </Banner>
+                    </Card>
+                    }
                     <Card sectioned>
                         <Text variant="headingXl" as="h4">
                             Language
@@ -96,6 +201,7 @@ const Settings = () => {
                             />
                         </div>
                     </Card>
+                    {toastMarkup}
                     <Card sectioned>
                         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "20px" }}>
                             <div>
@@ -147,6 +253,7 @@ const Settings = () => {
                                 onChange={priceValueHandler}
                                 prefix="$"
                                 autoComplete="off"
+
                                 />
                             </div>
                         </div>
@@ -221,7 +328,7 @@ const Settings = () => {
                             <div style={{  textAlign: "end" }}>
                                 <div class="upload-btn-wrapper">
                                     <button class="btnCustomUpload"><img style={{marginRight:"10px"}} src={UploadIcon}></img>Upload Your Logo</button>
-                                    <input type="file" name="myfile" />
+                                    <input type="file" name="myfile" onChange={logoHandler} />
                                 </div>
                             </div>
                         </div>
@@ -261,7 +368,7 @@ const Settings = () => {
                             <div style={{  textAlign: "end" }}>
                                 <div class="upload-btn-wrapper">
                                     <button class="btnCustomUpload"><img style={{marginRight:"10px"}} src={UploadIcon}></img>Upload Your Video</button>
-                                    <input type="file" name="myfile" />
+                                    <input type="file" name="myvideoFile" onChange={videoHandler} />
                                 </div>
                             </div>
                         </div>
@@ -324,10 +431,12 @@ const Settings = () => {
 
                     </Card>
                     <div style={{textAlign:"center",marginTop:"20px",marginBottom:"100px"}}>
-                                <Button primary>Save Settings</Button>
+                                <Button primary onClick={saveSettings} >Save Settings</Button>
                             </div>
+
                 </Grid.Cell>
             </Grid>
+            </Frame>
         </Page>
     );
 };

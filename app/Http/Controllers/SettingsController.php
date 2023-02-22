@@ -7,6 +7,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Validator;
+
 
 class SettingsController extends Controller
 {
@@ -63,6 +65,59 @@ class SettingsController extends Controller
             'success' => true,
             'message' => "Pop Up Settings Changed",
             'data' => $link,
+        ]);
+    }
+        /******* Get settings *****/
+    public function getSettings(){
+        $data= Setting::where('user_id',Auth::user()->id)->first();
+        if(!$data){
+            return response()->json([
+                'success' => false,
+                'message' => "Data not found",
+                'data'=>null
+            ]);
+        }
+        $data['instructions'] = json_decode($data['instructions']);
+        return response()->json([
+            'success' => true,
+            'message' => "Settings get Successfully",
+            'data'=>$data
+        ]);
+    }
+    /******* save settings *****/
+    public function saveSettings(Request $request){
+        $video = '';
+        if($request->file('logo')){
+            // $this->validate($request, [
+            //     'logo' => 'required|mimes:jpeg,png,jpg,gif',
+            // ]);
+            $image = time().'.'.$request->file('logo')->extension();
+            $request->file('logo')->move(public_path('logo'), $image);
+        }else{
+            $image=$request->logo;
+        }
+        if($request->file('video')){
+            $video = time().'.'.$request->file('video')->extension();
+            $request->file('video')->move(public_path('video'), $video);
+        }else{
+            $video=$request->video ?? '';
+        }
+
+        $currentUser = Auth::user()->id;
+        $settings['store_credit']=$request->store_credit;
+        $settings['page_display_to_customers']=$request->page_display_to_customers;
+        $settings['email_sent_to_customer']=$request->email_sent_to_customer;
+        $settings['page_link']=$request->page_link;
+        $settings['instructions']=$request->instructions;
+        $settings['page_color']=$request->page_color;
+        $settings['user_id']=$currentUser;
+        $settings['logo']=$image;
+        $settings['video']=$video;
+
+        Setting::updateOrCreate(['user_id'=>$currentUser],$settings);
+        return response()->json([
+            'success' => true,
+            'message' => "Settings Added Successfully",
         ]);
     }
 }
