@@ -87,6 +87,7 @@ const Settings = () => {
     const [gradientCheck, setGradientCheck] = useState(false);
      const [logoImage,setLogoImage] = useState('');
      const [video,setVideo] = useState('');
+     const [store,setStore] = useState('');
     const logoHandler = (e)=>{
         setLogoImage(e.target.files[0]);
     };
@@ -94,7 +95,11 @@ const Settings = () => {
         setVideo(e.target.files[0]);
     };
 
-
+// Review Landing Page
+const reviewPage =(store)=>{
+    window.location.href = "https://4089-2400-adc5-1b3-b500-8978-f689-595a-7910.in.ngrok.io/landingPage?store="+store;
+    
+}
    /********  get Settings Data  ******/
    useEffect(()=>{
       fetch('/get_settings')
@@ -113,6 +118,7 @@ const Settings = () => {
             setRows(data.data.instructions);
             setLogoImage(data.data.logo);
             setVideo(data.data.video);
+            setStore(data.data.store);
         }
 
     })
@@ -133,7 +139,7 @@ const Settings = () => {
         formData.append( "email_sent_to_customer",emailSentToValue);
         formData.append( "page_link",landingPageDisplayedValue);
         formData.append( "instructions",JSON.stringify(rows));
-        formData.append( "page_color",JSON.stringify(buttonColor));
+        formData.append( "page_color",buttonColorHex);
         formData.append( "logo",logoImage);
         formData.append( "video",video);
   if(priceValue=='' || landingPageValue=='' || emailSentToValue=='' || landingPageDisplayedValue=='' || rows=='',logoImage==''){
@@ -147,9 +153,7 @@ const Settings = () => {
               body:formData
         })
         .then(response => {
-
           if (!response.ok) {
-            console.log(response);
             throw new Error('Something went wrong');
           }
           return response.json();
@@ -166,6 +170,8 @@ const Settings = () => {
 
 
     }
+
+
 
     }
     return (
@@ -211,7 +217,7 @@ const Settings = () => {
                                 <p style={{ marginTop: "5px", marginBottom: "10px" }}>See the Landing Page that users will see.</p>
                             </div>
                             <div style={{ width: "200px", textAlign: "end" }}>
-                                <Button primary>Preview</Button>
+                                <Button primary onClick={()=>{reviewPage(store)}} >Preview</Button>
                             </div>
                         </div>
                         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "20px" }}>

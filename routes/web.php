@@ -5,7 +5,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\RulesController;
 use App\Http\Controllers\SettingsController;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\VideoController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -53,5 +53,13 @@ Route::post('get_dashboard_data',[DashboardController::class,'get_dashboard_data
 
 Route::post('save_settings',[SettingsController::class,'saveSettings'])->middleware(['verify.shopify']);
 Route::get('get_settings',[SettingsController::class,'getSettings'])->middleware(['verify.shopify']);
-
+// Landing Page View
+Route::get('landingPage',[SettingsController::class,'landingPage']);
+// upload Landing Page Video
+Route::get('uploadVideo',[SettingsController::class,'uploadVideo']);
+// upload video on Dropbox
+Route::post('uploadVideo',[VideoController::class,'uploadVideo']);
+// test view
+Route::get('testupload',[VideoController::class,'testupload']);
+Route::post('testUploaded',[VideoController::class,'testUploaded']);
 // Route::view('/{any}', 'welcome')->where('any', '^(?!webhook).*$')->middleware(['verify.shopify'])->name('welcome');

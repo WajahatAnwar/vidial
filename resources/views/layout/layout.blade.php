@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap demo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+  </head>
+  <style>
+     #dropzone-external {
+    width: 100%;
+    height: 150px;
+    background-color: #FFDEE5;  
+    padding: 10px;
+    border: 2px dashed #FFAABC;
+    border-radius: 14px;
+}
+
+#dropzone-external > * {
+  pointer-events: none;
+}
+
+#dropzone-external.dropzone-active {
+  border-style: solid;
+}
+
+.widget-container > span {
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 16px;
+}
+
+#dropzone-image {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+#dropzone-text > span {
+  font-weight: 100;
+  opacity: 0.5;
+}
+
+#upload-progress {
+  display: flex;
+  margin-top: 10px;
+}
+
+.flex-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.dx-fileuploader-input-wrapper {
+    display: none;
+}
+.dx-fileuploader-file {
+    display: none;
+}
+.emialInput{
+    border: 2px solid #6F6E6E;
+    height: 53px;
+    border-radius: 15px;
+    padding: 0.375rem 1.75rem;
+    margin-bottom: 40px !important;
+}
+.form-check-input:checked {
+    background-color: #FF5175;
+    border-color: #FF5175;
+}
+  </style>
+  <body>
+
+  @yield('content')
+  @include('layout.script')
+</body>
+
+</html>

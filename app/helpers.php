@@ -181,3 +181,29 @@ function sync_products($request)
         return $e->getMessage();
     }
 }
+// Dropbox 
+if (!function_exists('getDropboxToken')) {
+    function getDropboxToken()
+    {
+        $dropbox = Http::withHeaders([
+            'Authorization' => 'Basic ' . base64_encode(env('DROPBOX_CLIENT_ID') . ':' . env('DROPBOX_SECRET_ID'))
+        ])->asForm()->post('https://api.dropboxapi.com/oauth2/token', [
+            'grant_type' => 'authorization_code',
+            'code' => env('AUTHORIZATION_CODE', 'VNzDNyTy0ekAAAAAAAAAF6HMXgPWl0Cb1IQmgLfNnNw')
+        ]);
+        return $dropbox;
+    }
+}
+
+if (!function_exists('updateDropboxToken')) {
+    function updateDropboxToken()
+    {
+        $dropbox = Http::withHeaders([
+            'Authorization' => 'Basic ' . base64_encode(env('DROPBOX_CLIENT_ID') . ':' . env('DROPBOX_SECRET_ID'))
+        ])->asForm()->post('https://api.dropboxapi.com/oauth2/token', [
+            'grant_type' => 'refresh_token',
+            'refresh_token' => env('REFRESH_TOKEN')
+        ]);
+        Config::set('dropbox.accessToken', $dropbox['access_token']);
+    }
+}

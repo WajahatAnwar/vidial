@@ -91,7 +91,9 @@ function Dashboard() {
                                 <Grid>
                                     <Grid.Cell columnSpan={{xs: 3, sm: 3, md: 3, lg: 3, xl: 3}}>
                                         <div style={{textAlign:"center"}}>
-                                            <img src={VideoTumbnail} width= "100%"></img>
+                                            {/* <img src={VideoTumbnail} width= "100%"></img> */}
+                                            <iframe src="https://dl.dropboxusercontent.com/s/fnujzf3c4uu3pfe/file_example_MP4_640_3MG.mp4" title="description"></iframe>
+
                                                 <div style={{border:"1px solid #dddd",padding:"6px 12px",borderRadius:"9px",width:"86px",margin:"auto",marginTop:"10px"}}>
                                                 <div style={{display:"flex"}}>
                                                     <div style={{marginRight:"20px"}}>

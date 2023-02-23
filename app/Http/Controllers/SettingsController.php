@@ -12,6 +12,14 @@ use Illuminate\Support\Facades\Validator;
 
 class SettingsController extends Controller
 {
+    public $store='';
+    /**** Current User ******/
+
+    public function __construct(Request $request){
+        if(isset($request->store) && $request->store!==''){
+            $this->store=$request->store;
+        }
+    }
     public function get_current_settings()
     {
         $current_user = Auth::user();
@@ -70,6 +78,7 @@ class SettingsController extends Controller
         /******* Get settings *****/
     public function getSettings(){
         $data= Setting::where('user_id',Auth::user()->id)->first();
+        $store=User::find(Auth::user()->id);
         if(!$data){
             return response()->json([
                 'success' => false,
@@ -78,6 +87,7 @@ class SettingsController extends Controller
             ]);
         }
         $data['instructions'] = json_decode($data['instructions']);
+        $data['store']=$store->name;
         return response()->json([
             'success' => true,
             'message' => "Settings get Successfully",
@@ -88,9 +98,6 @@ class SettingsController extends Controller
     public function saveSettings(Request $request){
         $video = '';
         if($request->file('logo')){
-            // $this->validate($request, [
-            //     'logo' => 'required|mimes:jpeg,png,jpg,gif',
-            // ]);
             $image = time().'.'.$request->file('logo')->extension();
             $request->file('logo')->move(public_path('logo'), $image);
         }else{
@@ -109,7 +116,7 @@ class SettingsController extends Controller
         $settings['email_sent_to_customer']=$request->email_sent_to_customer;
         $settings['page_link']=$request->page_link;
         $settings['instructions']=$request->instructions;
-        $settings['page_color']=$request->page_color;
+        $settings['page_color']=$request->page_color ?? '#FF5175';
         $settings['user_id']=$currentUser;
         $settings['logo']=$image;
         $settings['video']=$video;
@@ -119,5 +126,41 @@ class SettingsController extends Controller
             'success' => true,
             'message' => "Settings Added Successfully",
         ]);
+    }
+
+    /****** Landing Page *******/
+    public function landingPage(Request $request){
+        if($this->store!==''){
+            $user=User::where('name',$this->store)->first();
+            if(!$user){
+              return abort(404);
+            }
+            $currentUser=$user->id;
+            $settings=Setting::where('user_id',$currentUser)->first();
+        return view('landingPage.template',compact('settings'));
+        }
+    }
+
+    public function uploadVideo(Request $request){
+        if($this->store!==''){
+            $user=User::where('name',$this->store)->first();
+            if(!$user){
+                return abort(404);
+            }
+            $currentUser=$user->id;
+            $settings=Setting::where('user_id',$currentUser)->first();
+            return view('landingPage.video',compact('settings'));
+          
+        }
+        
+    }
+
+    /***** Get Current User   *****/
+    public function getCurrentUser($store){
+        $user=User::where('name',$store)->first();
+        if(!$user){
+            return abort(404);
+          }
+          return true;
     }
 }
