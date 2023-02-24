@@ -5,7 +5,9 @@ use GuzzleHttp\Client;
 use Dropbox;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
-
+use Illuminate\Support\Facades\Log;
+use App\Models\Video;
+use Auth;
 class VideoController extends Controller
 {
       public function index(Request $request){
@@ -26,63 +28,129 @@ public function testupload(Request $request){
    return view('landingPage.test');
 }
 public function testUploaded(Request $request){
-    //$token=getDropboxToken();
-   // Set up Guzzle client
-   $token = "sl.BZagzuLY0SsaDZja2NWoh2F-CZhRX1avx3BjhEHVFHWAxg-125301RFbpOWfbnIxMt7bLezO987FULGTgCFrOWVl_IT8sHRfe7Cb4s0zEzf7E8JRFUl5N2-5zPcsoGwY2v6prRA";
-// $client = new Client([
-//     'base_uri' => 'https://api.dropboxapi.com', // Replace with your API URL
-//     'headers' => [
-//         'Authorization' => $token,
-//         'Accept' => 'application/json',
-//         'Content-Type' => 'application/json',
-//     ],
-// ]);
-$response = Http::withHeaders([
-    'Authorization' => $token,
-        'Accept' => 'application/json',
-        'Content-Type' => 'application/json',
-])->post('https://api.dropboxapi.com/2/files/list_folder', [
-    'include_deleted' => false,
-    'include_has_explicit_shared_members' => false,
-    'include_media_info' => false,
-    'include_mounted_folders' => true,
-    'include_non_downloadable_files' => true,
-    'path' => '',
-    "recursive"=> false
-]);
+    
 
-dd($response);
-// Set up request parameters
-$params = [
-    'include_deleted' => false,
-    'include_has_explicit_shared_members' => false,
-    'include_media_info' => false,
-    'include_mounted_folders' => true,
-    'include_non_downloadable_files' => true,
-    'path' => '',
-    "recursive"=> false
-];
 
-// Send POST request
-$response = $client->post('/2/files/list_folder', [
-    'json' => $params,
-]);
+    $file = $request->file('video');
+    $request->validate([
+        'video' => 'required|mimetypes:video/avi,video/mpeg,video/quicktime,video/mp4',
+    ], [
+        'video.required' => 'Please select a video file',
+        'video.mimetypes' => 'Please upload a valid video file'
+    ]);
+   $token = "Bearer sl.BZZMLX6hlAy55dpeXUDHzcg-GbMEEzmdDgEvtO9fwdOOl0dSY6U6Q6xPdYJaqafZ1PZomLF_kBAyEJoQG0PaGQqpkfZQLv8-9W2yIRbv-oMM7kFjUbVRroP6sqsQ0N_pla-blPjc";
+   
+   try {
+    $client = new Client([
+        'headers' => [
+            'Authorization' => $token,
+            'Content-Type' => 'application/octet-stream',
+            'Dropbox-API-Arg' => json_encode([
+                'path' => '/vidial/' . $file->getClientOriginalName(),
+                'mode' => 'add',
+                'autorename' => true,
+                'mute' => false,
+            ])
+        ]
+    ]);
+    
+    $response = $client->request('POST', 'https://content.dropboxapi.com/2/files/upload', [
+        'body' => fopen($file, 'r'),
+    ]);
+} catch (\Exception $e) {
+    
+    Log::error('An error occurred: ' . $e->getMessage());
+}
 
 // Get response body
 $body = $response->getBody()->getContents();
-
-// Decode JSON response
 $data = json_decode($body, true);
-dd($data);
-// Do something with response data
 
-    return response()->json(['success' => true,'token'=>$token]);
+// fetching Preview Link
+if(isset($data['path_display']) && !empty($data['path_display'])){
+  try{
+    $client = new Client();
+    $response = $client->post('https://api.dropboxapi.com/2/files/get_temporary_link', [
+        'headers' => [
+            'Authorization'=> $token
+        ],
+        'json' => [
+            'path' => $data['path_display'],
+        ],
+    ]);
+    $videoLink = json_decode($response->getBody()->getContents(), true)['link'];
 
+  }catch (\Exception $e) {
+    Log::error('An error occurred: ' . $e->getMessage());
+  }
+}
+// save Preview Link into DB
+$video['video_link']=$videoLink;
+$video['email']='test@gmail.com';
+$video['status']='Pending';
+$video['user_id']=1;
+if(Video::create($video)){
+    return response()->json([
+        'success' => true,
+        'message' => 'Video Uploaded Successfully',
+    ]);
+}
+return response()->json([
+    'success' => false,
+    'message' => 'Something went wrong',
+]);
 
  }
 
 
-      
+/****** get videos  ********/
+
+public function getPendingVideos(Request $request){
+    $videos = video::where('user_id',Auth::user()->id)
+    ->where('status','=',config('constants.video_pending'))
+    ->get();
+    return response()->json([
+        'success' => true,
+        'message' => 'Fetch Pending Videos Successfully',
+        'data'=>$videos
+    ]);
+}
+/****** operation on Videos  ********/
+
+public function videoOperation(Request $request){
+    $videos = video::where('user_id',Auth::user()->id)
+    ->where('id',$request->video_id)
+    ->first();
+    if($videos){
+        $videos->status = $videos->type ? config('constants.video_approved') : config('constants.video_reject');
+        $videos->save();
+        return response()->json([
+            'success' => true,
+            'message' => 'Status Changed Successfully',
+        ]);
+    }
+    return response()->json([
+        'success' => false,
+        'message' => 'Something Went Wrong',
+    ]);
+
+    
+}
+
+public function testUp(Request $request){
+    return response()->json([
+        'success' => false,
+        'message' => 'Something Went Wrong',
+        'data'=>$request->all()
+    ]);
+}
+public function sendTest(Request $request){
+    return response()->json([
+        'success' => false,
+        'message' => 'Something Went Wrong',
+        'data'=>$request->all()
+    ]);
+}
 
 
 }

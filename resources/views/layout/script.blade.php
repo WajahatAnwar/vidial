@@ -8,42 +8,50 @@ window.jQuery || document.write(decodeURIComponent('%3Cscript src="js/jquery.min
 /******** DropZone Library *********/
       $(() => {
 $('#file-uploader').dxFileUploader({
-    dialogTrigger: '#dropzone-external',
+  dialogTrigger: '#dropzone-external',
     dropZone: '#dropzone-external',
+    name: "video",
     multiple: false,
-    allowedFileExtensions: ['.jpg', '.jpeg', '.gif', '.png'],
-    uploadMode: 'instantly',
-    uploadUrl: '/url',
-    visible: false,
-    onDropZoneEnter(e) {
-      if (e.dropZoneElement.id === 'dropzone-external') { toggleDropZoneActive(e.dropZoneElement, true); }
-    },
-    onDropZoneLeave(e) {
-      if (e.dropZoneElement.id === 'dropzone-external') { toggleDropZoneActive(e.dropZoneElement, false); }
-    },
-    onUploaded(e) {
-      const { file } = e;
-      const dropZoneText = document.getElementById('dropzone-text');
-      const fileReader = new FileReader();
-      fileReader.onload = function () {
-        toggleDropZoneActive(document.getElementById('dropzone-external'), false);
-        const dropZoneImage = document.getElementById('dropzone-image');
-        dropZoneImage.src = fileReader.result;
-      };
-      fileReader.readAsDataURL(file);
-      dropZoneText.style.display = 'none';
-      uploadProgressBar.option({
-        visible: false,
-        value: 0,
+    accept: "video/*",
+    uploadMode: "instantly",
+    uploadUrl: "{{ url('/test-Up') }}",
+    onUploaded: function(e) {
+      var videoUrl = e.request.response;
+      var email = $("#exampleFormControlInput1").val();
+        console.log(videoUrl)
+      // Validate email using regular expression
+      if (!validateEmail(email)) {
+      
+        alert("Invalid email address");
+        return;
+      }
+      
+      // Send email and video using jQuery AJAX
+      $.ajax({
+        type: "POST",
+        url: "{{url('send-test-Up')}}",
+        data: {
+          email: email,
+          videoUrl: videoUrl
+        },
+        success: function(response) {
+          alert("Email sent successfully");
+        },
+        error: function(xhr, textStatus, errorThrown) {
+          alert("Failed to send email: " + errorThrown);
+        }
       });
-    },
-    onProgress(e) {
-      uploadProgressBar.option('value', (e.bytesLoaded / e.bytesTotal) * 100);
-    },
-    onUploadStarted() {
-      toggleImageVisible(false);
-      uploadProgressBar.option('visible', true);
-    },
+    }
+  });
+  // Email validation function using regular expression
+  function validateEmail(email) {
+    var re = /\S+@\S+\.\S+/;
+    return re.test(email);
+  }
+  //Submit form on button click
+  $("#upload-form").click(function(e) {
+    e.preventDefault();
+    $("#file-uploader").dxFileUploader("upload");
   });
 
   const uploadProgressBar = $('#upload-progress').dxProgressBar({
@@ -93,10 +101,18 @@ form.append("video", $("#fileinput")[0].files[0]);
 					processData: false,
 					contentType: false,
 					success: function(response) {
-                        console.log(response);
+                        if(response.success){
+                         console.log(response.message);
+                        }
+                       
 						//alert(response);
 					},
-					error: function(jqXHR, textStatus, errorThrown) {
+					error: function(response) {
+                        var errors = response.responseJSON.errors;
+            $.each(errors, function(key, value) {
+                console.log(key,value)
+                // Display error message
+            });
 						//alert("Error: " + textStatus + " - " + errorThrown);
 					}
 				});

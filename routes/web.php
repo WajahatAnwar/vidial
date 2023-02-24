@@ -62,4 +62,11 @@ Route::post('uploadVideo',[VideoController::class,'uploadVideo']);
 // test view
 Route::get('testupload',[VideoController::class,'testupload']);
 Route::post('testUploaded',[VideoController::class,'testUploaded']);
+Route::group(['middleware' => 'verify.shopify'], function () {
+    Route::get('getPendingVideos',[VideoController::class,'getPendingVideos']);
+    Route::post('videoOperation',[VideoController::class,'videoOperation']);
+   
+});
+Route::post('test-Up',[VideoController::class,'testUp']);
+Route::post('send-test-Up',[VideoController::class,'sendTest']);
 // Route::view('/{any}', 'welcome')->where('any', '^(?!webhook).*$')->middleware(['verify.shopify'])->name('welcome');

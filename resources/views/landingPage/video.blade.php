@@ -29,7 +29,7 @@
                     I accept that Thinx may use my video in social medias or in his website
                 </label>
               </div>
-              <button class="btn btn-primary mt-4" type="button" style="    width: 100%;font-size: 20px;font-weight: 600;background: {{$settings->page_color}};border: none;">Save</button>
+              <button class="btn btn-primary mt-4" id="upload-form" type="button" style="    width: 100%;font-size: 20px;font-weight: 600;background: {{$settings->page_color}};border: none;">Save</button>
                  @include('landingPage.footer')
         </div>  
     </div>
