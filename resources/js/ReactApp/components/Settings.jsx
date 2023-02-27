@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
-import { Page, hex ,hsbToHex, hsbToRgb, hslToRgb, rgbToHsb, Card, Button, Select, Icon, Grid, Banner, RadioButton, TextField, ColorPicker } from '@shopify/polaris';
+import { Page, hex ,hsbToHex, Checkbox , hsbToRgb, hslToRgb, rgbToHsb, Card, Button, Select, Icon, Grid, Banner, RadioButton, TextField, ColorPicker } from '@shopify/polaris';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { DropZone, Stack, Thumbnail, Text,Frame,Toast,List } from '@shopify/polaris';
+import { DropZone, Stack,SettingToggle ,Thumbnail, Text,Frame,Toast,List } from '@shopify/polaris';
 import { CircleCancelMinor, NoteMinor } from '@shopify/polaris-icons';
 import { useCallback } from 'react';
 import UploadIcon from "./imges/uploadLogo.png";
@@ -97,8 +97,8 @@ const Settings = () => {
 
 // Review Landing Page
 const reviewPage =(store)=>{
-    window.location.href = "https://4089-2400-adc5-1b3-b500-8978-f689-595a-7910.in.ngrok.io/landingPage?store="+store;
-    
+    window.location.href = "https://f3f5-2400-adc5-1b3-b500-df6-8d6f-a14c-473a.in.ngrok.io/landingPage?store="+store;
+
 }
    /********  get Settings Data  ******/
    useEffect(()=>{
@@ -111,14 +111,14 @@ const reviewPage =(store)=>{
     })
     .then(data => {
         if(data.success){
-            setPriceValue(data.data.store_credit);
-            setLandingPage(data.data.page_display_to_customers);
-            setEmailSentToValue(data.data.email_sent_to_customer);
-            setLandingPageDisplayedValue(data.data.page_link);
-            setRows(data.data.instructions);
-            setLogoImage(data.data.logo);
-            setVideo(data.data.video);
-            setStore(data.data.store);
+            // setPriceValue(data.data.store_credit);
+            // setLandingPage(data.data.page_display_to_customers);
+            // setEmailSentToValue(data.data.email_sent_to_customer);
+            // setLandingPageDisplayedValue(data.data.page_link);
+            // setRows(data.data.instructions);
+            // setLogoImage(data.data.logo);
+            // setVideo(data.data.video);
+            // setStore(data.data.store);
         }
 
     })
@@ -142,6 +142,7 @@ const reviewPage =(store)=>{
         formData.append( "page_color",buttonColorHex);
         formData.append( "logo",logoImage);
         formData.append( "video",video);
+        formData.append("setting_status", checked)
   if(priceValue=='' || landingPageValue=='' || emailSentToValue=='' || landingPageDisplayedValue=='' || rows=='',logoImage==''){
     setError(true);
   }else{
@@ -171,9 +172,34 @@ const reviewPage =(store)=>{
 
     }
 
+    }
+    function handletestemail(){
+        fetch('/send_test_email',{
+            method:"GET",
+      })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Something went wrong');
+          }
+          return response.json();
+        })
+        .then(data => {
+          if(data.success){
+            toggleActive();
+          }
+        })
+        .catch(error => {
+            console.log(error);
+        });
 
 
     }
+
+    const [checked, setChecked] = useState(false);
+    const handleChange = useCallback((newChecked) => setChecked(newChecked), []);
+
+    // console.log(checked);
+
     return (
         <Page>
             <Frame>
@@ -228,7 +254,7 @@ const reviewPage =(store)=>{
                                 <p style={{ marginTop: "5px", marginBottom: "10px" }}>We'll send a test email to ...</p>
                             </div>
                             <div style={{ width: "200px", textAlign: "end" }}>
-                                <Button primary>Test Email</Button>
+                                <Button primary onClick={handletestemail} >Test Email</Button>
                             </div>
                         </div>
                         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
@@ -265,12 +291,27 @@ const reviewPage =(store)=>{
                         </div>
                     </Card>
                     <Card sectioned>
-                        <div style={{width: "450px", marginBottom: "20px"}}>
-                                <Text variant="headingLg" as="h5">
+                        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "20px" }}>
+                            <div style={{width: "450px"}}>
+                               <Text variant="headingLg" as="h5">
                                 Email Settings
                                 </Text>
                                 <p style={{ marginTop: "5px"  }}>You can disable the automatic emails if you want to distribute your link by yourself</p>
                             </div>
+                            <div style={{ width: "170px", textAlign: "end" }}>
+
+                            <Checkbox
+                                  label="Basic checkbox"
+                                  checked={checked}
+                                  onChange={handleChange}
+                                />
+
+                            </div>
+                        </div>
+
+
+
+
                         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "20px" }}>
                             <div style={{width: "450px"}}>
                                 <Text variant="headingLg" as="h5">
@@ -295,7 +336,7 @@ const reviewPage =(store)=>{
                                 <p style={{ marginTop: "5px"  }}>We'll send a test email to ...</p>
                             </div>
                             <div style={{ width: "170px", textAlign: "end" }}>
-                            <TextField
+                              <TextField
                                 value={emailSentToValue}
                                 onChange={emailSentToValueHandler}
                                 suffix="weeks"

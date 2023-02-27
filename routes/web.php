@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CampaignController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\RulesController;
 use App\Http\Controllers\SettingsController;
 use Illuminate\Support\Facades\Route;
@@ -63,3 +64,12 @@ Route::post('uploadVideo',[VideoController::class,'uploadVideo']);
 Route::get('testupload',[VideoController::class,'testupload']);
 Route::post('testUploaded',[VideoController::class,'testUploaded']);
 // Route::view('/{any}', 'welcome')->where('any', '^(?!webhook).*$')->middleware(['verify.shopify'])->name('welcome');
+
+
+//Email setting Portion
+
+Route::get('fatch_orders', [OrdersController::class , 'fetch_orders'])->middleware(['verify.shopify']);
+Route::get('send_test_email', [OrdersController::class , 'sendtest_email'])->middleware(['verify.shopify']);
+Route::get('send_customers', [OrdersController::class , 'customers_send_email'])->middleware(['verify.shopify']);
+Route::get('review_updated/{id}' ,[OrdersController::class , 'review_updated'])->name('review_updated');
+

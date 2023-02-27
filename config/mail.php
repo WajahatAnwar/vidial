@@ -33,6 +33,8 @@ return [
     |
     */
 
+
+
     'mailers' => [
         'smtp' => [
             'transport' => 'smtp',
@@ -42,7 +44,7 @@ return [
             'username' => env('MAIL_USERNAME'),
             'password' => env('MAIL_PASSWORD'),
             'timeout' => null,
-            'local_domain' => env('MAIL_EHLO_DOMAIN'),
+            'local_domain' => null,
         ],
 
         'ses' => [
