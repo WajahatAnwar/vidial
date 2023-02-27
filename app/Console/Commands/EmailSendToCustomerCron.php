@@ -48,7 +48,7 @@ class EmailSendToCustomerCron extends Command
 
                 if($Orders_send_mail->email_send == 1 && $Orders_send_mail->replied == 0 && $Orders_send_mail->remaining_mail > 0){
 
-                    if(Carbon::now()->format('d-m-y') >= Carbon::parse($Orders_send_mail->reminder_mail)->format('d-m-y')){
+                    if(Carbon::now()->format('d-m-y') == Carbon::parse($Orders_send_mail->reminder_mail)->format('d-m-y')){
                             \Mail::to($Orders_send_mail->email)->send(new orderReviewReminderMail($details));
                             Orders::where('id',$Orders_send_mail->id)->update([
                             'remaining_mail' => $Orders_send_mail->remaining_mail - 1
@@ -64,7 +64,7 @@ class EmailSendToCustomerCron extends Command
                 ];
 
                 // dd(Carbon::now()->format('d-m-y') <= Carbon::parse($Orders_send_mail->email_send_at)->format('d-m-y'));
-                if(Carbon::now()->format('d-m-y') <= Carbon::parse($Orders_send_mail->email_send_at)->format('d-m-y')  && $Orders_send_mail->remaining_mail > 0 && $Orders_send_mail->email_send == 0){
+                if(Carbon::now()->format('d-m-y') == Carbon::parse($Orders_send_mail->email_send_at)->format('d-m-y')  && $Orders_send_mail->remaining_mail > 0 && $Orders_send_mail->email_send == 0){
 
                     \Mail::to($Orders_send_mail->email)->send(new orderReviewMail($details));
                     Orders::where('id',$Orders_send_mail->id)->update([

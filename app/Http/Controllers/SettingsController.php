@@ -96,6 +96,7 @@ class SettingsController extends Controller
     }
     /******* save settings *****/
     public function saveSettings(Request $request){
+
         $video = '';
         if($request->file('logo')){
             $image = time().'.'.$request->file('logo')->extension();
@@ -120,7 +121,7 @@ class SettingsController extends Controller
         $settings['user_id']=$currentUser;
         $settings['logo']=$image;
         $settings['video']=$video;
-
+        $settings['email_status'] = $request->setting_status;
         Setting::updateOrCreate(['user_id'=>$currentUser],$settings);
         return response()->json([
             'success' => true,
@@ -150,9 +151,9 @@ class SettingsController extends Controller
             $currentUser=$user->id;
             $settings=Setting::where('user_id',$currentUser)->first();
             return view('landingPage.video',compact('settings'));
-          
+
         }
-        
+
     }
 
     /***** Get Current User   *****/

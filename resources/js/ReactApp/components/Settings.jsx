@@ -301,7 +301,7 @@ const reviewPage =(store)=>{
                             <div style={{ width: "170px", textAlign: "end" }}>
 
                             <Checkbox
-                                  label="Basic checkbox"
+                                  label="Email Activation"
                                   checked={checked}
                                   onChange={handleChange}
                                 />
