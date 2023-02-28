@@ -200,7 +200,7 @@ const reviewPage =(store)=>{
     function handleChange(){
         setToggled(prevCheck => !prevCheck)
     }
-    
+
     console.log(toggled);
 
     return (

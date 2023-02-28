@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\HtmlString;
+use Illuminate\Support\Carbon;
 
 function vite_assets(): HtmlString
 {
@@ -181,7 +182,7 @@ function sync_products($request)
         return $e->getMessage();
     }
 }
-// Dropbox 
+// Dropbox
 if (!function_exists('getDropboxToken')) {
     function getDropboxToken()
     {
@@ -205,5 +206,13 @@ if (!function_exists('updateDropboxToken')) {
             'refresh_token' => env('REFRESH_TOKEN')
         ]);
         Config::set('dropbox.accessToken', $dropbox['access_token']);
+    }
+
+    if (!function_exists('dateFormat')) {
+       function dateFormat($date){
+        return $date;
+        return $newDate = Carbon::createFromFormat('Y-m-d H:i:s', $date)
+        ->format('m/d/Y');
+       }
     }
 }

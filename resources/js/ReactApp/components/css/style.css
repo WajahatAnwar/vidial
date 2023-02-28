@@ -183,3 +183,9 @@ th.Polaris-DataTable__Cell.Polaris-DataTable__Cell--verticalAlignTop.Polaris-Dat
 .buttonColorPicker{
     margin-left: 500px;
 }
+.button_center{
+    width: 100%;
+    margin: 17px auto;
+    display: inline-block;
+    text-align: center;
+}

@@ -92,8 +92,10 @@ function Dashboard() {
                                     <Grid.Cell columnSpan={{xs: 3, sm: 3, md: 3, lg: 3, xl: 3}}>
                                         <div style={{textAlign:"center"}}>
                                             {/* <img src={VideoTumbnail} width= "100%"></img> */}
-                                            <iframe src="https://dl.dropboxusercontent.com/s/fnujzf3c4uu3pfe/file_example_MP4_640_3MG.mp4" title="description"></iframe>
-
+                                            <video width="320" height="240" controls>
+    <source src="https://uc551604e4eb007c970dff6e3c45.dl.dropboxusercontent.com/cd/0/get/B3H_crFjtwp4AEJVP5il6ofzl66OnNvJsMigGGPKq_tSS5Y5K_w_MvtFRyi86fLwIR8W9xAs2pUZSjn_LX-I40j9kFed1BSziqNScwo8QjuQQ5q5zGul-9q_r6runpmqsQxJ2qHewAkp7k7UH7h9knO9KSj3HkMn6SGC7bGNw5rVZjzCtNOH9tyVvAozuaM1o3M/file" type="video/mp4"/>
+  Your browser does not support the video tag.
+   </video>
                                                 <div style={{border:"1px solid #dddd",padding:"6px 12px",borderRadius:"9px",width:"86px",margin:"auto",marginTop:"10px"}}>
                                                 <div style={{display:"flex"}}>
                                                     <div style={{marginRight:"20px"}}>

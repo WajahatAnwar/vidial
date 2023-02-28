@@ -7,10 +7,16 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
   </head>
   <style>
+    .dx-fileuploader-input-wrapper {
+    display: none;
+}
+.dx-fileuploader-file-info {
+    display: none;
+}
      #dropzone-external {
     width: 100%;
     height: 150px;
-    background-color: #FFDEE5;  
+    background-color: #FFDEE5;
     padding: 10px;
     border: 2px dashed #FFAABC;
     border-radius: 14px;
@@ -52,10 +58,10 @@
   align-items: center;
 }
 .dx-fileuploader-input-wrapper {
-    display: none;
+    /* display: none; */
 }
 .dx-fileuploader-file {
-    display: none;
+    /* display: none; */
 }
 .emialInput{
     border: 2px solid #6F6E6E;
