@@ -271,7 +271,7 @@ return $formattedDate;
     //     'video.required' => 'Please select a video file',
     //     'video.mimetypes' => 'Please upload a valid video file'
     // ]);
-    $token ="Bearer sl.BZnaalQHjOM-wadrKh4Ek2Cxtp0lt1REIp7_wNMOu2OJWbUrgwzU8OyGErBf8HPeernpeIjyKVjXtrwbvzzPgXjvvF2NU4AEHqK0013EtI_W9JDnW_dbCGN4v0f3ijGwI3RqQBAi";
+    $token ="Bearer sl.BZpkp8TarClzk2nVcLVE2dZUzyMSNqNmpJwtkKf9G-D-ynkThklY0Pk0yP47clnXNxzhy5VIpJys_0MDvkd95M4HWRSWyfJxg8ALYsAhfcYUxZJ9MEFNlXuich-QLzla1gAxvYb3";
     try {
     $client = new Client([
         'headers' => [
