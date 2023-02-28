@@ -89,7 +89,7 @@ if(isset($data['path_display']) && !empty($data['path_display'])){
 // save Preview Link into DB
 $video['video_link']=$videoLink;
 $video['email']='test@gmail.com';
-$video['status']='Pending';
+$video['status']=config('constants.video_pending');
 $video['user_id']=1;
 if(Video::create($video)){
     return response()->json([
@@ -356,7 +356,7 @@ if(!$user){
         'message' => 'Store not found',
     ]);
 }
-$video['user_id']=1;$user->id;
+$video['user_id']=$user->id;
 if(Video::create($video)){
     return response()->json([
         'success' => true,

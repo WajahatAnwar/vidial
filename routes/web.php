@@ -60,9 +60,9 @@ Route::get('uploadVideo',[SettingsController::class,'uploadVideo']);
 // upload video on Dropbox
 Route::post('uploadVideo',[VideoController::class,'uploadDropboxVideo']);
 // test view
-Route::get('testupload',[VideoController::class,'testupload']);
-Route::post('testUploaded',[VideoController::class,'testUploaded']);
-Route::get('test',[VideoController::class,'test']);
+// Route::get('testupload',[VideoController::class,'testupload']);
+// Route::post('testUploaded',[VideoController::class,'testUploaded']);
+// Route::get('test',[VideoController::class,'test']);
 
 
 Route::post('saveVideo',[VideoController::class,'saveVideo']);
@@ -72,7 +72,7 @@ Route::group(['middleware' => 'verify.shopify'], function () {
     Route::post('videoOperation',[VideoController::class,'videoOperation']);
 
 });
-Route::post('test-Up',[VideoController::class,'testUp']);
-Route::post('send-test-Up',[VideoController::class,'sendTest']);
+// Route::post('test-Up',[VideoController::class,'testUp']);
+// Route::post('send-test-Up',[VideoController::class,'sendTest']);
 
 // Route::view('/{any}', 'welcome')->where('any', '^(?!webhook).*$')->middleware(['verify.shopify'])->name('welcome');
