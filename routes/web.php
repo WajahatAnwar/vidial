@@ -6,6 +6,8 @@ use App\Http\Controllers\RulesController;
 use App\Http\Controllers\SettingsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\VideoController;
+use App\Models\Setting;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -54,11 +56,12 @@ Route::post('get_dashboard_data',[DashboardController::class,'get_dashboard_data
 Route::post('save_settings',[SettingsController::class,'saveSettings'])->middleware(['verify.shopify']);
 Route::get('get_settings',[SettingsController::class,'getSettings'])->middleware(['verify.shopify']);
 // Landing Page View
-Route::get('landingPage',[SettingsController::class,'landingPage']);
+Route::get('landingPage/{locale}',[SettingsController::class,'landingPage']);
 // Landing Page
-Route::get('uploadVideo',[SettingsController::class,'uploadVideo']);
+Route::get('uploadVideo/{locale}',[SettingsController::class,'uploadVideo']);
 // upload video on Dropbox
 Route::post('uploadVideo',[VideoController::class,'uploadDropboxVideo']);
+Route::get('test',[VideoController::class,'testing']);
 // test view
 // Route::get('testupload',[VideoController::class,'testupload']);
 // Route::post('testUploaded',[VideoController::class,'testUploaded']);
@@ -70,9 +73,9 @@ Route::post('saveVideo',[VideoController::class,'saveVideo']);
 Route::group(['middleware' => 'verify.shopify'], function () {
     Route::get('getPendingVideos',[VideoController::class,'getPendingVideos']);
     Route::post('videoOperation',[VideoController::class,'videoOperation']);
+    Route::post('saveLocale',[SettingsController::class,'saveLocale']);
+    Route::get('getDashboardContent',[DashboardController::class,'getDashboardContent']);
+
 
 });
-// Route::post('test-Up',[VideoController::class,'testUp']);
-// Route::post('send-test-Up',[VideoController::class,'sendTest']);
-
 // Route::view('/{any}', 'welcome')->where('any', '^(?!webhook).*$')->middleware(['verify.shopify'])->name('welcome');

@@ -72,9 +72,18 @@ const saveVideo = ()=>{
 
 
 /****** redirect to upload video page ******/
-const redirect = ()=>{
-    window.location.href = "{{ url('/uploadVideo') }}";
-}
+$('#redirect').click(function(){
+    var store =$(this).attr('store');
+    var locale =$(this).attr('locale');
+    if(store=='' || locale == ''){
+        alert('something went wrong');
+        return false;
+    }
+
+    var baseUrl = "{{ url('/uploadVideo') }}"
+    baseUrl = baseUrl + '/'+locale+'?'+'store='+store;
+    window.location.href = baseUrl;
+})
     	$(document).ready(function() {
 			$("#upload-form").submit(function(event) {
 				event.preventDefault();

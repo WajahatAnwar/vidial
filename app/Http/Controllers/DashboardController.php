@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\DiscountedOrder;
 use App\Models\DiscountView;
 use App\Models\User;
+use App\Models\Video;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -152,5 +153,25 @@ class DashboardController extends Controller
             'success' => true,
             'message' => 'Dashboard data retrieved successfully!',
         ]);
+    }
+      // Get Dashboard Content
+     public function getDashboardContent(Request $request){
+          $currentUser = Auth::user()->id;
+          // Pending Videos
+          $pendingVideos = Video::where('user_id',$currentUser)
+          ->where('status',config('constants.video_pending'))
+          ->get()->take(4);
+          // Approved Videos
+          $approvedVideos = Video::where('user_id',$currentUser)
+          ->where('status',config('constants.video_approved'))
+          ->get()->take(4);
+          $data['pendingVideos'] = $pendingVideos;
+          $data['approvedVideos'] = $approvedVideos;
+
+          return response()->json([
+             'success' => true,
+             'message' => 'Dashboard content retrieved successfully!',
+              'data' => $data,
+          ]);
     }
 }

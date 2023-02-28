@@ -186,6 +186,8 @@ public function sendTest(Request $request){
  // test function
  public function test(Request $request){
 
+  dd('hi');
+
     try{
         $token ="Bearer sl.BZnaalQHjOM-wadrKh4Ek2Cxtp0lt1REIp7_wNMOu2OJWbUrgwzU8OyGErBf8HPeernpeIjyKVjXtrwbvzzPgXjvvF2NU4AEHqK0013EtI_W9JDnW_dbCGN4v0f3ijGwI3RqQBAi";
         $client = new Client();
@@ -264,14 +266,9 @@ return $formattedDate;
   // Upload video on dropbox
   public function uploadDropboxVideo(Request $request){
     $file = $request->file('files')[0];
+    $dropbox = updateDropboxToken();
+    $token = 'Bearer '.$dropbox['access_token'];
 
-    // $request->validate([
-    //     'video' => 'required|mimetypes:video/avi,video/mpeg,video/quicktime,video/mp4',
-    // ], [
-    //     'video.required' => 'Please select a video file',
-    //     'video.mimetypes' => 'Please upload a valid video file'
-    // ]);
-    $token ="Bearer sl.BZnaalQHjOM-wadrKh4Ek2Cxtp0lt1REIp7_wNMOu2OJWbUrgwzU8OyGErBf8HPeernpeIjyKVjXtrwbvzzPgXjvvF2NU4AEHqK0013EtI_W9JDnW_dbCGN4v0f3ijGwI3RqQBAi";
     try {
     $client = new Client([
         'headers' => [
@@ -318,7 +315,7 @@ if(isset($data['path_display']) && !empty($data['path_display'])){
         $videoLink=str_replace("www.dropbox.com","dl.dropboxusercontent.com",$videoLink);
 
   }catch (\Exception $e) {
-    dd($e->getMessage());
+
  Log::error('An error occurred: ' . $e->getMessage());
 }
 }
@@ -327,22 +324,23 @@ return response()->json([
     'message' => 'Video Uploaded Successfully',
     'data' => $videoLink
 ]);
-// save Preview Link into DB
-$video['video_link']=$videoLink;
-$video['email']='test@gmail.com';
-$video['status']='Pending';
-$video['user_id']=1;
-if(Video::create($video)){
-    return response()->json([
-        'success' => true,
-        'message' => 'Video Uploaded Successfully',
-    ]);
 }
-return response()->json([
-    'success' => false,
-    'message' => 'Something went wrong',
-]);
-  }
+// // save Preview Link into DB
+// $video['video_link']=$videoLink;
+// $video['email']='test@gmail.com';
+// $video['status']='Pending';
+// $video['user_id']=1;
+// if(Video::create($video)){
+//     return response()->json([
+//         'success' => true,
+//         'message' => 'Video Uploaded Successfully',
+//     ]);
+// }
+// return response()->json([
+//     'success' => false,
+//     'message' => 'Something went wrong',
+// ]);
+
 // save User Uploaded data into database
   public function saveVideo(Request $request){
       // save Preview Link into DB
@@ -367,5 +365,15 @@ return response()->json([
     'success' => false,
     'message' => 'Something went wrong',
 ]);
+  }
+
+  public function testing(){
+
+    $dropbox = updateDropboxToken();
+  $r='fd';
+    dd($dropbox['access_token']);
+
+
+//    dd(getDropboxToken());
   }
 }

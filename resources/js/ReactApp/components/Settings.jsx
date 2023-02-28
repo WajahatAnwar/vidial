@@ -18,13 +18,31 @@ const Settings = () => {
     const toastMarkup = active ? (
       <Toast content="Settings Added Successfully" onDismiss={toggleActive} />
     ) : null;
-    const [selected, setSelected] = useState('today');
+    const [selected, setSelected] = useState('en');
 
-    const handleSelectChange = useCallback((value) => setSelected(value), ["english"]);
-
+    //const handleSelectChange = useCallback((value) => setSelected(value), ["english"]);
+    const handleSelectChange = useCallback((value) => {
+        setSelected(value);
+      // save Locale into DB
+        fetch('/saveLocale', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ value })
+        })
+        .then(response => response.json())
+        .then(data => console.log(data))
+        .catch(error => console.error(error));
+      }, ['english']);
     const options = [
-        { label: 'English', value: 'english' },
-        { label: 'Arabic', value: 'arabic' },
+        { label: 'English', value: 'en' },
+        { label: 'French', value: 'fr' },
+        { label: 'Spanish  ', value: 'es' },
+        { label: 'Portuguese', value: 'pt' },
+        { label: 'Italian', value: 'it' },
+        { label: 'German', value: 'de' },
+
     ];
 
     const [priceValue, setPriceValue] = useState('50');
@@ -88,6 +106,7 @@ const Settings = () => {
      const [logoImage,setLogoImage] = useState('');
      const [video,setVideo] = useState('');
      const [store,setStore] = useState('');
+     const [baseUrl,setBaseUrl] = useState('https://2d78-2400-adc5-1b3-b500-49e1-2176-e2f1-282.in.ngrok.io');
     const logoHandler = (e)=>{
         setLogoImage(e.target.files[0]);
     };
@@ -97,7 +116,7 @@ const Settings = () => {
 
 // Review Landing Page
 const reviewPage =(store)=>{
-    window.location.href = "https://2d78-2400-adc5-1b3-b500-49e1-2176-e2f1-282.in.ngrok.io/landingPage?store="+store;
+    window.location.href = baseUrl+"/landingPage/"+selected+"?store="+store;
 
 }
    /********  get Settings Data  ******/
@@ -119,6 +138,7 @@ const reviewPage =(store)=>{
             setLogoImage(data.data.logo);
             setVideo(data.data.video);
             setStore(data.data.store);
+            setSelected(data.data.locale);
         }
 
     })
@@ -173,6 +193,14 @@ const reviewPage =(store)=>{
 
 
 
+
+    }
+    // copy Landing Page Link
+    const copyLandingPageLink = ()=>{
+        console.log('working ');
+        const landingPageDisplayedValue = baseUrl+"/landingPage/"+selected+"?store="+store;
+        navigator.clipboard.writeText(landingPageDisplayedValue);
+         toastMarkup && toastMarkup.show();
     }
     return (
         <Page>
@@ -233,13 +261,13 @@ const reviewPage =(store)=>{
                         </div>
                         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                             <div>
-                                <Text variant="headingLg" as="h5">
+                                <Text variant="headingLg" as="h5"  >
                                     Landing Page Link
                                 </Text>
                                 <p style={{ marginTop: "5px", marginBottom: "10px" }}>Here's your custom link that you can share with your existing customers..</p>
                             </div>
                             <div style={{ width: "200px", textAlign: "end" }}>
-                                <Button primary>Copy Link</Button>
+                                <Button primary onClick={()=>copyLandingPageLink()} >Copy Link</Button>
                             </div>
                         </div>
                     </Card>
