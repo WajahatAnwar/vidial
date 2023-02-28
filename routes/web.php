@@ -7,6 +7,10 @@ use App\Http\Controllers\RulesController;
 use App\Http\Controllers\SettingsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\VideoController;
+use App\Jobs\videoMail;
+use App\Mail\sendCoupen;
+use Illuminate\Support\Facades\Mail;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -85,4 +89,7 @@ Route::get('fatch_orders', [OrdersController::class , 'fetch_orders'])->middlewa
 Route::get('send_test_email', [OrdersController::class , 'sendtest_email'])->middleware(['verify.shopify']);
 Route::get('send_customers', [OrdersController::class , 'customers_send_email'])->middleware(['verify.shopify']);
 Route::get('review_updated/{id}' ,[OrdersController::class , 'review_updated'])->name('review_updated');
+
+
+
 

@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use App\Jobs\videoMail;
 use Auth;
 use Dropbox;
 use DateTime;
@@ -155,6 +157,15 @@ public function videoOperation(Request $request){
     if($videos){
         $videos->status = $videos->type ? config('constants.video_approved') : config('constants.video_reject');
         $videos->save();
+
+        $details = [
+            'mail' => $videos->email,
+            'title' => 'Mail From Vidal',
+            'body' => 'This is the test email for customers',
+            'coupen_code' => 1325453
+        ];
+        dispatch(new videoMail($details));
+
         return response()->json([
             'success' => true,
             'message' => 'Status Changed Successfully',
