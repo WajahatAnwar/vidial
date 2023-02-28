@@ -28,7 +28,8 @@ class OrdersController extends Controller
                 'order_created_at' => $order_item['created_at'] ,
                 'remaining_mail' => $shop_settings->page_link,
                 'email_send_at' => Carbon::parse($order_item['created_at'])->addDays($shop->setting->page_display_to_customers) ,
-                'reminder_mail' => Carbon::parse($order_item['created_at'])->addWeek($shop->setting->email_sent_to_customer)
+                'reminder_mail' => Carbon::parse($order_item['created_at'])->addWeek($shop->setting->email_sent_to_customer),
+                'email_status' => $shop_settings->email_status ,
               ]);
          }
 

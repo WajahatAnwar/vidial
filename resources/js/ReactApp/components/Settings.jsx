@@ -9,7 +9,7 @@ import UploadIcon from "./imges/uploadLogo.png";
 import ErrorIcon from "./imges/error.png";
 import DellIcon from "./imges/dellIcon.png";
 import ColorWheel from "./imges/collorWheel.png";
-
+import Toggle from "./Toggle";
 const Settings = () => {
     const [active, setActive] = useState(false);
     const [error,setError] = useState(false);
@@ -142,7 +142,7 @@ const reviewPage =(store)=>{
         formData.append( "page_color",buttonColorHex);
         formData.append( "logo",logoImage);
         formData.append( "video",video);
-        formData.append("setting_status", checked)
+        formData.append("setting_status", toggled)
   if(priceValue=='' || landingPageValue=='' || emailSentToValue=='' || landingPageDisplayedValue=='' || rows=='',logoImage==''){
     setError(true);
   }else{
@@ -195,10 +195,13 @@ const reviewPage =(store)=>{
 
     }
 
-    const [checked, setChecked] = useState(false);
-    const handleChange = useCallback((newChecked) => setChecked(newChecked), []);
+    const [toggled, setToggled] = useState(false);
 
-    // console.log(checked);
+    function handleChange(){
+        setToggled(prevCheck => !prevCheck)
+    }
+    
+    console.log(toggled);
 
     return (
         <Page>
@@ -299,13 +302,16 @@ const reviewPage =(store)=>{
                                 <p style={{ marginTop: "5px"  }}>You can disable the automatic emails if you want to distribute your link by yourself</p>
                             </div>
                             <div style={{ width: "170px", textAlign: "end" }}>
-
+{/*
                             <Checkbox
                                   label="Email Activation"
                                   checked={checked}
                                   onChange={handleChange}
+                                /> */}
+                                <Toggle
+                                    toggled={toggled}
+                                    onClick={handleChange}
                                 />
-
                             </div>
                         </div>
 

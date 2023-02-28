@@ -28,6 +28,7 @@ return new class extends Migration
             $table->string('remaining_mail')->nullable();
             $table->string('replied')->nullable()->default('0');
             $table->string('reminder_mail')->nullable();
+            $table->string('email_status')->nullable()->default('0');
             $table->timestamps();
         });
     }
