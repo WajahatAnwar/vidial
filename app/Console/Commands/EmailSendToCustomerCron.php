@@ -73,12 +73,9 @@ class EmailSendToCustomerCron extends Command
                             'email_send' => 1,
                             'remaining_mail' => $Orders_send_mail->remaining_mail - 1
                         ]);
-
                     }
-
                 }
             }
-
         }
     }
 }
