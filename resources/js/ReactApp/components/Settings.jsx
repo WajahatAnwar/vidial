@@ -97,8 +97,8 @@ const Settings = () => {
 
 // Review Landing Page
 const reviewPage =(store)=>{
-    window.location.href = "https://4089-2400-adc5-1b3-b500-8978-f689-595a-7910.in.ngrok.io/landingPage?store="+store;
-    
+    window.location.href = "https://2d78-2400-adc5-1b3-b500-49e1-2176-e2f1-282.in.ngrok.io/landingPage?store="+store;
+
 }
    /********  get Settings Data  ******/
    useEffect(()=>{

@@ -11,11 +11,12 @@ import { CircleCancelMajor, CircleTickMajor } from '@shopify/polaris-icons';
 import downloadIcon from "./imges/downloadIcon.png";
 
 function WaitingVideos() {
-
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
  /******** Fetching Videos  ******/
  const [videos,setVideos] = useState([]);
  useEffect(()=>{
-    fetch('/getPendingVideos')
+    fetch('/getPendingVideos?page='+currentPage)
   .then(response => {
     if (!response.ok) {
       throw new Error('Something went wrong');
@@ -25,17 +26,19 @@ function WaitingVideos() {
   .then(data => {
       if(data.success){
         setVideos(data.data);
+        setTotalPages(data.totalPages);
       }
-    
+
   })
   .catch(error => {
       console.log(error);
   });
 
- },[])
+ },[currentPage])
+
   /******** Operation on Videos  ******/
  const videoOperation = (id,type)=>{
-   
+
     const confirmed = confirm('Are you sure you want to Approved?');
     var formData = new FormData();
     formData.append('video_id',id);
@@ -55,7 +58,7 @@ function WaitingVideos() {
       if(data.success){
         console.log(data.message);
       }
-    
+
   })
   .catch(error => {
       console.log(error);
@@ -80,7 +83,7 @@ function WaitingVideos() {
                             <Card.Section>
                                 <Grid>
                                {videos && videos.map((video) => {
-                          
+
                           return (
                                     <Grid.Cell columnSpan={{xs: 3, sm: 3, md: 3, lg: 3, xl: 3}}>
                                         <div style={{textAlign:"center"}}>
@@ -89,16 +92,16 @@ function WaitingVideos() {
     <source src={video.video_link} type="video/mp4"/>
   Your browser does not support the video tag.
    </video>
-   
+
                                             <p style={{fontSize:"12px",color:"#797979",marginTop:"10px"}}>{video.email}</p>
                                             <p style={{fontSize:"12px",color:"#797979"}}>{video.created_at}</p>
                                                 <div style={{border:"1px solid #dddd",padding:"6px 12px",borderRadius:"9px",width:"86px",margin:"auto",marginTop:"10px"}}>
                                                 <div style={{display:"flex"}}>
-                                                    
+
                                                     <div style={{marginRight:"20px"}} onClick={()=>{videoOperation(video.id,1)}}>
                                                     <Link to="#" >
 
-                                                    <Icon 
+                                                    <Icon
                                                         source={CircleTickMajor}
                                                         color="primary"
                                                         />
@@ -119,17 +122,25 @@ function WaitingVideos() {
                                     )
                                      })
                                      }
-                                   
-                                  
-                                   
-                                    
-                                 
-                                    
+
+
+
+
+
+
                                 </Grid>
                             </Card.Section>
                         </Card>
+
                     </Grid.Cell>
+
                     </Grid>
+                     {(currentPage >=totalPages ? null :(  <div className="button_center" >
+                         <Button onClick={() => setCurrentPage(prevPage => prevPage + 1)}>Load More</Button>
+                         </div>))
+
+                    }
+
         </Page>
     );
 

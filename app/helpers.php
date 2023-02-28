@@ -182,7 +182,7 @@ function sync_products($request)
         return $e->getMessage();
     }
 }
-// Dropbox 
+// Dropbox
 if (!function_exists('getDropboxToken')) {
     function getDropboxToken()
     {

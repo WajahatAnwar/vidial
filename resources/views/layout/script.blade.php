@@ -6,81 +6,70 @@ window.jQuery || document.write(decodeURIComponent('%3Cscript src="js/jquery.min
 <script>
 
 /******** DropZone Library *********/
-      $(() => {
-$('#file-uploader').dxFileUploader({
-  dialogTrigger: '#dropzone-external',
+$(() => {
+  const fileUploader =$('#file-uploader').dxFileUploader({
+    dialogTrigger: '#dropzone-external',
     dropZone: '#dropzone-external',
-    name: "video",
     multiple: false,
-    accept: "video/*",
-    uploadMode: "instantly",
-    uploadUrl: "{{ url('/test-Up') }}",
-    onUploaded: function(e) {
-      var videoUrl = e.request.response;
-      var email = $("#exampleFormControlInput1").val();
-        console.log(videoUrl)
-      // Validate email using regular expression
-      if (!validateEmail(email)) {
-      
-        alert("Invalid email address");
-        return;
-      }
-      
-      // Send email and video using jQuery AJAX
-      $.ajax({
-        type: "POST",
-        url: "{{url('send-test-Up')}}",
-        data: {
-          email: email,
-          videoUrl: videoUrl
-        },
-        success: function(response) {
-          alert("Email sent successfully");
-        },
-        error: function(xhr, textStatus, errorThrown) {
-          alert("Failed to send email: " + errorThrown);
-        }
-      });
-    }
-  });
-  // Email validation function using regular expression
-  function validateEmail(email) {
-    var re = /\S+@\S+\.\S+/;
-    return re.test(email);
-  }
-  //Submit form on button click
-  $("#upload-form").click(function(e) {
-    e.preventDefault();
-    $("#file-uploader").dxFileUploader("upload");
-  });
-
-  const uploadProgressBar = $('#upload-progress').dxProgressBar({
-    min: 0,
-    max: 100,
-    width: '30%',
-    showStatus: false,
+    allowedFileExtensions: ['.mp4'],
+    uploadMode: 'instantly',
+    uploadUrl: '{{ url("/uploadVideo") }}',
     visible: false,
-  }).dxProgressBar('instance');
+    onUploaded: function(e) {
+        var response = JSON.parse(e.request.responseText);
+        if (response.success) {
+            localStorage.setItem('video_url', response.data);
 
-  function toggleDropZoneActive(dropZone, isActive) {
-    if (isActive) {
-      dropZone.classList.add('dx-theme-accent-as-border-color');
-      dropZone.classList.remove('dx-theme-border-color');
-      dropZone.classList.add('dropzone-active');
-    } else {
-      dropZone.classList.remove('dx-theme-accent-as-border-color');
-      dropZone.classList.add('dx-theme-border-color');
-      dropZone.classList.remove('dropzone-active');
+        }
+
     }
-  }
-
-  function toggleImageVisible(visible) {
-    const dropZoneImage = document.getElementById('dropzone-image');
-    dropZoneImage.hidden = !visible;
-  }
+  });
 
   document.getElementById('dropzone-image').onload = function () { toggleImageVisible(true); };
+
 });
+const saveVideo = ()=>{
+    var video_link =localStorage.getItem('video_url');
+
+    var email = $('#email').val();
+    var terms_conditions = $('#terms_condition').is(":checked") ? 1 : 0;
+    // geting Store name
+    const url = new URL(window.location.toLocaleString());
+    const store = url.searchParams.get('store');
+    if(video_link=='' || video_link==null){
+        $('#error-video').removeClass('d-none').text('Please upload a video');
+        return false;
+    }else if(email==''){
+        $('#error-email').removeClass('d-none').text('Please Fill Email Field');
+        return false;
+
+    }else if(!terms_conditions){
+        console.log(terms_conditions);
+        $('#error-terms-conditions').removeClass('d-none').text('Please Accept terms and conditions');
+        return false;
+    }
+    else if(store==''){
+        console.log('Something went wrong');
+        return false;
+    }
+    var data = {"video_link":video_link, "email":email,"store":store}
+    $.ajax({
+        url:"{{ url('/saveVideo') }}",
+        method:"post",
+        data:data,
+        dataType:"json",
+        success:function(response){
+            if(response.success){
+                $("#success_popup").modal('show');
+                localStorage.removeItem('video_url');
+                setTimeout(function(){
+                window.location.reload();
+                }, 5000);
+            }
+        }
+    })
+}
+
 
 /****** redirect to upload video page ******/
 const redirect = ()=>{
@@ -89,9 +78,9 @@ const redirect = ()=>{
     	$(document).ready(function() {
 			$("#upload-form").submit(function(event) {
 				event.preventDefault();
-               var form = new FormData(); 
+               var form = new FormData();
 form.append("video", $("#fileinput")[0].files[0]);
-               
+
 
 
 				$.ajax({
@@ -104,7 +93,7 @@ form.append("video", $("#fileinput")[0].files[0]);
                         if(response.success){
                          console.log(response.message);
                         }
-                       
+
 						//alert(response);
 					},
 					error: function(response) {

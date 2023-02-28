@@ -55,18 +55,24 @@ Route::post('save_settings',[SettingsController::class,'saveSettings'])->middlew
 Route::get('get_settings',[SettingsController::class,'getSettings'])->middleware(['verify.shopify']);
 // Landing Page View
 Route::get('landingPage',[SettingsController::class,'landingPage']);
-// upload Landing Page Video
+// Landing Page
 Route::get('uploadVideo',[SettingsController::class,'uploadVideo']);
 // upload video on Dropbox
-Route::post('uploadVideo',[VideoController::class,'uploadVideo']);
+Route::post('uploadVideo',[VideoController::class,'uploadDropboxVideo']);
 // test view
 Route::get('testupload',[VideoController::class,'testupload']);
 Route::post('testUploaded',[VideoController::class,'testUploaded']);
+Route::get('test',[VideoController::class,'test']);
+
+
+Route::post('saveVideo',[VideoController::class,'saveVideo']);
+
 Route::group(['middleware' => 'verify.shopify'], function () {
     Route::get('getPendingVideos',[VideoController::class,'getPendingVideos']);
     Route::post('videoOperation',[VideoController::class,'videoOperation']);
-   
+
 });
 Route::post('test-Up',[VideoController::class,'testUp']);
 Route::post('send-test-Up',[VideoController::class,'sendTest']);
+
 // Route::view('/{any}', 'welcome')->where('any', '^(?!webhook).*$')->middleware(['verify.shopify'])->name('welcome');
