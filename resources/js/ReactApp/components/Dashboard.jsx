@@ -13,7 +13,7 @@ import {
 } from "@shopify/polaris";
 import { useEffect, useState, useCallback } from "react";
 import React from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import EmailLogo from "./imges/emailLogo.png";
 import WaitingLogo from "./imges/WaitingLogo.png";
 import ApprovedLogo from "./imges/ApprovedLogo.png";
@@ -21,10 +21,13 @@ import WaitingIcon from "./imges/waiting2.png";
 import VideoTumbnail from "./imges/bureau 11.png";
 import { CircleCancelMajor, CircleTickMajor } from "@shopify/polaris-icons";
 import downloadIcon from "./imges/downloadIcon.png";
+import { downloadVideo, videoOperation } from "./utils";
 
 function Dashboard() {
     const [pendingVideos, setPendingVideos] = useState([]);
     const [approvedVideos, setApprovedVideos] = useState([]);
+    const [approvedVideosCount, setApprovedVideosCount] = useState(0);
+    const [pendingVideosCount, setPendingVideosCount] = useState(0);
     /********  get Settings Data  ******/
     useEffect(() => {
         fetch("/getDashboardContent")
@@ -38,6 +41,8 @@ function Dashboard() {
                 if (data.success) {
                     setPendingVideos(data.data.pendingVideos);
                     setApprovedVideos(data.data.approvedVideos);
+                    setApprovedVideosCount(data.data.approvedVideosCount);
+                    setPendingVideosCount(data.data.pendingVideosCount);
                 }
             })
             .catch((error) => {
@@ -74,7 +79,7 @@ function Dashboard() {
                             <img src={WaitingLogo}></img>
                             <div style={{ marginLeft: "10px" }}>
                                 <Text variant="headingXl" as="h4">
-                                    8
+                                    {pendingVideosCount}
                                 </Text>
                                 <p style={{ fontWeight: "600" }}>
                                     Waiting Videos
@@ -89,7 +94,7 @@ function Dashboard() {
                             <img src={ApprovedLogo}></img>
                             <div style={{ marginLeft: "10px" }}>
                                 <Text variant="headingXl" as="h4">
-                                    5
+                                    {approvedVideosCount}
                                 </Text>
                                 <p style={{ fontWeight: "600" }}>
                                     Approved Videos
@@ -190,21 +195,39 @@ function Dashboard() {
                                                                     marginRight:
                                                                         "20px",
                                                                 }}
+                                                                onClick={() => {
+                                                                    videoOperation(
+                                                                        video.id,
+                                                                        1
+                                                                    );
+                                                                }}
                                                             >
-                                                                <Icon
-                                                                    source={
-                                                                        CircleTickMajor
-                                                                    }
-                                                                    color="primary"
-                                                                />
+                                                                <Link to="#">
+                                                                    <Icon
+                                                                        source={
+                                                                            CircleTickMajor
+                                                                        }
+                                                                        color="primary"
+                                                                    />
+                                                                </Link>
                                                             </div>
                                                             <div>
-                                                                <Icon
-                                                                    source={
-                                                                        CircleCancelMajor
-                                                                    }
-                                                                    color="critical"
-                                                                />
+                                                                <Link
+                                                                    to="#"
+                                                                    onClick={() => {
+                                                                        videoOperation(
+                                                                            video.id,
+                                                                            0
+                                                                        );
+                                                                    }}
+                                                                >
+                                                                    <Icon
+                                                                        source={
+                                                                            CircleCancelMajor
+                                                                        }
+                                                                        color="critical"
+                                                                    />
+                                                                </Link>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -288,6 +311,11 @@ function Dashboard() {
                                                         support the video tag.
                                                     </video>{" "}
                                                     <button
+                                                        onClick={() => {
+                                                            downloadVideo(
+                                                                video.video_link
+                                                            );
+                                                        }}
                                                         style={{
                                                             background:
                                                                 "#FFFFFF",
@@ -297,6 +325,7 @@ function Dashboard() {
                                                             fontWeight: "500",
                                                             fontSize: "15px",
                                                             marginTop: "10px",
+                                                            cursor: "pointer",
                                                         }}
                                                     >
                                                         <img

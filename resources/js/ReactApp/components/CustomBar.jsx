@@ -6,8 +6,24 @@ function TabsExample() {
     //
     const navigate = useNavigate();
     let location = useLocation();
-
-
+    const [pendingVideosCount, setPendingVideosCount] = useState(0);
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch("/getPendingVideoCount");
+                if (!response.ok) {
+                    throw new Error("Something went wrong");
+                }
+                const data = await response.json();
+                if (data.success) {
+                    setPendingVideosCount(data.data.pendingVideosCount);
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        fetchData();
+    });
 
     const [selected, setSelected] = useState(0);
 
@@ -23,8 +39,8 @@ function TabsExample() {
         } else if (selectedTabIndex == 3) {
             navigate("/settings");
         } else if (selectedTabIndex == 4) {
-        navigate("/plans");
-    }
+            navigate("/plans");
+        }
     }, []);
 
     const tabs = [
@@ -34,7 +50,21 @@ function TabsExample() {
         },
         {
             id: "accepts-marketing-1",
-            content: <div>Videos To Review<sup style={{background: "rgba(255, 59, 44, 0.75)",padding: "1px 6px",borderRadius:"50%",marginLeft:"5px"}}>4</sup></div>,
+            content: (
+                <div>
+                    Videos To Review
+                    <sup
+                        style={{
+                            background: "rgba(255, 59, 44, 0.75)",
+                            padding: "1px 6px",
+                            borderRadius: "50%",
+                            marginLeft: "5px",
+                        }}
+                    >
+                        {pendingVideosCount}
+                    </sup>
+                </div>
+            ),
         },
         {
             id: "repeat-customers-1",

@@ -105,31 +105,9 @@ return response()->json([
  }
 
 
-/****** get videos  ********/
+/****** get pending videos  ********/
 
 public function getPendingVideos(Request $request){
-
-    // $videosPerPage = 4;
-    // $videos = video::where('user_id',Auth::user()->id)
-    //     ->where('status','=',config('constants.video_pending'))
-    //     ->skip(($request->page - 1) * $videosPerPage)
-    //     ->take($videosPerPage)
-    //     ->get();
-
-    // $totalVideos = video::where('user_id',Auth::user()->id)
-    //     ->where('status','=',config('constants.video_pending'))
-    //     ->count();
-    // $totalPages = ceil($totalVideos / $videosPerPage);
-    // return response()->json([
-    //     'success' => true,
-    //     'message' => 'Fetch Pending Videos Successfully',
-    //     'data'=>$videos,
-    //     'totalPages' => $totalPages
-    // ]);
-
-
-
-
     $videosPerPage = 4;
     $limit = $request->page * $videosPerPage;
     $totalVideos = video::where('user_id',Auth::user()->id)
@@ -149,15 +127,18 @@ public function getPendingVideos(Request $request){
 /****** operation on Videos  ********/
 
 public function videoOperation(Request $request){
+    $remainingVideos = 10;
     $videos = video::where('user_id',Auth::user()->id)
     ->where('id',$request->video_id)
+    ->where('status','!=',config('constants.video_approved'))
     ->first();
-    if($videos){
-        $videos->status = $videos->type ? config('constants.video_approved') : config('constants.video_reject');
+    if($videos && $remainingVideos){
+        $videos->status = $request->type ? config('constants.video_approved') : config('constants.video_reject');
         $videos->save();
         return response()->json([
             'success' => true,
             'message' => 'Status Changed Successfully',
+            'data'=>  $this->createDiscountCode(),
         ]);
     }
     return response()->json([
@@ -166,6 +147,24 @@ public function videoOperation(Request $request){
     ]);
 
 
+}
+/****** get Approved videos  ********/
+public function getApprovedVideos(Request $request){
+    $videosPerPage = 4;
+    $limit = $request->page * $videosPerPage;
+    $totalVideos = video::where('user_id',Auth::user()->id)
+        ->where('status','=',config('constants.video_approved'))
+        ->count();
+    $totalPages = ceil($totalVideos / $videosPerPage);
+    $videos = video::where('user_id',Auth::user()->id)
+    ->where('status','=',config('constants.video_approved'))
+    ->get()->take($limit);
+    return response()->json([
+        'success' => true,
+        'message' => 'Fetch Approved Videos Successfully',
+        'data'=>$videos,
+        'totalPages' => $totalPages
+    ]);
 }
 
 public function testUp(Request $request){
@@ -244,7 +243,7 @@ public function sendTest(Request $request){
     ];
         $discount = $shop->api()->rest('POST', '/admin/api/2023-01/price_rules/'.$priceRule['body']['price_rule']['id'].'/discount_codes.json',$discountCode);
     }
-    dd($discount);
+    dd($discount['discount_code']['id']);
 
 
 
@@ -368,12 +367,39 @@ return response()->json([
   }
 
   public function testing(){
+    dd($this->createDiscountCode());
+  }
 
-    $dropbox = updateDropboxToken();
-  $r='fd';
-    dd($dropbox['access_token']);
+  // create discount code
 
+  public function createDiscountCode(){
 
-//    dd(getDropboxToken());
+    $shop = Auth::user();
+    $rules_requirements=[
+        "price_rule"=>[
+        "title"=>"vidial_code",
+        "target_type"=>"line_item",
+        "target_selection"=>"all",
+        "allocation_method"=>"across",
+        "value_type"=>"fixed_amount",
+        "price_rule"=>"-10.0",
+        "customer_selection"=>"all",
+        "value"=>"-10.0",
+        "starts_at"=> Carbon::now()->toIso8601String(),
+    ]];
+    $priceRule = $shop->api()->rest('POST', '/admin/api/2022-10/price_rules.json',$rules_requirements);
+    // Generating Discount Code
+    if(isset($priceRule['body']['price_rule']['id']) && !empty($priceRule['body']['price_rule']['id'])){
+
+        $discountCode = ['discount_code'=>
+        [
+            "price_rule_id"=>$priceRule['body']['price_rule']['id'],
+            "code"=>$this->generateUniqueDiscountCode(),
+        ]
+    ];
+        $discount = $shop->api()->rest('POST', '/admin/api/2023-01/price_rules/'.$priceRule['body']['price_rule']['id'].'/discount_codes.json',$discountCode);
+    }
+
+    return $discount['body']['discount_code'];
   }
 }

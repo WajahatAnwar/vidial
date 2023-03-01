@@ -126,7 +126,7 @@ class SettingsController extends Controller
         Setting::updateOrCreate(['user_id'=>$currentUser],$settings);
         return response()->json([
             'success' => true,
-            'message' => "Settings Added Successfully",
+            'message' => "Settings saved Successfully",
         ]);
     }
 
@@ -135,8 +135,9 @@ class SettingsController extends Controller
         // Language Translation
         setLan($locale);
         if($this->store!==''){
-            $user=User::where('name',$this->store)->first();
-            if(!$user){
+            $user=User::with('settings')->where('name',$this->store)->first();
+
+            if(!$user || !$user->settings){
               return abort(404);
             }
             $currentUser=$user->id;
@@ -148,8 +149,8 @@ class SettingsController extends Controller
     public function uploadVideo(Request $request,$locale){
         setLan($locale);
         if($this->store!==''){
-            $user=User::where('name',$this->store)->first();
-            if(!$user){
+            $user=User::with('settings')->where('name',$this->store)->first();
+            if(!$user || !$user->settings){
                 return abort(404);
             }
             $currentUser=$user->id;
