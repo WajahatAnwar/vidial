@@ -26,7 +26,11 @@ class User extends Authenticatable implements IShopModel
         'ugc_video_count',
         'ugc_email_count',
         'init_flag',
+        'remaining_email',
+        'remaining_videos',
     ];
+
+
 
     /**
      * The attributes that should be hidden for serialization.

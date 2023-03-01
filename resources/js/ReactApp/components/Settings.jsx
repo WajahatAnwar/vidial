@@ -38,6 +38,11 @@ const Settings = () => {
     const [active, setActive] = useState(false);
     const [error, setError] = useState(false);
     const toggleActive = useCallback(() => setActive((active) => !active), []);
+    const [toggled, setToggled] = useState(false);
+
+    function handleChange() {
+        setToggled(prevCheck => !prevCheck)
+    }
 
     const toastMarkup = active ? (
         <Toast content="Settings Added Successfully" onDismiss={toggleActive} />
@@ -193,13 +198,14 @@ const Settings = () => {
         formData.append("page_color", buttonColorHex);
         formData.append("logo", logoImage);
         formData.append("video", video);
+        formData.append("setting_status", toggled);
         if (
             (priceValue == "" ||
                 landingPageValue == "" ||
                 emailSentToValue == "" ||
                 landingPageDisplayedValue == "" ||
                 rows == "",
-            logoImage == "")
+                logoImage == "")
         ) {
             setError(true);
         } else {
@@ -263,10 +269,10 @@ const Settings = () => {
                                         )}
                                         {landingPageDisplayedValue.length <=
                                             0 && (
-                                            <List.Item>
-                                                Landing Page Field is required
-                                            </List.Item>
-                                        )}
+                                                <List.Item>
+                                                    Landing Page Field is required
+                                                </List.Item>
+                                            )}
                                         {rows.length <= 0 && (
                                             <List.Item>
                                                 Instruction Required
@@ -293,6 +299,7 @@ const Settings = () => {
                             >
                                 Select the language of your store
                             </p>
+
                             <div style={{ width: "150px" }}>
                                 <Select
                                     options={options}
@@ -433,17 +440,33 @@ const Settings = () => {
                             </div>
                         </Card>
                         <Card sectioned>
+
+
                             <div
-                                style={{ width: "450px", marginBottom: "20px" }}
+                                style={{
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent: "space-between",
+                                    marginBottom: "20px",
+                                }}
                             >
-                                <Text variant="headingLg" as="h5">
-                                    Email Settings
-                                </Text>
-                                <p style={{ marginTop: "5px" }}>
-                                    You can disable the automatic emails if you
-                                    want to distribute your link by yourself
-                                </p>
+                                <div style={{ width: "450px" }}>
+                                        <Text variant="headingLg" as="h5">
+                                            Email Settings
+                                        </Text>
+                                    <p style={{ marginTop: "5px" }}>
+                                        {/* See the Landing Oage that users will
+                                        see. */}
+                                    </p>
+                                </div>
+                                <div
+                                    style={{ width: "170px", textAlign: "end" }}
+                                >
+                                  <Toggle toggled={toggled} onClick={handleChange}/>
+
+                                </div>
                             </div>
+                            
                             <div
                                 style={{
                                     display: "flex",

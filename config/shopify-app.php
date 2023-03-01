@@ -342,13 +342,15 @@ return [
 
     'webhooks' => [
 
+        [
+            'topic' => env('SHOPIFY_WEBHOOK_1_TOPIC', ''),
+            'address' => env('SHOPIFY_WEBHOOK_1_ADDRESS', '')
+        ],
+        [
+            'topic' => env('SHOPIFY_WEBHOOK_2_TOPIC', ''),
+            'address' => env('SHOPIFY_WEBHOOK_2_ADDRESS', '')
+        ],
         // [
-        //     'topic' => env('SHOPIFY_WEBHOOK_1_TOPIC', ''),
-        //     'address' => env('SHOPIFY_WEBHOOK_1_ADDRESS', '')
-        // ], [
-        //     'topic' => env('SHOPIFY_WEBHOOK_2_TOPIC', ''),
-        //     'address' => env('SHOPIFY_WEBHOOK_2_ADDRESS', '')
-        // ], [
         //     'topic' => env('SHOPIFY_WEBHOOK_3_TOPIC', ''),
         //     'address' => env('SHOPIFY_WEBHOOK_3_ADDRESS', ''),
         // ], [
@@ -366,6 +368,10 @@ return [
         // ], [
         //     'topic' => env('SHOPIFY_WEBHOOK_8_TOPIC', ''),
         //     'address' => env('SHOPIFY_WEBHOOK_8_ADDRESS', ''),
+        // ],
+        // [
+        //     'topic' => 'ORDERS_GET',
+        //     'address' => 'https://983f-2400-adc5-1b3-b500-f860-f03e-ddb-3823.in.ngrok.io/webhook/orders-get'
         // ],
 
     ],

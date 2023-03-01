@@ -10,13 +10,14 @@ use GuzzleHttp\Promise\Create;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use App\Jobs\OrdersGetJob;
 
 class OrdersController extends Controller
 {
-    public function fetch_orders()
+    public function fetch_orders(Request $request)
     {
        $shop = Auth::user();
-       $shop_settings =  $shop->setting;
+       $shop_settings =  $shop->settings;
          $orders = $shop->api()->rest('GET', '/admin/orders.json');
          foreach ($orders['body']['orders'] as $order_item) {
               Orders::create([
@@ -28,8 +29,8 @@ class OrdersController extends Controller
                 'confirmed' =>  "" ,
                 'order_created_at' => $order_item['created_at'] ,
                 'remaining_mail' => $shop_settings->page_link,
-                'email_send_at' => Carbon::parse($order_item['created_at'])->addDays($shop->setting->page_display_to_customers) ,
-                'reminder_mail' => Carbon::parse($order_item['created_at'])->addWeek($shop->setting->email_sent_to_customer),
+                'email_send_at' => Carbon::parse($order_item['created_at'])->addDays($shop->settings->page_display_to_customers) ,
+                'reminder_mail' => Carbon::parse($order_item['created_at'])->addWeek($shop->settings->email_sent_to_customer),
                 'email_status' => $shop_settings->email_status ,
               ]);
          }
@@ -38,20 +39,19 @@ class OrdersController extends Controller
 
     public function sendtest_email()
     {
-       dd(route('billing', ['plan' => 2, 'shop' => Auth::user()->name]));
-        // $details = [
-        //     'title' => 'Mail From Vidal',
-        //     'body' => 'This is the test email for customers'
-        // ];
-        // $get_customers = Orders::pluck('email');
-        // foreach ($get_customers as $value) {
-        //     Mail::to($value)->send(new testMail($details));
-        // }
+        $details = [
+            'title' => 'Mail From Vidal',
+            'body' => 'This is the test email for customers'
+        ];
+        $get_customers = Orders::pluck('email');
+        foreach ($get_customers as $value) {
+            Mail::to($value)->send(new testMail($details));
+        }
 
-        // return response()->json([
-        //     'success' => true,
-        //     'message' => " Test Email Send Successfully To Customers",
-        // ]);
+        return response()->json([
+            'success' => true,
+            'message' => " Test Email Send Successfully To Customers",
+        ]);
         // return
 
     }
@@ -80,6 +80,10 @@ class OrdersController extends Controller
     public function set_plans(Request $request,$id)
     {
         dd($id);
+    }
+
+    public function test(){
+      dd(OrdersGetJob::class);
     }
 
 }
