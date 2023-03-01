@@ -91,7 +91,7 @@ if(isset($data['path_display']) && !empty($data['path_display'])){
 // save Preview Link into DB
 $video['video_link']=$videoLink;
 $video['email']='test@gmail.com';
-$video['status']='Pending';
+$video['status']=config('constants.video_pending');
 $video['user_id']=1;
 if(Video::create($video)){
     return response()->json([
@@ -107,31 +107,9 @@ return response()->json([
  }
 
 
-/****** get videos  ********/
+/****** get pending videos  ********/
 
 public function getPendingVideos(Request $request){
-
-    // $videosPerPage = 4;
-    // $videos = video::where('user_id',Auth::user()->id)
-    //     ->where('status','=',config('constants.video_pending'))
-    //     ->skip(($request->page - 1) * $videosPerPage)
-    //     ->take($videosPerPage)
-    //     ->get();
-
-    // $totalVideos = video::where('user_id',Auth::user()->id)
-    //     ->where('status','=',config('constants.video_pending'))
-    //     ->count();
-    // $totalPages = ceil($totalVideos / $videosPerPage);
-    // return response()->json([
-    //     'success' => true,
-    //     'message' => 'Fetch Pending Videos Successfully',
-    //     'data'=>$videos,
-    //     'totalPages' => $totalPages
-    // ]);
-
-
-
-
     $videosPerPage = 4;
     $limit = $request->page * $videosPerPage;
     $totalVideos = video::where('user_id',Auth::user()->id)
@@ -151,11 +129,13 @@ public function getPendingVideos(Request $request){
 /****** operation on Videos  ********/
 
 public function videoOperation(Request $request){
+    $remainingVideos = 10;
     $videos = video::where('user_id',Auth::user()->id)
     ->where('id',$request->video_id)
+    ->where('status','!=',config('constants.video_approved'))
     ->first();
-    if($videos){
-        $videos->status = $videos->type ? config('constants.video_approved') : config('constants.video_reject');
+    if($videos && $remainingVideos){
+        $videos->status = $request->type ? config('constants.video_approved') : config('constants.video_reject');
         $videos->save();
 
         $details = [
@@ -169,6 +149,7 @@ public function videoOperation(Request $request){
         return response()->json([
             'success' => true,
             'message' => 'Status Changed Successfully',
+            'data'=>  $this->createDiscountCode(),
         ]);
     }
     return response()->json([
@@ -177,6 +158,24 @@ public function videoOperation(Request $request){
     ]);
 
 
+}
+/****** get Approved videos  ********/
+public function getApprovedVideos(Request $request){
+    $videosPerPage = 4;
+    $limit = $request->page * $videosPerPage;
+    $totalVideos = video::where('user_id',Auth::user()->id)
+        ->where('status','=',config('constants.video_approved'))
+        ->count();
+    $totalPages = ceil($totalVideos / $videosPerPage);
+    $videos = video::where('user_id',Auth::user()->id)
+    ->where('status','=',config('constants.video_approved'))
+    ->get()->take($limit);
+    return response()->json([
+        'success' => true,
+        'message' => 'Fetch Approved Videos Successfully',
+        'data'=>$videos,
+        'totalPages' => $totalPages
+    ]);
 }
 
 public function testUp(Request $request){
@@ -196,6 +195,8 @@ public function sendTest(Request $request){
 
  // test function
  public function test(Request $request){
+
+  dd('hi');
 
     try{
         $token ="Bearer sl.BZnaalQHjOM-wadrKh4Ek2Cxtp0lt1REIp7_wNMOu2OJWbUrgwzU8OyGErBf8HPeernpeIjyKVjXtrwbvzzPgXjvvF2NU4AEHqK0013EtI_W9JDnW_dbCGN4v0f3ijGwI3RqQBAi";
@@ -253,7 +254,7 @@ public function sendTest(Request $request){
     ];
         $discount = $shop->api()->rest('POST', '/admin/api/2023-01/price_rules/'.$priceRule['body']['price_rule']['id'].'/discount_codes.json',$discountCode);
     }
-    dd($discount);
+    dd($discount['discount_code']['id']);
 
 
 
@@ -275,14 +276,9 @@ return $formattedDate;
   // Upload video on dropbox
   public function uploadDropboxVideo(Request $request){
     $file = $request->file('files')[0];
+    $dropbox = updateDropboxToken();
+    $token = 'Bearer '.$dropbox['access_token'];
 
-    // $request->validate([
-    //     'video' => 'required|mimetypes:video/avi,video/mpeg,video/quicktime,video/mp4',
-    // ], [
-    //     'video.required' => 'Please select a video file',
-    //     'video.mimetypes' => 'Please upload a valid video file'
-    // ]);
-    $token ="Bearer sl.BZpkp8TarClzk2nVcLVE2dZUzyMSNqNmpJwtkKf9G-D-ynkThklY0Pk0yP47clnXNxzhy5VIpJys_0MDvkd95M4HWRSWyfJxg8ALYsAhfcYUxZJ9MEFNlXuich-QLzla1gAxvYb3";
     try {
     $client = new Client([
         'headers' => [
@@ -329,7 +325,7 @@ if(isset($data['path_display']) && !empty($data['path_display'])){
         $videoLink=str_replace("www.dropbox.com","dl.dropboxusercontent.com",$videoLink);
 
   }catch (\Exception $e) {
-    dd($e->getMessage());
+
  Log::error('An error occurred: ' . $e->getMessage());
 }
 }
@@ -338,22 +334,23 @@ return response()->json([
     'message' => 'Video Uploaded Successfully',
     'data' => $videoLink
 ]);
-// save Preview Link into DB
-$video['video_link']=$videoLink;
-$video['email']='test@gmail.com';
-$video['status']='Pending';
-$video['user_id']=1;
-if(Video::create($video)){
-    return response()->json([
-        'success' => true,
-        'message' => 'Video Uploaded Successfully',
-    ]);
 }
-return response()->json([
-    'success' => false,
-    'message' => 'Something went wrong',
-]);
-  }
+// // save Preview Link into DB
+// $video['video_link']=$videoLink;
+// $video['email']='test@gmail.com';
+// $video['status']='Pending';
+// $video['user_id']=1;
+// if(Video::create($video)){
+//     return response()->json([
+//         'success' => true,
+//         'message' => 'Video Uploaded Successfully',
+//     ]);
+// }
+// return response()->json([
+//     'success' => false,
+//     'message' => 'Something went wrong',
+// ]);
+
 // save User Uploaded data into database
   public function saveVideo(Request $request){
       // save Preview Link into DB
@@ -367,7 +364,7 @@ if(!$user){
         'message' => 'Store not found',
     ]);
 }
-$video['user_id']=1;$user->id;
+$video['user_id']=$user->id;
 if(Video::create($video)){
     return response()->json([
         'success' => true,
@@ -378,5 +375,42 @@ return response()->json([
     'success' => false,
     'message' => 'Something went wrong',
 ]);
+  }
+
+  public function testing(){
+    dd($this->createDiscountCode());
+  }
+
+  // create discount code
+
+  public function createDiscountCode(){
+
+    $shop = Auth::user();
+    $rules_requirements=[
+        "price_rule"=>[
+        "title"=>"vidial_code",
+        "target_type"=>"line_item",
+        "target_selection"=>"all",
+        "allocation_method"=>"across",
+        "value_type"=>"fixed_amount",
+        "price_rule"=>"-10.0",
+        "customer_selection"=>"all",
+        "value"=>"-10.0",
+        "starts_at"=> Carbon::now()->toIso8601String(),
+    ]];
+    $priceRule = $shop->api()->rest('POST', '/admin/api/2022-10/price_rules.json',$rules_requirements);
+    // Generating Discount Code
+    if(isset($priceRule['body']['price_rule']['id']) && !empty($priceRule['body']['price_rule']['id'])){
+
+        $discountCode = ['discount_code'=>
+        [
+            "price_rule_id"=>$priceRule['body']['price_rule']['id'],
+            "code"=>$this->generateUniqueDiscountCode(),
+        ]
+    ];
+        $discount = $shop->api()->rest('POST', '/admin/api/2023-01/price_rules/'.$priceRule['body']['price_rule']['id'].'/discount_codes.json',$discountCode);
+    }
+
+    return $discount['body']['discount_code'];
   }
 }

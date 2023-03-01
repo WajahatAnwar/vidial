@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Setting;
 use App\Models\User;
+use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
@@ -77,7 +77,9 @@ class SettingsController extends Controller
     }
         /******* Get settings *****/
     public function getSettings(){
+
         $data= Setting::where('user_id',Auth::user()->id)->first();
+
         $store=User::find(Auth::user()->id);
         if(!$data){
             return response()->json([
@@ -125,32 +127,36 @@ class SettingsController extends Controller
         Setting::updateOrCreate(['user_id'=>$currentUser],$settings);
         return response()->json([
             'success' => true,
-            'message' => "Settings Added Successfully",
+            'message' => "Settings saved Successfully",
         ]);
     }
 
     /****** Landing Page *******/
-    public function landingPage(Request $request){
+    public function landingPage(Request $request,$locale){
+        // Language Translation
+        setLan($locale);
         if($this->store!==''){
-            $user=User::where('name',$this->store)->first();
-            if(!$user){
+            $user=User::with('settings')->where('name',$this->store)->first();
+
+            if(!$user || !$user->settings){
               return abort(404);
             }
             $currentUser=$user->id;
             $settings=Setting::where('user_id',$currentUser)->first();
-        return view('landingPage.template',compact('settings'));
+        return view('landingPage.template',compact('settings','user'));
         }
     }
 
-    public function uploadVideo(Request $request){
+    public function uploadVideo(Request $request,$locale){
+        setLan($locale);
         if($this->store!==''){
-            $user=User::where('name',$this->store)->first();
-            if(!$user){
+            $user=User::with('settings')->where('name',$this->store)->first();
+            if(!$user || !$user->settings){
                 return abort(404);
             }
             $currentUser=$user->id;
             $settings=Setting::where('user_id',$currentUser)->first();
-            return view('landingPage.video',compact('settings'));
+            return view('landingPage.video',compact('settings','user'));
 
         }
 
@@ -164,4 +170,18 @@ class SettingsController extends Controller
           }
           return true;
     }
+    /***** Save Locale value   *****/
+    public function saveLocale(Request $request){
+        $current_user = Auth::user()->id;
+        Setting::where('user_id',$current_user)->update([
+            'locale'=>$request->value
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => "Language Changed Successfully",
+        ]);
+    }
+
+
 }

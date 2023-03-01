@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\HtmlString;
 use Illuminate\Support\Carbon;
-
+use Illuminate\Support\Facades\App;
 function vite_assets(): HtmlString
 {
     $devServerIsRunning = false;
@@ -190,9 +190,9 @@ if (!function_exists('getDropboxToken')) {
             'Authorization' => 'Basic ' . base64_encode(env('DROPBOX_CLIENT_ID') . ':' . env('DROPBOX_SECRET_ID'))
         ])->asForm()->post('https://api.dropboxapi.com/oauth2/token', [
             'grant_type' => 'authorization_code',
-            'code' => env('AUTHORIZATION_CODE', 'VNzDNyTy0ekAAAAAAAAAF6HMXgPWl0Cb1IQmgLfNnNw')
+            'code' => env('AUTHORIZATION_CODE', 'VNzDNyTy0ekAAAAAAAAASczHHnHZ32GjqDgM8ZKlyT4')
         ]);
-        return $dropbox;
+        return $dropbox->json();
     }
 }
 
@@ -205,7 +205,8 @@ if (!function_exists('updateDropboxToken')) {
             'grant_type' => 'refresh_token',
             'refresh_token' => env('REFRESH_TOKEN')
         ]);
-        Config::set('dropbox.accessToken', $dropbox['access_token']);
+        // Config::set('dropbox.accessToken', $dropbox['access_token']);
+        return $dropbox->json();
     }
 
     if (!function_exists('dateFormat')) {
@@ -216,3 +217,19 @@ if (!function_exists('updateDropboxToken')) {
        }
     }
 }
+/***** set language ******/
+if (!function_exists('setLan')) {
+    function setLan($locale){
+        return App::setLocale($locale);
+    }
+}
+/***** Split store name ******/
+if (!function_exists('splitStoreName')) {
+    function splitStoreName($store){
+        $store = explode(".", $store, 2);
+        return $store[0];
+    }
+}
+
+
+
