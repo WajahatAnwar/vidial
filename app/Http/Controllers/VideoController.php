@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Jobs\videoMail;
 use Auth;
 use Dropbox;
 use DateTime;
@@ -11,6 +10,8 @@ use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Video;
 use GuzzleHttp\Client;
+use App\Jobs\videoMail;
+use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Http;
@@ -137,19 +138,20 @@ public function videoOperation(Request $request){
     if($videos && $remainingVideos){
         $videos->status = $request->type ? config('constants.video_approved') : config('constants.video_reject');
         $videos->save();
+        $code = $this->createDiscountCode();
 
         $details = [
             'mail' => $videos->email,
             'title' => 'Mail From Vidal',
             'body' => 'This is the test email for customers',
-            'coupen_code' => 1325453
+            'coupen_code' => $code['code']
         ];
         dispatch(new videoMail($details));
 
         return response()->json([
             'success' => true,
             'message' => 'Status Changed Successfully',
-            'data'=>  $this->createDiscountCode(),
+            'data'=>  $code,
         ]);
     }
     return response()->json([
@@ -386,6 +388,7 @@ return response()->json([
   public function createDiscountCode(){
 
     $shop = Auth::user();
+    $settings=Setting::where('user_id',Auth::user()->id)->first();
     $rules_requirements=[
         "price_rule"=>[
         "title"=>"vidial_code",
@@ -393,7 +396,7 @@ return response()->json([
         "target_selection"=>"all",
         "allocation_method"=>"across",
         "value_type"=>"fixed_amount",
-        "price_rule"=>"-10.0",
+        "price_rule"=>"-".$settings->store_credit,
         "customer_selection"=>"all",
         "value"=>"-10.0",
         "starts_at"=> Carbon::now()->toIso8601String(),

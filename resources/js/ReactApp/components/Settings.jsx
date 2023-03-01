@@ -40,7 +40,10 @@ const Settings = () => {
     const toggleActive = useCallback(() => setActive((active) => !active), []);
 
     const toastMarkup = active ? (
-        <Toast content="Settings Added Successfully" onDismiss={toggleActive} />
+        <Toast
+            content="Settings change Successfully"
+            onDismiss={toggleActive}
+        />
     ) : null;
     const [selected, setSelected] = useState("en");
 
@@ -57,7 +60,7 @@ const Settings = () => {
                 body: JSON.stringify({ value }),
             })
                 .then((response) => response.json())
-                .then((data) => console.log(data))
+                .then((data) => toggleActive())
                 .catch((error) => console.error(error));
         },
         ["english"]
@@ -140,8 +143,10 @@ const Settings = () => {
     const [logoImage, setLogoImage] = useState("");
     const [video, setVideo] = useState("");
     const [store, setStore] = useState("");
+    const [checkImage, setCheckImage] = useState(0);
+    const [checkVideo, setCheckVideo] = useState(1);
     const [baseUrl, setBaseUrl] = useState(
-        "https://983f-2400-adc5-1b3-b500-f860-f03e-ddb-3823.in.ngrok.io"
+        "https://4430-2400-adc5-1b3-b500-49e1-2176-e2f1-282.in.ngrok.io"
     );
     const logoHandler = (e) => {
         setLogoImage(e.target.files[0]);
@@ -193,13 +198,30 @@ const Settings = () => {
         formData.append("page_color", buttonColorHex);
         formData.append("logo", logoImage);
         formData.append("video", video);
+        if (typeof logoImage === "object") {
+            console.log("in obj");
+            setCheckImage(imageValidation(logoImage) ? 1 : 0);
+        } else {
+            if (typeof logoImage === "string") {
+                setCheckImage(1);
+            }
+        }
+
+        if (typeof video === "object") {
+            setCheckVideo(videoValidation(video) ? 1 : 0);
+        } else {
+            if (typeof video === "string") {
+                setCheckVideo(1);
+            }
+        }
+
         if (
-            (priceValue == "" ||
-                landingPageValue == "" ||
-                emailSentToValue == "" ||
-                landingPageDisplayedValue == "" ||
-                rows == "",
-            logoImage == "")
+            priceValue == "" ||
+            landingPageValue == "" ||
+            emailSentToValue == "" ||
+            landingPageDisplayedValue == "" ||
+            rows == "" ||
+            !checkVideo
         ) {
             setError(true);
         } else {
@@ -212,7 +234,7 @@ const Settings = () => {
             })
                 .then((response) => {
                     if (!response.ok) {
-                        throw new Error("Something went wrong");
+                        throw new Error("some thing went wrong");
                     }
                     return response.json();
                 })
@@ -234,6 +256,34 @@ const Settings = () => {
         navigator.clipboard.writeText(landingPageDisplayedValue);
         toastMarkup && toastMarkup.show();
     };
+    // image validation
+    function imageValidation(logoImage) {
+        if (
+            logoImage.type === "image/jpeg" ||
+            logoImage.type === "image/png" ||
+            logoImage.type === "image/jpg" ||
+            logoImage.type === "image/gif"
+        ) {
+            return true;
+        }
+        return false;
+    }
+    // image validation
+
+    function videoValidation(video) {
+        if (
+            video.type === "video/mp4" ||
+            video.type === "video/mov" ||
+            video.type === "video/wmv" ||
+            video.type === "video/avi" ||
+            video.type === "video/flv" ||
+            video.type === "video/webm" ||
+            video.type === "video/mkv"
+        ) {
+            return true;
+        }
+        return false;
+    }
     return (
         <Page>
             <Frame>
@@ -245,24 +295,23 @@ const Settings = () => {
                             <Card sectioned>
                                 <Banner>
                                     <List type="bullet">
-                                        {priceValue.length <= 0 && (
+                                        {priceValue <= 0 && (
                                             <List.Item>
                                                 Store Credit Field is required
                                             </List.Item>
                                         )}
-                                        {landingPageValue.length <= 0 && (
+                                        {landingPageValue <= 0 && (
                                             <List.Item>
                                                 Customer Display Field is
                                                 required
                                             </List.Item>
                                         )}
-                                        {emailSentToValue.length <= 0 && (
+                                        {emailSentToValue <= 0 && (
                                             <List.Item>
                                                 Email Field is required
                                             </List.Item>
                                         )}
-                                        {landingPageDisplayedValue.length <=
-                                            0 && (
+                                        {landingPageDisplayedValue <= 0 && (
                                             <List.Item>
                                                 Landing Page Field is required
                                             </List.Item>
@@ -272,9 +321,14 @@ const Settings = () => {
                                                 Instruction Required
                                             </List.Item>
                                         )}
-                                        {logoImage.length <= 0 && (
+                                        {checkImage <= 0 && (
                                             <List.Item>
-                                                Logo image is required
+                                                Select Valid image
+                                            </List.Item>
+                                        )}
+                                        {checkVideo <= 0 && (
+                                            <List.Item>
+                                                Select Valid Video
                                             </List.Item>
                                         )}
                                     </List>
