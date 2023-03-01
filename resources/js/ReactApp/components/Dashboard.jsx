@@ -131,14 +131,18 @@ function Dashboard() {
                                         Waiting Videos
                                     </Text>
                                 </div>
-                                <Button
-                                    size="slim"
-                                    onClick={() => {
-                                        navigate("/videos-to-review");
-                                    }}
-                                >
-                                    See All
-                                </Button>
+                                {pendingVideosCount <= 0 ? (
+                                    ""
+                                ) : (
+                                    <Button
+                                        size="slim"
+                                        onClick={() => {
+                                            navigate("/videos-to-review");
+                                        }}
+                                    >
+                                        See All
+                                    </Button>
+                                )}
                             </div>
                         </Card.Section>
                         <Card.Section>
@@ -267,14 +271,18 @@ function Dashboard() {
                                         Approved Videos
                                     </Text>
                                 </div>
-                                <Button
-                                    size="slim"
-                                    onClick={() => {
-                                        navigate("/approved-videos");
-                                    }}
-                                >
-                                    See All
-                                </Button>
+                                {approvedVideosCount <= 0 ? (
+                                    ""
+                                ) : (
+                                    <Button
+                                        size="slim"
+                                        onClick={() => {
+                                            navigate("/approved-videos");
+                                        }}
+                                    >
+                                        See All
+                                    </Button>
+                                )}
                             </div>
                         </Card.Section>
                         <Card.Section>

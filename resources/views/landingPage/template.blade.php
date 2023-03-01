@@ -3,7 +3,7 @@
     <div class="row justify-content-center " style="margin-top: 40px ">
         <div class="col-md-3 p-3">
             @include('landingPage.logo',['current_user_id'=>$settings->user_id])
-            <h3 class="text-center mt-4 mb-3" style="font-size: 30px;font-weight: 600;">{{ __('landingPage.heading',['storename'=>splitStoreName($user->name)]) }}</h3>
+            <h3 class="text-center mt-4 mb-3" style="font-size: 30px;font-weight: 600;">{{ __('landingPage.heading',['storename'=>splitStoreName($user->name),'store_credit'=>$settings->store_credit]) }}</h3>
             <p  class="text-center mb-2" style="color: #FF5175;font-size: 20px;font-weight: 500;">Instructions</p>
             <div style="padding-left:20px ;">
 
@@ -25,9 +25,9 @@
                 </svg>
                 Upload a short video
             </button>
-
+            @if($settings->video)
               <h5 class="text-center mb-3 mt-4">Here’s a video you can use as inspiration:</h5>
-              @if($settings->video!==null)
+
               <video  width="300px" height="531px"  controls style="display: block;margin: auto;">
                 <source src="{{ url('video/'.$settings->video) }}" type="video/mp4">
               </video>

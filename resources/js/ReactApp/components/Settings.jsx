@@ -466,7 +466,7 @@ const Settings = () => {
 
                                 </div>
                             </div>
-                            
+
                             <div
                                 style={{
                                     display: "flex",
