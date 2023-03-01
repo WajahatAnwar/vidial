@@ -23,4 +23,8 @@ class Orders extends Model
             'replied',
             'reminder_mail'
     ];
+    public function marchent()
+    {
+        return $this->belongsTo(User::class,'user_id');
+    }
 }

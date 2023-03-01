@@ -92,7 +92,7 @@ function Dashboard() {
                                     <Grid.Cell columnSpan={{xs: 3, sm: 3, md: 3, lg: 3, xl: 3}}>
                                         <div style={{textAlign:"center"}}>
                                             {/* <img src={VideoTumbnail} width= "100%"></img> */}
-                                            <video width="320" height="240" controls>
+                                            <video width="216" height="386" controls>
     <source src="https://uc551604e4eb007c970dff6e3c45.dl.dropboxusercontent.com/cd/0/get/B3H_crFjtwp4AEJVP5il6ofzl66OnNvJsMigGGPKq_tSS5Y5K_w_MvtFRyi86fLwIR8W9xAs2pUZSjn_LX-I40j9kFed1BSziqNScwo8QjuQQ5q5zGul-9q_r6runpmqsQxJ2qHewAkp7k7UH7h9knO9KSj3HkMn6SGC7bGNw5rVZjzCtNOH9tyVvAozuaM1o3M/file" type="video/mp4"/>
   Your browser does not support the video tag.
    </video>

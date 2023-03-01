@@ -9,7 +9,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\VideoController;
 use App\Jobs\videoMail;
 use App\Mail\sendCoupen;
+use App\Models\Plan;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Osiset\ShopifyApp\Http\Middleware\Billable;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,9 +28,13 @@ use Illuminate\Support\Facades\Mail;
 
 
 Route::get('/', function () {
-    return view('welcome');
-})->middleware(['verify.shopify'])->name('home');
 
+    if(Auth::user()->init_flag == 0){
+         $email_count  =  Plan::where('id',auth()->user()->plan_id)->first();
+        \Auth::user()->update(['init_flag' => 1,'ugc_email_count' =>$email_count->ugc_email_count, 'ugc_video_count' =>$email_count->ugc_video_count]);
+    }
+    return view('welcome');
+})->middleware(['verify.shopify' ,'billable' ])->name('home');
 
 Route::post('sync_store',[CampaignController::class,'sync_store'])->middleware(['verify.shopify']);
 
@@ -89,6 +96,12 @@ Route::get('fatch_orders', [OrdersController::class , 'fetch_orders'])->middlewa
 Route::get('send_test_email', [OrdersController::class , 'sendtest_email'])->middleware(['verify.shopify']);
 Route::get('send_customers', [OrdersController::class , 'customers_send_email'])->middleware(['verify.shopify']);
 Route::get('review_updated/{id}' ,[OrdersController::class , 'review_updated'])->name('review_updated');
+Route::get('get_plans', [OrdersController::class, 'get_plans'])->name('get_plans')->middleware(['verify.shopify']);
+// Route::post('update_plan', [OrdersController::class, 'set_plans'])->name('set_plans');
+// Route::get('billing/{id}/{name}', [OrdersController::class, 'set_plans'])->middleware(['verify.shopify' , 'billable']);
+Route::get('redirect_back', function () {
+    return redirect()->back();
+});
 
 
 

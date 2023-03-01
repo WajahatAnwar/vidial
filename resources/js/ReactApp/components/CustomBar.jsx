@@ -23,7 +23,7 @@ function TabsExample() {
         } else if (selectedTabIndex == 3) {
             navigate("/settings");
         } else if (selectedTabIndex == 4) {
-        navigate("/plans");
+        navigate("/plans" + location.search);
     }
     }, []);
 

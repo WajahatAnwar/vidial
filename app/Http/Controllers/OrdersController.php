@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Mail\testMail;
 use App\Models\Orders;
+use App\Models\Plan;
 use Carbon\Carbon;
 use GuzzleHttp\Promise\Create;
 use Illuminate\Http\Request;
@@ -32,25 +33,25 @@ class OrdersController extends Controller
                 'email_status' => $shop_settings->email_status ,
               ]);
          }
-
         return 'orders fatched';
     }
 
     public function sendtest_email()
     {
-        $details = [
-            'title' => 'Mail From Vidal',
-            'body' => 'This is the test email for customers'
-        ];
-        $get_customers = Orders::pluck('email');
-        foreach ($get_customers as $value) {
-            Mail::to($value)->send(new testMail($details));
-        }
+       dd(route('billing', ['plan' => 2, 'shop' => Auth::user()->name]));
+        // $details = [
+        //     'title' => 'Mail From Vidal',
+        //     'body' => 'This is the test email for customers'
+        // ];
+        // $get_customers = Orders::pluck('email');
+        // foreach ($get_customers as $value) {
+        //     Mail::to($value)->send(new testMail($details));
+        // }
 
-        return response()->json([
-            'success' => true,
-            'message' => " Test Email Send Successfully To Customers",
-        ]);
+        // return response()->json([
+        //     'success' => true,
+        //     'message' => " Test Email Send Successfully To Customers",
+        // ]);
         // return
 
     }
@@ -62,6 +63,23 @@ class OrdersController extends Controller
         ]);
 
         return 'Review Send Sucessfully';
+    }
+
+    public function get_plans()
+    {
+       $all_plans = Plan::all();
+       return response()->json([
+        'success' => true,
+        'message' => 'Fetch Pending Videos Successfully',
+        'data'=>$all_plans,
+        'users' =>  Auth::user()
+    ]);
+
+    }
+
+    public function set_plans(Request $request,$id)
+    {
+        dd($id);
     }
 
 }

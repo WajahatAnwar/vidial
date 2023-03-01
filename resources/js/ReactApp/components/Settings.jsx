@@ -97,7 +97,7 @@ const Settings = () => {
 
 // Review Landing Page
 const reviewPage =(store)=>{
-    window.location.href = "https://f3f5-2400-adc5-1b3-b500-df6-8d6f-a14c-473a.in.ngrok.io/landingPage?store="+store;
+    window.location.href = "https://983f-2400-adc5-1b3-b500-f860-f03e-ddb-3823.in.ngrok.io/landingPage?store="+store;
 
 }
    /********  get Settings Data  ******/
@@ -150,7 +150,6 @@ const reviewPage =(store)=>{
         // Generating request for sending Data to the server
         fetch('/save_settings',{
             method:"post",
-
               body:formData
         })
         .then(response => {

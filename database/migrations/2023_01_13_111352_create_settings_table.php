@@ -24,7 +24,6 @@ return new class extends Migration
             $table->integer('page_display_to_customers');
             $table->integer('email_sent_to_customer');
             $table->integer('page_link');
-
             $table->timestamps();
         });
     }

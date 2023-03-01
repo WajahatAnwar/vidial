@@ -23,6 +23,9 @@ class User extends Authenticatable implements IShopModel
         'name',
         'email',
         'password',
+        'ugc_video_count',
+        'ugc_email_count',
+        'init_flag',
     ];
 
     /**
@@ -47,5 +50,8 @@ class User extends Authenticatable implements IShopModel
     public function setting()
     {
         return $this->hasOne(Setting::class);
+    }
+    public function orders(){
+        return $this->hasMany(Orders::class);
     }
 }
