@@ -3,6 +3,9 @@
 use App\Models\Campaign;
 use App\Models\CampaignDiscount;
 use App\Models\DiscountedOrder;
+use App\Models\Orders;
+use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -60,9 +63,25 @@ class OrdersCreateJob implements ShouldQueue
     public function handle()
     {// Convert domain
         $this->shopDomain = ShopDomain::fromNative($this->shopDomain);
-        Log::info('Theme publish');
-        // Do what you wish with the data
-        // Access domain name as $this->shopDomain->toNative()
+        $shop = User::where('name',$this->shopDomain->toNative())->first();
+        $shop_settings =  $shop->settings;
+          $orders = $shop->api()->rest('GET', '/admin/orders.json');
+          foreach ($orders['body']['orders'] as $order_item) {
+               Orders::create([
+                 'user_id' =>  $shop->id,
+                 'order_id' => $order_item['id'] ,
+                 'email' =>  $order_item['email'] ?? $order_item['contact_email'] ,
+                 'contect_email' =>  $order_item['contact_email'] ,
+                 'phone_no' => $order_item['phone'],
+                 'confirmed' =>  "" ,
+                 'order_created_at' => $order_item['created_at'] ,
+                 'remaining_mail' => $shop_settings->page_link,
+                 'email_send_at' => Carbon::parse($order_item['created_at'])->addDays($shop->settings->page_display_to_customers) ,
+                 'reminder_mail' => Carbon::parse($order_item['created_at'])->addWeek($shop->settings->email_sent_to_customer),
+                 'email_status' => $shop_settings->email_status ,
+               ]);
+          }
+         return 'orders fatched';
 
     }
 }
