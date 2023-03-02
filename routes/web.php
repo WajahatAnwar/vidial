@@ -102,7 +102,7 @@ Route::get('get_plans', [OrdersController::class, 'get_plans'])->name('get_plans
 Route::get('test', [OrdersController::class, 'test'])->middleware(['verify.shopify']);
 // Route::post('update_plan', [OrdersController::class, 'set_plans'])->name('set_plans');
 // Route::get('billing/{id}/{name}', [OrdersController::class, 'set_plans'])->middleware(['verify.shopify' , 'billable']);
-Route::post('/webhook/orders-get', [OrdersController::class,'fetch_orders'])->middleware('auth.webhook');
+// Route::post('/webhook/orders-get', [OrdersController::class,'fetch_orders'])->middleware('auth.webhook');
 Route::get('redirect_back', function () {
     return redirect()->back();
 });

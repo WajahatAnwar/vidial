@@ -3,6 +3,7 @@
 use App\Models\Campaign;
 use App\Models\CampaignDiscount;
 use App\Models\DiscountedOrder;
+use Faker\Provider\Lorem;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -31,7 +32,7 @@ class OrdersCreateJob implements ShouldQueue
      *
      * @var object
      */
-    public $data;
+    // public $data;
 
     /**
      * Create a new job instance.
@@ -41,10 +42,8 @@ class OrdersCreateJob implements ShouldQueue
      *
      * @return void
      */
-    public function __construct($domain, $data)
+    public function __construct()
     {
-        $this->domain = $domain;
-        $this->data = $data;
     }
 
     /**
@@ -56,16 +55,8 @@ class OrdersCreateJob implements ShouldQueue
      *
      * @return bool
      */
-    public function handle(IShopCommand $shopCommand, IShopQuery $shopQuery, CancelCurrentPlan $cancelCurrentPlanAction): bool
+    public function handle()
     {
-        $this->domain = ShopDomain::fromNative($this->domain);
-
-        $shop = $shopQuery->getByDomain($this->domain);
-        $shopId = $shop->getId();
-
-         Log::info(json_encode($shop));
-
-
-        return true;
+        Log::info('Lorem hamza test web hooks ');
     }
 }
