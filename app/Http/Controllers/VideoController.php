@@ -130,16 +130,32 @@ public function getPendingVideos(Request $request){
 /****** operation on Videos  ********/
 
 public function videoOperation(Request $request){
-    $remainingVideos = 10;
+   
+    $user = User::find(Auth::user()->id);
+    $remainingVideos = $user->remaining_videos;
+    $remaining_email = $user->remaining_email;
+    // remaining video
+    if($remainingVideos <=0 ){
+        return response()->json([
+            'success' => false,
+            'message' => 'Video Limitation has been expired',
+        ]);
+    }
+    if($remaining_email <=0 ){
+        return response()->json([
+            'success' => false,
+            'message' => 'Email Limitation has been expired',
+        ]);
+    }
     $videos = video::where('user_id',Auth::user()->id)
     ->where('id',$request->video_id)
     ->where('status','!=',config('constants.video_approved'))
     ->first();
-    if($videos && $remainingVideos){
+    if($videos){
         $videos->status = $request->type ? config('constants.video_approved') : config('constants.video_reject');
         $videos->save();
         $code = $this->createDiscountCode();
-
+         
         $details = [
             'mail' => $videos->email,
             'title' => 'Mail From Vidal',
@@ -147,6 +163,10 @@ public function videoOperation(Request $request){
             'coupen_code' => $code['code']
         ];
         dispatch(new videoMail($details));
+       $updateUser= User::find(Auth::user()->id);
+       $updateUser->remaining_email=$remaining_email - 1;
+       $updateUser->remaining_videos=$remainingVideos - 1;
+       $updateUser->save();
 
         return response()->json([
             'success' => true,
@@ -380,7 +400,10 @@ return response()->json([
   }
 
   public function testing(){
-    dd($this->createDiscountCode());
+    
+    $shop = Auth::user();
+    $shopData = $shop->api()->rest('get', '/admin/api/2023-01/shop.json');
+    dd($shopData['body']['shop']['currency']);
   }
 
   // create discount code

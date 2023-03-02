@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Osiset\ShopifyApp\Http\Middleware\Billable;
 use App\Models\Setting;
-
+use App\Http\Controllers\InstallationController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -28,13 +28,7 @@ use App\Models\Setting;
 
 
 
-Route::get('/', function () {
-
-         $email_count  =  Plan::where('id',auth()->user()->plan_id)->first();
-        \Auth::user()->update(['init_flag' => 1,'ugc_email_count' =>$email_count->ugc_email_count, 'ugc_video_count' =>$email_count->ugc_video_count,'remaining_email' => $email_count->ugc_email_count]);
-
-    return view('welcome');
-})->middleware(['verify.shopify' ,'billable' ])->name('home');
+Route::get('/',[InstallationController::class,'index'])->middleware(['verify.shopify' ,'billable' ])->name('home');
 
 Route::post('sync_store',[CampaignController::class,'sync_store'])->middleware(['verify.shopify']);
 
@@ -99,7 +93,7 @@ Route::get('send_test_email', [OrdersController::class , 'sendtest_email'])->mid
 Route::get('send_customers', [OrdersController::class , 'customers_send_email'])->middleware(['verify.shopify']);
 Route::get('review_updated/{id}' ,[OrdersController::class , 'review_updated'])->name('review_updated');
 Route::get('get_plans', [OrdersController::class, 'get_plans'])->name('get_plans')->middleware(['verify.shopify']);
-Route::get('test', [OrdersController::class, 'test'])->middleware(['verify.shopify']);
+// Route::get('test', [OrdersController::class, 'test'])->middleware(['verify.shopify']);
 // Route::post('update_plan', [OrdersController::class, 'set_plans'])->name('set_plans');
 // Route::get('billing/{id}/{name}', [OrdersController::class, 'set_plans'])->middleware(['verify.shopify' , 'billable']);
 // Route::post('/webhook/orders-get', [OrdersController::class,'fetch_orders'])->middleware('auth.webhook');

@@ -4,7 +4,7 @@
         <div class="col-md-3 p-3">
             @include('landingPage.logo',['current_user_id'=>$settings->user_id])
             <h3 class="text-center mt-4 mb-3" style="font-size: 30px;font-weight: 600;">{{ __('landingPage.heading',['storename'=>splitStoreName($user->name),'store_credit'=>$settings->store_credit]) }}</h3>
-            <p  class="text-center mb-2" style="color: #FF5175;font-size: 20px;font-weight: 500;">Instructions</p>
+            <p  class="text-center mb-2" style="color: #FF5175;font-size: 20px;font-weight: 500;">{{__('landingPage.instruction_text')}}</p>
             <div style="padding-left:20px ;">
 
                 @php
@@ -26,7 +26,7 @@
                 Upload a short video
             </button>
             @if($settings->video)
-              <h5 class="text-center mb-3 mt-4">Here’s a video you can use as inspiration:</h5>
+              <h5 class="text-center mb-3 mt-4">{{__('landingPage.footer_instruction_text')}}</h5>
 
               <video  width="300px" height="531px"  controls style="display: block;margin: auto;">
                 <source src="{{ url('video/'.$settings->video) }}" type="video/mp4">

@@ -81,15 +81,17 @@ class SettingsController extends Controller
         $data= Setting::where('user_id',Auth::user()->id)->first();
 
         $store=User::find(Auth::user()->id);
-        if(!$data){
-            return response()->json([
-                'success' => false,
-                'message' => "Data not found",
-                'data'=>null
-            ]);
+        if($data){
+            $data['instructions'] = json_decode($data['instructions']);
+            // return response()->json([
+            //     'success' => false,
+            //     'message' => "Data not found",
+            //     'data'=>null
+            // ]);
         }
-        $data['instructions'] = json_decode($data['instructions']);
+
         $data['store']=$store->name;
+        $data['store_currency']=$store->store_currency;
         return response()->json([
             'success' => true,
             'message' => "Settings get Successfully",
