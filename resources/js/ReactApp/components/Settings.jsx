@@ -145,8 +145,9 @@ const Settings = () => {
     const [logoImage, setLogoImage] = useState("");
     const [video, setVideo] = useState("");
     const [store, setStore] = useState("");
+    const [storeCurrency,setStoreCurrency] = useState("");
     const [baseUrl, setBaseUrl] = useState(
-        "https://phpstack-953879-3323622.cloudwaysapps.com"
+        "https://4430-2400-adc5-1b3-b500-49e1-2176-e2f1-282.in.ngrok.io"
     );
     const logoHandler = (e) => {
         setLogoImage(e.target.files[0]);
@@ -179,6 +180,8 @@ const Settings = () => {
                     setVideo(data.data.video);
                     setStore(data.data.store);
                     setSelected(data.data.locale);
+                    setStoreCurrency(data.data.store_currency)
+                    console.log(data.data.store_currency);
                 }
             })
             .catch((error) => {
@@ -444,7 +447,7 @@ const Settings = () => {
                                     </Text>
                                     <p style={{ marginTop: "15px" }}>
                                         Based on our experience try to offer at
-                                        least $50 (or equivalent) to maximize
+                                        least {storeCurrency} 50 (or equivalent) to maximize
                                         response rate. You can adjust it as you
                                         go based on results (no minimum
                                         required).
@@ -456,7 +459,7 @@ const Settings = () => {
                                     <TextField
                                         value={priceValue}
                                         onChange={priceValueHandler}
-                                        prefix="$"
+                                        prefix={storeCurrency}
                                         autoComplete="off"
                                     />
                                 </div>
@@ -636,7 +639,7 @@ const Settings = () => {
                                     </p>
                                 </div>
                             </div>
-                            {rows.map((row, index) => (
+                            {rows && rows.map((row, index) => (
                                 <div
                                     style={{
                                         display: "grid",

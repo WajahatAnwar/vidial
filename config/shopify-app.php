@@ -342,10 +342,14 @@ return [
 
     'webhooks' => [
 
-        // [
-        //     'topic' => env('SHOPIFY_WEBHOOK_1_TOPIC', ''),
-        //     'address' => env('SHOPIFY_WEBHOOK_1_ADDRESS', '')
-        // ],
+        [
+            'topic' => env('SHOPIFY_WEBHOOK_1_TOPIC', ''),
+            'address' => env('SHOPIFY_WEBHOOK_1_ADDRESS', '')
+        ],
+        [
+            'topic' => env('SHOPIFY_WEBHOOK_2_TOPIC', ''),
+            'address' => env('SHOPIFY_WEBHOOK_2_ADDRESS', '')
+        ],
         // [
         //     'topic' => env('SHOPIFY_WEBHOOK_2_TOPIC', ''),
         //     'address' => env('SHOPIFY_WEBHOOK_2_ADDRESS', '')

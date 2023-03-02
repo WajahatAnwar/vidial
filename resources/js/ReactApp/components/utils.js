@@ -28,10 +28,12 @@ export const videoOperation = (id, type) => {
                             data.data.code
                     );
 
-                    return true;
                 } else {
-                    console.log(data.message);
+                    alert(
+                        data.message
+                    );
                 }
+                return;
             })
             .catch((error) => {
                 console.log(error);
