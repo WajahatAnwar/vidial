@@ -21,13 +21,53 @@ import WaitingIcon from "./imges/waiting2.png";
 import VideoTumbnail from "./imges/bureau 11.png";
 import { CircleCancelMajor, CircleTickMajor } from "@shopify/polaris-icons";
 import downloadIcon from "./imges/downloadIcon.png";
-import { downloadVideo, videoOperation } from "./utils";
+import { downloadVideo } from "./utils";
 
 function Dashboard() {
     const [pendingVideos, setPendingVideos] = useState([]);
     const [approvedVideos, setApprovedVideos] = useState([]);
     const [approvedVideosCount, setApprovedVideosCount] = useState(0);
     const [pendingVideosCount, setPendingVideosCount] = useState(0);
+    const [userEmail,setUserEmail] = useState(0);
+    const [reload,setReload]=useState(false);
+
+    /******** Operation on Videos  ******/
+const videoOperation = (id, type) => {
+    const status = type ? "Approved" : "Reject";
+    const confirmed = confirm(`Are you sure you want to ${status}?`);
+    var formData = new FormData();
+    formData.append("video_id", id);
+    formData.append("type", type);
+    if (confirmed) {
+        fetch("/videoOperation", {
+            method: "post",
+            body: formData,
+        })
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error("Something went wrong");
+                }
+                return response.json();
+            })
+            .then((data) => {
+                if (data.success) {
+                    alert(
+                        "Congratulation video has been approved code :" +
+                            data.data.code
+                    );
+                    setReload(true);
+                } else {
+                    alert(
+                        data.message
+                    );
+                }
+                return;
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }
+};
     /********  get Settings Data  ******/
     useEffect(() => {
         fetch("/getDashboardContent")
@@ -43,12 +83,13 @@ function Dashboard() {
                     setApprovedVideos(data.data.approvedVideos);
                     setApprovedVideosCount(data.data.approvedVideosCount);
                     setPendingVideosCount(data.data.pendingVideosCount);
+                    setUserEmail(data.data.user.ugc_email_count - data.data.user.remaining_email)
                 }
             })
             .catch((error) => {
                 console.log(error);
             });
-    }, []);
+    },[reload]);
 
     const navigate = useNavigate();
 
@@ -66,7 +107,7 @@ function Dashboard() {
                             <img src={EmailLogo}></img>
                             <div style={{ marginLeft: "10px" }}>
                                 <Text variant="headingXl" as="h4">
-                                    200
+                                    {userEmail}
                                 </Text>
                                 <p style={{ fontWeight: "600" }}>Emails Sent</p>
                             </div>

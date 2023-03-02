@@ -50,7 +50,7 @@ class ThemePublishJob implements ShouldQueue
     {
         // Convert domain
         $this->shopDomain = ShopDomain::fromNative($this->shopDomain);
-        Log::info('Theme publish');
+        Log::info($this->shopDomain->toNative());
         // Do what you wish with the data
         // Access domain name as $this->shopDomain->toNative()
     }

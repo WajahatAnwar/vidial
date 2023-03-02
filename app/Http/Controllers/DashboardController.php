@@ -176,6 +176,7 @@ class DashboardController extends Controller
           $data['approvedVideos'] = $approvedVideos;
           $data['pendingVideosCount'] = $pendingVideosCount;
           $data['approvedVideosCount'] = $approvedVideosCount;
+          $data['user'] = Auth::user();
 
           return response()->json([
              'success' => true,

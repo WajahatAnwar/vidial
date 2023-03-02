@@ -9,10 +9,11 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Osiset\ShopifyApp\Contracts\ShopModel as IShopModel;
 use Osiset\ShopifyApp\Traits\ShopModel;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Authenticatable implements IShopModel
 {
-    use HasApiTokens, HasFactory, Notifiable, ShopModel;
+    use HasApiTokens, HasFactory, Notifiable, ShopModel,SoftDeletes;
 
     /**
      * The attributes that are mass assignable.

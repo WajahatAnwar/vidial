@@ -89,7 +89,7 @@ class SettingsController extends Controller
             //     'data'=>null
             // ]);
         }
-
+        
         $data['store']=$store->name;
         $data['store_currency']=$store->store_currency;
         return response()->json([

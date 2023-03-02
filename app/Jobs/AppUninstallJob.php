@@ -7,7 +7,8 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Osiset\ShopifyApp\Objects\Values\ShopDomain;
 use stdClass;
-
+use App\Models\User;
+use Illuminate\Support\Facades\Log;
 class AppUninstallJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
@@ -49,7 +50,10 @@ class AppUninstallJob implements ShouldQueue
     {
         // Convert domain
         $this->shopDomain = ShopDomain::fromNative($this->shopDomain);
-
+        Log::info($this->shopDomain->toNative());
+        $user=User::where('name',$this->shopDomain->toNative())->first();
+        $user->delete();
+        Log::info('data deleted');
         // Do what you wish with the data
         // Access domain name as $this->shopDomain->toNative()
     }
