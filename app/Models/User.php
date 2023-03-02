@@ -30,8 +30,6 @@ class User extends Authenticatable implements IShopModel
         'remaining_videos',
     ];
 
-
-
     /**
      * The attributes that should be hidden for serialization.
      *

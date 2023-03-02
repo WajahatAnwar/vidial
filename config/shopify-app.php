@@ -350,6 +350,10 @@ return [
             'topic' => env('SHOPIFY_WEBHOOK_2_TOPIC', ''),
             'address' => env('SHOPIFY_WEBHOOK_2_ADDRESS', '')
         ],
+        [
+            'topic' => env('SHOPIFY_WEBHOOK_3_TOPIC', ''),
+            'address' => env('SHOPIFY_WEBHOOK_3_ADDRESS', '')
+        ],
         // [
         //     'topic' => env('SHOPIFY_WEBHOOK_2_TOPIC', ''),
         //     'address' => env('SHOPIFY_WEBHOOK_2_ADDRESS', '')

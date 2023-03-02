@@ -3,7 +3,6 @@
 use App\Models\Campaign;
 use App\Models\CampaignDiscount;
 use App\Models\DiscountedOrder;
-use Faker\Provider\Lorem;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -25,7 +24,6 @@ class OrdersCreateJob implements ShouldQueue
      *
      * @var ShopDomain|string
      */
-    public $domain;
 
     /**
      * The webhook data
@@ -42,8 +40,12 @@ class OrdersCreateJob implements ShouldQueue
      *
      * @return void
      */
-    public function __construct()
+    public $shopDomain;
+    public $data;
+    public function __construct($shopDomain,$data)
     {
+        $this->shopDomain = $shopDomain;
+        $this->data = $data;
     }
 
     /**
@@ -56,7 +58,11 @@ class OrdersCreateJob implements ShouldQueue
      * @return bool
      */
     public function handle()
-    {
-        Log::info('Lorem hamza test web hooks ');
+    {// Convert domain
+        $this->shopDomain = ShopDomain::fromNative($this->shopDomain);
+        Log::info('Theme publish');
+        // Do what you wish with the data
+        // Access domain name as $this->shopDomain->toNative()
+
     }
 }
