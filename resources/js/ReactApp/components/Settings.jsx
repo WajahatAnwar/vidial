@@ -146,7 +146,7 @@ const Settings = () => {
     const [video, setVideo] = useState("");
     const [store, setStore] = useState("");
     const [baseUrl, setBaseUrl] = useState(
-        "https://983f-2400-adc5-1b3-b500-f860-f03e-ddb-3823.in.ngrok.io"
+        "https://phpstack-953879-3323622.cloudwaysapps.com"
     );
     const logoHandler = (e) => {
         setLogoImage(e.target.files[0]);
@@ -232,6 +232,29 @@ const Settings = () => {
                 });
         }
     };
+
+    function handletestemail(){
+        fetch('/send_test_email',{
+            method:"GET",
+      })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Something went wrong');
+          }
+          return response.json();
+        })
+        .then(data => {
+          if(data.success){
+           alert("Email Sent Sucessfully");
+          }
+        })
+        .catch(error => {
+            console.log(error);
+        });
+
+
+    }
+
     // copy Landing Page Link
     const copyLandingPageLink = () => {
         console.log("working ");
@@ -369,7 +392,7 @@ const Settings = () => {
                                 <div
                                     style={{ width: "200px", textAlign: "end" }}
                                 >
-                                    <Button primary>Test Email</Button>
+                                    <Button primary  onClick={handletestemail}>Test Email</Button>
                                 </div>
                             </div>
                             <div

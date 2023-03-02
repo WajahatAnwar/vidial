@@ -43,10 +43,10 @@ class OrdersController extends Controller
             'title' => 'Mail From Vidal',
             'body' => 'This is the test email for customers'
         ];
-        $get_customers = Orders::pluck('email');
-        foreach ($get_customers as $value) {
-            Mail::to($value)->send(new testMail($details));
-        }
+        // $get_customers = Orders::pluck('email');
+        // foreach ($get_customers as $value) {
+            Mail::to("hamza@swishtag.com")->send(new testMail($details));
+        // }
 
         return response()->json([
             'success' => true,
