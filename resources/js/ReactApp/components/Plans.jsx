@@ -80,14 +80,14 @@ function Plans() {
                                     <img src={Person}></img>
 
                                     <div style={{paddingLeft:"20px"}}>
-                                    <div style={{marginBottom:"15px",marginTop:"55px"}}>
+                                    <div style={{marginBottom:"15px",marginTop:"72px"}}>
                                     <Text variant="headingLg" as="h5">
                                         Features
                                     </Text>
                                     </div>
-                                    <p style={{marginBottom:"8px",fontSize:"11px"}}>Videos Capacity</p>
-                                    <p style={{marginBottom:"8px",fontSize:"11px"}}>Emails Capacity</p>
-                                    <p style={{fontSize:"11px"}}>Storage Duration</p>
+                                    <p style={{marginBottom:"8px",fontSize:"14px"}}>Videos Capacity</p>
+                                    <p style={{marginBottom:"8px",fontSize:"14px"}}>Emails Capacity</p>
+                                    <p style={{fontSize:"14px"}}>Storage Duration</p>
                                     </div>
                                 </Grid.Cell>
                                 {plan.map((data) =><Grid.Cell columnSpan={{xs: 6, sm: 6, md: 6, lg: 3, xl: 3}}>
@@ -101,7 +101,7 @@ function Plans() {
                                         <Text variant="headingXl" as="h4">
                                         {data.name}
                                         </Text>
-                                        <p style={{marginBottom:"30px",marginTop:"10px"}}>{data.description}</p>
+                                        <p style={{marginBottom:"30px",marginTop:"10px"}}>{data.description}Collect up to 10 monthly UGC videos from your customers, to use for your Ads, Reviews and Social Networks.</p>
                                         <Text variant="headingXl" as="h4" color="success">
                                             {data.price}
                                         </Text>
@@ -112,12 +112,12 @@ function Plans() {
                                        {
                                             data.id == users.plan_id ?
                                             <Button  disabled fullWidth>Select plan</Button> :
-                                            <a href={`/billing/${data.id}${location.search}`}>Select plan</a>
+                                            <a href={`/billing/${data.id}${location.search}`} style={{textDecoration:"none"}}><Button   fullWidth primary>Select plan</Button></a>
                                        }
                                         </div>
-                                        <p style={{marginBottom:"8px",textAlign:"center",fontSize:"11px",fontWeight:"bold"}}>Maximum of {data.ugc_video_count} monthly UGC videos</p>
-                                        <p style={{marginBottom:"8px",textAlign:"center",fontSize:"11px",fontWeight:"bold"}}>Maximum of {data.ugc_email_count} post-purchase emails</p>
-                                        <p style={{marginBottom:"30px",textAlign:"center",fontSize:"11px",fontWeight:"bold"}}>1 year video storage</p>
+                                        <p style={{marginBottom:"8px",textAlign:"center",fontSize:"14px"    }}>{data.ugc_video_count} monthly UGC videos</p>
+                                        <p style={{marginBottom:"8px",textAlign:"center",fontSize:"14px"}}>{data.ugc_email_count} post-purchase emails</p>
+                                        <p style={{marginBottom:"30px",textAlign:"center",fontSize:"14px"}}>1 year video storage</p>
                                     </div>
                                 </Grid.Cell>
 
