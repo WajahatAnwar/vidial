@@ -45,7 +45,7 @@ class OrdersController extends Controller
         ];
         // $get_customers = Orders::pluck('email');
         // foreach ($get_customers as $value) {
-            Mail::to("hamza@swishtag.com")->send(new testMail($details));
+            Mail::to(Auth::user()->email)->send(new testMail($details));
         // }
 
         return response()->json([

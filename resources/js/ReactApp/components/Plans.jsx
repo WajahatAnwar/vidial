@@ -80,14 +80,14 @@ function Plans() {
                                     <img src={Person}></img>
 
                                     <div style={{paddingLeft:"20px"}}>
-                                    <div style={{marginBottom:"15px",marginTop:"55px"}}>
+                                    <div style={{marginBottom:"15px",marginTop:"72px"}}>
                                     <Text variant="headingLg" as="h5">
                                         Features
                                     </Text>
                                     </div>
-                                    <p style={{marginBottom:"8px",fontSize:"11px"}}>Videos Capacity</p>
-                                    <p style={{marginBottom:"8px",fontSize:"11px"}}>Emails Capacity</p>
-                                    <p style={{fontSize:"11px"}}>Storage Duration</p>
+                                    <p style={{marginBottom:"8px",fontSize:"14px"}}>Videos Capacity</p>
+                                    <p style={{marginBottom:"8px",fontSize:"14px"}}>Emails Capacity</p>
+                                    <p style={{fontSize:"14px"}}>Storage Duration</p>
                                     </div>
                                 </Grid.Cell>
                                 {plan.map((data) =><Grid.Cell columnSpan={{xs: 6, sm: 6, md: 6, lg: 3, xl: 3}}>
@@ -95,7 +95,14 @@ function Plans() {
 
                                         {/* @if($data.name == "Premium") */}
                                         <div style={{     textAlign: "end",marginTop: "-20px" }}>
-                                            <Badge status="attention">Recommended</Badge>
+
+                                        {
+                                            data.id == 5 ?
+                                            <Badge status="attention">Recommended</Badge> :
+                                            <div className="customHidden"><Badge  >Recommended</Badge></div>
+                                       }
+
+
                                         </div>
                                         {/* @endif */}
                                         <Text variant="headingXl" as="h4">
@@ -106,18 +113,18 @@ function Plans() {
                                             {data.price}
                                         </Text>
                                         <Text variant="bodySm" as="p" color="subdued">
-                                            per {data.type}
+                                            per month
                                         </Text>
                                         <div style={{marginTop:"20px",marginBottom:"33px"}}>
                                        {
                                             data.id == users.plan_id ?
                                             <Button  disabled fullWidth>Select plan</Button> :
-                                            <a href={`/billing/${data.id}${location.search}`}>Select plan</a>
+                                            <a href={`/billing/${data.id}${location.search}`} style={{textDecoration:"none"}}><Button   fullWidth primary>Select plan</Button></a>
                                        }
                                         </div>
-                                        <p style={{marginBottom:"8px",textAlign:"center",fontSize:"11px",fontWeight:"bold"}}>Maximum of {data.ugc_video_count} monthly UGC videos</p>
-                                        <p style={{marginBottom:"8px",textAlign:"center",fontSize:"11px",fontWeight:"bold"}}>Maximum of {data.ugc_email_count} post-purchase emails</p>
-                                        <p style={{marginBottom:"30px",textAlign:"center",fontSize:"11px",fontWeight:"bold"}}>1 year video storage</p>
+                                        <p style={{marginBottom:"8px",textAlign:"center",fontSize:"14px"    }}>{data.ugc_video_count} monthly UGC videos</p>
+                                        <p style={{marginBottom:"8px",textAlign:"center",fontSize:"14px"}}>{data.ugc_email_count} post-purchase emails</p>
+                                        <p style={{marginBottom:"30px",textAlign:"center",fontSize:"14px"}}>1 year video storage</p>
                                     </div>
                                 </Grid.Cell>
 

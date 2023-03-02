@@ -189,3 +189,6 @@ th.Polaris-DataTable__Cell.Polaris-DataTable__Cell--verticalAlignTop.Polaris-Dat
     display: inline-block;
     text-align: center;
 }
+.customHidden {
+    opacity: 0;
+}
