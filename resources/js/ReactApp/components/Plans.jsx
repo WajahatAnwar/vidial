@@ -95,7 +95,14 @@ function Plans() {
 
                                         {/* @if($data.name == "Premium") */}
                                         <div style={{     textAlign: "end",marginTop: "-20px" }}>
-                                            <Badge status="attention">Recommended</Badge>
+
+                                        {
+                                            data.id == 5 ?
+                                            <Badge status="attention">Recommended</Badge> :
+                                            <div className="customHidden"><Badge  >Recommended</Badge></div>
+                                       }
+
+
                                         </div>
                                         {/* @endif */}
                                         <Text variant="headingXl" as="h4">
@@ -106,7 +113,7 @@ function Plans() {
                                             {data.price}
                                         </Text>
                                         <Text variant="bodySm" as="p" color="subdued">
-                                            per {data.type}
+                                            per month
                                         </Text>
                                         <div style={{marginTop:"20px",marginBottom:"33px"}}>
                                        {
