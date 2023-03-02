@@ -21,12 +21,51 @@ import WaitingIcon from "./imges/waiting2.png";
 import VideoTumbnail from "./imges/bureau 11.png";
 import { CircleCancelMajor, CircleTickMajor } from "@shopify/polaris-icons";
 import downloadIcon from "./imges/downloadIcon.png";
-import { videoOperation } from "./utils";
 function WaitingVideos() {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
+    const [reload,setReload]=useState(false);
     /******** Fetching Videos  ******/
     const [videos, setVideos] = useState([]);
+
+    /******** Operation on Videos  ******/
+ const videoOperation = (id, type) => {
+    const status = type ? "Approved" : "Reject";
+    const confirmed = confirm(`Are you sure you want to ${status}?`);
+    var formData = new FormData();
+    formData.append("video_id", id);
+    formData.append("type", type);
+    if (confirmed) {
+        fetch("/videoOperation", {
+            method: "post",
+            body: formData,
+        })
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error("Something went wrong");
+                }
+                return response.json();
+            })
+            .then((data) => {
+                if (data.success) {
+                    alert(
+                        "Congratulation video has been approved code :" +
+                            data.data.code
+                    );
+                    setReload(true);
+
+                } else {
+                    alert(
+                        data.message
+                    );
+                }
+                return;
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }
+};
     useEffect(() => {
         fetch("/getPendingVideos?page=" + currentPage)
             .then((response) => {
@@ -44,7 +83,7 @@ function WaitingVideos() {
             .catch((error) => {
                 console.log(error);
             });
-    }, [currentPage]);
+    }, [currentPage,reload]);
 
     return (
         <Page>

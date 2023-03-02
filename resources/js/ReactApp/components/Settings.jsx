@@ -119,6 +119,7 @@ const Settings = () => {
     ]);
 
     const handleAddRow = () => {
+       
         setRows([
             ...rows,
             { id: (rows[rows.length - 1]?.id ?? 0) + 1, value: "" },
