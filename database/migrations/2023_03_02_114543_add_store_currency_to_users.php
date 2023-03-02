@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('store_currency')->after('plan_id')->default(null);
+            $table->string('store_currency')->nullable()->after('plan_id');
         });
     }
 
