@@ -18,10 +18,16 @@
                     <div id="upload-progress"></div>
                   </div>
                   <div id="file-uploader"></div>
+                  <div id="uploaded-file-name"></div>
+                  <span style="display: none;text-align: center;margin-top:0px;padding-top:0px;"   class="loading_details">
+                    <img  src="{{asset('loader/loader.gif')}}" style="width: 100px;height:100px;" alt="">
+                  </span>
                 </div>
+
                 <div class="alert alert-danger d-none"  id="error-video" role="alert">
                 </div>
               </div>
+
               <p class=" mt-4 mb-2" style="font-size: 15px;margin-left: 20px;">{{ __('uploadVideo.address_text') }}</p>
 
               <input type="email" class="form-control emialInput mt-3 " id="email" placeholder="name@example.com">

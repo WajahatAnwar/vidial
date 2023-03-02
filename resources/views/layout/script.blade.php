@@ -1,9 +1,14 @@
+
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
 window.jQuery || document.write(decodeURIComponent('%3Cscript src="js/jquery.min.js"%3E%3C/script%3E'))
 </script>
 <script src="https://cdn3.devexpress.com/jslib/22.2.3/js/dx.all.js"></script>
 <script>
+
+
+
 
 /******** DropZone Library *********/
 $(() => {
@@ -15,14 +20,20 @@ $(() => {
     uploadMode: 'instantly',
     uploadUrl: '{{ url("/uploadVideo") }}',
     visible: false,
+    onUploadStarted: function(e) {
+        $('.loading_details').removeAttr("style");
+    },
     onUploaded: function(e) {
+        document.getElementById("uploaded-file-name").innerHTML = "Uploaded file name: " + e.file.name;
         var response = JSON.parse(e.request.responseText);
         if (response.success) {
             localStorage.setItem('video_url', response.data);
 
         }
+        $('.loading_details').hide();
+    },
 
-    }
+
   });
 
   document.getElementById('dropzone-image').onload = function () { toggleImageVisible(true); };

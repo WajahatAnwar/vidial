@@ -101,7 +101,7 @@ function Plans() {
                                         <Text variant="headingXl" as="h4">
                                         {data.name}
                                         </Text>
-                                        <p style={{marginBottom:"30px",marginTop:"10px"}}>{data.description}</p>
+                                        <p style={{marginBottom:"30px",marginTop:"10px"}}>   {data.description}</p>
                                         <Text variant="headingXl" as="h4" color="success">
                                             {data.price}
                                         </Text>
