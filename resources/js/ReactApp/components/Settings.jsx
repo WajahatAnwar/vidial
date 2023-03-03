@@ -36,13 +36,15 @@ import DellIcon from "./imges/dellIcon.png";
 import ColorWheel from "./imges/collorWheel.png";
 import Toggle from "./Toggle";
 const Settings = () => {
+    const [title, setTitle] = useState('');
+  const handleTitle = useCallback((newValue) => setTitle(newValue), []);
     const [active, setActive] = useState(false);
     const [error, setError] = useState(false);
     const toggleActive = useCallback(() => setActive((active) => !active), []);
     const [toggled, setToggled] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    const [storeCurrency,setStoreCurrency] = useState("");
-    
+    const [storeCurrency, setStoreCurrency] = useState("");
+
     function handleChange() {
         setToggled(prevCheck => !prevCheck)
     }
@@ -119,6 +121,10 @@ const Settings = () => {
     ]);
 
     const handleAddRow = () => {
+<<<<<<< HEAD
+=======
+
+>>>>>>> 1716f6a4eb0a75b3539e3fb80450a098ed275db5
         setRows([
             ...rows,
             { id: (rows[rows.length - 1]?.id ?? 0) + 1, value: "" },
@@ -151,8 +157,8 @@ const Settings = () => {
     const [baseUrl, setBaseUrl] = useState(
         "https://983f-2400-adc5-1b3-b500-f860-f03e-ddb-3823.in.ngrok.io"
     );
-    const [imagename,setImagename] = useState("");
-    const [videoname,setVideoname] = useState("");
+    const [imagename, setImagename] = useState("");
+    const [videoname, setVideoname] = useState("");
 
     // alert(logoImage);
     const logoHandler = (e) => {
@@ -184,7 +190,7 @@ const Settings = () => {
                     setLandingPage(data.data.page_display_to_customers);
                     setEmailSentToValue(data.data.email_sent_to_customer);
                     setLandingPageDisplayedValue(data.data.page_link);
-                    setRows(data.data.instructions);
+                    setRows(data.data.instructions ? data.data.instructions : []);
                     setLogoImage(data.data.logo);
                     setVideo(data.data.video);
                     setStore(data.data.store);
@@ -249,24 +255,24 @@ const Settings = () => {
 
 
 
-    function handletestemail(){
-        fetch('/send_test_email',{
-            method:"GET",
-      })
-        .then(response => {
-          if (!response.ok) {
-            throw new Error('Something went wrong');
-          }
-          return response.json();
+    function handletestemail() {
+        fetch('/send_test_email', {
+            method: "GET",
         })
-        .then(data => {
-          if(data.success){
-           alert("Email Sent Sucessfully");
-          }
-        })
-        .catch(error => {
-            console.log(error);
-        });
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Something went wrong');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    alert("Email Sent Sucessfully");
+                }
+            })
+            .catch(error => {
+                console.log(error);
+            });
 
 
     }
@@ -282,12 +288,12 @@ const Settings = () => {
     return (
 
         <div>
-      {isLoading ?
-        <div>
-          <Spinner accessibilityLabel="Spinner example" size="large" />
-        </div>
-      :
-            <Page>
+            {isLoading ?
+                <div>
+                    <Spinner accessibilityLabel="Spinner example" size="large" />
+                </div>
+                :
+                <Page>
                     <Frame>
                         <Grid>
                             <Grid.Cell
@@ -361,125 +367,26 @@ const Settings = () => {
                                             display: "flex",
                                             alignItems: "center",
                                             justifyContent: "space-between",
-                                            marginBottom: "20px",
                                         }}
                                     >
-                                        <div>
+                                        <div style={{  }}>
                                             <Text variant="headingLg" as="h5">
-                                                Landing Page Displayed To Customers
-                                            </Text>
-                                            <p
-                                                style={{
-                                                    marginTop: "5px",
-                                                    marginBottom: "10px",
-                                                }}
-                                            >
-                                                See the Landing Page that users will
-                                                see.
-                                            </p>
-                                        </div>
-                                        <div
-                                            style={{ width: "200px", textAlign: "end" }}
-                                        >
-                                            <Button
-                                                primary
-                                                onClick={() => {
-                                                    reviewPage(store);
-                                                }}
-                                            >
-                                                Preview
-                                            </Button>
-                                        </div>
-                                    </div>
-                                    <div
-                                        style={{
-                                            display: "flex",
-                                            alignItems: "center",
-                                            justifyContent: "space-between",
-                                            marginBottom: "20px",
-                                        }}
-                                    >
-                                        <div>
-                                            <Text variant="headingLg" as="h5">
-                                                Email Sent To Customers
-                                            </Text>
-                                            <p
-                                                style={{
-                                                    marginTop: "5px",
-                                                    marginBottom: "10px",
-                                                }}
-                                            >
-                                                We'll send a test email to ...
-                                            </p>
-                                        </div>
-                                        <div
-                                            style={{ width: "200px", textAlign: "end" }}
-                                        >
-                                            <Button primary  onClick={handletestemail}>Test Email</Button>
-                                        </div>
-                                    </div>
-                                    <div
-                                        style={{
-                                            display: "flex",
-                                            alignItems: "center",
-                                            justifyContent: "space-between",
-                                        }}
-                                    >
-                                        <div>
-                                            <Text variant="headingLg" as="h5">
-                                                Landing Page Link
-                                            </Text>
-                                            <p
-                                                style={{
-                                                    marginTop: "5px",
-                                                    marginBottom: "10px",
-                                                }}
-                                            >
-                                                Here's your custom link that you can
-                                                share with your existing customers..
-                                            </p>
-                                        </div>
-                                        <div
-                                            style={{ width: "200px", textAlign: "end" }}
-                                        >
-                                            <Button
-                                                primary
-                                                onClick={() => copyLandingPageLink()}
-                                            >
-                                                Copy Link
-                                            </Button>
-                                        </div>
-                                    </div>
-                                </Card>
-                                <Card sectioned>
-                                    <div
-                                        style={{
-                                            display: "flex",
-                                            alignItems: "center",
-                                            justifyContent: "space-between",
-                                        }}
-                                    >
-                                        <div style={{ width: "450px" }}>
-                                            <Text variant="headingLg" as="h5">
-                                                How much would you like to pay (store
-                                                credit) to a customer for the right to
-                                                use the UGC?
+                                                What amount of store credit would you offer to the customers for the usage of their UGC videos?
                                             </Text>
                                             <p style={{ marginTop: "15px" }}>
-                                                Based on our experience try to offer at
-                                                least {storeCurrency} 50 (or equivalent) to maximize
-                                                response rate. You can adjust it as you
-                                                go based on results (no minimum
-                                                required).
+                                                We recommend offering a minimum of {storeCurrency} 50 to improve response rates.
+                                                This can be adjusted as necessary, with not set minimum limit in place.
                                             </p>
                                         </div>
-                                        <div
-                                            style={{ width: "170px", textAlign: "end" }}
+                                        <div className="textFieldjoin"
+                                            style={{ marginLeft:"204px",width: "200px", textAlign: "end",display:"flex",alignItems:"center" }}
                                         >
+                                            <div className="Polaris-TextField__Prefix prefixCustom">
+                                                {storeCurrency}
+                                            </div>
                                             <TextField
                                                 value={priceValue}
                                                 onChange={priceValueHandler}
-                                                prefix={storeCurrency}
                                                 autoComplete="off"
                                             />
                                         </div>
@@ -497,18 +404,17 @@ const Settings = () => {
                                         }}
                                     >
                                         <div style={{ width: "450px" }}>
-                                                <Text variant="headingLg" as="h5">
-                                                    Email Settings
-                                                </Text>
+                                            <Text variant="headingLg" as="h5">
+                                            Set up Emails
+                                            </Text>
                                             <p style={{ marginTop: "5px" }}>
-                                                {/* See the Landing Oage that users will
-                                                see. */}
+                                            Choose the time to send the first email to your customers
                                             </p>
                                         </div>
                                         <div
                                             style={{ width: "170px", textAlign: "end" }}
                                         >
-                                        <Toggle toggled={toggled} onClick={handleChange}/>
+                                            <Toggle toggled={toggled} onClick={handleChange} />
 
                                         </div>
                                     </div>
@@ -521,26 +427,28 @@ const Settings = () => {
                                             marginBottom: "20px",
                                         }}
                                     >
-                                        <div style={{ width: "450px" }}>
+                                        <div style={{ width: "550px" }}>
                                             <Text variant="headingLg" as="h5">
-                                                Landing Page Displayed To Customers
+                                            Post Purchase Emails Sent To Customers
                                             </Text>
                                             <p style={{ marginTop: "5px" }}>
-                                                See the Landing Oage that users will
-                                                see.
+                                            Choose the time to send the first email to your customers
                                             </p>
                                         </div>
-                                        <div
-                                            style={{ width: "170px", textAlign: "end" }}
+                                        <div className="textFieldjoinRight"
+                                            style={{ marginLeft:"204px",width: "103px", textAlign: "end",display:"flex",alignItems:"center" }}
                                         >
+
                                             <TextField
                                                 value={landingPageDisplayedValue}
                                                 onChange={
                                                     landingPageDisplayedValueHandler
                                                 }
-                                                suffix="days"
                                                 autoComplete="off"
                                             />
+                                            <div className="Polaris-TextField__Prefix prefixCustomRight">
+                                                days
+                                            </div>
                                         </div>
                                     </div>
                                     <div
@@ -551,23 +459,26 @@ const Settings = () => {
                                             marginBottom: "20px",
                                         }}
                                     >
-                                        <div style={{ width: "450px" }}>
+                                        <div style={{ width: "550px" }}>
                                             <Text variant="headingLg" as="h5">
-                                                Email Sent To Customers
+                                            Reminder Emails Sent To Customers
                                             </Text>
                                             <p style={{ marginTop: "5px" }}>
-                                                We'll send a test email to ...
+                                            Choose the delay between each reminder emails (we’ll send emails each defined weeks)
                                             </p>
                                         </div>
-                                        <div
-                                            style={{ width: "170px", textAlign: "end" }}
+                                        <div className="textFieldjoinRight"
+                                            style={{ marginLeft:"204px",width: "103px", textAlign: "end",display:"flex",alignItems:"center" }}
                                         >
                                             <TextField
                                                 value={emailSentToValue}
                                                 onChange={emailSentToValueHandler}
-                                                suffix="weeks"
+
                                                 autoComplete="off"
                                             />
+                                            <div className="Polaris-TextField__Prefix prefixCustomRight">
+                                            weeks
+                                            </div>
                                         </div>
                                     </div>
                                     <div
@@ -577,27 +488,31 @@ const Settings = () => {
                                             justifyContent: "space-between",
                                         }}
                                     >
-                                        <div style={{ width: "450px" }}>
+                                        <div style={{ width: "550px" }}>
                                             <Text variant="headingLg" as="h5">
-                                                Landing Page Link
+                                            Maximum Sent Emails To Customers
                                             </Text>
                                             <p style={{ marginTop: "5px" }}>
-                                                Here's your custom link that you can
-                                                share with your existing customers..
+                                            Choose the maximum of emails you want to send to your customers
                                             </p>
                                         </div>
-                                        <div
-                                            style={{ width: "170px", textAlign: "end" }}
+                                        <div className="textFieldjoinRight"
+                                            style={{ marginLeft:"204px",width: "103px", textAlign: "end",display:"flex",alignItems:"center" }}
                                         >
                                             <TextField
                                                 value={landingPageValue}
                                                 onChange={landingPageHandler}
-                                                suffix="emails  "
                                                 autoComplete="off"
                                             />
+                                            <div className="Polaris-TextField__Prefix prefixCustomRight">
+                                            emails
+                                            </div>
                                         </div>
                                     </div>
                                 </Card>
+
+
+
                                 <Card sectioned>
                                     <Text variant="headingXl" as="h4">
                                         Landing Page Customization
@@ -637,6 +552,22 @@ const Settings = () => {
                                             <p>{`${imagename}`} {imagename && <span>Uploaded</span>} </p>
                                         </div>
                                     </div>
+                                    <div style={{ width: "450px",marginTop:"30px" }}>
+                                            <Text variant="headingLg" as="h5">
+                                            Instructions
+                                            </Text>
+                                            <p style={{ marginTop: "5px",marginBottom:"5px" }}>
+                                                Instructions Title
+                                            </p>
+                                            <TextField
+                                                value={title}
+                                                onChange={handleTitle}
+                                                autoComplete="off"
+                                                />
+                                        </div>
+                                        <p style={{ marginTop: "20px",marginBottom:"5px" }}>
+                                        You may adjust these instructions according to the needs of your Store.
+                                            </p>
                                     <div
                                         style={{
                                             display: "flex",
@@ -660,6 +591,9 @@ const Settings = () => {
                                             </p>
                                         </div>
                                     </div>
+                                            <p>
+                                            Instructions Steps
+                                            </p>
                                     {rows && rows.map((row, index) => (
                                         <div
                                             style={{
@@ -701,7 +635,7 @@ const Settings = () => {
                                             marginTop: "20px",
                                         }}
                                     >
-                                        <div style={{ width: "450px" }}>
+                                        <div style={{ width: "500px" }}>
                                             <Text variant="headingLg" as="h5">
                                                 Inspirational Video (optional)
                                             </Text>
@@ -942,6 +876,114 @@ const Settings = () => {
                                             </div>
                                         )}
                                     </div>
+                                </Card>
+                                <Card sectioned>
+                                <div>
+                                            <Text variant="headingLg" as="h5">
+                                            Preview
+                                            </Text>
+                                            <p
+                                                style={{
+                                                    marginTop: "5px",
+                                                    marginBottom: "20px",
+                                                }}
+                                            >
+                                                Here’s what your customers will see and receive by email
+                                            </p>
+                                        </div>
+                                    <div
+                                        style={{
+                                            display: "flex",
+                                            alignItems: "center",
+                                            justifyContent: "space-between",
+
+                                        }}
+                                    >
+                                        <div>
+                                            <Text variant="headingLg" as="h5">
+                                            Preview Landing Page
+                                            </Text>
+                                            <p
+                                                style={{
+                                                    marginTop: "5px",
+                                                    marginBottom: "10px",
+                                                }}
+                                            >
+                                                Here’s the Landing Page that your users will see
+                                            </p>
+                                        </div>
+                                        <div
+                                            style={{ width: "200px", textAlign: "end" }}
+                                        >
+                                            <Button
+                                                primary
+                                                onClick={() => {
+                                                    reviewPage(store);
+                                                }}
+                                            >
+                                                View The Landing Page
+                                            </Button>
+                                        </div>
+                                    </div>
+                                    <div
+                                        style={{
+                                            display: "flex",
+                                            alignItems: "center",
+                                            justifyContent: "space-between",
+                                        }}
+                                    >
+                                        <div>
+                                            <Text variant="headingLg" as="h5">
+                                                Landing Page Link
+                                            </Text>
+                                            <p
+                                                style={{
+                                                    marginTop: "5px",
+                                                    marginBottom: "10px",
+                                                }}
+                                            >
+                                                Share the landing page link with your customers to get them to send UGC videos
+                                            </p>
+                                        </div>
+                                        <div
+                                            style={{ width: "200px", textAlign: "end" }}
+                                        >
+                                            <Button
+                                                primary
+                                                onClick={() => copyLandingPageLink()}
+                                            >
+                                                Copy Landing Page Link
+                                            </Button>
+                                        </div>
+                                    </div>
+                                    <div
+                                        style={{
+                                            display: "flex",
+                                            alignItems: "center",
+                                            justifyContent: "space-between",
+                                            marginBottom: "20px",
+                                        }}
+                                    >
+                                        <div>
+                                            <Text variant="headingLg" as="h5">
+                                            Email Sent To Customers
+                                            </Text>
+                                            <p
+                                                style={{
+                                                    marginTop: "5px",
+                                                    marginBottom: "10px",
+                                                }}
+                                            >
+                                                We'll send a test email to (STORE EMAIL)
+                                            </p>
+                                        </div>
+                                        <div
+                                            style={{ width: "200px", textAlign: "end" }}
+                                        >
+                                            <Button primary onClick={handletestemail}>Send Test Email</Button>
+                                        </div>
+                                    </div>
+
                                 </Card>
                                 <div
                                     style={{

@@ -16,7 +16,11 @@ $(() => {
     dialogTrigger: '#dropzone-external',
     dropZone: '#dropzone-external',
     multiple: false,
+<<<<<<< HEAD
     allowedFileExtensions: ['.mp4', '.MOV', '.mkv', '.avi', '.m4v'],
+=======
+    allowedFileExtensions: ['.mp4','.mov','.m4v'],
+>>>>>>> 1716f6a4eb0a75b3539e3fb80450a098ed275db5
     uploadMode: 'instantly',
     uploadUrl: '{{ url("/uploadVideo") }}',
     visible: false,
@@ -28,16 +32,12 @@ $(() => {
         var response = JSON.parse(e.request.responseText);
         if (response.success) {
             localStorage.setItem('video_url', response.data);
-
         }
         $('.loading_details').hide();
     },
-
-
   });
-
   document.getElementById('dropzone-image').onload = function () { toggleImageVisible(true); };
-
+  
 });
 const saveVideo = ()=>{
     var video_link =localStorage.getItem('video_url');
