@@ -376,9 +376,24 @@ return response()->json([
 // save User Uploaded data into database
   public function saveVideo(Request $request){
       // save Preview Link into DB
+      /****** check link expiration 
+       
+      $order_id = 1; // static for now
+      $order=Order::find($id);
+      if($order){
+        if($order->replied==1){
+            return 'link has been expired';
+        }
+        // all order logic here
+       
+      }else{
+        return 'something went wrong'
+      }
+
+      ******/
 $video['video_link']=$request->video_link;
 $video['email']=$request->email;
-$video['status']='Pending';
+$video['status']=config('constants.video_pending');
 $user = User::where('name',$request->store)->first();
 if(!$user){
     return response()->json([
@@ -400,7 +415,10 @@ return response()->json([
   }
 
   public function testing(){
-    
+    $settings=Setting::where('user_id',2)->first();
+    $user=User::find(2);
+     $view=view('mailtemplate.ordereviewreminder',compact('settings','user'));
+     dd($view->render());
     $shop = Auth::user();
     $shopData = $shop->api()->rest('get', '/admin/api/2023-01/shop.json');
     dd($shopData['body']['shop']['currency']);

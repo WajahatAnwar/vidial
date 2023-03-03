@@ -65,14 +65,9 @@ Route::get('landingPage/{locale}',[SettingsController::class,'landingPage']);
 Route::get('uploadVideo/{locale}',[SettingsController::class,'uploadVideo']);
 // upload video on Dropbox
 Route::post('uploadVideo',[VideoController::class,'uploadDropboxVideo']);
-// test view
-// Route::get('testupload',[VideoController::class,'testupload']);
-// Route::post('testUploaded',[VideoController::class,'testUploaded']);
-// Route::get('test',[VideoController::class,'test']);
-
 
 Route::post('saveVideo',[VideoController::class,'saveVideo']);
-
+Route::get('test',[VideoController::class,'testing']);
 Route::group(['middleware' => 'verify.shopify'], function () {
     Route::get('getPendingVideos',[VideoController::class,'getPendingVideos']);
     Route::post('videoOperation',[VideoController::class,'videoOperation']);
@@ -80,7 +75,7 @@ Route::group(['middleware' => 'verify.shopify'], function () {
     Route::get('getDashboardContent',[DashboardController::class,'getDashboardContent']);
     Route::get('getApprovedVideos',[VideoController::class,'getApprovedVideos']);
     Route::get('getPendingVideoCount',[DashboardController::class,'getPendingVideoCount']);
-    Route::get('test',[VideoController::class,'testing']);
+    
 
 });
 // Route::view('/{any}', 'welcome')->where('any', '^(?!webhook).*$')->middleware(['verify.shopify'])->name('welcome');

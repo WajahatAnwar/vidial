@@ -135,6 +135,8 @@ class SettingsController extends Controller
         $settings['logo']=$image;
         $settings['video']=$video;
         $settings['email_status'] = $request->setting_status;
+        $settings['instruction_title'] = $request->instruction_title ?? 'Instructions';
+        
         Setting::updateOrCreate(['user_id'=>$currentUser],$settings);
         return response()->json([
             'success' => true,
