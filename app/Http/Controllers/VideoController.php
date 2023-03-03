@@ -130,7 +130,7 @@ public function getPendingVideos(Request $request){
 /****** operation on Videos  ********/
 
 public function videoOperation(Request $request){
-   
+
     $user = User::find(Auth::user()->id);
     $remainingVideos = $user->remaining_videos ? $user->remaining_videos : $user->ugc_video_count;
     $remaining_email = $user->remaining_email;
@@ -154,8 +154,17 @@ public function videoOperation(Request $request){
     if($videos){
         $videos->status = $request->type ? config('constants.video_approved') : config('constants.video_reject');
         $videos->save();
+        if($request->type){
+
+        }else{
+            return response()->json([
+                'success' => false,
+                'message' => 'Status Changed Successfully',
+                'data'=>  null,
+            ]);
+        }
         $code = $this->createDiscountCode();
-         
+
         $details = [
             'mail' => $videos->email,
             'title' => 'Mail From Vidal',
@@ -376,8 +385,8 @@ return response()->json([
 // save User Uploaded data into database
   public function saveVideo(Request $request){
       // save Preview Link into DB
-      /****** check link expiration 
-       
+      /****** check link expiration
+
       $order_id = 1; // static for now
       $order=Order::find($id);
       if($order){
@@ -385,7 +394,7 @@ return response()->json([
             return 'link has been expired';
         }
         // all order logic here
-       
+
       }else{
         return 'something went wrong'
       }
