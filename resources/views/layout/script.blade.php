@@ -16,7 +16,7 @@ $(() => {
     dialogTrigger: '#dropzone-external',
     dropZone: '#dropzone-external',
     multiple: false,
-    allowedFileExtensions: ['.mp4'],
+    allowedFileExtensions: ['.mp4','.mov','.m4v'],
     uploadMode: 'instantly',
     uploadUrl: '{{ url("/uploadVideo") }}',
     visible: false,
@@ -28,12 +28,9 @@ $(() => {
         var response = JSON.parse(e.request.responseText);
         if (response.success) {
             localStorage.setItem('video_url', response.data);
-
         }
         $('.loading_details').hide();
     },
-
-
   });
 
   document.getElementById('dropzone-image').onload = function () { toggleImageVisible(true); };
