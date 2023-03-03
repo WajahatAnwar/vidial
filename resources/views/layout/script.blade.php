@@ -16,7 +16,7 @@ $(() => {
     dialogTrigger: '#dropzone-external',
     dropZone: '#dropzone-external',
     multiple: false,
-    allowedFileExtensions: ['.mp4'],
+    allowedFileExtensions: ['.mp4', '.MOV', '.mkv', '.avi', '.m4v'],
     uploadMode: 'instantly',
     uploadUrl: '{{ url("/uploadVideo") }}',
     visible: false,
@@ -57,6 +57,7 @@ const saveVideo = ()=>{
     }else if(!terms_conditions){
         console.log(terms_conditions);
         $('#error-terms-conditions').removeClass('d-none').text('Please Accept terms and conditions');
+       
         return false;
     }
     else if(store==''){
@@ -73,9 +74,10 @@ const saveVideo = ()=>{
             if(response.success){
                 $("#success_popup").modal('show');
                 localStorage.removeItem('video_url');
+                 $('#email').val('');
                 setTimeout(function(){
                 window.location.reload();
-                }, 5000);
+                }, 10000);
             }
         }
     })

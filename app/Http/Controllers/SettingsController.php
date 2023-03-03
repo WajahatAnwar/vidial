@@ -103,21 +103,21 @@ class SettingsController extends Controller
 
         $video = '';
         if($request->file('logo')){
-            $validatedData = $request->validate([
-                'logo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-                // 'video' => 'required|mimes:mp4,avi|max:50000',
-                // add more rules for other fields if needed
-            ]);
+            // $validatedData = $request->validate([
+            //     'logo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            //     // 'video' => 'required|mimes:mp4,avi|max:50000',
+            //     // add more rules for other fields if needed
+            // ]);
             $image = time().'.'.$request->file('logo')->extension();
             $request->file('logo')->move(public_path('logo'), $image);
         }else{
             $image=$request->logo;
         }
         if($request->file('video')){
-            $validatedData = $request->validate([
-                'video' => 'required|mimes:mp4,avi|max:50000',
-                // add more rules for other fields if needed
-            ]);
+            // $validatedData = $request->validate([
+            //     'video' => 'required|mimes:mp4,avi|max:50000',
+            //     // add more rules for other fields if needed
+            // ]);
             $video = time().'.'.$request->file('video')->extension();
             $request->file('video')->move(public_path('video'), $video);
         }else{
@@ -147,6 +147,7 @@ class SettingsController extends Controller
         // Language Translation
         setLan($locale);
         if($this->store!==''){
+            
             $user=User::with('settings')->where('name',$this->store)->first();
 
             if(!$user || !$user->settings){

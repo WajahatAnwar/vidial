@@ -119,7 +119,6 @@ const Settings = () => {
     ]);
 
     const handleAddRow = () => {
-       
         setRows([
             ...rows,
             { id: (rows[rows.length - 1]?.id ?? 0) + 1, value: "" },
@@ -150,7 +149,7 @@ const Settings = () => {
     const [video, setVideo] = useState("");
     const [store, setStore] = useState("");
     const [baseUrl, setBaseUrl] = useState(
-        "https://phpstack-953879-3323622.cloudwaysapps.com"
+        "https://983f-2400-adc5-1b3-b500-f860-f03e-ddb-3823.in.ngrok.io"
     );
     const [imagename,setImagename] = useState("");
     const [videoname,setVideoname] = useState("");
