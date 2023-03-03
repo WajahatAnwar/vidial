@@ -32,9 +32,8 @@ $(() => {
         $('.loading_details').hide();
     },
   });
-
   document.getElementById('dropzone-image').onload = function () { toggleImageVisible(true); };
-
+  
 });
 const saveVideo = ()=>{
     var video_link =localStorage.getItem('video_url');
