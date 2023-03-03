@@ -75,7 +75,7 @@ Route::group(['middleware' => 'verify.shopify'], function () {
     Route::get('getDashboardContent',[DashboardController::class,'getDashboardContent']);
     Route::get('getApprovedVideos',[VideoController::class,'getApprovedVideos']);
     Route::get('getPendingVideoCount',[DashboardController::class,'getPendingVideoCount']);
-    
+
 
 });
 // Route::view('/{any}', 'welcome')->where('any', '^(?!webhook).*$')->middleware(['verify.shopify'])->name('welcome');
