@@ -873,6 +873,11 @@ const Settings = () => {
                                             </div>
                                         )}
                                     </div>
+                                    <p>Selected Color Preview</p><br />
+                                    <div
+                                            style={{ background: `${buttonColorHex}` }}
+                                            className="colorOptions"
+                                        ></div>
                                 </Card>
                                 <Card sectioned>
                                 <div>
@@ -1002,3 +1007,4 @@ const Settings = () => {
 };
 
 export default Settings;
+
