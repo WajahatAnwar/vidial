@@ -48,6 +48,7 @@ class EmailSendToCustomerCron extends Command
                             'title' => 'Review Reminder Mail From Vidal',
                             'body' => 'This is the Review Reminder email for customers',
                             'id' => $Orders_send_mail->id,
+                            'order_id' => $Orders_send_mail
                         ];
 
                         if ($Orders_send_mail->email_send == 1 && $Orders_send_mail->replied == 0 && $Orders_send_mail->remaining_mail > 0) {
@@ -69,6 +70,7 @@ class EmailSendToCustomerCron extends Command
                             'title' => 'Products Review Mail From Vidal',
                             'body' => 'This is the Review email for customers',
                             'id' => $Orders_send_mail->id,
+                            'order_id' => $Orders_send_mail
                         ];
                         // dd(Carbon::now()->format('d-m-y') <= Carbon::parse($Orders_send_mail->email_send_at)->format('d-m-y'));
                         if (Carbon::now()->format('d-m-y') >= Carbon::parse($Orders_send_mail->email_send_at)->format('d-m-y')  && $Orders_send_mail->remaining_mail > 0 && $Orders_send_mail->email_send == 0) {

@@ -8,6 +8,7 @@
     <p>{{ $details['body'] }}</p>
 
     <p>Need a Review</p>
+    <p>{{ $details['order_id'] }}</p>
     <a href="{{ route('review_updated' ,['id' => $details['id']]) }}">Update Review</a>
 
 </body>
