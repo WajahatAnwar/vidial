@@ -121,10 +121,7 @@ const Settings = () => {
     ]);
 
     const handleAddRow = () => {
-<<<<<<< HEAD
-=======
 
->>>>>>> 1716f6a4eb0a75b3539e3fb80450a098ed275db5
         setRows([
             ...rows,
             { id: (rows[rows.length - 1]?.id ?? 0) + 1, value: "" },
@@ -155,7 +152,7 @@ const Settings = () => {
     const [video, setVideo] = useState("");
     const [store, setStore] = useState("");
     const [baseUrl, setBaseUrl] = useState(
-        "https://983f-2400-adc5-1b3-b500-f860-f03e-ddb-3823.in.ngrok.io"
+        "https://phpstack-953879-3323622.cloudwaysapps.com"
     );
     const [imagename, setImagename] = useState("");
     const [videoname, setVideoname] = useState("");
