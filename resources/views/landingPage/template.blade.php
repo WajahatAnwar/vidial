@@ -25,8 +25,9 @@
                 </svg>
                 {{__('landingPage.button_text')}}
             </button>
-            @if($settings->video)
-              <h5 class="text-center mb-3 mt-4">{{__('landingPage.footer_instruction_text')}}</h5>
+            @if($settings->video=='undefined' || $settings->video=='')
+            @else
+            <h5 class="text-center mb-3 mt-4">{{__('landingPage.footer_instruction_text')}}</h5>
 
               <video  width="300px" height="531px"  controls style="display: block;margin: auto;">
                 <source src="{{ url('video/'.$settings->video) }}" type="video/mp4">

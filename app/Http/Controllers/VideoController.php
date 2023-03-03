@@ -132,7 +132,7 @@ public function getPendingVideos(Request $request){
 public function videoOperation(Request $request){
    
     $user = User::find(Auth::user()->id);
-    $remainingVideos = $user->remaining_videos;
+    $remainingVideos = $user->remaining_videos ? $user->remaining_videos : $user->ugc_video_count;
     $remaining_email = $user->remaining_email;
     // remaining video
     if($remainingVideos <=0 ){
