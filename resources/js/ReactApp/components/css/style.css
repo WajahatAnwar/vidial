@@ -192,3 +192,35 @@ th.Polaris-DataTable__Cell.Polaris-DataTable__Cell--verticalAlignTop.Polaris-Dat
 .customHidden {
     opacity: 0;
 }
+.textFieldjoin .Polaris-TextField__Backdrop {
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+}
+.prefixCustom{
+    background: #F6F6F8;
+margin: 0;
+    padding: 7px;
+    font-weight: 400;
+    border: 1px solid #aeb4b9;
+    border-right: none;
+border-bottom-left-radius: 4px;
+    border-top-left-radius: 4px;
+    width: 50px;
+    text-align: center;
+}
+.prefixCustomRight{
+    background: #F6F6F8;
+margin: 0;
+    padding: 7px;
+    font-weight: 400;
+    border: 1px solid #aeb4b9;
+    border-left: none;
+border-bottom-right-radius: 4px;
+    border-top-right-radius: 4px;
+    width: 55px;
+    text-align: center;
+}
+.textFieldjoinRight .Polaris-TextField__Backdrop{
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+}
