@@ -4,7 +4,7 @@
         <div class="col-md-3 p-3">
             @include('landingPage.logo',['current_user_id'=>$settings->user_id])
             <h3 class="text-center mt-4 mb-3" style="font-size: 30px;font-weight: 600;">{{ __('landingPage.heading',['storename'=>splitStoreName($user->name),'store_credit'=>$settings->store_credit]) }}</h3>
-            <p  class="text-center mb-2" style="color: #FF5175;font-size: 20px;font-weight: 500;">{{__('landingPage.instruction_text')}}</p>
+            <p  class="text-center mb-2" style="color: #FF5175;font-size: 20px;font-weight: 500;">{{$settings->instruction_title}}</p>
             <div style="padding-left:20px ;">
 
                 @php
