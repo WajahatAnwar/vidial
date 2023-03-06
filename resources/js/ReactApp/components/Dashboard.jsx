@@ -10,6 +10,9 @@ import {
     TextField,
     Popover,
     DatePicker,
+    TextContainer,
+    Modal,
+
 } from "@shopify/polaris";
 import { useEffect, useState, useCallback } from "react";
 import React from "react";
@@ -25,6 +28,13 @@ import noVedio from "./imges/film.png"
 import { downloadVideo } from "./utils";
 
 function Dashboard() {
+    const [activeRejectionModel, setActiveRejectionModel] = useState(true);
+    const handleChangeRejectionModel = useCallback(() => setActiveRejectionModel(!active), [active]);
+    const activatorRejectionModel = <Button onClick={handleChangeRejectionModel}>Open</Button>;
+
+    const [rejectionReason, setRejectionReason] = useState('');
+    const handleRejectionReason = useCallback((newValue) => setRejectionReason(newValue), []);
+
     const [pendingVideos, setPendingVideos] = useState([]);
     const [approvedVideos, setApprovedVideos] = useState([]);
     const [approvedVideosCount, setApprovedVideosCount] = useState(0);
@@ -52,6 +62,7 @@ const videoOperation = (id, type) => {
             })
             .then((data) => {
                 if (data.success) {
+
                     alert(
                         "Congratulation video has been approved code :" +
                             data.data.code
@@ -191,7 +202,7 @@ const videoOperation = (id, type) => {
                                     <div style={{height:"400px",background:"#f9f9f9",borderRadius:"6px",textAlign:"center",paddingTop:"125px"}}>
                                         <img style={{height: "102px",opacity: ".5"}} src={noVedio}></img>
 
-                                        <p style={{color: "#d3c9c9",fontSize:"17px"}}>No Videos To Display</p>
+                                        <p style={{color: "#d3c9c9",fontSize:"17px"}}>Videos to review</p>
 
                                   </div>
                                 ) :
@@ -360,7 +371,7 @@ const videoOperation = (id, type) => {
                                     <div style={{height:"400px",background:"#f9f9f9",borderRadius:"6px",textAlign:"center",paddingTop:"125px"}}>
                                     <img style={{height: "102px",opacity: ".5"}} src={noVedio}></img>
 
-                                    <p style={{color: "#d3c9c9",fontSize:"17px"}}>No Videos To Display</p>
+                                    <p style={{color: "#d3c9c9",fontSize:"17px"}}>No Approved Videos</p>
 
                               </div>
                                 ) : <Card.Section>
@@ -404,7 +415,7 @@ const videoOperation = (id, type) => {
                                                         }}
                                                     >
                                                         Approved {video.updated_at}
-                                                        
+
                                                     </p>
                                                     <p
                                                         style={{
@@ -432,7 +443,7 @@ const videoOperation = (id, type) => {
                                                                 cursor: "pointer",
                                                             }}
                                                         >
-                                                       
+
                                                             <img
                                                                 src={downloadIcon}
                                                             ></img>{" "}
@@ -448,6 +459,32 @@ const videoOperation = (id, type) => {
                     </Card>
                 </Grid.Cell>
             </Grid>
+            <Modal
+        activator={activatorRejectionModel}
+        open={[activeRejectionModel}
+        onClose={handleChangeRejectionModel}
+        title="Reason for rejecting video"
+        primaryAction={{
+          content: 'Add Instagram',
+          onAction: handleChangeRejectionModel,
+        }}
+        secondaryActions={[
+          {
+            content: 'Learn more',
+            onAction: handleChangeRejectionModel,
+          },
+        ]}
+      >
+        <Modal.Section>
+          <TextField
+            label="Reason for rejection"
+            value={rejectionReason}
+            onChange={handleRejectionReason}
+            multiline={4}
+            autoComplete="off"
+            />
+        </Modal.Section>
+      </Modal>
         </Page>
     );
 }
