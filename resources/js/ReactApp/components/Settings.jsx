@@ -178,7 +178,7 @@ const Settings = () => {
 
     // Review Landing Page
     const reviewPage = (store) => {
-        window.open(baseUrl + "/uploadVideo/" + selected + "?store=" + store);
+        window.open(baseUrl + "/landingPage/" + selected + "?store=" + store);
     };
     /********  get Settings Data  ******/
     useEffect(() => {
