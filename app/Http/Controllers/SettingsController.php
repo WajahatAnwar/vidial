@@ -102,22 +102,30 @@ class SettingsController extends Controller
     public function saveSettings(Request $request){
 
         $video = '';
-        if($request->file('logo')){
-            $validatedData = $request->validate([
-                'logo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-                // 'video' => 'required|mimes:mp4,avi|max:50000',
-                // add more rules for other fields if needed
+         $validatedData = $request->validate([
+                'store_credit' => 'required|numeric|min:1',
+                'page_display_to_customers' => 'required|numeric|min:1',
+                'email_sent_to_customer' => 'required|numeric|min:1',
+                'page_link' => 'required|numeric|min:1',
+                'instructions' => 'required',
+                'email_sent_to_customer' => 'required|numeric|min:1',
             ]);
+        if($request->file('logo')){
+            // $validatedData = $request->validate([
+            //     'logo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            //     // 'video' => 'required|mimes:mp4,avi|max:50000',
+            //     // add more rules for other fields if needed
+            // ]);
             $image = time().'.'.$request->file('logo')->extension();
             $request->file('logo')->move(public_path('logo'), $image);
         }else{
             $image=$request->logo;
         }
         if($request->file('video')){
-            $validatedData = $request->validate([
-                'video' => 'required|mimes:mp4,avi|max:50000',
-                // add more rules for other fields if needed
-            ]);
+            // $validatedData = $request->validate([
+            //     'video' => 'required|mimes:mp4,avi|max:50000',
+            //     // add more rules for other fields if needed
+            // ]);
             $video = time().'.'.$request->file('video')->extension();
             $request->file('video')->move(public_path('video'), $video);
         }else{
@@ -135,6 +143,8 @@ class SettingsController extends Controller
         $settings['logo']=$image;
         $settings['video']=$video;
         $settings['email_status'] = $request->setting_status;
+        $settings['instruction_title'] = $request->instruction_title ?? 'Instructions';
+        
         Setting::updateOrCreate(['user_id'=>$currentUser],$settings);
         return response()->json([
             'success' => true,
@@ -147,6 +157,7 @@ class SettingsController extends Controller
         // Language Translation
         setLan($locale);
         if($this->store!==''){
+            
             $user=User::with('settings')->where('name',$this->store)->first();
 
             if(!$user || !$user->settings){

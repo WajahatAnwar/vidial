@@ -52,13 +52,14 @@ function WaitingVideos() {
                         "Congratulation video has been approved code :" +
                             data.data.code
                     );
-                    setReload(true);
+
 
                 } else {
                     alert(
                         data.message
                     );
                 }
+                setReload(true);
                 return;
             })
             .catch((error) => {

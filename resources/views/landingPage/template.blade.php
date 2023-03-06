@@ -4,7 +4,7 @@
         <div class="col-md-3 p-3">
             @include('landingPage.logo',['current_user_id'=>$settings->user_id])
             <h3 class="text-center mt-4 mb-3" style="font-size: 30px;font-weight: 600;">{{ __('landingPage.heading',['storename'=>splitStoreName($user->name),'store_credit'=>$settings->store_credit]) }}</h3>
-            <p  class="text-center mb-2" style="color: #FF5175;font-size: 20px;font-weight: 500;">{{__('landingPage.instruction_text')}}</p>
+            <p  class="text-center mb-2" style="color: #FF5175;font-size: 20px;font-weight: 500;">{{$settings->instruction_title}}</p>
             <div style="padding-left:20px ;">
 
                 @php
@@ -23,10 +23,11 @@
                 <svg xmlns="http://www.w3.org/2000/svg" width="30" height="20" fill="currentColor" class="bi bi-camera-video-fill" viewBox="0 0 16 16">
                      <path fill-rule="evenodd" d="M0 5a2 2 0 0 1 2-2h7.5a2 2 0 0 1 1.983 1.738l3.11-1.382A1 1 0 0 1 16 4.269v7.462a1 1 0 0 1-1.406.913l-3.111-1.382A2 2 0 0 1 9.5 13H2a2 2 0 0 1-2-2V5z"></path>
                 </svg>
-                Upload a short video
+                {{__('landingPage.button_text')}}
             </button>
-            @if($settings->video)
-              <h5 class="text-center mb-3 mt-4">{{__('landingPage.footer_instruction_text')}}</h5>
+            @if($settings->video=='undefined' || $settings->video=='')
+            @else
+            <h5 class="text-center mb-3 mt-4">{{__('landingPage.footer_instruction_text')}}</h5>
 
               <video  width="300px" height="531px"  controls style="display: block;margin: auto;">
                 <source src="{{ url('video/'.$settings->video) }}" type="video/mp4">
