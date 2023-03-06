@@ -102,35 +102,37 @@ class SettingsController extends Controller
     public function saveSettings(Request $request){
 
         $video = '';
-         $validatedData = $request->validate([
-                'store_credit' => 'required|numeric|min:1',
-                'page_display_to_customers' => 'required|numeric|min:1',
-                'email_sent_to_customer' => 'required|numeric|min:1',
-                'page_link' => 'required|numeric|min:1',
-                'instructions' => 'required',
-                'email_sent_to_customer' => 'required|numeric|min:1',
-            ]);
+        $image_mimes='';
+        $video_mimes='';
         if($request->file('logo')){
-            // $validatedData = $request->validate([
-            //     'logo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            //     // 'video' => 'required|mimes:mp4,avi|max:50000',
-            //     // add more rules for other fields if needed
-            // ]);
+            $image_mimes='|mimes:jpg,jpeg,png';
+        }
+        if($request->file('video')){
+            $video_mimes='|mimes:mp4,MOV,mkv,avi,m4v';
+        }
+        $validatedData = $request->validate([
+            'store_credit' => 'required|numeric|min:1',
+            'page_display_to_customers' => 'required|numeric|min:1',
+            'email_sent_to_customer' => 'required|numeric|min:1',
+            'page_link' => 'required|numeric|min:1',
+            'instructions' => 'required',
+            'email_sent_to_customer' => 'required|numeric|min:1',
+            'logo' => 'required'.$image_mimes,
+            'video'=>$video_mimes
+        ]);
+        if($request->file('logo')){
             $image = time().'.'.$request->file('logo')->extension();
             $request->file('logo')->move(public_path('logo'), $image);
         }else{
             $image=$request->logo;
         }
         if($request->file('video')){
-            // $validatedData = $request->validate([
-            //     'video' => 'required|mimes:mp4,avi|max:50000',
-            //     // add more rules for other fields if needed
-            // ]);
             $video = time().'.'.$request->file('video')->extension();
             $request->file('video')->move(public_path('video'), $video);
         }else{
             $video=$request->video ?? '';
         }
+        
 
         $currentUser = Auth::user()->id;
         $settings['store_credit']=$request->store_credit;
