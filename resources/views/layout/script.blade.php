@@ -33,7 +33,7 @@ $(() => {
     },
   });
   document.getElementById('dropzone-image').onload = function () { toggleImageVisible(true); };
-  
+
 });
 const saveVideo = ()=>{
     var video_link =localStorage.getItem('video_url');
@@ -53,7 +53,7 @@ const saveVideo = ()=>{
     }else if(!terms_conditions){
         console.log(terms_conditions);
         $('#error-terms-conditions').removeClass('d-none').text('Please Accept terms and conditions');
-       
+
         return false;
     }
     else if(store==''){

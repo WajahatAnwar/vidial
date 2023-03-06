@@ -123,7 +123,7 @@ const videoOperation = (id, type) => {
                                     {pendingVideosCount}
                                 </Text>
                                 <p style={{ fontWeight: "600" }}>
-                                    Waiting Videos
+
                                 </p>
                             </div>
                         </div>
@@ -169,7 +169,7 @@ const videoOperation = (id, type) => {
                                         style={{ marginRight: "10px" }}
                                     ></img>
                                     <Text variant="headingLg" as="h5">
-                                        Waiting Videos
+                                    Videos to Review
                                     </Text>
                                 </div>
                                 {pendingVideosCount <= 0 ? (
