@@ -152,7 +152,7 @@ const Settings = () => {
     const [video, setVideo] = useState("");
     const [store, setStore] = useState("");
     const [baseUrl, setBaseUrl] = useState(
-        "https://5ac1-2400-adc5-1b3-b500-a4d6-1986-a9fa-7a6c.in.ngrok.io"
+        "https://phpstack-953879-3323622.cloudwaysapps.com"
     );
     const [imagename, setImagename] = useState("");
     const [videoname, setVideoname] = useState("");
