@@ -54,8 +54,8 @@ const Settings = () => {
 
     const chooseColor = (color)=>{
         setButtonColorHex(color);
-       
-    } 
+
+    }
 
     const toastMarkup = active ? (
         <Toast content="Settings Added Successfully" onDismiss={toggleActive} />
@@ -164,10 +164,10 @@ const Settings = () => {
     );
     const [imagename, setImagename] = useState("");
     const [videoname, setVideoname] = useState("");
-    
+
     // alert(logoImage);
     const logoHandler = (e) => {
-        //setImagename(e.target.files[0].name);
+        setImagename(e.target.files[0].name);
         // imagename
         setLogoImage(e.target.files[0]);
     };
@@ -202,9 +202,9 @@ const Settings = () => {
                     setSelected(data.data.locale);
                     setStoreCurrency(data.data.store_currency)
                     setTitle(data.data.instruction_title)
-                    
-                   
-                    
+
+
+
                 }
             })
             .catch((error) => {
@@ -217,7 +217,7 @@ const Settings = () => {
         setIsLoading(true);
 
         const formData = new FormData();
-        
+
 
         formData.append("store_credit", priceValue);
         formData.append("page_display_to_customers", landingPageValue);
@@ -255,7 +255,7 @@ const Settings = () => {
                         setIsLoading(false)
                         setError(true);
                         setErorrMessages(data.errors)
-                       
+
                     }
                 })
                 .catch((error) => {
@@ -326,9 +326,9 @@ const Settings = () => {
                                                     })
                                                 )
                                               }
-                                                    
-                                                          
-                                                           
+
+
+
                                                     {
                                                 errorMessages.page_display_to_customers &&
                                                 (
@@ -399,7 +399,7 @@ const Settings = () => {
                                                     })
                                                 )
                                               }
-                                              
+
                                             </List>
                                         </Banner>
                                     </Card>
@@ -725,7 +725,7 @@ const Settings = () => {
                                                     onChange={videoHandler}
                                                 />
 
-                                             
+
 
                                             </div>
                                             <p>{`${videoname}`} {videoname && "uploaded"}  </p>
@@ -854,7 +854,7 @@ const Settings = () => {
                                             className="colorOptions"
                                         ></div>
                                     </div>
-                                    <div 
+                                    <div
                                         style={{
                                             display: "flex",
                                             alignItems: "center",
