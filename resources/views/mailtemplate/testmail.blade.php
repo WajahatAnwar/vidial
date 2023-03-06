@@ -19,12 +19,12 @@
                 @endforeach
 
             </div>
-            <button type="button"  class="btn btn-primary" id="redirect" store="test" locale= "{{ $details['locale'] }}"   value="" style="width: 100%;font-size: 20px;font-weight: 700;background: {{$details['page_color']}};height: 60px;border: none;">
-                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="20" fill="currentColor" class="bi bi-camera-video-fill" viewBox="0 0 16 16">
+            <a type="button"   href="{{ route('uploadVideo' ,['locale' =>$details['locale'] ]).'?store='.$details['store']}}"   class="btn btn-primary" id="redirect" store="test" locale= "{{ $details['locale'] }}"   value="" style="display:block!important ; width: 100% !important ;font-size: 20px;font-weight: 700;background: {{$details['page_color']}};height: 60px !important;border: none;    text-align: center;line-height: 52px;text-decoration: none;">
+                {{-- <svg xmlns="http://www.w3.org/2000/svg" width="30" height="20" fill="currentColor" class="bi bi-camera-video-fill" viewBox="0 0 16 16">
                      <path fill-rule="evenodd" d="M0 5a2 2 0 0 1 2-2h7.5a2 2 0 0 1 1.983 1.738l3.11-1.382A1 1 0 0 1 16 4.269v7.462a1 1 0 0 1-1.406.913l-3.111-1.382A2 2 0 0 1 9.5 13H2a2 2 0 0 1-2-2V5z"></path>
-                </svg>
+                </svg> --}}
                 {{__('landingPage.button_text')}}
-            </button>
+            </a>
             @if($details['video']=='undefined' || $details['video']=='')
             @else
             <h5 class="text-center mb-3 mt-4">{{__('landingPage.footer_instruction_text')}}</h5>
@@ -36,22 +36,12 @@
              @include('landingPage.footer')
         </div>
     </div>
+    <script>
+        function redirectVidepPage(url){
 
-
+           window.location.href = ur
+        }
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script>
-    $('#redirect').click(function(){
-        var store =$(this).attr('store');
-        var locale =$(this).attr('locale');
-        if(store=='' || locale == ''){
-            alert('something went wrong');
-            return false;
-        }
-
-        var baseUrl = "{{ url('/uploadVideo') }}"
-        baseUrl = baseUrl + '/'+locale+'?'+'store='+store;
-        window.location.href = baseUrl;
-    })
-    </script>
-    @endsection
+  @endsection

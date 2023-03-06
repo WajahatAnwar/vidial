@@ -45,16 +45,13 @@ class OrdersController extends Controller
             'user_id'=>$settings->user_id,
             'instruction_title'=>$settings->instruction_title,
             'instructions'=>$settings->instructions,
+            'store'=>auth()->user()->name,
             'locale'=>$settings->locale,
             'video'=>$settings->video,
             'store_credit'=>$settings->store_credit,
             'page_color'=>$settings->page_color,
-
-
             'body' => 'This is the test email for customers'
         ];
-
-
 
 
         // $user=User::find(Auth::user()->id);

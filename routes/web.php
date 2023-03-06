@@ -62,7 +62,7 @@ Route::get('get_settings',[SettingsController::class,'getSettings'])->middleware
 // Landing Page View
 Route::get('landingPage/{locale}',[SettingsController::class,'landingPage']);
 // Landing Page
-Route::get('uploadVideo/{locale}',[SettingsController::class,'uploadVideo']);
+Route::get('uploadVideo/{locale}',[SettingsController::class,'uploadVideo'])->name('uploadVideo');
 // upload video on Dropbox
 Route::post('uploadVideo',[VideoController::class,'uploadDropboxVideo']);
 
