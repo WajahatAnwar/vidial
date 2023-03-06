@@ -17,6 +17,6 @@ class Video extends Model
     }
     public function getUpdatedAtAttribute($value)
     {
-        return Carbon::parse($value)->format('d/m/Y');
+        return Carbon::parse($value)->format('d/m/Y h:i');
     }
 }
