@@ -112,7 +112,7 @@ function Plans() {
                                         </Text>
                                         <p style={{marginBottom:"30px",marginTop:"10px"}}>{data.description}</p>
                                         <Text variant="headingXl" as="h4" color="success">
-                                            $ {data.price}
+                                            $ { Math.floor(data.price)}
                                         </Text>
                                         <Text variant="bodySm" as="p" color="subdued">
                                             per month
@@ -120,7 +120,7 @@ function Plans() {
                                         <div style={{marginTop:"20px",marginBottom:"33px"}}>
                                        {
                                             data.id == users.plan_id ?
-                                            <Button  disabled fullWidth>Select plan</Button> :
+                                            <Button  disabled fullWidth>Your Current Plan</Button> :
                                             <a href={`/billing/${data.id}${location.search}`} style={{textDecoration:"none"}}><Button   fullWidth primary>Select plan</Button></a>
                                        }
                                         </div>

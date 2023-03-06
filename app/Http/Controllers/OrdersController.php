@@ -39,7 +39,7 @@ class OrdersController extends Controller
 
     public function sendtest_email()
     {
-        
+
         $settings=Setting::where('user_id',Auth::user()->id)->first();
         $details = [
             'user_id'=>$settings->user_id,
@@ -49,20 +49,20 @@ class OrdersController extends Controller
             'video'=>$settings->video,
             'store_credit'=>$settings->store_credit,
             'page_color'=>$settings->page_color,
-            
-            
+
+
             'body' => 'This is the test email for customers'
         ];
-        
-        
 
-        
+
+
+
         // $user=User::find(Auth::user()->id);
         //  $view=view('mailtemplate.ordereviewreminder',compact('settings','user'));
         //  dd($view->render());
         // $get_customers = Orders::pluck('email');
         // foreach ($get_customers as $value) {
-            Mail::to('ali@swishtag.com')->send(new testMail($details));
+            Mail::to('hamza70fsd@gmail.com')->send(new testMail($details));
         // }
 
         return response()->json([
