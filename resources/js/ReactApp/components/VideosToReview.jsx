@@ -114,7 +114,7 @@ function WaitingVideos() {
                                         style={{ marginRight: "10px" }}
                                     ></img>
                                     <Text variant="headingLg" as="h5">
-                                        Waiting Videos
+                                        Videos to Review
                                     </Text>
                                 </div>
                             </div>
