@@ -231,6 +231,23 @@ const videoOperation = (id, type) => {
                                                         Your browser does not
                                                         support the video tag.
                                                     </video>
+                                                    <p
+                                                        style={{
+                                                            fontSize: "12px",
+                                                            color: "#797979",
+                                                            marginTop: "10px",
+                                                        }}
+                                                    >
+                                                        {video.email}
+                                                    </p>
+                                                    <p
+                                                        style={{
+                                                            fontSize: "12px",
+                                                            color: "#797979",
+                                                        }}
+                                                    >
+                                                        {video.created_at}
+                                                    </p>
                                                     <div
                                                         style={{
                                                             border: "1px solid #dddd",

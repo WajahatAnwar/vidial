@@ -44,10 +44,18 @@ const Settings = () => {
     const [toggled, setToggled] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [storeCurrency, setStoreCurrency] = useState("");
+    const [errorMessages, setErorrMessages] = useState([]);
 
     function handleChange() {
         setToggled(prevCheck => !prevCheck)
     }
+
+    // Choose selected color
+
+    const chooseColor = (color)=>{
+        setButtonColorHex(color);
+       
+    } 
 
     const toastMarkup = active ? (
         <Toast content="Settings Added Successfully" onDismiss={toggleActive} />
@@ -156,10 +164,10 @@ const Settings = () => {
     );
     const [imagename, setImagename] = useState("");
     const [videoname, setVideoname] = useState("");
-
+    
     // alert(logoImage);
     const logoHandler = (e) => {
-        setImagename(e.target.files[0].name);
+        //setImagename(e.target.files[0].name);
         // imagename
         setLogoImage(e.target.files[0]);
     };
@@ -194,6 +202,9 @@ const Settings = () => {
                     setSelected(data.data.locale);
                     setStoreCurrency(data.data.store_currency)
                     setTitle(data.data.instruction_title)
+                    
+                   
+                    
                 }
             })
             .catch((error) => {
@@ -206,6 +217,7 @@ const Settings = () => {
         setIsLoading(true);
 
         const formData = new FormData();
+        
 
         formData.append("store_credit", priceValue);
         formData.append("page_display_to_customers", landingPageValue);
@@ -234,20 +246,22 @@ const Settings = () => {
 
                 body: formData,
             })
-                .then((response) => {
-                    if (!response.ok) {
-                        throw new Error("Something went wrong");
-                    }
-                    return response.json();
-                })
+                .then((response) => response.json())
                 .then((data) => {
                     if (data.success) {
                         setIsLoading(false)
                         toggleActive();
+                    }else{
+                        setIsLoading(false)
+                        setError(true);
+                        setErorrMessages(data.errors)
+                       
                     }
                 })
                 .catch((error) => {
-                    console.log(error);
+                    setIsLoading(false)
+                    setError(true);
+                    // console.log(error);
                 });
         }
     };
@@ -302,38 +316,90 @@ const Settings = () => {
                                     <Card sectioned>
                                         <Banner>
                                             <List type="bullet">
-                                                {priceValue.length <= 0 && (
-                                                    <List.Item>
-                                                        Store Credit Field is required
-                                                    </List.Item>
-                                                )}
-                                                {landingPageValue.length <= 0 && (
-                                                    <List.Item>
-                                                        Customer Display Field is
-                                                        required
-                                                    </List.Item>
-                                                )}
-                                                {emailSentToValue.length <= 0 && (
-                                                    <List.Item>
-                                                        Email Field is required
-                                                    </List.Item>
-                                                )}
-                                                {landingPageDisplayedValue.length <=
-                                                    0 && (
-                                                        <List.Item>
-                                                            Landing Page Field is required
-                                                        </List.Item>
-                                                    )}
-                                                {rows.length <= 0 && (
-                                                    <List.Item>
-                                                        Instruction Required
-                                                    </List.Item>
-                                                )}
-                                                {logoImage.length <= 0 && (
-                                                    <List.Item>
-                                                        Logo image is required
-                                                    </List.Item>
-                                                )}
+                                              {
+                                                errorMessages.store_credit &&
+                                                (
+                                                    errorMessages.store_credit.map((error)=>{
+                                                        return <List.Item>
+                                                            {error}
+                                                            </List.Item>
+                                                    })
+                                                )
+                                              }
+                                                    
+                                                          
+                                                           
+                                                    {
+                                                errorMessages.page_display_to_customers &&
+                                                (
+                                                    errorMessages.page_display_to_customers.map((error)=>{
+                                                        return <List.Item>
+                                                            {error}
+                                                            </List.Item>
+                                                    })
+                                                )
+                                              }
+                                                {
+                                                errorMessages.email_sent_to_customer &&
+                                                (
+                                                    errorMessages.email_sent_to_customer.map((error)=>{
+                                                        return <List.Item>
+                                                            {error}
+                                                            </List.Item>
+                                                    })
+                                                )
+                                              }
+                                            {
+                                                errorMessages.page_link &&
+                                                (
+                                                    errorMessages.page_link.map((error)=>{
+                                                        return <List.Item>
+                                                            {error}
+                                                            </List.Item>
+                                                    })
+                                                )
+                                              }
+                                             {
+                                                errorMessages.instructions &&
+                                                (
+                                                    errorMessages.instructions.map((error)=>{
+                                                        return <List.Item>
+                                                            {error}
+                                                            </List.Item>
+                                                    })
+                                                )
+                                              }
+                                                {
+                                                errorMessages.email_sent_to_customer &&
+                                                (
+                                                    errorMessages.email_sent_to_customer.map((error)=>{
+                                                        return <List.Item>
+                                                            {error}
+                                                            </List.Item>
+                                                    })
+                                                )
+                                              }
+                                              {
+                                                errorMessages.logo &&
+                                                (
+                                                    errorMessages.logo.map((error)=>{
+                                                        return <List.Item>
+                                                            {error}
+                                                            </List.Item>
+                                                    })
+                                                )
+                                              }
+                                              {
+                                                errorMessages.video &&
+                                                (
+                                                    errorMessages.video.map((error)=>{
+                                                        return <List.Item>
+                                                            {error}
+                                                            </List.Item>
+                                                    })
+                                                )
+                                              }
+                                              
                                             </List>
                                         </Banner>
                                     </Card>
@@ -547,6 +613,7 @@ const Settings = () => {
                                                     name="myfile"
                                                     onChange={logoHandler}
                                                 />
+
                                             </div>
                                             <p>{`${imagename}`} {imagename && <span>Uploaded</span>} </p>
                                         </div>
@@ -657,6 +724,9 @@ const Settings = () => {
                                                     name="myvideoFile"
                                                     onChange={videoHandler}
                                                 />
+
+                                             
+
                                             </div>
                                             <p>{`${videoname}`} {videoname && "uploaded"}  </p>
 
@@ -699,88 +769,40 @@ const Settings = () => {
                                             }}
                                             className="colorOptions"
                                         ></div>
-                                        <div
-                                            style={{ background: "#FF4A4B" }}
+                                        <div onClick ={()=>{chooseColor("#FF4A4B")}}
+                                            style={{ background: "#FF4A4B",cursor:"pointer" }}
                                             className="colorOptions"
                                         ></div>
-                                        <div
-                                            style={{ background: "#FF5175" }}
+                                        <div onClick ={()=>{chooseColor("#FF5175")}}
+                                            style={{ background: "#FF5175",cursor:"pointer" }}
                                             className="colorOptions"
                                         ></div>
-                                        <div
-                                            style={{ background: "#E91E62" }}
+                                        <div onClick ={()=>{chooseColor("#E91E62")}}
+                                            style={{ background: "#E91E62",cursor:"pointer" }}
                                             className="colorOptions"
                                         ></div>
-                                        <div
-                                            style={{ background: "#EB0045" }}
+                                        <div onClick ={()=>{chooseColor("#EB0045")}}
+                                            style={{ background: "#EB0045",cursor:"pointer" }}
                                             className="colorOptions"
                                         ></div>
-                                        <div
-                                            style={{ background: "#D70049" }}
+                                        <div onClick ={()=>{chooseColor("#D70049")}}
+                                            style={{ background: "#D70049",cursor:"pointer" }}
                                             className="colorOptions"
                                         ></div>
-                                        <div
-                                            style={{ background: "#FF59DE" }}
+                                        <div onClick ={()=>{chooseColor("#FF59DE")}}
+                                            style={{ background: "#FF59DE",cursor:"pointer" }}
                                             className="colorOptions"
                                         ></div>
-                                        <div
-                                            style={{ background: "#FF98F7" }}
+                                        <div onClick ={()=>{chooseColor("#FF98F7")}}
+                                            style={{ background: "#FF98F7",cursor:"pointer" }}
                                             className="colorOptions"
                                         ></div>
-                                        <div
-                                            style={{ background: "#9C27B0" }}
+                                        <div onClick ={()=>{chooseColor("#9C27B0")}}
+                                            style={{ background: "#9C27B0",cursor:"pointer" }}
                                             className="colorOptions"
                                         ></div>
-                                        <div
-                                            style={{ background: "#673AB6" }}
-                                            className="colorOptions"
-                                        ></div>
-                                    </div>
-                                    <div
-                                        style={{
-                                            display: "flex",
-                                            alignItems: "center",
-                                            marginBottom: "10px",
-                                        }}
-                                    >
-                                        <div
-                                            style={{ background: "#3F50B5" }}
-                                            className="colorOptions"
-                                        ></div>
-                                        <div
-                                            style={{ background: "#0D0083" }}
-                                            className="colorOptions"
-                                        ></div>
-                                        <div
-                                            style={{ background: "#2096F3" }}
-                                            className="colorOptions"
-                                        ></div>
-                                        <div
-                                            style={{ background: "#3CBAFA" }}
-                                            className="colorOptions"
-                                        ></div>
-                                        <div
-                                            style={{ background: "#74D4FF" }}
-                                            className="colorOptions"
-                                        ></div>
-                                        <div
-                                            style={{ background: "#00BCD4" }}
-                                            className="colorOptions"
-                                        ></div>
-                                        <div
-                                            style={{ background: "#009688" }}
-                                            className="colorOptions"
-                                        ></div>
-                                        <div
-                                            style={{ background: "#01B780" }}
-                                            className="colorOptions"
-                                        ></div>
-                                        <div
-                                            style={{ background: "#03D39C" }}
-                                            className="colorOptions"
-                                        ></div>
-                                        <div
-                                            style={{ background: "#4CAF4F" }}
+                                        <div onClick ={()=>{chooseColor("#673AB6")}}
+                                            style={{ background: "#673AB6",cursor:"pointer" }}
                                             className="colorOptions"
                                         ></div>
                                     </div>
@@ -791,40 +813,88 @@ const Settings = () => {
                                             marginBottom: "10px",
                                         }}
                                     >
-                                        <div
-                                            style={{ background: "#AEFF14" }}
+                                        <div onClick ={()=>{chooseColor("#3F50B5")}}
+                                            style={{ background: "#3F50B5",cursor:"pointer" }}
                                             className="colorOptions"
                                         ></div>
-                                        <div
-                                            style={{ background: "#FFDB91" }}
+                                        <div onClick ={()=>{chooseColor("#0D0083")}}
+                                            style={{ background: "#0D0083",cursor:"pointer" }}
                                             className="colorOptions"
                                         ></div>
-                                        <div
-                                            style={{ background: "#FFBA00" }}
+                                        <div onClick ={()=>{chooseColor("#2096F3")}}
+                                            style={{ background: "#2096F3",cursor:"pointer" }}
                                             className="colorOptions"
                                         ></div>
-                                        <div
-                                            style={{ background: "#FF9800" }}
+                                        <div onClick ={()=>{chooseColor("#3CBAFA")}}
+                                            style={{ background: "#3CBAFA",cursor:"pointer" }}
                                             className="colorOptions"
                                         ></div>
-                                        <div
-                                            style={{ background: "#FFA383" }}
+                                        <div onClick ={()=>{chooseColor("#74D4FF")}}
+                                            style={{ background: "#74D4FF",cursor:"pointer" }}
                                             className="colorOptions"
                                         ></div>
-                                        <div
-                                            style={{ background: "#D64C1E" }}
+                                        <div onClick ={()=>{chooseColor("#00BCD4")}}
+                                            style={{ background: "#00BCD4",cursor:"pointer" }}
                                             className="colorOptions"
                                         ></div>
-                                        <div
-                                            style={{ background: "#795548" }}
+                                        <div onClick ={()=>{chooseColor("#009688")}}
+                                            style={{ background: "#009688",cursor:"pointer" }}
                                             className="colorOptions"
                                         ></div>
-                                        <div
-                                            style={{ background: "#ACACAC" }}
+                                        <div onClick ={()=>{chooseColor("#01B780")}}
+                                            style={{ background: "#01B780",cursor:"pointer" }}
                                             className="colorOptions"
                                         ></div>
-                                        <div
-                                            style={{ background: "#000000" }}
+                                        <div onClick ={()=>{chooseColor("#03D39C")}}
+                                            style={{ background: "#03D39C",cursor:"pointer" }}
+                                            className="colorOptions"
+                                        ></div>
+                                        <div onClick ={()=>{chooseColor("#4CAF4F")}}
+                                            style={{ background: "#4CAF4F",cursor:"pointer" }}
+                                            className="colorOptions"
+                                        ></div>
+                                    </div>
+                                    <div 
+                                        style={{
+                                            display: "flex",
+                                            alignItems: "center",
+                                            marginBottom: "10px",
+                                        }}
+                                    >
+                                        <div onClick ={()=>{chooseColor('#AEFF14')}}
+                                            style={{ background: "#AEFF14",cursor:"pointer" }}
+                                            className="colorOptions"
+                                        ></div>
+                                        <div onClick ={()=>{chooseColor("#FFDB91")}}
+                                            style={{ background: "#FFDB91",cursor:"pointer" }}
+                                            className="colorOptions"
+                                        ></div>
+                                        <div onClick ={()=>{chooseColor("#FFBA00")}}
+                                            style={{ background: "#FFBA00",cursor:"pointer" }}
+                                            className="colorOptions"
+                                        ></div>
+                                        <div onClick ={()=>{chooseColor("#FF9800")}}
+                                            style={{ background: "#FF9800",cursor:"pointer" }}
+                                            className="colorOptions"
+                                        ></div>
+                                        <div onClick ={()=>{chooseColor("#FFA383")}}
+                                            style={{ background: "#FFA383",cursor:"pointer" }}
+                                            className="colorOptions"
+                                        ></div>
+                                        <div onClick ={()=>{chooseColor("#D64C1E")}}
+                                            style={{ background: "#D64C1E",cursor:"pointer" }}
+                                            className="colorOptions"
+                                        ></div>
+                                        <div onClick ={()=>{chooseColor("#795548")}}
+                                            style={{ background: "#795548",cursor:"pointer" }}
+                                            className="colorOptions"
+                                        ></div>
+                                        <div onClick ={()=>{chooseColor("#ACACAC")}}
+                                            style={{ background: "#ACACAC",cursor:"pointer" }}
+                                            className="colorOptions"
+                                        ></div>
+                                        <div onClick ={()=>{chooseColor("#000000")}}
+                                            style={{ background: "#000000",cursor:"pointer" }}
                                             className="colorOptions"
                                         ></div>
                                         <button
