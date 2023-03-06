@@ -72,7 +72,7 @@ const saveVideo = ()=>{
                 localStorage.removeItem('video_url');
                  $('#email').val('');
                 setTimeout(function(){
-                window.location.reload();
+                    window.location.href = `${@json(route('home'))}/authenticate?shop=${store}`;
                 }, 10000);
             }
         }
