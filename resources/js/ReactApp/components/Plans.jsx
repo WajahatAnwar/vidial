@@ -77,17 +77,19 @@ function Plans() {
                         <Card sectioned>
                            <Grid>
                                 <Grid.Cell columnSpan={{xs: 6, sm: 6, md: 6, lg: 3, xl: 3}}>
-                                    <img src={Person}></img>
+                                    <img style={{width:"90%"}} src={Person}></img>
 
-                                    <div style={{paddingLeft:"20px"}}>
-                                    <div style={{marginBottom:"15px",marginTop:"72px"}}>
-                                    <Text variant="headingLg" as="h5">
-                                        Features
-                                    </Text>
+                                    <div >
+                                    <div style={{marginBottom:"15px",marginTop:"53px"}}>
+                                        <div style={{marginLeft:"15px"}}>
+                                            <Text variant="headingLg" as="h5">
+                                                Features
+                                            </Text>
+                                        </div>
                                     </div>
-                                    <p style={{marginBottom:"8px",fontSize:"14px"}}>Videos Capacity</p>
-                                    <p style={{marginBottom:"8px",fontSize:"14px"}}>Emails Capacity</p>
-                                    <p style={{fontSize:"14px"}}>Storage Duration</p>
+                                    <p style={{marginBottom:"8px",fontSize:"14px",background: "#F9F9F9B2",padding: "5px 15px"}}>Videos Capacity</p>
+                                    <p style={{marginBottom:"8px",fontSize:"14px",padding: "5px 15px"}}>Emails Capacity</p>
+                                    <p style={{fontSize:"14px",background: "#F9F9F9B2",padding: "5px 15px"}}>Storage Duration</p>
                                     </div>
                                 </Grid.Cell>
                                 {plan.map((data) =><Grid.Cell columnSpan={{xs: 6, sm: 6, md: 6, lg: 3, xl: 3}}>
@@ -122,9 +124,9 @@ function Plans() {
                                             <a href={`/billing/${data.id}${location.search}`} style={{textDecoration:"none"}}><Button   fullWidth primary>Select plan</Button></a>
                                        }
                                         </div>
-                                        <p style={{marginBottom:"8px",textAlign:"center",fontSize:"14px"    }}>{data.ugc_video_count} monthly UGC videos</p>
-                                        <p style={{marginBottom:"8px",textAlign:"center",fontSize:"14px"}}>{data.ugc_email_count} post-purchase emails</p>
-                                        <p style={{marginBottom:"30px",textAlign:"center",fontSize:"14px"}}>1 year video storage</p>
+                                        <p style={{marginBottom:"8px",textAlign:"center",fontSize:"14px",background: "#F9F9F9B2",padding: "5px 0"    }}>{data.ugc_video_count} monthly UGC videos</p>
+                                        <p style={{marginBottom:"8px",textAlign:"center",fontSize:"14px",padding: "5px 0"}}>{data.ugc_email_count} post-purchase emails</p>
+                                        <p style={{marginBottom:"30px",textAlign:"center",fontSize:"14px",background: "#F9F9F9B2",padding: "5px 0"}}>1 year video storage</p>
                                     </div>
                                 </Grid.Cell>
 
