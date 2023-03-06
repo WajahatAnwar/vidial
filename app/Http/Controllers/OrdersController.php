@@ -59,7 +59,7 @@ class OrdersController extends Controller
         //  dd($view->render());
         // $get_customers = Orders::pluck('email');
         // foreach ($get_customers as $value) {
-            Mail::to('hamza70fsd@gmail.com')->send(new testMail($details));
+            Mail::to(auth()->user()->email)->send(new testMail($details));
         // }
 
         return response()->json([
