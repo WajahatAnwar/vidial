@@ -2,16 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
+use App\Models\Plan;
 use App\Mail\testMail;
 use App\Models\Orders;
-use App\Models\Plan;
-use Carbon\Carbon;
-use GuzzleHttp\Promise\Create;
+use App\Models\Setting;
+use App\Jobs\OrdersGetJob;
 use Illuminate\Http\Request;
+use GuzzleHttp\Promise\Create;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
-use App\Jobs\OrdersGetJob;
-use App\Models\Setting;
+
 class OrdersController extends Controller
 {
     public function fetch_orders(Request $request)
@@ -41,6 +43,7 @@ class OrdersController extends Controller
     {
 
         $settings=Setting::where('user_id',Auth::user()->id)->first();
+        App::setLocale($settings->locale);
         $details = [
             'user_id'=>$settings->user_id,
             'instruction_title'=>$settings->instruction_title,
