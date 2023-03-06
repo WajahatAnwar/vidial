@@ -91,7 +91,7 @@ class SettingsController extends Controller
         }
         
         $data['store']=$store->name;
-        $data['store_currency']=$store->store_currency;
+        $data['store_currency']= $this->getCurrencySymbol($store->store_currency) ? $this->getCurrencySymbol($store->store_currency) : $store->store_currency;
         return response()->json([
             'success' => true,
             'message' => "Settings get Successfully",
@@ -207,5 +207,22 @@ class SettingsController extends Controller
         ]);
     }
 
+    public function getCurrencySymbol($currency_code){
+        
+        $currencies = array(
+            "GBP" => "£",
+            "USD" => "$",
+            "EUR" => "€",
+            "TRY" => "₺",
+            "JPY"=>"¥",
+            "AUD"=>"$",
+            "CAD"=>"$"
+        );
+        if(isset($currencies[$currency_code])){
+           return $currencies[$currency_code];
+        }
+        return false;
+        
+    }
 
 }

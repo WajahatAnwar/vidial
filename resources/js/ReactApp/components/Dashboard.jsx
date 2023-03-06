@@ -396,6 +396,24 @@ const videoOperation = (id, type) => {
                                                             Your browser does not
                                                             support the video tag.
                                                         </video>{" "}
+                                                        <p
+                                                        style={{
+                                                            fontSize: "12px",
+                                                            color: "#797979",
+                                                            marginTop: "10px",
+                                                        }}
+                                                    >
+                                                        Approved {video.updated_at}
+                                                        
+                                                    </p>
+                                                    <p
+                                                        style={{
+                                                            fontSize: "12px",
+                                                            color: "#797979",
+                                                        }}
+                                                    >
+                                                       Sent by {video.email}
+                                                    </p>
                                                         <button
                                                             onClick={() => {
                                                                 downloadVideo(
@@ -414,6 +432,7 @@ const videoOperation = (id, type) => {
                                                                 cursor: "pointer",
                                                             }}
                                                         >
+                                                       
                                                             <img
                                                                 src={downloadIcon}
                                                             ></img>{" "}
