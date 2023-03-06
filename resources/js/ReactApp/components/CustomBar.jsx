@@ -24,7 +24,21 @@ function TabsExample() {
         };
         fetchData();
     });
+    useEffect(() => {
 
+        if (location.pathname == "/") {
+            setSelected(0);
+        } else if (location.pathname == "/videos-to-review") {
+            setSelected(1);
+        } else if (location.pathname == "/approved-videos") {
+            setSelected(2);
+        } else if (location.pathname == "/settings") {
+            setSelected(3);
+        } else if (location.pathname == "/plans") {
+            setSelected(4);
+        }
+
+    }, [location]);
     const [selected, setSelected] = useState(0);
 
     const handleTabChange = useCallback((selectedTabIndex) => {

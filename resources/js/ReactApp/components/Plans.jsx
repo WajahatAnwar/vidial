@@ -112,7 +112,7 @@ function Plans() {
                                         </Text>
                                         <p style={{marginBottom:"30px",marginTop:"10px"}}>{data.description}</p>
                                         <Text variant="headingXl" as="h4" color="success">
-                                            $ { Math.floor(data.price)}
+                                            ${ Math.floor(data.price)}
                                         </Text>
                                         <Text variant="bodySm" as="p" color="subdued">
                                             per month

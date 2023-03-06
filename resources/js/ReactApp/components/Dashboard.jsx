@@ -19,8 +19,9 @@ import WaitingLogo from "./imges/WaitingLogo.png";
 import ApprovedLogo from "./imges/ApprovedLogo.png";
 import WaitingIcon from "./imges/waiting2.png";
 import VideoTumbnail from "./imges/bureau 11.png";
-import { CircleCancelMajor, CircleTickMajor } from "@shopify/polaris-icons";
+import { CircleCancelMajor, CircleTickMajor, PlayCircleMajor } from "@shopify/polaris-icons";
 import downloadIcon from "./imges/downloadIcon.png";
+import noVedio from "./imges/film.png"
 import { downloadVideo } from "./utils";
 
 function Dashboard() {
@@ -186,8 +187,18 @@ const videoOperation = (id, type) => {
                                 )}
                             </div>
                         </Card.Section>
-                        <Card.Section>
+                        {pendingVideosCount <= 0 ? (
+                                    <div style={{height:"400px",background:"#f9f9f9",borderRadius:"6px",textAlign:"center",paddingTop:"125px"}}>
+                                        <img style={{height: "102px",opacity: ".5"}} src={noVedio}></img>
+
+                                        <p style={{color: "#d3c9c9",fontSize:"17px"}}>No Videos To Display</p>
+
+                                  </div>
+                                ) :
+                                <Card.Section>
+
                             <Grid>
+
                                 {pendingVideos &&
                                     pendingVideos.map((video) => {
                                         return (
@@ -282,6 +293,8 @@ const videoOperation = (id, type) => {
                                     })}
                             </Grid>
                         </Card.Section>
+                                }
+
                     </Card>
                 </Grid.Cell>
                 <Grid.Cell columnSpan={{ xs: 6, sm: 6, md: 6, lg: 12, xl: 12 }}>
@@ -326,68 +339,76 @@ const videoOperation = (id, type) => {
                                 )}
                             </div>
                         </Card.Section>
-                        <Card.Section>
-                            <Grid>
-                                {approvedVideos &&
-                                    approvedVideos.map((video) => {
-                                        return (
-                                            <Grid.Cell
-                                                columnSpan={{
-                                                    xs: 3,
-                                                    sm: 3,
-                                                    md: 3,
-                                                    lg: 3,
-                                                    xl: 3,
-                                                }}
-                                            >
-                                                <div
-                                                    style={{
-                                                        textAlign: "center",
+                        {approvedVideosCount <= 0 ? (
+                                    <div style={{height:"400px",background:"#f9f9f9",borderRadius:"6px",textAlign:"center",paddingTop:"125px"}}>
+                                    <img style={{height: "102px",opacity: ".5"}} src={noVedio}></img>
+
+                                    <p style={{color: "#d3c9c9",fontSize:"17px"}}>No Videos To Display</p>
+
+                              </div>
+                                ) : <Card.Section>
+                                <Grid>
+                                    {approvedVideos &&
+                                        approvedVideos.map((video) => {
+                                            return (
+                                                <Grid.Cell
+                                                    columnSpan={{
+                                                        xs: 3,
+                                                        sm: 3,
+                                                        md: 3,
+                                                        lg: 3,
+                                                        xl: 3,
                                                     }}
                                                 >
-                                                    <video
-                                                        width="216"
-                                                        height="386"
-                                                        controls
-                                                    >
-                                                        <source
-                                                            src={
-                                                                video.video_link
-                                                            }
-                                                            type="video/mp4"
-                                                        />
-                                                        Your browser does not
-                                                        support the video tag.
-                                                    </video>{" "}
-                                                    <button
-                                                        onClick={() => {
-                                                            downloadVideo(
-                                                                video.video_link
-                                                            );
-                                                        }}
+                                                    <div
                                                         style={{
-                                                            background:
-                                                                "#FFFFFF",
-                                                            border: "1px solid #E1E3E5",
-                                                            borderRadius: "9px",
-                                                            padding: "5px 15px",
-                                                            fontWeight: "500",
-                                                            fontSize: "15px",
-                                                            marginTop: "10px",
-                                                            cursor: "pointer",
+                                                            textAlign: "center",
                                                         }}
                                                     >
-                                                        <img
-                                                            src={downloadIcon}
-                                                        ></img>{" "}
-                                                        Download
-                                                    </button>
-                                                </div>
-                                            </Grid.Cell>
-                                        );
-                                    })}
-                            </Grid>
-                        </Card.Section>
+                                                        <video
+                                                            width="216"
+                                                            height="386"
+                                                            controls
+                                                        >
+                                                            <source
+                                                                src={
+                                                                    video.video_link
+                                                                }
+                                                                type="video/mp4"
+                                                            />
+                                                            Your browser does not
+                                                            support the video tag.
+                                                        </video>{" "}
+                                                        <button
+                                                            onClick={() => {
+                                                                downloadVideo(
+                                                                    video.video_link
+                                                                );
+                                                            }}
+                                                            style={{
+                                                                background:
+                                                                    "#FFFFFF",
+                                                                border: "1px solid #E1E3E5",
+                                                                borderRadius: "9px",
+                                                                padding: "5px 15px",
+                                                                fontWeight: "500",
+                                                                fontSize: "15px",
+                                                                marginTop: "10px",
+                                                                cursor: "pointer",
+                                                            }}
+                                                        >
+                                                            <img
+                                                                src={downloadIcon}
+                                                            ></img>{" "}
+                                                            Download
+                                                        </button>
+                                                    </div>
+                                                </Grid.Cell>
+                                            );
+                                        })}
+                                </Grid>
+                            </Card.Section>}
+
                     </Card>
                 </Grid.Cell>
             </Grid>
