@@ -1,55 +1,50 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap demo</title>
-    {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/brands.min.css" integrity="sha512-L+sMmtHht2t5phORf0xXFdTC0rSlML1XcraLTrABli/0MMMylsJi3XA23ReVQkZ7jLkOEIMicWGItyK4CAt2Xw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous"> --}}
-  </head>
-  <body>
-    <div class="row justify-content-center " style="margin-top: 40px;text-align: center;">
-        <div style="width: 450px !important;margin: auto !IMPORTANT;">
-            <img style="display: block;margin: auto;" src="http://localhost:8000/images/image 112.png" >
-            <h3 class="text-center mt-4 mb-3" style="font-size: 30px;font-weight: 600;text-align: center;margin-top: 30px;color:#111827">Send us a short video review and get a $50 gift card from Thinx</h3>
-            <p  class="text-center mb-2" style="color: #FF5175;font-size: 20px;font-weight: 500;text-align: center;">Instructions</p>
+
+
+@extends('layout.layout')
+@section('content')
+    <div class="row justify-content-center " style="margin-top: 40px ">
+        <div class="col-md-3 p-3">
+            @include('landingPage.logo',['current_user_id'=>$details['user_id']])
+            <h3 class="text-center mt-4 mb-3" style="font-size: 30px;font-weight: 600;">{{ __('landingPage.heading',['storename'=>'test','store_credit'=>$details['store_credit']]) }}</h3>
+            <p  class="text-center mb-2" style="color: #FF5175;font-size: 20px;font-weight: 500;">{{$details['instruction_title']}}</p>
             <div style="padding-left:20px ;">
+                @php
+                $Lists=(json_decode($details['instructions'],true));
+
+                @endphp
+                @foreach ($Lists as $list)
                 <div style="display: flex;align-items: center;margin-bottom: 15px;">
-                    <div style="background: #E5E7EB;padding: 8px 16px;border-radius: 50%;margin-right: 15px;color: #6B7280;">1</div>
-                    <p style="margin-bottom: 0;font-weight: 600;">Record a short video off up to 30 second</p>
+                    <div style="background: #E5E7EB;padding: 8px 16px;border-radius: 50%;margin-right: 15px;color: #6B7280;">{{$loop->index + 1}}</div>
+                    <p style="margin-bottom: 0;font-weight: 600;">{{$list['value']}}</p>
                 </div>
-                <div style="display: flex;align-items: center;margin-bottom: 15px;">
-                    <div style="background: #E5E7EB;padding: 8px 16px;border-radius: 50%;margin-right: 15px;color: #6B7280;">2</div>
-                    <p style="margin-bottom: 0;font-weight: 600;">Share your genuine experience of the product</p>
-                </div>
-                <div style="display: flex;align-items: center;margin-bottom: 15px;">
-                    <div style="background: #E5E7EB;padding: 8px 16px;border-radius: 50%;margin-right: 15px;color: #6B7280;">3</div>
-                    <p style="margin-bottom: 0;font-weight: 600;">Showcase the product</p>
-                </div>
-                <div style="display: flex;align-items: center;margin-bottom: 15px;">
-                    <div style="background: #E5E7EB;padding: 8px 16px;border-radius: 50%;margin-right: 15px;color: #6B7280;">4</div>
-                    <p style="margin-bottom: 0;font-weight: 600;">Tell why you've decided to try Thinx</p>
-                </div>
-                <div style="display: flex;align-items: center;margin-bottom: 15px;">
-                    <div style="background: #E5E7EB;padding: 8px 16px;border-radius: 50%;margin-right: 15px;color: #6B7280;">5</div>
-                    <p style="margin-bottom: 0;font-weight: 600;">Describe the main benefits of Thinx</p>
-                </div>
+                @endforeach
+
             </div>
-            <a href="https://www.google.com/">
-            <button type="button" class="btn btn-primary" style="cursor: pointer;border-radius: 6px;color:white; width: 100%;font-size: 20px;font-weight: 700;background: #FF5175;height: 60px;border: none;">
-                <i class="fa-solid fa-video"></i> Upload a short video
-              </button></a>
-              <h5 class=" mb-3 mt-4" style="text-align: center;font-size: 20px;color: #111827;">Here’s a video you can use as inspiration:</h5>
-              <img src="http://localhost:8000/images/image 113.png" style="display: block;margin: auto;">
-              <div style="display: flex;justify-content: center;" >
-                 <h5 style="font-size: 18px;color: #000;">Powered by </h5>
-                    <div>
-                        <img src="http://localhost:8000/images/vidialLogo.png" style="margin: 35px 2 px 0px 10px;">
-                    </div>
-                 <h5 style="font-size: 18px;color: #000;">idial</h5>
-              </div>
+            <a type="button"   href="{{ route('uploadVideo' ,['locale' =>$details['locale'] ]).'?store='.$details['store']}}"   class="btn btn-primary" id="redirect" store="test" locale= "{{ $details['locale'] }}"   value="" style="display:block!important ; width: 100% !important ;font-size: 20px;font-weight: 700;background: {{$details['page_color']}};height: 60px !important;border: none;    text-align: center;line-height: 52px;text-decoration: none;">
+                {{-- <svg xmlns="http://www.w3.org/2000/svg" width="30" height="20" fill="currentColor" class="bi bi-camera-video-fill" viewBox="0 0 16 16">
+                     <path fill-rule="evenodd" d="M0 5a2 2 0 0 1 2-2h7.5a2 2 0 0 1 1.983 1.738l3.11-1.382A1 1 0 0 1 16 4.269v7.462a1 1 0 0 1-1.406.913l-3.111-1.382A2 2 0 0 1 9.5 13H2a2 2 0 0 1-2-2V5z"></path>
+                </svg> --}}
+                {{__('landingPage.button_text')}}
+            </a>
+
+            @if($details['video']=='undefined' || $details['video']=='')
+            @else
+            <h5 class="text-center mb-3 mt-4">{{__('landingPage.footer_instruction_text')}}</h5>
+                {{-- <p>{{ $details['video'] }}</p> --}}
+                <video width="320" height="176" controls poster="{{ url('images/video_thumbnail.png') }}" src="{{ url('video/'.$details['video']) }}" >
+                    <!-- fallback 1 -->
+                    <a href="{{ url('video/'.$details['video']) }}" ><img height="176"  src="{{ url('images/video_thumbnail.png') }}" width="320" /></a>
+            </video>
+            @endif
+             @include('landingPage.footer')
         </div>
     </div>
+    <script>
+        function redirectVidepPage(url){
+
+           window.location.href = ur
+        }
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
-  </body>
-</html>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  @endsection
