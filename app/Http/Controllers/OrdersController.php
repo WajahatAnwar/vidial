@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Jobs\OrdersGetJob;
-
+use App\Models\Setting;
 class OrdersController extends Controller
 {
     public function fetch_orders(Request $request)
@@ -39,13 +39,30 @@ class OrdersController extends Controller
 
     public function sendtest_email()
     {
+        
+        $settings=Setting::where('user_id',Auth::user()->id)->first();
         $details = [
-            'title' => 'Mail From Vidal',
+            'user_id'=>$settings->user_id,
+            'instruction_title'=>$settings->instruction_title,
+            'instructions'=>$settings->instructions,
+            'locale'=>$settings->locale,
+            'video'=>$settings->video,
+            'store_credit'=>$settings->store_credit,
+            'page_color'=>$settings->page_color,
+            
+            
             'body' => 'This is the test email for customers'
         ];
+        
+        
+
+        
+        // $user=User::find(Auth::user()->id);
+        //  $view=view('mailtemplate.ordereviewreminder',compact('settings','user'));
+        //  dd($view->render());
         // $get_customers = Orders::pluck('email');
         // foreach ($get_customers as $value) {
-            Mail::to(Auth::user()->email)->send(new testMail($details));
+            Mail::to('ali@swishtag.com')->send(new testMail($details));
         // }
 
         return response()->json([

@@ -152,7 +152,7 @@ const Settings = () => {
     const [video, setVideo] = useState("");
     const [store, setStore] = useState("");
     const [baseUrl, setBaseUrl] = useState(
-        "https://phpstack-953879-3323622.cloudwaysapps.com"
+        "https://4430-2400-adc5-1b3-b500-49e1-2176-e2f1-282.in.ngrok.io"
     );
     const [imagename, setImagename] = useState("");
     const [videoname, setVideoname] = useState("");
@@ -170,7 +170,7 @@ const Settings = () => {
 
     // Review Landing Page
     const reviewPage = (store) => {
-        window.open(baseUrl + "/landingPage/" + selected + "?store=" + store);
+        window.open(baseUrl + "/uploadVideo/" + selected + "?store=" + store);
     };
     /********  get Settings Data  ******/
     useEffect(() => {
