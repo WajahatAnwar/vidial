@@ -154,6 +154,15 @@ public function videoOperation(Request $request){
     if($videos){
         $videos->status = $request->type ? config('constants.video_approved') : config('constants.video_reject');
         $videos->save();
+        if($request->type){ 
+                
+        }else{
+            return response()->json([
+                'success' => false,
+                'message' => 'Status Changed Successfully',
+                'data'=>  null,
+            ]);
+        }
         $code = $this->createDiscountCode();
          
         $details = [
