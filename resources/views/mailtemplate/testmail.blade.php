@@ -10,8 +10,8 @@
   <body>
     <div class="row justify-content-center " style="margin-top: 40px;text-align: center;">
         <div style="width: 450px !important;margin: auto !IMPORTANT;">
-            <img style="display: block;margin: auto;" src="http://localhost:8000/images/image 112.png" >
-            <h3 class="text-center mt-4 mb-3" style="font-size: 30px;font-weight: 600;text-align: center;margin-top: 30px;color:#111827">{{ __('landingPage.heading',['storename'=>'test','store_credit'=>$details['store_credit']]) }}</h3>
+            @include('landingPage.logo',['current_user_id'=>$details['user_id']])
+            <h3 class="text-center mt-4 mb-3" style="font-size: 30px;font-weight: 600;text-align: center;margin-top: 30px;color:#111827">{{ __('landingPage.heading',['storename'=>$details['store'],'store_credit'=>$details['store_credit']]) }}</h3>
             <p  class="text-center mb-2" style="color: #FF5175;font-size: 20px;font-weight: 500;text-align: center;">{{$details['instruction_title']}}</p>
             <div style="padding-left:20px ;">
                 @php
