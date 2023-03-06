@@ -294,7 +294,7 @@ const Settings = () => {
     const copyLandingPageLink = () => {
 
         const landingPageDisplayedValue =
-            baseUrl + "/landingPage/" + selected + "?store=" + store;
+            baseUrl + "/uploadVideo/" + selected + "?store=" + store;
         navigator.clipboard.writeText(landingPageDisplayedValue);
         toastMarkup && toastMarkup.show();
     };
