@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CampaignController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\EmailController;
 use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\RulesController;
 use App\Http\Controllers\SettingsController;
@@ -102,5 +103,5 @@ Route::get('redirect_back', function () {
 });
 
 
-
+Route::get('/test-email',[EmailController::class,'email']);
 
