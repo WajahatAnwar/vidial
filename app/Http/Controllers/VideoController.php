@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\NotApprovedMailjob;
+use App\Jobs\ThanksMailjob;
 use Auth;
 use Dropbox;
 use DateTime;
@@ -158,6 +160,13 @@ public function videoOperation(Request $request){
         if($request->type){
 
         }else{
+
+            $details = [
+            'rejectionReason' => $request->rejectionReason,
+            'mail'            => $videos->email
+            ];
+            dispatch(new NotApprovedMailjob($details));
+
             return response()->json([
                 'success' => false,
                 'message' => 'Status Changed Successfully',
@@ -307,7 +316,7 @@ return $formattedDate;
 
   // Upload video on dropbox
   public function uploadDropboxVideo(Request $request){
-   
+
     $file = $request->file('files')[0];
     $dropbox = updateDropboxToken();
     $token = 'Bearer '.$dropbox['access_token'];
@@ -388,13 +397,13 @@ return response()->json([
   public function saveVideo(Request $request){
       // save Preview Link into DB
       /****** check link expiration ******/
-  
+
       $order = null;
       if ($request->filled('order_id')) {
         try {
             $order_id = Crypt::decrypt($request->order_id);
             $order=Orders::find($order_id);
-            
+
         // check order existance
         if(!$order){
             return response()->json([
@@ -415,12 +424,12 @@ return response()->json([
                 'message' => $e->message(),
             ],500);
         }
-        
+
 
     }
-      
 
-      
+
+
 $video['video_link']=$request->video_link;
 $video['email']=$request->email;
 $video['status']=config('constants.video_pending');
@@ -437,6 +446,13 @@ if(Video::create($video)){
         $order->replied=1;
         $order->save();
     }
+    // send email Portion
+    $details = [
+        'mail' => $request->email,
+        'detail' => " Thanks for UGC Video we will be back to you soon !"
+    ];
+    dispatch(new ThanksMailjob($details));
+
     return response()->json([
         'success' => true,
         'message' => 'Video Uploaded Successfully',
