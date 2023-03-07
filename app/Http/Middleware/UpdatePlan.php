@@ -2,10 +2,11 @@
 
 namespace App\Http\Middleware;
 
+use Closure;
+use Carbon\Carbon;
 use App\Models\Plan;
 use App\Models\User;
 use App\Models\Video;
-use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -22,7 +23,7 @@ class UpdatePlan
     {
         $email_count  =  Plan::where('id',auth()->user()->plan_id)->first();
 
-        $current_user_approved_video_count = Video::where("user_id", auth()->user()->id)->where('status', config('constants.video_approved'))->count();
+        $current_user_approved_video_count = Video::where("user_id", auth()->user()->id)->where('status', config('constants.video_approved'))->whereMonth('created_at', Carbon::now()->month)->count();
 
         $remaining_video_count = $email_count->ugc_video_count - $current_user_approved_video_count;
         $remaining_email_count = $email_count->ugc_email_count - auth()->user()->remaining_email;
