@@ -10,7 +10,7 @@
   <body>
     <div class="row justify-content-center " style="margin-top: 40px;text-align: center;">
         <div style="width: 450px !important;margin: auto !IMPORTANT;">
-            <img style="display: block;margin: auto;" src="http://localhost:8000/images/image 112.png" >
+            <img style="display: block;margin: auto;" src="{{ env('APP_URL')}}/images/image 112.png" >
             <h3 class="text-center mt-4 mb-3" style="font-size: 30px;font-weight: 600;text-align: center;margin-top: 30px;color:#111827">Hurrray! <br>We have received your video.</h3>
 
 
@@ -20,7 +20,7 @@
               <div style="display: flex;justify-content: center;" >
                  <h5 style="font-size: 18px;color: #000;">Powered by </h5>
                     <div>
-                        <img src="http://localhost:8000/images/vidialLogo.png" style="margin: 35px 2 px 0px 10px;">
+                        <img src="{{ env('APP_URL')}}/images/vidialLogo.png" style="margin: 35px 2 px 0px 10px;">
                     </div>
                  <h5 style="font-size: 18px;color: #000;">idial</h5>
               </div>
