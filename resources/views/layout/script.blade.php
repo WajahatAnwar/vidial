@@ -43,6 +43,7 @@ const saveVideo = ()=>{
     // geting Store name
     const url = new URL(window.location.toLocaleString());
     const store = url.searchParams.get('store');
+    const order_id = url.searchParams.get('order_id');
     if(video_link=='' || video_link==null){
         $('#error-video').removeClass('d-none').text('Please upload a video');
         return false;
@@ -60,7 +61,7 @@ const saveVideo = ()=>{
         console.log('Something went wrong');
         return false;
     }
-    var data = {"video_link":video_link, "email":email,"store":store}
+    var data = {"video_link":video_link, "email":email,"store":store,"order_id":order_id}
     $.ajax({
         url:"{{ url('/saveVideo') }}",
         method:"post",
@@ -68,12 +69,13 @@ const saveVideo = ()=>{
         dataType:"json",
         success:function(response){
             if(response.success){
-                $("#success_popup").modal('show');
+                // $("#success_popup").modal('show');
                 localStorage.removeItem('video_url');
                  $('#email').val('');
-                setTimeout(function(){
-                    window.location.href = `${@json(route('home'))}/authenticate?shop=${store}`;
-                }, 10000);
+                // setTimeout(function(){
+
+                    window.location.href = 'https://'+store;
+                // }, 10000);
             }
         }
     })
