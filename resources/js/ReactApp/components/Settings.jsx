@@ -45,6 +45,8 @@ const Settings = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [storeCurrency, setStoreCurrency] = useState("");
     const [errorMessages, setErorrMessages] = useState([]);
+    const [currentLang, setCurrentLang] = useState("en");
+    const [isSettingSave, setIsSettingSave] = useState(false);
 
     function handleChange() {
         setToggled(prevCheck => !prevCheck)
@@ -110,16 +112,16 @@ const Settings = () => {
                     { id: 5, value: "Beschreiben Sie die Hauptvorteile von JihiyiStore" },
                 ])}
             // save Locale into DB
-            fetch("/saveLocale", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ value }),
-            })
-                .then((response) => response.json())
-                .then((data) => toggleActive())
-                .catch((error) => console.error(error));
+            // fetch("/saveLocale", {
+            //     method: "POST",
+            //     headers: {
+            //         "Content-Type": "application/json",
+            //     },
+            //     body: JSON.stringify({ value }),
+            // })
+            //     .then((response) => response.json())
+            //     .then((data) => toggleActive())
+            //     .catch((error) => console.error(error));
         },
         ["english"]
     );
@@ -200,11 +202,11 @@ const Settings = () => {
     });
     const [gradientCheck, setGradientCheck] = useState(false);
     const [logoImage, setLogoImage] = useState("");
-    console.log(logoImage);
+    // console.log(logoImage);
     const [video, setVideo] = useState("");
     const [store, setStore] = useState("");
     const [baseUrl, setBaseUrl] = useState(
-        "https://phpstack-953879-3323622.cloudwaysapps.com"
+        "https://5ac1-2400-adc5-1b3-b500-a4d6-1986-a9fa-7a6c.in.ngrok.io"
     );
     const [imagename, setImagename] = useState("");
     const [videoname, setVideoname] = useState("");
@@ -212,6 +214,7 @@ const Settings = () => {
     const [previewLogoHide,setPreviewLogoHide] = useState(false);
     const [previewVedio,setPreviewVedio] = useState("");
     const [previewVedioHide,setPreviewVedioHide] = useState(false);
+
     // alert(logoImage);
     const logoHandler = (e) => {
         setImagename(e.target.files[0].name);
@@ -230,7 +233,7 @@ const Settings = () => {
 
     // Review Landing Page
     const reviewPage = (store) => {
-        window.open(baseUrl + "/landingPage/" + selected + "?store=" + store);
+        window.open(baseUrl + "/landingPage/" + currentLang + "?store=" + store);
     };
     /********  get Settings Data  ******/
     useEffect(() => {
@@ -252,15 +255,27 @@ const Settings = () => {
                     setVideo(data.data.video);
                     setStore(data.data.store);
                     setSelected(data.data.locale);
+                    setCurrentLang(data.data.locale)
                     setStoreCurrency(data.data.store_currency)
                     setTitle(data.data.instruction_title)
+                    if(data.data.logo){
+                        setPreviewLogoHide(true)
+                        setPreviwLogo(baseUrl+'/'+'logo/'+data.data.logo)
+                    }
+
+                    if(data.data.video && data.data.video!=='undefined'){
+                        setPreviewVedioHide(true);
+                        setPreviewVedio(baseUrl+'/'+'video/'+data.data.video);
+                    }
+
+
 
                 }
             })
             .catch((error) => {
-                console.log(error.message());
+                console.log(error);
             });
-    }, []);
+    }, [isSettingSave]);
     /******** save settings into DB ******/
     const saveSettings = (e) => {
         e.preventDefault();
@@ -279,6 +294,7 @@ const Settings = () => {
         formData.append("video", video);
         formData.append("setting_status", toggled);
         formData.append("instruction_title", title);
+        formData.append("locale",selected);
         if (
             (priceValue == "" ||
                 landingPageValue == "" ||
@@ -301,6 +317,7 @@ const Settings = () => {
                     if (data.success) {
                         setIsLoading(false)
                         toggleActive();
+                        setIsSettingSave(true);
                     }else{
                         setIsLoading(false)
                         setError(true);
@@ -344,7 +361,7 @@ const Settings = () => {
     const copyLandingPageLink = () => {
 
         const landingPageDisplayedValue =
-            baseUrl + "/landingPage/" + selected + "?store=" + store;
+            baseUrl + "/landingPage/" + currentLang + "?store=" + store;
         navigator.clipboard.writeText(landingPageDisplayedValue);
         toastMarkup && toastMarkup.show();
     };

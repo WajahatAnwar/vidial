@@ -127,7 +127,8 @@ public function getPendingVideos(Request $request){
         'success' => true,
         'message' => 'Fetch Pending Videos Successfully',
         'data'=>$videos,
-        'totalPages' => $totalPages
+        'totalPages' => $totalPages,
+        'videoCount'=>$totalVideos
     ]);
 }
 /****** operation on Videos  ********/
@@ -215,7 +216,8 @@ public function getApprovedVideos(Request $request){
         'success' => true,
         'message' => 'Fetch Approved Videos Successfully',
         'data'=>$videos,
-        'totalPages' => $totalPages
+        'totalPages' => $totalPages,
+        'videosCount'=>$totalVideos
     ]);
 }
 
@@ -395,7 +397,6 @@ return response()->json([
 
 // save User Uploaded data into database
   public function saveVideo(Request $request){
-      // save Preview Link into DB
       /****** check link expiration ******/
 
       $order = null;
@@ -506,6 +507,20 @@ return response()->json([
     }
 
     return $discount['body']['discount_code'];
+  }
+
+  /**** congratulations page ******/
+  public function congratulations(Request $request){
+     if($request->filled('store')){
+        $user=User::select('id')->where('name',$request->store)->first();
+        if(!$user){
+            return abort(404);
+        }
+        $current_user_id=$user->id;
+        return view('landingPage.congratulations',compact('current_user_id'));
+     }
+     return abort(404);
+
   }
 
 }

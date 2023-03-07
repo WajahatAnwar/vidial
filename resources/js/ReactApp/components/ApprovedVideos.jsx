@@ -41,6 +41,7 @@ function ApprovedVideos() {
                 if (data.success) {
                     setVideos(data.data);
                     setTotalPages(data.totalPages);
+                    setNumberOfVedios(data.videosCount);
                 }
             })
             .catch((error) => {
