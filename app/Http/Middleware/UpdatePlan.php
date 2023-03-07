@@ -32,7 +32,7 @@ class UpdatePlan
         $update_plane->update([
             'ugc_email_count'   =>    $email_count->ugc_email_count,
             'ugc_video_count'   =>    $email_count->ugc_video_count,
-            'remaining_email'   =>    $remaining_email_count,
+            // 'remaining_email'   =>    $remaining_email_count,
             'remaining_videos'  =>    $remaining_video_count
         ]);
         return $next($request);
