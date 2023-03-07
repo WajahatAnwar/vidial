@@ -66,6 +66,49 @@ const Settings = () => {
     const handleSelectChange = useCallback(
         (value) => {
             setSelected(value);
+            if(value === "en") {
+                setRows([
+                    { id: 1, value: "Record a video off up to 30 seconds" },
+                    { id: 2, value: "Share your genuine experience of the product" },
+                    { id: 3, value: "Showcase the product" },
+                    { id: 4, value: "Tell why you've decided to try JihiyiStore" },
+                    { id: 5, value: "Describe the main benefits of JihiyiStore" },
+                ])} else if (value === "fr"){
+                setRows([
+                    { id: 1, value: "Enregistrer une vidéo jusqu'à 30 secondes" },
+                    { id: 2, value: "Partagez votre expérience authentique du produit" },
+                    { id: 3, value: "Présenter le produit" },
+                    { id: 4, value: "Dites pourquoi vous avez décidé d'essayer JihiyiStore" },
+                    { id: 5, value: "Décrire les principaux avantages de JihiyiStore" },
+                ])} else if ( value === "es"){
+                setRows([
+                    { id: 1, value: "Graba un video de hasta 30 segundos" },
+                    { id: 2, value: "Comparta su experiencia genuina del producto" },
+                    { id: 3, value: "Mostrar el producto" },
+                    { id: 4, value: "Di por qué has decidido probar JihiyiStore" },
+                    { id: 5, value: "Describir los principales beneficios de JihiyiStore" },
+                ])} else if (value === "pt"){
+                setRows([
+                    { id: 1, value: "Grave um vídeo de até 30 segundos" },
+                    { id: 2, value: "Compartilhe sua experiência genuína com o produto" },
+                    { id: 3, value: "Mostre o produto" },
+                    { id: 4, value: "Diga por que você decidiu experimentar a JihiyiStore" },
+                    { id: 5, value: "Descrever os principais benefícios da JihiyiStore" },
+                ])} else if ( value === "it"){
+                setRows([
+                    { id: 1, value: "Registra un video fino a 30 secondi" },
+                    { id: 2, value: "Condividi la tua vera esperienza del prodotto" },
+                    { id: 3, value: "Mostra il prodotto" },
+                    { id: 4, value: "Spiega perché hai deciso di provare JihiyiStore" },
+                    { id: 5, value: "Descrivi i principali vantaggi di JihiyiStore" },
+                ])} else if (value === "de"){
+                setRows([
+                    { id: 1, value: "Nehmen Sie ein Video von bis zu 30 Sekunden auf" },
+                    { id: 2, value: "Präsentieren Sie das Produkt" },
+                    { id: 3, value: "Präsentieren Sie das Produkt" },
+                    { id: 4, value: "Sagen Sie, warum Sie sich entschieden haben, JihiyiStore auszuprobieren" },
+                    { id: 5, value: "Beschreiben Sie die Hauptvorteile von JihiyiStore" },
+                ])}
             // save Locale into DB
             fetch("/saveLocale", {
                 method: "POST",
@@ -157,6 +200,7 @@ const Settings = () => {
     });
     const [gradientCheck, setGradientCheck] = useState(false);
     const [logoImage, setLogoImage] = useState("");
+    console.log(logoImage);
     const [video, setVideo] = useState("");
     const [store, setStore] = useState("");
     const [baseUrl, setBaseUrl] = useState(
@@ -164,16 +208,22 @@ const Settings = () => {
     );
     const [imagename, setImagename] = useState("");
     const [videoname, setVideoname] = useState("");
-
+    const [previewLogo,setPreviwLogo] = useState("");
+    const [previewVedio,setPreviewVedio] = useState("");
+    const [previewVedioHide,setPreviewVedioHide] = useState(false);
     // alert(logoImage);
     const logoHandler = (e) => {
         setImagename(e.target.files[0].name);
         // imagename
         setLogoImage(e.target.files[0]);
+        setPreviwLogo(URL.createObjectURL(e.target.files[0]));
     };
     const videoHandler = (e) => {
         setVideoname(e.target.files[0].name)
         setVideo(e.target.files[0]);
+        setPreviewVedio(URL.createObjectURL(e.target.files[0]));
+        setPreviewVedioHide(true);
+        console.log(e.target.files[0]);
     };
 
     // Review Landing Page
@@ -595,9 +645,10 @@ const Settings = () => {
                                                 Your Store Logo
                                             </Text>
                                             <p style={{ marginTop: "5px" }}>
-                                                Should be a PNG file, not bigger than 1
+                                                Should be a PNG,Jpeg,Jpg file not bigger than 1
                                                 MB.
                                             </p>
+                                            <img style={{marginTop:"20px"}} src={previewLogo}></img>
                                         </div>
                                         <div style={{ textAlign: "end" }}>
                                             <div class="upload-btn-wrapper">
@@ -618,7 +669,7 @@ const Settings = () => {
                                             <p>{`${imagename}`} {imagename && <span>Uploaded</span>} </p>
                                         </div>
                                     </div>
-                                    <div style={{ width: "450px",marginTop:"30px" }}>
+                                    <div style={{ width: "450px",marginTop:"20px" }}>
                                             <Text variant="headingLg" as="h5">
                                             Instructions
                                             </Text>
@@ -709,6 +760,7 @@ const Settings = () => {
                                                 Add a video for your customers to get
                                                 inspired and make a UGC almost similar.
                                             </p>
+
                                         </div>
                                         <div style={{ textAlign: "end" }}>
                                             <div class="upload-btn-wrapper">
@@ -732,6 +784,15 @@ const Settings = () => {
 
                                         </div>
                                     </div>
+                                        {previewVedioHide &&
+                                        <iframe
+                                                width="108"
+                                                height="193"
+                                                src={previewVedio}
+                                                style={{marginTop:"15px",borderRadius:"8px",border:"none"}}
+                                            >
+                                            </iframe>
+                                        }
                                     <div
                                         style={{
                                             display: "flex",

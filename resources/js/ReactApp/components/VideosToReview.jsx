@@ -21,7 +21,9 @@ import WaitingIcon from "./imges/waiting2.png";
 import VideoTumbnail from "./imges/bureau 11.png";
 import { CircleCancelMajor, CircleTickMajor } from "@shopify/polaris-icons";
 import downloadIcon from "./imges/downloadIcon.png";
+import noVedio from "./imges/film.png"
 function WaitingVideos() {
+    const [numberOfVedios, setNumberOfVedios] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [reload,setReload]=useState(false);
@@ -119,6 +121,14 @@ function WaitingVideos() {
                                 </div>
                             </div>
                         </Card.Section>
+                        {numberOfVedios <= 0 ? (
+                                    <div style={{height:"400px",background:"#f9f9f9",borderRadius:"6px",textAlign:"center",paddingTop:"125px"}}>
+                                        <img style={{height: "102px",opacity: ".5"}} src={noVedio}></img>
+
+                                        <p style={{color: "#d3c9c9",fontSize:"17px"}}>No Videos To Display</p>
+
+                                  </div>
+                                ) :
                         <Card.Section>
                             <Grid>
                                 {videos &&
@@ -236,6 +246,7 @@ function WaitingVideos() {
                                     })}
                             </Grid>
                         </Card.Section>
+                        }
                     </Card>
                 </Grid.Cell>
             </Grid>

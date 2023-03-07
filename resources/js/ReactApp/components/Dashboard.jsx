@@ -10,9 +10,7 @@ import {
     TextField,
     Popover,
     DatePicker,
-    TextContainer,
     Modal,
-
 } from "@shopify/polaris";
 import { useEffect, useState, useCallback } from "react";
 import React from "react";
@@ -28,9 +26,9 @@ import noVedio from "./imges/film.png"
 import { downloadVideo } from "./utils";
 
 function Dashboard() {
-    const [activeRejectionModel, setActiveRejectionModel] = useState(true);
-    const handleChangeRejectionModel = useCallback(() => setActiveRejectionModel(!active), [active]);
-    const activatorRejectionModel = <Button onClick={handleChangeRejectionModel}>Open</Button>;
+    const [activeRejectionModel, setActiveRejectionModel] = useState(false);
+    const handleChangeRejectionModel = useCallback(() => setActiveRejectionModel(!activeRejectionModel), [activeRejectionModel]);
+    // const activatorRejectionModel = <Button onClick={handleChangeRejectionModel}>Open</Button>;
 
     const [rejectionReason, setRejectionReason] = useState('');
     const handleRejectionReason = useCallback((newValue) => setRejectionReason(newValue), []);
@@ -460,17 +458,16 @@ const videoOperation = (id, type) => {
                 </Grid.Cell>
             </Grid>
             <Modal
-        activator={activatorRejectionModel}
-        open={[activeRejectionModel}
+        open={activeRejectionModel}
         onClose={handleChangeRejectionModel}
         title="Reason for rejecting video"
         primaryAction={{
-          content: 'Add Instagram',
+          content: 'Send Reason',
           onAction: handleChangeRejectionModel,
         }}
         secondaryActions={[
           {
-            content: 'Learn more',
+            content: 'Cancel',
             onAction: handleChangeRejectionModel,
           },
         ]}

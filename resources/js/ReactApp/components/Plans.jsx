@@ -80,7 +80,7 @@ function Plans() {
                                     <img style={{width:"90%"}} src={Person}></img>
 
                                     <div >
-                                    <div style={{marginBottom:"15px",marginTop:"53px"}}>
+                                    <div style={{marginBottom:"15px",marginTop:"74px"}}>
                                         <div style={{marginLeft:"15px"}}>
                                             <Text variant="headingLg" as="h5">
                                                 Features
