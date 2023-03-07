@@ -12,8 +12,8 @@
                   <div id="dropzone-external" class="flex-box dx-theme-border-color">
                     <img id="dropzone-image" src="#" hidden alt="" />
                     <div id="dropzone-text" class="flex-box">
-                        <h3  style="font-size: 29px;font-weight: 700;color: #FF5175;">{{ __('uploadVideo.video_upload_heading') }}</h3>
-                        <p style="font-size: 15px;margin-bottom: 0;">{{ __('uploadVideo.video_upload_subheading') }}</p>
+                        <h3  style="font-size: 29px;font-weight: 700;color: #FF5175;text-align: center;">{{ __('uploadVideo.video_upload_heading') }}</h3>
+                        <p style="font-size: 15px;margin-bottom: 0;text-align: center;">{{ __('uploadVideo.video_upload_subheading') }}</p>
                     </div>
                     <div id="upload-progress"></div>
                   </div>

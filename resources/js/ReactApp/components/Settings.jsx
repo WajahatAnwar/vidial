@@ -209,6 +209,7 @@ const Settings = () => {
     const [imagename, setImagename] = useState("");
     const [videoname, setVideoname] = useState("");
     const [previewLogo,setPreviwLogo] = useState("");
+    const [previewLogoHide,setPreviewLogoHide] = useState(false);
     const [previewVedio,setPreviewVedio] = useState("");
     const [previewVedioHide,setPreviewVedioHide] = useState(false);
     // alert(logoImage);
@@ -217,6 +218,7 @@ const Settings = () => {
         // imagename
         setLogoImage(e.target.files[0]);
         setPreviwLogo(URL.createObjectURL(e.target.files[0]));
+        setPreviewLogoHide(true);
     };
     const videoHandler = (e) => {
         setVideoname(e.target.files[0].name)
@@ -645,10 +647,8 @@ const Settings = () => {
                                                 Your Store Logo
                                             </Text>
                                             <p style={{ marginTop: "5px" }}>
-                                                Should be a PNG,Jpeg,Jpg file not bigger than 1
-                                                MB.
+                                                Logo must be a png,jpg,jpeg file not bigger than 1 MB. Logo must be 175x175 pixels.
                                             </p>
-                                            <img style={{marginTop:"20px"}} src={previewLogo}></img>
                                         </div>
                                         <div style={{ textAlign: "end" }}>
                                             <div class="upload-btn-wrapper">
@@ -669,6 +669,8 @@ const Settings = () => {
                                             <p>{`${imagename}`} {imagename && <span>Uploaded</span>} </p>
                                         </div>
                                     </div>
+                                    {previewLogoHide &&
+                                    <img style={{marginTop:"20px",boxShadow: "rgb(0 0 0 / 5%) 0rem 1.25rem 1.6875rem 0rem !important"}} width="100px" height="100px" src={previewLogo}></img>}
                                     <div style={{ width: "450px",marginTop:"20px" }}>
                                             <Text variant="headingLg" as="h5">
                                             Instructions
