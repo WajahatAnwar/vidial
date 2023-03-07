@@ -27,7 +27,7 @@
 
 
             </div>
-            <a  href="{{ route('uploadVideo' ,['locale' =>$details['locale'] ]).'?store='.$details['store']}}">
+            <a  href="{{ route('uploadVideo' ,['locale' =>$details['locale'] ]).'?store='.$details['store'].'&order_id='. $details['order_id']}}">
             <button type="button" class="btn btn-primary" style="cursor: pointer;border-radius: 6px;color:white; width: 100%;font-size: 20px;font-weight: 700;background: {{$details['page_color']}};height: 60px;border: none;">
                 <i class="fa-solid fa-video"></i>  {{__('landingPage.button_text')}}
               </button></a>
