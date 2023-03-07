@@ -72,8 +72,8 @@ const saveVideo = ()=>{
                 localStorage.removeItem('video_url');
                  $('#email').val('');
                 // setTimeout(function(){
-                    
-                    location.href = store;
+
+                    window.location.href = 'https://'+store;
                 // }, 10000);
             }
         }
