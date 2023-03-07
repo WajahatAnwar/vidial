@@ -81,6 +81,8 @@ function WaitingVideos() {
                 if (data.success) {
                     setVideos(data.data);
                     setTotalPages(data.totalPages);
+                    setNumberOfVedios(data.videoCount);
+                    
                 }
             })
             .catch((error) => {

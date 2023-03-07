@@ -125,7 +125,8 @@ public function getPendingVideos(Request $request){
         'success' => true,
         'message' => 'Fetch Pending Videos Successfully',
         'data'=>$videos,
-        'totalPages' => $totalPages
+        'totalPages' => $totalPages,
+        'videoCount'=>$totalVideos
     ]);
 }
 /****** operation on Videos  ********/
@@ -206,7 +207,8 @@ public function getApprovedVideos(Request $request){
         'success' => true,
         'message' => 'Fetch Approved Videos Successfully',
         'data'=>$videos,
-        'totalPages' => $totalPages
+        'totalPages' => $totalPages,
+        'videosCount'=>$totalVideos
     ]);
 }
 
