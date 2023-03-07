@@ -146,6 +146,7 @@ class SettingsController extends Controller
         $settings['video']=$video;
         $settings['email_status'] = $request->setting_status;
         $settings['instruction_title'] = $request->instruction_title ?? 'Instructions';
+        $settings['locale']=$request->locale ?? 'en';
         
         Setting::updateOrCreate(['user_id'=>$currentUser],$settings);
         return response()->json([
@@ -194,18 +195,6 @@ class SettingsController extends Controller
             return abort(404);
           }
           return true;
-    }
-    /***** Save Locale value   *****/
-    public function saveLocale(Request $request){
-        $current_user = Auth::user()->id;
-        Setting::where('user_id',$current_user)->update([
-            'locale'=>$request->value
-        ]);
-
-        return response()->json([
-            'success' => true,
-            'message' => "Language Changed Successfully",
-        ]);
     }
 
     public function getCurrencySymbol($currency_code){

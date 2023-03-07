@@ -70,12 +70,14 @@ const saveVideo = ()=>{
         success:function(response){
             if(response.success){
                 // $("#success_popup").modal('show');
-                localStorage.removeItem('video_url');
+                //localStorage.removeItem('video_url');
                  $('#email').val('');
-                // setTimeout(function(){
-
-                    window.location.href = 'https://'+store;
-                // }, 10000);
+                 var congrats ="{{url('congratulations')}}";
+                 congrats = congrats + '?store=' + store
+                    //window.location.href = 'https://'+store;
+                    window.location.href = congrats;
+                    
+                
             }
         }
     })

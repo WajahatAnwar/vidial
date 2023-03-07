@@ -65,6 +65,7 @@ Route::get('landingPage/{locale}',[SettingsController::class,'landingPage']);
 Route::get('uploadVideo/{locale}/{order_id?}',[SettingsController::class,'uploadVideo'])->name('uploadVideo');
 // upload video on Dropbox
 Route::post('uploadVideo',[VideoController::class,'uploadDropboxVideo']);
+Route::get('congratulations',[VideoController::class,'congratulations']);
 
 Route::post('saveVideo',[VideoController::class,'saveVideo']);
 Route::get('test',[VideoController::class,'testing']);
