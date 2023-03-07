@@ -15,7 +15,8 @@ use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Http;
-
+use Illuminate\Support\Facades\Crypt;
+use App\Models\Orders;
 class VideoController extends Controller
 {
       public function index(Request $request){
@@ -306,6 +307,7 @@ return $formattedDate;
 
   // Upload video on dropbox
   public function uploadDropboxVideo(Request $request){
+   
     $file = $request->file('files')[0];
     $dropbox = updateDropboxToken();
     $token = 'Bearer '.$dropbox['access_token'];
@@ -385,21 +387,40 @@ return response()->json([
 // save User Uploaded data into database
   public function saveVideo(Request $request){
       // save Preview Link into DB
-      /****** check link expiration
-
-      $order_id = 1; // static for now
-      $order=Order::find($id);
-      if($order){
-        if($order->replied==1){
-            return 'link has been expired';
+      /****** check link expiration ******/
+  
+      $order = null;
+      if ($request->filled('order_id')) {
+        try {
+            $order_id = Crypt::decrypt($request->order_id);
+            $order=Orders::find($order_id);
+            
+        // check order existance
+        if(!$order){
+            return response()->json([
+                'success' => false,
+                'message' => 'Path not found',
+            ],404);
         }
-        // all order logic here
+        // check replied or not
+        if($order->replied){
+            return response()->json([
+                'success' => false,
+                'message' => 'Link expired',
+            ],419);
+        }
+        } catch (\Illuminate\Contracts\Encryption\DecryptException $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->message(),
+            ],500);
+        }
+        
 
-      }else{
-        return 'something went wrong'
-      }
+    }
+      
 
-      ******/
+      
 $video['video_link']=$request->video_link;
 $video['email']=$request->email;
 $video['status']=config('constants.video_pending');
@@ -412,6 +433,10 @@ if(!$user){
 }
 $video['user_id']=$user->id;
 if(Video::create($video)){
+    if($order){
+        $order->replied=1;
+        $order->save();
+    }
     return response()->json([
         'success' => true,
         'message' => 'Video Uploaded Successfully',
@@ -466,4 +491,5 @@ return response()->json([
 
     return $discount['body']['discount_code'];
   }
+
 }
