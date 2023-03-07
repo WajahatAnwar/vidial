@@ -68,12 +68,12 @@ const saveVideo = ()=>{
         dataType:"json",
         success:function(response){
             if(response.success){
-                $("#success_popup").modal('show');
+                // $("#success_popup").modal('show');
                 localStorage.removeItem('video_url');
                  $('#email').val('');
-                setTimeout(function(){
+                // setTimeout(function(){
                     window.location.href = `${@json(route('home'))}/authenticate?shop=${store}`;
-                }, 10000);
+                // }, 10000);
             }
         }
     })

@@ -51,7 +51,6 @@ Route::post('make_campaign_duplicate',[CampaignController::class,'make_campaign_
 
 Route::get('delete_campaign',[CampaignController::class,'delete_campaign'])->middleware(['verify.shopify']);
 
-
 Route::get('get_current_settings',[SettingsController::class,'get_current_settings'])->middleware(['verify.shopify']);
 
 Route::post('change_pop_up_type',[SettingsController::class,'change_pop_up_type'])->middleware(['verify.shopify']);
@@ -63,7 +62,7 @@ Route::get('get_settings',[SettingsController::class,'getSettings'])->middleware
 // Landing Page View
 Route::get('landingPage/{locale}',[SettingsController::class,'landingPage']);
 // Landing Page
-Route::get('uploadVideo/{locale}',[SettingsController::class,'uploadVideo'])->name('uploadVideo');
+Route::get('uploadVideo/{locale}/{order_id?}',[SettingsController::class,'uploadVideo'])->name('uploadVideo');
 // upload video on Dropbox
 Route::post('uploadVideo',[VideoController::class,'uploadDropboxVideo']);
 
