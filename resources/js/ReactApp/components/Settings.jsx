@@ -255,8 +255,6 @@ const Settings = () => {
                     setStoreCurrency(data.data.store_currency)
                     setTitle(data.data.instruction_title)
 
-
-
                 }
             })
             .catch((error) => {

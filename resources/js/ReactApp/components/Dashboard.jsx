@@ -32,7 +32,7 @@ function Dashboard() {
 
     const [rejectionReason, setRejectionReason] = useState('');
     const handleRejectionReason = useCallback((newValue) => setRejectionReason(newValue), []);
-    console.log(rejectionReason);
+
     const [pendingVideos, setPendingVideos] = useState([]);
     const [approvedVideos, setApprovedVideos] = useState([]);
     const [approvedVideosCount, setApprovedVideosCount] = useState(0);
@@ -43,16 +43,10 @@ function Dashboard() {
     /******** Operation on Videos  ******/
 const videoOperation = (id, type) => {
     const status = type ? "Approved" : "Reject";
-    if(status === "Reject"){
-        handleChangeRejectionModel();
-    }
-
     const confirmed = confirm(`Are you sure you want to ${status}?`);
     var formData = new FormData();
     formData.append("video_id", id);
     formData.append("type", type);
-    
-    formData.append('rejectionReason',rejectionReason)
     if (confirmed) {
         fetch("/videoOperation", {
             method: "post",
@@ -72,9 +66,9 @@ const videoOperation = (id, type) => {
                             data.data.code
                     );
                 } else {
-
-                    alert("Rejected Email Send Sucessfully");
-
+                    alert(
+                        data.message
+                    );
                 }
                 setReload(true);
                 return;
