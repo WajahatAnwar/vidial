@@ -22,7 +22,9 @@ import VideoTumbnail from "./imges/bureau 11.png";
 import { CircleCancelMajor, CircleTickMajor } from "@shopify/polaris-icons";
 import downloadIcon from "./imges/downloadIcon.png";
 import { downloadVideo } from "./utils";
+import noVedio from "./imges/film.png"
 function ApprovedVideos() {
+    const [numberOfVedios, setNumberOfVedios] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     /******** Fetching Videos  ******/
@@ -79,6 +81,14 @@ function ApprovedVideos() {
                                 </div>
                             </div>
                         </Card.Section>
+                        {numberOfVedios <= 0 ? (
+                                    <div style={{height:"400px",background:"#f9f9f9",borderRadius:"6px",textAlign:"center",paddingTop:"125px"}}>
+                                        <img style={{height: "102px",opacity: ".5"}} src={noVedio}></img>
+
+                                        <p style={{color: "#d3c9c9",fontSize:"17px"}}>No Videos To Display</p>
+
+                                  </div>
+                                ) :
                         <Card.Section>
                             <Grid>
                                 {videos &&
@@ -120,7 +130,7 @@ function ApprovedVideos() {
                                                         }}
                                                     >
                                                         Approved {video.updated_at}
-                                                        
+
                                                     </p>
                                                     <p
                                                         style={{
@@ -159,6 +169,7 @@ function ApprovedVideos() {
                                     })}
                             </Grid>
                         </Card.Section>
+                        }
                     </Card>
                 </Grid.Cell>
             </Grid>

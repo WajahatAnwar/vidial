@@ -10,6 +10,7 @@ import {
     TextField,
     Popover,
     DatePicker,
+    Modal,
 } from "@shopify/polaris";
 import { useEffect, useState, useCallback } from "react";
 import React from "react";
@@ -25,6 +26,13 @@ import noVedio from "./imges/film.png"
 import { downloadVideo } from "./utils";
 
 function Dashboard() {
+    const [activeRejectionModel, setActiveRejectionModel] = useState(false);
+    const handleChangeRejectionModel = useCallback(() => setActiveRejectionModel(!activeRejectionModel), [activeRejectionModel]);
+    // const activatorRejectionModel = <Button onClick={handleChangeRejectionModel}>Open</Button>;
+
+    const [rejectionReason, setRejectionReason] = useState('');
+    const handleRejectionReason = useCallback((newValue) => setRejectionReason(newValue), []);
+
     const [pendingVideos, setPendingVideos] = useState([]);
     const [approvedVideos, setApprovedVideos] = useState([]);
     const [approvedVideosCount, setApprovedVideosCount] = useState(0);
@@ -404,7 +412,7 @@ const videoOperation = (id, type) => {
                                                         }}
                                                     >
                                                         Approved {video.updated_at}
-                                                        
+
                                                     </p>
                                                     <p
                                                         style={{
@@ -432,7 +440,7 @@ const videoOperation = (id, type) => {
                                                                 cursor: "pointer",
                                                             }}
                                                         >
-                                                       
+
                                                             <img
                                                                 src={downloadIcon}
                                                             ></img>{" "}
@@ -448,6 +456,31 @@ const videoOperation = (id, type) => {
                     </Card>
                 </Grid.Cell>
             </Grid>
+            <Modal
+        open={activeRejectionModel}
+        onClose={handleChangeRejectionModel}
+        title="Reason for rejecting video"
+        primaryAction={{
+          content: 'Send Reason',
+          onAction: handleChangeRejectionModel,
+        }}
+        secondaryActions={[
+          {
+            content: 'Cancel',
+            onAction: handleChangeRejectionModel,
+          },
+        ]}
+      >
+        <Modal.Section>
+          <TextField
+            label="Reason for rejection"
+            value={rejectionReason}
+            onChange={handleRejectionReason}
+            multiline={4}
+            autoComplete="off"
+            />
+        </Modal.Section>
+      </Modal>
         </Page>
     );
 }
