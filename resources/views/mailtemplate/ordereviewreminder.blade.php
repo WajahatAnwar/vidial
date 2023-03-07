@@ -39,11 +39,11 @@
                         <a href="{{ url('video/'.$details['video']) }}" ><img height="176"  src="{{ url('images/video_thumbnail.png') }}" width="320" /></a>
                 </video>
               @endif
-              {{-- <img src="http://localhost:8000/images/image 113.png" > --}}
+              {{-- <img src="{{ env('APP_URL')}}/images/image 113.png" > --}}
               <div style="display: flex;justify-content: center;" >
                  <h5 style="font-size: 18px;color: #000;">Powered by </h5>
                     <div>
-                        <img src="http://localhost:8000/images/vidialLogo.png" style="margin: 35px 2 px 0px 10px;">
+                        <img src="{{ env('APP_URL')}}/images/vidialLogo.png" style="margin: 35px 2 px 0px 10px;">
                     </div>
                  <h5 style="font-size: 18px;color: #000;">idial</h5>
               </div>
