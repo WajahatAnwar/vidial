@@ -29,7 +29,7 @@ use App\Http\Controllers\InstallationController;
 
 
 
-Route::get('/',[InstallationController::class,'index'])->middleware(['verify.shopify' ,'billable' ])->name('home');
+Route::get('/',[InstallationController::class,'index'])->middleware(['verify.shopify' ,'billable', 'update.plan' ])->name('home');
 
 Route::post('sync_store',[CampaignController::class,'sync_store'])->middleware(['verify.shopify']);
 
