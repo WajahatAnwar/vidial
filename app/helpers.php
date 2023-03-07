@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\HtmlString;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Crypt;
+use App\Models\Orders;
 function vite_assets(): HtmlString
 {
     $devServerIsRunning = false;
@@ -228,6 +230,35 @@ if (!function_exists('splitStoreName')) {
     function splitStoreName($store){
         $store = explode(".", $store, 2);
         return $store[0];
+    }
+}
+
+/****** check link expiration  *******/
+if(!function_exists('checkLinkExpiration')){
+    function checkLinkExpiration($request){
+         // check link expiration
+    if ($request->filled('order_id')) {
+        try {
+            $order_id = Crypt::decrypt($request->order_id);
+            $order=Orders::find($order_id);
+            
+            
+        // check order existance
+        if(!$order){
+           return abort(404);
+        }
+        // check replied or not
+        if($order->replied){
+            return abort(419);
+        }
+        return $order;
+        } catch (\Illuminate\Contracts\Encryption\DecryptException $e) {
+            return abort(404);
+        }
+        
+
+    }
+    return false;
     }
 }
 

@@ -172,6 +172,7 @@ class SettingsController extends Controller
     }
 
     public function uploadVideo(Request $request,$locale){
+        checkLinkExpiration($request);
         setLan($locale);
         if($this->store!==''){
             $user=User::with('settings')->where('name',$this->store)->first();
