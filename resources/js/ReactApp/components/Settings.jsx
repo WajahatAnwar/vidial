@@ -684,7 +684,7 @@ const Settings = () => {
                                         </div>
                                     </div>
                                     {previewLogoHide &&
-                                    <img style={{marginTop:"20px",boxShadow: "0px 0px 6px 2px rgb(0 0 0 / 20%) !important"}} width="100px" height="100px" src={previewLogo}></img>}
+                                    <img style={{marginTop:"20px",boxShadow: "0px 0px 6px 2px rgb(0 0 0 / 20%) !important"}} width="100px" src={previewLogo}></img>}
                                     <div style={{ width: "450px",marginTop:"20px" }}>
                                             <Text variant="headingLg" as="h5">
                                             Instructions
