@@ -800,13 +800,8 @@ const Settings = () => {
                                         </div>
                                     </div>
                                         {previewVedioHide &&
-                                        <iframe
-                                                width="108"
-                                                height="193"
-                                                src={previewVedio}
-                                                style={{marginTop:"15px",borderRadius:"8px",border:"none",boxShadow: "0px 0px 6px 2px rgb(0 0 0 / 20%)"}}
-                                            >
-                                            </iframe>
+
+                                            <video width="108" height="193" src={previewVedio} muted autoPlay loop></video>
                                         }
                                     <div
                                         style={{
