@@ -219,7 +219,7 @@ const videoOperation = (id, type) => {
                                     <div style={{height:"400px",background:"#f9f9f9",borderRadius:"6px",textAlign:"center",paddingTop:"125px"}}>
                                         <img style={{height: "102px",opacity: ".5"}} src={noVedio}></img>
 
-                                        <p style={{color: "#d3c9c9",fontSize:"17px"}}>Videos to review</p>
+                                        <p style={{color: "#d3c9c9",fontSize:"17px"}}>No Videos to Review</p>
 
                                   </div>
                                 ) :
