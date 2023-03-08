@@ -41,8 +41,9 @@ function Plans() {
 
      },[]);
 
-     console.log(plan);
-    console.log(users);
+
+
+     
     const navigate = useNavigate();
 
     function handlechangeplan(name,plan_id) {
