@@ -216,12 +216,12 @@ public function rejectVideo(Request $request){
     $remainingVideos = $user->remaining_videos == null ? $user->remaining_videos : $user->ugc_video_count;
     $remaining_email = $user->remaining_email;
     // remaining video
-    if($remainingVideos <=0 ){
-        return response()->json([
-            'success' => false,
-            'message' => 'Video Limitation has been expired',
-        ]);
-    }
+    // if($remainingVideos <=0 ){
+    //     return response()->json([
+    //         'success' => false,
+    //         'message' => 'Video Limitation has been expired',
+    //     ]);
+    // }
     if($remaining_email <=0 ){
         return response()->json([
             'success' => false,
