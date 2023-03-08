@@ -41,14 +41,15 @@ class NotApprovedMailjob implements ShouldQueue
        $domain = env('MAILGUN_DOMAIN');
 
        $params = array(
-        'from' => 'mailgunner@50calibre.com',
-        'to' => 'hamza70fsd@gmail.com',
-        'subject' => 'Roundhouse  KICK',
+        'from' => env('MAIL_USERNAME'),
+        'to' => $this->detail['mail'],
+        'subject' => 'Video Approved',
         'template' => 'videoapproved',
         'v:name' => 'RichyRoundhouse',
-        'v:storename' => 'Bruski',
-        'v:discount_code'=>"66757868"
+        'v:storename_team' => $this->detail['store_name'],
+        'v:discount_code'=>$this->detail['coupen_code'],
     );
+
 
     $mgClient->messages()->send($domain, $params);
     }

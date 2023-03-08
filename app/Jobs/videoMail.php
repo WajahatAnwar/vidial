@@ -40,7 +40,7 @@ class videoMail implements ShouldQueue
        $domain = env('MAILGUN_DOMAIN');
 
        $params = array(
-        'from' => "no-reply@email.vidial.co",
+        'from' => env('MAIL_USERNAME'),
         'to' => $this->details['mail'],
         'subject' => 'Video Approved',
         'template' => 'videoapproved',
