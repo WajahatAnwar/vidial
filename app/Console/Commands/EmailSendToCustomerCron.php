@@ -100,7 +100,12 @@ class EmailSendToCustomerCron extends Command
                                );
 
                             $mgClient->messages()->send($domain, $params);
-
+                            $log_details = [
+                                'type' => "EMAIL",
+                                'send_to' => $Orders_send_mail->email,
+                                'user_id' =>$settings->user->id,
+                                ];
+                            update_log_file($log_details);
                                 // \Mail::to($Orders_send_mail->email)->send(new orderReviewReminderMail($details));
 
                                 Orders::where('id', $Orders_send_mail->id)->update([
@@ -137,6 +142,13 @@ class EmailSendToCustomerCron extends Command
                            );
 
                         $mgClient->messages()->send($domain, $params);
+
+                        $log_details = [
+                            'type' => "EMAIL",
+                            'send_to' => $Orders_send_mail->email,
+                            'user_id' =>$settings->user->id,
+                            ];
+                        update_log_file($log_details);
 
                             Orders::where('id', $Orders_send_mail->id)->update([
                                 'email_send' => 1,

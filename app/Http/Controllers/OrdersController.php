@@ -82,6 +82,14 @@ class OrdersController extends Controller
 
         $mgClient->messages()->send($domain, $params);
 
+        //upadting log files
+        $log_details = [
+            'type' => "EMAIL",
+            'send_to' => auth()->user()->email,
+            'user_id' =>auth()->user()->id,
+         ];
+        update_log_file($log_details);
+
         // }
 
         return response()->json([

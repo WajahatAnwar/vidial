@@ -49,6 +49,7 @@ class ThanksMailjob implements ShouldQueue
     );
 
     $mgClient->messages()->send($domain, $params);
+    
         // Mail::to($this->details['mail'])->send(new thanksyouMail($this->details));
     }
 }

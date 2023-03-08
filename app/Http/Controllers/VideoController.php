@@ -184,6 +184,12 @@ public function videoOperation(Request $request){
             'coupen_code' => $code['code']
         ];
         dispatch(new videoMail($details));
+        $log_details = [
+            'type' => "EMAIL",
+            'send_to' => $videos->email,
+            'user_id' =>$user->id,
+            ];
+        update_log_file($log_details);
        $updateUser= User::find(Auth::user()->id);
        $updateUser->remaining_email=$remaining_email - 1;
        $updateUser->remaining_videos=$remainingVideos - 1;
@@ -241,6 +247,14 @@ public function rejectVideo(Request $request){
             'url' => env('APP_URL')."/landingPage"."/". Auth::user()->settings->locale ."?store=".Auth::user()->name,
             ];
             dispatch(new NotApprovedMailjob($details));
+
+            $log_details = [
+                'type' => "EMAIL",
+                'send_to' => $videos->email,
+                'user_id' =>$user->id,
+                ];
+            update_log_file($log_details);
+
         //dispatch(new videoMail($details));
        $updateUser= User::find(Auth::user()->id);
        $updateUser->remaining_email=$remaining_email - 1;
@@ -512,6 +526,14 @@ if(Video::create($video)){
         'url' => "https://". $user->name."/"."admin"
     ];
     dispatch(new ThanksMailjob($details));
+
+    $log_details = [
+    'type' => "EMAIL",
+    'send_to' => $user->email,
+    'user_id' =>$user->id,
+    ];
+    update_log_file($log_details);
+
 
     return response()->json([
         'success' => true,

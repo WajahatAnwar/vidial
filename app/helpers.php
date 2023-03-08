@@ -7,14 +7,24 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
+// use Illuminate\Support\Facades\Log;
 use Illuminate\Support\HtmlString;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Crypt;
 use App\Models\Orders;
+use App\Models\Log;
+
+if (!function_exists('update_log_file')) {
+    function update_log_file($data)
+    {
+        Log::create($data);
+    }
+}
 function vite_assets(): HtmlString
 {
+
+
     $devServerIsRunning = false;
 
     if (app()->environment('local')) {
@@ -241,8 +251,8 @@ if(!function_exists('checkLinkExpiration')){
         try {
             $order_id = Crypt::decrypt($request->order_id);
             $order=Orders::find($order_id);
-            
-            
+
+
         // check order existance
         if(!$order){
            return abort(404);
@@ -255,7 +265,7 @@ if(!function_exists('checkLinkExpiration')){
         } catch (\Illuminate\Contracts\Encryption\DecryptException $e) {
             return abort(404);
         }
-        
+
 
     }
     return false;
