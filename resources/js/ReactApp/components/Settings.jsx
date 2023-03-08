@@ -35,9 +35,10 @@ import ErrorIcon from "./imges/error.png";
 import DellIcon from "./imges/dellIcon.png";
 import ColorWheel from "./imges/collorWheel.png";
 import Toggle from "./Toggle";
-const urlParams = new URLSearchParams(location.search);
-const shopParam = urlParams.get('shop'); // "aliahmedseller.myshopify.com"
-const storeName = shopParam.split('.')[0]; // "aliahmedseller"
+// const urlParams = new URLSearchParams(location.search);
+// const shopParam = urlParams.get('shop'); // "aliahmedseller.myshopify.com"
+// const storeName = shopParam.split('.')[0]; // "aliahmedseller"
+// console.log(storeName);
 const Settings = () => {
     const [title, setTitle] = useState('');
   const handleTitle = useCallback((newValue) => setTitle(newValue), []);
