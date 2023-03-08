@@ -13,6 +13,7 @@ use GuzzleHttp\Promise\Create;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Mailgun\Mailgun;
 
 class OrdersController extends Controller
 {
@@ -63,7 +64,24 @@ class OrdersController extends Controller
         // $get_customers = Orders::pluck('email');
         // foreach ($get_customers as $value) {
             //auth()->user()->email
-            Mail::to(auth()->user()->email)->send(new testMail($details));
+
+            $mgClient = Mailgun::create(
+                env('MAILGUN_SECRET'), // Mailgun API Key
+                env('MAILGUN_ENDPOINT')
+           );
+           $domain = env('MAILGUN_DOMAIN');
+
+
+           $params = array(
+            'from' => env('MAIL_USERNAME'),
+            'to' => auth()->user()->email,
+            'subject' => 'Test Mail For Marchent',
+            'template' => 'test_mail_for_merchent',
+            'v:url' => env('APP_URL')."/landingPage"."/". $settings->locale ."?store=".$settings->user->name,
+        );
+
+        $mgClient->messages()->send($domain, $params);
+
         // }
 
         return response()->json([

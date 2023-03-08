@@ -206,7 +206,7 @@ const Settings = () => {
     const [video, setVideo] = useState("");
     const [store, setStore] = useState("");
     const [baseUrl, setBaseUrl] = useState(
-        "https://b4e3-2400-adc5-1b3-b500-95b-1517-e46a-de03.in.ngrok.io"
+        "https://71a2-2400-adc5-1b3-b500-583e-e026-23ac-66f9.in.ngrok.io"
     );
     const [imagename, setImagename] = useState("");
     const [videoname, setVideoname] = useState("");
@@ -261,7 +261,7 @@ const Settings = () => {
                 setPreviewLogoHide(true);
                 setPreviwLogo(baseUrl + "/" + "logo/" + data.data.logo);
               }
-      
+
               if (data.data.video && data.data.video !== "undefined") {
                 setPreviewVedioHide(true);
                 setPreviewVedio(baseUrl + "/" + "video/" + data.data.video);
@@ -273,7 +273,7 @@ const Settings = () => {
         }
         fetchSettings();
       }, [isSettingSave]);
-      
+
     /******** save settings into DB ******/
     const saveSettings = (e) => {
         e.preventDefault();

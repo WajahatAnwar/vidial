@@ -229,11 +229,16 @@ public function rejectVideo(Request $request){
     if($videos){
         $videos->status =config('constants.video_reject');
         $videos->save();
+        $email_parts = explode('@', $videos->email);
+        $name = $email_parts[0];
+
             $details = [
             'rejectionReason' => $request->reason,
             'mail'            => $videos->email,
-            'name'=>'testUser',
-            'storename'=>splitStoreName(Auth::user()->name)
+            'name'=> $name ,
+            'storename'=>splitStoreName(Auth::user()->name),
+            'storeteam'=>Auth::user()->name,
+            'url' => env('APP_URL')."/landingPage"."/". Auth::user()->settings->locale ."?store=".Auth::user()->name,
             ];
             dispatch(new NotApprovedMailjob($details));
         //dispatch(new videoMail($details));
@@ -503,15 +508,15 @@ if(Video::create($video)){
     }
     // send email Portion
     $details = [
-        'mail' => $request->email,
-        'detail' => " Thanks for UGC Video we will be back to you soon !"
+        'mail' => $user->email,
+        'url' => "https://". $user->name."/"."admin"
     ];
     dispatch(new ThanksMailjob($details));
 
     return response()->json([
         'success' => true,
         'message' => 'Video Uploaded Successfully',
-        'data'=>['locale'=>$user->settings->locale]
+        'data'=>['locale' => $user->settings->locale]
     ]);
 }
 return response()->json([
@@ -566,14 +571,14 @@ return response()->json([
 
   /**** congratulations page ******/
   public function congratulations(Request $request,$locale){
-    
+
      if($request->filled('store')){
         setLan($locale);
         $user=User::select('id')->where('name',$request->store)->first();
-        
+
         $store=$request->store;
         if(!$user){
-            
+
             return abort(404);
         }
         $current_user_id=$user->id;

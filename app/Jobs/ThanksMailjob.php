@@ -10,6 +10,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Mail;
+use Mailgun\Mailgun;
 
 class ThanksMailjob implements ShouldQueue
 {
@@ -33,6 +34,21 @@ class ThanksMailjob implements ShouldQueue
      */
     public function handle()
     {
+        $mgClient = Mailgun::create(
+            env('MAILGUN_SECRET'), // Mailgun API Key
+            env('MAILGUN_ENDPOINT')
+       );
+       $domain = env('MAILGUN_DOMAIN');
+
+       $params = array(
+        'from' => env('MAIL_USERNAME'),
+        'to' => "hamza@swishtag.com",
+        'subject' => 'New Video on The Store',
+        'template' => 'inform_merchant_new_ugc_uploaded',
+        'v:storename' => $this->details['url'],
+    );
+
+    $mgClient->messages()->send($domain, $params);
         // Mail::to($this->details['mail'])->send(new thanksyouMail($this->details));
     }
 }

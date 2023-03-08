@@ -40,17 +40,18 @@ class NotApprovedMailjob implements ShouldQueue
        );
        $domain = env('MAILGUN_DOMAIN');
 
+       
        $params = array(
         'from' => env('MAIL_USERNAME'),
         'to' => $this->detail['mail'],
         'subject' => 'Video Not Approved',
         'template' => 'videodeclined',
-        'v:name' => 'test',
-        'v:storename' => "sdfsdf",
-        'v:storename_team' => "update you ssoon",
-        'v:reason_decline'=>"updating",
+        'v:name' => $this->detail['name'],
+        'v:storename' =>$this->detail['storename'] ,
+        'v:storename_team' =>$this->detail['storeteam'] ,
+        'v:reason_decline'=>$this->detail['rejectionReason'],
+        'v:url' => $this->detail['url']
     );
-
 
     $mgClient->messages()->send($domain, $params);
     }
