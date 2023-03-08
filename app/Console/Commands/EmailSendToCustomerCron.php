@@ -55,7 +55,7 @@ class EmailSendToCustomerCron extends Command
                 if ($Orders_send_mail->email_status == 1) {
 
                     //if already replied ignore
-                    if ($Orders_send_mail->replied != 0) {
+                    if ($Orders_send_mail->replied == 0) {
                         // reminder mail check
                         $email_parts = explode('@', $Orders_send_mail->email);
                         $name = $email_parts[0];
@@ -76,7 +76,6 @@ class EmailSendToCustomerCron extends Command
                             'store_name' => $current_user->email,
                             'url' => env('APP_URL')."/landingPage"."/". $settings->locale ."?store=".$settings->user->name
                         ];
-
                         if ($Orders_send_mail->email_send == 1 && $Orders_send_mail->replied == 0 && $Orders_send_mail->remaining_mail > 0) {
 
                             if (Carbon::now()->format('d-m-y') == Carbon::parse($Orders_send_mail->reminder_mail)->format('d-m-y')) {
@@ -118,11 +117,7 @@ class EmailSendToCustomerCron extends Command
                             }
                         }
                         //first mail after order check
-
-                        // dd(Carbon::now()->format('d-m-y') <= Carbon::parse($Orders_send_mail->email_send_at)->format('d-m-y'));
-                        if (Carbon::now()->format('d-m-y') >= Carbon::parse($Orders_send_mail->email_send_at)->format('d-m-y')  && $Orders_send_mail->remaining_mail > 0 && $Orders_send_mail->email_send == 0) {
-
-
+                        if (Carbon::now()->format('d-m-y') == Carbon::parse($Orders_send_mail->email_send_at)->format('d-m-y')  && $Orders_send_mail->remaining_mail > 0 && $Orders_send_mail->email_send == 0) {
                             $mgClient = Mailgun::create(
                                 env('MAILGUN_SECRET'), // Mailgun API Key
                                 env('MAILGUN_ENDPOINT')
