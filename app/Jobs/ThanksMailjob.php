@@ -33,6 +33,6 @@ class ThanksMailjob implements ShouldQueue
      */
     public function handle()
     {
-        Mail::to($this->details['mail'])->send(new thanksyouMail($this->details));
+        // Mail::to($this->details['mail'])->send(new thanksyouMail($this->details));
     }
 }
