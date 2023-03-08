@@ -35,7 +35,7 @@ class videoMail implements ShouldQueue
     {
         $mgClient = Mailgun::create(
             env('MAILGUN_SECRET'), // Mailgun API Key
-            env('MAILGUN_ENDPOINT'),
+            env('MAILGUN_ENDPOINT')
        );
        $domain = env('MAILGUN_DOMAIN');
 
