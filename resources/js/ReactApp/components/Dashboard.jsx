@@ -43,11 +43,11 @@ function Dashboard() {
     // const activatorRejectionSuccessModel = <Button onClick={handleChangeRejectionSuccessModel}>Open</Button>;
 
 
-    const [activeApprovedConfirmModel, setActiveApprovedConfirmModel] = useState(false);
+    const [activeApprovedConfirmModel, setActiveApprovedConfirmModel] = useState(true);
     const handleChangeApprovedConfirmModel = useCallback(() => setActiveApprovedConfirmModel(!activeApprovedConfirmModel), [activeApprovedConfirmModel]);
     // const activatorApprovedConfirmModel = <Button onClick={handleChangeApprovedConfirmModel}>Open</Button>;
 
-    const [activeApprovedSuccessModel, setActiveApprovedSuccessModel] = useState(true);
+    const [activeApprovedSuccessModel, setActiveApprovedSuccessModel] = useState(false);
     const handleChangeApprovedSuccessModel = useCallback(() => setActiveApprovedSuccessModel(!activeApprovedSuccessModel), [activeApprovedSuccessModel]);
     // const activatorApprovedSuccessModel = <Button onClick={handleChangeApprovedSuccessModel}>Open</Button>;
 
@@ -567,7 +567,7 @@ const videoOperation = (id, type) => {
       >
                 <Modal.Section>
                     <div style={{textAlign:"center",marginTop:"20px",marginBottom:"20px"}}>
-                        <Text variant="heading2xl" as="h3">
+                        <Text variant="headingXl" as="h4">
                         Congratulations, you just approved the video.
                         </Text>
 
