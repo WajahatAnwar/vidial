@@ -31,12 +31,11 @@ function WaitingVideos() {
     const [videos, setVideos] = useState([]);
 
     /******** Operation on Videos  ******/
- const videoOperation = (id, type) => {
-    const status = type ? "Approved" : "Reject";
+const videoOperation = (id) => {
+    const status = "Approved";
     const confirmed = confirm(`Are you sure you want to ${status}?`);
     var formData = new FormData();
     formData.append("video_id", id);
-    formData.append("type", type);
     if (confirmed) {
         fetch("/videoOperation", {
             method: "post",
@@ -50,12 +49,11 @@ function WaitingVideos() {
             })
             .then((data) => {
                 if (data.success) {
+
                     alert(
                         "Congratulation video has been approved code :" +
                             data.data.code
                     );
-
-
                 } else {
                     alert(
                         data.message
@@ -205,8 +203,8 @@ function WaitingVideos() {
                                                                 }}
                                                                 onClick={() => {
                                                                     videoOperation(
-                                                                        video.id,
-                                                                        1
+                                                                        video.id
+                                                                        
                                                                     );
                                                                 }}
                                                             >
