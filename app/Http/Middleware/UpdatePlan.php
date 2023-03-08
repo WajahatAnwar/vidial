@@ -34,15 +34,7 @@ class UpdatePlan
 
         $update_plane = User::find(auth()->user()->id);
 
-        if(auth()->user()->remaining_email == 0 || auth()->user()->remaining_videos == 0  ){
-            $update_plane->update([
-                'ugc_email_count'   =>    $email_count->ugc_email_count,
-                'ugc_video_count'   =>    $email_count->ugc_video_count,
-                'ugc_email_count'   =>    $email_count->ugc_email_count,
-                // 'remaining_email'   =>    $remaining_email_count ,
-                // 'remaining_videos'  =>    $remaining_video_count
-            ]);
-        } else{
+        // if(auth()->user()->remaining_email == 0 || auth()->user()->remaining_videos == 0  ){
             $update_plane->update([
                 'ugc_email_count'   =>    $email_count->ugc_email_count,
                 'ugc_video_count'   =>    $email_count->ugc_video_count,
@@ -50,7 +42,15 @@ class UpdatePlan
                 'remaining_email'   =>    $remaining_email_count ,
                 'remaining_videos'  =>    $remaining_video_count
             ]);
-        }
+        // } else{
+        //     $update_plane->update([
+        //         'ugc_email_count'   =>    $email_count->ugc_email_count,
+        //         'ugc_video_count'   =>    $email_count->ugc_video_count,
+        //         'ugc_email_count'   =>    $email_count->ugc_email_count,
+        //         'remaining_email'   =>    $remaining_email_count ,
+        //         'remaining_videos'  =>    $remaining_video_count
+        //     ]);
+        // }
         return $next($request);
     }
 }
