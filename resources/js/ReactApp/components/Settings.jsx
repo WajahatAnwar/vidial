@@ -46,7 +46,7 @@ const Settings = () => {
     const [storeCurrency, setStoreCurrency] = useState("");
     const [errorMessages, setErorrMessages] = useState([]);
     const [currentLang, setCurrentLang] = useState("en");
-    const [isSettingSave, setIsSettingSave] = useState(false);
+    const [isSettingSave, setIsSettingSave] = useState('');
 
     function handleChange() {
         setToggled(prevCheck => !prevCheck)
@@ -206,7 +206,7 @@ const Settings = () => {
     const [video, setVideo] = useState("");
     const [store, setStore] = useState("");
     const [baseUrl, setBaseUrl] = useState(
-        "https://phpstack-953879-3323622.cloudwaysapps.com"
+        "https://b4e3-2400-adc5-1b3-b500-95b-1517-e46a-de03.in.ngrok.io"
     );
     const [imagename, setImagename] = useState("");
     const [videoname, setVideoname] = useState("");
@@ -236,45 +236,44 @@ const Settings = () => {
     };
     /********  get Settings Data  ******/
     useEffect(() => {
-        fetch("/get_settings")
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error("Something went wrong");
-                }
-                return response.json();
-            })
-            .then((data) => {
-                if (data.success) {
-                    setPriceValue(data.data.store_credit);
-                    setLandingPage(data.data.page_display_to_customers);
-                    setEmailSentToValue(data.data.email_sent_to_customer);
-                    setLandingPageDisplayedValue(data.data.page_link);
-                    setRows(data.data.instructions ? data.data.instructions : []);
-                    setLogoImage(data.data.logo);
-                    setVideo(data.data.video);
-                    setStore(data.data.store);
-                    setSelected(data.data.locale);
-                    setCurrentLang(data.data.locale)
-                    setStoreCurrency(data.data.store_currency)
-                    setTitle(data.data.instruction_title)
-                    if(data.data.logo){
-                        setPreviewLogoHide(true)
-                        setPreviwLogo(baseUrl+'/'+'logo/'+data.data.logo)
-                    }
-
-                    if(data.data.video && data.data.video!=='undefined'){
-                        setPreviewVedioHide(true);
-                        setPreviewVedio(baseUrl+'/'+'video/'+data.data.video);
-                    }
-
-
-
-                }
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-    }, [isSettingSave]);
+        async function fetchSettings() {
+          try {
+            const response = await fetch("/get_settings");
+            if (!response.ok) {
+              throw new Error("Something went wrong");
+            }
+            const data = await response.json();
+            if (data.success) {
+              setPriceValue(data.data.store_credit);
+              setLandingPage(data.data.page_display_to_customers);
+              setEmailSentToValue(data.data.email_sent_to_customer);
+              setLandingPageDisplayedValue(data.data.page_link);
+              setRows(data.data.instructions ? data.data.instructions : []);
+              setLogoImage(data.data.logo);
+              setVideo(data.data.video);
+              setStore(data.data.store);
+              setSelected(data.data.locale);
+              setCurrentLang(data.data.locale);
+              setStoreCurrency(data.data.store_currency);
+              setTitle(data.data.instruction_title);
+              console.log("hi there" + isSettingSave);
+              if (data.data.logo) {
+                setPreviewLogoHide(true);
+                setPreviwLogo(baseUrl + "/" + "logo/" + data.data.logo);
+              }
+      
+              if (data.data.video && data.data.video !== "undefined") {
+                setPreviewVedioHide(true);
+                setPreviewVedio(baseUrl + "/" + "video/" + data.data.video);
+              }
+            }
+          } catch (error) {
+            console.log(error);
+          }
+        }
+        fetchSettings();
+      }, [isSettingSave]);
+      
     /******** save settings into DB ******/
     const saveSettings = (e) => {
         e.preventDefault();
@@ -316,7 +315,7 @@ const Settings = () => {
                     if (data.success) {
                         setIsLoading(false)
                         toggleActive();
-                        setIsSettingSave(true);
+                        setIsSettingSave(new Date().getSeconds());
                     }else{
                         setIsLoading(false)
                         setError(true);

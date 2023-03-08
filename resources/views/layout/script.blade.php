@@ -44,6 +44,7 @@ const saveVideo = ()=>{
     const url = new URL(window.location.toLocaleString());
     const store = url.searchParams.get('store');
     const order_id = url.searchParams.get('order_id');
+  
     if(video_link=='' || video_link==null){
         $('#error-video').removeClass('d-none').text('Please upload a video');
         return false;
@@ -69,11 +70,14 @@ const saveVideo = ()=>{
         dataType:"json",
         success:function(response){
             if(response.success){
+
                 // $("#success_popup").modal('show');
                 //localStorage.removeItem('video_url');
                  $('#email').val('');
+                 
                  var congrats ="{{url('congratulations')}}";
-                 congrats = congrats + '?store=' + store
+                 congrats = congrats + '/'+response.data.locale +'?store=' + store
+                 
                     //window.location.href = 'https://'+store;
                     window.location.href = congrats;
                     

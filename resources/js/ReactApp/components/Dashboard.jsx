@@ -58,14 +58,15 @@ function Dashboard() {
     const [pendingVideosCount, setPendingVideosCount] = useState(0);
     const [userEmail,setUserEmail] = useState(0);
     const [reload,setReload]=useState(false);
+    const [rejectVideoId,setRejectVideoId] = useState(false);
 
+      
     /******** Operation on Videos  ******/
-const videoOperation = (id, type) => {
-    const status = type ? "Approved" : "Reject";
+const videoOperation = (id) => {
+    const status = "Approved";
     const confirmed = confirm(`Are you sure you want to ${status}?`);
     var formData = new FormData();
     formData.append("video_id", id);
-    formData.append("type", type);
     if (confirmed) {
         fetch("/videoOperation", {
             method: "post",
@@ -96,6 +97,44 @@ const videoOperation = (id, type) => {
                 console.log(error);
             });
     }
+};
+/******** Reject Video Handle   ******/
+const handleRejectVideo = ()=>{
+
+    if(rejectionReason && rejectVideoId){
+        var formData = new FormData();
+        formData.append("reason", rejectionReason);
+        formData.append("video_id", rejectVideoId);
+    fetch("/rejectVideo", {
+        method: "post",
+        body: formData,
+    })
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error("Something went wrong");
+            }
+            return response.json();
+        })
+        .then((data) => {
+            if (data.success) {
+              console.log(data.message)
+            } else {
+                console.log(data.message)
+            }
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+    }
+}
+
+/**** Reject video ***/
+const rejectVideo = (id) => {
+    var formData = new FormData();
+    setRejectVideoId(id)
+    setActiveRejectionModel(true);
+   return;
+    
 };
     /********  get Settings Data  ******/
     useEffect(() => {
@@ -298,8 +337,8 @@ const videoOperation = (id, type) => {
                                                                 }}
                                                                 onClick={() => {
                                                                     videoOperation(
-                                                                        video.id,
-                                                                        1
+                                                                        video.id
+                                                                        
                                                                     );
                                                                 }}
                                                             >
@@ -316,9 +355,9 @@ const videoOperation = (id, type) => {
                                                                 <Link
                                                                     to="#"
                                                                     onClick={() => {
-                                                                        videoOperation(
+                                                                        rejectVideo(
                                                                             video.id,
-                                                                            0
+                                                                            
                                                                         );
                                                                     }}
                                                                 >
@@ -482,7 +521,7 @@ const videoOperation = (id, type) => {
         title="Reason for rejecting video"
         primaryAction={{
           content: 'Send Reason',
-          onAction: handleChangeRejectionModel,
+          onAction: handleRejectVideo,
         }}
         secondaryActions={[
           {
