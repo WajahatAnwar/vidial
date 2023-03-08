@@ -68,7 +68,7 @@ const Settings = () => {
     const [selected, setSelected] = useState("en");
 
     //const handleSelectChange = useCallback((value) => setSelected(value), ["english"]);
-    
+
     const options = [
         { label: "English", value: "en" },
         { label: "French", value: "fr" },
@@ -150,7 +150,7 @@ const Settings = () => {
     const [video, setVideo] = useState("");
     const [store, setStore] = useState("");
     const [baseUrl, setBaseUrl] = useState(
-        "https://71a2-2400-adc5-1b3-b500-583e-e026-23ac-66f9.in.ngrok.io"
+        "https://phpstack-953879-3323622.cloudwaysapps.com"
     );
     const [imagename, setImagename] = useState("");
     const [videoname, setVideoname] = useState("");
@@ -752,7 +752,7 @@ const Settings = () => {
                                             </div>
                                             <div style={{ marginLeft: "10px" }}>
                                                 <div
-                                                    
+
                                                 >
                                                     <img src={DellIcon} onClick={() =>
                                                         handleRemoveRow(row.id)
