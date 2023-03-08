@@ -37,18 +37,38 @@ function Dashboard() {
     const [activeRejectionConfirmModel, setActiveRejectionConfirmModel] = useState(false);
     const handleChangeRejectionConfirmModel = useCallback(() => setActiveRejectionConfirmModel(!activeRejectionConfirmModel), [activeRejectionConfirmModel]);
     // const activatorRejectionConfirmModel = <Button onClick={handleChangeRejectionConfirmModel}>Open</Button>;
-
     const [activeRejectionSuccessModel, setActiveRejectionSuccessModel] = useState(false);
-    const handleChangeRejectionSuccessModel = useCallback(() => setActiveRejectionSuccessModel(!activeRejectionSuccessModel), [activeRejectionSuccessModel]);
+    const handleChangeRejectionSuccessModel = useCallback(() => {
+        setActiveRejectionSuccessModel(!activeRejectionSuccessModel), [activeRejectionSuccessModel];
+        setRejectionReason('');
+        setReload(new Date().getSeconds());
+
+    })
+
+    const [videoFeedback,setVideoFeedback] = useState(' Congratulations, you just approved the video.');
+    const [videoFeedbackPopupTitle,setVideoFeedbackPopupTitle] = useState('Confirmation for approving video');
+    const [rejectVideoFeedback,setRejectVideoFeedback] = useState('Are you sure you want to Reject?');
+    const [rejectVideoFeedbackTitlePopup,setrejectVideoFeedbackTitlePopup] = useState('Confirmation for reject video');
+    const [rejectVideoBodyText, setrejectVideoBodyText] = useState('Video Rejected Successfully');
+    
+    
+    
+    
+
     // const activatorRejectionSuccessModel = <Button onClick={handleChangeRejectionSuccessModel}>Open</Button>;
 
 
-    const [activeApprovedConfirmModel, setActiveApprovedConfirmModel] = useState(true);
+    const [activeApprovedConfirmModel, setActiveApprovedConfirmModel] = useState(false);
     const handleChangeApprovedConfirmModel = useCallback(() => setActiveApprovedConfirmModel(!activeApprovedConfirmModel), [activeApprovedConfirmModel]);
     // const activatorApprovedConfirmModel = <Button onClick={handleChangeApprovedConfirmModel}>Open</Button>;
 
     const [activeApprovedSuccessModel, setActiveApprovedSuccessModel] = useState(false);
-    const handleChangeApprovedSuccessModel = useCallback(() => setActiveApprovedSuccessModel(!activeApprovedSuccessModel), [activeApprovedSuccessModel]);
+    const handleChangeApprovedSuccessModel = useCallback(() => 
+    {
+        setActiveApprovedSuccessModel(!activeApprovedSuccessModel), [activeApprovedSuccessModel]
+        setReload(new Date().getSeconds());
+    })
+    
     // const activatorApprovedSuccessModel = <Button onClick={handleChangeApprovedSuccessModel}>Open</Button>;
 
 
@@ -57,8 +77,10 @@ function Dashboard() {
     const [approvedVideosCount, setApprovedVideosCount] = useState(0);
     const [pendingVideosCount, setPendingVideosCount] = useState(0);
     const [userEmail,setUserEmail] = useState(0);
-    const [reload,setReload]=useState(false);
+    const [reload,setReload]=useState('');
     const [rejectVideoId,setRejectVideoId] = useState(false);
+    const [approvedUserVideoId,setapprovedUserVideoId] = useState(false);
+    
 
       
     /******** Operation on Videos  ******/
@@ -98,10 +120,19 @@ const videoOperation = (id) => {
             });
     }
 };
+/******** Rejection popup   ******/
+
+ const handleRejectionPopup = ()=>{
+  setActiveRejectionConfirmModel(false);
+  setActiveRejectionModel(true);
+  return ;
+ }
 /******** Reject Video Handle   ******/
 const handleRejectVideo = ()=>{
 
     if(rejectionReason && rejectVideoId){
+        setrejectVideoBodyText('Video Rejected Successfully')
+        setrejectVideoFeedbackTitlePopup('Confirmation for reject video')
         var formData = new FormData();
         formData.append("reason", rejectionReason);
         formData.append("video_id", rejectVideoId);
@@ -117,14 +148,21 @@ const handleRejectVideo = ()=>{
         })
         .then((data) => {
             if (data.success) {
-              console.log(data.message)
+                setActiveRejectionModel(false);
+                setActiveRejectionSuccessModel(true);
             } else {
-                console.log(data.message)
+                setActiveRejectionModel(false);
+                setActiveRejectionSuccessModel(true);
+                
+                setrejectVideoFeedbackTitlePopup('Warning')
+                setrejectVideoBodyText(data.message)
             }
         })
         .catch((error) => {
             console.log(error);
         });
+    }else{
+        console.log('reason box empty');
     }
 }
 
@@ -132,10 +170,61 @@ const handleRejectVideo = ()=>{
 const rejectVideo = (id) => {
     var formData = new FormData();
     setRejectVideoId(id)
-    setActiveRejectionModel(true);
+    setActiveRejectionConfirmModel(true);
    return;
     
 };
+
+/**** approved video ***/
+
+const approvedUserVideo = (id)=>{
+    setapprovedUserVideoId(id)
+
+    setActiveApprovedConfirmModel(true);
+
+}
+
+/****** handle approved video *****/
+const handleApprovedUserVideo = ()=>{
+    var formData = new FormData();
+    formData.append("video_id", approvedUserVideoId);
+
+if(approvedUserVideoId){
+    setVideoFeedback('Congratulations, you just approved the video.')
+    setVideoFeedbackPopupTitle('Confirmation for Approving Video')
+    fetch("/videoOperation", {
+        method: "post",
+        body: formData,
+    })
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error("Something went wrong");
+            }
+            return response.json();
+        })
+        .then((data) => {
+            if (data.success) {
+                setActiveApprovedConfirmModel(false)
+                setActiveApprovedSuccessModel(true);
+               
+                //setReload(new Date().getSeconds());
+            } else {
+                    setActiveApprovedConfirmModel(false)
+                    setActiveApprovedSuccessModel(true);
+                    setVideoFeedbackPopupTitle('Warning')
+                    setVideoFeedback(data.message)
+                    
+                
+            }
+            setReload(true);
+            return;
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+    }
+}
+
     /********  get Settings Data  ******/
     useEffect(() => {
         fetch("/getDashboardContent")
@@ -336,7 +425,7 @@ const rejectVideo = (id) => {
                                                                         "20px",
                                                                 }}
                                                                 onClick={() => {
-                                                                    videoOperation(
+                                                                    approvedUserVideo(
                                                                         video.id
                                                                         
                                                                     );
@@ -543,18 +632,19 @@ const rejectVideo = (id) => {
       <Modal
         open={activeRejectionConfirmModel}
         onClose={handleChangeRejectionConfirmModel}
-        title="Confirmation for rejecting video"
+        title={rejectVideoFeedbackTitlePopup}
 
       >
                 <Modal.Section>
                     <div style={{textAlign:"center"}}>
                         <Text variant="heading2xl" as="h3">
-                        Are you sure you want to Reject?
+                        
+                       {rejectVideoFeedback}
                         </Text>
                         <div style={{display:"flex",justifyContent:"center",marginTop:"20px"}}>
                         <ButtonGroup>
                             <Button onClick={handleChangeRejectionConfirmModel}>Cancel</Button>
-                            <Button primary onClick={handleChangeRejectionConfirmModel}>Sure</Button>
+                            <Button primary onClick={handleRejectionPopup}>Sure</Button>
                         </ButtonGroup>
                         </div>
                     </div>
@@ -563,13 +653,14 @@ const rejectVideo = (id) => {
             <Modal
         open={activeRejectionSuccessModel}
         onClose={handleChangeRejectionSuccessModel}
-        title="Confirmation for rejecting video"
+        title={rejectVideoFeedbackTitlePopup}
 
       >
                 <Modal.Section>
                     <div style={{textAlign:"center",marginTop:"20px",marginBottom:"20px"}}>
                         <Text variant="heading2xl" as="h3">
-                            Video Rejected Successfully.
+                            {rejectVideoBodyText}
+                          
                         </Text>
 
                     </div>
@@ -580,7 +671,7 @@ const rejectVideo = (id) => {
             <Modal
         open={activeApprovedConfirmModel}
         onClose={handleChangeApprovedConfirmModel}
-        title="Confirmation for approving video"
+        title={videoFeedbackPopupTitle}
 
       >
                 <Modal.Section>
@@ -591,7 +682,7 @@ const rejectVideo = (id) => {
                         <div style={{display:"flex",justifyContent:"center",marginTop:"20px"}}>
                         <ButtonGroup>
                             <Button onClick={handleChangeApprovedConfirmModel}>Cancel</Button>
-                            <Button primary onClick={handleChangeApprovedConfirmModel}>Sure</Button>
+                            <Button primary onClick={handleApprovedUserVideo}>Sure</Button>
                         </ButtonGroup>
                         </div>
                     </div>
@@ -601,13 +692,14 @@ const rejectVideo = (id) => {
             <Modal
         open={activeApprovedSuccessModel}
         onClose={handleChangeApprovedSuccessModel}
-        title="Confirmation for approving video"
+        title={videoFeedbackPopupTitle}
 
       >
                 <Modal.Section>
                     <div style={{textAlign:"center",marginTop:"20px",marginBottom:"20px"}}>
                         <Text variant="headingXl" as="h4">
-                        Congratulations, you just approved the video.
+                            {videoFeedback}
+                       
                         </Text>
 
                     </div>
