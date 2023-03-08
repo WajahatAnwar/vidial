@@ -11,6 +11,7 @@ import {
     Popover,
     DatePicker,
     Modal,
+    ButtonGroup,
 } from "@shopify/polaris";
 import { useEffect, useState, useCallback } from "react";
 import React from "react";
@@ -32,6 +33,24 @@ function Dashboard() {
 
     const [rejectionReason, setRejectionReason] = useState('');
     const handleRejectionReason = useCallback((newValue) => setRejectionReason(newValue), []);
+
+    const [activeRejectionConfirmModel, setActiveRejectionConfirmModel] = useState(false);
+    const handleChangeRejectionConfirmModel = useCallback(() => setActiveRejectionConfirmModel(!activeRejectionConfirmModel), [activeRejectionConfirmModel]);
+    // const activatorRejectionConfirmModel = <Button onClick={handleChangeRejectionConfirmModel}>Open</Button>;
+
+    const [activeRejectionSuccessModel, setActiveRejectionSuccessModel] = useState(false);
+    const handleChangeRejectionSuccessModel = useCallback(() => setActiveRejectionSuccessModel(!activeRejectionSuccessModel), [activeRejectionSuccessModel]);
+    // const activatorRejectionSuccessModel = <Button onClick={handleChangeRejectionSuccessModel}>Open</Button>;
+
+
+    const [activeApprovedConfirmModel, setActiveApprovedConfirmModel] = useState(true);
+    const handleChangeApprovedConfirmModel = useCallback(() => setActiveApprovedConfirmModel(!activeApprovedConfirmModel), [activeApprovedConfirmModel]);
+    // const activatorApprovedConfirmModel = <Button onClick={handleChangeApprovedConfirmModel}>Open</Button>;
+
+    const [activeApprovedSuccessModel, setActiveApprovedSuccessModel] = useState(false);
+    const handleChangeApprovedSuccessModel = useCallback(() => setActiveApprovedSuccessModel(!activeApprovedSuccessModel), [activeApprovedSuccessModel]);
+    // const activatorApprovedSuccessModel = <Button onClick={handleChangeApprovedSuccessModel}>Open</Button>;
+
 
     const [pendingVideos, setPendingVideos] = useState([]);
     const [approvedVideos, setApprovedVideos] = useState([]);
@@ -200,7 +219,7 @@ const videoOperation = (id, type) => {
                                     <div style={{height:"400px",background:"#f9f9f9",borderRadius:"6px",textAlign:"center",paddingTop:"125px"}}>
                                         <img style={{height: "102px",opacity: ".5"}} src={noVedio}></img>
 
-                                        <p style={{color: "#d3c9c9",fontSize:"17px"}}>Videos to review</p>
+                                        <p style={{color: "#d3c9c9",fontSize:"17px"}}>No Videos to Review</p>
 
                                   </div>
                                 ) :
@@ -482,6 +501,79 @@ const videoOperation = (id, type) => {
             />
         </Modal.Section>
       </Modal>
+      <Modal
+        open={activeRejectionConfirmModel}
+        onClose={handleChangeRejectionConfirmModel}
+        title="Confirmation for rejecting video"
+
+      >
+                <Modal.Section>
+                    <div style={{textAlign:"center"}}>
+                        <Text variant="heading2xl" as="h3">
+                        Are you sure you want to Reject?
+                        </Text>
+                        <div style={{display:"flex",justifyContent:"center",marginTop:"20px"}}>
+                        <ButtonGroup>
+                            <Button onClick={handleChangeRejectionConfirmModel}>Cancel</Button>
+                            <Button primary onClick={handleChangeRejectionConfirmModel}>Sure</Button>
+                        </ButtonGroup>
+                        </div>
+                    </div>
+                </Modal.Section>
+            </Modal>
+            <Modal
+        open={activeRejectionSuccessModel}
+        onClose={handleChangeRejectionSuccessModel}
+        title="Confirmation for rejecting video"
+
+      >
+                <Modal.Section>
+                    <div style={{textAlign:"center",marginTop:"20px",marginBottom:"20px"}}>
+                        <Text variant="heading2xl" as="h3">
+                            Video Rejected Successfully.
+                        </Text>
+
+                    </div>
+                </Modal.Section>
+            </Modal>
+
+
+            <Modal
+        open={activeApprovedConfirmModel}
+        onClose={handleChangeApprovedConfirmModel}
+        title="Confirmation for approving video"
+
+      >
+                <Modal.Section>
+                    <div style={{textAlign:"center"}}>
+                        <Text variant="heading2xl" as="h3">
+                        Are you sure you want to Approve?
+                        </Text>
+                        <div style={{display:"flex",justifyContent:"center",marginTop:"20px"}}>
+                        <ButtonGroup>
+                            <Button onClick={handleChangeApprovedConfirmModel}>Cancel</Button>
+                            <Button primary onClick={handleChangeApprovedConfirmModel}>Sure</Button>
+                        </ButtonGroup>
+                        </div>
+                    </div>
+                </Modal.Section>
+            </Modal>
+
+            <Modal
+        open={activeApprovedSuccessModel}
+        onClose={handleChangeApprovedSuccessModel}
+        title="Confirmation for approving video"
+
+      >
+                <Modal.Section>
+                    <div style={{textAlign:"center",marginTop:"20px",marginBottom:"20px"}}>
+                        <Text variant="headingXl" as="h4">
+                        Congratulations, you just approved the video.
+                        </Text>
+
+                    </div>
+                </Modal.Section>
+            </Modal>
         </Page>
     );
 }
