@@ -121,7 +121,7 @@ public function getPendingVideos(Request $request){
         ->count();
     $totalPages = ceil($totalVideos / $videosPerPage);
     $videos = video::where('user_id',Auth::user()->id)
-    ->where('status','=',config('constants.video_pending'))
+    ->where('status','=',config('constants.video_pending'))->orderBy('id','DESC')
     ->get()->take($limit);
     return response()->json([
         'success' => true,
@@ -283,7 +283,7 @@ public function getApprovedVideos(Request $request){
         ->count();
     $totalPages = ceil($totalVideos / $videosPerPage);
     $videos = video::where('user_id',Auth::user()->id)
-    ->where('status','=',config('constants.video_approved'))
+    ->where('status','=',config('constants.video_approved'))->orderBy('id','DESC')
     ->get()->take($limit);
     return response()->json([
         'success' => true,

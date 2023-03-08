@@ -159,11 +159,11 @@ class DashboardController extends Controller
           $currentUser = Auth::user()->id;
           // Pending Videos
           $pendingVideos = Video::where('user_id',$currentUser)
-          ->where('status',config('constants.video_pending'))
+          ->where('status',config('constants.video_pending'))->orderBy('id','DESC')
           ->get()->take(4);
           // Approved Videos
           $approvedVideos = Video::where('user_id',$currentUser)
-          ->where('status',config('constants.video_approved'))
+          ->where('status',config('constants.video_approved'))->orderBy('id','DESC')
           ->get()->take(4);
           $pendingVideosCount = Video::where('user_id',$currentUser)
           ->where('status',config('constants.video_pending'))
@@ -188,7 +188,7 @@ class DashboardController extends Controller
      public function getPendingVideoCount(){
         $currentUser = Auth::user()->id;
         $pendingVideosCount = Video::where('user_id',$currentUser)
-        ->where('status',config('constants.video_pending'))
+        ->where('status',config('constants.video_pending'))->orderBy('id','DESC')
         ->count();
         $data['pendingVideosCount'] = $pendingVideosCount;
         return response()->json([
