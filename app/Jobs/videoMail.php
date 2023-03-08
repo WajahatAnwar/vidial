@@ -40,14 +40,15 @@ class videoMail implements ShouldQueue
        $domain = env('MAILGUN_DOMAIN');
 
        $params = array(
-        'from' => 'mailgunner@50calibre.com',
-        'to' => 'hamza70fsd@gmail.com',
-        'subject' => 'Roundhouse  KICK',
+        'from' => $domain,
+        'to' => $this->details['mail'],
+        'subject' => 'Video Approved',
         'template' => 'videoapproved',
         'v:name' => 'RichyRoundhouse',
-        'v:storename' => 'Bruski',
-        'v:discount_code'=>"66757868"
+        'v:storename_team' => $this->details['store_name'],
+        'v:discount_code'=>$this->details['coupen_code'],
     );
+
 
     $mgClient->messages()->send($domain, $params);
 

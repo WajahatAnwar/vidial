@@ -180,6 +180,7 @@ public function videoOperation(Request $request){
             'mail' => $videos->email,
             'title' => 'Mail From Vidal',
             'body' => 'This is the test email for customers',
+            'store_name' => auth()->user()->name,
             'coupen_code' => $code['code']
         ];
         dispatch(new videoMail($details));
