@@ -10,6 +10,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Mail;
+use Mailgun\Mailgun;
 
 class videoMail implements ShouldQueue
 {
@@ -32,6 +33,24 @@ class videoMail implements ShouldQueue
      */
     public function handle()
     {
-        Mail::to($this->details['mail'])->send(new sendCoupen($this->details));
+        $mgClient = Mailgun::create(
+            env('MAILGUN_SECRET'), // Mailgun API Key
+            env('MAILGUN_ENDPOINT'),
+       );
+       $domain = env('MAILGUN_DOMAIN');
+
+       $params = array(
+        'from' => 'mailgunner@50calibre.com',
+        'to' => 'hamza70fsd@gmail.com',
+        'subject' => 'Roundhouse  KICK',
+        'template' => 'videoapproved',
+        'v:name' => 'RichyRoundhouse',
+        'v:storename' => 'Bruski',
+        'v:discount_code'=>"66757868"
+    );
+
+    $mgClient->messages()->send($domain, $params);
+
+        // Mail::to($this->details['mail'])->send(new sendCoupen($this->details));
     }
 }
