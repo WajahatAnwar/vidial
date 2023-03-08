@@ -43,11 +43,12 @@ class NotApprovedMailjob implements ShouldQueue
        $params = array(
         'from' => env('MAIL_USERNAME'),
         'to' => $this->detail['mail'],
-        'subject' => 'Video Approved',
-        'template' => 'videoapproved',
-        'v:name' => 'RichyRoundhouse',
+        'subject' => 'Video Not Approved',
+        'template' => 'videodeclined',
+        'v:name' => 'test',
+        'v:storename' => $this->detail['store_name'],
         'v:storename_team' => $this->detail['store_name'],
-        'v:discount_code'=>$this->detail['coupen_code'],
+        'v:reason_decline'=>$this->detail['reason_decline'],
     );
 
 
