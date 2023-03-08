@@ -46,9 +46,9 @@ class NotApprovedMailjob implements ShouldQueue
         'subject' => 'Video Not Approved',
         'template' => 'videodeclined',
         'v:name' => 'test',
-        'v:storename' => $this->detail['store_name'],
-        'v:storename_team' => $this->detail['store_name'],
-        'v:reason_decline'=>$this->detail['reason_decline'],
+        'v:storename' => "sdfsdf",
+        'v:storename_team' => "update you ssoon",
+        'v:reason_decline'=>"updating",
     );
 
 
