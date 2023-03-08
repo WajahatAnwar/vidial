@@ -31,7 +31,6 @@ class UpdatePlan
         //count Remaining
         $remaining_video_count = $email_count->ugc_video_count - $current_user_approved_video_count;
         $remaining_email_count = $email_count->ugc_email_count - $current_user_approved_email_count;
-        dd($remaining_email_count,$remaining_video_count);
 
         $update_plane = User::find(auth()->user()->id);
 
