@@ -9,7 +9,7 @@
             <h3 class="text-center mt-4 " style="font-size: 30px;font-weight: 700;">{{ __('successPage.heading') }}</h3>
             <p  class="text-center " style="font-size: 15px;margin-bottom: 25px;margin-top: 20px;">{{ __('successPage.subheading') }}</p>
             <a href="https://{{$store}}" style="color: #FF5175;font-weight: 600;font-size: 24px;margin-top: 20px;margin-bottom: 20px;text-align: center;display: block;
-    text-decoration: none;">Return to {{splitStoreName($store)}} →</a>
+    text-decoration: none;"> {{__('successPage.return_text',['store'=>splitStoreName($store)]) }} →</a>
         </div>
     </div>
     @include('landingPage.footer')
