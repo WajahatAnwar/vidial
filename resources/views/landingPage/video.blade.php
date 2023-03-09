@@ -4,7 +4,7 @@
     <div class="row justify-content-center " style="margin-top: 40px ">
         <div class="col-md-4 p-3">
            @include('landingPage.logo',['current_user_id'=>$settings->user_id])
-            <h3 class="text-center mt-4 " style="font-size: 30px;font-weight: 700;">{{ __('uploadVideo.heading') }}</h3>
+            <h3 class="text-center mt-4 adjustHeaddingSize" style="font-size: 30px;font-weight: 700;">{{ __('uploadVideo.heading') }}</h3>
             <p  class="text-center " style="font-size: 18px;margin-bottom: 25px">{{ __('uploadVideo.subheading',['storename'=>splitStoreName($user->name)]) }}</p>
 
             <div class="demo-container">
@@ -25,6 +25,8 @@
                 </div>
 
                 <div class="alert alert-danger d-none"  id="error-video" role="alert">
+                    <svg style="width: 16px;margin-right: 5px;" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10zm-1.5-5.009c0-.867.659-1.491 1.491-1.491.85 0 1.509.624 1.509 1.491 0 .867-.659 1.509-1.509 1.509-.832 0-1.491-.642-1.491-1.509zM11.172 6a.5.5 0 0 0-.499.522l.306 7a.5.5 0 0 0 .5.478h1.043a.5.5 0 0 0 .5-.478l.305-7a.5.5 0 0 0-.5-.522h-1.655z" fill="#b02a37"></path></g></svg>
+                    <p id="error-video-text" style="margin-bottom: 0;" ></p>
                 </div>
               </div>
 

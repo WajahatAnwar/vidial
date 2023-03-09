@@ -46,7 +46,8 @@ const saveVideo = ()=>{
     const order_id = url.searchParams.get('order_id');
 
     if(video_link=='' || video_link==null){
-        $('#error-video').removeClass('d-none').text('Please upload a video');
+        $('#error-video').removeClass('d-none');
+        $('#error-video-text').removeClass('d-none').text('Please upload a video');
         return false;
     }else if(email==''){
         $('#error-email').removeClass('d-none').text('Please Fill Email Field');
