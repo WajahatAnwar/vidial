@@ -181,7 +181,8 @@ public function videoOperation(Request $request){
             'title' => 'Mail From Vidal',
             'body' => 'This is the test email for customers',
             'store_name' => auth()->user()->name,
-            'coupen_code' => $code['code']
+            'coupen_code' => $code['code'],
+            'locale' =>$user->settings->locale,
         ];
         dispatch(new videoMail($details));
         $log_details = [
@@ -245,6 +246,7 @@ public function rejectVideo(Request $request){
             'storename'=>splitStoreName(Auth::user()->name),
             'storeteam'=>Auth::user()->name,
             'url' => env('APP_URL')."/landingPage"."/". Auth::user()->settings->locale ."?store=".Auth::user()->name,
+            'locale' =>$user->settings->locale,
             ];
             dispatch(new NotApprovedMailjob($details));
 
@@ -471,7 +473,7 @@ return response()->json([
 // save User Uploaded data into database
   public function saveVideo(Request $request){
       /****** check link expiration ******/
-      
+
       $order = null;
       if ($request->filled('order_id')) {
         try {
@@ -523,6 +525,7 @@ if(Video::create($video)){
     // send email Portion
     $details = [
         'mail' => $user->email,
+        'locale' => $user->settings->locale,
         'url' => "https://". $user->name."/"."admin"
     ];
     dispatch(new ThanksMailjob($details));
