@@ -47,7 +47,7 @@
 
               </div>
 
-              <button class="btn btn-primary mt-4" onclick="saveVideo()" type="button" style="    width: 100%;font-size: 20px;font-weight: 600;background: {{$settings->page_color}};border: none;">{{ __('uploadVideo.button_text') }}</button>
+              <button class="btn btn-primary mt-4" onclick="saveVideo()" type="button" style="margin-bottom: 50px;    width: 100%;font-size: 20px;font-weight: 600;background: {{$settings->page_color}};border: none;">{{ __('uploadVideo.button_text') }}</button>
               <!-- Modal -->
   <div class="modal fade" id="success_popup" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">

@@ -82,7 +82,7 @@
 }
 @media only screen and (max-width: 720px) {
     .adjustHeaddingSize{
-     font-size: 24px !important;
+     font-size: 22px !important;
 }
 }
 
