@@ -50,7 +50,7 @@ const saveVideo = ()=>{
 
     if(video_link=='' || video_link==null){
         $('#error-video').removeClass('d-none');
-        $('#error-video-text').removeClass('d-none').text('Please upload a video');
+        $('#error-video-text').text('Please upload a video');
         return false;
     }else if(video_path=='' || video_path==null){
         alert('some params missing');
@@ -58,7 +58,9 @@ const saveVideo = ()=>{
 
     }
     else if(email==''){
-        $('#error-email').removeClass('d-none').text('Please Fill Email Field');
+        $('#error-email').removeClass('d-none');
+        $('#error-email-text').text('Please add email');
+        
         return false;
 
     }
