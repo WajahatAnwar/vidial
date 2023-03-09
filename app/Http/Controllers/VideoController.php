@@ -40,6 +40,10 @@ public function testupload(Request $request){
 }
 public function testUploaded(Request $request){
 
+
+
+    
+
     $file = $request->file('video');
     $request->validate([
         'video' => 'required|mimetypes:video/avi,video/mpeg,video/quicktime,video/mp4',
@@ -311,6 +315,25 @@ public function sendTest(Request $request){
 
  // test function
  public function test(Request $request){
+    $dropbox = updateDropboxToken();
+    $token = 'Bearer '.$dropbox['access_token'];
+            try{
+          $client = new Client();
+          $response = $client->post('https://api.dropboxapi.com/2/files/get_temporary_link', [
+              'headers' => [
+                  'Authorization'=> $token
+              ],
+              'json' => [
+                  'path' => '/vidial/1678351912.mp4',
+              ],
+          ]);
+          $videoLink = json_decode($response->getBody()->getContents(), true)['link'];
+          dd($videoLink);
+        }catch (\Exception $e) {
+            dd($e->getMessage());
+          Log::error('An error occurred: ' . $e->getMessage());
+        }
+      
 
   dd('hi');
 
@@ -440,6 +463,9 @@ if(isset($data['path_display']) && !empty($data['path_display'])){
         ]]);
         $videoLink = json_decode($response->getBody()->getContents(), true)['url'];
         $videoLink=str_replace("www.dropbox.com","dl.dropboxusercontent.com",$videoLink);
+        $videoContent['link']=$videoLink;
+        $videoContent['path']=$data['path_display'];
+
 
   }catch (\Exception $e) {
 
@@ -449,7 +475,7 @@ if(isset($data['path_display']) && !empty($data['path_display'])){
 return response()->json([
     'success' => true,
     'message' => 'Video Uploaded Successfully',
-    'data' => $videoLink
+    'data' => $videoContent
 ]);
 }
 // // save Preview Link into DB
@@ -473,6 +499,7 @@ return response()->json([
       /****** check link expiration ******/
       
       $order = null;
+      $order_id=null;
       if ($request->filled('order_id')) {
         try {
             $order_id = Crypt::decrypt($request->order_id);
@@ -507,6 +534,8 @@ return response()->json([
 $video['video_link']=$request->video_link;
 $video['email']=$request->email;
 $video['status']=config('constants.video_pending');
+$video['path']=$request->video_path;
+$video['order_id']=$order_id;
 $user = User::where('name',$request->store)->first();
 if(!$user){
     return response()->json([
@@ -609,5 +638,39 @@ return response()->json([
      return abort(404);
 
   }
+  
+  /**** Download Video ******/
+  public function downloadVideo(Request $request){
+
+    $dropbox = updateDropboxToken();
+    $token = 'Bearer '.$dropbox['access_token'];
+            try{
+          $client = new Client();
+          $response = $client->post('https://api.dropboxapi.com/2/files/get_temporary_link', [
+              'headers' => [
+                  'Authorization'=> $token
+              ],
+              'json' => [
+                  'path' => $request->video_path,
+              ],
+          ]);
+          $videoLink = json_decode($response->getBody()->getContents(), true)['link'];
+          $data['link']= $videoLink;
+          return response()->json([
+            'success' => true,
+            'message' => 'Request Successfull',
+            'data'=>$data
+        ]);
+        }catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Something went wrong',
+                'data'=>null
+            ]);
+          Log::error('An error occurred: ' . $e->getMessage());
+        }
+
+ }
+  
 
 }

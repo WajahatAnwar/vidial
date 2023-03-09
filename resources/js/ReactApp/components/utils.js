@@ -1,7 +1,37 @@
 import { useState } from "react";
 
-export const downloadVideo = (video_link) => {
-    window.open(video_link);
+export const downloadVideo = (video_path) => {
+    if (video_path) {
+        var formData = new FormData();
+    formData.append("video_path", video_path);
+        fetch("/downloadVideo", {
+            method: "post",
+            body: formData,
+        })
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error("Something went wrong");
+                }
+                return response.json();
+            })
+            .then((data) => {
+                if (data.success) {
+                    window.open(data.data.link);
+
+                } else {
+                    alert(
+                        data.message
+                    );
+                }
+                return;
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }else{
+        alert('something went wrong');
+    }
+  
 };
 /******** Operation on Videos  ******/
 export const videoOperation = (id, type) => {
@@ -40,3 +70,9 @@ export const videoOperation = (id, type) => {
             });
     }
 };
+
+/****** store name  *******/
+
+export const showStoreName = ()=>{
+    return localStorage.getItem('store')
+}
