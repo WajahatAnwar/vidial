@@ -43,7 +43,7 @@ class videoMail implements ShouldQueue
         'from' => env('MAIL_USERNAME'),
         'to' => $this->details['mail'],
         'subject' => 'Video Approved',
-        'template' => 'videoapproved_'.$this->details['locale'],
+        'template' => $this->details['locale'] $this->detail['locale']=='en' ? 'videoapproved' : "videoapproved_$this->detail['locale']",
         'v:name' => 'RichyRoundhouse',
         'v:storename_team' => $this->details['store_name'],
         'v:discount_code'=>$this->details['coupen_code'],

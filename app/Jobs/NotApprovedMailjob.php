@@ -45,7 +45,7 @@ class NotApprovedMailjob implements ShouldQueue
         'from' => env('MAIL_USERNAME'),
         'to' => $this->detail['mail'],
         'subject' => 'Video Not Approved',
-        'template' => 'videodeclined_'.$this->detail['locale'],
+        'template' => $this->detail['locale']=='en' ? 'videodeclined' : "videodeclined_$this->detail['locale']" ,
         'v:name' => $this->detail['name'],
         'v:storename' =>$this->detail['storename'] ,
         'v:storename_team' =>$this->detail['storeteam'] ,

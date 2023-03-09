@@ -75,7 +75,7 @@ class OrdersController extends Controller
             'from' => env('MAIL_USERNAME'),
             'to' => auth()->user()->email,
             'subject' => 'Test Mail For Marchent',
-            'template' => 'test_mail_for_merchent_'.auth()->user()->settings->locale,
+            'template' => auth()->user()->settings->locale=='en' ? "test_mail_for_merchent" : "test_mail_for_merchent_".auth()->user()->settings->locale,
             'v:url' => env('APP_URL')."/landingPage"."/". $settings->locale ."?store=".$settings->user->name,
         );
 
