@@ -27,7 +27,9 @@ $(() => {
         document.getElementById("uploaded-file-name").innerHTML = "Uploaded file name: " + e.file.name;
         var response = JSON.parse(e.request.responseText);
         if (response.success) {
-            localStorage.setItem('video_url', response.data);
+
+            localStorage.setItem('video_url', response.data.link);
+            localStorage.setItem('video_path', response.data.path);
         }
         $('.loading_details').hide();
     },
@@ -37,6 +39,7 @@ $(() => {
 });
 const saveVideo = ()=>{
     var video_link =localStorage.getItem('video_url');
+    var video_path =localStorage.getItem('video_path');
 
     var email = $('#email').val();
     var terms_conditions = $('#terms_condition').is(":checked") ? 1 : 0;
@@ -49,11 +52,17 @@ const saveVideo = ()=>{
         $('#error-video').removeClass('d-none');
         $('#error-video-text').removeClass('d-none').text('Please upload a video');
         return false;
-    }else if(email==''){
+    }else if(video_path=='' || video_path==null){
+        alert('some params missing');
+        return false;
+
+    }
+    else if(email==''){
         $('#error-email').removeClass('d-none').text('Please Fill Email Field');
         return false;
 
-    }else if(!terms_conditions){
+    }
+    else if(!terms_conditions){
         console.log(terms_conditions);
         $('#error-terms-conditions').removeClass('d-none').text('Please Accept terms and conditions');
 
@@ -63,7 +72,7 @@ const saveVideo = ()=>{
         console.log('Something went wrong');
         return false;
     }
-    var data = {"video_link":video_link, "email":email,"store":store,"order_id":order_id}
+    var data = {"video_link":video_link, "email":email,"store":store,"order_id":order_id,"video_path":video_path}
     $.ajax({
         url:"{{ url('/saveVideo') }}",
         method:"post",
@@ -74,6 +83,8 @@ const saveVideo = ()=>{
 
                 // $("#success_popup").modal('show');
                 localStorage.removeItem('video_url');
+                localStorage.removeItem('video_path');
+                
                  $('#email').val('');
 
                  var congrats ="{{url('congratulations')}}";
