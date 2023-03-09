@@ -44,12 +44,12 @@ class ThanksMailjob implements ShouldQueue
         'from' => env('MAIL_USERNAME'),
         'to' => "hamza@swishtag.com",
         'subject' => 'New Video on The Store',
-        'template' => 'inform_merchant_new_ugc_uploaded',
+        'template' => $this->detail['locale']=='en' ? 'inform_merchant_new_ugc_uploaded' : "inform_merchant_new_ugc_uploaded_$this->detail['locale']",
         'v:storename' => $this->details['url'],
     );
 
     $mgClient->messages()->send($domain, $params);
-    
+
         // Mail::to($this->details['mail'])->send(new thanksyouMail($this->details));
     }
 }

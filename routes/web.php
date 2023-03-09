@@ -68,7 +68,7 @@ Route::post('uploadVideo',[VideoController::class,'uploadDropboxVideo']);
 Route::get('congratulations/{locale}',[VideoController::class,'congratulations']);
 
 Route::post('saveVideo',[VideoController::class,'saveVideo']);
-Route::get('test',[VideoController::class,'testing']);
+Route::get('test',[VideoController::class,'test']);
 Route::group(['middleware' => 'verify.shopify'], function () {
     Route::get('getPendingVideos',[VideoController::class,'getPendingVideos']);
     Route::post('videoOperation',[VideoController::class,'videoOperation']);
@@ -78,6 +78,8 @@ Route::group(['middleware' => 'verify.shopify'], function () {
     Route::get('getDashboardContent',[DashboardController::class,'getDashboardContent']);
     Route::get('getApprovedVideos',[VideoController::class,'getApprovedVideos']);
     Route::get('getPendingVideoCount',[DashboardController::class,'getPendingVideoCount']);
+    Route::post('downloadVideo',[VideoController::class,'downloadVideo']);
+    
 
 
 });

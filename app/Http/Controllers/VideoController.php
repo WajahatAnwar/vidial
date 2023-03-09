@@ -40,6 +40,10 @@ public function testupload(Request $request){
 }
 public function testUploaded(Request $request){
 
+
+
+    
+
     $file = $request->file('video');
     $request->validate([
         'video' => 'required|mimetypes:video/avi,video/mpeg,video/quicktime,video/mp4',
@@ -181,7 +185,8 @@ public function videoOperation(Request $request){
             'title' => 'Mail From Vidal',
             'body' => 'This is the test email for customers',
             'store_name' => auth()->user()->name,
-            'coupen_code' => $code['code']
+            'coupen_code' => $code['code'],
+            'locale' =>$user->settings->locale,
         ];
         dispatch(new videoMail($details));
         $log_details = [
@@ -245,6 +250,7 @@ public function rejectVideo(Request $request){
             'storename'=>splitStoreName(Auth::user()->name),
             'storeteam'=>Auth::user()->name,
             'url' => env('APP_URL')."/landingPage"."/". Auth::user()->settings->locale ."?store=".Auth::user()->name,
+            'locale' =>$user->settings->locale,
             ];
             dispatch(new NotApprovedMailjob($details));
 
@@ -311,6 +317,25 @@ public function sendTest(Request $request){
 
  // test function
  public function test(Request $request){
+    $dropbox = updateDropboxToken();
+    $token = 'Bearer '.$dropbox['access_token'];
+            try{
+          $client = new Client();
+          $response = $client->post('https://api.dropboxapi.com/2/files/get_temporary_link', [
+              'headers' => [
+                  'Authorization'=> $token
+              ],
+              'json' => [
+                  'path' => '/vidial/1678351912.mp4',
+              ],
+          ]);
+          $videoLink = json_decode($response->getBody()->getContents(), true)['link'];
+          dd($videoLink);
+        }catch (\Exception $e) {
+            dd($e->getMessage());
+          Log::error('An error occurred: ' . $e->getMessage());
+        }
+      
 
   dd('hi');
 
@@ -440,6 +465,9 @@ if(isset($data['path_display']) && !empty($data['path_display'])){
         ]]);
         $videoLink = json_decode($response->getBody()->getContents(), true)['url'];
         $videoLink=str_replace("www.dropbox.com","dl.dropboxusercontent.com",$videoLink);
+        $videoContent['link']=$videoLink;
+        $videoContent['path']=$data['path_display'];
+
 
   }catch (\Exception $e) {
 
@@ -449,7 +477,7 @@ if(isset($data['path_display']) && !empty($data['path_display'])){
 return response()->json([
     'success' => true,
     'message' => 'Video Uploaded Successfully',
-    'data' => $videoLink
+    'data' => $videoContent
 ]);
 }
 // // save Preview Link into DB
@@ -471,8 +499,9 @@ return response()->json([
 // save User Uploaded data into database
   public function saveVideo(Request $request){
       /****** check link expiration ******/
-      
+
       $order = null;
+      $order_id=null;
       if ($request->filled('order_id')) {
         try {
             $order_id = Crypt::decrypt($request->order_id);
@@ -507,6 +536,8 @@ return response()->json([
 $video['video_link']=$request->video_link;
 $video['email']=$request->email;
 $video['status']=config('constants.video_pending');
+$video['path']=$request->video_path;
+$video['order_id']=$order_id;
 $user = User::where('name',$request->store)->first();
 if(!$user){
     return response()->json([
@@ -523,6 +554,7 @@ if(Video::create($video)){
     // send email Portion
     $details = [
         'mail' => $user->email,
+        'locale' => $user->settings->locale,
         'url' => "https://". $user->name."/"."admin"
     ];
     dispatch(new ThanksMailjob($details));
@@ -609,5 +641,39 @@ return response()->json([
      return abort(404);
 
   }
+  
+  /**** Download Video ******/
+  public function downloadVideo(Request $request){
+
+    $dropbox = updateDropboxToken();
+    $token = 'Bearer '.$dropbox['access_token'];
+            try{
+          $client = new Client();
+          $response = $client->post('https://api.dropboxapi.com/2/files/get_temporary_link', [
+              'headers' => [
+                  'Authorization'=> $token
+              ],
+              'json' => [
+                  'path' => $request->video_path,
+              ],
+          ]);
+          $videoLink = json_decode($response->getBody()->getContents(), true)['link'];
+          $data['link']= $videoLink;
+          return response()->json([
+            'success' => true,
+            'message' => 'Request Successfull',
+            'data'=>$data
+        ]);
+        }catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Something went wrong',
+                'data'=>null
+            ]);
+          Log::error('An error occurred: ' . $e->getMessage());
+        }
+
+ }
+  
 
 }

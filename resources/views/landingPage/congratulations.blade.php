@@ -12,6 +12,7 @@
     text-decoration: none;">Return to {{splitStoreName($store)}} →</a>
         </div>
     </div>
+    @include('landingPage.footer')
 </div>
 
      @endsection

@@ -64,7 +64,6 @@ class OrdersController extends Controller
         // $get_customers = Orders::pluck('email');
         // foreach ($get_customers as $value) {
             //auth()->user()->email
-
             $mgClient = Mailgun::create(
                 env('MAILGUN_SECRET'), // Mailgun API Key
                 env('MAILGUN_ENDPOINT')
@@ -76,7 +75,7 @@ class OrdersController extends Controller
             'from' => env('MAIL_USERNAME'),
             'to' => auth()->user()->email,
             'subject' => 'Test Mail For Marchent',
-            'template' => 'test_mail_for_merchent',
+            'template' => auth()->user()->settings->locale=='en' ? "test_mail_for_merchent" : "test_mail_for_merchent_".auth()->user()->settings->locale,
             'v:url' => env('APP_URL')."/landingPage"."/". $settings->locale ."?store=".$settings->user->name,
         );
 

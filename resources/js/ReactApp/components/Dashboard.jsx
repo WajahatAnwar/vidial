@@ -573,7 +573,7 @@ if(approvedUserVideoId){
                                                         <button
                                                             onClick={() => {
                                                                 downloadVideo(
-                                                                    video.video_link
+                                                                    video.path
                                                                 );
                                                             }}
                                                             style={{

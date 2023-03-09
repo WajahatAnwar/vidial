@@ -74,7 +74,7 @@
     height: 53px;
     border-radius: 15px;
     padding: 0.375rem 1.75rem;
-    margin-bottom: 40px !important;
+
 }
 .form-check-input:checked {
     background-color: #FF5175;
@@ -89,7 +89,7 @@
 body{
     font-family: 'EuclidCircular';
 }
-div#error-video {
+div#error-video , #error-email {
     border: none;
     background: transparent;
     text-align: center;

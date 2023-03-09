@@ -44,9 +44,6 @@ class EmailSendToCustomerCron extends Command
 
         $order_list = Orders::all();
         foreach ($order_list as $Orders_send_mail) {
-
-
-
            $settings=Setting::where('user_id',$Orders_send_mail->user_id)->first();
            $current_user = User::find($Orders_send_mail->user_id);
            // check merchant plan has email to send
@@ -74,7 +71,7 @@ class EmailSendToCustomerCron extends Command
                             'page_color'=>$settings->page_color,
                             'discount_amount' => $settings->store_credit,
                             'store_name' => $current_user->email,
-                            'url' => env('APP_URL')."/landingPage"."/". $settings->locale ."?store=".$settings->user->name
+                            'url' => env('APP_URL')."/landingPage"."/". $settings->locale ."?store=".$settings->user->name."&order_id=".$Orders_send_mail->id
                         ];
                         if ($Orders_send_mail->email_send == 1 && $Orders_send_mail->replied == 0 && $Orders_send_mail->remaining_mail > 0) {
 
@@ -90,7 +87,7 @@ class EmailSendToCustomerCron extends Command
                                 'from' => env('MAIL_USERNAME'),
                                 'to' => $Orders_send_mail->email,
                                 'subject' => "Get Free Discount Credit's Reminder",
-                                'template' => 'reminder-email',
+                                'template' => $settings->locale=='en' ? 'reminder-email' : "reminder-email_$settings->locale" ,
                                 'v:name' => $details['name'],
                                 'v:store' => $details['store'],
                                 'v:store_name' => $details['store_name'],
@@ -128,7 +125,7 @@ class EmailSendToCustomerCron extends Command
                             'from' => env('MAIL_USERNAME'),
                             'to' => $Orders_send_mail->email,
                             'subject' => "Get Free Discount Credit's",
-                            'template' => 'mail_post_purchase',
+                            'template' => $settings->locale=='en' ? 'mail_post_purchase' : "mail_post_purchase_$settings->locale",
                             'v:name' => $details['name'],
                             'v:store' => $details['store'],
                             'v:store_name' => $details['store_name'],
