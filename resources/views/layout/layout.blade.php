@@ -4,9 +4,15 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Vidial</title>
+    <link rel="icon" type="image/x-icon" href="/images/Favicon.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
   </head>
   <style>
+    @font-face {
+  font-family: 'EuclidCircular';
+  src: url("/fonts/Euclid Circular A Regular.woff") format("woff");
+
+}
     .dx-fileuploader-input-wrapper {
     display: none;
 }
@@ -73,6 +79,24 @@
 .form-check-input:checked {
     background-color: #FF5175;
     border-color: #FF5175;
+}
+@media only screen and (max-width: 720px) {
+    .adjustHeaddingSize{
+     font-size: 24px !important;
+}
+}
+
+body{
+    font-family: 'EuclidCircular';
+}
+div#error-video {
+    border: none;
+    background: transparent;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* padding-top: 0; */
 }
   </style>
   <body>
