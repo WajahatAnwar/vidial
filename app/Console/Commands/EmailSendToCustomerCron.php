@@ -71,7 +71,7 @@ class EmailSendToCustomerCron extends Command
                             'page_color'=>$settings->page_color,
                             'discount_amount' => $settings->store_credit,
                             'store_name' => $current_user->email,
-                            'url' => env('APP_URL')."/landingPage"."/". $settings->locale ."?store=".$settings->user->name
+                            'url' => env('APP_URL')."/landingPage"."/". $settings->locale ."?store=".$settings->user->name."&order_id=".$Orders_send_mail->id
                         ];
                         if ($Orders_send_mail->email_send == 1 && $Orders_send_mail->replied == 0 && $Orders_send_mail->remaining_mail > 0) {
 
