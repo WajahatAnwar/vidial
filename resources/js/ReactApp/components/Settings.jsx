@@ -37,11 +37,12 @@ import ColorWheel from "./imges/collorWheel.png";
 import Toggle from "./Toggle";
 import { showStoreName } from "./utils";
 
-
+/**
 const urlParams = new URLSearchParams(location.search);
 const shopParam = urlParams.get('shop');
 const storeName = shopParam.split('.')[0];
 localStorage.setItem('store',storeName);
+*/
 
 const Settings = () => {
     const [title, setTitle] = useState('');
@@ -205,8 +206,8 @@ const Settings = () => {
                 { id: 1, value: "Record a video off up to 30 seconds" },
                 { id: 2, value: "Share your genuine experience of the product" },
                 { id: 3, value: "Showcase the product" },
-                { id: 4, value: "Tell why you've decided to try "+ showStoreName() },
-                { id: 5, value: "Describe the main benefits of "+ showStoreName() },
+                { id: 4, value: "Tell why you've decided to try JihiyiStore" },
+                { id: 5, value: "Describe the main benefits of JihiyiStore" },
             ]);
               if (data.data.logo) {
                 setPreviewLogoHide(true);
@@ -235,43 +236,43 @@ const Settings = () => {
                     { id: 1, value: "Record a video off up to 30 seconds" },
                     { id: 2, value: "Share your genuine experience of the product" },
                     { id: 3, value: "Showcase the product" },
-                    { id: 4, value: "Tell why you've decided to try "+ showStoreName() },
-                    { id: 5, value: "Describe the main benefits of "+ showStoreName() },
+                    { id: 4, value: "Tell why you've decided to try JihiyiStore" },
+                    { id: 5, value: "Describe the main benefits of JihiyiStore" },
                 ])} else if (value === "fr"){
                 setRows([
                     { id: 1, value: "Enregistrer une vidéo jusqu'à 30 secondes" },
                     { id: 2, value: "Partagez votre expérience authentique du produit" },
                     { id: 3, value: "Présenter le produit" },
-                    { id: 4, value: "Dites pourquoi vous avez décidé d'essayer "+ showStoreName() },
-                    { id: 5, value: "Décrire les principaux avantages de "+ showStoreName() },
+                    { id: 4, value: "Dites pourquoi vous avez décidé d'essayer JihiyiStore" },
+                    { id: 5, value: "Décrire les principaux avantages de JihiyiStore" },
                 ])} else if ( value === "es"){
                 setRows([
                     { id: 1, value: "Graba un video de hasta 30 segundos" },
                     { id: 2, value: "Comparta su experiencia genuina del producto" },
                     { id: 3, value: "Mostrar el producto" },
-                    { id: 4, value: "Di por qué has decidido probar "+ showStoreName() },
-                    { id: 5, value: "Describir los principales beneficios de "+ showStoreName() },
+                    { id: 4, value: "Di por qué has decidido probar JihiyiStore" },
+                    { id: 5, value: "Describir los principales beneficios de JihiyiStore" },
                 ])} else if (value === "pt"){
                 setRows([
                     { id: 1, value: "Grave um vídeo de até 30 segundos" },
                     { id: 2, value: "Compartilhe sua experiência genuína com o produto" },
                     { id: 3, value: "Mostre o produto" },
-                    { id: 4, value: "Diga por que você decidiu experimentar a "+ showStoreName() },
-                    { id: 5, value: "Descrever os principais benefícios da "+ showStoreName() },
+                    { id: 4, value: "Diga por que você decidiu experimentar a JihiyiStore" },
+                    { id: 5, value: "Descrever os principais benefícios da JihiyiStore" },
                 ])} else if ( value === "it"){
                 setRows([
                     { id: 1, value: "Registra un video fino a 30 secondi" },
                     { id: 2, value: "Condividi la tua vera esperienza del prodotto" },
                     { id: 3, value: "Mostra il prodotto" },
-                    { id: 4, value: "Spiega perché hai deciso di provare " + showStoreName() },
-                    { id: 5, value: "Descrivi i principali vantaggi di " + showStoreName() },
+                    { id: 4, value: "Spiega perché hai deciso di provare JihiyiStore" },
+                    { id: 5, value: "Descrivi i principali vantaggi di JihiyiStore" },
                 ])} else if (value === "de"){
                 setRows([
                     { id: 1, value: "Nehmen Sie ein Video von bis zu 30 Sekunden auf" },
                     { id: 2, value: "Präsentieren Sie das Produkt" },
                     { id: 3, value: "Präsentieren Sie das Produkt" },
-                    { id: 4, value: "Sagen Sie, warum Sie sich entschieden haben, "+showStoreName()+" auszuprobieren" },
-                    { id: 5, value: "Beschreiben Sie die Hauptvorteile von "+showStoreName() },
+                    { id: 4, value: "Sagen Sie, warum Sie sich entschieden haben, JihiyiStore auszuprobieren" },
+                    { id: 5, value: "Beschreiben Sie die Hauptvorteile von JihiyiStore" },
                 ])}
             // save Locale into DB
             // fetch("/saveLocale", {
