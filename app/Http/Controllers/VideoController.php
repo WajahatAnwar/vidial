@@ -42,7 +42,7 @@ public function testUploaded(Request $request){
 
 
 
-    
+
 
     $file = $request->file('video');
     $request->validate([
@@ -317,6 +317,7 @@ public function sendTest(Request $request){
 
  // test function
  public function test(Request $request){
+    dd(getDropboxToken());
     $dropbox = updateDropboxToken();
     $token = 'Bearer '.$dropbox['access_token'];
             try{
@@ -335,7 +336,7 @@ public function sendTest(Request $request){
             dd($e->getMessage());
           Log::error('An error occurred: ' . $e->getMessage());
         }
-      
+
 
   dd('hi');
 
@@ -439,7 +440,7 @@ return $formattedDate;
         'body' => fopen($file, 'r'),
     ]);
 } catch (\Exception $e) {
-
+    dd($e->getMessage());
     Log::error('An error occurred: ' . $e->getMessage());
 }
 
@@ -641,7 +642,7 @@ return response()->json([
      return abort(404);
 
   }
-  
+
   /**** Download Video ******/
   public function downloadVideo(Request $request){
 
@@ -674,6 +675,6 @@ return response()->json([
         }
 
  }
-  
+
 
 }

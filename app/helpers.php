@@ -202,7 +202,7 @@ if (!function_exists('getDropboxToken')) {
             'Authorization' => 'Basic ' . base64_encode(env('DROPBOX_CLIENT_ID') . ':' . env('DROPBOX_SECRET_ID'))
         ])->asForm()->post('https://api.dropboxapi.com/oauth2/token', [
             'grant_type' => 'authorization_code',
-            'code' => env('AUTHORIZATION_CODE', 'VNzDNyTy0ekAAAAAAAAASczHHnHZ32GjqDgM8ZKlyT4')
+            'code' => env('AUTHORIZATION_CODE', '_UAy1dwO1s4AAAAAAAAAHEFoDnr9-Ppfe8hkLu_Ougw')
         ]);
         return $dropbox->json();
     }
@@ -271,6 +271,3 @@ if(!function_exists('checkLinkExpiration')){
     return false;
     }
 }
-
-
-

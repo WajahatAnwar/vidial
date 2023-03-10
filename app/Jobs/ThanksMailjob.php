@@ -42,7 +42,7 @@ class ThanksMailjob implements ShouldQueue
 
        $params = array(
         'from' => env('MAIL_USERNAME'),
-        'to' => "hamza@swishtag.com",
+        'to' => $this->details['mail'],
         'subject' => 'New Video on The Store',
         'template' => $this->details['locale']=='en' ? 'inform_merchant_new_ugc_uploaded' : "inform_merchant_new_ugc_uploaded_".$this->details['locale'],
         'v:storename' => $this->details['url'],
