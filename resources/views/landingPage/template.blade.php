@@ -5,18 +5,20 @@
             @include('landingPage.logo',['current_user_id'=>$settings->user_id])
             <h3 class="text-center mt-4 mb-3 adjustHeaddingSize" style="font-size: 30px;font-weight: 600;">{{ __('landingPage.heading',['storename'=>splitStoreName($user->name),'store_credit'=>$settings->store_credit]) }}</h3>
             <p  class="text-center mb-2" style="color: #FF5175;font-size: 20px;font-weight: 500;">{{$settings->instruction_title}}</p>
-            <div style="padding-left:20px ;">
+            <div style="">
 
                 @php
                 $Lists=(json_decode($settings->instructions,true));
 
                 @endphp
+                <div style="margin: auto;display: block;max-width: 408px;">
                 @foreach ($Lists as $list)
-                <div style="display: flex;align-items: center;margin-bottom: 15px;">
-                    <div style="background: #E5E7EB;padding: 8px 16px;border-radius: 50%;margin-right: 15px;color: #6B7280;">{{$loop->index + 1}}</div>
+                <div style="display: flex;align-items: center;margin-bottom: 15px;" >
+                    <div style="background: #E5E7EB;padding: 8px 16px;border-radius: 50%;margin-right: 15px;color: #6B7280; {{ $loop->index==0 ? 'padding: 8px 18px;' : ''}} ">{{$loop->index + 1}}</div>
                     <p style="margin-bottom: 0;font-weight: 600;">{{$list['value']}}</p>
                 </div>
                 @endforeach
+                </div>
 
             </div>
             <button type="button"  class="btn btn-primary savevedio_redirect" id="redirect" store="{{ $user->name }}" locale= "{{ $settings->locale }}"   value="" style="width: 100%;font-size: 20px;font-weight: 700;background: {{$settings->page_color}};height: 60px;border: none;">

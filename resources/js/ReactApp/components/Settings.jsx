@@ -15,7 +15,7 @@ import {
     RadioButton,
     TextField,
     ColorPicker,
-    Spinner
+    Spinner,
 } from "@shopify/polaris";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -45,8 +45,8 @@ localStorage.setItem('store',storeName);
 */
 
 const Settings = () => {
-    const [title, setTitle] = useState('');
-  const handleTitle = useCallback((newValue) => setTitle(newValue), []);
+    const [title, setTitle] = useState("");
+    const handleTitle = useCallback((newValue) => setTitle(newValue), []);
     const [active, setActive] = useState(false);
     const [error, setError] = useState(false);
     const toggleActive = useCallback(() => setActive((active) => !active), []);
@@ -55,18 +55,17 @@ const Settings = () => {
     const [storeCurrency, setStoreCurrency] = useState("");
     const [errorMessages, setErorrMessages] = useState([]);
     const [currentLang, setCurrentLang] = useState("en");
-    const [isSettingSave, setIsSettingSave] = useState('');
+    const [isSettingSave, setIsSettingSave] = useState("");
 
     function handleChange() {
-        setToggled(prevCheck => !prevCheck)
+        setToggled((prevCheck) => !prevCheck);
     }
 
     // Choose selected color
 
-    const chooseColor = (color)=>{
+    const chooseColor = (color) => {
         setButtonColorHex(color);
-
-    }
+    };
 
     const toastMarkup = active ? (
         <Toast content="Settings Added Successfully" onDismiss={toggleActive} />
@@ -119,7 +118,6 @@ const Settings = () => {
     console.log(rows);
 
     const handleAddRow = () => {
-
         setRows([
             ...rows,
             { id: (rows[rows.length - 1]?.id ?? 0) + 1, value: "" },
@@ -155,10 +153,11 @@ const Settings = () => {
     );
     const [imagename, setImagename] = useState("");
     const [videoname, setVideoname] = useState("");
-    const [previewLogo,setPreviwLogo] = useState("");
-    const [previewLogoHide,setPreviewLogoHide] = useState(false);
-    const [previewVedio,setPreviewVedio] = useState("");
-    const [previewVedioHide,setPreviewVedioHide] = useState(false);
+    const [previewLogo, setPreviwLogo] = useState("");
+    const [previewLogoHide, setPreviewLogoHide] = useState(false);
+    const [previewVedio, setPreviewVedio] = useState("");
+    const [previewVedioHide, setPreviewVedioHide] = useState(false);
+    const [email, setEmail] = useState("");
     // alert(logoImage);
     const logoHandler = (e) => {
         setImagename(e.target.files[0].name);
@@ -168,7 +167,7 @@ const Settings = () => {
         setPreviewLogoHide(true);
     };
     const videoHandler = (e) => {
-        setVideoname(e.target.files[0].name)
+        setVideoname(e.target.files[0].name);
         setVideo(e.target.files[0]);
         setPreviewVedio(URL.createObjectURL(e.target.files[0]));
         setPreviewVedioHide(true);
@@ -177,103 +176,185 @@ const Settings = () => {
 
     // Review Landing Page
     const reviewPage = (store) => {
-        window.open(baseUrl + "/landingPage/" + currentLang + "?store=" + store);
+        window.open(
+            baseUrl + "/landingPage/" + currentLang + "?store=" + store
+        );
     };
     /********  get Settings Data  ******/
     useEffect(() => {
         async function fetchSettings() {
-          try {
-            const response = await fetch("/get_settings");
-            if (!response.ok) {
-              throw new Error("Something went wrong");
+            try {
+                const response = await fetch("/get_settings");
+                if (!response.ok) {
+                    throw new Error("Something went wrong");
+                }
+                const data = await response.json();
+                if (data.success) {
+                    setPriceValue(data.data.store_credit);
+                    setLandingPage(data.data.page_display_to_customers);
+                    setEmailSentToValue(data.data.email_sent_to_customer);
+                    setLandingPageDisplayedValue(data.data.page_link);
+
+                    setLogoImage(data.data.logo);
+                    setVideo(data.data.video);
+                    setStore(data.data.store);
+                    setSelected(data.data.locale);
+                    setCurrentLang(data.data.locale);
+                    setStoreCurrency(data.data.store_currency);
+                    setTitle(data.data.instruction_title);
+                    setEmail(data.data.email);
+                    setRows(
+                        data.data.instructions
+                            ? data.data.instructions
+                            : [
+                                  {
+                                      id: 1,
+                                      value: "Record a video off up to 30 seconds",
+                                  },
+                                  {
+                                      id: 2,
+                                      value: "Share your genuine experience of the product",
+                                  },
+                                  { id: 3, value: "Showcase the product" },
+                                  {
+                                      id: 4,
+                                      value: "Tell why you've decided to try JihiyiStore",
+                                  },
+                                  {
+                                      id: 5,
+                                      value: "Describe the main benefits of JihiyiStore",
+                                  },
+                              ]
+                    );
+                    if (data.data.logo) {
+                        setPreviewLogoHide(true);
+                        setPreviwLogo(baseUrl + "/" + "logo/" + data.data.logo);
+                    }
+
+                    if (data.data.video && data.data.video !== "undefined") {
+                        setPreviewVedioHide(true);
+                        setPreviewVedio(
+                            baseUrl + "/" + "video/" + data.data.video
+                        );
+                    }
+                    console.log(store);
+                }
+            } catch (error) {
+                console.log(error);
             }
-            const data = await response.json();
-            if (data.success) {
-              setPriceValue(data.data.store_credit);
-              setLandingPage(data.data.page_display_to_customers);
-              setEmailSentToValue(data.data.email_sent_to_customer);
-              setLandingPageDisplayedValue(data.data.page_link);
-
-              setLogoImage(data.data.logo);
-              setVideo(data.data.video);
-              setStore(data.data.store);
-              setSelected(data.data.locale);
-              setCurrentLang(data.data.locale);
-              setStoreCurrency(data.data.store_currency);
-              setTitle(data.data.instruction_title);
-
-              setRows(data.data.instructions ? data.data.instructions : [
-                { id: 1, value: "Record a video off up to 30 seconds" },
-                { id: 2, value: "Share your genuine experience of the product" },
-                { id: 3, value: "Showcase the product" },
-                { id: 4, value: "Tell why you've decided to try JihiyiStore" },
-                { id: 5, value: "Describe the main benefits of JihiyiStore" },
-            ]);
-              if (data.data.logo) {
-                setPreviewLogoHide(true);
-                setPreviwLogo(baseUrl + "/" + "logo/" + data.data.logo);
-              }
-
-              if (data.data.video && data.data.video !== "undefined") {
-                setPreviewVedioHide(true);
-                setPreviewVedio(baseUrl + "/" + "video/" + data.data.video);
-              }
-              console.log(store);
-            }
-          } catch (error) {
-            console.log(error);
-          }
         }
         fetchSettings();
-      }, [isSettingSave]);
+    }, [isSettingSave]);
 
-
-      const handleSelectChange = useCallback(
+    const handleSelectChange = useCallback(
         (value) => {
             setSelected(value);
-            if(value === "en") {
+            if (value === "en") {
                 setRows([
                     { id: 1, value: "Record a video off up to 30 seconds" },
-                    { id: 2, value: "Share your genuine experience of the product" },
+                    {
+                        id: 2,
+                        value: "Share your genuine experience of the product",
+                    },
                     { id: 3, value: "Showcase the product" },
-                    { id: 4, value: "Tell why you've decided to try JihiyiStore" },
-                    { id: 5, value: "Describe the main benefits of JihiyiStore" },
-                ])} else if (value === "fr"){
+                    {
+                        id: 4,
+                        value: "Tell why you've decided to try JihiyiStore",
+                    },
+                    {
+                        id: 5,
+                        value: "Describe the main benefits of JihiyiStore",
+                    },
+                ]);
+            } else if (value === "fr") {
                 setRows([
-                    { id: 1, value: "Enregistrer une vidéo jusqu'à 30 secondes" },
-                    { id: 2, value: "Partagez votre expérience authentique du produit" },
+                    {
+                        id: 1,
+                        value: "Enregistrer une vidéo jusqu'à 30 secondes",
+                    },
+                    {
+                        id: 2,
+                        value: "Partagez votre expérience authentique du produit",
+                    },
                     { id: 3, value: "Présenter le produit" },
-                    { id: 4, value: "Dites pourquoi vous avez décidé d'essayer JihiyiStore" },
-                    { id: 5, value: "Décrire les principaux avantages de JihiyiStore" },
-                ])} else if ( value === "es"){
+                    {
+                        id: 4,
+                        value: "Dites pourquoi vous avez décidé d'essayer JihiyiStore",
+                    },
+                    {
+                        id: 5,
+                        value: "Décrire les principaux avantages de JihiyiStore",
+                    },
+                ]);
+            } else if (value === "es") {
                 setRows([
                     { id: 1, value: "Graba un video de hasta 30 segundos" },
-                    { id: 2, value: "Comparta su experiencia genuina del producto" },
+                    {
+                        id: 2,
+                        value: "Comparta su experiencia genuina del producto",
+                    },
                     { id: 3, value: "Mostrar el producto" },
-                    { id: 4, value: "Di por qué has decidido probar JihiyiStore" },
-                    { id: 5, value: "Describir los principales beneficios de JihiyiStore" },
-                ])} else if (value === "pt"){
+                    {
+                        id: 4,
+                        value: "Di por qué has decidido probar JihiyiStore",
+                    },
+                    {
+                        id: 5,
+                        value: "Describir los principales beneficios de JihiyiStore",
+                    },
+                ]);
+            } else if (value === "pt") {
                 setRows([
                     { id: 1, value: "Grave um vídeo de até 30 segundos" },
-                    { id: 2, value: "Compartilhe sua experiência genuína com o produto" },
+                    {
+                        id: 2,
+                        value: "Compartilhe sua experiência genuína com o produto",
+                    },
                     { id: 3, value: "Mostre o produto" },
-                    { id: 4, value: "Diga por que você decidiu experimentar a JihiyiStore" },
-                    { id: 5, value: "Descrever os principais benefícios da JihiyiStore" },
-                ])} else if ( value === "it"){
+                    {
+                        id: 4,
+                        value: "Diga por que você decidiu experimentar a JihiyiStore",
+                    },
+                    {
+                        id: 5,
+                        value: "Descrever os principais benefícios da JihiyiStore",
+                    },
+                ]);
+            } else if (value === "it") {
                 setRows([
                     { id: 1, value: "Registra un video fino a 30 secondi" },
-                    { id: 2, value: "Condividi la tua vera esperienza del prodotto" },
+                    {
+                        id: 2,
+                        value: "Condividi la tua vera esperienza del prodotto",
+                    },
                     { id: 3, value: "Mostra il prodotto" },
-                    { id: 4, value: "Spiega perché hai deciso di provare JihiyiStore" },
-                    { id: 5, value: "Descrivi i principali vantaggi di JihiyiStore" },
-                ])} else if (value === "de"){
+                    {
+                        id: 4,
+                        value: "Spiega perché hai deciso di provare JihiyiStore",
+                    },
+                    {
+                        id: 5,
+                        value: "Descrivi i principali vantaggi di JihiyiStore",
+                    },
+                ]);
+            } else if (value === "de") {
                 setRows([
-                    { id: 1, value: "Nehmen Sie ein Video von bis zu 30 Sekunden auf" },
+                    {
+                        id: 1,
+                        value: "Nehmen Sie ein Video von bis zu 30 Sekunden auf",
+                    },
                     { id: 2, value: "Präsentieren Sie das Produkt" },
                     { id: 3, value: "Präsentieren Sie das Produkt" },
-                    { id: 4, value: "Sagen Sie, warum Sie sich entschieden haben, JihiyiStore auszuprobieren" },
-                    { id: 5, value: "Beschreiben Sie die Hauptvorteile von JihiyiStore" },
-                ])}
+                    {
+                        id: 4,
+                        value: "Sagen Sie, warum Sie sich entschieden haben, JihiyiStore auszuprobieren",
+                    },
+                    {
+                        id: 5,
+                        value: "Beschreiben Sie die Hauptvorteile von JihiyiStore",
+                    },
+                ]);
+            }
             // save Locale into DB
             // fetch("/saveLocale", {
             //     method: "POST",
@@ -296,7 +377,6 @@ const Settings = () => {
 
         const formData = new FormData();
 
-
         formData.append("store_credit", priceValue);
         formData.append("page_display_to_customers", landingPageValue);
         formData.append("email_sent_to_customer", emailSentToValue);
@@ -307,14 +387,14 @@ const Settings = () => {
         formData.append("video", video);
         formData.append("setting_status", toggled);
         formData.append("instruction_title", title);
-        formData.append("locale",selected);
+        formData.append("locale", selected);
         if (
             (priceValue == "" ||
                 landingPageValue == "" ||
                 emailSentToValue == "" ||
                 landingPageDisplayedValue == "" ||
                 rows == "",
-                logoImage == "")
+            logoImage == "")
         ) {
             setError(true);
         } else {
@@ -328,158 +408,157 @@ const Settings = () => {
                 .then((response) => response.json())
                 .then((data) => {
                     if (data.success) {
-                        setIsLoading(false)
+                        setIsLoading(false);
                         toggleActive();
                         setIsSettingSave(new Date().getSeconds());
-                    }else{
-                        setIsLoading(false)
+                    } else {
+                        setIsLoading(false);
                         setError(true);
-                        setErorrMessages(data.errors)
-
+                        setErorrMessages(data.errors);
                     }
                 })
                 .catch((error) => {
-                    setIsLoading(false)
+                    setIsLoading(false);
                     setError(true);
                     // console.log(error);
                 });
         }
     };
 
-
-
     function handletestemail() {
-        fetch('/send_test_email', {
+        fetch("/send_test_email", {
             method: "GET",
         })
-            .then(response => {
+            .then((response) => {
                 if (!response.ok) {
-                    throw new Error('Something went wrong');
+                    throw new Error("Something went wrong");
                 }
                 return response.json();
             })
-            .then(data => {
+            .then((data) => {
                 if (data.success) {
                     alert("Email Sent Sucessfully");
                 }
             })
-            .catch(error => {
+            .catch((error) => {
                 console.log(error);
             });
-
-
     }
 
     // copy Landing Page Link
     const copyLandingPageLink = () => {
-
         const landingPageDisplayedValue =
             baseUrl + "/landingPage/" + currentLang + "?store=" + store;
         navigator.clipboard.writeText(landingPageDisplayedValue);
         toastMarkup && toastMarkup.show();
     };
     return (
-
         <div>
-            {isLoading ?
+            {isLoading ? (
                 <div>
-                    <Spinner accessibilityLabel="Spinner example" size="large" />
+                    <Spinner
+                        accessibilityLabel="Spinner example"
+                        size="large"
+                    />
                 </div>
-                :
+            ) : (
                 <Page>
                     <Frame>
                         <Grid>
                             <Grid.Cell
-                                columnSpan={{ xs: 6, sm: 6, md: 6, lg: 12, xl: 12 }}
+                                columnSpan={{
+                                    xs: 6,
+                                    sm: 6,
+                                    md: 6,
+                                    lg: 12,
+                                    xl: 12,
+                                }}
                             >
                                 {error && (
                                     <Card sectioned>
                                         <Banner>
                                             <List type="bullet">
-                                              {
-                                                errorMessages.store_credit &&
-                                                (
-                                                    errorMessages.store_credit.map((error)=>{
-                                                        return <List.Item>
-                                                            {error}
-                                                            </List.Item>
-                                                    })
-                                                )
-                                              }
+                                                {errorMessages.store_credit &&
+                                                    errorMessages.store_credit.map(
+                                                        (error) => {
+                                                            return (
+                                                                <List.Item>
+                                                                    {error}
+                                                                </List.Item>
+                                                            );
+                                                        }
+                                                    )}
 
-
-
-                                                    {
-                                                errorMessages.page_display_to_customers &&
-                                                (
-                                                    errorMessages.page_display_to_customers.map((error)=>{
-                                                        return <List.Item>
-                                                            {error}
-                                                            </List.Item>
-                                                    })
-                                                )
-                                              }
-                                                {
-                                                errorMessages.email_sent_to_customer &&
-                                                (
-                                                    errorMessages.email_sent_to_customer.map((error)=>{
-                                                        return <List.Item>
-                                                            {error}
-                                                            </List.Item>
-                                                    })
-                                                )
-                                              }
-                                            {
-                                                errorMessages.page_link &&
-                                                (
-                                                    errorMessages.page_link.map((error)=>{
-                                                        return <List.Item>
-                                                            {error}
-                                                            </List.Item>
-                                                    })
-                                                )
-                                              }
-                                             {
-                                                errorMessages.instructions &&
-                                                (
-                                                    errorMessages.instructions.map((error)=>{
-                                                        return <List.Item>
-                                                            {error}
-                                                            </List.Item>
-                                                    })
-                                                )
-                                              }
-                                                {
-                                                errorMessages.email_sent_to_customer &&
-                                                (
-                                                    errorMessages.email_sent_to_customer.map((error)=>{
-                                                        return <List.Item>
-                                                            {error}
-                                                            </List.Item>
-                                                    })
-                                                )
-                                              }
-                                              {
-                                                errorMessages.logo &&
-                                                (
-                                                    errorMessages.logo.map((error)=>{
-                                                        return <List.Item>
-                                                            {error}
-                                                            </List.Item>
-                                                    })
-                                                )
-                                              }
-                                              {
-                                                errorMessages.video &&
-                                                (
-                                                    errorMessages.video.map((error)=>{
-                                                        return <List.Item>
-                                                            {error}
-                                                            </List.Item>
-                                                    })
-                                                )
-                                              }
-
+                                                {errorMessages.page_display_to_customers &&
+                                                    errorMessages.page_display_to_customers.map(
+                                                        (error) => {
+                                                            return (
+                                                                <List.Item>
+                                                                    {error}
+                                                                </List.Item>
+                                                            );
+                                                        }
+                                                    )}
+                                                {errorMessages.email_sent_to_customer &&
+                                                    errorMessages.email_sent_to_customer.map(
+                                                        (error) => {
+                                                            return (
+                                                                <List.Item>
+                                                                    {error}
+                                                                </List.Item>
+                                                            );
+                                                        }
+                                                    )}
+                                                {errorMessages.page_link &&
+                                                    errorMessages.page_link.map(
+                                                        (error) => {
+                                                            return (
+                                                                <List.Item>
+                                                                    {error}
+                                                                </List.Item>
+                                                            );
+                                                        }
+                                                    )}
+                                                {errorMessages.instructions &&
+                                                    errorMessages.instructions.map(
+                                                        (error) => {
+                                                            return (
+                                                                <List.Item>
+                                                                    {error}
+                                                                </List.Item>
+                                                            );
+                                                        }
+                                                    )}
+                                                {errorMessages.email_sent_to_customer &&
+                                                    errorMessages.email_sent_to_customer.map(
+                                                        (error) => {
+                                                            return (
+                                                                <List.Item>
+                                                                    {error}
+                                                                </List.Item>
+                                                            );
+                                                        }
+                                                    )}
+                                                {errorMessages.logo &&
+                                                    errorMessages.logo.map(
+                                                        (error) => {
+                                                            return (
+                                                                <List.Item>
+                                                                    {error}
+                                                                </List.Item>
+                                                            );
+                                                        }
+                                                    )}
+                                                {errorMessages.video &&
+                                                    errorMessages.video.map(
+                                                        (error) => {
+                                                            return (
+                                                                <List.Item>
+                                                                    {error}
+                                                                </List.Item>
+                                                            );
+                                                        }
+                                                    )}
                                             </List>
                                         </Banner>
                                     </Card>
@@ -514,17 +593,30 @@ const Settings = () => {
                                             justifyContent: "space-between",
                                         }}
                                     >
-                                        <div style={{  }}>
+                                        <div style={{}}>
                                             <Text variant="headingLg" as="h5">
-                                                What amount of store credit would you offer to the customers for the usage of their UGC videos?
+                                                What amount of store credit
+                                                would you offer to the customers
+                                                for the usage of their UGC
+                                                videos?
                                             </Text>
                                             <p style={{ marginTop: "15px" }}>
-                                                We recommend offering a minimum of {storeCurrency} 50 to improve response rates.
-                                                This can be adjusted as necessary, with not set minimum limit in place.
+                                                We recommend offering a minimum
+                                                of {storeCurrency} 50 to improve
+                                                response rates. This can be
+                                                adjusted as necessary, with not
+                                                set minimum limit in place.
                                             </p>
                                         </div>
-                                        <div className="textFieldjoin"
-                                            style={{ marginLeft:"204px",width: "200px", textAlign: "end",display:"flex",alignItems:"center" }}
+                                        <div
+                                            className="textFieldjoin"
+                                            style={{
+                                                marginLeft: "204px",
+                                                width: "200px",
+                                                textAlign: "end",
+                                                display: "flex",
+                                                alignItems: "center",
+                                            }}
                                         >
                                             <div className="Polaris-TextField__Prefix prefixCustom">
                                                 {storeCurrency}
@@ -538,8 +630,6 @@ const Settings = () => {
                                     </div>
                                 </Card>
                                 <Card sectioned>
-
-
                                     <div
                                         style={{
                                             display: "flex",
@@ -550,17 +640,23 @@ const Settings = () => {
                                     >
                                         <div style={{ width: "450px" }}>
                                             <Text variant="headingLg" as="h5">
-                                            Set up Emails
+                                                Set up Emails
                                             </Text>
                                             <p style={{ marginTop: "5px" }}>
-                                            Choose the time to send the first email to your customers
+                                                Choose the time to send the
+                                                first email to your customers
                                             </p>
                                         </div>
                                         <div
-                                            style={{ width: "170px", textAlign: "end" }}
+                                            style={{
+                                                width: "170px",
+                                                textAlign: "end",
+                                            }}
                                         >
-                                            <Toggle toggled={toggled} onClick={handleChange} />
-
+                                            <Toggle
+                                                toggled={toggled}
+                                                onClick={handleChange}
+                                            />
                                         </div>
                                     </div>
 
@@ -574,18 +670,28 @@ const Settings = () => {
                                     >
                                         <div style={{ width: "550px" }}>
                                             <Text variant="headingLg" as="h5">
-                                            Post Purchase Emails Sent To Customers
+                                                Post Purchase Emails Sent To
+                                                Customers
                                             </Text>
                                             <p style={{ marginTop: "5px" }}>
-                                            Choose the time to send the first email to your customers
+                                                Choose the time to send the
+                                                first email to your customers
                                             </p>
                                         </div>
-                                        <div className="textFieldjoinRight"
-                                            style={{ marginLeft:"204px",width: "103px", textAlign: "end",display:"flex",alignItems:"center" }}
+                                        <div
+                                            className="textFieldjoinRight"
+                                            style={{
+                                                marginLeft: "204px",
+                                                width: "103px",
+                                                textAlign: "end",
+                                                display: "flex",
+                                                alignItems: "center",
+                                            }}
                                         >
-
                                             <TextField
-                                                value={landingPageDisplayedValue}
+                                                value={
+                                                    landingPageDisplayedValue
+                                                }
                                                 onChange={
                                                     landingPageDisplayedValueHandler
                                                 }
@@ -606,23 +712,34 @@ const Settings = () => {
                                     >
                                         <div style={{ width: "550px" }}>
                                             <Text variant="headingLg" as="h5">
-                                            Reminder Emails Sent To Customers
+                                                Reminder Emails Sent To
+                                                Customers
                                             </Text>
                                             <p style={{ marginTop: "5px" }}>
-                                            Choose the delay between each reminder emails (we’ll send emails each defined weeks)
+                                                Choose the delay between each
+                                                reminder emails (we’ll send
+                                                emails each defined weeks)
                                             </p>
                                         </div>
-                                        <div className="textFieldjoinRight"
-                                            style={{ marginLeft:"204px",width: "103px", textAlign: "end",display:"flex",alignItems:"center" }}
+                                        <div
+                                            className="textFieldjoinRight"
+                                            style={{
+                                                marginLeft: "204px",
+                                                width: "103px",
+                                                textAlign: "end",
+                                                display: "flex",
+                                                alignItems: "center",
+                                            }}
                                         >
                                             <TextField
                                                 value={emailSentToValue}
-                                                onChange={emailSentToValueHandler}
-
+                                                onChange={
+                                                    emailSentToValueHandler
+                                                }
                                                 autoComplete="off"
                                             />
                                             <div className="Polaris-TextField__Prefix prefixCustomRight">
-                                            weeks
+                                                weeks
                                             </div>
                                         </div>
                                     </div>
@@ -635,14 +752,22 @@ const Settings = () => {
                                     >
                                         <div style={{ width: "550px" }}>
                                             <Text variant="headingLg" as="h5">
-                                            Maximum Sent Emails To Customers
+                                                Maximum Sent Emails To Customers
                                             </Text>
                                             <p style={{ marginTop: "5px" }}>
-                                            Choose the maximum of emails you want to send to your customers
+                                                Choose the maximum of emails you
+                                                want to send to your customers
                                             </p>
                                         </div>
-                                        <div className="textFieldjoinRight"
-                                            style={{ marginLeft:"204px",width: "103px", textAlign: "end",display:"flex",alignItems:"center" }}
+                                        <div
+                                            className="textFieldjoinRight"
+                                            style={{
+                                                marginLeft: "204px",
+                                                width: "103px",
+                                                textAlign: "end",
+                                                display: "flex",
+                                                alignItems: "center",
+                                            }}
                                         >
                                             <TextField
                                                 value={landingPageValue}
@@ -650,13 +775,11 @@ const Settings = () => {
                                                 autoComplete="off"
                                             />
                                             <div className="Polaris-TextField__Prefix prefixCustomRight">
-                                            emails
+                                                emails
                                             </div>
                                         </div>
                                     </div>
                                 </Card>
-
-
 
                                 <Card sectioned>
                                     <Text variant="headingXl" as="h4">
@@ -675,14 +798,18 @@ const Settings = () => {
                                                 Your Store Logo
                                             </Text>
                                             <p style={{ marginTop: "5px" }}>
-                                                Logo must be a png,jpg,jpeg file not bigger than 1 MB. Logo must be 175x175 pixels.
+                                                Logo must be a png,jpg,jpeg file
+                                                not bigger than 1 MB. Logo must
+                                                be 175x175 pixels.
                                             </p>
                                         </div>
                                         <div style={{ textAlign: "end" }}>
                                             <div class="upload-btn-wrapper">
                                                 <button class="btnCustomUpload">
                                                     <img
-                                                        style={{ marginRight: "10px" }}
+                                                        style={{
+                                                            marginRight: "10px",
+                                                        }}
                                                         src={UploadIcon}
                                                     ></img>
                                                     Upload Your Logo
@@ -692,29 +819,58 @@ const Settings = () => {
                                                     name="myfile"
                                                     onChange={logoHandler}
                                                 />
-
                                             </div>
-                                            <p>{`${imagename}`} {imagename && <span>Uploaded</span>} </p>
+                                            <p>
+                                                {`${imagename}`}{" "}
+                                                {imagename && (
+                                                    <span>Uploaded</span>
+                                                )}{" "}
+                                            </p>
                                         </div>
                                     </div>
-                                    {previewLogoHide &&
-                                    <img style={{marginTop:"20px",boxShadow: "0px 0px 6px 2px rgb(0 0 0 / 20%) !important"}} width="100px" src={previewLogo}></img>}
-                                    <div style={{ width: "450px",marginTop:"20px" }}>
-                                            <Text variant="headingLg" as="h5">
+                                    {previewLogoHide && (
+                                        <img
+                                            style={{
+                                                marginTop: "20px",
+                                                boxShadow:
+                                                    "0px 0px 6px 2px rgb(0 0 0 / 20%) !important",
+                                            }}
+                                            width="100px"
+                                            src={previewLogo}
+                                        ></img>
+                                    )}
+                                    <div
+                                        style={{
+                                            width: "450px",
+                                            marginTop: "20px",
+                                        }}
+                                    >
+                                        <Text variant="headingLg" as="h5">
                                             Instructions
-                                            </Text>
-                                            <p style={{ marginTop: "5px",marginBottom:"5px" }}>
-                                                Instructions Title
-                                            </p>
-                                            <TextField
-                                                value={title}
-                                                onChange={handleTitle}
-                                                autoComplete="off"
-                                                />
-                                        </div>
-                                        <p style={{ marginTop: "20px",marginBottom:"5px" }}>
-                                        You may adjust these instructions according to the needs of your Store.
-                                            </p>
+                                        </Text>
+                                        <p
+                                            style={{
+                                                marginTop: "5px",
+                                                marginBottom: "5px",
+                                            }}
+                                        >
+                                            Instructions Title
+                                        </p>
+                                        <TextField
+                                            value={title}
+                                            onChange={handleTitle}
+                                            autoComplete="off"
+                                        />
+                                    </div>
+                                    <p
+                                        style={{
+                                            marginTop: "20px",
+                                            marginBottom: "5px",
+                                        }}
+                                    >
+                                        You may adjust these instructions
+                                        according to the needs of your Store.
+                                    </p>
                                     <div
                                         style={{
                                             display: "flex",
@@ -729,8 +885,8 @@ const Settings = () => {
                                         ></img>
                                         <div>
                                             <p>
-                                                Be very clear about what your costumers
-                                                should video.
+                                                Be very clear about what your
+                                                costumers should video.
                                             </p>
                                             <p>
                                                 Keep it simple, with minimum
@@ -738,37 +894,47 @@ const Settings = () => {
                                             </p>
                                         </div>
                                     </div>
-                                            <p>
-                                            Instructions Steps
-                                            </p>
-                                    {rows && rows.map((row, index) => (
-                                        <div
-                                            style={{
-                                                display: "grid",
-                                                gridTemplateColumns: "1fr .3fr",
-                                                marginTop: "10px",
-                                                marginBottom: "10px",
-                                            }}
-                                        >
-                                            <div>
-                                                <TextField
-                                                    value={row.value}
-                                                    onChange={(e) =>
-                                                        handleTextChange(e, index)
-                                                    }
-                                                />
-                                            </div>
-                                            <div style={{ marginLeft: "10px" }}>
+                                    <p>Instructions Steps</p>
+                                    {rows &&
+                                        rows.map((row, index) => (
+                                            <div
+                                                style={{
+                                                    display: "grid",
+                                                    gridTemplateColumns:
+                                                        "1fr .3fr",
+                                                    marginTop: "10px",
+                                                    marginBottom: "10px",
+                                                }}
+                                            >
+                                                <div>
+                                                    <TextField
+                                                        value={row.value}
+                                                        onChange={(e) =>
+                                                            handleTextChange(
+                                                                e,
+                                                                index
+                                                            )
+                                                        }
+                                                    />
+                                                </div>
                                                 <div
-
+                                                    style={{
+                                                        marginLeft: "10px",
+                                                    }}
                                                 >
-                                                    <img src={DellIcon} onClick={() =>
-                                                        handleRemoveRow(row.id)
-                                                    }></img>
+                                                    <div>
+                                                        <img
+                                                            src={DellIcon}
+                                                            onClick={() =>
+                                                                handleRemoveRow(
+                                                                    row.id
+                                                                )
+                                                            }
+                                                        ></img>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    ))}
+                                        ))}
                                     <div style={{ marginTop: "20px" }}>
                                         <Button primary onClick={handleAddRow}>
                                             Add another instruction
@@ -787,16 +953,18 @@ const Settings = () => {
                                                 Inspirational Video (optional)
                                             </Text>
                                             <p style={{ marginTop: "5px" }}>
-                                                Add a video for your customers to get
-                                                inspired and make a UGC almost similar.
+                                                Add a video for your customers
+                                                to get inspired and make a UGC
+                                                almost similar.
                                             </p>
-
                                         </div>
                                         <div style={{ textAlign: "end" }}>
                                             <div class="upload-btn-wrapper">
                                                 <button class="btnCustomUpload">
                                                     <img
-                                                        style={{ marginRight: "10px" }}
+                                                        style={{
+                                                            marginRight: "10px",
+                                                        }}
                                                         src={UploadIcon}
                                                     ></img>
                                                     Upload Your Video
@@ -806,18 +974,23 @@ const Settings = () => {
                                                     name="myvideoFile"
                                                     onChange={videoHandler}
                                                 />
-
-
-
                                             </div>
-                                            <p>{`${videoname}`} {videoname && "uploaded"}  </p>
-
+                                            <p>
+                                                {`${videoname}`}{" "}
+                                                {videoname && "uploaded"}{" "}
+                                            </p>
                                         </div>
                                     </div>
-                                        {previewVedioHide &&
-
-                                            <video width="108" height="193" src={previewVedio} muted autoPlay loop></video>
-                                        }
+                                    {previewVedioHide && (
+                                        <video
+                                            width="108"
+                                            height="193"
+                                            src={previewVedio}
+                                            muted
+                                            autoPlay
+                                            loop
+                                        ></video>
+                                    )}
                                     <div
                                         style={{
                                             display: "flex",
@@ -836,8 +1009,8 @@ const Settings = () => {
                                                 Button Colours
                                             </Text>
                                             <p style={{ marginTop: "5px" }}>
-                                                Choose the branding color of your
-                                                landing page.
+                                                Choose the branding color of
+                                                your landing page.
                                             </p>
                                         </div>
                                     </div>
@@ -855,40 +1028,94 @@ const Settings = () => {
                                             }}
                                             className="colorOptions"
                                         ></div>
-                                        <div onClick ={()=>{chooseColor("#FF4A4B")}}
-                                            style={{ background: "#FF4A4B",cursor:"pointer" }}
+                                        <div
+                                            onClick={() => {
+                                                chooseColor("#FF4A4B");
+                                            }}
+                                            style={{
+                                                background: "#FF4A4B",
+                                                cursor: "pointer",
+                                            }}
                                             className="colorOptions"
                                         ></div>
-                                        <div onClick ={()=>{chooseColor("#FF5175")}}
-                                            style={{ background: "#FF5175",cursor:"pointer" }}
+                                        <div
+                                            onClick={() => {
+                                                chooseColor("#FF5175");
+                                            }}
+                                            style={{
+                                                background: "#FF5175",
+                                                cursor: "pointer",
+                                            }}
                                             className="colorOptions"
                                         ></div>
-                                        <div onClick ={()=>{chooseColor("#E91E62")}}
-                                            style={{ background: "#E91E62",cursor:"pointer" }}
+                                        <div
+                                            onClick={() => {
+                                                chooseColor("#E91E62");
+                                            }}
+                                            style={{
+                                                background: "#E91E62",
+                                                cursor: "pointer",
+                                            }}
                                             className="colorOptions"
                                         ></div>
-                                        <div onClick ={()=>{chooseColor("#EB0045")}}
-                                            style={{ background: "#EB0045",cursor:"pointer" }}
+                                        <div
+                                            onClick={() => {
+                                                chooseColor("#EB0045");
+                                            }}
+                                            style={{
+                                                background: "#EB0045",
+                                                cursor: "pointer",
+                                            }}
                                             className="colorOptions"
                                         ></div>
-                                        <div onClick ={()=>{chooseColor("#D70049")}}
-                                            style={{ background: "#D70049",cursor:"pointer" }}
+                                        <div
+                                            onClick={() => {
+                                                chooseColor("#D70049");
+                                            }}
+                                            style={{
+                                                background: "#D70049",
+                                                cursor: "pointer",
+                                            }}
                                             className="colorOptions"
                                         ></div>
-                                        <div onClick ={()=>{chooseColor("#FF59DE")}}
-                                            style={{ background: "#FF59DE",cursor:"pointer" }}
+                                        <div
+                                            onClick={() => {
+                                                chooseColor("#FF59DE");
+                                            }}
+                                            style={{
+                                                background: "#FF59DE",
+                                                cursor: "pointer",
+                                            }}
                                             className="colorOptions"
                                         ></div>
-                                        <div onClick ={()=>{chooseColor("#FF98F7")}}
-                                            style={{ background: "#FF98F7",cursor:"pointer" }}
+                                        <div
+                                            onClick={() => {
+                                                chooseColor("#FF98F7");
+                                            }}
+                                            style={{
+                                                background: "#FF98F7",
+                                                cursor: "pointer",
+                                            }}
                                             className="colorOptions"
                                         ></div>
-                                        <div onClick ={()=>{chooseColor("#9C27B0")}}
-                                            style={{ background: "#9C27B0",cursor:"pointer" }}
+                                        <div
+                                            onClick={() => {
+                                                chooseColor("#9C27B0");
+                                            }}
+                                            style={{
+                                                background: "#9C27B0",
+                                                cursor: "pointer",
+                                            }}
                                             className="colorOptions"
                                         ></div>
-                                        <div onClick ={()=>{chooseColor("#673AB6")}}
-                                            style={{ background: "#673AB6",cursor:"pointer" }}
+                                        <div
+                                            onClick={() => {
+                                                chooseColor("#673AB6");
+                                            }}
+                                            style={{
+                                                background: "#673AB6",
+                                                cursor: "pointer",
+                                            }}
                                             className="colorOptions"
                                         ></div>
                                     </div>
@@ -899,44 +1126,104 @@ const Settings = () => {
                                             marginBottom: "10px",
                                         }}
                                     >
-                                        <div onClick ={()=>{chooseColor("#3F50B5")}}
-                                            style={{ background: "#3F50B5",cursor:"pointer" }}
+                                        <div
+                                            onClick={() => {
+                                                chooseColor("#3F50B5");
+                                            }}
+                                            style={{
+                                                background: "#3F50B5",
+                                                cursor: "pointer",
+                                            }}
                                             className="colorOptions"
                                         ></div>
-                                        <div onClick ={()=>{chooseColor("#0D0083")}}
-                                            style={{ background: "#0D0083",cursor:"pointer" }}
+                                        <div
+                                            onClick={() => {
+                                                chooseColor("#0D0083");
+                                            }}
+                                            style={{
+                                                background: "#0D0083",
+                                                cursor: "pointer",
+                                            }}
                                             className="colorOptions"
                                         ></div>
-                                        <div onClick ={()=>{chooseColor("#2096F3")}}
-                                            style={{ background: "#2096F3",cursor:"pointer" }}
+                                        <div
+                                            onClick={() => {
+                                                chooseColor("#2096F3");
+                                            }}
+                                            style={{
+                                                background: "#2096F3",
+                                                cursor: "pointer",
+                                            }}
                                             className="colorOptions"
                                         ></div>
-                                        <div onClick ={()=>{chooseColor("#3CBAFA")}}
-                                            style={{ background: "#3CBAFA",cursor:"pointer" }}
+                                        <div
+                                            onClick={() => {
+                                                chooseColor("#3CBAFA");
+                                            }}
+                                            style={{
+                                                background: "#3CBAFA",
+                                                cursor: "pointer",
+                                            }}
                                             className="colorOptions"
                                         ></div>
-                                        <div onClick ={()=>{chooseColor("#74D4FF")}}
-                                            style={{ background: "#74D4FF",cursor:"pointer" }}
+                                        <div
+                                            onClick={() => {
+                                                chooseColor("#74D4FF");
+                                            }}
+                                            style={{
+                                                background: "#74D4FF",
+                                                cursor: "pointer",
+                                            }}
                                             className="colorOptions"
                                         ></div>
-                                        <div onClick ={()=>{chooseColor("#00BCD4")}}
-                                            style={{ background: "#00BCD4",cursor:"pointer" }}
+                                        <div
+                                            onClick={() => {
+                                                chooseColor("#00BCD4");
+                                            }}
+                                            style={{
+                                                background: "#00BCD4",
+                                                cursor: "pointer",
+                                            }}
                                             className="colorOptions"
                                         ></div>
-                                        <div onClick ={()=>{chooseColor("#009688")}}
-                                            style={{ background: "#009688",cursor:"pointer" }}
+                                        <div
+                                            onClick={() => {
+                                                chooseColor("#009688");
+                                            }}
+                                            style={{
+                                                background: "#009688",
+                                                cursor: "pointer",
+                                            }}
                                             className="colorOptions"
                                         ></div>
-                                        <div onClick ={()=>{chooseColor("#01B780")}}
-                                            style={{ background: "#01B780",cursor:"pointer" }}
+                                        <div
+                                            onClick={() => {
+                                                chooseColor("#01B780");
+                                            }}
+                                            style={{
+                                                background: "#01B780",
+                                                cursor: "pointer",
+                                            }}
                                             className="colorOptions"
                                         ></div>
-                                        <div onClick ={()=>{chooseColor("#03D39C")}}
-                                            style={{ background: "#03D39C",cursor:"pointer" }}
+                                        <div
+                                            onClick={() => {
+                                                chooseColor("#03D39C");
+                                            }}
+                                            style={{
+                                                background: "#03D39C",
+                                                cursor: "pointer",
+                                            }}
                                             className="colorOptions"
                                         ></div>
-                                        <div onClick ={()=>{chooseColor("#4CAF4F")}}
-                                            style={{ background: "#4CAF4F",cursor:"pointer" }}
+                                        <div
+                                            onClick={() => {
+                                                chooseColor("#4CAF4F");
+                                            }}
+                                            style={{
+                                                background: "#4CAF4F",
+                                                cursor: "pointer",
+                                            }}
                                             className="colorOptions"
                                         ></div>
                                     </div>
@@ -947,40 +1234,94 @@ const Settings = () => {
                                             marginBottom: "10px",
                                         }}
                                     >
-                                        <div onClick ={()=>{chooseColor('#AEFF14')}}
-                                            style={{ background: "#AEFF14",cursor:"pointer" }}
+                                        <div
+                                            onClick={() => {
+                                                chooseColor("#AEFF14");
+                                            }}
+                                            style={{
+                                                background: "#AEFF14",
+                                                cursor: "pointer",
+                                            }}
                                             className="colorOptions"
                                         ></div>
-                                        <div onClick ={()=>{chooseColor("#FFDB91")}}
-                                            style={{ background: "#FFDB91",cursor:"pointer" }}
+                                        <div
+                                            onClick={() => {
+                                                chooseColor("#FFDB91");
+                                            }}
+                                            style={{
+                                                background: "#FFDB91",
+                                                cursor: "pointer",
+                                            }}
                                             className="colorOptions"
                                         ></div>
-                                        <div onClick ={()=>{chooseColor("#FFBA00")}}
-                                            style={{ background: "#FFBA00",cursor:"pointer" }}
+                                        <div
+                                            onClick={() => {
+                                                chooseColor("#FFBA00");
+                                            }}
+                                            style={{
+                                                background: "#FFBA00",
+                                                cursor: "pointer",
+                                            }}
                                             className="colorOptions"
                                         ></div>
-                                        <div onClick ={()=>{chooseColor("#FF9800")}}
-                                            style={{ background: "#FF9800",cursor:"pointer" }}
+                                        <div
+                                            onClick={() => {
+                                                chooseColor("#FF9800");
+                                            }}
+                                            style={{
+                                                background: "#FF9800",
+                                                cursor: "pointer",
+                                            }}
                                             className="colorOptions"
                                         ></div>
-                                        <div onClick ={()=>{chooseColor("#FFA383")}}
-                                            style={{ background: "#FFA383",cursor:"pointer" }}
+                                        <div
+                                            onClick={() => {
+                                                chooseColor("#FFA383");
+                                            }}
+                                            style={{
+                                                background: "#FFA383",
+                                                cursor: "pointer",
+                                            }}
                                             className="colorOptions"
                                         ></div>
-                                        <div onClick ={()=>{chooseColor("#D64C1E")}}
-                                            style={{ background: "#D64C1E",cursor:"pointer" }}
+                                        <div
+                                            onClick={() => {
+                                                chooseColor("#D64C1E");
+                                            }}
+                                            style={{
+                                                background: "#D64C1E",
+                                                cursor: "pointer",
+                                            }}
                                             className="colorOptions"
                                         ></div>
-                                        <div onClick ={()=>{chooseColor("#795548")}}
-                                            style={{ background: "#795548",cursor:"pointer" }}
+                                        <div
+                                            onClick={() => {
+                                                chooseColor("#795548");
+                                            }}
+                                            style={{
+                                                background: "#795548",
+                                                cursor: "pointer",
+                                            }}
                                             className="colorOptions"
                                         ></div>
-                                        <div onClick ={()=>{chooseColor("#ACACAC")}}
-                                            style={{ background: "#ACACAC",cursor:"pointer" }}
+                                        <div
+                                            onClick={() => {
+                                                chooseColor("#ACACAC");
+                                            }}
+                                            style={{
+                                                background: "#ACACAC",
+                                                cursor: "pointer",
+                                            }}
                                             className="colorOptions"
                                         ></div>
-                                        <div onClick ={()=>{chooseColor("#000000")}}
-                                            style={{ background: "#000000",cursor:"pointer" }}
+                                        <div
+                                            onClick={() => {
+                                                chooseColor("#000000");
+                                            }}
+                                            style={{
+                                                background: "#000000",
+                                                cursor: "pointer",
+                                            }}
                                             className="colorOptions"
                                         ></div>
                                         <button
@@ -990,11 +1331,15 @@ const Settings = () => {
                                                 border: "none",
                                             }}
                                             onBlur={() => {
-                                                setButtonColorHide(!buttonColorHide);
+                                                setButtonColorHide(
+                                                    !buttonColorHide
+                                                );
                                                 setGradientCheck(false);
                                             }}
                                             onClick={() => {
-                                                setButtonColorHide(!buttonColorHide);
+                                                setButtonColorHide(
+                                                    !buttonColorHide
+                                                );
                                                 setGradientCheck(false);
                                                 setReload(!reload);
                                             }}
@@ -1002,7 +1347,10 @@ const Settings = () => {
                                             <img
                                                 className="colorWheel"
                                                 src={ColorWheel}
-                                                style={{ marginTop: "3px",marginLeft:"4px" }}
+                                                style={{
+                                                    marginTop: "3px",
+                                                    marginLeft: "4px",
+                                                }}
                                             ></img>
                                         </button>
                                         {buttonColorHide && (
@@ -1023,7 +1371,9 @@ const Settings = () => {
                                                     onChange={(e) => {
                                                         // console.log(hsbToRgb(e));
                                                         setButtonColor(e);
-                                                        setButtonColorHex(hsbToHex(e));
+                                                        setButtonColorHex(
+                                                            hsbToHex(e)
+                                                        );
                                                         setGradientCheck(false);
                                                     }}
                                                     color={buttonColor}
@@ -1031,37 +1381,40 @@ const Settings = () => {
                                             </div>
                                         )}
                                     </div>
-                                    <p>Selected Color Preview</p><br />
+                                    <p>Selected Color Preview</p>
+                                    <br />
                                     <div
-                                            style={{ background: `${buttonColorHex}` }}
-                                            className="colorOptions"
-                                        ></div>
+                                        style={{
+                                            background: `${buttonColorHex}`,
+                                        }}
+                                        className="colorOptions"
+                                    ></div>
                                 </Card>
                                 <Card sectioned>
-                                <div>
-                                            <Text variant="headingLg" as="h5">
+                                    <div>
+                                        <Text variant="headingLg" as="h5">
                                             Preview
-                                            </Text>
-                                            <p
-                                                style={{
-                                                    marginTop: "5px",
-                                                    marginBottom: "20px",
-                                                }}
-                                            >
-                                                Here’s what your customers will see and receive by email
-                                            </p>
-                                        </div>
+                                        </Text>
+                                        <p
+                                            style={{
+                                                marginTop: "5px",
+                                                marginBottom: "20px",
+                                            }}
+                                        >
+                                            Here’s what your customers will see
+                                            and receive by email
+                                        </p>
+                                    </div>
                                     <div
                                         style={{
                                             display: "flex",
                                             alignItems: "center",
                                             justifyContent: "space-between",
-
                                         }}
                                     >
                                         <div>
                                             <Text variant="headingLg" as="h5">
-                                            Preview Landing Page
+                                                Preview Landing Page
                                             </Text>
                                             <p
                                                 style={{
@@ -1069,11 +1422,15 @@ const Settings = () => {
                                                     marginBottom: "10px",
                                                 }}
                                             >
-                                                Here’s the Landing Page that your users will see
+                                                Here’s the Landing Page that
+                                                your users will see
                                             </p>
                                         </div>
                                         <div
-                                            style={{ width: "200px", textAlign: "end" }}
+                                            style={{
+                                                width: "200px",
+                                                textAlign: "end",
+                                            }}
                                         >
                                             <Button
                                                 primary
@@ -1102,15 +1459,22 @@ const Settings = () => {
                                                     marginBottom: "10px",
                                                 }}
                                             >
-                                                Share the landing page link with your customers to get them to send UGC videos
+                                                Share the landing page link with
+                                                your customers to get them to
+                                                send UGC videos
                                             </p>
                                         </div>
                                         <div
-                                            style={{ width: "200px", textAlign: "end" }}
+                                            style={{
+                                                width: "200px",
+                                                textAlign: "end",
+                                            }}
                                         >
                                             <Button
                                                 primary
-                                                onClick={() => copyLandingPageLink()}
+                                                onClick={() =>
+                                                    copyLandingPageLink()
+                                                }
                                             >
                                                 Copy Landing Page Link
                                             </Button>
@@ -1126,7 +1490,7 @@ const Settings = () => {
                                     >
                                         <div>
                                             <Text variant="headingLg" as="h5">
-                                            Email Sent To Customers
+                                                Email Sent To Customers
                                             </Text>
                                             <p
                                                 style={{
@@ -1134,16 +1498,25 @@ const Settings = () => {
                                                     marginBottom: "10px",
                                                 }}
                                             >
-                                                We'll send a test email to (STORE EMAIL)
+                                                We'll send a test email to
+                                                &nbsp;
+                                                {email}
                                             </p>
                                         </div>
                                         <div
-                                            style={{ width: "200px", textAlign: "end" }}
+                                            style={{
+                                                width: "200px",
+                                                textAlign: "end",
+                                            }}
                                         >
-                                            <Button primary onClick={handletestemail}>Send Test Email</Button>
+                                            <Button
+                                                primary
+                                                onClick={handletestemail}
+                                            >
+                                                Send Test Email
+                                            </Button>
                                         </div>
                                     </div>
-
                                 </Card>
                                 <div
                                     style={{
@@ -1152,17 +1525,21 @@ const Settings = () => {
                                         marginBottom: "100px",
                                     }}
                                 >
-                                    <Button primary onClick={saveSettings} disabled={isLoading}>
+                                    <Button
+                                        primary
+                                        onClick={saveSettings}
+                                        disabled={isLoading}
+                                    >
                                         Save Settings
                                     </Button>
                                 </div>
                             </Grid.Cell>
                         </Grid>
                     </Frame>
-                </Page>}
+                </Page>
+            )}
         </div>
     );
 };
 
 export default Settings;
-

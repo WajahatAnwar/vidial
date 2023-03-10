@@ -89,8 +89,10 @@ class SettingsController extends Controller
             //     'data'=>null
             // ]);
         }
-        
+
         $data['store']=$store->name;
+        $data['email']=$store->email;
+
         $data['store_currency']= $this->getCurrencySymbol($store->store_currency) ? $this->getCurrencySymbol($store->store_currency) : $store->store_currency;
         return response()->json([
             'success' => true,
@@ -132,7 +134,7 @@ class SettingsController extends Controller
         }else{
             $video=$request->video ?? '';
         }
-        
+
 
         $currentUser = Auth::user()->id;
         $settings['store_credit']=$request->store_credit;
@@ -147,7 +149,7 @@ class SettingsController extends Controller
         $settings['email_status'] = $request->setting_status;
         $settings['instruction_title'] = $request->instruction_title ?? 'Instructions';
         $settings['locale']=$request->locale ?? 'en';
-        
+
         Setting::updateOrCreate(['user_id'=>$currentUser],$settings);
         return response()->json([
             'success' => true,
@@ -160,7 +162,7 @@ class SettingsController extends Controller
         // Language Translation
         setLan($locale);
         if($this->store!==''){
-            
+
             $user=User::with('settings')->where('name',$this->store)->first();
 
             if(!$user || !$user->settings){
@@ -198,7 +200,7 @@ class SettingsController extends Controller
     }
 
     public function getCurrencySymbol($currency_code){
-        
+
         $currencies = array(
             "GBP" => "£",
             "USD" => "$",
@@ -212,7 +214,7 @@ class SettingsController extends Controller
            return $currencies[$currency_code];
         }
         return false;
-        
+
     }
 
 }
