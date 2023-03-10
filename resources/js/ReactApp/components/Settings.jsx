@@ -148,9 +148,7 @@ const Settings = () => {
     // console.log(logoImage);
     const [video, setVideo] = useState("");
     const [store, setStore] = useState("");
-    const [baseUrl, setBaseUrl] = useState(
-        "https://phpstack-953879-3323622.cloudwaysapps.com"
-    );
+    const [baseUrl, setBaseUrl] = useState("https://app.vidial.co");
     const [imagename, setImagename] = useState("");
     const [videoname, setVideoname] = useState("");
     const [previewLogo, setPreviwLogo] = useState("");
@@ -246,129 +244,129 @@ const Settings = () => {
         fetchSettings();
     }, [isSettingSave]);
 
-    const handleSelectChange = useCallback(
-        (value) => {
-            setSelected(value);
-            if (value === "en") {
-                setRows([
-                    { id: 1, value: "Record a video off up to 30 seconds" },
-                    {
-                        id: 2,
-                        value: "Share your genuine experience of the product",
-                    },
-                    { id: 3, value: "Showcase the product" },
-                    {
-                        id: 4,
-                        value: "Tell why you've decided to try JihiyiStore",
-                    },
-                    {
-                        id: 5,
-                        value: "Describe the main benefits of JihiyiStore",
-                    },
-                ]);
-            } else if (value === "fr") {
-                setRows([
-                    {
-                        id: 1,
-                        value: "Enregistrer une vidéo jusqu'à 30 secondes",
-                    },
-                    {
-                        id: 2,
-                        value: "Partagez votre expérience authentique du produit",
-                    },
-                    { id: 3, value: "Présenter le produit" },
-                    {
-                        id: 4,
-                        value: "Dites pourquoi vous avez décidé d'essayer JihiyiStore",
-                    },
-                    {
-                        id: 5,
-                        value: "Décrire les principaux avantages de JihiyiStore",
-                    },
-                ]);
-            } else if (value === "es") {
-                setRows([
-                    { id: 1, value: "Graba un video de hasta 30 segundos" },
-                    {
-                        id: 2,
-                        value: "Comparta su experiencia genuina del producto",
-                    },
-                    { id: 3, value: "Mostrar el producto" },
-                    {
-                        id: 4,
-                        value: "Di por qué has decidido probar JihiyiStore",
-                    },
-                    {
-                        id: 5,
-                        value: "Describir los principales beneficios de JihiyiStore",
-                    },
-                ]);
-            } else if (value === "pt") {
-                setRows([
-                    { id: 1, value: "Grave um vídeo de até 30 segundos" },
-                    {
-                        id: 2,
-                        value: "Compartilhe sua experiência genuína com o produto",
-                    },
-                    { id: 3, value: "Mostre o produto" },
-                    {
-                        id: 4,
-                        value: "Diga por que você decidiu experimentar a JihiyiStore",
-                    },
-                    {
-                        id: 5,
-                        value: "Descrever os principais benefícios da JihiyiStore",
-                    },
-                ]);
-            } else if (value === "it") {
-                setRows([
-                    { id: 1, value: "Registra un video fino a 30 secondi" },
-                    {
-                        id: 2,
-                        value: "Condividi la tua vera esperienza del prodotto",
-                    },
-                    { id: 3, value: "Mostra il prodotto" },
-                    {
-                        id: 4,
-                        value: "Spiega perché hai deciso di provare JihiyiStore",
-                    },
-                    {
-                        id: 5,
-                        value: "Descrivi i principali vantaggi di JihiyiStore",
-                    },
-                ]);
-            } else if (value === "de") {
-                setRows([
-                    {
-                        id: 1,
-                        value: "Nehmen Sie ein Video von bis zu 30 Sekunden auf",
-                    },
-                    { id: 2, value: "Präsentieren Sie das Produkt" },
-                    { id: 3, value: "Präsentieren Sie das Produkt" },
-                    {
-                        id: 4,
-                        value: "Sagen Sie, warum Sie sich entschieden haben, JihiyiStore auszuprobieren",
-                    },
-                    {
-                        id: 5,
-                        value: "Beschreiben Sie die Hauptvorteile von JihiyiStore",
-                    },
-                ]);
-            }
-            // save Locale into DB
-            // fetch("/saveLocale", {
-            //     method: "POST",
-            //     headers: {
-            //         "Content-Type": "application/json",
-            //     },
-            //     body: JSON.stringify({ value }),
-            // })
-            //     .then((response) => response.json())
-            //     .then((data) => toggleActive())
-            //     .catch((error) => console.error(error));
-        },
-        ["english"]
-    );
+    const handleSelectChange = (value) => {
+        setSelected(value);
+        if (value === "en") {
+            setRows([
+                { id: 1, value: "Record a video off up to 30 seconds" },
+                {
+                    id: 2,
+                    value: "Share your genuine experience of the product",
+                },
+                { id: 3, value: "Showcase the product" },
+                {
+                    id: 4,
+                    value: "Tell why you've decided to try " + store,
+                },
+                {
+                    id: 5,
+                    value: "Describe the main benefits of " + store,
+                },
+            ]);
+        } else if (value === "fr") {
+            setRows([
+                {
+                    id: 1,
+                    value: "Enregistrer une vidéo jusqu'à 30 secondes",
+                },
+                {
+                    id: 2,
+                    value: "Partagez votre expérience authentique du produit",
+                },
+                { id: 3, value: "Présenter le produit" },
+                {
+                    id: 4,
+                    value: "Dites pourquoi vous avez décidé d'essayer " + store,
+                },
+                {
+                    id: 5,
+                    value: "Décrire les principaux avantages de " + store,
+                },
+            ]);
+        } else if (value === "es") {
+            setRows([
+                { id: 1, value: "Graba un video de hasta 30 segundos" },
+                {
+                    id: 2,
+                    value: "Comparta su experiencia genuina del producto",
+                },
+                { id: 3, value: "Mostrar el producto" },
+                {
+                    id: 4,
+                    value: "Di por qué has decidido probar " + store,
+                },
+                {
+                    id: 5,
+                    value: "Describir los principales beneficios de " + store,
+                },
+            ]);
+        } else if (value === "pt") {
+            setRows([
+                { id: 1, value: "Grave um vídeo de até 30 segundos" },
+                {
+                    id: 2,
+                    value: "Compartilhe sua experiência genuína com o produto",
+                },
+                { id: 3, value: "Mostre o produto" },
+                {
+                    id: 4,
+                    value: "Diga por que você decidiu experimentar a " + store,
+                },
+                {
+                    id: 5,
+                    value: "Descrever os principais benefícios da " + store,
+                },
+            ]);
+        } else if (value === "it") {
+            setRows([
+                { id: 1, value: "Registra un video fino a 30 secondi" },
+                {
+                    id: 2,
+                    value: "Condividi la tua vera esperienza del prodotto",
+                },
+                { id: 3, value: "Mostra il prodotto" },
+                {
+                    id: 4,
+                    value: "Spiega perché hai deciso di provare " + store,
+                },
+                {
+                    id: 5,
+                    value: "Descrivi i principali vantaggi di " + store,
+                },
+            ]);
+        } else if (value === "de") {
+            setRows([
+                {
+                    id: 1,
+                    value: "Nehmen Sie ein Video von bis zu 30 Sekunden auf",
+                },
+                { id: 2, value: "Präsentieren Sie das Produkt" },
+                { id: 3, value: "Präsentieren Sie das Produkt" },
+                {
+                    id: 4,
+                    value:
+                        "Sagen Sie, warum Sie sich entschieden haben, " +
+                        store +
+                        " auszuprobieren",
+                },
+                {
+                    id: 5,
+                    value: "Beschreiben Sie die Hauptvorteile von " + store,
+                },
+            ]);
+        }
+        // save Locale into DB
+        // fetch("/saveLocale", {
+        //     method: "POST",
+        //     headers: {
+        //         "Content-Type": "application/json",
+        //     },
+        //     body: JSON.stringify({ value }),
+        // })
+        //     .then((response) => response.json())
+        //     .then((data) => toggleActive())
+        //     .catch((error) => console.error(error));
+    };
 
     /******** save settings into DB ******/
     const saveSettings = (e) => {
@@ -579,7 +577,9 @@ const Settings = () => {
                                     <div style={{ width: "150px" }}>
                                         <Select
                                             options={options}
-                                            onChange={handleSelectChange}
+                                            onChange={(e) => {
+                                                handleSelectChange(e);
+                                            }}
                                             value={selected}
                                         />
                                     </div>
