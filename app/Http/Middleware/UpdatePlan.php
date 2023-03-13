@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Models\Video;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Charge;
 
 class UpdatePlan
 {
@@ -23,6 +24,11 @@ class UpdatePlan
     public function handle(Request $request, Closure $next)
     {
         $email_count  =  Plan::where('id',auth()->user()->plan_id)->first();
+       $charge   = Charge::where('user_id',auth()->user()->id)
+        ->where('status','=','ACTIVE')
+        ->first();
+
+
 
 
         $current_user_approved_video_count = Video::where("user_id", auth()->user()->id)->where('status', config('constants.video_approved'))->whereMonth('created_at', Carbon::now()->month)->count();

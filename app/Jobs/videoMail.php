@@ -47,6 +47,7 @@ class videoMail implements ShouldQueue
         'v:name' => 'RichyRoundhouse',
         'v:storename_team' => $this->details['store_name'],
         'v:discount_code'=>$this->details['coupen_code'],
+        'v:url'=>$this->details['url'],
     );
 
 

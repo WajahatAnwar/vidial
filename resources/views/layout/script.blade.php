@@ -20,6 +20,7 @@ $(() => {
     uploadMode: 'instantly',
     uploadUrl: '{{ url("/uploadVideo") }}',
     visible: false,
+    accept: 'video/*',
     onUploadStarted: function(e) {
         $('.loading_details').removeAttr("style");
     },
@@ -60,7 +61,7 @@ const saveVideo = ()=>{
     else if(email==''){
         $('#error-email').removeClass('d-none');
         $('#error-email-text').text('Please add email');
-        
+
         return false;
 
     }
@@ -86,7 +87,7 @@ const saveVideo = ()=>{
                 // $("#success_popup").modal('show');
                 localStorage.removeItem('video_url');
                 localStorage.removeItem('video_path');
-                
+
                  $('#email').val('');
 
                  var congrats ="{{url('congratulations')}}";

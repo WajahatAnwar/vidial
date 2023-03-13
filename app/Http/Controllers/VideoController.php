@@ -2,23 +2,26 @@
 
 namespace App\Http\Controllers;
 
-use App\Jobs\NotApprovedMailjob;
-use App\Jobs\ThanksMailjob;
 use Auth;
 use Dropbox;
 use DateTime;
 use DateTimeZone;
 use Carbon\Carbon;
+use App\Models\Plan;
 use App\Models\User;
 use App\Models\Video;
+use App\Models\Charge;
+use App\Models\Orders;
 use GuzzleHttp\Client;
 use App\Jobs\videoMail;
 use App\Models\Setting;
+use App\Jobs\ThanksMailjob;
 use Illuminate\Http\Request;
+use App\Jobs\NotApprovedMailjob;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Crypt;
-use App\Models\Orders;
+
 class VideoController extends Controller
 {
       public function index(Request $request){
@@ -169,23 +172,8 @@ public function videoOperation(Request $request){
     if($videos){
         $videos->status =config('constants.video_approved');
         $videos->save();
-        // if($request->type){
-
-        // }else{
-
-        //     $details = [
-        //     'rejectionReason' => $request->rejectionReason,
-        //     'mail'            => $videos->email
-        //     ];
-        //     dispatch(new NotApprovedMailjob($details));
-
-        //     return response()->json([
-        //         'success' => false,
-        //         'message' => 'Status Changed Successfully',
-        //         'data'=>  null,
-        //     ]);
-        // }
         $code = $this->createDiscountCode();
+        $redirect = 'https://'.$user->name;
 
         $details = [
             'mail' => $videos->email,
@@ -194,6 +182,7 @@ public function videoOperation(Request $request){
             'store_name' => auth()->user()->name,
             'coupen_code' => $code['code'],
             'locale' =>$user->settings->locale,
+            'url' =>$redirect
         ];
         dispatch(new videoMail($details));
         $log_details = [
@@ -326,6 +315,21 @@ public function sendTest(Request $request){
 
  // test function
  public function test(Request $request){
+    $email_count  =  Plan::where('id',auth()->user()->plan_id)->first();
+    $charge   = Charge::where('user_id',auth()->user()->id)
+     ->where('status','=','ACTIVE')
+     ->first();
+     $current_user_approved_video_count = Video::where("user_id", auth()->user()->id)->where('status', config('constants.video_approved'))
+     ->where('created_at', '<=','2023-03-10 14:30:43')
+     ->where('created_at', '>=','2023-03-13 00:00:00')
+     ->get();
+
+dd($current_user_approved_video_count);
+
+
+
+     $current_user_approved_video_count = Video::where("user_id", auth()->user()->id)->where('status', config('constants.video_approved'))->whereMonth('created_at', Carbon::now()->month)->count();
+
     dd(getDropboxToken());
     $dropbox = updateDropboxToken();
     $token = 'Bearer '.$dropbox['access_token'];
