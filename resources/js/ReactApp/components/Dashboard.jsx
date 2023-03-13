@@ -441,7 +441,6 @@ function Dashboard() {
                                                                 color: "#797979",
                                                             }}
                                                         >
-                                                            {video.id} --
                                                             {video.created_at}
                                                         </p>
                                                         <div
