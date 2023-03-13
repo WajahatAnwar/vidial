@@ -320,8 +320,8 @@ public function sendTest(Request $request){
      ->where('status','=','ACTIVE')
      ->first();
      $current_user_approved_video_count = Video::where("user_id", auth()->user()->id)->where('status', config('constants.video_approved'))
-     ->where('created_at', '<=','2023-03-10 14:30:43')
-     ->where('created_at', '>=','2023-03-13 00:00:00')
+     ->where('created_at', '>=',$charge->billing_on)
+     ->where('created_at', '<=',Carbon::now())
      ->get();
 
 dd($current_user_approved_video_count);

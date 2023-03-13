@@ -24,14 +24,17 @@ class UpdatePlan
     public function handle(Request $request, Closure $next)
     {
         $email_count  =  Plan::where('id',auth()->user()->plan_id)->first();
-       $charge   = Charge::where('user_id',auth()->user()->id)
+        $charge = Charge::where('user_id',auth()->user()->id)
         ->where('status','=','ACTIVE')
         ->first();
 
 
 
 
-        $current_user_approved_video_count = Video::where("user_id", auth()->user()->id)->where('status', config('constants.video_approved'))->whereMonth('created_at', Carbon::now()->month)->count();
+        $current_user_approved_video_count = Video::where("user_id", auth()->user()->id)->where('status', config('constants.video_approved'))
+        ->where('created_at', '>=',$charge->billing_on)
+        ->where('created_at', '<=',Carbon::now())
+        ->count();
         $current_user_approved_email_count=Log::where("user_id", auth()->user()->id)->whereMonth('created_at', Carbon::now()->month)->count();
 
         //count Remaining
