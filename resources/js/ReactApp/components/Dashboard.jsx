@@ -21,209 +21,226 @@ import WaitingLogo from "./imges/WaitingLogo.png";
 import ApprovedLogo from "./imges/ApprovedLogo.png";
 import WaitingIcon from "./imges/waiting2.png";
 import VideoTumbnail from "./imges/bureau 11.png";
-import { CircleCancelMajor, CircleTickMajor, PlayCircleMajor } from "@shopify/polaris-icons";
+import {
+    CircleCancelMajor,
+    CircleTickMajor,
+    PlayCircleMajor,
+} from "@shopify/polaris-icons";
 import downloadIcon from "./imges/downloadIcon.png";
-import noVedio from "./imges/film.png"
+import noVedio from "./imges/film.png";
 import { downloadVideo } from "./utils";
 
 function Dashboard() {
     const [activeRejectionModel, setActiveRejectionModel] = useState(false);
-    const handleChangeRejectionModel = useCallback(() => setActiveRejectionModel(!activeRejectionModel), [activeRejectionModel]);
+    const handleChangeRejectionModel = useCallback(
+        () => setActiveRejectionModel(!activeRejectionModel),
+        [activeRejectionModel]
+    );
     // const activatorRejectionModel = <Button onClick={handleChangeRejectionModel}>Open</Button>;
 
-    const [rejectionReason, setRejectionReason] = useState('');
-    const handleRejectionReason = useCallback((newValue) => setRejectionReason(newValue), []);
+    const [rejectionReason, setRejectionReason] = useState("");
+    const handleRejectionReason = useCallback(
+        (newValue) => setRejectionReason(newValue),
+        []
+    );
 
-    const [activeRejectionConfirmModel, setActiveRejectionConfirmModel] = useState(false);
-    const handleChangeRejectionConfirmModel = useCallback(() => setActiveRejectionConfirmModel(!activeRejectionConfirmModel), [activeRejectionConfirmModel]);
+    const [activeRejectionConfirmModel, setActiveRejectionConfirmModel] =
+        useState(false);
+    const handleChangeRejectionConfirmModel = useCallback(
+        () => setActiveRejectionConfirmModel(!activeRejectionConfirmModel),
+        [activeRejectionConfirmModel]
+    );
     // const activatorRejectionConfirmModel = <Button onClick={handleChangeRejectionConfirmModel}>Open</Button>;
-    const [activeRejectionSuccessModel, setActiveRejectionSuccessModel] = useState(false);
+    const [activeRejectionSuccessModel, setActiveRejectionSuccessModel] =
+        useState(false);
     const handleChangeRejectionSuccessModel = useCallback(() => {
-        setActiveRejectionSuccessModel(!activeRejectionSuccessModel), [activeRejectionSuccessModel];
-        setRejectionReason('');
+        setActiveRejectionSuccessModel(!activeRejectionSuccessModel),
+            [activeRejectionSuccessModel];
+        setRejectionReason("");
         setReload(new Date().getSeconds());
+    });
 
-    })
-
-    const [videoFeedback,setVideoFeedback] = useState(' Congratulations, you just approved the video.');
-    const [videoFeedbackPopupTitle,setVideoFeedbackPopupTitle] = useState('Confirmation for approving video');
-    const [rejectVideoFeedback,setRejectVideoFeedback] = useState('Are you sure you want to Reject?');
-    const [rejectVideoFeedbackTitlePopup,setrejectVideoFeedbackTitlePopup] = useState('Confirmation for reject video');
-    const [rejectVideoBodyText, setrejectVideoBodyText] = useState('Video Rejected Successfully');
-    
-    
-    
-    
+    const [videoFeedback, setVideoFeedback] = useState(
+        " Congratulations, you just approved the video."
+    );
+    const [videoFeedbackPopupTitle, setVideoFeedbackPopupTitle] = useState(
+        "Confirmation for approving video"
+    );
+    const [rejectVideoFeedback, setRejectVideoFeedback] = useState(
+        "Are you sure you want to Reject?"
+    );
+    const [rejectVideoFeedbackTitlePopup, setrejectVideoFeedbackTitlePopup] =
+        useState("Confirmation for reject video");
+    const [rejectVideoBodyText, setrejectVideoBodyText] = useState(
+        "Video Rejected Successfully"
+    );
 
     // const activatorRejectionSuccessModel = <Button onClick={handleChangeRejectionSuccessModel}>Open</Button>;
 
-
-    const [activeApprovedConfirmModel, setActiveApprovedConfirmModel] = useState(false);
-    const handleChangeApprovedConfirmModel = useCallback(() => setActiveApprovedConfirmModel(!activeApprovedConfirmModel), [activeApprovedConfirmModel]);
+    const [activeApprovedConfirmModel, setActiveApprovedConfirmModel] =
+        useState(false);
+    const handleChangeApprovedConfirmModel = useCallback(
+        () => setActiveApprovedConfirmModel(!activeApprovedConfirmModel),
+        [activeApprovedConfirmModel]
+    );
     // const activatorApprovedConfirmModel = <Button onClick={handleChangeApprovedConfirmModel}>Open</Button>;
 
-    const [activeApprovedSuccessModel, setActiveApprovedSuccessModel] = useState(false);
-    const handleChangeApprovedSuccessModel = useCallback(() => 
-    {
-        setActiveApprovedSuccessModel(!activeApprovedSuccessModel), [activeApprovedSuccessModel]
+    const [activeApprovedSuccessModel, setActiveApprovedSuccessModel] =
+        useState(false);
+    const handleChangeApprovedSuccessModel = useCallback(() => {
+        setActiveApprovedSuccessModel(!activeApprovedSuccessModel),
+            [activeApprovedSuccessModel];
         setReload(new Date().getSeconds());
-    })
-    
-    // const activatorApprovedSuccessModel = <Button onClick={handleChangeApprovedSuccessModel}>Open</Button>;
+    });
 
+    // const activatorApprovedSuccessModel = <Button onClick={handleChangeApprovedSuccessModel}>Open</Button>;
 
     const [pendingVideos, setPendingVideos] = useState([]);
     const [approvedVideos, setApprovedVideos] = useState([]);
     const [approvedVideosCount, setApprovedVideosCount] = useState(0);
     const [pendingVideosCount, setPendingVideosCount] = useState(0);
-    const [userEmail,setUserEmail] = useState(0);
-    const [reload,setReload]=useState('');
-    const [rejectVideoId,setRejectVideoId] = useState(false);
-    const [approvedUserVideoId,setapprovedUserVideoId] = useState(false);
-    
+    const [userEmail, setUserEmail] = useState(0);
+    const [reload, setReload] = useState("");
+    const [rejectVideoId, setRejectVideoId] = useState(false);
+    const [approvedUserVideoId, setapprovedUserVideoId] = useState(false);
+    const [isClicked, setisClicked] = useState(false);
 
-      
     /******** Operation on Videos  ******/
-const videoOperation = (id) => {
-    const status = "Approved";
-    const confirmed = confirm(`Are you sure you want to ${status}?`);
-    var formData = new FormData();
-    formData.append("video_id", id);
-    if (confirmed) {
-        fetch("/videoOperation", {
-            method: "post",
-            body: formData,
-        })
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error("Something went wrong");
-                }
-                return response.json();
-            })
-            .then((data) => {
-                if (data.success) {
-
-                    alert(
-                        "Congratulation video has been approved code :" +
-                            data.data.code
-                    );
-                } else {
-                    alert(
-                        data.message
-                    );
-                }
-                setReload(true);
-                return;
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-    }
-};
-/******** Rejection popup   ******/
-
- const handleRejectionPopup = ()=>{
-  setActiveRejectionConfirmModel(false);
-  setActiveRejectionModel(true);
-  return ;
- }
-/******** Reject Video Handle   ******/
-const handleRejectVideo = ()=>{
-
-    if(rejectionReason && rejectVideoId){
-        setrejectVideoBodyText('Video Rejected Successfully')
-        setrejectVideoFeedbackTitlePopup('Confirmation for reject video')
+    const videoOperation = (id) => {
+        const status = "Approved";
+        const confirmed = confirm(`Are you sure you want to ${status}?`);
         var formData = new FormData();
-        formData.append("reason", rejectionReason);
-        formData.append("video_id", rejectVideoId);
-    fetch("/rejectVideo", {
-        method: "post",
-        body: formData,
-    })
-        .then((response) => {
-            if (!response.ok) {
-                throw new Error("Something went wrong");
-            }
-            return response.json();
-        })
-        .then((data) => {
-            if (data.success) {
-                setActiveRejectionModel(false);
-                setActiveRejectionSuccessModel(true);
-            } else {
-                setActiveRejectionModel(false);
-                setActiveRejectionSuccessModel(true);
-                
-                setrejectVideoFeedbackTitlePopup('Warning')
-                setrejectVideoBodyText(data.message)
-            }
-        })
-        .catch((error) => {
-            console.log(error);
-        });
-    }else{
-        console.log('reason box empty');
-    }
-}
+        formData.append("video_id", id);
+        if (confirmed) {
+            fetch("/videoOperation", {
+                method: "post",
+                body: formData,
+            })
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error("Something went wrong");
+                    }
+                    return response.json();
+                })
+                .then((data) => {
+                    if (data.success) {
+                        alert(
+                            "Congratulation video has been approved code :" +
+                                data.data.code
+                        );
+                    } else {
+                        alert(data.message);
+                    }
+                    setReload(true);
+                    return;
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        }
+    };
+    /******** Rejection popup   ******/
 
-/**** Reject video ***/
-const rejectVideo = (id) => {
-    var formData = new FormData();
-    setRejectVideoId(id)
-    setActiveRejectionConfirmModel(true);
-   return;
-    
-};
+    const handleRejectionPopup = () => {
+        setActiveRejectionConfirmModel(false);
+        setActiveRejectionModel(true);
+        return;
+    };
+    /******** Reject Video Handle   ******/
+    const handleRejectVideo = () => {
+        if (rejectionReason && rejectVideoId) {
+            setrejectVideoBodyText("Video Rejected Successfully");
+            setrejectVideoFeedbackTitlePopup("Confirmation for reject video");
+            var formData = new FormData();
+            formData.append("reason", rejectionReason);
+            formData.append("video_id", rejectVideoId);
+            fetch("/rejectVideo", {
+                method: "post",
+                body: formData,
+            })
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error("Something went wrong");
+                    }
+                    return response.json();
+                })
+                .then((data) => {
+                    if (data.success) {
+                        setActiveRejectionModel(false);
+                        setActiveRejectionSuccessModel(true);
+                    } else {
+                        setActiveRejectionModel(false);
+                        setActiveRejectionSuccessModel(true);
 
-/**** approved video ***/
+                        setrejectVideoFeedbackTitlePopup("Warning");
+                        setrejectVideoBodyText(data.message);
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        } else {
+            console.log("reason box empty");
+        }
+    };
 
-const approvedUserVideo = (id)=>{
-    setapprovedUserVideoId(id)
+    /**** Reject video ***/
+    const rejectVideo = (id) => {
+        var formData = new FormData();
+        setRejectVideoId(id);
+        setActiveRejectionConfirmModel(true);
+        return;
+    };
 
-    setActiveApprovedConfirmModel(true);
+    /**** approved video ***/
 
-}
+    const approvedUserVideo = (id) => {
+        setapprovedUserVideoId(id);
 
-/****** handle approved video *****/
-const handleApprovedUserVideo = ()=>{
-    var formData = new FormData();
-    formData.append("video_id", approvedUserVideoId);
+        setActiveApprovedConfirmModel(true);
+    };
 
-if(approvedUserVideoId){
-    setVideoFeedback('Congratulations, you just approved the video.')
-    setVideoFeedbackPopupTitle('Confirmation for Approving Video')
-    fetch("/videoOperation", {
-        method: "post",
-        body: formData,
-    })
-        .then((response) => {
-            if (!response.ok) {
-                throw new Error("Something went wrong");
-            }
-            return response.json();
-        })
-        .then((data) => {
-            if (data.success) {
-                setActiveApprovedConfirmModel(false)
-                setActiveApprovedSuccessModel(true);
-               
-                //setReload(new Date().getSeconds());
-            } else {
-                    setActiveApprovedConfirmModel(false)
-                    setActiveApprovedSuccessModel(true);
-                    setVideoFeedbackPopupTitle('Warning')
-                    setVideoFeedback(data.message)
-                    
-                
-            }
-            setReload(true);
-            return;
-        })
-        .catch((error) => {
-            console.log(error);
-        });
-    }
-}
+    /****** handle approved video *****/
+    const handleApprovedUserVideo = () => {
+        setisClicked(true);
+        var formData = new FormData();
+        formData.append("video_id", approvedUserVideoId);
+
+        if (approvedUserVideoId) {
+            setVideoFeedback("Congratulations, you just approved the video.");
+            setVideoFeedbackPopupTitle("Confirmation for Approving Video");
+            fetch("/videoOperation", {
+                method: "post",
+                body: formData,
+            })
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error("Something went wrong");
+                    }
+                    return response.json();
+                })
+                .then((data) => {
+                    if (data.success) {
+                        setActiveApprovedConfirmModel(false);
+                        setActiveApprovedSuccessModel(true);
+
+                        //setReload(new Date().getSeconds());
+                    } else {
+                        setActiveApprovedConfirmModel(false);
+                        setActiveApprovedSuccessModel(true);
+                        setVideoFeedbackPopupTitle("Warning");
+                        setVideoFeedback(data.message);
+                    }
+                    setisClicked(false);
+                    setReload(true);
+                    return;
+                })
+                .catch((error) => {
+                    setisClicked(false);
+                    console.log(error);
+                });
+        }
+    };
 
     /********  get Settings Data  ******/
     useEffect(() => {
@@ -240,13 +257,16 @@ if(approvedUserVideoId){
                     setApprovedVideos(data.data.approvedVideos);
                     setApprovedVideosCount(data.data.approvedVideosCount);
                     setPendingVideosCount(data.data.pendingVideosCount);
-                    setUserEmail(data.data.user.ugc_email_count - data.data.user.remaining_email)
+                    setUserEmail(
+                        data.data.user.ugc_email_count -
+                            data.data.user.remaining_email
+                    );
                 }
             })
             .catch((error) => {
                 console.log(error);
             });
-    },[reload]);
+    }, [reload]);
 
     const navigate = useNavigate();
 
@@ -280,7 +300,7 @@ if(approvedUserVideoId){
                                     {pendingVideosCount}
                                 </Text>
                                 <p style={{ fontWeight: "600" }}>
-                                Waiting Videos
+                                    Waiting Videos
                                 </p>
                             </div>
                         </div>
@@ -326,7 +346,7 @@ if(approvedUserVideoId){
                                         style={{ marginRight: "10px" }}
                                     ></img>
                                     <Text variant="headingLg" as="h5">
-                                    Videos to Review
+                                        Videos to Review
                                     </Text>
                                 </div>
                                 {pendingVideosCount <= 0 ? (
@@ -344,130 +364,151 @@ if(approvedUserVideoId){
                             </div>
                         </Card.Section>
                         {pendingVideosCount <= 0 ? (
-                                    <div style={{height:"400px",background:"#f9f9f9",borderRadius:"6px",textAlign:"center",paddingTop:"125px"}}>
-                                        <img style={{height: "102px",opacity: ".5"}} src={noVedio}></img>
+                            <div
+                                style={{
+                                    height: "400px",
+                                    background: "#f9f9f9",
+                                    borderRadius: "6px",
+                                    textAlign: "center",
+                                    paddingTop: "125px",
+                                }}
+                            >
+                                <img
+                                    style={{ height: "102px", opacity: ".5" }}
+                                    src={noVedio}
+                                ></img>
 
-                                        <p style={{color: "#d3c9c9",fontSize:"17px"}}>No Videos to Review</p>
-
-                                  </div>
-                                ) :
-                                <Card.Section>
-
-                            <Grid>
-
-                                {pendingVideos &&
-                                    pendingVideos.map((video) => {
-                                        return (
-                                            <Grid.Cell
-                                                columnSpan={{
-                                                    xs: 3,
-                                                    sm: 3,
-                                                    md: 3,
-                                                    lg: 3,
-                                                    xl: 3,
-                                                }}
-                                            >
-                                                <div
-                                                    style={{
-                                                        textAlign: "center",
+                                <p
+                                    style={{
+                                        color: "#d3c9c9",
+                                        fontSize: "17px",
+                                    }}
+                                >
+                                    No Videos to Review
+                                </p>
+                            </div>
+                        ) : (
+                            <Card.Section>
+                                <Grid>
+                                    {pendingVideos &&
+                                        pendingVideos.map((video) => {
+                                            return (
+                                                <Grid.Cell
+                                                    columnSpan={{
+                                                        xs: 3,
+                                                        sm: 3,
+                                                        md: 3,
+                                                        lg: 3,
+                                                        xl: 3,
                                                     }}
                                                 >
-                                                    {/* <img src={VideoTumbnail} width= "100%"></img> */}
-                                                    <video
-                                                        width="216"
-                                                        height="386"
-                                                        controls
-                                                    >
-                                                        <source
-                                                            src={
-                                                                video.video_link
-                                                            }
-                                                            type="video/mp4"
-                                                        />
-                                                        Your browser does not
-                                                        support the video tag.
-                                                    </video>
-                                                    <p
-                                                        style={{
-                                                            fontSize: "12px",
-                                                            color: "#797979",
-                                                            marginTop: "10px",
-                                                        }}
-                                                    >
-                                                        {video.email}
-                                                    </p>
-                                                    <p
-                                                        style={{
-                                                            fontSize: "12px",
-                                                            color: "#797979",
-                                                        }}
-                                                    >
-                                                        {video.created_at}
-                                                    </p>
                                                     <div
                                                         style={{
-                                                            border: "1px solid #dddd",
-                                                            padding: "6px 12px",
-                                                            borderRadius: "9px",
-                                                            width: "86px",
-                                                            margin: "auto",
-                                                            marginTop: "10px",
+                                                            textAlign: "center",
                                                         }}
                                                     >
+                                                        {/* <img src={VideoTumbnail} width= "100%"></img> */}
+                                                        <video
+                                                            width="216"
+                                                            height="386"
+                                                            controls
+                                                        >
+                                                            <source
+                                                                src={
+                                                                    video.video_link
+                                                                }
+                                                                type="video/mp4"
+                                                            />
+                                                            Your browser does
+                                                            not support the
+                                                            video tag.
+                                                        </video>
+                                                        <p
+                                                            style={{
+                                                                fontSize:
+                                                                    "12px",
+                                                                color: "#797979",
+                                                                marginTop:
+                                                                    "10px",
+                                                            }}
+                                                        >
+                                                            {video.email}
+                                                        </p>
+                                                        <p
+                                                            style={{
+                                                                fontSize:
+                                                                    "12px",
+                                                                color: "#797979",
+                                                            }}
+                                                        >
+                                                            {video.id} --
+                                                            {video.created_at}
+                                                        </p>
                                                         <div
                                                             style={{
-                                                                display: "flex",
+                                                                border: "1px solid #dddd",
+                                                                padding:
+                                                                    "6px 12px",
+                                                                borderRadius:
+                                                                    "9px",
+                                                                width: "86px",
+                                                                margin: "auto",
+                                                                marginTop:
+                                                                    "10px",
                                                             }}
                                                         >
                                                             <div
                                                                 style={{
-                                                                    marginRight:
-                                                                        "20px",
-                                                                }}
-                                                                onClick={() => {
-                                                                    approvedUserVideo(
-                                                                        video.id
-                                                                        
-                                                                    );
+                                                                    display:
+                                                                        "flex",
                                                                 }}
                                                             >
-                                                                <Link to="#">
-                                                                    <Icon
-                                                                        source={
-                                                                            CircleTickMajor
-                                                                        }
-                                                                        color="primary"
-                                                                    />
-                                                                </Link>
-                                                            </div>
-                                                            <div>
-                                                                <Link
-                                                                    to="#"
+                                                                <div
+                                                                    style={{
+                                                                        marginRight:
+                                                                            "20px",
+                                                                    }}
                                                                     onClick={() => {
-                                                                        rejectVideo(
-                                                                            video.id,
-                                                                            
+                                                                        approvedUserVideo(
+                                                                            video.id
                                                                         );
                                                                     }}
                                                                 >
-                                                                    <Icon
-                                                                        source={
-                                                                            CircleCancelMajor
-                                                                        }
-                                                                        color="critical"
-                                                                    />
-                                                                </Link>
+                                                                    <Link to="#">
+                                                                        <Icon
+                                                                            source={
+                                                                                CircleTickMajor
+                                                                            }
+                                                                            color="primary"
+                                                                        />
+                                                                    </Link>
+                                                                </div>
+                                                                <div>
+                                                                    <Link
+                                                                        to="#"
+                                                                        onClick={() => {
+                                                                            rejectVideo(
+                                                                                video.id
+                                                                            );
+                                                                        }}
+                                                                    >
+                                                                        <Icon
+                                                                            source={
+                                                                                CircleCancelMajor
+                                                                            }
+                                                                            color="critical"
+                                                                        />
+                                                                    </Link>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            </Grid.Cell>
-                                        );
-                                    })}
-                            </Grid>
-                        </Card.Section>
-                                }
-
+                                                </Grid.Cell>
+                                            );
+                                        })}
+                                </Grid>
+                            </Card.Section>
+                        )}
                     </Card>
                 </Grid.Cell>
                 <Grid.Cell columnSpan={{ xs: 6, sm: 6, md: 6, lg: 12, xl: 12 }}>
@@ -513,13 +554,31 @@ if(approvedUserVideoId){
                             </div>
                         </Card.Section>
                         {approvedVideosCount <= 0 ? (
-                                    <div style={{height:"400px",background:"#f9f9f9",borderRadius:"6px",textAlign:"center",paddingTop:"125px"}}>
-                                    <img style={{height: "102px",opacity: ".5"}} src={noVedio}></img>
+                            <div
+                                style={{
+                                    height: "400px",
+                                    background: "#f9f9f9",
+                                    borderRadius: "6px",
+                                    textAlign: "center",
+                                    paddingTop: "125px",
+                                }}
+                            >
+                                <img
+                                    style={{ height: "102px", opacity: ".5" }}
+                                    src={noVedio}
+                                ></img>
 
-                                    <p style={{color: "#d3c9c9",fontSize:"17px"}}>No Approved Videos</p>
-
-                              </div>
-                                ) : <Card.Section>
+                                <p
+                                    style={{
+                                        color: "#d3c9c9",
+                                        fontSize: "17px",
+                                    }}
+                                >
+                                    No Approved Videos
+                                </p>
+                            </div>
+                        ) : (
+                            <Card.Section>
                                 <Grid>
                                     {approvedVideos &&
                                         approvedVideos.map((video) => {
@@ -549,27 +608,32 @@ if(approvedUserVideoId){
                                                                 }
                                                                 type="video/mp4"
                                                             />
-                                                            Your browser does not
-                                                            support the video tag.
+                                                            Your browser does
+                                                            not support the
+                                                            video tag.
                                                         </video>{" "}
                                                         <p
-                                                        style={{
-                                                            fontSize: "12px",
-                                                            color: "#797979",
-                                                            marginTop: "10px",
-                                                        }}
-                                                    >
-                                                        Approved {video.updated_at}
-
-                                                    </p>
-                                                    <p
-                                                        style={{
-                                                            fontSize: "12px",
-                                                            color: "#797979",
-                                                        }}
-                                                    >
-                                                       Sent by {video.email}
-                                                    </p>
+                                                            style={{
+                                                                fontSize:
+                                                                    "12px",
+                                                                color: "#797979",
+                                                                marginTop:
+                                                                    "10px",
+                                                            }}
+                                                        >
+                                                            Approved{" "}
+                                                            {video.updated_at}
+                                                        </p>
+                                                        <p
+                                                            style={{
+                                                                fontSize:
+                                                                    "12px",
+                                                                color: "#797979",
+                                                            }}
+                                                        >
+                                                            Sent by{" "}
+                                                            {video.email}
+                                                        </p>
                                                         <button
                                                             onClick={() => {
                                                                 downloadVideo(
@@ -580,17 +644,23 @@ if(approvedUserVideoId){
                                                                 background:
                                                                     "#FFFFFF",
                                                                 border: "1px solid #E1E3E5",
-                                                                borderRadius: "9px",
-                                                                padding: "5px 15px",
-                                                                fontWeight: "500",
-                                                                fontSize: "15px",
-                                                                marginTop: "10px",
+                                                                borderRadius:
+                                                                    "9px",
+                                                                padding:
+                                                                    "5px 15px",
+                                                                fontWeight:
+                                                                    "500",
+                                                                fontSize:
+                                                                    "15px",
+                                                                marginTop:
+                                                                    "10px",
                                                                 cursor: "pointer",
                                                             }}
                                                         >
-
                                                             <img
-                                                                src={downloadIcon}
+                                                                src={
+                                                                    downloadIcon
+                                                                }
                                                             ></img>{" "}
                                                             Download
                                                         </button>
@@ -599,109 +669,140 @@ if(approvedUserVideoId){
                                             );
                                         })}
                                 </Grid>
-                            </Card.Section>}
-
+                            </Card.Section>
+                        )}
                     </Card>
                 </Grid.Cell>
             </Grid>
             <Modal
-        open={activeRejectionModel}
-        onClose={handleChangeRejectionModel}
-        title="Reason for rejecting video"
-        primaryAction={{
-          content: 'Send Reason',
-          onAction: handleRejectVideo,
-        }}
-        secondaryActions={[
-          {
-            content: 'Cancel',
-            onAction: handleChangeRejectionModel,
-          },
-        ]}
-      >
-        <Modal.Section>
-          <TextField
-            label="Reason for rejection"
-            value={rejectionReason}
-            onChange={handleRejectionReason}
-            multiline={4}
-            autoComplete="off"
-            />
-        </Modal.Section>
-      </Modal>
-      <Modal
-        open={activeRejectionConfirmModel}
-        onClose={handleChangeRejectionConfirmModel}
-        title={rejectVideoFeedbackTitlePopup}
-
-      >
+                open={activeRejectionModel}
+                onClose={handleChangeRejectionModel}
+                title="Reason for rejecting video"
+                primaryAction={{
+                    content: "Send Reason",
+                    onAction: handleRejectVideo,
+                }}
+                secondaryActions={[
+                    {
+                        content: "Cancel",
+                        onAction: handleChangeRejectionModel,
+                    },
+                ]}
+            >
                 <Modal.Section>
-                    <div style={{textAlign:"center"}}>
+                    <TextField
+                        label="Reason for rejection"
+                        value={rejectionReason}
+                        onChange={handleRejectionReason}
+                        multiline={4}
+                        autoComplete="off"
+                    />
+                </Modal.Section>
+            </Modal>
+            <Modal
+                open={activeRejectionConfirmModel}
+                onClose={handleChangeRejectionConfirmModel}
+                title={rejectVideoFeedbackTitlePopup}
+            >
+                <Modal.Section>
+                    <div style={{ textAlign: "center" }}>
                         <Text variant="heading2xl" as="h3">
-                        
-                       {rejectVideoFeedback}
+                            {rejectVideoFeedback}
                         </Text>
-                        <div style={{display:"flex",justifyContent:"center",marginTop:"20px"}}>
-                        <ButtonGroup>
-                            <Button onClick={handleChangeRejectionConfirmModel}>Cancel</Button>
-                            <Button primary onClick={handleRejectionPopup}>Sure</Button>
-                        </ButtonGroup>
+                        <div
+                            style={{
+                                display: "flex",
+                                justifyContent: "center",
+                                marginTop: "20px",
+                            }}
+                        >
+                            <ButtonGroup>
+                                <Button
+                                    onClick={handleChangeRejectionConfirmModel}
+                                >
+                                    Cancel
+                                </Button>
+                                <Button primary onClick={handleRejectionPopup}>
+                                    Sure
+                                </Button>
+                            </ButtonGroup>
                         </div>
                     </div>
                 </Modal.Section>
             </Modal>
             <Modal
-        open={activeRejectionSuccessModel}
-        onClose={handleChangeRejectionSuccessModel}
-        title={rejectVideoFeedbackTitlePopup}
-
-      >
+                open={activeRejectionSuccessModel}
+                onClose={handleChangeRejectionSuccessModel}
+                title={rejectVideoFeedbackTitlePopup}
+            >
                 <Modal.Section>
-                    <div style={{textAlign:"center",marginTop:"20px",marginBottom:"20px"}}>
+                    <div
+                        style={{
+                            textAlign: "center",
+                            marginTop: "20px",
+                            marginBottom: "20px",
+                        }}
+                    >
                         <Text variant="heading2xl" as="h3">
                             {rejectVideoBodyText}
-                          
                         </Text>
-
                     </div>
                 </Modal.Section>
             </Modal>
 
-
             <Modal
-        open={activeApprovedConfirmModel}
-        onClose={handleChangeApprovedConfirmModel}
-        title={videoFeedbackPopupTitle}
-
-      >
+                open={activeApprovedConfirmModel}
+                onClose={handleChangeApprovedConfirmModel}
+                title={videoFeedbackPopupTitle}
+            >
                 <Modal.Section>
-                    <div style={{textAlign:"center"}}>
+                    <div style={{ textAlign: "center" }}>
                         <Text variant="heading2xl" as="h3">
-                        Are you sure you want to Approve?
+                            Are you sure you want to Approve?
                         </Text>
-                        <div style={{display:"flex",justifyContent:"center",marginTop:"20px"}}>
-                        <ButtonGroup>
-                            <Button onClick={handleChangeApprovedConfirmModel}>Cancel</Button>
-                            <Button primary onClick={handleApprovedUserVideo}>Sure</Button>
-                        </ButtonGroup>
+                        <div
+                            style={{
+                                display: "flex",
+                                justifyContent: "center",
+                                marginTop: "20px",
+                            }}
+                        >
+                            <ButtonGroup>
+                                <Button
+                                    disabled={isClicked}
+                                    onClick={handleChangeApprovedConfirmModel}
+                                >
+                                    Cancel
+                                </Button>
+                                <Button
+                                    disabled={isClicked}
+                                    primary
+                                    onClick={handleApprovedUserVideo}
+                                >
+                                    Sure
+                                </Button>
+                            </ButtonGroup>
                         </div>
                     </div>
                 </Modal.Section>
             </Modal>
 
             <Modal
-        open={activeApprovedSuccessModel}
-        onClose={handleChangeApprovedSuccessModel}
-        title={videoFeedbackPopupTitle}
-
-      >
+                open={activeApprovedSuccessModel}
+                onClose={handleChangeApprovedSuccessModel}
+                title={videoFeedbackPopupTitle}
+            >
                 <Modal.Section>
-                    <div style={{textAlign:"center",marginTop:"20px",marginBottom:"20px"}}>
+                    <div
+                        style={{
+                            textAlign: "center",
+                            marginTop: "20px",
+                            marginBottom: "20px",
+                        }}
+                    >
                         <Text variant="headingXl" as="h4">
                             {videoFeedback}
-                       
                         </Text>
-
                     </div>
                 </Modal.Section>
             </Modal>
