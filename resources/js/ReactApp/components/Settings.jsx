@@ -196,7 +196,7 @@ const Settings = () => {
                     setLogoImage(data.data.logo);
                     setVideo(data.data.video);
                     setStore(data.data.store);
-                    setSelected(data.data.locale);
+                    setSelected(data.data?.locale ?? "en");
                     setCurrentLang(data.data.locale);
                     setStoreCurrency(data.data.store_currency);
                     setTitle(data.data.instruction_title);
@@ -246,6 +246,7 @@ const Settings = () => {
 
     const handleSelectChange = (value) => {
         setSelected(value);
+
         if (value === "en") {
             setRows([
                 { id: 1, value: "Record a video off up to 30 seconds" },
@@ -385,7 +386,8 @@ const Settings = () => {
         formData.append("video", video);
         formData.append("setting_status", toggled);
         formData.append("instruction_title", title);
-        formData.append("locale", selected == "undefined" ? "en" : selected);
+
+        formData.append("locale", selected);
         if (
             (priceValue == "" ||
                 landingPageValue == "" ||
