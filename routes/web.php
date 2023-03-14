@@ -83,7 +83,7 @@ Route::group(['middleware' => 'verify.shopify'], function () {
 
 
 });
-// Route::view('/{any}', 'welcome')->where('any', '^(?!webhook).*$')->middleware(['verify.shopify'])->name('welcome');
+ Route::view('/{any}', 'welcome')->where('any', '^(?!webhook).*$')->middleware(['verify.shopify'])->name('welcome');
 
 
 //Email setting Portion

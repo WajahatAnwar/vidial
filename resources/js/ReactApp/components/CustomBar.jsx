@@ -3,7 +3,7 @@ import React, { useState, useCallback, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 function TabsExample() {
-    //
+    const { search } = useLocation();
     const navigate = useNavigate();
     let location = useLocation();
     const [pendingVideosCount, setPendingVideosCount] = useState(0);
@@ -25,7 +25,6 @@ function TabsExample() {
         fetchData();
     });
     useEffect(() => {
-
         if (location.pathname == "/") {
             setSelected(0);
         } else if (location.pathname == "/videos-to-review") {
@@ -37,7 +36,6 @@ function TabsExample() {
         } else if (location.pathname == "/plans") {
             setSelected(4);
         }
-
     }, [location]);
     const [selected, setSelected] = useState(0);
 
@@ -47,14 +45,14 @@ function TabsExample() {
         if (selectedTabIndex == 0) {
             navigate("/");
         } else if (selectedTabIndex == 1) {
-            navigate("/videos-to-review");
+            navigate(`/videos-to-review${search}`);
         } else if (selectedTabIndex == 2) {
             navigate("/approved-videos");
         } else if (selectedTabIndex == 3) {
             navigate("/settings");
         } else if (selectedTabIndex == 4) {
-        navigate("/plans" + location.search);
-    }
+            navigate("/plans" + location.search);
+        }
     }, []);
 
     const tabs = [

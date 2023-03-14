@@ -39,6 +39,7 @@ $(() => {
 
 });
 const saveVideo = ()=>{
+
     var video_link =localStorage.getItem('video_url');
     var video_path =localStorage.getItem('video_path');
 
@@ -76,6 +77,7 @@ const saveVideo = ()=>{
         return false;
     }
     var data = {"video_link":video_link, "email":email,"store":store,"order_id":order_id,"video_path":video_path}
+    $('#saveBTN').prop('disabled', true);
     $.ajax({
         url:"{{ url('/saveVideo') }}",
         method:"post",

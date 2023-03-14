@@ -154,15 +154,22 @@ public function videoOperation(Request $request){
     $remaining_email = $user->remaining_email;
     // remaining video
     if($remainingVideos <=0 ){
+        $data['remaining_Videos']=1;
         return response()->json([
             'success' => false,
-            'message' => 'Video Limitation has been expired',
+            'message' => 'You have reached the limit of videos allowed in your current plan.To
+            accept more videos,please upgrade your plan',
+            'data'=>$data
         ]);
     }
     if($remaining_email <=0 ){
+        $data['remaining_emails']=1;
         return response()->json([
             'success' => false,
             'message' => 'Email Limitation has been expired',
+            'message' => 'You have reached the limit of emails allowed in your current plan.To
+            accept more emails,please upgrade your plan',
+            'data'=>$data
         ]);
     }
     $videos = video::where('user_id',Auth::user()->id)

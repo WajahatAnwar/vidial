@@ -44,6 +44,8 @@ function Dashboard() {
         []
     );
 
+    const [upgradeButton, setupgradeButton] = useState(false);
+
     const [activeRejectionConfirmModel, setActiveRejectionConfirmModel] =
         useState(false);
     const handleChangeRejectionConfirmModel = useCallback(
@@ -57,6 +59,7 @@ function Dashboard() {
         setActiveRejectionSuccessModel(!activeRejectionSuccessModel),
             [activeRejectionSuccessModel];
         setRejectionReason("");
+        navigate("/dashboard");
         setReload(new Date().getSeconds());
     });
 
@@ -90,6 +93,7 @@ function Dashboard() {
     const handleChangeApprovedSuccessModel = useCallback(() => {
         setActiveApprovedSuccessModel(!activeApprovedSuccessModel),
             [activeApprovedSuccessModel];
+        navigate("/dashboard");
         setReload(new Date().getSeconds());
     });
 
@@ -139,6 +143,12 @@ function Dashboard() {
                 });
         }
     };
+
+    /******** move to plan page *****/
+
+    const upgradePlan = () => {
+        navigate("/plans");
+    };
     /******** Rejection popup   ******/
 
     const handleRejectionPopup = () => {
@@ -174,10 +184,12 @@ function Dashboard() {
 
                         setrejectVideoFeedbackTitlePopup("Warning");
                         setrejectVideoBodyText(data.message);
+                        console.log("here ia mmm");
                     }
                 })
                 .catch((error) => {
                     console.log(error);
+                    navigate("/dashboard");
                 });
         } else {
             console.log("reason box empty");
@@ -226,6 +238,12 @@ function Dashboard() {
 
                         //setReload(new Date().getSeconds());
                     } else {
+                        if (
+                            data.data.remaining_Videos ||
+                            data.data.remaining_emails
+                        ) {
+                            setupgradeButton(true);
+                        }
                         setActiveApprovedConfirmModel(false);
                         setActiveApprovedSuccessModel(true);
                         setVideoFeedbackPopupTitle("Warning");
@@ -801,6 +819,15 @@ function Dashboard() {
                     >
                         <Text variant="headingXl" as="h4">
                             {videoFeedback}
+                            <br />
+                            <br />
+                            {upgradeButton ? (
+                                <Button primary onClick={upgradePlan}>
+                                    Updrade
+                                </Button>
+                            ) : (
+                                ""
+                            )}
                         </Text>
                     </div>
                 </Modal.Section>

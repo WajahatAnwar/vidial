@@ -15,7 +15,7 @@ import {
 } from "@shopify/polaris";
 import { useEffect, useState, useCallback } from "react";
 import React from "react";
-import { useNavigate, useParams, Link } from "react-router-dom";
+import { useNavigate, useParams, Link, useLocation } from "react-router-dom";
 import EmailLogo from "./imges/emailLogo.png";
 import WaitingLogo from "./imges/WaitingLogo.png";
 import ApprovedLogo from "./imges/ApprovedLogo.png";
@@ -25,9 +25,11 @@ import { CircleCancelMajor, CircleTickMajor } from "@shopify/polaris-icons";
 import downloadIcon from "./imges/downloadIcon.png";
 import noVedio from "./imges/film.png";
 function WaitingVideos() {
+    const { search } = useLocation();
     const [videoFeedback, setVideoFeedback] = useState(
         " Congratulations, you just approved the video."
     );
+
     const [videoFeedbackPopupTitle, setVideoFeedbackPopupTitle] = useState(
         "Confirmation for approving video"
     );
@@ -67,8 +69,9 @@ function WaitingVideos() {
         setActiveRejectionSuccessModel(!activeRejectionSuccessModel),
             [activeRejectionSuccessModel];
         setRejectionReason("");
-        setReload(new Date().getSeconds());
+        setReload(!reload);
     });
+    const [upgradeButton, setupgradeButton] = useState(false);
     // const activatorRejectionSuccessModel = <Button onClick={handleChangeRejectionSuccessModel}>Open</Button>;
 
     const [activeApprovedConfirmModel, setActiveApprovedConfirmModel] =
@@ -84,6 +87,8 @@ function WaitingVideos() {
     const handleChangeApprovedSuccessModel = useCallback(() => {
         setActiveApprovedSuccessModel(!activeApprovedSuccessModel),
             [activeApprovedSuccessModel];
+
+        // navigate(`/videos-to-review${search}`);
         setReload(new Date().getSeconds());
     });
     // const activatorApprovedSuccessModel = <Button onClick={handleChangeApprovedSuccessModel}>Open</Button>;
@@ -130,6 +135,12 @@ function WaitingVideos() {
                     console.log(error);
                 });
         }
+    };
+
+    /******** move to plan page *****/
+
+    const upgradePlan = () => {
+        navigate("/plans");
     };
 
     /******** Rejection popup   ******/
@@ -219,6 +230,12 @@ function WaitingVideos() {
 
                         //setReload(new Date().getSeconds());
                     } else {
+                        if (
+                            data.data.remaining_Videos ||
+                            data.data.remaining_emails
+                        ) {
+                            setupgradeButton(true);
+                        }
                         setActiveApprovedConfirmModel(false);
                         setActiveApprovedSuccessModel(true);
                         setVideoFeedbackPopupTitle("Warning");
@@ -253,6 +270,7 @@ function WaitingVideos() {
                 console.log(error);
             });
     }, [currentPage, reload]);
+    const navigate = useNavigate();
 
     return (
         <Page>
@@ -313,123 +331,115 @@ function WaitingVideos() {
                             </div>
                         ) : (
                             <Card.Section>
-                                <Grid>
-                                    {videos &&
-                                        videos.map((video) => {
-                                            return (
-                                                <Grid.Cell
-                                                    columnSpan={{
-                                                        xs: 3,
-                                                        sm: 3,
-                                                        md: 3,
-                                                        lg: 3,
-                                                        xl: 3,
+                                <Grid key={reload}>
+                                    {videos.map((video, index) => {
+                                        return (
+                                            <Grid.Cell
+                                                columnSpan={{
+                                                    xs: 3,
+                                                    sm: 3,
+                                                    md: 3,
+                                                    lg: 3,
+                                                    xl: 3,
+                                                }}
+                                            >
+                                                <div
+                                                    style={{
+                                                        textAlign: "center",
                                                     }}
                                                 >
-                                                    <div
+                                                    {/* <img src={VideoTumbnail} width= "100%"></img> */}
+                                                    <video
+                                                        key={index}
+                                                        width="216"
+                                                        height="386"
+                                                        controls
+                                                    >
+                                                        <source
+                                                            src={
+                                                                video.video_link
+                                                            }
+                                                            type="video/mp4"
+                                                        />
+                                                        Your browser does not
+                                                        support the video tag.
+                                                    </video>
+
+                                                    <p
                                                         style={{
-                                                            textAlign: "center",
+                                                            fontSize: "12px",
+                                                            color: "#797979",
+                                                            marginTop: "10px",
                                                         }}
                                                     >
-                                                        {/* <img src={VideoTumbnail} width= "100%"></img> */}
-                                                        <video
-                                                            width="216"
-                                                            height="386"
-                                                            controls
-                                                        >
-                                                            <source
-                                                                src={
-                                                                    video.video_link
-                                                                }
-                                                                type="video/mp4"
-                                                            />
-                                                            Your browser does
-                                                            not support the
-                                                            video tag.
-                                                        </video>
-
-                                                        <p
-                                                            style={{
-                                                                fontSize:
-                                                                    "12px",
-                                                                color: "#797979",
-                                                                marginTop:
-                                                                    "10px",
-                                                            }}
-                                                        >
-                                                            {video.email}
-                                                        </p>
-                                                        <p
-                                                            style={{
-                                                                fontSize:
-                                                                    "12px",
-                                                                color: "#797979",
-                                                            }}
-                                                        >
-                                                            {video.created_at}
-                                                        </p>
+                                                        {video.email}
+                                                    </p>
+                                                    <p
+                                                        style={{
+                                                            fontSize: "12px",
+                                                            color: "#797979",
+                                                        }}
+                                                    >
+                                                        {video.created_at}
+                                                    </p>
+                                                    <div
+                                                        style={{
+                                                            border: "1px solid #dddd",
+                                                            padding: "6px 12px",
+                                                            borderRadius: "9px",
+                                                            width: "86px",
+                                                            margin: "auto",
+                                                            marginTop: "10px",
+                                                        }}
+                                                    >
                                                         <div
                                                             style={{
-                                                                border: "1px solid #dddd",
-                                                                padding:
-                                                                    "6px 12px",
-                                                                borderRadius:
-                                                                    "9px",
-                                                                width: "86px",
-                                                                margin: "auto",
-                                                                marginTop:
-                                                                    "10px",
+                                                                display: "flex",
                                                             }}
                                                         >
                                                             <div
                                                                 style={{
-                                                                    display:
-                                                                        "flex",
+                                                                    marginRight:
+                                                                        "20px",
+                                                                }}
+                                                                onClick={() => {
+                                                                    approvedUserVideo(
+                                                                        video.id
+                                                                    );
                                                                 }}
                                                             >
-                                                                <div
-                                                                    style={{
-                                                                        marginRight:
-                                                                            "20px",
-                                                                    }}
+                                                                <Link to="#">
+                                                                    <Icon
+                                                                        source={
+                                                                            CircleTickMajor
+                                                                        }
+                                                                        color="primary"
+                                                                    />
+                                                                </Link>
+                                                            </div>
+                                                            <div>
+                                                                <Link
+                                                                    to="#"
                                                                     onClick={() => {
-                                                                        approvedUserVideo(
+                                                                        rejectVideo(
                                                                             video.id
                                                                         );
                                                                     }}
                                                                 >
-                                                                    <Link to="#">
-                                                                        <Icon
-                                                                            source={
-                                                                                CircleTickMajor
-                                                                            }
-                                                                            color="primary"
-                                                                        />
-                                                                    </Link>
-                                                                </div>
-                                                                <div>
-                                                                    <Link
-                                                                        to="#"
-                                                                        onClick={() => {
-                                                                            rejectVideo(
-                                                                                video.id
-                                                                            );
-                                                                        }}
-                                                                    >
-                                                                        <Icon
-                                                                            source={
-                                                                                CircleCancelMajor
-                                                                            }
-                                                                            color="critical"
-                                                                        />
-                                                                    </Link>
-                                                                </div>
+                                                                    <Icon
+                                                                        source={
+                                                                            CircleCancelMajor
+                                                                        }
+                                                                        color="critical"
+                                                                    />
+                                                                </Link>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </Grid.Cell>
-                                            );
-                                        })}
+                                                </div>
+                                            </Grid.Cell>
+                                        );
+                                    })}
                                 </Grid>
                             </Card.Section>
                         )}
@@ -574,6 +584,15 @@ function WaitingVideos() {
                     >
                         <Text variant="headingXl" as="h4">
                             {videoFeedback}
+                            <br />
+                            <br />
+                            {upgradeButton ? (
+                                <Button primary onClick={upgradePlan}>
+                                    Updrade
+                                </Button>
+                            ) : (
+                                ""
+                            )}
                         </Text>
                     </div>
                 </Modal.Section>
