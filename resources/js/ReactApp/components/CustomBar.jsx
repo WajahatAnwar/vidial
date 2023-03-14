@@ -23,7 +23,7 @@ function TabsExample() {
             }
         };
         fetchData();
-    });
+    }, []);
     useEffect(() => {
         if (location.pathname == "/") {
             setSelected(0);
