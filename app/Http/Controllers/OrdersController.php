@@ -113,7 +113,7 @@ class OrdersController extends Controller
        $all_plans = Plan::all();
        return response()->json([
         'success' => true,
-        'message' => 'Fetch Pending Videos Successfully',
+        'message' => 'Fetch Plans Successfully',
         'data'=>$all_plans,
         'users' =>  Auth::user()
     ]);
