@@ -79,7 +79,13 @@ class SettingsController extends Controller
     public function getSettings(){
 
         $data= Setting::where('user_id',Auth::user()->id)->first();
-
+        // if(!$data){
+        //     return response()->json([
+        //         'success'=>false,
+        //         'message'=>'data not foud',
+        //         'data'=>null
+        //     ]);
+        // }
         $store=User::find(Auth::user()->id);
         if($data){
             $data['instructions'] = json_decode($data['instructions']);
