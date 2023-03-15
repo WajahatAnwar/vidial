@@ -5,6 +5,7 @@ return [
     'video_upload_heading'=>'Arrastre y suelte o Buscar archivos',
     'video_upload_subheading'=>'Formatos de descarga: MP4 (hasta 500 MB)',
     'address_text'=>'Ingrese su correo electrónico para que podamos enviarle la tarjeta de regalo:',
-    'terms_condition_text'=>'Acepto que :storename use mi video en las redes sociales o en su sitio web',
-    'button_text'=>'Enviar'
+    'terms_condition_text'=>'He leído y acepto los',
+    'button_text'=>'Enviar',
+    'terms_condition_anchor_text'=>"Términos y Condiciones"
 ];
