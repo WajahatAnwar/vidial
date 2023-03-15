@@ -1,7 +1,7 @@
 @extends('layout.layout')
 @section('content')
     <div class="row justify-content-center " style="margin-top: 40px ">
-        <div class="col-md-4 p-3">
+        <div class="col-md-3 p-3" style="padding-left: 20px !important;padding-right: 20px !important;">
             @include('landingPage.logo',['current_user_id'=>$settings->user_id])
             <h3 class="text-center mt-4 mb-3 adjustHeaddingSize" style="font-size: 30px;font-weight: 600;">{{ __('landingPage.heading',['storename'=>splitStoreName($user->name),'store_credit'=>$settings->store_credit]) }}</h3>
             <p  class="text-center mb-2" style="color: #FF5175;font-size: 20px;font-weight: 500;">{{$settings->instruction_title}}</p>
@@ -11,7 +11,7 @@
                 $Lists=(json_decode($settings->instructions,true));
 
                 @endphp
-                <div style="margin: auto;display: block;max-width: 408px;">
+                <div class="stepsWrapper" style="margin: auto;display: block;">
                 @foreach ($Lists as $list)
                 <div style="display: flex;align-items: center;margin-bottom: 15px;" >
                     <div style="background: #E5E7EB;padding: 8px 16px;border-radius: 50%;margin-right: 15px;color: #6B7280; {{ $loop->index==0 ? 'padding: 8px 18px;' : ''}} ">{{$loop->index + 1}}</div>

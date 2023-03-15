@@ -138,6 +138,7 @@ const Settings = () => {
 
     const [buttonColorHide, setButtonColorHide] = useState(false);
     const [buttonColorHex, setButtonColorHex] = useState("#000000");
+    const handleInputColorChange = useCallback((newValue) => setButtonColorHex(newValue), []);
     const [buttonColor, setButtonColor] = useState({
         hue: 0,
         brightness: 0,
@@ -1332,12 +1333,6 @@ const Settings = () => {
                                                 background: "none",
                                                 border: "none",
                                             }}
-                                            onBlur={() => {
-                                                setButtonColorHide(
-                                                    !buttonColorHide
-                                                );
-                                                setGradientCheck(false);
-                                            }}
                                             onClick={() => {
                                                 setButtonColorHide(
                                                     !buttonColorHide
@@ -1380,6 +1375,11 @@ const Settings = () => {
                                                     }}
                                                     color={buttonColor}
                                                 />
+                                                 <div style={{marginTop:"20px"}}></div>
+                                                 <TextField
+                                                    value={buttonColorHex}
+                                                    onChange={handleInputColorChange}
+                                                    />
                                             </div>
                                         )}
                                     </div>

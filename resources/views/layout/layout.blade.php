@@ -80,9 +80,18 @@
     background-color: #FF5175;
     border-color: #FF5175;
 }
+.stepsWrapper{
+    max-width: 341px;
+    margin-bottom: 40px !important;
+    margin-top: 20px !important;
+}
 @media only screen and (max-width: 720px) {
     .adjustHeaddingSize{
      font-size: 22px !important;
+
+}
+.stepsWrapper{
+    max-width: 300px;
 }
 }
 
