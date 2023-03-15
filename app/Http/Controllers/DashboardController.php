@@ -9,6 +9,7 @@ use App\Models\Video;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Charge;
 
 class DashboardController extends Controller
 {
@@ -157,14 +158,26 @@ class DashboardController extends Controller
       // Get Dashboard Content
      public function getDashboardContent(Request $request){
           $currentUser = Auth::user()->id;
+          $charge = Charge::where('user_id',Auth::user()->id)
+          ->where('status','=','ACTIVE')
+          ->first();
+
           // Pending Videos
           $pendingVideos = Video::where('user_id',$currentUser)
-          ->where('status',config('constants.video_pending'))->orderBy('id','DESC')
+          ->where('status',config('constants.video_pending'))
+          ->where('created_at', '>=',$charge->billing_on)
+          ->where('created_at', '<=',Carbon::now())
+          ->orderBy('id','DESC')
           ->get()->take(4);
+
           // Approved Videos
           $approvedVideos = Video::where('user_id',$currentUser)
-          ->where('status',config('constants.video_approved'))->orderBy('id','DESC')
+          ->where('status',config('constants.video_approved'))
+          ->where('created_at', '>=',$charge->billing_on)
+          ->where('created_at', '<=',Carbon::now())
+          ->orderBy('id','DESC')
           ->get()->take(4);
+
           $pendingVideosCount = Video::where('user_id',$currentUser)
           ->where('status',config('constants.video_pending'))
           ->count();
@@ -172,6 +185,7 @@ class DashboardController extends Controller
           $approvedVideosCount = Video::where('user_id',$currentUser)
           ->where('status',config('constants.video_approved'))
           ->count();
+          
           $data['pendingVideos'] = $pendingVideos;
           $data['approvedVideos'] = $approvedVideos;
           $data['pendingVideosCount'] = $pendingVideosCount;

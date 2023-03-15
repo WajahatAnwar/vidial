@@ -36,7 +36,7 @@ class UpdatePlan
         ->where('created_at', '<=',Carbon::now())
         ->count();
 
-        $current_user_approved_email_count=Log::where("user_id", auth()->user()->id)
+        $current_user_approved_email_count= Log::where("user_id", auth()->user()->id)
         ->where('created_at', '>=',$charge->billing_on)
         ->where('created_at', '<=',Carbon::now())
         ->count();
