@@ -41,7 +41,8 @@ class UpdatePlan extends Command
 
         $current_user_approved_video_count = Video::where("user_id", 12)
         ->where('status', config('constants.video_approved'))
-        ->where('created_at', '>=',Carbon::parse($charge->billing_on))
+        ->whereBetween('created_at', [Carbon::parse($charge->billing_on), Carbon::now()])
+        // ->where('created_at', '>=',Carbon::parse($charge->billing_on))
         // ->where('created_at', '<=', Carbon::now())
         ->count();
         // dd(Carbon::now());
