@@ -37,7 +37,7 @@ class UpdatePlan extends Command
         $email_count  =  Plan::where('id',12)->first();
         $charge = Charge::where('user_id',12)
         ->where('status','=','ACTIVE')
-        ->last();
+        ->latest();
 
         $current_user_approved_video_count = Video::where("user_id", 12)
         ->where('status', config('constants.video_approved'))
