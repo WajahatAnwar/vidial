@@ -18,7 +18,7 @@ class UpdatePlan extends Command
      *
      * @var string
      */
-    protected $signature = 'command:name';
+    protected $signature = 'update:plan';
 
     /**
      * The console command description.
