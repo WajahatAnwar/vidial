@@ -164,28 +164,25 @@ class DashboardController extends Controller
 
           // Pending Videos
           $pendingVideos = Video::where('user_id',$currentUser)
-          ->where('status',config('constants.video_pending'))
-          ->where('created_at', '>=',$charge->billing_on)
-          ->where('created_at', '<=',Carbon::now())
-          ->orderBy('id','DESC')
+          ->where('status',config('constants.video_pending'))->orderBy('id','DESC')
           ->get()->take(4);
 
           // Approved Videos
           $approvedVideos = Video::where('user_id',$currentUser)
-          ->where('status',config('constants.video_approved'))
-          ->where('created_at', '>=',$charge->billing_on)
-          ->where('created_at', '<=',Carbon::now())
-          ->orderBy('id','DESC')
+          ->where('status',config('constants.video_approved'))->orderBy('id','DESC')
           ->get()->take(4);
 
           $pendingVideosCount = Video::where('user_id',$currentUser)
           ->where('status',config('constants.video_pending'))
+          ->where('created_at', '>=',$charge->billing_on)
+          ->where('created_at', '<=',Carbon::now())
           ->count();
 
           $approvedVideosCount = Video::where('user_id',$currentUser)
           ->where('status',config('constants.video_approved'))
+          ->where('created_at', '>=',$charge->billing_on)
+          ->where('created_at', '<=',Carbon::now())
           ->count();
-          
           $data['pendingVideos'] = $pendingVideos;
           $data['approvedVideos'] = $approvedVideos;
           $data['pendingVideosCount'] = $pendingVideosCount;
