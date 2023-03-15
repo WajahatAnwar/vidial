@@ -15,7 +15,7 @@
                 @foreach ($Lists as $list)
                 <div style="display: flex;align-items: center;margin-bottom: 15px;" >
                     <div style="background: #E5E7EB;padding: 8px 16px;border-radius: 50%;margin-right: 15px;color: #6B7280; {{ $loop->index==0 ? 'padding: 8px 18px;' : ''}} ">{{$loop->index + 1}}</div>
-                    <p style="margin-bottom: 0;font-weight: 600;">{{$list['value']}}</p>
+                    <p style="margin-bottom: 0;font-weight: 500;">{{$list['value']}}</p>
                 </div>
                 @endforeach
                 </div>
