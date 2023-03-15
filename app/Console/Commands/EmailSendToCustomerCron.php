@@ -90,7 +90,7 @@ class EmailSendToCustomerCron extends Command
                                 'template' => $settings->locale=='en' ? 'reminder-email' : "reminder-email_".$settings->locale ,
                                 'v:name' => $details['name'],
                                 'v:store' => $details['store'],
-                                'v:store_name' => $details['store_name'],
+                                'v:storename' => $details['store_name'],
                                 'v:amount'=>$details['discount_amount'],
                                 'v:url' => $details['url'],
                                );
@@ -128,7 +128,7 @@ class EmailSendToCustomerCron extends Command
                             'template' => $settings->locale=='en' ? 'mail_post_purchase' : "mail_post_purchase_".$settings->locale,
                             'v:name' => $details['name'],
                             'v:store' => $details['store'],
-                            'v:store_name' => $details['store_name'],
+                            'v:storename' => $details['store_name'],
                             'v:amount'=>$details['discount_amount'],
                             'v:url' => $details['url'],
                            );

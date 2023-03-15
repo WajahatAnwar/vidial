@@ -75,8 +75,10 @@ class OrdersController extends Controller
             'from' => env('MAIL_USERNAME'),
             'to' => auth()->user()->email,
             'subject' => 'Test Mail For Marchent',
-            'template' => auth()->user()->settings->locale=='en' ? "test_mail_for_merchent" : "test_mail_for_merchent_".auth()->user()->settings->locale,
+            'template' => auth()->user()->settings->locale=='en' ? "test_mail_for_merchant" : "test_mail_for_merchant_".auth()->user()->settings->locale,
             'v:url' => env('APP_URL')."/landingPage"."/". $settings->locale ."?store=".$settings->user->name,
+            'v:amount'=>$settings->store_credit,
+            'v:storename'=>$settings->user->name
         );
 
         $mgClient->messages()->send($domain, $params);

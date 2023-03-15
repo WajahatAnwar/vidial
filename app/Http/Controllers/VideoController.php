@@ -179,6 +179,7 @@ public function videoOperation(Request $request){
     if($videos){
         $videos->status =config('constants.video_approved');
         $videos->save();
+        $current_settings= Setting::where('user_id',$user->id)->first();
         $code = $this->createDiscountCode();
         $redirect = 'https://'.$user->name;
 
@@ -189,7 +190,9 @@ public function videoOperation(Request $request){
             'store_name' => auth()->user()->name,
             'coupen_code' => $code['code'],
             'locale' =>$user->settings->locale,
-            'url' =>$redirect
+            'url' =>$redirect,
+            'store_credit'=>$current_settings->store_credit,
+            'store_currency'=>$user->store_currency
         ];
         dispatch(new videoMail($details));
         $log_details = [

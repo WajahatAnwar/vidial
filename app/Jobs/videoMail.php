@@ -45,9 +45,10 @@ class videoMail implements ShouldQueue
         'subject' => 'Video Approved',
         'template' => $this->details['locale']=='en' ? 'videoapproved' : "videoapproved_".$this->details['locale'],
         'v:name' => 'RichyRoundhouse',
-        'v:storename_team' => $this->details['store_name'],
+        'v:storename' => $this->details['store_name'],
         'v:discount_code'=>$this->details['coupen_code'],
         'v:url'=>$this->details['url'],
+        'v:amount'=>$this->details['store_currency'].$this->details['store_credit'],
     );
 
 
