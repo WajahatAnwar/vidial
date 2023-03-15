@@ -45,7 +45,7 @@
                 <input class="form-check-input" type="checkbox" value="true" id="terms_condition"  checked>
                 <label class="form-check-label" for="flexCheckChecked" style="font-size: 13px;">
                     {{ __('uploadVideo.terms_condition_text',['storename'=>splitStoreName($user->name)]) }}
-                    <a href="{{ url('terms_and_conditions') }}" target="_blank">Terms & Conditions</a>
+                    <a href="{{ url('terms_and_conditions') }}" target="_blank">{{ __('uploadVideo.terms_condition_anchor_text',['text'=>'Terms & Conditions']) }}</a>
                 </label>
                 <div class="alert alert-danger d-none" id="error-terms-conditions" role="alert">
 

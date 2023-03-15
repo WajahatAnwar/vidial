@@ -6,5 +6,6 @@ return [
     'video_upload_subheading'=>'Upload formats: MP4 (Up to 500 MB)',
     'address_text'=>'Enter your address mail so we can send you the discount code:',
     'terms_condition_text'=>"I've read & accept",
-    'button_text'=>'Send'
+    'button_text'=>'Send',
+    'terms_condition_anchor_text'=>':text'
 ];
