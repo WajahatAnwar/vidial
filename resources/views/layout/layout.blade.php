@@ -81,7 +81,7 @@
     border-color: #FF5175;
 }
 .stepsWrapper{
-    max-width: 341px;
+    max-width: 370px;
     margin-bottom: 40px !important;
     margin-top: 20px !important;
 }

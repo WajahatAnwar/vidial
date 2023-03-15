@@ -2,7 +2,7 @@
 @section('content')
 <div>
     <div class="row justify-content-center " style="margin-top: 40px ">
-        <div class="col-md-3 p-3" style="padding-left: 20px !important;padding-right: 20px !important;">
+        <div class="col-md-4 p-3" style="padding-left: 20px !important;padding-right: 20px !important;">
            @include('landingPage.logo',['current_user_id'=>$settings->user_id])
             <h3 class="text-center mt-4 adjustHeaddingSize" style="font-size: 30px;font-weight: 700;">{{ __('uploadVideo.heading') }}</h3>
             <p  class="text-center " style="font-size: 18px;margin-bottom: 25px">{{ __('uploadVideo.subheading',['storename'=>splitStoreName($user->name)]) }}</p>
