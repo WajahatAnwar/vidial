@@ -44,7 +44,8 @@ class UpdatePlan extends Command
         ->where('created_at', '>=',$charge->billing_on)
         // ->where('created_at', '<=', Carbon::now())
         ->count();
-        dd(Carbon::parse($charge->billing_on)->date());
+        dd(Carbon::now());
+        // dd(Carbon::parse($charge->billing_on)->date());
         dd($current_user_approved_video_count);
 
         $current_user_approved_email_count=Log::where("user_id", 12)
