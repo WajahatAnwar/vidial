@@ -33,8 +33,7 @@ class UpdatePlan
 
         $current_user_approved_video_count = Video::where("user_id", auth()->user()->id)
         ->where('status', "Approved")
-        ->where('created_at', '>=',$charge->billing_on)
-        ->where('created_at', '<=',Carbon::now())
+        ->whereBetween('created_at', [$charge->billing_on, Carbon::now()])
         ->count();
 
         $current_user_approved_email_count= Log::where("user_id", auth()->user()->id)
