@@ -10,6 +10,7 @@ use App\Models\Video;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Charge;
+use DB;
 
 class UpdatePlan extends Command
 {
@@ -39,12 +40,15 @@ class UpdatePlan extends Command
         ->where('status','=','ACTIVE')
         ->first();
 
-        $current_user_approved_video_count = Video::where("user_id", 12)
-        ->where('status', config('constants.video_approved'))
-        ->whereDateBetween('created_at', [Carbon::parse($charge->billing_on), Carbon::now()])
+        $current_user_approved_video_count = DB::table('videos')
+        ->whereBetween('created_at', [Carbon::parse($charge->billing_on), Carbon::now()])
+        ->count();
+        // $current_user_approved_video_count = Video::where("user_id", 12)
+        // ->where('status', config('constants.video_approved'))
+        // ->whereBetween('created_at', [Carbon::parse($charge->billing_on), Carbon::now()])
         // ->where('created_at', '>=',Carbon::parse($charge->billing_on))
         // ->where('created_at', '<=', Carbon::now())
-        ->count();
+        // ->count();
         // dd(Carbon::now());
         // dd(Carbon::parse($charge->billing_on)->date());
         dd($current_user_approved_video_count);
