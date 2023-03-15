@@ -34,18 +34,18 @@ class UpdatePlan extends Command
      */
     public function handle()
     {
-        $email_count  =  Plan::where('id',auth()->user()->plan_id)->first();
-        $charge = Charge::where('user_id',auth()->user()->id)
+        $email_count  =  Plan::where('id',12)->first();
+        $charge = Charge::where('user_id',12)
         ->where('status','=','ACTIVE')
         ->first();
 
-        $current_user_approved_video_count = Video::where("user_id", auth()->user()->id)
+        $current_user_approved_video_count = Video::where("user_id", 12)
         ->where('status', config('constants.video_approved'))
         ->where('created_at', '>=',$charge->billing_on)
         ->where('created_at', '<=',Carbon::now())
         ->count();
 
-        $current_user_approved_email_count=Log::where("user_id", auth()->user()->id)
+        $current_user_approved_email_count=Log::where("user_id", 12)
         ->where('created_at', '>=',$charge->billing_on)
         ->where('created_at', '<=',Carbon::now())
         ->count();
