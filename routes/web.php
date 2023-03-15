@@ -66,6 +66,7 @@ Route::get('uploadVideo/{locale}/{order_id?}',[SettingsController::class,'upload
 // upload video on Dropbox
 Route::post('uploadVideo',[VideoController::class,'uploadDropboxVideo']);
 Route::get('congratulations/{locale}',[VideoController::class,'congratulations']);
+Route::get('terms_and_conditions',[VideoController::class,'termsAndConditions']);
 
 Route::post('saveVideo',[VideoController::class,'saveVideo']);
 

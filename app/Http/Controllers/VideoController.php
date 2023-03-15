@@ -696,5 +696,12 @@ return response()->json([
 
  }
 
+ /***** terms_and_conditions *****/
+
+ public function termsAndConditions(){
+    return view('landingPage.terms_and_conditons');
+
+ }
+
 
 }
