@@ -5,6 +5,6 @@ return [
     'video_upload_heading'=>'Drag & Drop or Browse',
     'video_upload_subheading'=>'Upload formats: MP4 (Up to 500 MB)',
     'address_text'=>'Enter your address mail so we can send you the discount code:',
-    'terms_condition_text'=>'I accept that :storename may use my video in social medias or in his website',
+    'terms_condition_text'=>'I accept that :storename may use my video in social medias or in their website',
     'button_text'=>'Send'
 ];
