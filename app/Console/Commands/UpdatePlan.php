@@ -41,10 +41,10 @@ class UpdatePlan extends Command
 
         $current_user_approved_video_count = Video::where("user_id", 12)
         ->where('status', config('constants.video_approved'))
-        ->whereDate('created_at', '>=',$charge->billing_on)
+        ->where('created_at', '>=',$charge->billing_on)
         // ->where('created_at', '<=', Carbon::now())
         ->count();
-        dd($charge->billing_on);
+        dd(Carbon::parse($charge->billing_on));
         dd($current_user_approved_video_count);
 
         $current_user_approved_email_count=Log::where("user_id", 12)
