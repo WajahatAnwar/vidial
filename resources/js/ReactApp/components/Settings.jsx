@@ -28,7 +28,10 @@ import {
     Toast,
     List,
 } from "@shopify/polaris";
-import { CircleCancelMinor, NoteMinor } from "@shopify/polaris-icons";
+import { CircleCancelMinor, NoteMinor,CircleCancelMajor } from "@shopify/polaris-icons";
+import {
+  DeleteMajor
+} from '@shopify/polaris-icons';
 import { useCallback } from "react";
 import UploadIcon from "./imges/uploadLogo.png";
 import ErrorIcon from "./imges/error.png";
@@ -985,6 +988,7 @@ const Settings = () => {
                                         </div>
                                     </div>
                                     {previewVedioHide && (
+                                        <div style={{width:"108px"}}>
                                         <video
                                             width="108"
                                             height="193"
@@ -993,6 +997,8 @@ const Settings = () => {
                                             autoPlay
                                             loop
                                         ></video>
+                                        <div  ><Icon source={CircleCancelMajor}  color="critical"/></div>
+                                        </div>
                                     )}
                                     <div
                                         style={{
