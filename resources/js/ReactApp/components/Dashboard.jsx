@@ -817,13 +817,13 @@ function Dashboard() {
                             marginBottom: "20px",
                         }}
                     >
-                        <Text variant="headingXl" as="h4">
+                        <Text variant="headingMd" as="h6">
                             {videoFeedback}
                             <br />
                             <br />
                             {upgradeButton ? (
                                 <Button primary onClick={upgradePlan}>
-                                    Updrade
+                                    Upgrade
                                 </Button>
                             ) : (
                                 ""

@@ -67,8 +67,9 @@ function TabsExample() {
                     Videos To Review
                     <sup
                         style={{
-                            background: "rgba(255, 59, 44, 0.75)",
-                            padding: "1px 6px",
+                            color:"white",
+                            background: "#D82C0D",
+                            padding: "3px 5px",
                             borderRadius: "50%",
                             marginLeft: "5px",
                         }}
