@@ -81,6 +81,7 @@ Route::group(['middleware' => 'verify.shopify'], function () {
     Route::get('getPendingVideoCount',[DashboardController::class,'getPendingVideoCount']);
     Route::post('downloadVideo',[VideoController::class,'downloadVideo']);
     Route::get('test',[VideoController::class,'test']);
+    Route::post('removeInspirationalVideo',[SettingsController::class,'removeInspirationalVideo']);
 
 
 });

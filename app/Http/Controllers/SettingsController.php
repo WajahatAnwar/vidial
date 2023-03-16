@@ -223,4 +223,22 @@ class SettingsController extends Controller
 
     }
 
+    public function removeInspirationalVideo(){
+        $settings = Setting::where('user_id',Auth::user()->id)->first();
+        if($settings){
+            $settings->video = '';
+            $settings->save();
+            return response()->json([
+                'success' => true,
+                'message' => "video Removed successfully",
+            ]);
+        }else
+        {
+            return response()->json([
+                'success' => false,
+                'message' => "something went wrong",
+            ]);
+        }
+    }
+
 }

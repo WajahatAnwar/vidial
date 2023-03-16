@@ -64,6 +64,28 @@ const Settings = () => {
         setToggled((prevCheck) => !prevCheck);
     }
 
+    // remove inpirational video
+
+    const removeInspirationalVideo = ()=>{
+        var formData = {};
+        fetch("/removeInspirationalVideo", {
+            method: "post",
+
+            body: formData,
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.success) {
+                    setPreviewVedio("")
+                    setIsSettingSave(new Date().getSeconds());
+                } else {
+                }
+            })
+            .catch((error) => {
+                 console.log(error);
+            });
+    }
+
     // Choose selected color
 
     const chooseColor = (color) => {
@@ -997,7 +1019,7 @@ const Settings = () => {
                                             autoPlay
                                             loop
                                         ></video>
-                                        <div  ><Icon source={CircleCancelMajor}  color="critical"/></div>
+                                        <div onClick={removeInspirationalVideo} > <Icon source={CircleCancelMajor}  color="critical"/></div>
                                         </div>
                                     )}
                                     <div
