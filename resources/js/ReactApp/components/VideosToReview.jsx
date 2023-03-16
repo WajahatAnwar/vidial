@@ -500,7 +500,7 @@ function WaitingVideos() {
             >
                 <Modal.Section>
                     <div style={{ textAlign: "center" }}>
-                        <Text variant="heading2xl" as="h3">
+                        <Text variant="headingMd" as="h6">
                             {rejectVideoFeedback}
                         </Text>
                         <div
@@ -537,7 +537,7 @@ function WaitingVideos() {
                             marginBottom: "20px",
                         }}
                     >
-                        <Text variant="heading2xl" as="h3">
+                        <Text variant="headingMd" as="h6">
                             {rejectVideoBodyText}
                         </Text>
                     </div>
@@ -551,7 +551,7 @@ function WaitingVideos() {
             >
                 <Modal.Section>
                     <div style={{ textAlign: "center" }}>
-                        <Text variant="heading2xl" as="h3">
+                        <Text variant="headingMd" as="h6">
                             Are you sure you want to Approve?
                         </Text>
                         <div
