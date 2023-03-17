@@ -88,6 +88,16 @@
             "order_id": order_id,
             "video_path": video_path
         }
+        if(email){
+            var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+           if(emailReg.test( email )){
+
+           }else{
+            alert('Provide Proper email address');
+            return false;
+           }
+        }
+
         $('#saveBTN').prop('disabled', true);
         $.ajax({
             url: "{{ url('/saveVideo') }}",
