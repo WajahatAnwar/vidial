@@ -74,7 +74,7 @@ function TabsExample() {
                             marginLeft: "5px",
                         }}
                     >
-                        {pendingVideosCount}
+                        {pendingVideosCount >= 10 ?  pendingVideosCount: pendingVideosCount}
                     </sup>
                 </div>
             ),
