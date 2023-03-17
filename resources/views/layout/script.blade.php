@@ -50,9 +50,9 @@
 
         var video_link = localStorage.getItem('video_url');
         var video_path = localStorage.getItem('video_path');
-        console.log(video_link);
-        console.log(video_path);
-        return;
+        // console.log(video_link);
+        // console.log(video_path);
+        // return;
         var email = $('#email').val();
         var terms_conditions = $('#terms_condition').is(":checked") ? 1 : 0;
         // geting Store name
@@ -60,7 +60,7 @@
         const store = url.searchParams.get('store');
         const order_id = url.searchParams.get('order_id');
 
-        if (video_link == '' || video_link == null) {
+        if (video_link === '' || video_link === null) {
             $('#error-video').removeClass('d-none');
             if($("#lang").val() == "en"){
                 $('#error-video-text').text('File type is not allowed');
@@ -77,11 +77,11 @@
             }
             
             return false;
-        } else if (video_path == '' || video_path == null) {
+        } else if (video_path === '' || video_path === null) {
             alert('some params missing');
             return false;
 
-        } else if (email == '') {
+        } else if (email === '' || email === null) {
             $('#error-email').removeClass('d-none');
             if($("#lang").val() == "en"){
                 $('#error-email-text').text('Please add email');
@@ -103,7 +103,7 @@
             $('#error-terms-conditions').removeClass('d-none').text('Please Accept terms and conditions');
 
             return false;
-        } else if (store == '') {
+        } else if (store === '') {
             console.log('Something went wrong');
             return false;
         }
