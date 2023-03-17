@@ -53,7 +53,7 @@ const Settings = () => {
     const [active, setActive] = useState(false);
     const [error, setError] = useState(false);
     const toggleActive = useCallback(() => setActive((active) => !active), []);
-    const [toggled, setToggled] = useState(false);
+    const [toggled, setToggled] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
     const [storeCurrency, setStoreCurrency] = useState("");
     const [errorMessages, setErorrMessages] = useState([]);
