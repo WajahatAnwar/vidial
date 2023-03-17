@@ -255,7 +255,7 @@ public function rejectVideo(Request $request){
             'rejectionReason' => $request->reason,
             'mail'            => $videos->email,
             'name'=> $name ,
-            'storename'=>splitStoreName(Auth::user()->store_name),
+            'storename'=>Auth::user()->store_name,
             'storeteam'=>Auth::user()->name,
             'url' => env('APP_URL')."/landingPage"."/". Auth::user()->settings->locale ."?store=".Auth::user()->name,
             'locale' =>$user->settings->locale,
