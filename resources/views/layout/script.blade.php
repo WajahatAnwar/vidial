@@ -60,6 +60,7 @@
 
         if (video_link == '' || video_link == null) {
             $('#error-video').removeClass('d-none');
+            console.log($("#lang").val());
             $('#error-video-text').text('Please upload a video');
             return false;
         } else if (video_path == '' || video_path == null) {
@@ -68,6 +69,7 @@
 
         } else if (email == '') {
             $('#error-email').removeClass('d-none');
+            console.log($("#lang").val());
             $('#error-email-text').text('Please add email');
 
             return false;
@@ -94,6 +96,7 @@
 
            }else{
             $('#error-email').removeClass('d-none');
+            console.log($("#lang").val());
             $('#error-email-text').text('Invalid Email');
             return false;
            }
