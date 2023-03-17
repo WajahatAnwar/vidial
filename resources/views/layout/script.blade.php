@@ -93,7 +93,8 @@
            if(emailReg.test( email )){
 
            }else{
-            alert('Provide Proper email address');
+            $('#error-email').removeClass('d-none');
+            $('#error-email-text').text('Invalid Email');
             return false;
            }
         }
