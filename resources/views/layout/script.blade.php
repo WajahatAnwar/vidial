@@ -50,7 +50,9 @@
 
         var video_link = localStorage.getItem('video_url');
         var video_path = localStorage.getItem('video_path');
-
+        console.log(video_link);
+        console.log(video_path);
+        return;
         var email = $('#email').val();
         var terms_conditions = $('#terms_condition').is(":checked") ? 1 : 0;
         // geting Store name
