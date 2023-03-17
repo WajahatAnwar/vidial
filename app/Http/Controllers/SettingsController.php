@@ -125,7 +125,7 @@ class SettingsController extends Controller
             'page_link' => 'required|numeric|min:1',
             'instructions' => 'required',
             'email_sent_to_customer' => 'required|numeric|min:1',
-            'logo' => 'required'.$image_mimes,
+            'logo' => $image_mimes,
             'video'=>$video_mimes
         ]);
         if($request->file('logo')){
