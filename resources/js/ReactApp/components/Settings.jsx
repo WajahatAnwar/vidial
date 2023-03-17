@@ -242,11 +242,11 @@ const Settings = () => {
                                   { id: 3, value: "Showcase the product" },
                                   {
                                       id: 4,
-                                      value: "Tell why you've decided to try JihiyiStore",
+                                      value: "Tell why you've decided to try "+data.data.store,
                                   },
                                   {
                                       id: 5,
-                                      value: "Describe the main benefits of JihiyiStore",
+                                      value: "Describe the main benefits of "+data.data.store,
                                   },
                               ]
                     );
@@ -420,7 +420,7 @@ const Settings = () => {
                 emailSentToValue == "" ||
                 landingPageDisplayedValue == "" ||
                 rows == "",
-            logoImage == "")
+            )
         ) {
             setError(true);
         } else {

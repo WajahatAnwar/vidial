@@ -7,6 +7,7 @@ function TabsExample() {
     const navigate = useNavigate();
     let location = useLocation();
     const [pendingVideosCount, setPendingVideosCount] = useState(0);
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -23,8 +24,7 @@ function TabsExample() {
             }
         };
         fetchData();
-    });
-    useEffect(() => {
+
         if (location.pathname == "/") {
             setSelected(0);
         } else if (location.pathname == "/videos-to-review") {
@@ -43,7 +43,7 @@ function TabsExample() {
         setSelected(selectedTabIndex);
 
         if (selectedTabIndex == 0) {
-            navigate("/");
+            navigate("/dashboard");
         } else if (selectedTabIndex == 1) {
             navigate(`/videos-to-review${search}`);
         } else if (selectedTabIndex == 2) {

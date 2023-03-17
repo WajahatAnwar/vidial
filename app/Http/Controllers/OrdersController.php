@@ -77,7 +77,7 @@ class OrdersController extends Controller
             'subject' => 'Test Mail For Marchent',
             'template' => auth()->user()->settings->locale=='en' ? "test_mail_for_merchant" : "test_mail_for_merchant_".auth()->user()->settings->locale,
             'v:url' => env('APP_URL')."/landingPage"."/". $settings->locale ."?store=".$settings->user->name,
-            'v:amount'=>$settings->store_credit,
+            'v:amount'=>getCurrencySymbol(auth()->user()->store_currency).$settings->store_credit,
             'v:storename'=>$settings->user->name
         );
 

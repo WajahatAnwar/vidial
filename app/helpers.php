@@ -271,3 +271,22 @@ if(!function_exists('checkLinkExpiration')){
     return false;
     }
 }
+
+/********** get currency symbol ******/
+if(!function_exists('getCurrencySymbol')){
+function getCurrencySymbol($currency_code){
+    $currencies = array(
+        "GBP" => "£",
+        "USD" => "$",
+        "EUR" => "€",
+        "TRY" => "₺",
+        "JPY"=>"¥",
+        "AUD"=>"$",
+        "CAD"=>"$"
+    );
+    if(isset($currencies[$currency_code])){
+       return $currencies[$currency_code];
+    }
+    return $currency_code;
+}
+}

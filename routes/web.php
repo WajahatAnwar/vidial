@@ -82,7 +82,7 @@ Route::group(['middleware' => 'verify.shopify'], function () {
     Route::post('downloadVideo',[VideoController::class,'downloadVideo']);
     Route::get('test',[VideoController::class,'test']);
     Route::post('removeInspirationalVideo',[SettingsController::class,'removeInspirationalVideo']);
-
+    Route::post('fetchCurrentUser',[SettingsController::class,'fetchCurrentUser']);
 
 });
  //Route::view('/{any}', 'welcome')->where('any', '^(?!webhook).*$')->middleware(['verify.shopify'])->name('welcome');

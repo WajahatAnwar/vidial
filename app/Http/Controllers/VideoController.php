@@ -192,7 +192,7 @@ public function videoOperation(Request $request){
             'locale' =>$user->settings->locale,
             'url' =>$redirect,
             'store_credit'=>$current_settings->store_credit,
-            'store_currency'=>$user->store_currency
+            'store_currency'=>getCurrencySymbol($user->store_currency)
         ];
         dispatch(new videoMail($details));
         $log_details = [

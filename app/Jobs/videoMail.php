@@ -56,4 +56,6 @@ class videoMail implements ShouldQueue
 
         // Mail::to($this->details['mail'])->send(new sendCoupen($this->details));
     }
+
+
 }

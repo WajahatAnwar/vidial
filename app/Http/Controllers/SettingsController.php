@@ -99,7 +99,7 @@ class SettingsController extends Controller
         $data['store']=$store->name;
         $data['email']=$store->email;
 
-        $data['store_currency']= $this->getCurrencySymbol($store->store_currency) ? $this->getCurrencySymbol($store->store_currency) : $store->store_currency;
+        $data['store_currency']= getCurrencySymbol($store->store_currency);
         return response()->json([
             'success' => true,
             'message' => "Settings get Successfully",
@@ -205,23 +205,23 @@ class SettingsController extends Controller
           return true;
     }
 
-    public function getCurrencySymbol($currency_code){
+    // public function getCurrencySymbol($currency_code){
 
-        $currencies = array(
-            "GBP" => "£",
-            "USD" => "$",
-            "EUR" => "€",
-            "TRY" => "₺",
-            "JPY"=>"¥",
-            "AUD"=>"$",
-            "CAD"=>"$"
-        );
-        if(isset($currencies[$currency_code])){
-           return $currencies[$currency_code];
-        }
-        return false;
+    //     $currencies = array(
+    //         "GBP" => "£",
+    //         "USD" => "$",
+    //         "EUR" => "€",
+    //         "TRY" => "₺",
+    //         "JPY"=>"¥",
+    //         "AUD"=>"$",
+    //         "CAD"=>"$"
+    //     );
+    //     if(isset($currencies[$currency_code])){
+    //        return $currencies[$currency_code];
+    //     }
+    //     return false;
 
-    }
+    // }
 
     public function removeInspirationalVideo(){
         $settings = Setting::where('user_id',Auth::user()->id)->first();
@@ -240,5 +240,22 @@ class SettingsController extends Controller
             ]);
         }
     }
+      /******** fet current user data  *****/
 
+      public function fetchCurrentUser(){
+        $currentUser=Auth::user();
+        if(!$currentUser->is_install){
+            $user=User::find($currentUser->id);
+            $user->is_install = 1;
+            $user->save();
+        }
+        $data['user']=$currentUser;
+
+
+        return response()->json([
+            'success' => true,
+            'message' => "Fetch data successfully",
+            'data'=>$data
+        ]);
+      }
 }

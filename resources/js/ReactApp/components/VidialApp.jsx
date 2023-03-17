@@ -19,10 +19,10 @@ const MysteryDiscountApp = () => {
         <AppProvider i18n={en}>
             <CustomBar />
             <Routes>
-                <Route path="/" element={<Dashboard />} />
+                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/settings" element={<Settings />} />
                 <Route path="/videos-to-review" element={<VideosToReview />} />
                 <Route path="/approved-videos" element={<ApprovedVideos />} />
-                <Route path="/settings" element={<Settings />} />
                 <Route path="/plans" element={<Plans />} />
                 <Route path="*" element={<Loading login={false} />} />
             </Routes>

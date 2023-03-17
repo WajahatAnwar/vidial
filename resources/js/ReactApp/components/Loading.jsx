@@ -6,15 +6,39 @@ const Loading = ({ login }) => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        navigate("/");
-    },[]);
+        fetch("/fetchCurrentUser", {
+            method: "post",
+            body:{}
+        })
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error("Something went wrong");
+                }
+                return response.json();
+            })
+            .then((data) => {
+                if (data.success) {
+                    if(data.data.user.is_install){
+                        navigate("/dashboard");
+                    }else{
+                        navigate("/settings");
+                    }
+
+                }
+                return;
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+
+    }, []);
 
     return (
-    <div style={{display:"block",marginTop:"-55px"}}>
-        <Frame>
-            <ShopLoading />
-        </Frame>
-    </div>
+        <div style={{ display: "block", marginTop: "-55px" }}>
+            <Frame>
+                <ShopLoading />
+            </Frame>
+        </div>
     )
 }
 

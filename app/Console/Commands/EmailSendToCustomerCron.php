@@ -71,6 +71,7 @@ class EmailSendToCustomerCron extends Command
                             'page_color'=>$settings->page_color,
                             'discount_amount' => $settings->store_credit,
                             'store_name' => $current_user->email,
+                            'store_currency'=>$current_user->store_currency,
                             'url' => env('APP_URL')."/landingPage"."/". $settings->locale ."?store=".$settings->user->name."&order_id=".$Orders_send_mail->id
                         ];
                         if ($Orders_send_mail->email_send == 1 && $Orders_send_mail->replied == 0 && $Orders_send_mail->remaining_mail > 0) {
@@ -91,8 +92,9 @@ class EmailSendToCustomerCron extends Command
                                 'v:name' => $details['name'],
                                 'v:store' => $details['store'],
                                 'v:storename' => $details['store_name'],
-                                'v:amount'=>$details['discount_amount'],
+                                'v:amount'=>getCurrencySymbol($details['store_currency']).$details['discount_amount'],
                                 'v:url' => $details['url'],
+
                                );
 
                             $mgClient->messages()->send($domain, $params);
@@ -129,7 +131,7 @@ class EmailSendToCustomerCron extends Command
                             'v:name' => $details['name'],
                             'v:store' => $details['store'],
                             'v:storename' => $details['store_name'],
-                            'v:amount'=>$details['discount_amount'],
+                            'v:amount'=>getCurrencySymbol($details['store_currency']).$details['discount_amount'],
                             'v:url' => $details['url'],
                            );
 
