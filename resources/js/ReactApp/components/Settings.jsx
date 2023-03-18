@@ -1582,10 +1582,7 @@ const Settings = () => {
                 open={activeRejectionModel}
                 onClose={handleChangeRejectionModel}
                 title="Test Email"
-                primaryAction={{
-                    content: "Send Reason",
-                    onAction: handleRejectVideo,
-                }}
+
                 secondaryActions={[
                     {
                         content: "Cancel",
