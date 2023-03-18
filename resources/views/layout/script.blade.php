@@ -84,7 +84,7 @@
         } else if (email === '' || email === null) {
             $('#error-email').removeClass('d-none');
             if($("#lang").val() == "en"){
-                $('#error-email-text').text('Please add email');
+                $('#error-email-text').text('Your email is invalid');
             }else if($("#lang").val() == "fr"){
                 $('#error-email-text').text('Votre email est invalide');
             }else if($("#lang").val() == "de"){
@@ -121,7 +121,7 @@
            }else{
             $('#error-email').removeClass('d-none');
             if($("#lang").val() == "en"){
-                $('#error-email-text').text('Please add email');
+                $('#error-email-text').text('Your email is invalid');
             }else if($("#lang").val() == "fr"){
                 $('#error-email-text').text('Votre email est invalide');
             }else if($("#lang").val() == "de"){
