@@ -290,6 +290,8 @@ const Settings = () => {
                     value: "Describe the main benefits of " + store,
                 },
             ]);
+                var  customQuery =
+            setTitle(`Send us a video to receive a ${storeCurrency}:${priceValue} Gift Card`)
         } else if (value === "fr") {
             setRows([
                 {
