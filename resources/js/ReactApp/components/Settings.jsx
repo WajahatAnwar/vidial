@@ -475,7 +475,6 @@ const Settings = () => {
             })
             .then((data) => {
                 if (data.success) {
-                    alert("Email Sent Sucessfully");
                     setActiveRejectionModel(true);
                 }
             })
