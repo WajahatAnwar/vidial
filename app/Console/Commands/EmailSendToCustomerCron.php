@@ -83,11 +83,24 @@ class EmailSendToCustomerCron extends Command
                                     env('MAILGUN_ENDPOINT')
                                );
                                $domain = env('MAILGUN_DOMAIN');
-
+                               $subject_reminder = "Share your feedback and receive ".getCurrencySymbol($details['store_currency']).$details['discount_amount']." from ".$details['store_name'];
+                               if($settings->locale == "en"){
+                                    $subject_reminder = "Share your feedback and receive ".getCurrencySymbol($details['store_currency']).$details['discount_amount']." from ".$details['store_name'];
+                               }else if($settings->locale == "de"){
+                                    $subject_reminder = "Teilen Sie Ihr Feedback und erhalten Sie ".getCurrencySymbol($details['store_currency']).$details['discount_amount']." von ".$details['store_name'];
+                               }else if($settings->locale == "es"){
+                                    $subject_reminder = "Comparte tus comentarios y recibe ".getCurrencySymbol($details['store_currency']).$details['discount_amount']." de ".$details['store_name'];
+                               }else if($settings->locale == "fr"){
+                                    $subject_reminder = "Donnez votre avis et recevez ".getCurrencySymbol($details['store_currency']).$details['discount_amount']." de ".$details['store_name'];
+                               }else if($settings->locale == "it"){
+                                    $subject_reminder = "Condividi i tuoi commenti e ricevi ".getCurrencySymbol($details['store_currency']).$details['discount_amount']." da ".$details['store_name'];
+                               }else if($settings->locale == "pt"){
+                                    $subject_reminder = "Compartilhe seus comentários e receba ".getCurrencySymbol($details['store_currency']).$details['discount_amount']." de ".$details['store_name'];
+                               }
                                $params = array(
                                 'from' => env('MAIL_USERNAME'),
                                 'to' => $Orders_send_mail->email,
-                                'subject' => "Get Free Discount Credit's Reminder",
+                                'subject' => $subject_reminder,
                                 'template' => $settings->locale=='en' ? 'reminder-email' : "reminder-email_".$settings->locale ,
                                 'v:name' => $details['name'],
                                 'v:store' => $details['store'],
@@ -123,10 +136,24 @@ class EmailSendToCustomerCron extends Command
                            );
                            $domain = env('MAILGUN_DOMAIN');
 
+                           $subject = "Win a ".getCurrencySymbol($details['store_currency']).$details['discount_amount']." gift card from ".$details['store_name'];
+                           if($settings->locale == "en"){
+                                $subject = "Win a ".getCurrencySymbol($details['store_currency']).$details['discount_amount']." gift card from ".$details['store_name'];
+                           }else if($settings->locale == "de"){
+                                $subject = "Gewinnen Sie eine Geschenkkarte im Wert von ".getCurrencySymbol($details['store_currency']).$details['discount_amount']." für ".$details['store_name'];
+                           }else if($settings->locale == "es"){
+                                $subject = "Gana una tarjeta de regalo de ".getCurrencySymbol($details['store_currency']).$details['discount_amount']." para ".$details['store_name'];
+                           }else if($settings->locale == "fr"){
+                                $subject = "Gagnez une carte-cadeau de ".getCurrencySymbol($details['store_currency']).$details['discount_amount']." sur  ".$details['store_name'];
+                           }else if($settings->locale == "it"){
+                                $subject = "Vinci una carta regalo da ".getCurrencySymbol($details['store_currency']).$details['discount_amount']." per ".$details['store_name'];
+                           }else if($settings->locale == "pt"){
+                                $subject = "Ganhe um cartão-presente de ".getCurrencySymbol($details['store_currency']).$details['discount_amount']." para ".$details['store_name'];
+                           }
                            $params = array(
                             'from' => env('MAIL_USERNAME'),
                             'to' => $Orders_send_mail->email,
-                            'subject' => "Get Free Discount Credit's",
+                            'subject' => $subject,
                             'template' => $settings->locale=='en' ? 'mail_post_purchase' : "mail_post_purchase_".$settings->locale,
                             'v:name' => $details['name'],
                             'v:store' => $details['store'],

@@ -69,12 +69,25 @@ class OrdersController extends Controller
                 env('MAILGUN_ENDPOINT')
            );
            $domain = env('MAILGUN_DOMAIN');
-
+           $subject = "Test Email from Vidial";
+           if($settings->locale == "en"){
+            $subject = "Test Email from Vidial";
+           }else if($settings->locale == "fr"){
+            $subject = "Test Email de Vidial";
+           }else if($settings->locale == "de"){
+            $subject = "Test Email von Vidial";
+           }else if($settings->locale == "es"){
+            $subject = "Test Email de Vidial";
+           }else if($settings->locale == "it"){
+            $subject = "Test Email da Vidial";
+           }else if($settings->locale == "pt"){
+            $subject = " Test Email da Vidial";
+           }
 
            $params = array(
             'from' => env('MAIL_USERNAME'),
             'to' => auth()->user()->email,
-            'subject' => 'Test Mail For Marchent',
+            'subject' => $subject,
             'template' => auth()->user()->settings->locale=='en' ? "test_mail_for_merchant" : "test_mail_for_merchant_".auth()->user()->settings->locale,
             'v:url' => env('APP_URL')."/landingPage"."/". $settings->locale ."?store=".$settings->user->name,
             'v:amount'=>getCurrencySymbol(auth()->user()->store_currency).$settings->store_credit,
