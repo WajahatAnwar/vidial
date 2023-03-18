@@ -85,10 +85,7 @@ class OrdersController extends Controller
            }
 
            $params = array(
-            'from' => [
-                'address' => env('MAIL_FROM_ADDRESS', env('MAIL_USERNAME')),
-                'name' => "Vidial",
-            ],
+            'from' => "Excited User < ".env('MAIL_USERNAME')." >",
             'to' => auth()->user()->email,
             'subject' => $subject,
             'template' => auth()->user()->settings->locale=='en' ? "test_mail_for_merchant" : "test_mail_for_merchant_".auth()->user()->settings->locale,
