@@ -39,12 +39,25 @@ class NotApprovedMailjob implements ShouldQueue
             env('MAILGUN_ENDPOINT')
        );
        $domain = env('MAILGUN_DOMAIN');
-
+       $subject = "Message for your Video about $this->detail['storename']";
+       if($this->details['locale'] == "en"){
+            $subject = "Message for your Video about $this->detail['storename']";
+       }else if($this->details['locale'] == "de"){
+            $subject = "Nachricht für Ihr Video über $this->detail['storename']";
+       }else if($this->details['locale'] == "es"){
+            $subject = "Mensaje para su video sobre $this->detail['storename']";
+       }else if($this->details['locale'] == "fr"){
+            $subject = "Message pour votre vidéo à propos de $this->detail['storename']";
+       }else if($this->details['locale'] == "it"){
+            $subject = "Messaggio per il tuo video su $this->detail['storename']";
+       }else if($this->details['locale'] == "pt"){
+            $subject = "Mensagem para seu vídeo sobre $this->detail['storename']";
+       }
 
        $params = array(
         'from' => env('MAIL_USERNAME'),
         'to' => $this->detail['mail'],
-        'subject' => 'Video Not Approved',
+        'subject' => $subject,
         'template' => $this->detail['locale']=='en' ? 'videodeclined' : "videodeclined_".$this->detail['locale'] ,
         'v:name' => $this->detail['name'],
         'v:storename' =>$this->detail['storename'] ,

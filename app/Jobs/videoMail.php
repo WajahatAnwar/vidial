@@ -38,11 +38,25 @@ class videoMail implements ShouldQueue
             env('MAILGUN_ENDPOINT')
        );
        $domain = env('MAILGUN_DOMAIN');
+       $subject = "Here's your ".$this->details['store_currency'].$this->details['store_credit']." discount code for $this->details['store_name']";
+       if($this->details['locale'] == "en"){
+            $subject = "";
+       }else if($this->details['locale'] == "de"){
+            $subject = "Hier ist Ihr ".$this->details['store_currency'].$this->details['store_credit']." Rabattcode für $this->details['store_name']";
+       }else if($this->details['locale'] == "es"){
+            $subject = "Aquí está su código de descuento de ".$this->details['store_currency'].$this->details['store_credit']." para $this->details['store_name']";
+       }else if($this->details['locale'] == "fr"){
+            $subject = "Voici votre Code de Réduction de ".$this->details['store_currency'].$this->details['store_credit']." pour $this->details['store_name']";
+       }else if($this->details['locale'] == "it"){
+            $subject = "Ecco il tuo codice sconto di ".$this->details['store_currency'].$this->details['store_credit']." per $this->details['store_name']";
+       }else if($this->details['locale'] == "pt"){
+            $subject = "Aqui está seu código de desconto de ".$this->details['store_currency'].$this->details['store_credit']." para $this->details['store_name']";
+       }
 
        $params = array(
         'from' => env('MAIL_USERNAME'),
         'to' => $this->details['mail'],
-        'subject' => 'Video Approved',
+        'subject' => $subject,
         'template' => $this->details['locale']=='en' ? 'videoapproved' : "videoapproved_".$this->details['locale'],
         'v:name' => 'RichyRoundhouse',
         'v:storename' => $this->details['store_name'],
