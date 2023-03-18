@@ -90,7 +90,7 @@ function TabsExample() {
                             marginLeft: "5px",
                         }}
                     >
-                         pendingVideosCount
+                         {pendingVideosCount}
                     </sup>
                     </div>}
 
