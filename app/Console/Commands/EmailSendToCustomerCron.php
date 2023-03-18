@@ -98,7 +98,7 @@ class EmailSendToCustomerCron extends Command
                                     $subject_reminder = "Compartilhe seus comentários e receba ".getCurrencySymbol($details['store_currency']).$details['discount_amount']." de ".$details['store_name'];
                                }
                                $params = array(
-                                'from' => env('MAIL_USERNAME'),
+                                'from' => "Vidial < ".env('MAIL_USERNAME')." >",
                                 'to' => $Orders_send_mail->email,
                                 'subject' => $subject_reminder,
                                 'template' => $settings->locale=='en' ? 'reminder-email' : "reminder-email_".$settings->locale ,
@@ -151,7 +151,7 @@ class EmailSendToCustomerCron extends Command
                                 $subject = "Ganhe um cartão-presente de ".getCurrencySymbol($details['store_currency']).$details['discount_amount']." para ".$details['store_name'];
                            }
                            $params = array(
-                            'from' => env('MAIL_USERNAME'),
+                            'from' => "Vidial < ".env('MAIL_USERNAME')." >",
                             'to' => $Orders_send_mail->email,
                             'subject' => $subject,
                             'template' => $settings->locale=='en' ? 'mail_post_purchase' : "mail_post_purchase_".$settings->locale,

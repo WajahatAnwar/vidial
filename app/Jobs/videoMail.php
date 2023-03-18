@@ -54,10 +54,7 @@ class videoMail implements ShouldQueue
        }
 
        $params = array(
-        'from' => [
-            'address' => env('MAIL_FROM_ADDRESS', env('MAIL_USERNAME')),
-            'name' => "Vidial",
-        ],
+        'from' => "Vidial < ".env('MAIL_USERNAME')." >",
         'to' => $this->details['mail'],
         'subject' => $subject,
         'template' => $this->details['locale']=='en' ? 'videoapproved' : "videoapproved_".$this->details['locale'],
