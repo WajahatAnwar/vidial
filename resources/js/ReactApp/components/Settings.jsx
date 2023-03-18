@@ -11,6 +11,8 @@ import {
     Select,
     Icon,
     Grid,
+    Modal,
+    Text,
     Banner,
     RadioButton,
     TextField,
@@ -48,6 +50,11 @@ localStorage.setItem('store',storeName);
 */
 
 const Settings = () => {
+    const [activeRejectionModel, setActiveRejectionModel] = useState(false);
+    const handleChangeRejectionModel = useCallback(
+        () => setActiveRejectionModel(!activeRejectionModel),
+        [activeRejectionModel]
+    );
     const [title, setTitle] = useState("");
     const handleTitle = useCallback((newValue) => setTitle(newValue), []);
     const [active, setActive] = useState(false);
@@ -470,6 +477,7 @@ const Settings = () => {
             .then((data) => {
                 if (data.success) {
                     alert("Email Sent Sucessfully");
+                    setActiveRejectionModel(true);
                 }
             })
             .catch((error) => {
@@ -1571,6 +1579,27 @@ const Settings = () => {
                                 </div>
                             </Grid.Cell>
                         </Grid>
+                        <Modal
+                open={activeRejectionModel}
+                onClose={handleChangeRejectionModel}
+                title="Test Email"
+                primaryAction={{
+                    content: "Send Reason",
+                    onAction: handleRejectVideo,
+                }}
+                secondaryActions={[
+                    {
+                        content: "Cancel",
+                        onAction: handleChangeRejectionModel,
+                    },
+                ]}
+            >
+                <Modal.Section>
+                <Text variant="headingMd" as="h6">
+                Email Sent Sucessfully
+                        </Text>
+                </Modal.Section>
+            </Modal>
                     </Frame>
                 </Page>
             )}
