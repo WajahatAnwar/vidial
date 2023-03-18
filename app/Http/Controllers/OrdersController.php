@@ -87,7 +87,7 @@ class OrdersController extends Controller
            $params = array(
             'from' => [
                 'address' => env('MAIL_FROM_ADDRESS', env('MAIL_USERNAME')),
-                'name' => env('MAIL_FROM_NAME', 'Vidial'),
+                'name' => "Vidial",
             ],
             'to' => auth()->user()->email,
             'subject' => $subject,
