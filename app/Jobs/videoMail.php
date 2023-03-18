@@ -40,7 +40,7 @@ class videoMail implements ShouldQueue
        $domain = env('MAILGUN_DOMAIN');
        $subject = "Here's your ".$this->details['store_currency'].$this->details['store_credit']." discount code for ".$this->details['store_name'];
        if($this->details['locale'] == "en"){
-            $subject = "";
+            $subject = "Here's your ".$this->details['store_currency'].$this->details['store_credit']." discount code for ".$this->details['store_name'];
        }else if($this->details['locale'] == "de"){
             $subject = "Hier ist Ihr ".$this->details['store_currency'].$this->details['store_credit']." Rabattcode für ".$this->details['store_name'];
        }else if($this->details['locale'] == "es"){
