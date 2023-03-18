@@ -12,7 +12,6 @@ import {
     Icon,
     Grid,
     Modal,
-    Text,
     Banner,
     RadioButton,
     TextField,
