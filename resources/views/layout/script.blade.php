@@ -50,7 +50,9 @@
 
         var video_link = localStorage.getItem('video_url');
         var video_path = localStorage.getItem('video_path');
-
+        // console.log(video_link);
+        // console.log(video_path);
+        // return;
         var email = $('#email').val();
         var terms_conditions = $('#terms_condition').is(":checked") ? 1 : 0;
         // geting Store name
@@ -58,18 +60,42 @@
         const store = url.searchParams.get('store');
         const order_id = url.searchParams.get('order_id');
 
-        if (video_link == '' || video_link == null) {
+        if (video_link === '' || video_link === null) {
             $('#error-video').removeClass('d-none');
-            $('#error-video-text').text('Please upload a video');
+            if($("#lang").val() == "en"){
+                $('#error-video-text').text('File type is not allowed');
+            }else if($("#lang").val() == "fr"){
+                $('#error-video-text').text("Le type de fichier n'est pas autorisé");
+            }else if($("#lang").val() == "de"){
+                $('#error-video-text').text('Dateityp ist nicht erlaubt');
+            }else if($("#lang").val() == "es"){
+                $('#error-video-text').text('El tipo de archivo no está permitido');
+            }else if($("#lang").val() == "pt"){
+                $('#error-video-text').text('O tipo de arquivo não é permitido');
+            }else if($("#lang").val() == "it"){
+                $('#error-video-text').text('Il tipo di file non è consentito');
+            }
+            
             return false;
-        } else if (video_path == '' || video_path == null) {
+        } else if (video_path === '' || video_path === null) {
             alert('some params missing');
             return false;
 
-        } else if (email == '') {
+        } else if (email === '' || email === null) {
             $('#error-email').removeClass('d-none');
-            $('#error-email-text').text('Please add email');
-
+            if($("#lang").val() == "en"){
+                $('#error-email-text').text('Your email is invalid');
+            }else if($("#lang").val() == "fr"){
+                $('#error-email-text').text('Votre email est invalide');
+            }else if($("#lang").val() == "de"){
+                $('#error-email-text').text('Deine E-Mail-Adresse ist ungültig');
+            }else if($("#lang").val() == "es"){
+                $('#error-email-text').text('Tu correo electrónico es inválido');
+            }else if($("#lang").val() == "pt"){
+                $('#error-email-text').text('Seu email é inválido');
+            }else if($("#lang").val() == "it"){
+                $('#error-email-text').text('La tua email non è valida');
+            }
             return false;
 
         } else if (!terms_conditions) {
@@ -77,7 +103,7 @@
             $('#error-terms-conditions').removeClass('d-none').text('Please Accept terms and conditions');
 
             return false;
-        } else if (store == '') {
+        } else if (store === '') {
             console.log('Something went wrong');
             return false;
         }
@@ -93,7 +119,20 @@
            if(emailReg.test( email )){
 
            }else{
-            alert('Provide Proper email address');
+            $('#error-email').removeClass('d-none');
+            if($("#lang").val() == "en"){
+                $('#error-email-text').text('Your email is invalid');
+            }else if($("#lang").val() == "fr"){
+                $('#error-email-text').text('Votre email est invalide');
+            }else if($("#lang").val() == "de"){
+                $('#error-email-text').text('Deine E-Mail-Adresse ist ungültig');
+            }else if($("#lang").val() == "es"){
+                $('#error-email-text').text('Tu correo electrónico es inválido');
+            }else if($("#lang").val() == "pt"){
+                $('#error-email-text').text('Seu email é inválido');
+            }else if($("#lang").val() == "it"){
+                $('#error-email-text').text('La tua email non è valida');
+            }
             return false;
            }
         }

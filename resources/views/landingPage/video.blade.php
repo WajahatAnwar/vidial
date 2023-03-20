@@ -51,7 +51,7 @@
                 <div class="alert alert-danger d-none" id="error-terms-conditions" role="alert">
 
                   </div>
-
+                  <input type="hidden" id="lang" name="lang" value="{{Lang::locale()}}">
               </div>
 
               <button class="btn btn-primary mt-4" onclick="saveVideo()" type="button" id="saveBTN" style="margin-bottom: 50px;    width: 100%;font-size: 20px;font-weight: 600;background: {{$settings->page_color}};border: none;">{{ __('uploadVideo.button_text') }}</button>

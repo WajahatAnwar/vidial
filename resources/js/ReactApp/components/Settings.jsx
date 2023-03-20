@@ -825,7 +825,7 @@ const Settings = () => {
                                     >
                                         <div style={{ width: "450px" }}>
                                             <Text variant="headingLg" as="h5">
-                                                Your Store Logo
+                                                Your Store Logo (optional)
                                             </Text>
                                             <p style={{ marginTop: "5px" }}>
                                                 Logo must be a png,jpg,jpeg file
