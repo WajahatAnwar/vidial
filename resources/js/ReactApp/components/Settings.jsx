@@ -105,6 +105,8 @@ const Settings = () => {
             .then((data) => {
                 if (data.success) {
                     //setPreviewVedio("")
+                    setPreviewLogoHide(false);
+                    setPreviwLogo("");
                     setIsSettingSave(new Date().getSeconds());
                 } else {
                 }
@@ -892,8 +894,10 @@ const Settings = () => {
                                             </p>
                                         </div>
                                     </div>
-                                    {previewLogoHide && (
+                                    {previewLogoHide && (logoImage=='undefined' || logoImage=='') ? '':
+                                     (
                                         <div style={{width:"108px"}}>
+
                                         <img
                                             style={{
                                                 marginTop: "20px",
@@ -903,9 +907,10 @@ const Settings = () => {
                                             width="100px"
                                             src={previewLogo}
                                         ></img>
-                                        <div > <Icon source={CircleCancelMajor}  color="critical"/></div>
+                                        <div onClick={removeLogo} > <Icon source={CircleCancelMajor}   color="critical"/></div>
                                         </div>
-                                    )}
+                                    )
+                                    }
                                     <div
                                         style={{
                                             width: "450px",
