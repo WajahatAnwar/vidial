@@ -62,6 +62,7 @@ class OrdersCreateJob implements ShouldQueue
      */
     public function handle()
     {// Convert domain
+        Log::info('Orders Log');
         $this->shopDomain = ShopDomain::fromNative($this->shopDomain);
         $shop = User::where('name',$this->shopDomain->toNative())->first();
         $shop_settings =  $shop->settings;
