@@ -893,7 +893,7 @@ const Settings = () => {
                                         </div>
                                     </div>
                                     {previewLogoHide && (
-                                        <div>
+                                        <div style={{width:"108px"}}>
                                         <img
                                             style={{
                                                 marginTop: "20px",
@@ -903,7 +903,7 @@ const Settings = () => {
                                             width="100px"
                                             src={previewLogo}
                                         ></img>
-                                        <div onClick={removeInspirationalVideo} > <Icon source={CircleCancelMajor}  color="critical"/></div>
+                                        <div > <Icon source={CircleCancelMajor}  color="critical"/></div>
                                         </div>
                                     )}
                                     <div
