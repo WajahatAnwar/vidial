@@ -410,7 +410,7 @@ const Settings = () => {
                     id: 4,
                     value:
                         "Sagen Sie, warum Sie sich entschieden haben, " +
-                        store +
+                        storeName +
                         " auszuprobieren",
                 },
                 {
