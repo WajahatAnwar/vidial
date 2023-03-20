@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\Mail;
 use Osiset\ShopifyApp\Http\Middleware\Billable;
 use App\Models\Setting;
 use App\Http\Controllers\InstallationController;
+use Illuminate\Support\Facades\Artisan;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -107,3 +109,7 @@ Route::get('redirect_back', function () {
 
 
 Route::get('/test-email',[EmailController::class,'email']);
+
+Route::get('/cron', function () {
+    Artisan::call('schedule:run');
+});
