@@ -11,6 +11,7 @@ import {
     Select,
     Icon,
     Grid,
+    Modal,
     Banner,
     RadioButton,
     TextField,
@@ -48,6 +49,11 @@ localStorage.setItem('store',storeName);
 */
 
 const Settings = () => {
+    const [activeRejectionModel, setActiveRejectionModel] = useState(false);
+    const handleChangeRejectionModel = useCallback(
+        () => setActiveRejectionModel(!activeRejectionModel),
+        [activeRejectionModel]
+    );
     const [title, setTitle] = useState("");
     const handleTitle = useCallback((newValue) => setTitle(newValue), []);
     const [active, setActive] = useState(false);
@@ -292,6 +298,7 @@ const Settings = () => {
                     value: "Describe the main benefits of " + storeName,
                 },
             ]);
+            setTitle(`Send us a video to receive a ${storeCurrency}${priceValue} Gift Card`);
         } else if (value === "fr") {
             setRows([
                 {
@@ -312,6 +319,7 @@ const Settings = () => {
                     value: "Décrire les principaux avantages de " + storeName,
                 },
             ]);
+            setTitle(`Envoyez-nous une vidéo pour obtenir une carte cadeau de ${storeCurrency}${priceValue}`);
         } else if (value === "es") {
             setRows([
                 { id: 1, value: "Graba un video de hasta 30 segundos" },
@@ -329,6 +337,7 @@ const Settings = () => {
                     value: "Describir los principales beneficios de " + storeName,
                 },
             ]);
+            setTitle(`Envíanos un video para obtener una tarjeta de regalo de ${storeCurrency}${priceValue}`);
         } else if (value === "pt") {
             setRows([
                 { id: 1, value: "Grave um vídeo de até 30 segundos" },
@@ -346,6 +355,7 @@ const Settings = () => {
                     value: "Descrever os principais benefícios da " + storeName,
                 },
             ]);
+            setTitle(`Envie-nos um vídeo para receber um cartão presente de ${storeCurrency}${priceValue}`);
         } else if (value === "it") {
             setRows([
                 { id: 1, value: "Registra un video fino a 30 secondi" },
@@ -363,6 +373,7 @@ const Settings = () => {
                     value: "Descrivi i principali vantaggi di " + storeName,
                 },
             ]);
+            setTitle(`Invia un video per ottenere una carta regalo da ${storeCurrency}${priceValue}`);
         } else if (value === "de") {
             setRows([
                 {
@@ -383,6 +394,7 @@ const Settings = () => {
                     value: "Beschreiben Sie die Hauptvorteile von " + storeName,
                 },
             ]);
+            setTitle(`Senden Sie uns ein Video, um eine Geschenkkarte im Wert von ${storeCurrency}${priceValue} zu erhalten`);
         }
         // save Locale into DB
         // fetch("/saveLocale", {
@@ -465,7 +477,7 @@ const Settings = () => {
             })
             .then((data) => {
                 if (data.success) {
-                    alert("Email Sent Sucessfully");
+                    setActiveRejectionModel(true);
                 }
             })
             .catch((error) => {
@@ -1567,6 +1579,24 @@ const Settings = () => {
                                 </div>
                             </Grid.Cell>
                         </Grid>
+                        <Modal
+                open={activeRejectionModel}
+                onClose={handleChangeRejectionModel}
+                title="Test Email"
+
+                secondaryActions={[
+                    {
+                        content: "Cancel",
+                        onAction: handleChangeRejectionModel,
+                    },
+                ]}
+            >
+                <Modal.Section>
+                <Text variant="headingMd" as="h6">
+                Email Sent Sucessfully
+                        </Text>
+                </Modal.Section>
+            </Modal>
                     </Frame>
                 </Page>
             )}

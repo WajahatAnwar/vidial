@@ -64,18 +64,37 @@ function TabsExample() {
             id: "accepts-marketing-1",
             content: (
                 <div>
+                {pendingVideosCount >= 10 ?
+                <div>
                     Videos To Review
                     <sup
                         style={{
                             color:"white",
                             background: "#D82C0D",
-                            padding: "3px 5px",
+                            padding: "3px 4px",
                             borderRadius: "50%",
                             marginLeft: "5px",
                         }}
                     >
-                        {pendingVideosCount >= 10 ?  pendingVideosCount: pendingVideosCount}
+                         pendingVideosCount
                     </sup>
+                    </div>
+                    : <div>
+                    Videos To Review
+                    <sup
+                        style={{
+                            color:"white",
+                            background: "#D82C0D",
+                            padding: "2px 7px",
+                            borderRadius: "50%",
+                            marginLeft: "5px",
+                        }}
+                    >
+                         {pendingVideosCount}
+                    </sup>
+                    </div>}
+
+
                 </div>
             ),
         },
