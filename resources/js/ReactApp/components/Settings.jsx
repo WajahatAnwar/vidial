@@ -83,6 +83,28 @@ const Settings = () => {
             .then((data) => {
                 if (data.success) {
                     setPreviewVedio("")
+                    setPreviewVedioHide(false);
+                    setIsSettingSave(new Date().getSeconds());
+                } else {
+                }
+            })
+            .catch((error) => {
+                 console.log(error);
+            });
+    }
+    // remove inpirational video
+
+    const removeLogo = ()=>{
+        var formData = {};
+        fetch("/removeLogo", {
+            method: "post",
+
+            body: formData,
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.success) {
+                    //setPreviewVedio("")
                     setIsSettingSave(new Date().getSeconds());
                 } else {
                 }

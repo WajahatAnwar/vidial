@@ -125,7 +125,7 @@ class SettingsController extends Controller
             $image = time().'.'.$request->file('logo')->extension();
             $request->file('logo')->move(public_path('logo'), $image);
         }else{
-            $image=$request->logo;
+            $image=$request->logo ?? 'undefined';
         }
         if($request->file('video')){
             $video = time().'.'.$request->file('video')->extension();
@@ -224,6 +224,23 @@ class SettingsController extends Controller
             return response()->json([
                 'success' => true,
                 'message' => "video Removed successfully",
+            ]);
+        }else
+        {
+            return response()->json([
+                'success' => false,
+                'message' => "something went wrong",
+            ]);
+        }
+    }
+    public function removeLogo(){
+        $settings = Setting::where('user_id',Auth::user()->id)->first();
+        if($settings){
+            $settings->logo = 'undefined';
+            $settings->save();
+            return response()->json([
+                'success' => true,
+                'message' => "Logo Removed successfully",
             ]);
         }else
         {
