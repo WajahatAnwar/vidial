@@ -26,6 +26,7 @@ const MysteryDiscountApp = () => {
                 <Route path="/plans" element={<Plans />} />
                 <Route path="*" element={<Loading login={false} />} />
             </Routes>
+
         </AppProvider>
     );
 };
