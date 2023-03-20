@@ -182,6 +182,7 @@ const Settings = () => {
     const [previewVedio, setPreviewVedio] = useState("");
     const [previewVedioHide, setPreviewVedioHide] = useState(false);
     const [email, setEmail] = useState("");
+    const [storeName,setstoreName] = useState("");
     // alert(logoImage);
     const logoHandler = (e) => {
         setImagename(e.target.files[0].name);
@@ -227,6 +228,7 @@ const Settings = () => {
                     setStoreCurrency(data.data.store_currency);
                     setTitle(data.data.instruction_title);
                     setEmail(data.data.email);
+                    setstoreName(data.data.store_name)
                     setRows(
                         data.data.instructions
                             ? data.data.instructions
@@ -242,11 +244,11 @@ const Settings = () => {
                                   { id: 3, value: "Showcase the product" },
                                   {
                                       id: 4,
-                                      value: "Tell why you've decided to try "+data.data.store,
+                                      value: "Tell why you've decided to try "+data.data.store_name,
                                   },
                                   {
                                       id: 5,
-                                      value: "Describe the main benefits of "+data.data.store,
+                                      value: "Describe the main benefits of "+data.data.store_name,
                                   },
                               ]
                     );
@@ -283,11 +285,11 @@ const Settings = () => {
                 { id: 3, value: "Showcase the product" },
                 {
                     id: 4,
-                    value: "Tell why you've decided to try " + store,
+                    value: "Tell why you've decided to try " + storeName,
                 },
                 {
                     id: 5,
-                    value: "Describe the main benefits of " + store,
+                    value: "Describe the main benefits of " + storeName,
                 },
             ]);
         } else if (value === "fr") {
@@ -303,11 +305,11 @@ const Settings = () => {
                 { id: 3, value: "Présenter le produit" },
                 {
                     id: 4,
-                    value: "Dites pourquoi vous avez décidé d'essayer " + store,
+                    value: "Dites pourquoi vous avez décidé d'essayer " + storeName,
                 },
                 {
                     id: 5,
-                    value: "Décrire les principaux avantages de " + store,
+                    value: "Décrire les principaux avantages de " + storeName,
                 },
             ]);
         } else if (value === "es") {
@@ -320,11 +322,11 @@ const Settings = () => {
                 { id: 3, value: "Mostrar el producto" },
                 {
                     id: 4,
-                    value: "Di por qué has decidido probar " + store,
+                    value: "Di por qué has decidido probar " + storeName,
                 },
                 {
                     id: 5,
-                    value: "Describir los principales beneficios de " + store,
+                    value: "Describir los principales beneficios de " + storeName,
                 },
             ]);
         } else if (value === "pt") {
@@ -337,11 +339,11 @@ const Settings = () => {
                 { id: 3, value: "Mostre o produto" },
                 {
                     id: 4,
-                    value: "Diga por que você decidiu experimentar a " + store,
+                    value: "Diga por que você decidiu experimentar a " + storeName,
                 },
                 {
                     id: 5,
-                    value: "Descrever os principais benefícios da " + store,
+                    value: "Descrever os principais benefícios da " + storeName,
                 },
             ]);
         } else if (value === "it") {
@@ -354,11 +356,11 @@ const Settings = () => {
                 { id: 3, value: "Mostra il prodotto" },
                 {
                     id: 4,
-                    value: "Spiega perché hai deciso di provare " + store,
+                    value: "Spiega perché hai deciso di provare " + storeName,
                 },
                 {
                     id: 5,
-                    value: "Descrivi i principali vantaggi di " + store,
+                    value: "Descrivi i principali vantaggi di " + storeName,
                 },
             ]);
         } else if (value === "de") {
@@ -378,7 +380,7 @@ const Settings = () => {
                 },
                 {
                     id: 5,
-                    value: "Beschreiben Sie die Hauptvorteile von " + store,
+                    value: "Beschreiben Sie die Hauptvorteile von " + storeName,
                 },
             ]);
         }

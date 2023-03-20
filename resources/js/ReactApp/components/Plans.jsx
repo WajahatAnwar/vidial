@@ -16,7 +16,7 @@ import {
 import { useEffect, useState, useCallback } from "react";
 import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import Person from "./imges/connard 1.png";
+import Person from "./imges/plan_logo.png";
 import { get } from "lodash";
 
 function Plans() {

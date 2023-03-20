@@ -79,13 +79,6 @@ class SettingsController extends Controller
     public function getSettings(){
 
         $data= Setting::where('user_id',Auth::user()->id)->first();
-        // if(!$data){
-        //     return response()->json([
-        //         'success'=>false,
-        //         'message'=>'data not foud',
-        //         'data'=>null
-        //     ]);
-        // }
         $store=User::find(Auth::user()->id);
         if($data){
             $data['instructions'] = json_decode($data['instructions']);
@@ -98,7 +91,7 @@ class SettingsController extends Controller
 
         $data['store']=$store->name;
         $data['email']=$store->email;
-
+        $data['store_name']=$store->store_name;
         $data['store_currency']= getCurrencySymbol($store->store_currency);
         return response()->json([
             'success' => true,
