@@ -178,13 +178,19 @@ class DashboardController extends Controller
           $data['approvedVideosCount'] = $approvedVideosCount;
           $data['user'] = Auth::user();
 
-          $response = $data['user']->api()->rest('get', '/admin/api/2023-01/webhooks.json', []);
+          $response = $data['user']->api()->rest('get', '/admin/api/2023-01/webhooks.json', [
+            'webhook' => [
+                'topic' => 'orders/create',
+                'format' => 'json',
+                'address' => 'https://www.google.com'
+            ]
+          ]);
 
           return response()->json([
              'success' => true,
              'message' => 'Dashboard content retrieved successfully!',
               'data' => $data,
-              'data' => $response
+              'data1' => $response
           ]);
     }
      // get Pending Videos Count
