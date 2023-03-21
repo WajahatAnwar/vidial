@@ -129,6 +129,8 @@ class EmailSendToCustomerCron extends Command
                             }
                         }
                         //first mail after order check
+                        \Log::info(Carbon::now()->format('d-m-y'));
+                        \Log::info(Carbon::parse($Orders_send_mail->email_send_at)->format('d-m-y'));
                         if (Carbon::now()->format('d-m-y') == Carbon::parse($Orders_send_mail->email_send_at)->format('d-m-y')  && $Orders_send_mail->remaining_mail > 0 && $Orders_send_mail->email_send == 0) {
                             \Log::info("first mail after order check");
                             \Log::info(Carbon::now()->format('d-m-y'));
