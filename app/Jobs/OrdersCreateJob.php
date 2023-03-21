@@ -80,25 +80,25 @@ class OrdersCreateJob implements ShouldQueue
         $customer_details = $payload->customer;
           // $orders = $shop->api()->rest('GET', '/admin/orders.json');
           // foreach ($orders['body']['orders'] as $order_item) {
-               Orders::updateOrCreate( 
-                  [
-                    'order_id' => $order_id
-                  ],
-                  [
-                    'user_id' =>  $shop->id,
-                    'order_id' => $order_id,
-                    'email' =>  $payload->email ?? $payload->contact_email ,
-                    'contect_email' =>  $payload->contact_email,
-                    'phone_no' => $customer_details->phone,
-                    'confirmed' =>  "" ,
-                    'order_created_at' => $payload->created_at ,
-                    'remaining_mail' => $shop_settings->page_link,
-                    'email_send_at' => Carbon::parse($payload->created_at)->addDays($shop->settings->page_display_to_customers) ,
-                    'reminder_mail' => Carbon::parse($payload->created_at)->addWeek($shop->settings->email_sent_to_customer),
-                    'email_status' => $shop_settings->email_status ,
-                  ]);
+        Orders::updateOrCreate( 
+        [
+          'order_id' => $order_id
+        ],
+        [
+          'user_id' =>  $shop->id,
+          'order_id' => $order_id,
+          'email' =>  $payload->email ?? $payload->contact_email ,
+          'contect_email' =>  $payload->contact_email,
+          'phone_no' => $customer_details->phone,
+          'confirmed' =>  "" ,
+          'order_created_at' => $payload->created_at ,
+          'remaining_mail' => $shop_settings->page_link,
+          'email_send_at' => Carbon::parse($payload->created_at)->addDays($shop->settings->page_display_to_customers) ,
+          'reminder_mail' => Carbon::parse($payload->created_at)->addWeek($shop->settings->email_sent_to_customer),
+          'email_status' => $shop_settings->email_status ,
+        ]);
           // }
-         return 'orders fatched';
+         return true;
 
     }
 }
