@@ -78,7 +78,7 @@ class CampaignController extends Controller
         $products = Product::where('user_id', $shop->id)->get();
         $collections = Collection::where('user_id', $shop->id)->get();
 
-        $response = $shop->api()->rest('get', '/admin/api/2023-01/webhooks.json', []);
+        $response = $shop->api()->rest('get', '/admin/api/2022-07/webhooks.json', []);
 
         return response()->json([
             'success' => true,
