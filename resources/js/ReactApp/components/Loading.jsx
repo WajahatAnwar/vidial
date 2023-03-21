@@ -1,8 +1,9 @@
 import { useEffect } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Navigate, useNavigate,useLocation } from "react-router-dom";
 import { Frame, Loading as ShopLoading } from '@shopify/polaris';
 import React from "react";
 const Loading = ({ login }) => {
+    const { search } = useLocation();
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -19,7 +20,7 @@ const Loading = ({ login }) => {
             .then((data) => {
                 if (data.success) {
                     if(data.data.user.is_install){
-                        navigate("/dashboard");
+                        navigate(`/dashboard${search}`);
                     }else{
                         navigate("/settings");
                     }

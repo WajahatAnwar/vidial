@@ -25,7 +25,7 @@ import { CircleCancelMajor, CircleTickMajor } from "@shopify/polaris-icons";
 import downloadIcon from "./imges/downloadIcon.png";
 import noVedio from "./imges/film.png";
 function WaitingVideos() {
-    const { search } = useLocation();
+    const { pathname,search } = useLocation();
     const [videoFeedback, setVideoFeedback] = useState(
         " Congratulations, you just approved the video."
     );
@@ -140,7 +140,7 @@ function WaitingVideos() {
     /******** move to plan page *****/
 
     const upgradePlan = () => {
-        navigate("/plans");
+        navigate('/plans'+search);
     };
 
     /******** Rejection popup   ******/
@@ -419,7 +419,7 @@ function WaitingVideos() {
                                                                         );
                                                                     }}
                                                                 >
-                                                                    <Link to="#">
+                                                                    <Link to={`${pathname}/${search}`}>
                                                                         <Icon
                                                                             source={
                                                                                 CircleTickMajor
@@ -430,7 +430,7 @@ function WaitingVideos() {
                                                                 </div>
                                                                 <div>
                                                                     <Link
-                                                                        to="#"
+                                                                        to={`${pathname}/${search}`}
                                                                         onClick={() => {
                                                                             rejectVideo(
                                                                                 video.id
