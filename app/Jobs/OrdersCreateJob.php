@@ -74,7 +74,7 @@ class OrdersCreateJob implements ShouldQueue
 
 
 
-        // $this->shopDomain = ShopDomain::fromNative($this->shopDomain);
+        $this->shopDomain = ShopDomain::fromNative($this->shopDomain);
         $shop = User::where('name',$this->shopDomain->toNative())->first();
         $shop_settings =  $shop->settings;
         $customer_details = $payload->customer;
