@@ -33,7 +33,7 @@ class OrdersController extends Controller
                 'phone_no' => $order_item['phone'],
                 'confirmed' =>  "" ,
                 'order_created_at' => $order_item['created_at'] ,
-                'remaining_mail' => $shop_settings->page_link,
+                'remaining_mail' => $shop_settings->page_display_to_customers,
                 'email_send_at' => Carbon::parse($order_item['created_at'])->addDays($shop->settings->page_link) ,
                 'reminder_mail' => Carbon::parse($order_item['created_at'])->addWeek($shop->settings->email_sent_to_customer),
                 'email_status' => $shop_settings->email_status ,
