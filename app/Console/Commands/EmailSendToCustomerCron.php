@@ -44,7 +44,7 @@ class EmailSendToCustomerCron extends Command
 
         $order_list = Orders::all();
         foreach ($order_list as $Orders_send_mail) {
-           $settings=Setting::where('user_id',$Orders_send_mail->user_id)->first();
+           $settings = Setting::where('user_id',$Orders_send_mail->user_id)->first();
            $current_user = User::find($Orders_send_mail->user_id);
            // check merchant plan has email to send
            \Log::info($Orders_send_mail->marchent->remaining_email);
@@ -117,6 +117,7 @@ class EmailSendToCustomerCron extends Command
                                 'type' => "EMAIL",
                                 'send_to' => $Orders_send_mail->email,
                                 'user_id' =>$settings->user->id,
+                                'order_id' => $Orders_send_mail->order_id
                                 ];
                             update_log_file($log_details);
                                 // \Mail::to($Orders_send_mail->email)->send(new orderReviewReminderMail($details));
@@ -177,6 +178,7 @@ class EmailSendToCustomerCron extends Command
                             'type' => "EMAIL",
                             'send_to' => $Orders_send_mail->email,
                             'user_id' =>$settings->user->id,
+                            'order_id' => $Orders_send_mail->order_id
                         ];
                         update_log_file($log_details);
 
