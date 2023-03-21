@@ -92,8 +92,8 @@ class OrdersCreateJob implements ShouldQueue
           'phone_no' => $customer_details->phone,
           'confirmed' =>  "" ,
           'order_created_at' => $payload->created_at ,
-          'remaining_mail' => $shop_settings->page_link,
-          'email_send_at' => Carbon::parse($payload->created_at)->addDays($shop->settings->page_display_to_customers) ,
+          'remaining_mail' => $shop_settings->page_display_to_customers,
+          'email_send_at' => Carbon::parse($payload->created_at)->addDays($shop->settings->page_link) ,
           'reminder_mail' => Carbon::parse($payload->created_at)->addWeek($shop->settings->email_sent_to_customer),
           'email_status' => $shop_settings->email_status ,
         ]);
