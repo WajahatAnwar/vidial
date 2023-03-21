@@ -51,31 +51,31 @@ class EmailSendToCustomerCron extends Command
             if ($Orders_send_mail->marchent->remaining_email > 0) {
                 \Log::info("true 1");
                 //check if setting Activated
+                $email_parts = explode('@', $Orders_send_mail->email);
+                $name = $email_parts[0];
+                App::setLocale($settings->locale);
+                $details = [
+                    'id' => $Orders_send_mail->id,
+                    'order_id' =>Crypt::encryptString($Orders_send_mail->id),
+                    'name' => $name,
+                    'user_id'=>$settings->user_id,
+                    'instruction_title'=>$settings->instruction_title,
+                    'instructions'=>$settings->instructions,
+                    'store'=>$settings->user->name,
+                    'locale'=>$settings->locale,
+                    'video'=>$settings->video,
+                    'store_credit'=>$settings->store_credit,
+                    'page_color'=>$settings->page_color,
+                    'discount_amount' => $settings->store_credit,
+                    'store_name' => $current_user->email,
+                    'store_currency'=>$current_user->store_currency,
+                    'url' => env('APP_URL')."/landingPage"."/". $settings->locale ."?store=".$settings->user->name."&order_id=".$Orders_send_mail->id
+                ];
                 if ($Orders_send_mail->email_status == 1) {
                     \Log::info("if already replied ignore");
                     //if already replied ignore
                     if ($Orders_send_mail->replied == 0) {
                         // reminder mail check
-                        $email_parts = explode('@', $Orders_send_mail->email);
-                        $name = $email_parts[0];
-                        App::setLocale($settings->locale);
-                        $details = [
-                            'id' => $Orders_send_mail->id,
-                            'order_id' =>Crypt::encryptString($Orders_send_mail->id),
-                            'name' => $name,
-                            'user_id'=>$settings->user_id,
-                            'instruction_title'=>$settings->instruction_title,
-                            'instructions'=>$settings->instructions,
-                            'store'=>$settings->user->name,
-                            'locale'=>$settings->locale,
-                            'video'=>$settings->video,
-                            'store_credit'=>$settings->store_credit,
-                            'page_color'=>$settings->page_color,
-                            'discount_amount' => $settings->store_credit,
-                            'store_name' => $current_user->email,
-                            'store_currency'=>$current_user->store_currency,
-                            'url' => env('APP_URL')."/landingPage"."/". $settings->locale ."?store=".$settings->user->name."&order_id=".$Orders_send_mail->id
-                        ];
                         if ($Orders_send_mail->email_send == 1 && $Orders_send_mail->replied == 0 && $Orders_send_mail->remaining_mail > 0) {
 
                             if (Carbon::now()->format('d-m-y') == Carbon::parse($Orders_send_mail->reminder_mail)->format('d-m-y')) {
