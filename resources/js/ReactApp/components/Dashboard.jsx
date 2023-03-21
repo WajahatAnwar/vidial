@@ -15,7 +15,7 @@ import {
 } from "@shopify/polaris";
 import { useEffect, useState, useCallback } from "react";
 import React from "react";
-import { useNavigate, useParams, Link } from "react-router-dom";
+import { useNavigate, useParams, Link, useLocation } from "react-router-dom";
 import EmailLogo from "./imges/emailLogo.png";
 import WaitingLogo from "./imges/WaitingLogo.png";
 import ApprovedLogo from "./imges/ApprovedLogo.png";
@@ -31,6 +31,8 @@ import noVedio from "./imges/film.png";
 import { downloadVideo } from "./utils";
 
 function Dashboard() {
+    // const cLocation = useLocation();
+    const { pathname ,search } = useLocation();
     const [activeRejectionModel, setActiveRejectionModel] = useState(false);
     const handleChangeRejectionModel = useCallback(
         () => setActiveRejectionModel(!activeRejectionModel),
@@ -147,7 +149,7 @@ function Dashboard() {
     /******** move to plan page *****/
 
     const upgradePlan = () => {
-        navigate("/plans");
+     navigate('/plans'+search);
     };
     /******** Rejection popup   ******/
 
@@ -184,7 +186,7 @@ function Dashboard() {
 
                         setrejectVideoFeedbackTitlePopup("Warning");
                         setrejectVideoBodyText(data.message);
-                        console.log("here ia mmm");
+
                     }
                 })
                 .catch((error) => {
@@ -217,7 +219,6 @@ function Dashboard() {
         setisClicked(true);
         var formData = new FormData();
         formData.append("video_id", approvedUserVideoId);
-
         if (approvedUserVideoId) {
             setVideoFeedback("Congratulations, you just approved the video.");
             setVideoFeedbackPopupTitle("Confirmation for Approving Video");
@@ -262,7 +263,7 @@ function Dashboard() {
 
     /********  get Settings Data  ******/
     useEffect(() => {
-        fetch("/getDashboardContent")
+        fetch("/getDashboardContent" + search)
             .then((response) => {
                 if (!response.ok) {
                     throw new Error("Something went wrong");
@@ -491,7 +492,7 @@ function Dashboard() {
                                                                         );
                                                                     }}
                                                                 >
-                                                                    <Link to="#">
+                                                                    <Link to={`${pathname}/${search}`}>
                                                                         <Icon
                                                                             source={
                                                                                 CircleTickMajor
@@ -502,7 +503,7 @@ function Dashboard() {
                                                                 </div>
                                                                 <div>
                                                                     <Link
-                                                                        to="#"
+                                                                        to={`${pathname}/${search}`}
                                                                         onClick={() => {
                                                                             rejectVideo(
                                                                                 video.id

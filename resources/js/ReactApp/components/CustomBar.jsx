@@ -43,7 +43,7 @@ function TabsExample() {
         setSelected(selectedTabIndex);
 
         if (selectedTabIndex == 0) {
-            navigate("/dashboard");
+            navigate(`/dashboard${search}`);
         } else if (selectedTabIndex == 1) {
             navigate(`/videos-to-review${search}`);
         } else if (selectedTabIndex == 2) {
