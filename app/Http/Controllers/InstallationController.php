@@ -18,7 +18,7 @@ class InstallationController extends Controller
         // }
         $shop = Auth::user();
 
-        $shopData = $shop->api()->rest('get', '/admin/api/2023-01/shop.json');
+        $shopData = $shop->api()->rest('get', '/admin/api/2022-07/shop.json');
         $shop->store_currency=$shopData['body']['shop']['currency'];
         $shop->email=$shopData['body']['shop']['email'];
         $shop->store_name=$shopData['body']['shop']['name'];

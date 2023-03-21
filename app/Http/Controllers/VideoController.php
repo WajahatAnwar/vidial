@@ -417,7 +417,7 @@ dd($current_user_approved_video_count);
             "code"=>$this->generateUniqueDiscountCode(),
         ]
     ];
-        $discount = $shop->api()->rest('POST', '/admin/api/2023-01/price_rules/'.$priceRule['body']['price_rule']['id'].'/discount_codes.json',$discountCode);
+        $discount = $shop->api()->rest('POST', '/admin/api/2022-07/price_rules/'.$priceRule['body']['price_rule']['id'].'/discount_codes.json',$discountCode);
     }
     dd($discount['discount_code']['id']);
 
@@ -609,7 +609,7 @@ return response()->json([
      $view=view('mailtemplate.ordereviewreminder',compact('settings','user'));
      dd($view->render());
     $shop = Auth::user();
-    $shopData = $shop->api()->rest('get', '/admin/api/2023-01/shop.json');
+    $shopData = $shop->api()->rest('get', '/admin/api/2022-07/shop.json');
     dd($shopData['body']['shop']['currency']);
   }
 
@@ -641,7 +641,7 @@ return response()->json([
             "code"=>$this->generateUniqueDiscountCode(),
         ]
     ];
-        $discount = $shop->api()->rest('POST', '/admin/api/2023-01/price_rules/'.$priceRule['body']['price_rule']['id'].'/discount_codes.json',$discountCode);
+        $discount = $shop->api()->rest('POST', '/admin/api/2022-07/price_rules/'.$priceRule['body']['price_rule']['id'].'/discount_codes.json',$discountCode);
     }
 
     return $discount['body']['discount_code'];
