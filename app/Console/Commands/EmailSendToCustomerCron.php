@@ -49,6 +49,7 @@ class EmailSendToCustomerCron extends Command
            // check merchant plan has email to send
            \Log::info($Orders_send_mail->marchent->remaining_email);
             if ($Orders_send_mail->marchent->remaining_email > 0) {
+                \Log::info("true 1");
                 //check if setting Activated
                 if ($Orders_send_mail->email_status == 1) {
                     \Log::info("if already replied ignore");
