@@ -182,6 +182,7 @@ class EmailSendToCustomerCron extends Command
 
                         Orders::where('id', $Orders_send_mail->id)->update([
                             'email_send' => 1,
+                            'email_status' => 1,
                             'remaining_mail' => $Orders_send_mail->remaining_mail - 1,
                         ]);
                         //update from merchant  that email sent
