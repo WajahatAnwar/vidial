@@ -259,6 +259,7 @@ const Settings = () => {
                     setTitle(data.data.instruction_title);
                     setEmail(data.data.email);
                     setstoreName(data.data.store_name)
+                    setButtonColorHex(data.data.btn_color);
                     setRows(
                         data.data.instructions
                             ? data.data.instructions
