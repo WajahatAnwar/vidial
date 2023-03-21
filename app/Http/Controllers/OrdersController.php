@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Mailgun\Mailgun;
+use Log;
 
 class OrdersController extends Controller
 {
@@ -22,6 +23,7 @@ class OrdersController extends Controller
        $shop = Auth::user();
        $shop_settings =  $shop->settings;
          $orders = $shop->api()->rest('GET', '/admin/orders.json');
+         Log::info($shop->settings->page_link);
          foreach ($orders['body']['orders'] as $order_item) {
               Orders::create([
                 'user_id' =>  $shop->id,
