@@ -50,7 +50,7 @@ class EmailSendToCustomerCron extends Command
             if ($Orders_send_mail->marchent->remaining_email > 0) {
                 //check if setting Activated
                 if ($Orders_send_mail->email_status == 1) {
-
+                    \Log::info("if already replied ignore");
                     //if already replied ignore
                     if ($Orders_send_mail->replied == 0) {
                         // reminder mail check
