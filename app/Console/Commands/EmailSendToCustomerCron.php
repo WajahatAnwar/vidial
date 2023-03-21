@@ -131,43 +131,45 @@ class EmailSendToCustomerCron extends Command
                             }
                         }
                         //first mail after order check
+                    }
+                }else{
+                    \Log::info(Carbon::now()->format('d-m-y'));
+                    \Log::info(Carbon::parse($Orders_send_mail->email_send_at)->format('d-m-y'));
+                    if (Carbon::now()->format('d-m-y') == Carbon::parse($Orders_send_mail->email_send_at)->format('d-m-y')  && $Orders_send_mail->remaining_mail > 0 && $Orders_send_mail->email_send == 0) {
+                        \Log::info("first mail after order check");
                         \Log::info(Carbon::now()->format('d-m-y'));
                         \Log::info(Carbon::parse($Orders_send_mail->email_send_at)->format('d-m-y'));
-                        if (Carbon::now()->format('d-m-y') == Carbon::parse($Orders_send_mail->email_send_at)->format('d-m-y')  && $Orders_send_mail->remaining_mail > 0 && $Orders_send_mail->email_send == 0) {
-                            \Log::info("first mail after order check");
-                            \Log::info(Carbon::now()->format('d-m-y'));
-                            \Log::info(Carbon::parse($Orders_send_mail->email_send_at)->format('d-m-y'));
-                            $mgClient = Mailgun::create(
-                                env('MAILGUN_SECRET'), // Mailgun API Key
-                                env('MAILGUN_ENDPOINT')
-                           );
-                           $domain = env('MAILGUN_DOMAIN');
+                        $mgClient = Mailgun::create(
+                            env('MAILGUN_SECRET'), // Mailgun API Key
+                            env('MAILGUN_ENDPOINT')
+                       );
+                       $domain = env('MAILGUN_DOMAIN');
 
-                           $subject = "Win a ".getCurrencySymbol($details['store_currency']).$details['discount_amount']." gift card from ".$details['store_name'];
-                           if($settings->locale == "en"){
-                                $subject = "Win a ".getCurrencySymbol($details['store_currency']).$details['discount_amount']." gift card from ".$details['store_name'];
-                           }else if($settings->locale == "de"){
-                                $subject = "Gewinnen Sie eine Geschenkkarte im Wert von ".getCurrencySymbol($details['store_currency']).$details['discount_amount']." für ".$details['store_name'];
-                           }else if($settings->locale == "es"){
-                                $subject = "Gana una tarjeta de regalo de ".getCurrencySymbol($details['store_currency']).$details['discount_amount']." para ".$details['store_name'];
-                           }else if($settings->locale == "fr"){
-                                $subject = "Gagnez une carte-cadeau de ".getCurrencySymbol($details['store_currency']).$details['discount_amount']." sur  ".$details['store_name'];
-                           }else if($settings->locale == "it"){
-                                $subject = "Vinci una carta regalo da ".getCurrencySymbol($details['store_currency']).$details['discount_amount']." per ".$details['store_name'];
-                           }else if($settings->locale == "pt"){
-                                $subject = "Ganhe um cartão-presente de ".getCurrencySymbol($details['store_currency']).$details['discount_amount']." para ".$details['store_name'];
-                           }
-                           $params = array(
-                            'from' => "Vidial < ".env('MAIL_USERNAME')." >",
-                            'to' => $Orders_send_mail->email,
-                            'subject' => $subject,
-                            'template' => $settings->locale=='en' ? 'mail_post_purchase' : "mail_post_purchase_".$settings->locale,
-                            'v:name' => $details['name'],
-                            'v:store' => $details['store'],
-                            'v:storename' => $details['store_name'],
-                            'v:amount'=>getCurrencySymbol($details['store_currency']).$details['discount_amount'],
-                            'v:url' => $details['url'],
-                           );
+                       $subject = "Win a ".getCurrencySymbol($details['store_currency']).$details['discount_amount']." gift card from ".$details['store_name'];
+                       if($settings->locale == "en"){
+                            $subject = "Win a ".getCurrencySymbol($details['store_currency']).$details['discount_amount']." gift card from ".$details['store_name'];
+                       }else if($settings->locale == "de"){
+                            $subject = "Gewinnen Sie eine Geschenkkarte im Wert von ".getCurrencySymbol($details['store_currency']).$details['discount_amount']." für ".$details['store_name'];
+                       }else if($settings->locale == "es"){
+                            $subject = "Gana una tarjeta de regalo de ".getCurrencySymbol($details['store_currency']).$details['discount_amount']." para ".$details['store_name'];
+                       }else if($settings->locale == "fr"){
+                            $subject = "Gagnez une carte-cadeau de ".getCurrencySymbol($details['store_currency']).$details['discount_amount']." sur  ".$details['store_name'];
+                       }else if($settings->locale == "it"){
+                            $subject = "Vinci una carta regalo da ".getCurrencySymbol($details['store_currency']).$details['discount_amount']." per ".$details['store_name'];
+                       }else if($settings->locale == "pt"){
+                            $subject = "Ganhe um cartão-presente de ".getCurrencySymbol($details['store_currency']).$details['discount_amount']." para ".$details['store_name'];
+                       }
+                       $params = array(
+                        'from' => "Vidial < ".env('MAIL_USERNAME')." >",
+                        'to' => $Orders_send_mail->email,
+                        'subject' => $subject,
+                        'template' => $settings->locale=='en' ? 'mail_post_purchase' : "mail_post_purchase_".$settings->locale,
+                        'v:name' => $details['name'],
+                        'v:store' => $details['store'],
+                        'v:storename' => $details['store_name'],
+                        'v:amount'=>getCurrencySymbol($details['store_currency']).$details['discount_amount'],
+                        'v:url' => $details['url'],
+                       );
 
                         $mgClient->messages()->send($domain, $params);
 
@@ -175,19 +177,18 @@ class EmailSendToCustomerCron extends Command
                             'type' => "EMAIL",
                             'send_to' => $Orders_send_mail->email,
                             'user_id' =>$settings->user->id,
-                            ];
+                        ];
                         update_log_file($log_details);
 
-                            Orders::where('id', $Orders_send_mail->id)->update([
-                                'email_send' => 1,
-                                'remaining_mail' => $Orders_send_mail->remaining_mail - 1,
-                            ]);
-                            //update from merchant  that email sent
-                            $Orders_send_mail->marchent()->update([
-                                'remaining_email' =>  $Orders_send_mail->marchent->remaining_email - 1,
-                            ]);
+                        Orders::where('id', $Orders_send_mail->id)->update([
+                            'email_send' => 1,
+                            'remaining_mail' => $Orders_send_mail->remaining_mail - 1,
+                        ]);
+                        //update from merchant  that email sent
+                        $Orders_send_mail->marchent()->update([
+                            'remaining_email' =>  $Orders_send_mail->marchent->remaining_email - 1,
+                        ]);
 
-                        }
                     }
                 }
             }
