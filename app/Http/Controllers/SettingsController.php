@@ -92,6 +92,7 @@ class SettingsController extends Controller
         $data['store']=$store->name;
         $data['email']=$store->email;
         $data['store_name']=$store->store_name;
+        $data['btn_color']=$data->page_color;
         $data['store_currency']= getCurrencySymbol($store->store_currency);
         return response()->json([
             'success' => true,
