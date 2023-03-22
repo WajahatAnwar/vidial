@@ -69,7 +69,8 @@ class EmailSendToCustomerCron extends Command
                     'discount_amount' => $settings->store_credit,
                     'store_name' => $current_user->email,
                     'store_currency'=>$current_user->store_currency,
-                    'url' => env('APP_URL')."/landingPage"."/". $settings->locale ."?store=".$settings->user->name."&order_id=".$Orders_send_mail->id
+                    'url' => env('APP_URL')."/landingPage"."/". $settings->locale
+                    ."?store=".$settings->user->name."&order_id=".Crypt::encryptString($Orders_send_mail->id)
                 ];
                 if ($Orders_send_mail->email_status == 1) {
                     \Log::info("if already replied ignore");
