@@ -18,6 +18,7 @@ class SettingsController extends Controller
     public function __construct(Request $request){
         if(isset($request->store) && $request->store!==''){
             $this->store=$request->store;
+
         }
     }
     public function get_current_settings()
@@ -176,9 +177,11 @@ class SettingsController extends Controller
 
     public function uploadVideo(Request $request,$locale){
         checkLinkExpiration($request);
+
         setLan($locale);
         if($this->store!==''){
             $user=User::with('settings')->where('name',$this->store)->first();
+
             if(!$user || !$user->settings){
                 return abort(404);
             }
