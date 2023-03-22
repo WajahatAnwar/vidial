@@ -62,20 +62,20 @@
 
         if (video_link === '' || video_link === null) {
             $('#error-video').removeClass('d-none');
-            if($("#lang").val() == "en"){
+            if ($("#lang").val() == "en") {
                 $('#error-video-text').text('File type is not allowed');
-            }else if($("#lang").val() == "fr"){
+            } else if ($("#lang").val() == "fr") {
                 $('#error-video-text').text("Le type de fichier n'est pas autorisé");
-            }else if($("#lang").val() == "de"){
+            } else if ($("#lang").val() == "de") {
                 $('#error-video-text').text('Dateityp ist nicht erlaubt');
-            }else if($("#lang").val() == "es"){
+            } else if ($("#lang").val() == "es") {
                 $('#error-video-text').text('El tipo de archivo no está permitido');
-            }else if($("#lang").val() == "pt"){
+            } else if ($("#lang").val() == "pt") {
                 $('#error-video-text').text('O tipo de arquivo não é permitido');
-            }else if($("#lang").val() == "it"){
+            } else if ($("#lang").val() == "it") {
                 $('#error-video-text').text('Il tipo di file non è consentito');
             }
-            
+
             return false;
         } else if (video_path === '' || video_path === null) {
             alert('some params missing');
@@ -83,17 +83,17 @@
 
         } else if (email === '' || email === null) {
             $('#error-email').removeClass('d-none');
-            if($("#lang").val() == "en"){
+            if ($("#lang").val() == "en") {
                 $('#error-email-text').text('Your email is invalid');
-            }else if($("#lang").val() == "fr"){
+            } else if ($("#lang").val() == "fr") {
                 $('#error-email-text').text('Votre email est invalide');
-            }else if($("#lang").val() == "de"){
+            } else if ($("#lang").val() == "de") {
                 $('#error-email-text').text('Deine E-Mail-Adresse ist ungültig');
-            }else if($("#lang").val() == "es"){
+            } else if ($("#lang").val() == "es") {
                 $('#error-email-text').text('Tu correo electrónico es inválido');
-            }else if($("#lang").val() == "pt"){
+            } else if ($("#lang").val() == "pt") {
                 $('#error-email-text').text('Seu email é inválido');
-            }else if($("#lang").val() == "it"){
+            } else if ($("#lang").val() == "it") {
                 $('#error-email-text').text('La tua email non è valida');
             }
             return false;
@@ -114,27 +114,27 @@
             "order_id": order_id,
             "video_path": video_path
         }
-        if(email){
+        if (email) {
             var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
-           if(emailReg.test( email )){
+            if (emailReg.test(email)) {
 
-           }else{
-            $('#error-email').removeClass('d-none');
-            if($("#lang").val() == "en"){
-                $('#error-email-text').text('Your email is invalid');
-            }else if($("#lang").val() == "fr"){
-                $('#error-email-text').text('Votre email est invalide');
-            }else if($("#lang").val() == "de"){
-                $('#error-email-text').text('Deine E-Mail-Adresse ist ungültig');
-            }else if($("#lang").val() == "es"){
-                $('#error-email-text').text('Tu correo electrónico es inválido');
-            }else if($("#lang").val() == "pt"){
-                $('#error-email-text').text('Seu email é inválido');
-            }else if($("#lang").val() == "it"){
-                $('#error-email-text').text('La tua email non è valida');
+            } else {
+                $('#error-email').removeClass('d-none');
+                if ($("#lang").val() == "en") {
+                    $('#error-email-text').text('Your email is invalid');
+                } else if ($("#lang").val() == "fr") {
+                    $('#error-email-text').text('Votre email est invalide');
+                } else if ($("#lang").val() == "de") {
+                    $('#error-email-text').text('Deine E-Mail-Adresse ist ungültig');
+                } else if ($("#lang").val() == "es") {
+                    $('#error-email-text').text('Tu correo electrónico es inválido');
+                } else if ($("#lang").val() == "pt") {
+                    $('#error-email-text').text('Seu email é inválido');
+                } else if ($("#lang").val() == "it") {
+                    $('#error-email-text').text('La tua email non è valida');
+                }
+                return false;
             }
-            return false;
-           }
         }
 
         $('#saveBTN').prop('disabled', true);
@@ -169,13 +169,21 @@
     $('#redirect').click(function() {
         var store = $(this).attr('store');
         var locale = $(this).attr('locale');
+        let searchParams = new URLSearchParams(window.location.search);
+        let order_id = searchParams.get("order_id");
+        if (order_id == null) {
+            orderParam = '';
+        } else {
+            orderParam = '&order_id=' + order_id
+        }
+
         if (store == '' || locale == '') {
             alert('something went wrong');
             return false;
         }
 
         var baseUrl = "{{ url('/uploadVideo') }}"
-        baseUrl = baseUrl + '/' + locale + '?' + 'store=' + store;
+        baseUrl = baseUrl + '/' + locale + '?' + 'store=' + store + orderParam;
         window.location.href = baseUrl;
     })
     $(document).ready(function() {

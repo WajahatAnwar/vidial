@@ -528,7 +528,7 @@ return response()->json([
       $order_id=null;
       if ($request->filled('order_id')) {
         try {
-            $order_id = Crypt::decrypt($request->order_id);
+            $order_id = Crypt::decryptString($request->order_id);
             $order=Orders::find($order_id);
 
         // check order existance
