@@ -47,7 +47,7 @@ class EmailSendToCustomerCron extends Command
            $settings = Setting::where('user_id',$Orders_send_mail->user_id)->first();
            $current_user = User::find($Orders_send_mail->user_id);
            // check merchant plan has email to send
-           \Log::info($Orders_send_mail->marchent->remaining_email);
+        //    \Log::info($Orders_send_mail->marchent->remaining_email);
             if ($Orders_send_mail->marchent->remaining_email > 0) {
                 \Log::info("true 1");
                 //check if setting Activated
