@@ -80,6 +80,9 @@ class OrdersCreateJob implements ShouldQueue
         $customer_details = $payload->customer;
           // $orders = $shop->api()->rest('GET', '/admin/orders.json');
           // foreach ($orders['body']['orders'] as $order_item) {
+        if($payload->contact_email == null || $payload->contact_email == ""){
+          return;
+        }
         Orders::updateOrCreate( 
         [
           'order_id' => $order_id
