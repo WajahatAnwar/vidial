@@ -111,7 +111,7 @@ class SettingsController extends Controller
             $image_mimes='|mimes:jpg,jpeg,png';
         }
         if($request->file('video')){
-            $video_mimes='|mimes:mp4,MOV,mkv,avi,m4v';
+            $video_mimes='|mimetypes:video/quicktime,video/x-quicktime,video/mp4';
         }
         $validatedData = $request->validate([
             'store_credit' => 'required|numeric|min:1',
