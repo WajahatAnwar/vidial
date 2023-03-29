@@ -47,7 +47,7 @@ class EmailSendToCustomerCron extends Command
            $settings = Setting::where('user_id',$Orders_send_mail->user_id)->first();
            $current_user = User::find($Orders_send_mail->user_id);
            // check merchant plan has email to send
-           \Log::info(json_encode($Orders_send_mail->marchent, JSON_PRETTY_PRINT));
+        //    \Log::info(json_encode($Orders_send_mail->marchent, JSON_PRETTY_PRINT));
            if($Orders_send_mail->marchent != null){
             if ($Orders_send_mail->marchent->remaining_email > 0) {
                 \Log::info("true 1");
@@ -175,6 +175,8 @@ class EmailSendToCustomerCron extends Command
                         'v:amount'=>getCurrencySymbol($details['store_currency']).$details['discount_amount'],
                         'v:url' => $details['url'],
                        );
+
+                       \Log::info(json_encode($params, JSON_PRETTY_PRINT));
 
                         $mgClient->messages()->send($domain, $params);
 
