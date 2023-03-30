@@ -131,7 +131,7 @@ function TabsExample() {
         },
         {
             id: "Community",
-            content: "Community",
+            content: "Our Community",
         },
         {
             id: "admin",
