@@ -79,9 +79,9 @@ class EmailSendToCustomerCron extends Command
                     if ($Orders_send_mail->replied == 0) {
                         // reminder mail check
                         if ($Orders_send_mail->email_send == 1 && $Orders_send_mail->replied == 0 && $Orders_send_mail->remaining_mail > 0) {
-                            \Log::info(Carbon::now()->format('d-m-y h:i:s'));
+                            \Log::info(Carbon::now()->format('Y-m-d h:i:s'));
                             \Log::info($Orders_send_mail->reminder_mail);
-                            if (Carbon::now()->format('d-m-y h:i:s') >= Carbon::parse($Orders_send_mail->reminder_mail)->format('d-m-y h:i:s')) {
+                            if (Carbon::now()->format('Y-m-d h:i:s') >= $Orders_send_mail->reminder_mail) {
 
                              $mgClient = Mailgun::create(
                                     env('MAILGUN_SECRET'), // Mailgun API Key
