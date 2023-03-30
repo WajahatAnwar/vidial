@@ -13,8 +13,10 @@ import React from "react";
 import EditCampaign from "./EditCampaign";
 import Settings from "./Settings";
 import Plans from "./Plans";
+import Resources from "./Resources";
+import AdminDashboard from "./AdminDashboard";
 
-const MysteryDiscountApp = () => {
+const VidialApp = () => {
     return (
         <AppProvider i18n={en}>
             <CustomBar />
@@ -24,6 +26,8 @@ const MysteryDiscountApp = () => {
                 <Route path="/videos-to-review" element={<VideosToReview />} />
                 <Route path="/approved-videos" element={<ApprovedVideos />} />
                 <Route path="/plans" element={<Plans />} />
+                <Route path="/resources" element={<Resources />} />
+                <Route path="/admin-dashboard" element={<AdminDashboard />} />
                 <Route path="*" element={<Loading login={false} />} />
             </Routes>
 
@@ -31,4 +35,4 @@ const MysteryDiscountApp = () => {
     );
 };
 
-export default MysteryDiscountApp;
+export default VidialApp;

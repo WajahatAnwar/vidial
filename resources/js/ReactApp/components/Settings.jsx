@@ -1593,6 +1593,26 @@ const Settings = () => {
                                         </div>
                                     </div>
                                 </Card>
+                                <Card sectioned>
+                                    <div>
+                                        <Text variant="headingLg" as="h5">
+                                        Remove Vidial Watermark
+                                        </Text>
+                                        <p
+                                            style={{
+                                                marginTop: "15px",
+                                                marginBottom: "15px",
+                                            }}
+                                        >
+                                            Please contact the live support to verify your store and remove our Branding “Powered by Vidial” for FREE.
+                                        </p>
+                                        <Button
+                                        primary
+                                    >
+                                        Remove The Watermark
+                                    </Button>
+                                    </div>
+                                </Card>
                                 <div
                                     style={{
                                         textAlign: "center",
