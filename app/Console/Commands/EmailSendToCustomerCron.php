@@ -50,7 +50,7 @@ class EmailSendToCustomerCron extends Command
         //    \Log::info(json_encode($Orders_send_mail->marchent, JSON_PRETTY_PRINT));
            if($Orders_send_mail->marchent != null){
             if ($Orders_send_mail->marchent->remaining_email > 0) {
-                \Log::info("true 1");
+                // \Log::info("true 1");
                 //check if setting Activated
                 $email_parts = explode('@', $Orders_send_mail->email);
                 $name = $email_parts[0];
@@ -74,13 +74,14 @@ class EmailSendToCustomerCron extends Command
                     ."?store=".$settings->user->name."&order_id=".Crypt::encryptString($Orders_send_mail->id)
                 ];
                 if ($Orders_send_mail->email_status == 1) {
-                    \Log::info("if already replied ignore");
+                    // \Log::info("if already replied ignore");
                     //if already replied ignore
                     if ($Orders_send_mail->replied == 0) {
                         // reminder mail check
                         if ($Orders_send_mail->email_send == 1 && $Orders_send_mail->replied == 0 && $Orders_send_mail->remaining_mail > 0) {
-
-                            if (Carbon::now()->format('d-m-y h:i:s') >=Carbon::parse($Orders_send_mail->reminder_mail)->format('d-m-y h:i:s')) {
+                            \Log::info(Carbon::now()->format('d-m-y h:i:s'));
+                            \Log::info(Carbon::parse($Orders_send_mail->reminder_mail)->format('d-m-y h:i:s'));
+                            if (Carbon::now()->format('d-m-y h:i:s') >= Carbon::parse($Orders_send_mail->reminder_mail)->format('d-m-y h:i:s')) {
 
                              $mgClient = Mailgun::create(
                                     env('MAILGUN_SECRET'), // Mailgun API Key
@@ -137,13 +138,13 @@ class EmailSendToCustomerCron extends Command
                     }
                 }else{
                     //first mail after order check
-                    \Log::info(Carbon::now()->format('d-m-y'));
-                    \Log::info(Carbon::parse($Orders_send_mail->email_send_at)->format('d-m-y'));
+                    // \Log::info(Carbon::now()->format('d-m-y'));
+                    // \Log::info(Carbon::parse($Orders_send_mail->email_send_at)->format('d-m-y'));
                     if (Carbon::now()->format('d-m-y h:i:s') >= Carbon::parse($Orders_send_mail->email_send_at)->format('d-m-y h:i:s') &&
                     $Orders_send_mail->remaining_mail > 0 && $Orders_send_mail->email_send == 0) {
-                        \Log::info("first mail after order check");
-                        \Log::info(Carbon::now()->format('d-m-y'));
-                        \Log::info(Carbon::parse($Orders_send_mail->email_send_at)->format('d-m-y'));
+                        // \Log::info("first mail after order check");
+                        // \Log::info(Carbon::now()->format('d-m-y'));
+                        // \Log::info(Carbon::parse($Orders_send_mail->email_send_at)->format('d-m-y'));
                         $mgClient = Mailgun::create(
                             env('MAILGUN_SECRET'), // Mailgun API Key
                             env('MAILGUN_ENDPOINT')
