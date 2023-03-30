@@ -126,7 +126,8 @@ class EmailSendToCustomerCron extends Command
                                 // \Mail::to($Orders_send_mail->email)->send(new orderReviewReminderMail($details));
 
                                 Orders::where('id', $Orders_send_mail->id)->update([
-                                    'remaining_mail' => $Orders_send_mail->remaining_mail - 1
+                                    'remaining_mail' => $Orders_send_mail->remaining_mail - 1,
+                                    'reminder_mail' => Carbon::parse($Orders_send_mail->reminder_mail)->addWeeks($settings->email_sent_to_customer)
                                 ]);
                                 //update from merchant  that email sent
                                 $Orders_send_mail->marchent()->update([
