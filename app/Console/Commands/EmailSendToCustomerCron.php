@@ -78,7 +78,7 @@ class EmailSendToCustomerCron extends Command
                     //if already replied ignore
                     if ($Orders_send_mail->replied == 0) {
                         // reminder mail check
-                        Log::info(Carbon::now()->diffInDays(Carbon::parse($Orders_send_mail->reminder_mail)));
+                        \Log::info(Carbon::now()->diffInDays(Carbon::parse($Orders_send_mail->reminder_mail)));
                         if ($Orders_send_mail->email_send == 1 && $Orders_send_mail->replied == 0 && $Orders_send_mail->remaining_mail > 0) {
                             \Log::info(Carbon::now()->format('Y-m-d h:i:s'));
                             \Log::info($Orders_send_mail->reminder_mail);
@@ -139,7 +139,7 @@ class EmailSendToCustomerCron extends Command
 
                     }
                 }else{
-                    Log::info(Carbon::now()->diffInDays(Carbon::parse($Orders_send_mail->email_send_at)));
+                    \Log::info(Carbon::now()->diffInDays(Carbon::parse($Orders_send_mail->email_send_at)));
                     if (Carbon::now()->diffInDays(Carbon::parse($Orders_send_mail->email_send_at)) >= $settings->email_sent_to_customer && $Orders_send_mail->remaining_mail > 0 && $Orders_send_mail->email_send == 0) {
 
                     $mgClient = Mailgun::create(
