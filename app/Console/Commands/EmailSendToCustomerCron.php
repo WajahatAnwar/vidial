@@ -78,6 +78,7 @@ class EmailSendToCustomerCron extends Command
                     //if already replied ignore
                     if ($Orders_send_mail->replied == 0) {
                         // reminder mail check
+                        Log::info(Carbon::now()->diffInDays(Carbon::parse($Orders_send_mail->reminder_mail)));
                         if ($Orders_send_mail->email_send == 1 && $Orders_send_mail->replied == 0 && $Orders_send_mail->remaining_mail > 0) {
                             \Log::info(Carbon::now()->format('Y-m-d h:i:s'));
                             \Log::info($Orders_send_mail->reminder_mail);
@@ -138,67 +139,62 @@ class EmailSendToCustomerCron extends Command
 
                     }
                 }else{
-                    //first mail after order check
-                    // \Log::info(Carbon::now()->format('d-m-y'));
-                    // \Log::info(Carbon::parse($Orders_send_mail->email_send_at)->format('d-m-y'));
-                    if (Carbon::now()->format('d-m-y h:i:s') >= Carbon::parse($Orders_send_mail->email_send_at)->format('d-m-y h:i:s') &&
-                    $Orders_send_mail->remaining_mail > 0 && $Orders_send_mail->email_send == 0) {
-                        // \Log::info("first mail after order check");
-                        // \Log::info(Carbon::now()->format('d-m-y'));
-                        // \Log::info(Carbon::parse($Orders_send_mail->email_send_at)->format('d-m-y'));
-                        $mgClient = Mailgun::create(
+                    Log::info(Carbon::now()->diffInDays(Carbon::parse($Orders_send_mail->email_send_at)));
+                    if (Carbon::now()->diffInDays(Carbon::parse($Orders_send_mail->email_send_at)) >= $settings->email_sent_to_customer && $Orders_send_mail->remaining_mail > 0 && $Orders_send_mail->email_send == 0) {
+
+                    $mgClient = Mailgun::create(
                             env('MAILGUN_SECRET'), // Mailgun API Key
                             env('MAILGUN_ENDPOINT')
-                       );
-                       $domain = env('MAILGUN_DOMAIN');
+                    );
+                    $domain = env('MAILGUN_DOMAIN');
 
-                       $subject = "Win a ".getCurrencySymbol($details['store_currency']).$details['discount_amount']." gift card from ".$details['store'];
-                       if($settings->locale == "en"){
-                            $subject = "Win a ".getCurrencySymbol($details['store_currency']).$details['discount_amount']." gift card from ".$details['store'];
-                       }else if($settings->locale == "de"){
-                            $subject = "Gewinnen Sie eine Geschenkkarte im Wert von ".getCurrencySymbol($details['store_currency']).$details['discount_amount']." für ".$details['store'];
-                       }else if($settings->locale == "es"){
-                            $subject = "Gana una tarjeta de regalo de ".getCurrencySymbol($details['store_currency']).$details['discount_amount']." para ".$details['store'];
-                       }else if($settings->locale == "fr"){
-                            $subject = "Gagnez une carte-cadeau de ".getCurrencySymbol($details['store_currency']).$details['discount_amount']." sur  ".$details['store'];
-                       }else if($settings->locale == "it"){
-                            $subject = "Vinci una carta regalo da ".getCurrencySymbol($details['store_currency']).$details['discount_amount']." per ".$details['store'];
-                       }else if($settings->locale == "pt"){
-                            $subject = "Ganhe um cartão-presente de ".getCurrencySymbol($details['store_currency']).$details['discount_amount']." para ".$details['store'];
-                       }
-                       $params = array(
-                        'from' => "Vidial < ".env('MAIL_USERNAME')." >",
-                        'to' => $Orders_send_mail->email,
-                        'subject' => $subject,
-                        'template' => $settings->locale=='en' ? 'mail_post_purchase' : "mail_post_purchase_".$settings->locale,
-                        'v:name' => $details['name'],
-                        'v:store' => $details['store'],
-                        'v:storename' => $details['store_name'],
-                        'v:amount'=>getCurrencySymbol($details['store_currency']).$details['discount_amount'],
-                        'v:url' => $details['url'],
-                       );
+                    $subject = "Win a ".getCurrencySymbol($details['store_currency']).$details['discount_amount']." gift card from ".$details['store'];
+                    if($settings->locale == "en"){
+                        $subject = "Win a ".getCurrencySymbol($details['store_currency']).$details['discount_amount']." gift card from ".$details['store'];
+                    }else if($settings->locale == "de"){
+                        $subject = "Gewinnen Sie eine Geschenkkarte im Wert von ".getCurrencySymbol($details['store_currency']).$details['discount_amount']." für ".$details['store'];
+                    }else if($settings->locale == "es"){
+                        $subject = "Gana una tarjeta de regalo de ".getCurrencySymbol($details['store_currency']).$details['discount_amount']." para ".$details['store'];
+                    }else if($settings->locale == "fr"){
+                        $subject = "Gagnez une carte-cadeau de ".getCurrencySymbol($details['store_currency']).$details['discount_amount']." sur  ".$details['store'];
+                    }else if($settings->locale == "it"){
+                        $subject = "Vinci una carta regalo da ".getCurrencySymbol($details['store_currency']).$details['discount_amount']." per ".$details['store'];
+                    }else if($settings->locale == "pt"){
+                        $subject = "Ganhe um cartão-presente de ".getCurrencySymbol($details['store_currency']).$details['discount_amount']." para ".$details['store'];
+                    }
+                    $params = array(
+                    'from' => "Vidial < ".env('MAIL_USERNAME')." >",
+                    'to' => $Orders_send_mail->email,
+                    'subject' => $subject,
+                    'template' => $settings->locale=='en' ? 'mail_post_purchase' : "mail_post_purchase_".$settings->locale,
+                    'v:name' => $details['name'],
+                    'v:store' => $details['store'],
+                    'v:storename' => $details['store_name'],
+                    'v:amount'=>getCurrencySymbol($details['store_currency']).$details['discount_amount'],
+                    'v:url' => $details['url'],
+                    );
 
-                       \Log::info(json_encode($params, JSON_PRETTY_PRINT));
+                    \Log::info(json_encode($params, JSON_PRETTY_PRINT));
 
-                        $mgClient->messages()->send($domain, $params);
+                    $mgClient->messages()->send($domain, $params);
 
-                        $log_details = [
-                            'type' => "EMAIL",
-                            'send_to' => $Orders_send_mail->email,
-                            'user_id' =>$settings->user->id,
-                            'order_id' => $Orders_send_mail->order_id
-                        ];
-                        update_log_file($log_details);
+                    $log_details = [
+                        'type' => "EMAIL",
+                        'send_to' => $Orders_send_mail->email,
+                        'user_id' =>$settings->user->id,
+                        'order_id' => $Orders_send_mail->order_id
+                    ];
+                    update_log_file($log_details);
 
-                        Orders::where('id', $Orders_send_mail->id)->update([
-                            'email_send' => 1,
-                            'email_status' => 1,
-                            'remaining_mail' => $Orders_send_mail->remaining_mail - 1,
-                        ]);
-                        //update from merchant  that email sent
-                        $Orders_send_mail->marchent()->update([
-                            'remaining_email' =>  $Orders_send_mail->marchent->remaining_email - 1,
-                        ]);
+                    Orders::where('id', $Orders_send_mail->id)->update([
+                        'email_send' => 1,
+                        'email_status' => 1,
+                        'remaining_mail' => $Orders_send_mail->remaining_mail - 1,
+                    ]);
+                    //update from merchant  that email sent
+                    $Orders_send_mail->marchent()->update([
+                        'remaining_email' =>  $Orders_send_mail->marchent->remaining_email - 1,
+                    ]);
 
                     }
                 }
