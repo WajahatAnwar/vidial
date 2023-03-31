@@ -38,7 +38,7 @@ class EmailSendToCustomerCron extends Command
      */
     public function handle()
     {
-        \Log::info("sending mail who placed orders");
+        // \Log::info("sending mail who placed orders");
 
 
 
@@ -78,10 +78,10 @@ class EmailSendToCustomerCron extends Command
                     //if already replied ignore
                     if ($Orders_send_mail->replied == 0) {
                         // reminder mail check
-                        \Log::info(Carbon::now()->diffInDays(Carbon::parse($Orders_send_mail->reminder_mail)));
+                        // \Log::info(Carbon::now()->diffInDays(Carbon::parse($Orders_send_mail->reminder_mail)));
                         if ($Orders_send_mail->email_send == 1 && $Orders_send_mail->replied == 0 && $Orders_send_mail->remaining_mail > 0) {
-                            \Log::info(Carbon::now()->format('Y-m-d h:i:s'));
-                            \Log::info($Orders_send_mail->reminder_mail);
+                            // \Log::info(Carbon::now()->format('Y-m-d h:i:s'));
+                            // \Log::info($Orders_send_mail->reminder_mail);
                             if (Carbon::now()->format('Y-m-d h:i:s') >= $Orders_send_mail->reminder_mail) {
 
                              $mgClient = Mailgun::create(
