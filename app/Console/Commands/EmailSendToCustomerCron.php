@@ -139,7 +139,7 @@ class EmailSendToCustomerCron extends Command
 
                     }
                 }else{
-                    \Log::info(Carbon::now()->gte(Carbon::parse($Orders_send_mail->email_send_at)));
+                    \Log::info(var_dump(Carbon::now()->gte(Carbon::parse($Orders_send_mail->email_send_at))));
                     if (Carbon::now()->format('d-m-y h:i:s') >= Carbon::parse($Orders_send_mail->email_send_at)->format('d-m-y h:i:s') && $Orders_send_mail->remaining_mail > 0 && $Orders_send_mail->email_send == 0) {
 
                     $mgClient = Mailgun::create(
