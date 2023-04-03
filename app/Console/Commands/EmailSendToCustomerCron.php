@@ -139,7 +139,12 @@ class EmailSendToCustomerCron extends Command
 
                     }
                 }else{
-                    \Log::info(var_dump(Carbon::now()->gte(Carbon::parse($Orders_send_mail->email_send_at))));
+                    // \Log::info(var_dump(Carbon::now()->gte(Carbon::parse($Orders_send_mail->email_send_at))));
+
+                    $date1 = Carbon::parse(Carbon::now());
+                    $date2 = Carbon::parse($Orders_send_mail->email_send_at);
+                    $diffInHours = $date1->diffInHours($date2);
+                    \Log::info($diffInHours);
 
                     if (Carbon::now()->format('Y-m-d h:i:s') >= $Orders_send_mail->email_send_at && $Orders_send_mail->remaining_mail > 0 && $Orders_send_mail->email_send == 0) {
 
