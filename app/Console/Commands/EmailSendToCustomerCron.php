@@ -142,7 +142,7 @@ class EmailSendToCustomerCron extends Command
                     // \Log::info(var_dump(Carbon::now()->gte(Carbon::parse($Orders_send_mail->email_send_at))));
 
                     $date1 = Carbon::parse(Carbon::now());
-                    $date2 = Carbon::parse($Orders_send_mail->email_send_at);
+                    $date2 = Carbon::parse(Carbon::now());
                     $diffInHours = $date1->diffInHours($date2);
                     \Log::info($diffInHours);
                     \Log::info($Orders_send_mail->order_id);
