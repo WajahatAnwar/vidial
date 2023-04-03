@@ -9,8 +9,9 @@ use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
-    public function allPlanOfUsers()
+    public function showadminlogin()
     {
+        
     }
     public function fetchingdataofusers()
     {
