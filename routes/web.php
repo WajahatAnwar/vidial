@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CampaignController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EmailController;
@@ -22,6 +23,33 @@ use Illuminate\Support\Facades\Artisan;
 |
 */
 
+Route::get(
+    '/app-install',
+    [AuthController::class, 'app_install_index']
+)->middleware(['verify.shopify', 'billable', 'update.plan'])->name('home');
+
+// redirect if authenticated
+Route::view('/login', 'non_embedded')->name('login');
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/logout', [AuthController::class, 'logout']);
+
+Route::view('/forget-password', 'non_embedded')->name('forget');
+Route::get('/reset/password/{token}', [AuthController::class, 'createNewPassword']);
+Route::post('/reset-password', [AuthController::class, 'resetPasswordAction']);
+Route::post('/set-password', [AuthController::class, 'setPassword']);
+Route::get('/getSession', [AuthController::class, 'getSession']);
+
+Route::middleware(['auth'])->group(function () {
+
+    Route::get('/', function () {
+        return view('non_embedded');
+    });
+    Route::get('getDataofallPlans', [AdminController::class, 'fetchingdataofusers']);
+    Route::post('update_status_for_water_mark', [AdminController::class, 'update_status_for_water_mark']);
+
+});
+
+
 ##################################################################### SIMPLE ROUTES ####################################################################
 
 // Landing Page View
@@ -37,11 +65,7 @@ Route::get('terms_and_conditions', [VideoController::class, 'termsAndConditions'
 
 Route::post('saveVideo', [VideoController::class, 'saveVideo']);
 
-Route::get('/admin-dashboard', [AdminController::class, 'showadminlogin']);
 
-Route::get('getDataofallPlans', [AdminController::class, 'fetchingdataofusers']);
-
-Route::post('update_status_for_water_mark' , [AdminController::class, 'update_status_for_water_mark' ]);
 
 Route::get('redirect_back', function () {
     return redirect()->back();
@@ -55,8 +79,6 @@ Route::get('/cron', function () {
 
 
 ###################################################### VERIFY SHOPIFY ROUTES ###############################################
-
-Route::get('/', [InstallationController::class, 'index'])->middleware(['verify.shopify', 'billable', 'update.plan'])->name('home');
 
 Route::post('sync_store', [CampaignController::class, 'sync_store'])->middleware(['verify.shopify']);
 
@@ -116,4 +138,4 @@ Route::get('get_plans', [OrdersController::class, 'get_plans'])->name('get_plans
 
 ######################################################################## EXTRA ROUTES ########################################################################
 
-//Route::view('/{any}', 'welcome')->where('any', '^(?!webhook).*$')->middleware(['verify.shopify'])->name('welcome');
+Route::view('/{any}', 'non_embedded')->where('any', '^(?!webhook).*$')->name('non_embedded');

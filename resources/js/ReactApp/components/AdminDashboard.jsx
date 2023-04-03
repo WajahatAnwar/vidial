@@ -9,11 +9,11 @@ import {
     Toast,
     Frame,
 } from "@shopify/polaris";
-import { Grid, Text, Banner, Button, Icon, Select, Checkbox, Tabs, Tooltip, Badge} from '@shopify/polaris';
+import { Grid, Text, Banner, Button, Icon, Select, Checkbox, Tabs, Tooltip, Badge } from '@shopify/polaris';
 import React, { useEffect } from 'react';
-import { useAsyncError} from 'react-router-dom';
+import { useAsyncError, useNavigate } from 'react-router-dom';
 import { useState, useCallback } from 'react';
-import { CollectionsMajor, DuplicateMinor, EditMajor,InfoMinor, LinkMinor, MinusMinor, ProductsMajor, ProductsMinor, SearchMajor, StoreMinor } from '@shopify/polaris-icons';
+import { CollectionsMajor, DuplicateMinor, EditMajor, InfoMinor, LinkMinor, MinusMinor, ProductsMajor, ProductsMinor, SearchMajor, StoreMinor } from '@shopify/polaris-icons';
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -25,23 +25,25 @@ import {
 import Toggle from "./Toggle";
 
 
-function StoresList(props) {
+function AdminDashboard(props) {
+
+    const navigate = useNavigate();
 
     const [reload, setReload] = useState(false);
     const [loading, setLoading] = useState(false);
     const [availability, setAvailability] = useState([]);
     const [queryValue, setQueryValue] = useState("");
-    const [tableRowsStatic,setTableRowsStatic] = useState([]);
-    const [tableRows,setTableRows] = useState([]);
+    const [tableRowsStatic, setTableRowsStatic] = useState([]);
+    const [tableRows, setTableRows] = useState([]);
     const logState = state => {
         console.log("Toggled:", state)
     }
-    const [users,setUsers] = useState([]);
+    const [users, setUsers] = useState([]);
 
-    const [watermark,setWatermark] = useState([]);
+    // const [watermark, setWatermark] = useState([]);
 
     const [selectedTab, setSelected] = useState(0);
-    const handleTabChange = useCallback((selectedTabIndex) => setSelected(selectedTabIndex) ,[],);
+    const handleTabChange = useCallback((selectedTabIndex) => setSelected(selectedTabIndex), [],);
 
     const [active, setActive] = useState(false);
     const toggleActive = useCallback(() => setActive((active) => !active), []);
@@ -52,16 +54,16 @@ function StoresList(props) {
 
     const tabs = [
         {
-        id: 'all-customers-1',
-        content: 'All',
+            id: 'all-customers-1',
+            content: 'All',
         },
         {
-        id: 'accepts-marketing-1',
-        content: 'Active',
+            id: 'accepts-marketing-1',
+            content: 'Active',
         },
         {
-        id: 'repeat-customers-1',
-        content: 'Inactive',
+            id: 'repeat-customers-1',
+            content: 'Inactive',
         }
     ];
 
@@ -95,9 +97,9 @@ function StoresList(props) {
                     title="Campaign Type"
                     titleHidden
                     choices={[
-                        {label: 'Product Campaigns', value: 'product'},
-                        {label: 'Collection Campaigns', value: 'collection'},
-                        {label: 'Store Wide Campaigns', value: 'all_store'},
+                        { label: 'Product Campaigns', value: 'product' },
+                        { label: 'Collection Campaigns', value: 'collection' },
+                        { label: 'Store Wide Campaigns', value: 'all_store' },
                     ]}
                     selected={availability || []}
                     onChange={handleAvailabilityChange}
@@ -119,32 +121,32 @@ function StoresList(props) {
     }
 
     useEffect(() => {
-            fetch("/getDataofallPlans", {
-                method: "GET",
-            }).then((response) => {
-                    if (!response.ok) {
-                        throw new Error("Something went wrong");
-                    }
-                    return response.json();
-                }).then((data) => {
-                    setUsers(data.user_details);
-                    console.log(data);
-                //    console.log("data");
-                //    console.log(data);
-                }).catch((error) => {
-                    console.log(error);
-                });
+        fetch("/getDataofallPlans", {
+            method: "GET",
+        }).then((response) => {
+            if (!response.ok) {
+                throw new Error("Something went wrong");
+            }
+            return response.json();
+        }).then((data) => {
+            setUsers(data.user_details);
+            console.log(data);
+            //    console.log("data");
+            //    console.log(data);
+        }).catch((error) => {
+            console.log(error);
+        });
 
         let realRows = tableRowsStatic;
 
-        if(selectedTab == 0) {
+        if (selectedTab == 0) {
             setTableRows(tableRowsStatic);
         }
-        else if(selectedTab == 1) {
+        else if (selectedTab == 1) {
             realRows = realRows.filter((value) => value[5].props.toggled == 1);
             setTableRows(realRows);
         }
-        else if(selectedTab == 2) {
+        else if (selectedTab == 2) {
             realRows = realRows.filter((value) => value[5].props.toggled == 0);
             setTableRows(realRows);
         }
@@ -155,69 +157,81 @@ function StoresList(props) {
         console.log(availability);
         console.log(realRows);
 
-        if(availability.length == 1)
+        if (availability.length == 1)
             realRows = realRows.filter((value) => value[2].props.value == availability[0])
 
-        if(availability.length == 2)
+        if (availability.length == 2)
             realRows = realRows.filter((value) => value[2].props.value == availability[0] || value[2].props.value == availability[1])
 
-        if(availability.length == 3)
+        if (availability.length == 3)
             realRows = realRows.filter((value) => value[2].props.value == availability[0] || value[2].props.value == availability[1] || value[2].props.value == availability[2])
 
         setTableRows(realRows);
 
-    },[]);
+    }, []);
 
-    function handlewatermark(id,status) {
+    function handlewatermark(id, status) {
         const requestData = {
-            user_id:id,
-            status:status,
-          };
+            user_id: id,
+            status: status,
+        };
 
-          fetch("/update_status_for_water_mark", {
+        fetch("/update_status_for_water_mark", {
             method: "POST",
             headers: {
-              "Content-Type": "application/json", // tell the server to expect JSON data
+                "Content-Type": "application/json", // tell the server to expect JSON data
             },
             body: JSON.stringify(requestData), // convert the data to a JSON string
-          })
+        })
             .then((response) => {
-              if (!response.ok) {
-                throw new Error("Something went wrong");
-              }
-              return response.json();
+                if (!response.ok) {
+                    throw new Error("Something went wrong");
+                }
+                return response.json();
             })
             .then((data) => {
-               if(data.user_details == 1){
+                if (data.user_details == 1) {
 
-                const updatedUsers = users.map((user) => {
-                    if (user.id === id) {
-                        console.log(user);
-                      return { ...user, Watermark: !status };
-                    }
-                    return user;
-                  });
-                  setUsers(updatedUsers);
-               }
+                    const updatedUsers = users.map((user) => {
+                        if (user.id === id) {
+                            console.log(user);
+                            return { ...user, Watermark: !status };
+                        }
+                        return user;
+                    });
+                    setUsers(updatedUsers);
+                    location.reload();
+                }
             })
             .catch((error) => {
-              console.log(error);
+                console.log(error);
             });
     }
 
-    return (
-        <Page >
-            <Grid>
-                <Grid.Cell columnSpan={{xs: 6, sm: 6, md: 12, lg: 12, xl: 12}}>
-                <div style={{height:"0px"}}>
-                <Frame>
-                    {toastMarkup}
-                </Frame>
-            </div>
-            <div style={{display:"flex",alignItems:"center",justifyContent:"space-between"}}>
-                <h1 className="Polaris-Header-Title" style={{paddingBottom:"20px",paddingTop:"10px"}}>Stores List</h1>
+    const logoutHandler = () => {
 
-            </div>
+        fetch("/logout", {
+            method: "POST",
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                navigate("/login");
+            })
+    }
+
+    return (
+        <Page>
+            <Grid>
+                <Grid.Cell columnSpan={{ xs: 6, sm: 6, md: 12, lg: 12, xl: 12 }}>
+                    <div style={{ height: "0px" }}>
+                        <Frame>
+                            {toastMarkup}
+                        </Frame>
+                    </div>
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                        <h1 className="Polaris-Header-Title" style={{ paddingBottom: "10px", paddingTop: "10px" }}>Stores List</h1>
+                        <div style={{ marginBottom: "10px" }}><Button outline onClick={logoutHandler}>Log Out</Button></div>
+                    </div>
                     <div style={{ height: "568px" }}>
                         <Card>
                             <Tabs tabs={tabs} selected={selectedTab} onSelect={handleTabChange}>
@@ -232,10 +246,10 @@ function StoresList(props) {
                                     onClearAll={handleFiltersClearAll}
                                 />
                             </Card.Section>
-                            {loading ? <div style={{boxShadow: "0 1px 4px -2px grey", display: "flex", backgroundColor: "#ebf9fc", padding: "7px", paddingBottom: "3px", margin: "0px 21px", marginBottom: "3px", borderRadius: "3px", marginTop: "-20px"}}>
+                            {loading ? <div style={{ boxShadow: "0 1px 4px -2px grey", display: "flex", backgroundColor: "#ebf9fc", padding: "7px", paddingBottom: "3px", margin: "0px 21px", marginBottom: "3px", borderRadius: "3px", marginTop: "-20px" }}>
                                 <Spinner accessibilityLabel="Small spinner example" size="small" />
-                                <div style={{fontSize:"14.5px", marginLeft:"10px"}}> Loading campaigns... </div>
-                            </div> : null }
+                                <div style={{ fontSize: "14.5px", marginLeft: "10px" }}> Loading campaigns... </div>
+                            </div> : null}
                             <DataTable
                                 columnContentTypes={[
                                     'text',
@@ -250,7 +264,7 @@ function StoresList(props) {
                                     'Plan',
                                     'Approved Videos',
                                     'Email Sent',
-                                    'Watermark',
+                                    'Remove Watermark',
 
                                 ]}
                                 // rows={tableRows && tableRows}
@@ -261,17 +275,15 @@ function StoresList(props) {
                                 rows={users.map((user) =>
 
                                     [
-                                    user.id,
-                                    user.store_name,
-                                    <Badge>{user.plan_name}</Badge>,
-                                   user.approved_video,
-                                   user.email_send,
-                                   <Toggle toggled={watermark}    onClick={() => handlewatermark(user.id, !user.Watermark)}
-                                    />
-                                    ,
-                                  ]
-                                  )}
-                                // rows={[['1','Store1',,1,2, ]]}
+                                        user.id,
+                                        user.store_name,
+                                        <Badge>{user.plan_name}</Badge>,
+                                        user.approved_video,
+                                        user.email_send,
+                                        <Toggle toggled={user.Watermark} onClick={() => handlewatermark(user.id, !user.Watermark)} />,
+                                    ]
+                                )}
+                            // rows={[['1','Store1',,1,2, ]]}
                             />
                         </Card>
                     </div>
@@ -283,7 +295,7 @@ function StoresList(props) {
     function disambiguateLabel(key, value) {
         switch (key) {
             case "filterbytype":
-                return `Filtered by ${value.map((val) =>  val).join(", ")}`;
+                return `Filtered by ${value.map((val) => val).join(", ")}`;
             default:
                 return value;
         }
@@ -298,4 +310,4 @@ function StoresList(props) {
     }
 }
 
-export default StoresList;
+export default AdminDashboard;

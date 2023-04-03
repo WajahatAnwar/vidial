@@ -65,9 +65,9 @@ function TabsExample() {
         }else if (selectedTabIndex == 6) {
             window.open('https://www.facebook.com/groups/vidial/', '_blank');
         }
-        else if (selectedTabIndex == 7) {
-            navigate("/admin-dashboard");
-        }
+        // else if (selectedTabIndex == 7) {
+        //     navigate("/admin-dashboard");
+        // }
     }, []);
 
     const tabs = [
@@ -133,10 +133,10 @@ function TabsExample() {
             id: "Community",
             content: "Our Community",
         },
-        {
-            id: "admin",
-            content: "Admin dashboard",
-        },
+        // {
+        //     id: "admin",
+        //     content: "Admin dashboard",
+        // },
     ];
 
     return (

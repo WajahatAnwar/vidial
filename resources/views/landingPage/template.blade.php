@@ -36,7 +36,7 @@
               </video>
               @endif
               <div style="display: flex;justify-content: center;" class="mt-4">
-                @if ( $user->water_mark)
+                @if ( $user->water_mark == 0)
                 <h5>Powered by </h5>
                 <div style="margin-left: 10px;" >
                    {{-- <img style="width: 65px;" src="{{asset('images/vidialLogoPower.png')}}"> --}}
