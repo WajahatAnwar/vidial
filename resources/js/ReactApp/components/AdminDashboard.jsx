@@ -29,64 +29,16 @@ function StoresList(props) {
 
     const [reload, setReload] = useState(false);
     const [loading, setLoading] = useState(false);
-
-    useEffect(() => {
-
-        fetch(`/get_all_campaigns`)
-        .then((response) => response.json())
-        .then((result) => {
-            console.log(result);
-            if(result.success == true)
-            {
-                const my_rows = [];
-
-                result.data.forEach(element => {
-
-                    const starting_date = new Date(element.start_date);
-                    const end_date = new Date(element.end_date);
-                    const monthArr = ["Jan","Feb","Mar","Apr","May","June","July","Aug","Sep","Oct","Nov","Dec"];
-
-                    const myStartDate = starting_date.getDate()+ " " +monthArr[starting_date.getMonth()]+ " " +starting_date.getFullYear();
-                    const myendDate = end_date.getDate()+ " " +monthArr[end_date.getMonth()]+ " " +end_date.getFullYear();
-
-
-                    my_rows.push([
-
-                    element.id,
-
-                    element.name,
-
-                    <Badge value="product" status="success">element.Clcik</Badge>,
-                    <Toggle toggled={element.status} onClick={(e) => changeStatusHandler(e,element)} />,
-
-                    <div style={{display:"flex"}}>
-                        <div style={{marginRight:"10px"}} onClick={() => navigate(`/edit-campaign/${element.id}` )}> <Button size="slim"> Edit </Button> </div>
-                        <Button size="slim" primary onClick={() => makeDuplicateHandler(element)}> Duplicate </Button>
-                    </div>
-                    ]);
-                });
-
-                setTableRowsStatic(my_rows);
-                setTableRows(my_rows);
-            }
-
-        })
-        .catch((err) => {
-            console.log(err);
-        });
-
-    },[reload])
-
     const [availability, setAvailability] = useState([]);
     const [queryValue, setQueryValue] = useState("");
-
     const [tableRowsStatic,setTableRowsStatic] = useState([]);
-
     const [tableRows,setTableRows] = useState([]);
-
     const logState = state => {
         console.log("Toggled:", state)
     }
+    const [users,setUsers] = useState([]);
+
+    const [watermark,setWatermark] = useState([]);
 
     const [selectedTab, setSelected] = useState(0);
     const handleTabChange = useCallback((selectedTabIndex) => setSelected(selectedTabIndex) ,[],);
@@ -167,13 +119,23 @@ function StoresList(props) {
     }
 
     useEffect(() => {
+            fetch("/getDataofallPlans", {
+                method: "GET",
+            }).then((response) => {
+                    if (!response.ok) {
+                        throw new Error("Something went wrong");
+                    }
+                    return response.json();
+                }).then((data) => {
+                    setUsers(data.user_details);
+                    console.log(data);
+                //    console.log("data");
+                //    console.log(data);
+                }).catch((error) => {
+                    console.log(error);
+                });
 
-        // console.log(availability);
-        // console.log(queryValue);
-        // console.log(selectedTab);
-        // console.log(tableRowsStatic);
-
-        let realRows =  tableRowsStatic;
+        let realRows = tableRowsStatic;
 
         if(selectedTab == 0) {
             setTableRows(tableRowsStatic);
@@ -204,62 +166,43 @@ function StoresList(props) {
 
         setTableRows(realRows);
 
-    },[queryValue,availability,selectedTab]);
+    },[]);
 
-    const changeStatusHandler = (e,element) => {
+    function handlewatermark(id,status) {
+        const requestData = {
+            user_id:id,
+            status:status,
+          };
 
-        // console.log(e,element)
-
-        setLoading(true);
-
-        const formData = new FormData();
-        formData.append("new_status", e.target.checked);
-        formData.append("campaign_id", element.id);
-
-        fetch( "/change_campaign_status", {
+          fetch("/update_status_for_water_mark", {
             method: "POST",
-            // headers: { "content-Type": "application/json" },
-            body: formData,
-            }
-        )
-        .then((response) => response.json())
-        .then((data) => {
-            console.log(data);
-            if (data.success === true) {
-                setReload(!reload);
-                setLoading(false);
-            } else if(data.success === false) {
+            headers: {
+              "Content-Type": "application/json", // tell the server to expect JSON data
+            },
+            body: JSON.stringify(requestData), // convert the data to a JSON string
+          })
+            .then((response) => {
+              if (!response.ok) {
+                throw new Error("Something went wrong");
+              }
+              return response.json();
+            })
+            .then((data) => {
+               if(data.user_details == 1){
 
-            }
-        });
-
-
-    }
-
-    const makeDuplicateHandler = (element) => {
-
-        setLoading(true);
-
-        const formData = new FormData();
-        formData.append("campaign_id", element.id);
-
-        fetch( "/make_campaign_duplicate", {
-            method: "POST",
-            // headers: { "content-Type": "application/json" },
-            body: formData,
-            }
-        )
-        .then((response) => response.json())
-        .then((data) => {
-            console.log(data);
-            if (data.success === true) {
-                setReload(!reload);
-                setLoading(false);
-            } else if(data.success === false) {
-
-            }
-        });
-
+                const updatedUsers = users.map((user) => {
+                    if (user.id === id) {
+                        console.log(user);
+                      return { ...user, Watermark: !status };
+                    }
+                    return user;
+                  });
+                  setUsers(updatedUsers);
+               }
+            })
+            .catch((error) => {
+              console.log(error);
+            });
     }
 
     return (
@@ -311,7 +254,24 @@ function StoresList(props) {
 
                                 ]}
                                 // rows={tableRows && tableRows}
-                                rows={[['1','Store1',<Badge>Free</Badge>,1,2,<Toggle /> ],['2','Store2',<Badge status="info">Standard</Badge>,5,6,<Toggle /> ],['3','Store3',<Badge status="attention">Premium</Badge>,5,5,<Toggle /> ],['4','Store4',<Badge status="warning">Advanced</Badge>,5,5,<Toggle /> ]]}
+
+
+
+
+                                rows={users.map((user) =>
+
+                                    [
+                                    user.id,
+                                    user.store_name,
+                                    <Badge>{user.plan_name}</Badge>,
+                                   user.approved_video,
+                                   user.email_send,
+                                   <Toggle toggled={watermark}    onClick={() => handlewatermark(user.id, !user.Watermark)}
+                                    />
+                                    ,
+                                  ]
+                                  )}
+                                // rows={[['1','Store1',,1,2, ]]}
                             />
                         </Card>
                     </div>

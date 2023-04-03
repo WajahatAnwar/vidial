@@ -35,8 +35,16 @@
                 <source src="{{ url('video/'.$settings->video) }}" type="video/mp4">
               </video>
               @endif
-             @include('landingPage.footer')
-        </div>
+              <div style="display: flex;justify-content: center;" class="mt-4">
+                @if ( $user->water_mark)
+                <h5>Powered by </h5>
+                <div style="margin-left: 10px;" >
+                   {{-- <img style="width: 65px;" src="{{asset('images/vidialLogoPower.png')}}"> --}}
+                   <img style="width: 90px;" src="{{asset('images/landing_footer.png')}}">
+               </div>
+                @endif
+             </div>
+       </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>

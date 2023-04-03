@@ -63,7 +63,7 @@ function TabsExample() {
             setSelected(selectedTabIndex);
             navigate("/resources" + location.search);
         }else if (selectedTabIndex == 6) {
-            window.open('https://www.google.com/', '_blank');
+            window.open('https://www.facebook.com/groups/vidial/', '_blank');
         }
         else if (selectedTabIndex == 7) {
             navigate("/admin-dashboard");
