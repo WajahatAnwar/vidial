@@ -269,9 +269,6 @@ function AdminDashboard(props) {
                                 ]}
                                 // rows={tableRows && tableRows}
 
-
-
-
                                 rows={users.map((user) =>
 
                                     [
