@@ -35,24 +35,39 @@ function TabsExample() {
             setSelected(3);
         } else if (location.pathname == "/plans") {
             setSelected(4);
+        }else if (location.pathname == "/resources") {
+            setSelected(5);
         }
+
     }, [location]);
     const [selected, setSelected] = useState(0);
-
     const handleTabChange = useCallback((selectedTabIndex) => {
-        setSelected(selectedTabIndex);
+
 
         if (selectedTabIndex == 0) {
+            setSelected(selectedTabIndex);
             navigate(`/dashboard${search}`);
         } else if (selectedTabIndex == 1) {
+            setSelected(selectedTabIndex);
             navigate(`/videos-to-review${search}`);
         } else if (selectedTabIndex == 2) {
+            setSelected(selectedTabIndex);
             navigate("/approved-videos");
         } else if (selectedTabIndex == 3) {
+            setSelected(selectedTabIndex);
             navigate("/settings");
         } else if (selectedTabIndex == 4) {
+            setSelected(selectedTabIndex);
             navigate("/plans" + location.search);
+        }else if (selectedTabIndex == 5) {
+            setSelected(selectedTabIndex);
+            navigate("/resources" + location.search);
+        }else if (selectedTabIndex == 6) {
+            window.open('https://www.facebook.com/groups/vidial/', '_blank');
         }
+        // else if (selectedTabIndex == 7) {
+        //     navigate("/admin-dashboard");
+        // }
     }, []);
 
     const tabs = [
@@ -110,6 +125,18 @@ function TabsExample() {
             id: "plans-customers-1",
             content: "Plans",
         },
+        {
+            id: "Resources",
+            content: "Resources",
+        },
+        {
+            id: "Community",
+            content: "Our Community",
+        },
+        // {
+        //     id: "admin",
+        //     content: "Admin dashboard",
+        // },
     ];
 
     return (

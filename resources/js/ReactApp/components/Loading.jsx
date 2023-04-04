@@ -1,36 +1,55 @@
-import { useEffect } from "react";
-import { Navigate, useNavigate,useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Navigate, useNavigate, useLocation } from "react-router-dom";
 import { Frame, Loading as ShopLoading } from '@shopify/polaris';
 import React from "react";
-const Loading = ({ login }) => {
+const Loading = () => {
+
     const { search } = useLocation();
+    const [currentUser, setCurrentUser] = useState();
     const navigate = useNavigate();
 
     useEffect(() => {
-        fetch("/fetchCurrentUser", {
-            method: "post",
-            body:{}
-        })
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error("Something went wrong");
-                }
-                return response.json();
-            })
-            .then((data) => {
-                if (data.success) {
-                    if(data.data.user.is_install){
-                        navigate(`/dashboard${search}`);
-                    }else{
-                        navigate("/settings");
-                    }
 
-                }
-                return;
-            })
-            .catch((error) => {
-                console.log(error);
-            });
+        const getUser = async () => {
+
+            const data = await fetch('/getSession');
+            const response = await data.json();
+            setCurrentUser(response.data);
+
+            if (response.success) {
+
+                navigate("/admin-dashboard");
+
+            } else {
+
+                fetch("/fetchCurrentUser", {
+                    method: "post",
+                    body: {}
+                })
+                    .then((response) => {
+                        if (!response.ok) {
+                            throw new Error("Something went wrong");
+                        }
+                        return response.json();
+                    })
+                    .then((data) => {
+                        if (data.success) {
+                            if (data.data.user.is_install) {
+                                navigate(`/dashboard${search}`);
+                            } else {
+                                navigate("/settings");
+                            }
+
+                        }
+                        return;
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
+
+            }
+        }
+        getUser();
 
     }, []);
 

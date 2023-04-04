@@ -1,7 +1,7 @@
 import "@shopify/polaris/build/esm/styles.css";
 import { AppProvider } from "@shopify/polaris";
 import en from "@shopify/polaris/locales/en.json";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import CustomBar from "./CustomBar";
 // import NavigationCustom from "./NavigationCustom";
 
@@ -9,26 +9,78 @@ import Loading from "./Loading";
 import VideosToReview from "./VideosToReview";
 import Dashboard from "./Dashboard";
 import ApprovedVideos from "./ApprovedVideos";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import EditCampaign from "./EditCampaign";
 import Settings from "./Settings";
 import Plans from "./Plans";
+import Resources from "./Resources";
+import AdminDashboard from "./AdminDashboard";
+import Login from "./login";
+import ForgetPassword from "./ForgetPassword";
+import ResetPassword from "./ResetPassword";
 
-const MysteryDiscountApp = () => {
+const VidialApp = () => {
+
+    let location = useLocation();
+
+    const [topBarCheck, setTopBarCheck] = useState(false);
+    const [currentUser, setCurrentUser] = useState(false);
+
+    const navigate = useNavigate();
+
+    useEffect(() => {
+
+        const getUser = async () => {
+
+            const data = await fetch('/getSession');
+            const response = await data.json();
+
+            if (!response.success) {
+
+                if (typeof shopNm !== 'undefined') {
+                    setTopBarCheck(true);
+                }
+
+                else if (location.pathname != '/forget-password' && location.pathname != '/reset-password') {
+                    if (location.pathname != "/login") {
+                        navigate("/login");
+                    }
+                }
+
+            } else {
+
+                setCurrentUser(response.data);
+
+                if (location.pathname == '/forget-password' || location.pathname == '/reset-password' || location.pathname == '/login') {
+                    if (location.pathname != "/") {
+                        navigate("/");
+                    }
+                }
+            }
+        }
+        getUser();
+    }, [location]);
+
     return (
         <AppProvider i18n={en}>
-            <CustomBar />
+            {topBarCheck && <CustomBar />}
             <Routes>
+                <Route path="/login" element={<Login />} />
+                <Route path="/forget-password" element={<ForgetPassword />} />
+                <Route path="/reset-password" element={<ResetPassword />} />
+
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/settings" element={<Settings />} />
                 <Route path="/videos-to-review" element={<VideosToReview />} />
                 <Route path="/approved-videos" element={<ApprovedVideos />} />
                 <Route path="/plans" element={<Plans />} />
-                <Route path="*" element={<Loading login={false} />} />
+                <Route path="/resources" element={<Resources />} />
+                <Route path="/admin-dashboard" element={<AdminDashboard />} />
+                <Route path="*" element={<Loading />} />
             </Routes>
 
         </AppProvider>
     );
 };
 
-export default MysteryDiscountApp;
+export default VidialApp;

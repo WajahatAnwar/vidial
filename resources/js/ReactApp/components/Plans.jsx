@@ -129,113 +129,118 @@ function Plans() {
                             </p>
                         </div>
                     </Grid.Cell>
+
                     {plan.map((data) => (
-                        <Grid.Cell
-                            columnSpan={{ xs: 6, sm: 6, md: 6, lg: 3, xl: 3 }}
-                        >
-                            <div
-                                style={{
-                                    border: "1px solid #C9CCCF",
-                                    padding: "10px",
-                                    borderRadius: "10px",
-                                }}
-                            >
-                                {/* @if($data.name == "Premium") */}
-                                <div
-                                    style={{
-                                        textAlign: "end",
-                                        marginTop: "-20px",
-                                    }}
+
+                       data.name != "Free"  &&
+                       <Grid.Cell
+                                    columnSpan={{ xs: 6, sm: 6, md: 6, lg: 3, xl: 3 }}
                                 >
-                                    {data.id == 5 ? (
-                                        <Badge status="attention">
-                                            Recommended
-                                        </Badge>
-                                    ) : (
-                                        <div className="customHidden">
-                                            <Badge>Recommended</Badge>
-                                        </div>
-                                    )}
-                                </div>
-                                {/* @endif */}
-                                <Text variant="headingXl" as="h4">
-                                    {data.name}
-                                </Text>
-                                <p
-                                    style={{
-                                        marginBottom: "30px",
-                                        marginTop: "10px",
-                                        height: "100px",
-                                    }}
-                                >
-                                    {data.description}
-                                </p>
-                                <Text
-                                    variant="headingXl"
-                                    as="h4"
-                                    color="success"
-                                >
-                                    ${Math.floor(data.price)}
-                                </Text>
-                                <Text variant="bodySm" as="p" color="subdued">
-                                    per month
-                                </Text>
-                                <div
-                                    style={{
-                                        marginTop: "20px",
-                                        marginBottom: "33px",
-                                    }}
-                                >
-                                    {data.id == users.plan_id ? (
-                                        <Button disabled fullWidth>
-                                            Your Current Plan
-                                        </Button>
-                                    ) : (
-                                        <a
-                                            href={`/billing/${data.id}${location.search}`}
-                                            style={{ textDecoration: "none" }}
+                                    <div
+                                        style={{
+                                            border: "1px solid #C9CCCF",
+                                            padding: "10px",
+                                            borderRadius: "10px",
+                                        }}
+                                    >
+                                        {/* @if($data.name == "Premium") */}
+                                        <div
+                                            style={{
+                                                textAlign: "end",
+                                                marginTop: "-20px",
+                                            }}
                                         >
-                                            <Button fullWidth primary>
-                                                Select plan
-                                            </Button>
-                                        </a>
-                                    )}
-                                </div>
-                                <p
-                                    style={{
-                                        marginBottom: "8px",
-                                        textAlign: "center",
-                                        fontSize: "14px",
-                                        background: "#F9F9F9B2",
-                                        padding: "5px 0",
-                                    }}
-                                >
-                                    {data.ugc_video_count} monthly UGC videos
-                                </p>
-                                <p
-                                    style={{
-                                        marginBottom: "8px",
-                                        textAlign: "center",
-                                        fontSize: "14px",
-                                        padding: "5px 0",
-                                    }}
-                                >
-                                    {data.ugc_email_count} post-purchase emails
-                                </p>
-                                <p
-                                    style={{
-                                        marginBottom: "30px",
-                                        textAlign: "center",
-                                        fontSize: "14px",
-                                        background: "#F9F9F9B2",
-                                        padding: "5px 0",
-                                    }}
-                                >
-                                    1 year video storage
-                                </p>
-                            </div>
+                                            {data.id == 5 ? (
+                                                <Badge status="attention">
+                                                    Recommended
+                                                </Badge>
+                                            ) : (
+                                                <div className="customHidden">
+                                                    <Badge>Recommended</Badge>
+                                                </div>
+                                            )}
+                                        </div>
+                                        {/* @endif */}
+                                        <Text variant="headingXl" as="h4">
+                                            {data.name}
+                                        </Text>
+                                        <p
+                                            style={{
+                                                marginBottom: "30px",
+                                                marginTop: "10px",
+                                                height: "100px",
+                                            }}
+                                        >
+                                            {data.description}
+                                        </p>
+                                        <Text
+                                            variant="headingXl"
+                                            as="h4"
+                                            color="success"
+                                        >
+                                            ${Math.floor(data.price)}
+                                        </Text>
+                                        <Text variant="bodySm" as="p" color="subdued">
+                                            per month
+                                        </Text>
+                                        <div
+                                            style={{
+                                                marginTop: "20px",
+                                                marginBottom: "33px",
+                                            }}
+                                        >
+                                            {data.id == users.plan_id ? (
+                                                <Button disabled fullWidth>
+                                                    Your Current Plan
+                                                </Button>
+                                            ) : (
+                                                <a
+                                                    href={`/billing/${data.id}${location.search}`}
+                                                    style={{ textDecoration: "none" }}
+                                                >
+                                                    <Button fullWidth primary>
+                                                        Select plan
+                                                    </Button>
+                                                </a>
+                                            )}
+                                        </div>
+                                        <p
+                                            style={{
+                                                marginBottom: "8px",
+                                                textAlign: "center",
+                                                fontSize: "14px",
+                                                background: "#F9F9F9B2",
+                                                padding: "5px 0",
+                                            }}
+                                        >
+                                            {data.ugc_video_count} monthly UGC videos
+                                        </p>
+                                        <p
+                                            style={{
+                                                marginBottom: "8px",
+                                                textAlign: "center",
+                                                fontSize: "14px",
+                                                padding: "5px 0",
+                                            }}
+                                        >
+                                            {data.ugc_email_count} post-purchase emails
+                                        </p>
+                                        <p
+                                            style={{
+                                                marginBottom: "30px",
+                                                textAlign: "center",
+                                                fontSize: "14px",
+                                                background: "#F9F9F9B2",
+                                                padding: "5px 0",
+                                            }}
+                                        >
+                                            1 year video storage
+                                        </p>
+                                    </div>
                         </Grid.Cell>
+
                     ))}
+
                     {/* <Grid.Cell columnSpan={{xs: 6, sm: 6, md: 6, lg: 3, xl: 3}}>
                                     <div style={{    border: "1px solid #C9CCCF",padding: "10px",borderRadius: "10px"}}>
                                         <Text variant="headingXl" as="h4">

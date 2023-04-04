@@ -40,6 +40,8 @@ import DellIcon from "./imges/dellIcon.png";
 import ColorWheel from "./imges/collorWheel.png";
 import Toggle from "./Toggle";
 import { showStoreName } from "./utils";
+import CrispChat from 'react-crisp';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 /**
 const urlParams = new URLSearchParams(location.search);
@@ -517,6 +519,16 @@ const Settings = () => {
         navigator.clipboard.writeText(landingPageDisplayedValue);
         toastMarkup && toastMarkup.show();
     };
+
+
+        const handleChatClick = () => {
+            if (window.$crisp) {
+                window.$crisp.push(['do', 'chat:toggle']);
+              } else {
+                console.warn('Crisp chat script not loaded yet!');
+              }
+        };
+
     return (
         <div>
             {isLoading ? (
@@ -1593,6 +1605,24 @@ const Settings = () => {
                                         </div>
                                     </div>
                                 </Card>
+                                <Card sectioned>
+                                    <div>
+                                        <Text variant="headingLg" as="h5">
+                                        Remove Vidial Watermark
+                                        </Text>
+                                        <p
+                                            style={{
+                                                marginTop: "15px",
+                                                marginBottom: "15px",
+                                            }}
+                                        >
+                                            Please contact the live support to verify your store and remove our Branding “Powered by Vidial” for FREE.
+                                        </p>
+                                        <Button  primary onClick={handleChatClick}>
+                                         Remove The Watermark
+                                        </Button>
+                                    </div>
+                                </Card>
                                 <div
                                     style={{
                                         textAlign: "center",
@@ -1610,6 +1640,7 @@ const Settings = () => {
                                 </div>
                             </Grid.Cell>
                         </Grid>
+                        
                         <Modal
                 open={activeRejectionModel}
                 onClose={handleChangeRejectionModel}
