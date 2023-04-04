@@ -28,7 +28,7 @@ class AdminController extends Controller
             $plan_info = $user->plan;
             $send_mail_count = $user->mail_count->count();
 
-            if($user != null){
+            if($user != null && $plan_info != null){
                 $store_list[] = [
                     'id' => $user->id,
                     'store_name' => $user->name,
