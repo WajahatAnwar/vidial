@@ -56,15 +56,15 @@ function AdminDashboard(props) {
         {
             id: 'all-customers-1',
             content: 'All',
-        },
-        {
-            id: 'accepts-marketing-1',
-            content: 'Active',
-        },
-        {
-            id: 'repeat-customers-1',
-            content: 'Inactive',
         }
+        // {
+        //     id: 'accepts-marketing-1',
+        //     content: 'Active',
+        // },
+        // {
+        //     id: 'repeat-customers-1',
+        //     content: 'Inactive',
+        // }
     ];
 
     const handleAvailabilityChange = useCallback(
@@ -89,25 +89,6 @@ function AdminDashboard(props) {
     ]);
 
     const filters = [
-        {
-            key: "filterbytype",
-            label: "Filter by Type",
-            filter: (
-                <ChoiceList
-                    title="Campaign Type"
-                    titleHidden
-                    choices={[
-                        { label: 'Product Campaigns', value: 'product' },
-                        { label: 'Collection Campaigns', value: 'collection' },
-                        { label: 'Store Wide Campaigns', value: 'all_store' },
-                    ]}
-                    selected={availability || []}
-                    onChange={handleAvailabilityChange}
-                    allowMultiple
-                />
-            ),
-            // shortcut: false,
-        },
     ];
 
     const appliedFilters = [];
