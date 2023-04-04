@@ -15,7 +15,7 @@ import Settings from "./Settings";
 import Plans from "./Plans";
 import Resources from "./Resources";
 import AdminDashboard from "./AdminDashboard";
-import Login from "./login";
+import Login from "./Login";
 import ForgetPassword from "./ForgetPassword";
 import ResetPassword from "./ResetPassword";
 
