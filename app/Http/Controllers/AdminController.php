@@ -28,14 +28,16 @@ class AdminController extends Controller
             $plan_info = $user->plan;
             $send_mail_count = $user->mail_count->count();
 
-            $store_list[] = [
-                'id' => $user->id,
-                'store_name' => $user->name,
-                'plan_name' => $plan_info->name,
-                'approved_video' => $approved_videos_count,
-                'email_send' => $send_mail_count,
-                'Watermark' => $user->water_mark,
-            ];
+            if($user != null){
+                $store_list[] = [
+                    'id' => $user->id,
+                    'store_name' => $user->name,
+                    'plan_name' => $plan_info->name,
+                    'approved_video' => $approved_videos_count,
+                    'email_send' => $send_mail_count,
+                    'Watermark' => $user->water_mark,
+                ];
+            }
         }
 
         return response()->json([
