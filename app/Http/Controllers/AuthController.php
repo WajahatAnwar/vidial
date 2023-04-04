@@ -197,8 +197,8 @@ class AuthController extends Controller
 
         $current_user = User::find(Auth::user()->id);
 
-        if ($current_user->rule_id == null) {
-            $current_user->rule_id = 2;
+        if ($current_user->role_id == null) {
+            $current_user->role_id = 2;
             $current_user->save();
         }
 
