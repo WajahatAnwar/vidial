@@ -39,9 +39,6 @@ import ErrorIcon from "./imges/error.png";
 import DellIcon from "./imges/dellIcon.png";
 import ColorWheel from "./imges/collorWheel.png";
 import Toggle from "./Toggle";
-import { showStoreName } from "./utils";
-import CrispChat from 'react-crisp';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 /**
 const urlParams = new URLSearchParams(location.search);
@@ -1640,7 +1637,7 @@ const Settings = () => {
                                 </div>
                             </Grid.Cell>
                         </Grid>
-                        
+
                         <Modal
                 open={activeRejectionModel}
                 onClose={handleChangeRejectionModel}
