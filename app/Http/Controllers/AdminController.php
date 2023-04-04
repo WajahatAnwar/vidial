@@ -16,7 +16,8 @@ class AdminController extends Controller
     public function fetchingdataofusers()
     {
 
-        $user_info = User::with(['plan', 'videos_count','mail_count'])->where('role_id',2)
+        $user_info = User::with(['plan', 'videos_count','mail_count'])
+            ->where('role_id', "2")
             ->withCount('videos')
             ->get();
 
