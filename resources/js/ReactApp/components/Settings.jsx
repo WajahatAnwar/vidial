@@ -42,9 +42,6 @@ import ColorWheel from "./imges/collorWheel.png";
 import ChevronUp from "./imges/ChevronUpMinor.png";
 import arrowRight from "./imges/arrowRight.png";
 import Toggle from "./Toggle";
-import { showStoreName } from "./utils";
-import CrispChat from 'react-crisp';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 /**
 const urlParams = new URLSearchParams(location.search);

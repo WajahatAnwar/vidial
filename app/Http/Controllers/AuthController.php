@@ -165,7 +165,7 @@ class AuthController extends Controller
         $shop->store_currency = $shopData['body']['shop']['currency'];
         $shop->email = $shopData['body']['shop']['email'];
         $shop->store_name = $shopData['body']['shop']['name'];
-        $shop->plan_id = 1;
+        // $shop->plan_id = 1;
         $shop->save();
 
         $inst = json_encode([
@@ -197,7 +197,7 @@ class AuthController extends Controller
 
         $current_user = User::find(Auth::user()->id);
 
-        if ($current_user->rule_id == null) {
+        if ($current_user->role_id == null) {
             $current_user->role_id = 2;
             $current_user->save();
         }

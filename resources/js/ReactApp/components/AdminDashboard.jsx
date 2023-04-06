@@ -56,15 +56,15 @@ function AdminDashboard(props) {
         {
             id: 'all-customers-1',
             content: 'All',
-        },
-        {
-            id: 'accepts-marketing-1',
-            content: 'Active',
-        },
-        {
-            id: 'repeat-customers-1',
-            content: 'Inactive',
         }
+        // {
+        //     id: 'accepts-marketing-1',
+        //     content: 'Active',
+        // },
+        // {
+        //     id: 'repeat-customers-1',
+        //     content: 'Inactive',
+        // }
     ];
 
     const handleAvailabilityChange = useCallback(
@@ -89,25 +89,6 @@ function AdminDashboard(props) {
     ]);
 
     const filters = [
-        {
-            key: "filterbytype",
-            label: "Filter by Type",
-            filter: (
-                <ChoiceList
-                    title="Campaign Type"
-                    titleHidden
-                    choices={[
-                        { label: 'Product Campaigns', value: 'product' },
-                        { label: 'Collection Campaigns', value: 'collection' },
-                        { label: 'Store Wide Campaigns', value: 'all_store' },
-                    ]}
-                    selected={availability || []}
-                    onChange={handleAvailabilityChange}
-                    allowMultiple
-                />
-            ),
-            // shortcut: false,
-        },
     ];
 
     const appliedFilters = [];
@@ -236,16 +217,6 @@ function AdminDashboard(props) {
                         <Card>
                             <Tabs tabs={tabs} selected={selectedTab} onSelect={handleTabChange}>
                             </Tabs>
-                            <Card.Section>
-                                <Filters
-                                    queryValue={queryValue}
-                                    filters={filters}
-                                    appliedFilters={appliedFilters}
-                                    onQueryChange={handleFiltersQueryChange}
-                                    onQueryClear={handleQueryValueRemove}
-                                    onClearAll={handleFiltersClearAll}
-                                />
-                            </Card.Section>
                             {loading ? <div style={{ boxShadow: "0 1px 4px -2px grey", display: "flex", backgroundColor: "#ebf9fc", padding: "7px", paddingBottom: "3px", margin: "0px 21px", marginBottom: "3px", borderRadius: "3px", marginTop: "-20px" }}>
                                 <Spinner accessibilityLabel="Small spinner example" size="small" />
                                 <div style={{ fontSize: "14.5px", marginLeft: "10px" }}> Loading campaigns... </div>
@@ -268,9 +239,6 @@ function AdminDashboard(props) {
 
                                 ]}
                                 // rows={tableRows && tableRows}
-
-
-
 
                                 rows={users.map((user) =>
 
