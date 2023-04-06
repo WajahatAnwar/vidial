@@ -292,7 +292,9 @@ function Dashboard() {
     return (
         <Page>
             <Grid>
+
                 <Grid.Cell columnSpan={{ xs: 6, sm: 6, md: 6, lg: 12, xl: 12 }}>
+
                     <Text variant="headingXl" as="h4">
                         Welcome to Vidial 👋
                     </Text>

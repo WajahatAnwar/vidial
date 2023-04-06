@@ -17,6 +17,7 @@ import {
     TextField,
     ColorPicker,
     Spinner,
+    Collapsible,
 } from "@shopify/polaris";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -29,15 +30,17 @@ import {
     Toast,
     List,
 } from "@shopify/polaris";
-import { CircleCancelMinor, NoteMinor,CircleCancelMajor } from "@shopify/polaris-icons";
+import { CircleCancelMinor, NoteMinor, CircleCancelMajor, ChevronUpMinor } from "@shopify/polaris-icons";
 import {
-  DeleteMajor
+    DeleteMajor
 } from '@shopify/polaris-icons';
 import { useCallback } from "react";
 import UploadIcon from "./imges/uploadLogo.png";
 import ErrorIcon from "./imges/error.png";
 import DellIcon from "./imges/dellIcon.png";
 import ColorWheel from "./imges/collorWheel.png";
+import ChevronUp from "./imges/ChevronUpMinor.png";
+import arrowRight from "./imges/arrowRight.png";
 import Toggle from "./Toggle";
 import { showStoreName } from "./utils";
 import CrispChat from 'react-crisp';
@@ -51,6 +54,10 @@ localStorage.setItem('store',storeName);
 */
 
 const Settings = () => {
+    const navigate = useNavigate();
+    const [open, setOpen] = useState(false);
+
+    const handleToggle = useCallback(() => setOpen((open) => !open), []);
     const [activeRejectionModel, setActiveRejectionModel] = useState(false);
     const handleChangeRejectionModel = useCallback(
         () => setActiveRejectionModel(!activeRejectionModel),
@@ -74,7 +81,7 @@ const Settings = () => {
 
     // remove inpirational video
 
-    const removeInspirationalVideo = ()=>{
+    const removeInspirationalVideo = () => {
         var formData = {};
         fetch("/removeInspirationalVideo", {
             method: "post",
@@ -91,12 +98,12 @@ const Settings = () => {
                 }
             })
             .catch((error) => {
-                 console.log(error);
+                console.log(error);
             });
     }
     // remove inpirational video
 
-    const removeLogo = ()=>{
+    const removeLogo = () => {
         var formData = {};
         fetch("/removeLogo", {
             method: "post",
@@ -114,7 +121,7 @@ const Settings = () => {
                 }
             })
             .catch((error) => {
-                 console.log(error);
+                console.log(error);
             });
     }
 
@@ -214,7 +221,7 @@ const Settings = () => {
     const [previewVedio, setPreviewVedio] = useState("");
     const [previewVedioHide, setPreviewVedioHide] = useState(false);
     const [email, setEmail] = useState("");
-    const [storeName,setstoreName] = useState("");
+    const [storeName, setstoreName] = useState("");
     // alert(logoImage);
     const logoHandler = (e) => {
         setImagename(e.target.files[0].name);
@@ -266,24 +273,24 @@ const Settings = () => {
                         data.data.instructions
                             ? data.data.instructions
                             : [
-                                  {
-                                      id: 1,
-                                      value: "Record a video off up to 30 seconds",
-                                  },
-                                  {
-                                      id: 2,
-                                      value: "Share your genuine experience of the product",
-                                  },
-                                  { id: 3, value: "Showcase the product" },
-                                  {
-                                      id: 4,
-                                      value: "Tell why you've decided to try "+data.data.store_name,
-                                  },
-                                  {
-                                      id: 5,
-                                      value: "Describe the main benefits of "+data.data.store_name,
-                                  },
-                              ]
+                                {
+                                    id: 1,
+                                    value: "Record a video off up to 30 seconds",
+                                },
+                                {
+                                    id: 2,
+                                    value: "Share your genuine experience of the product",
+                                },
+                                { id: 3, value: "Showcase the product" },
+                                {
+                                    id: 4,
+                                    value: "Tell why you've decided to try " + data.data.store_name,
+                                },
+                                {
+                                    id: 5,
+                                    value: "Describe the main benefits of " + data.data.store_name,
+                                },
+                            ]
                     );
                     if (data.data.logo) {
                         setPreviewLogoHide(true);
@@ -521,13 +528,13 @@ const Settings = () => {
     };
 
 
-        const handleChatClick = () => {
-            if (window.$crisp) {
-                window.$crisp.push(['do', 'chat:toggle']);
-              } else {
-                console.warn('Crisp chat script not loaded yet!');
-              }
-        };
+    const handleChatClick = () => {
+        if (window.$crisp) {
+            window.$crisp.push(['do', 'chat:toggle']);
+        } else {
+            console.warn('Crisp chat script not loaded yet!');
+        }
+    };
 
     return (
         <div>
@@ -640,30 +647,136 @@ const Settings = () => {
                                         </Banner>
                                     </Card>
                                 )}
+
+                                {toastMarkup}
                                 <Card sectioned>
-                                    <Text variant="headingXl" as="h4">
-                                        Language
-                                    </Text>
-                                    <p
+                                    <div>
+                                        <Text variant="headingLg" as="h5">
+                                            Preview
+                                        </Text>
+                                        <p
+                                            style={{
+                                                marginTop: "5px",
+                                                marginBottom: "20px",
+                                            }}
+                                        >
+                                            Here’s what your customers will see
+                                            and receive by email
+                                        </p>
+                                    </div>
+                                    <div
                                         style={{
-                                            marginTop: "5px",
-                                            marginBottom: "10px",
+                                            display: "flex",
+                                            alignItems: "center",
+                                            justifyContent: "space-between",
                                         }}
                                     >
-                                        Select the language of your store
-                                    </p>
-
-                                    <div style={{ width: "150px" }}>
-                                        <Select
-                                            options={options}
-                                            onChange={(e) => {
-                                                handleSelectChange(e);
+                                        <div>
+                                            <Text variant="headingLg" as="h5">
+                                                Preview Landing Page
+                                            </Text>
+                                            <p
+                                                style={{
+                                                    marginTop: "5px",
+                                                    marginBottom: "10px",
+                                                }}
+                                            >
+                                                Here’s the Landing Page that
+                                                your users will see
+                                            </p>
+                                        </div>
+                                        <div
+                                            style={{
+                                                width: "200px",
+                                                textAlign: "end",
                                             }}
-                                            value={selected}
-                                        />
+                                        >
+                                            <Button
+                                                primary
+                                                onClick={() => {
+                                                    reviewPage(store);
+                                                }}
+                                            >
+                                                View The Landing Page
+                                            </Button>
+                                        </div>
+                                    </div>
+                                    <div
+                                        style={{
+                                            display: "flex",
+                                            alignItems: "center",
+                                            justifyContent: "space-between",
+                                        }}
+                                    >
+                                        <div>
+                                            <Text variant="headingLg" as="h5">
+                                                Landing Page Link
+                                            </Text>
+                                            <p
+                                                style={{
+                                                    marginTop: "5px",
+                                                    marginBottom: "10px",
+                                                }}
+                                            >
+                                                Share the landing page link with
+                                                your customers to get them to
+                                                send UGC videos
+                                            </p>
+                                        </div>
+                                        <div
+                                            style={{
+                                                width: "200px",
+                                                textAlign: "end",
+                                            }}
+                                        >
+                                            <Button
+                                                primary
+                                                onClick={() =>
+                                                    copyLandingPageLink()
+                                                }
+                                            >
+                                                Copy Landing Page Link
+                                            </Button>
+                                        </div>
+                                    </div>
+                                    <div
+                                        style={{
+                                            display: "flex",
+                                            alignItems: "center",
+                                            justifyContent: "space-between",
+                                            marginBottom: "20px",
+                                        }}
+                                    >
+                                        <div>
+                                            <Text variant="headingLg" as="h5">
+                                                Email Sent To Customers
+                                            </Text>
+                                            <p
+                                                style={{
+                                                    marginTop: "5px",
+                                                    marginBottom: "10px",
+                                                }}
+                                            >
+                                                We'll send a test email to
+                                                &nbsp;
+                                                {email}
+                                            </p>
+                                        </div>
+                                        <div
+                                            style={{
+                                                width: "200px",
+                                                textAlign: "end",
+                                            }}
+                                        >
+                                            <Button
+                                                primary
+                                                onClick={handletestemail}
+                                            >
+                                                Send Test Email
+                                            </Button>
+                                        </div>
                                     </div>
                                 </Card>
-                                {toastMarkup}
                                 <Card sectioned>
                                     <div
                                         style={{
@@ -709,154 +822,26 @@ const Settings = () => {
                                     </div>
                                 </Card>
                                 <Card sectioned>
-                                    <div
+                                    <Text variant="headingXl" as="h4">
+                                        Language
+                                    </Text>
+                                    <p
                                         style={{
-                                            display: "flex",
-                                            alignItems: "center",
-                                            justifyContent: "space-between",
-                                            marginBottom: "20px",
+                                            marginTop: "5px",
+                                            marginBottom: "10px",
                                         }}
                                     >
-                                        <div style={{ width: "450px" }}>
-                                            <Text variant="headingLg" as="h5">
-                                                Set up Emails
-                                            </Text>
-                                            <p style={{ marginTop: "5px" }}>
-                                                Choose the time to send the
-                                                first email to your customers
-                                            </p>
-                                        </div>
-                                        <div
-                                            style={{
-                                                width: "170px",
-                                                textAlign: "end",
-                                            }}
-                                        >
-                                            <Toggle
-                                                toggled={toggled}
-                                                onClick={handleChange}
-                                            />
-                                        </div>
-                                    </div>
+                                        Select the language of your store
+                                    </p>
 
-                                    <div
-                                        style={{
-                                            display: "flex",
-                                            alignItems: "center",
-                                            justifyContent: "space-between",
-                                            marginBottom: "20px",
-                                        }}
-                                    >
-                                        <div style={{ width: "550px" }}>
-                                            <Text variant="headingLg" as="h5">
-                                                Post Purchase Emails Sent To
-                                                Customers
-                                            </Text>
-                                            <p style={{ marginTop: "5px" }}>
-                                                Choose the time to send the
-                                                first email to your customers
-                                            </p>
-                                        </div>
-                                        <div
-                                            className="textFieldjoinRight"
-                                            style={{
-                                                marginLeft: "204px",
-                                                width: "103px",
-                                                textAlign: "end",
-                                                display: "flex",
-                                                alignItems: "center",
+                                    <div style={{ width: "150px" }}>
+                                        <Select
+                                            options={options}
+                                            onChange={(e) => {
+                                                handleSelectChange(e);
                                             }}
-                                        >
-                                            <TextField
-                                                value={
-                                                    landingPageDisplayedValue
-                                                }
-                                                onChange={
-                                                    landingPageDisplayedValueHandler
-                                                }
-                                                autoComplete="off"
-                                            />
-                                            <div className="Polaris-TextField__Prefix prefixCustomRight">
-                                                days
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div
-                                        style={{
-                                            display: "flex",
-                                            alignItems: "center",
-                                            justifyContent: "space-between",
-                                            marginBottom: "20px",
-                                        }}
-                                    >
-                                        <div style={{ width: "550px" }}>
-                                            <Text variant="headingLg" as="h5">
-                                                Reminder Emails Sent To
-                                                Customers
-                                            </Text>
-                                            <p style={{ marginTop: "5px" }}>
-                                                Choose the delay between each
-                                                reminder emails (we’ll send
-                                                emails each defined weeks)
-                                            </p>
-                                        </div>
-                                        <div
-                                            className="textFieldjoinRight"
-                                            style={{
-                                                marginLeft: "204px",
-                                                width: "103px",
-                                                textAlign: "end",
-                                                display: "flex",
-                                                alignItems: "center",
-                                            }}
-                                        >
-                                            <TextField
-                                                value={emailSentToValue}
-                                                onChange={
-                                                    emailSentToValueHandler
-                                                }
-                                                autoComplete="off"
-                                            />
-                                            <div className="Polaris-TextField__Prefix prefixCustomRight">
-                                                weeks
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div
-                                        style={{
-                                            display: "flex",
-                                            alignItems: "center",
-                                            justifyContent: "space-between",
-                                        }}
-                                    >
-                                        <div style={{ width: "550px" }}>
-                                            <Text variant="headingLg" as="h5">
-                                                Maximum Sent Emails To Customers
-                                            </Text>
-                                            <p style={{ marginTop: "5px" }}>
-                                                Choose the maximum of emails you
-                                                want to send to your customers
-                                            </p>
-                                        </div>
-                                        <div
-                                            className="textFieldjoinRight"
-                                            style={{
-                                                marginLeft: "204px",
-                                                width: "103px",
-                                                textAlign: "end",
-                                                display: "flex",
-                                                alignItems: "center",
-                                            }}
-                                        >
-                                            <TextField
-                                                value={landingPageValue}
-                                                onChange={landingPageHandler}
-                                                autoComplete="off"
-                                            />
-                                            <div className="Polaris-TextField__Prefix prefixCustomRight">
-                                                emails
-                                            </div>
-                                        </div>
+                                            value={selected}
+                                        />
                                     </div>
                                 </Card>
 
@@ -907,22 +892,22 @@ const Settings = () => {
                                             </p>
                                         </div>
                                     </div>
-                                    {previewLogoHide && (logoImage=='undefined' || logoImage=='') ? '':
-                                     (
-                                        <div style={{width:"108px"}}>
+                                    {previewLogoHide && (logoImage == 'undefined' || logoImage == '') ? '' :
+                                        (
+                                            <div style={{ width: "108px" }}>
 
-                                        <img
-                                            style={{
-                                                marginTop: "20px",
-                                                boxShadow:
-                                                    "0px 0px 6px 2px rgb(0 0 0 / 20%) !important",
-                                            }}
-                                            width="100px"
-                                            src={previewLogo}
-                                        ></img>
-                                        <div onClick={removeLogo} > <Icon source={CircleCancelMajor}   color="critical"/></div>
-                                        </div>
-                                    )
+                                                <img
+                                                    style={{
+                                                        marginTop: "20px",
+                                                        boxShadow:
+                                                            "0px 0px 6px 2px rgb(0 0 0 / 20%) !important",
+                                                    }}
+                                                    width="100px"
+                                                    src={previewLogo}
+                                                ></img>
+                                                <div onClick={removeLogo} > <Icon source={CircleCancelMajor} color="critical" /></div>
+                                            </div>
+                                        )
                                     }
                                     <div
                                         style={{
@@ -1067,16 +1052,16 @@ const Settings = () => {
                                         </div>
                                     </div>
                                     {previewVedioHide && (
-                                        <div style={{width:"108px"}}>
-                                        <video
-                                            width="108"
-                                            height="193"
-                                            src={previewVedio}
-                                            muted
-                                            autoPlay
-                                            loop
-                                        ></video>
-                                        <div onClick={removeInspirationalVideo} > <Icon source={CircleCancelMajor}  color="critical"/></div>
+                                        <div style={{ width: "108px" }}>
+                                            <video
+                                                width="108"
+                                                height="193"
+                                                src={previewVedio}
+                                                muted
+                                                autoPlay
+                                                loop
+                                            ></video>
+                                            <div onClick={removeInspirationalVideo} > <Icon source={CircleCancelMajor} color="critical" /></div>
                                         </div>
                                     )}
                                     <div
@@ -1460,11 +1445,11 @@ const Settings = () => {
                                                     }}
                                                     color={buttonColor}
                                                 />
-                                                 <div style={{marginTop:"20px"}}></div>
-                                                 <TextField
+                                                <div style={{ marginTop: "20px" }}></div>
+                                                <TextField
                                                     value={buttonColorHex}
                                                     onChange={handleInputColorChange}
-                                                    />
+                                                />
                                             </div>
                                         )}
                                     </div>
@@ -1477,94 +1462,96 @@ const Settings = () => {
                                         className="colorOptions"
                                     ></div>
                                 </Card>
+
                                 <Card sectioned>
                                     <div>
                                         <Text variant="headingLg" as="h5">
-                                            Preview
+                                            Remove Vidial Watermark
                                         </Text>
                                         <p
                                             style={{
-                                                marginTop: "5px",
-                                                marginBottom: "20px",
+                                                marginTop: "15px",
+                                                marginBottom: "15px",
                                             }}
                                         >
-                                            Here’s what your customers will see
-                                            and receive by email
+                                            Please contact the live support to verify your store and remove our Branding “Powered by Vidial” for FREE.
                                         </p>
+                                        <Button primary onClick={handleChatClick}>
+                                            Remove The Watermark
+                                        </Button>
                                     </div>
+                                </Card>
+                                <Card sectioned>
                                     <div
                                         style={{
                                             display: "flex",
                                             alignItems: "center",
                                             justifyContent: "space-between",
+                                            marginBottom: "20px",
                                         }}
                                     >
-                                        <div>
+                                        <div style={{ width: "450px" }}>
                                             <Text variant="headingLg" as="h5">
-                                                Preview Landing Page
+                                                Set up Emails
                                             </Text>
-                                            <p
-                                                style={{
-                                                    marginTop: "5px",
-                                                    marginBottom: "10px",
-                                                }}
-                                            >
-                                                Here’s the Landing Page that
-                                                your users will see
+                                            <p style={{ marginTop: "5px" }}>
+                                                Choose the time to send the
+                                                first email to your customers
                                             </p>
                                         </div>
                                         <div
                                             style={{
-                                                width: "200px",
+                                                width: "170px",
                                                 textAlign: "end",
                                             }}
                                         >
-                                            <Button
-                                                primary
-                                                onClick={() => {
-                                                    reviewPage(store);
-                                                }}
-                                            >
-                                                View The Landing Page
-                                            </Button>
+                                            <Toggle
+                                                toggled={toggled}
+                                                onClick={handleChange}
+                                            />
                                         </div>
                                     </div>
+
                                     <div
                                         style={{
                                             display: "flex",
                                             alignItems: "center",
                                             justifyContent: "space-between",
+                                            marginBottom: "20px",
                                         }}
                                     >
-                                        <div>
+                                        <div style={{ width: "550px" }}>
                                             <Text variant="headingLg" as="h5">
-                                                Landing Page Link
+                                                Post Purchase Emails Sent To
+                                                Customers
                                             </Text>
-                                            <p
-                                                style={{
-                                                    marginTop: "5px",
-                                                    marginBottom: "10px",
-                                                }}
-                                            >
-                                                Share the landing page link with
-                                                your customers to get them to
-                                                send UGC videos
+                                            <p style={{ marginTop: "5px" }}>
+                                                Choose the time to send the
+                                                first email to your customers
                                             </p>
                                         </div>
                                         <div
+                                            className="textFieldjoinRight"
                                             style={{
-                                                width: "200px",
+                                                marginLeft: "204px",
+                                                width: "103px",
                                                 textAlign: "end",
+                                                display: "flex",
+                                                alignItems: "center",
                                             }}
                                         >
-                                            <Button
-                                                primary
-                                                onClick={() =>
-                                                    copyLandingPageLink()
+                                            <TextField
+                                                value={
+                                                    landingPageDisplayedValue
                                                 }
-                                            >
-                                                Copy Landing Page Link
-                                            </Button>
+                                                onChange={
+                                                    landingPageDisplayedValueHandler
+                                                }
+                                                autoComplete="off"
+                                            />
+                                            <div className="Polaris-TextField__Prefix prefixCustomRight">
+                                                days
+                                            </div>
                                         </div>
                                     </div>
                                     <div
@@ -1575,57 +1562,270 @@ const Settings = () => {
                                             marginBottom: "20px",
                                         }}
                                     >
-                                        <div>
+                                        <div style={{ width: "550px" }}>
                                             <Text variant="headingLg" as="h5">
-                                                Email Sent To Customers
+                                                Reminder Emails Sent To
+                                                Customers
                                             </Text>
-                                            <p
-                                                style={{
-                                                    marginTop: "5px",
-                                                    marginBottom: "10px",
-                                                }}
-                                            >
-                                                We'll send a test email to
-                                                &nbsp;
-                                                {email}
+                                            <p style={{ marginTop: "5px" }}>
+                                                Choose the delay between each
+                                                reminder emails (we’ll send
+                                                emails each defined weeks)
                                             </p>
                                         </div>
                                         <div
+                                            className="textFieldjoinRight"
                                             style={{
-                                                width: "200px",
+                                                marginLeft: "204px",
+                                                width: "103px",
                                                 textAlign: "end",
+                                                display: "flex",
+                                                alignItems: "center",
                                             }}
                                         >
-                                            <Button
-                                                primary
-                                                onClick={handletestemail}
-                                            >
-                                                Send Test Email
-                                            </Button>
+                                            <TextField
+                                                value={emailSentToValue}
+                                                onChange={
+                                                    emailSentToValueHandler
+                                                }
+                                                autoComplete="off"
+                                            />
+                                            <div className="Polaris-TextField__Prefix prefixCustomRight">
+                                                weeks
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div
+                                        style={{
+                                            display: "flex",
+                                            alignItems: "center",
+                                            justifyContent: "space-between",
+                                        }}
+                                    >
+                                        <div style={{ width: "550px" }}>
+                                            <Text variant="headingLg" as="h5">
+                                                Maximum Sent Emails To Customers
+                                            </Text>
+                                            <p style={{ marginTop: "5px" }}>
+                                                Choose the maximum of emails you
+                                                want to send to your customers
+                                            </p>
+                                        </div>
+                                        <div
+                                            className="textFieldjoinRight"
+                                            style={{
+                                                marginLeft: "204px",
+                                                width: "103px",
+                                                textAlign: "end",
+                                                display: "flex",
+                                                alignItems: "center",
+                                            }}
+                                        >
+                                            <TextField
+                                                value={landingPageValue}
+                                                onChange={landingPageHandler}
+                                                autoComplete="off"
+                                            />
+                                            <div className="Polaris-TextField__Prefix prefixCustomRight">
+                                                emails
+                                            </div>
                                         </div>
                                     </div>
                                 </Card>
                                 <Card sectioned>
-                                    <div>
-                                        <Text variant="headingLg" as="h5">
-                                        Remove Vidial Watermark
-                                        </Text>
-                                        <p
+                                    <div
+                                        style={{
+                                            display: "flex",
+                                            alignItems: "center",
+                                            justifyContent: "space-between",
+                                            cursor:"pointer",
+                                        }}
+                                        onClick={handleToggle}
+                                        ariaExpanded={open}
+                                    >
+                                        <div style={{ width: "450px" }}>
+                                            <Text variant="headingLg" as="h5">
+                                                Email Customization
+                                            </Text>
+                                            <p style={{ marginTop: "5px" }}>
+                                                Customize all the emails your customers will receive
+                                            </p>
+                                        </div>
+                                        <div
                                             style={{
-                                                marginTop: "15px",
-                                                marginBottom: "15px",
+
+                                                textAlign: "end",
                                             }}
                                         >
-                                            Please contact the live support to verify your store and remove our Branding “Powered by Vidial” for FREE.
-                                        </p>
-                                        <Button  primary onClick={handleChatClick}>
-                                         Remove The Watermark
-                                        </Button>
+                                            <img
+                                                className=""
+                                                src={ChevronUp}
+                                                style={{
+                                                }}
+                                            ></img>
+                                        </div>
                                     </div>
+                                    <Collapsible
+                                        open={open}
+                                        id="basic-collapsible"
+                                        transition={{ duration: '500ms', timingFunction: 'ease-in-out' }}
+                                        expandOnPrint
+                                    >
+                                        <div
+                                            style={{
+                                                display: "flex",
+                                                alignItems: "center",
+                                                justifyContent: "space-between",
+                                                marginBottom: "20px",
+                                                marginTop:"20px",
+                                                border: "1px solid #C9CCCF",
+                                                borderRadius: "10px",
+                                                padding: "8px 20px",
+                                                cursor:"pointer",
+
+                                            }}
+                                            onClick={() => {
+                                                navigate("/post-purchase-email");
+                                            }}
+                                        >
+                                            <div style={{ width: "550px" }}>
+                                                <Text variant="headingLg" as="h5">
+                                                Post Purchase
+                                                </Text>
+                                                <p style={{ marginTop: "5px" }}>
+                                                    Customize all the emails your customers will receive.
+                                                </p>
+                                            </div>
+                                            <div
+
+                                            >
+                                               <img
+                                                className=""
+                                                src={arrowRight}
+                                                style={{
+                                                    marginTop:"8px",
+                                                }}
+                                            ></img>
+                                            </div>
+                                        </div>
+                                        <div
+                                            style={{
+                                                display: "flex",
+                                                alignItems: "center",
+                                                justifyContent: "space-between",
+                                                marginBottom: "20px",
+                                                marginTop:"20px",
+                                                border: "1px solid #C9CCCF",
+                                                borderRadius: "10px",
+                                                padding: "8px 20px",
+                                                cursor:"pointer",
+
+                                            }}
+                                            onClick={() => {
+                                                navigate("/reminder-email");
+                                            }}
+                                        >
+                                            <div style={{ width: "550px" }}>
+                                                <Text variant="headingLg" as="h5">
+                                                Reminder
+                                                </Text>
+                                                <p style={{ marginTop: "5px" }}>
+                                                Customize all the emails your customers will receive.
+                                                </p>
+                                            </div>
+                                            <div
+
+                                            >
+                                               <img
+                                                className=""
+                                                src={arrowRight}
+                                                style={{
+                                                    marginTop:"8px",
+                                                }}
+                                            ></img>
+                                            </div>
+                                        </div>
+                                        <div
+                                            style={{
+                                                display: "flex",
+                                                alignItems: "center",
+                                                justifyContent: "space-between",
+                                                marginBottom: "20px",
+                                                marginTop:"20px",
+                                                border: "1px solid #C9CCCF",
+                                                borderRadius: "10px",
+                                                padding: "8px 20px",
+                                                cursor:"pointer",
+
+                                            }}
+                                            onClick={() => {
+                                                navigate("/ugc-approved-email");
+                                            }}
+                                        >
+                                            <div style={{ width: "550px" }}>
+                                                <Text variant="headingLg" as="h5">
+                                                UGC Approved
+                                                </Text>
+                                                <p style={{ marginTop: "5px" }}>
+                                                Customize all the emails your customers will receive.
+                                                </p>
+                                            </div>
+                                            <div
+
+                                            >
+                                               <img
+                                                className=""
+                                                src={arrowRight}
+                                                style={{
+                                                    marginTop:"8px",
+                                                }}
+                                            ></img>
+                                            </div>
+                                        </div>
+                                        <div
+                                            style={{
+                                                display: "flex",
+                                                alignItems: "center",
+                                                justifyContent: "space-between",
+                                                marginBottom: "20px",
+                                                marginTop:"20px",
+                                                border: "1px solid #C9CCCF",
+                                                borderRadius: "10px",
+                                                padding: "8px 20px",
+                                                cursor:"pointer",
+
+                                            }}
+                                            onClick={() => {
+                                                navigate("/ugc-declined-email");
+                                            }}
+                                        >
+                                            <div style={{ width: "550px" }}>
+                                                <Text variant="headingLg" as="h5">
+                                                UGC Declined
+                                                </Text>
+                                                <p style={{ marginTop: "5px" }}>
+                                                Customize all the emails your customers will receive.
+                                                </p>
+                                            </div>
+                                            <div
+
+                                            >
+                                               <img
+                                                className=""
+                                                src={arrowRight}
+                                                style={{
+                                                    marginTop:"8px",
+                                                }}
+                                            ></img>
+                                            </div>
+                                        </div>
+                                    </Collapsible>
+
+
                                 </Card>
                                 <div
                                     style={{
-                                        textAlign: "center",
+                                        textAlign: "right",
                                         marginTop: "20px",
                                         marginBottom: "100px",
                                     }}
@@ -1640,25 +1840,25 @@ const Settings = () => {
                                 </div>
                             </Grid.Cell>
                         </Grid>
-                        
-                        <Modal
-                open={activeRejectionModel}
-                onClose={handleChangeRejectionModel}
-                title="Test Email"
 
-                secondaryActions={[
-                    {
-                        content: "Cancel",
-                        onAction: handleChangeRejectionModel,
-                    },
-                ]}
-            >
-                <Modal.Section>
-                <Text variant="headingMd" as="h6">
-                Email Sent Sucessfully
-                        </Text>
-                </Modal.Section>
-            </Modal>
+                        <Modal
+                            open={activeRejectionModel}
+                            onClose={handleChangeRejectionModel}
+                            title="Test Email"
+
+                            secondaryActions={[
+                                {
+                                    content: "Cancel",
+                                    onAction: handleChangeRejectionModel,
+                                },
+                            ]}
+                        >
+                            <Modal.Section>
+                                <Text variant="headingMd" as="h6">
+                                    Email Sent Sucessfully
+                                </Text>
+                            </Modal.Section>
+                        </Modal>
                     </Frame>
                 </Page>
             )}

@@ -18,6 +18,10 @@ import AdminDashboard from "./AdminDashboard";
 import Login from "./login";
 import ForgetPassword from "./ForgetPassword";
 import ResetPassword from "./ResetPassword";
+import PostPurchaseEmail from "./PostPurchaseEmail"
+import ReminderEmail from "./ReminderEmail"
+import UgcApprovedEmail from "./UgcApprovedEmail"
+import UgcDeclinedEmail from "./UgcDeclinedEmail"
 
 const VidialApp = () => {
 
@@ -76,6 +80,11 @@ const VidialApp = () => {
                 <Route path="/plans" element={<Plans />} />
                 <Route path="/resources" element={<Resources />} />
                 <Route path="/admin-dashboard" element={<AdminDashboard />} />
+                <Route path="/post-purchase-email" element={<PostPurchaseEmail />} />
+                <Route path="/reminder-email" element={<ReminderEmail />} />
+                <Route path="/ugc-approved-email" element={<UgcApprovedEmail />} />
+                <Route path="/ugc-declined-email" element={<UgcDeclinedEmail />} />
+
                 <Route path="*" element={<Loading />} />
             </Routes>
 
