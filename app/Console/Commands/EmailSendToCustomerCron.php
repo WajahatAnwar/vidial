@@ -69,6 +69,7 @@ class EmailSendToCustomerCron extends Command
                     'page_color'=>$settings->page_color,
                     'discount_amount' => $settings->store_credit,
                     'store_name' => $current_user->email,
+                    'shopify_store_name' => $settings->user->store_name,
                     'store_currency'=>$current_user->store_currency,
                     'url' => env('APP_URL')."/landingPage"."/". $settings->locale
                     ."?store=".$settings->user->name."&order_id=".Crypt::encryptString($Orders_send_mail->id)
@@ -82,26 +83,32 @@ class EmailSendToCustomerCron extends Command
                         if ($Orders_send_mail->email_send == 1 && $Orders_send_mail->replied == 0 && $Orders_send_mail->remaining_mail > 0) {
                             // \Log::info(Carbon::now()->format('Y-m-d h:i:s'));
                             // \Log::info($Orders_send_mail->reminder_mail);
-                            if (Carbon::now()->format('Y-m-d h:i:s') >= $Orders_send_mail->reminder_mail) {
+                            $date1 = Carbon::parse(Carbon::now());
+                            $date2 = Carbon::parse($Orders_send_mail->reminder_mail);
+                            $diffInHours = $date1->diffInHours($date2);
+                            \Log::info($diffInHours);
+                            \Log::info($Orders_send_mail->order_id);
+
+                            if ($diffInHours == 0) {
 
                              $mgClient = Mailgun::create(
                                     env('MAILGUN_SECRET'), // Mailgun API Key
                                     env('MAILGUN_ENDPOINT')
                                );
                                $domain = env('MAILGUN_DOMAIN');
-                               $subject_reminder = "Share your feedback and receive ".getCurrencySymbol($details['store_currency']).$details['discount_amount']." from ".$details['store'];
+                               $subject_reminder = "Share your feedback and receive ".getCurrencySymbol($details['store_currency']).$details['discount_amount']." from ".$details['shopify_store_name'];
                                if($settings->locale == "en"){
-                                    $subject_reminder = "Share your feedback and receive ".getCurrencySymbol($details['store_currency']).$details['discount_amount']." from ".$details['store'];
+                                    $subject_reminder = "Share your feedback and receive ".getCurrencySymbol($details['store_currency']).$details['discount_amount']." from ".$details['shopify_store_name'];
                                }else if($settings->locale == "de"){
-                                    $subject_reminder = "Teilen Sie Ihr Feedback und erhalten Sie ".getCurrencySymbol($details['store_currency']).$details['discount_amount']." von ".$details['store'];
+                                    $subject_reminder = "Teilen Sie Ihr Feedback und erhalten Sie ".getCurrencySymbol($details['store_currency']).$details['discount_amount']." von ".$details['shopify_store_name'];
                                }else if($settings->locale == "es"){
-                                    $subject_reminder = "Comparte tus comentarios y recibe ".getCurrencySymbol($details['store_currency']).$details['discount_amount']." de ".$details['store'];
+                                    $subject_reminder = "Comparte tus comentarios y recibe ".getCurrencySymbol($details['store_currency']).$details['discount_amount']." de ".$details['shopify_store_name'];
                                }else if($settings->locale == "fr"){
-                                    $subject_reminder = "Donnez votre avis et recevez ".getCurrencySymbol($details['store_currency']).$details['discount_amount']." de ".$details['store'];
+                                    $subject_reminder = "Donnez votre avis et recevez ".getCurrencySymbol($details['store_currency']).$details['discount_amount']." de ".$details['shopify_store_name'];
                                }else if($settings->locale == "it"){
-                                    $subject_reminder = "Condividi i tuoi commenti e ricevi ".getCurrencySymbol($details['store_currency']).$details['discount_amount']." da ".$details['store'];
+                                    $subject_reminder = "Condividi i tuoi commenti e ricevi ".getCurrencySymbol($details['store_currency']).$details['discount_amount']." da ".$details['shopify_store_name'];
                                }else if($settings->locale == "pt"){
-                                    $subject_reminder = "Compartilhe seus comentários e receba ".getCurrencySymbol($details['store_currency']).$details['discount_amount']." de ".$details['store'];
+                                    $subject_reminder = "Compartilhe seus comentários e receba ".getCurrencySymbol($details['store_currency']).$details['discount_amount']." de ".$details['shopify_store_name'];
                                }
                                $params = array(
                                 'from' => "Vidial < ".env('MAIL_USERNAME')." >",
@@ -109,8 +116,9 @@ class EmailSendToCustomerCron extends Command
                                 'subject' => $subject_reminder,
                                 'template' => $settings->locale=='en' ? 'reminder-email' : "reminder-email_".$settings->locale ,
                                 'v:name' => $details['name'],
-                                'v:store' => $details['store'],
+                                'v:store' => $details['shopify_store_name'],
                                 'v:storename' => $details['store_name'],
+                                'v:store_name' => $details['shopify_store_name'],
                                 'v:amount'=>getCurrencySymbol($details['store_currency']).$details['discount_amount'],
                                 'v:url' => $details['url'],
 
