@@ -6,17 +6,17 @@ use App\Models\Plan;
 use App\Models\User;
 use App\Models\Video;
 use Illuminate\Http\Request;
+use App\Models\EmailTemplate;
 
 class AdminController extends Controller
 {
     public function showadminlogin()
     {
-
     }
     public function fetchingdataofusers()
     {
 
-        $user_info = User::with(['plan', 'videos_count','mail_count'])
+        $user_info = User::with(['plan', 'videos_count', 'mail_count'])
             ->where('role_id', "2")
             ->withCount('videos')
             ->get();
@@ -28,7 +28,7 @@ class AdminController extends Controller
             $plan_info = $user->plan;
             $send_mail_count = $user->mail_count->count();
 
-            if($user != null){
+            if ($user != null) {
                 $store_list[] = [
                     'id' => $user->id,
                     'store_name' => $user->name,
@@ -49,17 +49,36 @@ class AdminController extends Controller
 
     public function update_status_for_water_mark(Request $request)
     {
-      $user_info = User::where('id', $request->user_id)
-        ->update([
-           'water_mark' => $request->status
-        ]);
+        $user_info = User::where('id', $request->user_id)
+            ->update([
+                'water_mark' => $request->status
+            ]);
 
 
         return response()->json([
             'success' => true,
             'message' => 'WaterMark Status Updated',
-            'user_details' => $user_info ,
+            'user_details' => $user_info,
             // 'updated_record' => $store_list
         ]);
+    }
+
+    // test email
+
+    public function testEmail()
+    {
+        $user_template= EmailTemplate::with('user')->where('user_id',1)
+        ->where('type','=', 'Post_Purchase')
+        ->first();
+
+        if($user_template){
+            $body['body'] = $user_template['body'];
+            $body['btn_text'] =  $user_template['btn_text'];
+            $body['btn_color'] =  $user_template['btn_color'];
+            sendMail('ali@swishtag.com', $user_template['subject'], 'emails.Post_Purchase', ['body' => $body]);
+        }
+
+
+        //dd(sendMail('ali@swishtag.com', $postPurchase['subject'], $postPurchase['body'],$params));
     }
 }

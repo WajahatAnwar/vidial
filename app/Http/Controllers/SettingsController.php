@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\EmailTemplate;
 use App\Models\User;
 use App\Models\Setting;
 use Illuminate\Http\Request;
@@ -272,4 +273,54 @@ class SettingsController extends Controller
             'data'=>$data
         ]);
       }
+
+      /**
+       * create Email Template for a Merchant
+       * @param Request $request
+       * 
+       */
+
+       public function saveEmailSettings(Request $request){
+        $logo_path='';
+        if ($request->file('logo')) {
+            $logo_path = time() . '.' . $request->file('logo')->extension();
+            $request->file('logo')->move(public_path('emails_logo'), $logo_path);
+        }
+            EmailTemplate::updateOrCreate(['user_id' => Auth::user()->id],[
+                'logo'=> $logo_path,
+                'subject'=>$request->subject ?? '',
+                'body'=>$request->body ?? '',
+                'btn_text'=>$request->buttonText ?? '',
+                'btn_color'=>$request->buttonColorHex ?? '#000000',
+                'type'=>$request->type,
+                'user_id'=>Auth::user()->id
+            ]);
+        return response()->json([
+            'success' => true,
+            'message' => "Template Created Successfully",
+            'data' => null
+        ]);
+            
+       }
+
+       /**
+        * Fetch Template settings
+        */
+
+     public function fetchEmailSettings(Request $request){
+        
+        $template = EmailTemplate::where('type',$request->type)
+        ->where('user_id',Auth::user()->id)
+        ->first();
+
+        $data['template'] = $template;
+       
+
+        return response()->json([
+            'success' => true,
+            'message' => "Template Created Successfully",
+            'data' => $data
+        ]);
+
+     }
 }

@@ -123,6 +123,10 @@ Route::group(['middleware' => 'verify.shopify'], function () {
     Route::post('removeInspirationalVideo', [SettingsController::class, 'removeInspirationalVideo']);
     Route::post('removeLogo', [SettingsController::class, 'removeLogo']);
     Route::post('fetchCurrentUser', [SettingsController::class, 'fetchCurrentUser']);
+    Route::post('save-email-settings', [SettingsController::class, 'saveEmailSettings']);
+    Route::get('fetch-email-settings', [SettingsController::class, 'fetchEmailSettings']);
+   
+    
 });
 
 //Email setting Portion
@@ -135,6 +139,7 @@ Route::get('send_customers', [OrdersController::class, 'customers_send_email'])-
 Route::get('review_updated/{id}', [OrdersController::class, 'review_updated'])->name('review_updated');
 
 Route::get('get_plans', [OrdersController::class, 'get_plans'])->name('get_plans')->middleware(['verify.shopify']);
+Route::get('testEmail',[AdminController::class, 'testEmail']);
 
 ######################################################################## EXTRA ROUTES ########################################################################
 

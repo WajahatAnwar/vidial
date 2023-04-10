@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Crypt;
 use App\Models\Orders;
 use App\Models\Log;
+use Mailgun\Mailgun;
 
 if (!function_exists('update_log_file')) {
     function update_log_file($data)
@@ -289,4 +290,29 @@ function getCurrencySymbol($currency_code){
     }
     return $currency_code;
 }
+}
+
+/****** sending mail ******/
+
+if(!function_exists('sendMail'))
+{
+    function sendMail($to, $subject, $view, $data = [])
+    {
+        $mgClient = Mailgun::create(
+            env('MAILGUN_SECRET'), // Mailgun API Key
+            env('MAILGUN_ENDPOINT')
+        );
+        $domain = env('MAILGUN_DOMAIN');
+
+        $html = view($view, $data)->render();
+
+        $params = [
+            'from' => env('MAIL_USERNAME'),
+            'to' => $to,
+            'subject' => $subject,
+            'html' => $html,
+        ];
+
+        return $mgClient->messages()->send($domain, $params);
+    }
 }

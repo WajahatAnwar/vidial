@@ -58,6 +58,7 @@ localStorage.setItem('store',storeName);
 */
 
 const PostPurchaseEmail = () => {
+  
     const navigate = useNavigate();
     const [active, setActive] = useState(false);
     const handleChange = useCallback(() => setActive(!active), [active]);
@@ -68,6 +69,8 @@ const PostPurchaseEmail = () => {
     const [notes2, setNotes2] = useState(`Use {{name}} or {{last_name}} as a placeholder for the user’s first or last name`);
     const [notes3, setNotes3] = useState(`Use {{amount}} for the store credit you are offering to your customers`);
     const [contentPlaceholder, setContentPlaceholder] = useState(``);
+
+
     // drop zone code start
     const [files, setFiles] = useState([]);
 
@@ -76,6 +79,9 @@ const PostPurchaseEmail = () => {
             setFiles((files) => [...files, ...acceptedFiles]),
         [],
     );
+    const successToast = active ? (
+        <Toast content="Settings Saved" onDismiss={true} />
+    ) : null;
 
     const validImageTypes = ['image/gif', 'image/jpeg', 'image/png'];
 
@@ -116,11 +122,30 @@ const PostPurchaseEmail = () => {
         saturation: 0,
     });
     const [gradientCheck, setGradientCheck] = useState(false);
-    const log = () => {
-        if (editorRef.current) {
-            console.log(editorRef.current.getContent());
-            setContent(editorRef.current.getContent());
-        }
+    const handleSaveEmailSettings = () => {
+        
+        setContent(editorRef.current.getContent());
+        const formData = new FormData();
+        formData.append('subject',subject);
+        formData.append('buttonText', buttonText);
+        formData.append('buttonColorHex', buttonColorHex);
+        formData.append('body',editorRef.current.getContent());
+        formData.append('type', 'Post_purchase')
+        formData.append('logo', files[0])
+       
+            fetch('/save-email-settings',{
+                method:"POST",
+                body:formData
+            }).
+            then((response)=>response.json())
+            .then((data)=>{
+                if(data.success){
+                    alert('save settings successfully');
+                    //successToast();
+                }
+            })
+           
+        
     };
     const editorRef = useRef(null);
     const [htmlContent, setHtmlContent] = useState(`<p>Hello {{name}},</p>
@@ -128,8 +153,33 @@ const PostPurchaseEmail = () => {
     <p><br>That's why we would like to offer you a {{amount}} gift card to our store in exchange for a video where you share your opinion about our products.</p>`);
 
     const handleEditorChange = (content, _) => {
-      setHtmlContent(content);
+        setHtmlContent(content);
     };
+
+    useEffect(() => {
+        fetch("/fetch-email-settings?type=Post_Purchase", {
+            method: "GET",
+        }).then((response) => {
+            if (!response.ok) {
+                throw new Error("Something went wrong");
+            }
+            return response.json();
+        }).then((data) => {
+            setSubject(data.data.template.subject);
+            setButtonText(data.data.template.btn_text);
+            setButtonColorHex(data.data.template.btn_color);
+            setHtmlContent(data.data.template.body);
+            //setFiles(data.data.template.logo)
+
+            //    console.log("data");
+            //    console.log(data);
+        }).catch((error) => {
+            console.log(error);
+        });
+
+
+
+    }, []);
 
     return (
         <div>
@@ -293,7 +343,7 @@ const PostPurchaseEmail = () => {
                                         <div style={{ display: "flex", marginTop: "20px" }}>
                                             <Button onClick={handleChange}>Preview Template</Button>
                                             <span style={{ marginRight: "10px" }}></span>
-                                            <Button onClick={log} primary>Save</Button>
+                                            <Button onClick={handleSaveEmailSettings} primary>Save</Button>
                                         </div>
                                     </Grid.Cell>
                                 </Grid>
@@ -311,20 +361,20 @@ const PostPurchaseEmail = () => {
                                 <Card sectioned>
                                     {/* <img style={{ display: "block", margin: "auto", marginTop: "20px", marginBottom: "20px" }} src={logo}></img> */}
                                     {files.map((file, index) => (
-                    <div key={index}>
-                        <img
-                        style={{ display: "block", margin: "auto", marginTop: "20px", marginBottom: "20px" }}
-                            alt={file.name}
-                            src={
-                                validImageTypes.includes(file.type)
-                                    ? window.URL.createObjectURL(file)
-                                    : NoteMinor
-                            }
-                        />
-                    </div>
-                ))}
+                                        <div key={index}>
+                                            <img
+                                                style={{ display: "block", margin: "auto", marginTop: "20px", marginBottom: "20px" }}
+                                                alt={file.name}
+                                                src={
+                                                    validImageTypes.includes(file.type)
+                                                        ? window.URL.createObjectURL(file)
+                                                        : NoteMinor
+                                                }
+                                            />
+                                        </div>
+                                    ))}
                                     <div dangerouslySetInnerHTML={{ __html: htmlContent }}></div>
-                                    <div style={{marginTop:"50px"}}></div>
+                                    <div style={{ marginTop: "50px" }}></div>
                                     <button style={{ fontSize: "18px", background: buttonColorHex, color: "#fff", border: "none", borderRadius: "4px", display: "block", margin: "50px auto", padding: "8px 80px" }}>{buttonText}</button>
                                 </Card>
                             </div>
