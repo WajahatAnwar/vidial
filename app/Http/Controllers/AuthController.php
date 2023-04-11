@@ -94,7 +94,7 @@ class AuthController extends Controller
         $data = [
             'name' => $user->name,
             'email' => $user->email,
-            'link' => "https://4e1f-2400-adc5-1b3-b500-c4af-fdd3-6142-5728.in.ngrok.io/reset-password?token=$token&email=$request->email",
+            'link' => "https://5976-2400-adc5-1b3-b500-bcb0-202a-baea-9f0.ngrok-free.app/reset-password?token=$token&email=$request->email",
         ];
         $passwordReset = PasswordReset::create([
             'email' => $user->email,

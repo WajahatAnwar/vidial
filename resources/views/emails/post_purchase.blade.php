@@ -10,6 +10,6 @@
     {{-- <img src="vidialLogoPower.png" style="display: block;margin: 20px auto;max-width: 300px;"> --}}
      {!! $body['body'] !!}
     <div style="margin-top: 50px;"></div>
-    <button style="font-size: 18px;background:{{$body['btn_color']}};color: #fff;border: none;border-radius: 4px;display: block;margin: 50px auto;padding: 12px 40px;cursor: pointer;">{{$body['btn_text']}}</button>
+    <a href="{{$body['url']}}" style="font-size: 18px;background:{{$body['btn_color']}};color: #fff;border: none;border-radius: 4px;display: block;margin: 50px auto;padding: 12px 40px;cursor: pointer;">{{$body['btn_text']}}</a>
 </body>
 </html>

@@ -196,7 +196,18 @@ public function videoOperation(Request $request){
             'store_credit'=>$current_settings->store_credit,
             'store_currency'=>getCurrencySymbol($user->store_currency)
         ];
-        dispatch(new videoMail($details));
+            //dispatch(new videoMail($details));
+            $temlateDetails['user_id'] = Auth::user()->id;
+            $temlateDetails['type'] = 'UGC_Approved';
+            $temlateDetails['view'] = 'emails.ugc_approved';
+            $temlateDetails['mail'] = $videos->email;
+            $temlateDetails['name'] = $videos->email;
+            $temlateDetails['storename'] = auth()->user()->store_name;
+            $temlateDetails['amount'] = '';
+            $temlateDetails['url'] = 'https://'.$user->name;
+            //$temlateDetails['name'] = $videos->email;
+            $temlateDetails['discount_code'] = $code['code'];
+            dispatch(new EmailTemplateJob($temlateDetails));
         $log_details = [
             'type' => "EMAIL",
             'send_to' => $videos->email,
@@ -264,20 +275,18 @@ public function rejectVideo(Request $request){
             ];
             //dispatch(new NotApprovedMailjob($details));
             $temlateDetails['user_id'] = Auth::user()->id;
-            $temlateDetails['type'] = 'Reminder';
-            $temlateDetails['view'] = 'emails.reminder';
-            //$temlateDetails['mail'] = 'emails.reminder';
+            $temlateDetails['type'] = 'UGC_Declined';
+            $temlateDetails['view'] = 'emails.ugc_declined';
+            $temlateDetails['mail'] = $videos->email;
+            $temlateDetails['name'] = $videos->email;
+            $temlateDetails['storename'] = auth()->user()->store_name;
+            $temlateDetails['amount'] = Auth::user()->settings->store_credit;
+            $temlateDetails['url'] = env('APP_URL')."/landingPage"."/". Auth::user()->settings->locale ."?store=".Auth::user()->name;
+            
+            //$temlateDetails['name'] = $videos->email;
+            $temlateDetails['discount_code'] = '';
             dispatch(new EmailTemplateJob($temlateDetails));
-            $user_template = EmailTemplate::with('user')->where('user_id', Auth::user()->id)
-            ->where('type', '=', 'Reminder')
-            ->first();
-            if ($user_template) {
-                $body['body'] = $user_template['body'];
-                $body['btn_text'] =  $user_template['btn_text'];
-                $body['btn_color'] =  $user_template['btn_color'];
-                sendMail($videos->email, $user_template['subject'], 'emails.reminder', ['body' => $body]);
-                //dd('sent');
-            }
+            
 
             $log_details = [
                 'type' => "EMAIL",

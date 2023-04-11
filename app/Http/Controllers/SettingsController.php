@@ -286,7 +286,7 @@ class SettingsController extends Controller
             $logo_path = time() . '.' . $request->file('logo')->extension();
             $request->file('logo')->move(public_path('emails_logo'), $logo_path);
         }
-            EmailTemplate::updateOrCreate(['user_id' => Auth::user()->id],[
+            EmailTemplate::updateOrCreate(['user_id' => Auth::user()->id,'type'=> $request->type],[
                 'logo'=> $logo_path,
                 'subject'=>$request->subject ?? '',
                 'body'=>$request->body ?? '',
@@ -312,15 +312,22 @@ class SettingsController extends Controller
         $template = EmailTemplate::where('type',$request->type)
         ->where('user_id',Auth::user()->id)
         ->first();
+        if($template){
 
-        $data['template'] = $template;
-       
+            $data['template'] = $template;
+            return response()->json([
+                'success' => true,
+                'message' => "Template Created Successfully",
+                'data' => $data
+            ]);
+        }
 
         return response()->json([
-            'success' => true,
-            'message' => "Template Created Successfully",
-            'data' => $data
-        ]);
+                'success' => false,
+                'message' => "Data not found",
+                'data' => null
+            ]);
+
 
      }
 }

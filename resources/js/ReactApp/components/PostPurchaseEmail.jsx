@@ -1,6 +1,5 @@
 import React, { useEffect, useRef } from "react";
 import {
-    hex,
     hsbToHex,
     hsbToRgb,
     hslToRgb,
@@ -25,7 +24,6 @@ import {
     DropZone,
     Stack,
     Thumbnail,
-    LegacyStack,
     Text,
     Frame,
     Toast,
@@ -49,6 +47,7 @@ import { showStoreName } from "./utils";
 import CrispChat from 'react-crisp';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { Editor } from '@tinymce/tinymce-react';
+import { baseUrl } from "./constants";
 
 /**
 const urlParams = new URLSearchParams(location.search);
@@ -73,11 +72,14 @@ const PostPurchaseEmail = () => {
 
     // drop zone code start
     const [files, setFiles] = useState([]);
+    const [alreadyUploadLogo, setAlreadyUploadedLogo] = useState('');
 
     const handleDropZoneDrop = useCallback(
-        (_dropFiles, acceptedFiles, _rejectedFiles) =>
-            setFiles((files) => [...files, ...acceptedFiles]),
-        [],
+        (_dropFiles, acceptedFiles, _rejectedFiles) => {
+            setAlreadyUploadedLogo('');
+            setFiles((files) => [...files, ...acceptedFiles]);
+        },
+        []
     );
     const successToast = active ? (
         <Toast content="Settings Saved" onDismiss={true} />
@@ -165,10 +167,13 @@ const PostPurchaseEmail = () => {
             }
             return response.json();
         }).then((data) => {
+            if (data.success){
             setSubject(data.data.template.subject);
             setButtonText(data.data.template.btn_text);
             setButtonColorHex(data.data.template.btn_color);
             setHtmlContent(data.data.template.body);
+            setAlreadyUploadedLogo(data.data.template.logo);
+            }
             //setFiles(data.data.template.logo)
 
             //    console.log("data");
@@ -373,6 +378,11 @@ const PostPurchaseEmail = () => {
                                             />
                                         </div>
                                     ))}
+                                    {alreadyUploadLogo && <img
+                                        style={{ display: "block", margin: "auto", marginTop: "20px", marginBottom: "20px", width: "100px", height: "100px" }}
+
+                                        src={alreadyUploadLogo} />}
+                                    
                                     <div dangerouslySetInnerHTML={{ __html: htmlContent }}></div>
                                     <div style={{ marginTop: "50px" }}></div>
                                     <button style={{ fontSize: "18px", background: buttonColorHex, color: "#fff", border: "none", borderRadius: "4px", display: "block", margin: "50px auto", padding: "8px 80px" }}>{buttonText}</button>

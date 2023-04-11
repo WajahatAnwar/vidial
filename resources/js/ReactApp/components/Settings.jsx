@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import {
     Page,
-    hex,
     hsbToHex,
     hsbToRgb,
     hslToRgb,
@@ -211,6 +210,7 @@ const Settings = () => {
     const [video, setVideo] = useState("");
     const [store, setStore] = useState("");
     const [baseUrl, setBaseUrl] = useState("https://app.vidial.co");
+    //const [baseUrl, setBaseUrl] = useState("https://5976-2400-adc5-1b3-b500-bcb0-202a-baea-9f0.ngrok-free.app");
     const [imagename, setImagename] = useState("");
     const [videoname, setVideoname] = useState("");
     const [previewLogo, setPreviwLogo] = useState("");

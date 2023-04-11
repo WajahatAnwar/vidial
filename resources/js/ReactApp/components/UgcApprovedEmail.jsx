@@ -1,6 +1,5 @@
 import React, { useEffect, useRef } from "react";
 import {
-    hex,
     hsbToHex,
     hsbToRgb,
     hslToRgb,
@@ -25,7 +24,6 @@ import {
     DropZone,
     Stack,
     Thumbnail,
-    LegacyStack,
     Text,
     Frame,
     Toast,
@@ -58,6 +56,15 @@ localStorage.setItem('store',storeName);
 */
 
 const UgcApprovedEmail = () => {
+    const [alreadyUploadLogo, setAlreadyUploadedLogo] = useState('');
+
+    const handleDropZoneDrop = useCallback(
+        (_dropFiles, acceptedFiles, _rejectedFiles) => {
+            setAlreadyUploadedLogo('');
+            setFiles((files) => [...files, ...acceptedFiles]);
+        },
+        []
+    );
     const navigate = useNavigate();
     const [active, setActive] = useState(false);
     const handleChange = useCallback(() => setActive(!active), [active]);
@@ -71,11 +78,7 @@ const UgcApprovedEmail = () => {
     // drop zone code start
     const [files, setFiles] = useState([]);
 
-    const handleDropZoneDrop = useCallback(
-        (_dropFiles, acceptedFiles, _rejectedFiles) =>
-            setFiles((files) => [...files, ...acceptedFiles]),
-        [],
-    );
+    
 
     const validImageTypes = ['image/gif', 'image/jpeg', 'image/png'];
 
@@ -102,6 +105,10 @@ const UgcApprovedEmail = () => {
                         </div>
                     </div>
                 ))}
+                {alreadyUploadLogo && <img
+                    style={{ display: "block", margin: "auto", marginTop: "20px", marginBottom: "20px", width: "100px", height: "100px" }}
+
+                    src={alreadyUploadLogo} />}
             </div>
         </div>
     );
@@ -132,6 +139,60 @@ const UgcApprovedEmail = () => {
     const handleEditorChange = (content, _) => {
       setHtmlContent(content);
     };
+    const handleSaveEmailSettings = () => {
+
+        setContent(editorRef.current.getContent());
+        const formData = new FormData();
+        formData.append('subject', subject);
+        formData.append('buttonText', buttonText);
+        formData.append('buttonColorHex', buttonColorHex);
+        formData.append('body', editorRef.current.getContent());
+        formData.append('type', 'UGC_Approved')
+        formData.append('logo', files[0])
+
+        fetch('/save-email-settings', {
+            method: "POST",
+            body: formData
+        }).
+            then((response) => response.json())
+            .then((data) => {
+                if (data.success) {
+                    alert('save settings successfully');
+                    //successToast();
+                }
+            })
+
+
+    };
+    useEffect(() => {
+        fetch("/fetch-email-settings?type=UGC_Approved", {
+            method: "GET",
+        }).then((response) => {
+            if (!response.ok) {
+                throw new Error("Something went wrong");
+            }
+            return response.json();
+        }).then((data) => {
+            if (data.success) {
+
+
+                setSubject(data.data.template.subject);
+                setButtonText(data.data.template.btn_text);
+                setButtonColorHex(data.data.template.btn_color);
+                setHtmlContent(data.data.template.body);
+                setAlreadyUploadedLogo(data.data.template.logo);
+            }
+            //setFiles(data.data.template.logo)
+
+            //    console.log("data");
+            //    console.log(data);
+        }).catch((error) => {
+            console.log(error);
+        });
+
+
+
+    }, []);
 
     return (
         <div>
@@ -295,7 +356,7 @@ const UgcApprovedEmail = () => {
                                         <div style={{ display: "flex", marginTop: "20px" }}>
                                             <Button onClick={handleChange}>Preview Template</Button>
                                             <span style={{ marginRight: "10px" }}></span>
-                                            <Button onClick={log} primary>Save</Button>
+                                            <Button onClick={handleSaveEmailSettings} primary>Save</Button>
                                         </div>
                                     </Grid.Cell>
                                 </Grid>

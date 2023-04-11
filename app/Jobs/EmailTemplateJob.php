@@ -36,9 +36,14 @@ class EmailTemplateJob implements ShouldQueue
             ->first();
         if ($user_template) {
             $body['body'] = $user_template['body'];
+            $body['body'] = str_replace('{{name}}', $this->details['name'], $user_template['body']);
+            $body['body'] = str_replace('{{amount}}', $this->details['amount'], $body['body']);
+            $body['body'] = str_replace('{{storename}}', $this->details['storename'], $body['body']);
+            $body['body'] = str_replace('{{discount_code}}', $this->details['discount_code'], $body['body']);
             $body['btn_text'] =  $user_template['btn_text'];
             $body['btn_color'] =  $user_template['btn_color'];
-            sendMail($videos->email, $user_template['subject'], 'emails.reminder', ['body' => $body]);
+            $body['url'] =  $this->details['url'];
+            sendMail($this->details['mail'], $user_template['subject'], $this->details['view'], ['body' => $body]);
             //dd('sent');
         }
     }
