@@ -67,7 +67,7 @@ class AdminController extends Controller
 
     public function testEmail()
     {
-        $user_template= EmailTemplate::with('user')->where('user_id',1)
+        $user_template= EmailTemplate::with('user')->where('user_id',2)
         ->where('type','=', 'Post_Purchase')
         ->first();
 
@@ -76,6 +76,7 @@ class AdminController extends Controller
             $body['btn_text'] =  $user_template['btn_text'];
             $body['btn_color'] =  $user_template['btn_color'];
             sendMail('ali@swishtag.com', $user_template['subject'], 'emails.Post_Purchase', ['body' => $body]);
+            dd('sent');
         }
 
 

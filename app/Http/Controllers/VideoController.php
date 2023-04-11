@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\EmailTemplateJob;
 use Auth;
 use Dropbox;
 use DateTime;
@@ -21,6 +22,7 @@ use App\Jobs\NotApprovedMailjob;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Crypt;
+
 
 class VideoController extends Controller
 {
@@ -260,7 +262,22 @@ public function rejectVideo(Request $request){
             'url' => env('APP_URL')."/landingPage"."/". Auth::user()->settings->locale ."?store=".Auth::user()->name,
             'locale' =>$user->settings->locale,
             ];
-            dispatch(new NotApprovedMailjob($details));
+            //dispatch(new NotApprovedMailjob($details));
+            $temlateDetails['user_id'] = Auth::user()->id;
+            $temlateDetails['type'] = 'Reminder';
+            $temlateDetails['view'] = 'emails.reminder';
+            //$temlateDetails['mail'] = 'emails.reminder';
+            dispatch(new EmailTemplateJob($temlateDetails));
+            $user_template = EmailTemplate::with('user')->where('user_id', Auth::user()->id)
+            ->where('type', '=', 'Reminder')
+            ->first();
+            if ($user_template) {
+                $body['body'] = $user_template['body'];
+                $body['btn_text'] =  $user_template['btn_text'];
+                $body['btn_color'] =  $user_template['btn_color'];
+                sendMail($videos->email, $user_template['subject'], 'emails.reminder', ['body' => $body]);
+                //dd('sent');
+            }
 
             $log_details = [
                 'type' => "EMAIL",
