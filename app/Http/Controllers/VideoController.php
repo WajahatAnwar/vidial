@@ -174,17 +174,19 @@ public function videoOperation(Request $request){
             'data'=>$data
         ]);
     }
-    $videos = video::where('user_id',Auth::user()->id)
+    $videos = video::with('order')->where('user_id',Auth::user()->id)
     ->where('id',$request->video_id)
     ->where('status','!=',config('constants.video_approved'))
     ->first();
+
+
     if($videos){
         $videos->status =config('constants.video_approved');
         $videos->save();
         $current_settings= Setting::where('user_id',$user->id)->first();
         $code = $this->createDiscountCode();
         $redirect = 'https://'.$user->name;
-
+        $customerName = optional($videos->order)->customer_name;
         $details = [
             'mail' => $videos->email,
             'title' => 'Mail From Vidal',
@@ -201,7 +203,7 @@ public function videoOperation(Request $request){
             $temlateDetails['type'] = 'UGC_Approved';
             $temlateDetails['view'] = 'emails.ugc_approved';
             $temlateDetails['mail'] = $videos->email;
-            $temlateDetails['name'] = $videos->email;
+            $temlateDetails['name'] = $customerName;
             $temlateDetails['storename'] = auth()->user()->store_name;
             $temlateDetails['amount'] = '';
             $temlateDetails['url'] = 'https://'.$user->name;
@@ -254,7 +256,7 @@ public function rejectVideo(Request $request){
             'message' => 'Email Limitation has been expired',
         ]);
     }
-    $videos = video::where('user_id',Auth::user()->id)
+    $videos = video::with('order')->where('user_id',Auth::user()->id)
     ->where('id',$request->video_id)
     ->where('status','!=',config('constants.video_approved'))
     ->first();
@@ -263,6 +265,7 @@ public function rejectVideo(Request $request){
         $videos->save();
         $email_parts = explode('@', $videos->email);
         $name = $email_parts[0];
+        $customerName = optional($videos->order)->customer_name;
 
             $details = [
             'rejectionReason' => $request->reason,
@@ -278,7 +281,7 @@ public function rejectVideo(Request $request){
             $temlateDetails['type'] = 'UGC_Declined';
             $temlateDetails['view'] = 'emails.ugc_declined';
             $temlateDetails['mail'] = $videos->email;
-            $temlateDetails['name'] = $videos->email;
+            $temlateDetails['name'] = $customerName;
             $temlateDetails['storename'] = auth()->user()->store_name;
             $temlateDetails['amount'] = Auth::user()->settings->store_credit;
             $temlateDetails['url'] = env('APP_URL')."/landingPage"."/". Auth::user()->settings->locale ."?store=".Auth::user()->name;

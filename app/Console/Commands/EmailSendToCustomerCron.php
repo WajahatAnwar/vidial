@@ -76,9 +76,12 @@ class EmailSendToCustomerCron extends Command
                             . "?store=" . $settings->user->name . "&order_id=" . Crypt::encryptString($Orders_send_mail->id)
                     ];
                     if ($Orders_send_mail->email_status == 1) {
+                        
                         // \Log::info("if already replied ignore");
+                         \Log::info("email status -- ". $Orders_send_mail->email);
                         //if already replied ignore
                         if ($Orders_send_mail->replied == 0) {
+                            \Log::info("replied 0 " . $Orders_send_mail->email);
                             // reminder mail check
                             // \Log::info(Carbon::now()->diffInDays(Carbon::parse($Orders_send_mail->reminder_mail)));
                             if ($Orders_send_mail->email_send == 1 && $Orders_send_mail->replied == 0 && $Orders_send_mail->remaining_mail > 0) {
@@ -126,13 +129,17 @@ class EmailSendToCustomerCron extends Command
                                     );
                                     //comment code by ali
                                     // $mgClient->messages()->send($domain, $params);
-                                    $temlateDetails['user_id'] = Auth::user()->id;
+                                    $temlateDetails['user_id'] = $Orders_send_mail->user_id;
                                     $temlateDetails['type'] = 'Reminder';
                                     $temlateDetails['view'] = 'emails.reminder';
                                     $temlateDetails['mail'] = $Orders_send_mail->email;
                                     $temlateDetails['storename'] = $details['shopify_store_name'];
                                     $temlateDetails['url'] = $details['url'];
                                     $temlateDetails['amount'] = '';
+                                    $temlateDetails['name'] = $Orders_send_mail->customer_name;
+                                    $temlateDetails['discount_code'] = '';
+                                    
+                                    
                                     dispatch(new EmailTemplateJob($temlateDetails));
                                     $log_details = [
                                         'type' => "EMAIL",
@@ -160,7 +167,7 @@ class EmailSendToCustomerCron extends Command
                         $date1 = Carbon::parse(Carbon::now());
                         $date2 = Carbon::parse($Orders_send_mail->email_send_at);
                         $diffInHours = $date1->diffInHours($date2);
-                        \Log::info($diffInHours);
+                        \Log::info('difference in hours --'.$diffInHours);
                         \Log::info($Orders_send_mail->order_id);
 
 
@@ -200,14 +207,16 @@ class EmailSendToCustomerCron extends Command
 
                             \Log::info(json_encode($params, JSON_PRETTY_PRINT));
                             //comment email code by ali
-                            $temlateDetails['user_id'] = Auth::user()->id;
+                            $temlateDetails['user_id'] = $Orders_send_mail->user_id;
                             $temlateDetails['type'] = 'Post_Purchase';
                             $temlateDetails['view'] = 'emails.post_purchase';
                             $temlateDetails['mail'] = $Orders_send_mail->email;
-                            $temlateDetails['name'] = $Orders_send_mail->email;
+                            $temlateDetails['name'] = $Orders_send_mail->customer_name;
                             $temlateDetails['storename'] = $details['store_name'];
                             $temlateDetails['url'] = $details['url'];
                             $temlateDetails['amount'] = '';
+                            $temlateDetails['discount_code'] = '';
+                            \Log::info('sending email');
                             dispatch(new EmailTemplateJob($temlateDetails));
                             //$mgClient->messages()->send($domain, $params);
 

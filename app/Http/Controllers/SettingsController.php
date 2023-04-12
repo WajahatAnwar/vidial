@@ -151,8 +151,14 @@ class SettingsController extends Controller
         $settings['email_status'] = $request->setting_status;
         $settings['instruction_title'] = $request->instruction_title ?? 'Instructions';
         $settings['locale']=$request->locale ?? 'en';
-
+        $language = Setting::where('user_id', Auth::user()->id)->first();
+        if($language->locale == $request->locale){
+        }else {
+            emailLanguageConverter($request->locale, $currentUser);
+        }
         Setting::updateOrCreate(['user_id'=>$currentUser],$settings);
+        
+        
         return response()->json([
             'success' => true,
             'message' => "Settings saved Successfully",

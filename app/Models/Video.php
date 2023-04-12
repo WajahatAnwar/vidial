@@ -19,4 +19,8 @@ class Video extends Model
     {
         return Carbon::parse($value)->format('d/m/Y');
     }
+
+    public function order(){
+        return $this->belongsTo(Orders::class);
+    }
 }

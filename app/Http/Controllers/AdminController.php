@@ -7,7 +7,7 @@ use App\Models\User;
 use App\Models\Video;
 use Illuminate\Http\Request;
 use App\Models\EmailTemplate;
-
+use Carbon\Carbon;
 class AdminController extends Controller
 {
     public function showadminlogin()
@@ -67,6 +67,11 @@ class AdminController extends Controller
 
     public function testEmail()
     {
+        dd(emailLanguageConverter('fr',5));
+        $date1 = Carbon::parse(Carbon::now());
+        $date2 = Carbon::parse('2023-04-12 07:51:15');
+        $diffInHours = $date1->diffInHours($date2);
+        
         $user_template= EmailTemplate::with('user')->where('user_id',5)
         ->where('type','=', 'Post_Purchase')
         ->first();

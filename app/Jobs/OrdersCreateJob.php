@@ -99,6 +99,7 @@ class OrdersCreateJob implements ShouldQueue
           'email_send_at' => Carbon::parse($payload->created_at)->addDays($shop->settings->page_link) ,
           'reminder_mail' => Carbon::parse($payload->created_at)->addWeek($shop->settings->email_sent_to_customer),
           'email_status' => $shop_settings->email_status ,
+          'customer_name'=>$payload->billing_address->first_name ?? $payload->billing_address->last_name,
         ]);
           // }
          return true;

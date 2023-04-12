@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Jobs\UserResetPasswordJob;
+use App\Models\EmailTemplate;
 use App\Models\PasswordReset;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -202,6 +203,87 @@ class AuthController extends Controller
             $current_user->save();
         }
 
+        $this->videoApprovedTemplate($shop->id);
+        $this->postPurchaseTemplate($shop->id);
+        $this->videoDeclinedTemplate($shop->id);
+        $this->reminderTemplate($shop->id);
+        
         return view('embedded');
+    }
+
+    public function videoApprovedTemplate($user_id){
+        $emailTemplate['logo'] = '';
+        $emailTemplate['user_id'] = $user_id;
+        $emailTemplate['subject'] = 'video approved';
+        $emailTemplate['type'] = 'UGC_Approved';
+        $emailTemplate['body'] = "<p><h1>Hello! Here is your {{amount}} Gift Card!</h1></p>
+<p><br>Hey, Congratulations, Your video for {{storename}} has been approved!</p>
+<p><br>We are constantly inspired by the creativity and passion of our customers, and we appreciate your support.</p>
+<p><br>Here is your Discount :{{discount_code}}</p>
+<p><br>Cheers!<br>{{storename}} Team</p>";
+
+        $emailTemplate['btn_text'] = 'Shop Now';
+        $emailTemplate['btn_color'] = '#000000';
+        EmailTemplate::firstOrCreate(['user_id'=> $user_id,'type'=> 'UGC_Approved']
+        ,$emailTemplate);
+    }
+
+    public function postPurchaseTemplate($user_id)
+    {
+        $emailTemplate['logo'] = '';
+        $emailTemplate['user_id'] = $user_id;
+        $emailTemplate['subject'] = 'post purchase';
+        $emailTemplate['type'] = 'Post_Purchase';
+        $emailTemplate['body'] = "<p><h1>Win a {{amount}} gift card by sharing your experience with us!</h1></p>
+<p><br>Hello {{name}}, <br>Thank you for your previous order.</p>
+<p><br>The feedback of our customers about our products is extremely valuable to us.</p>
+<p>That's why we would like to offer you a {{amount}} gift card to our store in exchange for a video where you share your opinion about our products.</p>
+{{button}}
+<br>
+<p> We truly appreciate hearing our customers' feedback about our brand because satisfying you is our top priority.</p>
+<br>{{storename}} Team";
+        $emailTemplate['btn_text'] = 'Get my gift card';
+        $emailTemplate['btn_color'] = '#000000';
+        EmailTemplate::firstOrCreate(['user_id' => $user_id, 'type' => 'Post_Purchase'],$emailTemplate);
+    }
+
+    public function videoDeclinedTemplate($user_id)
+    {
+        $emailTemplate['logo'] = '';
+        $emailTemplate['user_id'] = $user_id;
+        $emailTemplate['subject'] = 'video declined';
+        $emailTemplate['type'] = 'UGC_Declined';
+        $emailTemplate['body'] = "<p><h1>Update on your Video for {{storename}}</h1></p>
+<p><br>Sorry, Your video for {{storename}} was not approved for the following reason:</p>
+{{reason_decline}}
+<br><p>No worries, you can try again if you want!</p>
+<br>{{storename}} Team";
+
+        $emailTemplate['btn_text'] = 'Get my Gift Card';
+        $emailTemplate['btn_color'] = '#000000';
+        EmailTemplate::firstOrCreate(
+            ['user_id' => $user_id, 'type' => 'UGC_Declined'],
+            $emailTemplate
+        );
+    }
+
+    public function reminderTemplate($user_id)
+    {
+        $emailTemplate['logo'] = '';
+        $emailTemplate['user_id'] = $user_id;
+        $emailTemplate['subject'] = 'reminder';
+        $emailTemplate['type'] = 'Reminder';
+        $emailTemplate['body'] = "<p><h1>Update on your Video for {{storename}}</h1></p>
+<p><br>Sorry, Your video for {{storename}} was not approved for the following reason:</p>
+{{reason_decline}}
+<br><p>No worries, you can try again if you want!</p>
+<br>{{storename}} Team";
+
+        $emailTemplate['btn_text'] = 'Get my Gift Card';
+        $emailTemplate['btn_color'] = '#000000';
+        EmailTemplate::firstOrCreate(
+            ['user_id' => $user_id, 'type' => 'Reminder'],
+            $emailTemplate
+        );
     }
 }
