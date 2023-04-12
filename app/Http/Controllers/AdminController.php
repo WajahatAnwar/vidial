@@ -22,7 +22,7 @@ class AdminController extends Controller
             ->get();
 
         $store_list = [];
-
+        dd($user_info);
         foreach ($user_info as $user) {
             $approved_videos_count = $user->videos_count;
             $plan_info = $user->plan;
