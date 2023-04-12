@@ -25,7 +25,7 @@ class AdminController extends Controller
         
         foreach ($user_info as $user) {
             $video_count = Video::where("status", "Approved")->where("user_id", $user->id)->count();
-            dd($video_count);
+            
             $approved_videos_count = $user->videos_count;
             $plan_info = $user->plan;
             $send_mail_count = $user->mail_count->count();
@@ -35,7 +35,7 @@ class AdminController extends Controller
                     'id' => $user->id,
                     'store_name' => $user->name,
                     'plan_name' => $plan_info ? $plan_info->name : null,
-                    'approved_video' => $approved_videos_count,
+                    'approved_video' => $video_count,
                     'email_send' => $send_mail_count,
                     'Watermark' => $user->water_mark,
                 ];
