@@ -22,8 +22,10 @@ class AdminController extends Controller
             ->get();
 
         $store_list = [];
-        dd($user_info);
+        
         foreach ($user_info as $user) {
+            $video_count = Video::where("status", "Approved")->where("user_id", $user->id)->count();
+            dd($video_count);
             $approved_videos_count = $user->videos_count;
             $plan_info = $user->plan;
             $send_mail_count = $user->mail_count->count();
