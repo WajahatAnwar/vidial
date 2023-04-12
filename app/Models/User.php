@@ -63,7 +63,7 @@ class User extends Authenticatable implements IShopModel
 
     public function videos_count()
     {
-        return $this->hasMany(Video::class)->where('status',"Approved");
+        return $this->hasMany(Video::class)->where('status',config('constants.video_approved'));
     }
 
     public function mail_count()
