@@ -209,6 +209,7 @@ public function videoOperation(Request $request){
             $temlateDetails['url'] = 'https://'.$user->name;
             //$temlateDetails['name'] = $videos->email;
             $temlateDetails['discount_code'] = $code['code'];
+            $temlateDetails['reason_decline'] = '';
             dispatch(new EmailTemplateJob($temlateDetails));
         $log_details = [
             'type' => "EMAIL",
@@ -288,6 +289,7 @@ public function rejectVideo(Request $request){
             
             //$temlateDetails['name'] = $videos->email;
             $temlateDetails['discount_code'] = '';
+            $temlateDetails['reason_decline'] = $request->reason;
             dispatch(new EmailTemplateJob($temlateDetails));
             
 

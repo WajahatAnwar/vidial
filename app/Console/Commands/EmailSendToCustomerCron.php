@@ -138,6 +138,8 @@ class EmailSendToCustomerCron extends Command
                                     $temlateDetails['amount'] = '';
                                     $temlateDetails['name'] = $Orders_send_mail->customer_name;
                                     $temlateDetails['discount_code'] = '';
+                                    $temlateDetails['reason_decline'] = '';
+
                                     
                                     
                                     dispatch(new EmailTemplateJob($temlateDetails));
@@ -216,6 +218,7 @@ class EmailSendToCustomerCron extends Command
                             $temlateDetails['url'] = $details['url'];
                             $temlateDetails['amount'] = '';
                             $temlateDetails['discount_code'] = '';
+                            $temlateDetails['reason_decline'] = '';
                             \Log::info('sending email');
                             dispatch(new EmailTemplateJob($temlateDetails));
                             //$mgClient->messages()->send($domain, $params);

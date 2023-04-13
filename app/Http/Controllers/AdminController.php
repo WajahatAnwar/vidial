@@ -69,27 +69,6 @@ class AdminController extends Controller
 
     public function testEmail()
     {
-        dd(emailLanguageConverter('fr',5));
-        $date1 = Carbon::parse(Carbon::now());
-        $date2 = Carbon::parse('2023-04-12 07:51:15');
-        $diffInHours = $date1->diffInHours($date2);
-        
-        $user_template= EmailTemplate::with('user')->where('user_id',5)
-        ->where('type','=', 'Post_Purchase')
-        ->first();
-
-        if($user_template){
-            $body['body'] = str_replace('{{name}}', 'Ali ahmed', $user_template['body']);
-            $body['body'] = str_replace('{{amount}}', '100', $body['body']);
-           
-            
-            $body['btn_text'] =  $user_template['btn_text'];
-            $body['btn_color'] =  $user_template['btn_color'];
-            sendMail('ali@swishtag.com', $user_template['subject'], 'emails.Post_Purchase', ['body' => $body]);
-            dd('sent');
-        }
-
-
         //dd(sendMail('ali@swishtag.com', $postPurchase['subject'], $postPurchase['body'],$params));
     }
 }

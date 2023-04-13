@@ -344,6 +344,7 @@ if (!function_exists('saveEnLanguage')) {
           <p><br>Hey, Congratulations, Your video for {{storename}} has been approved!</p>
           <p><br>We are constantly inspired by the creativity and passion of our customers, and we appreciate your support.</p>
           <p><br>Here is your Discount :{{discount_code}}</p>
+          <br>{{button}}
            <p><br>Cheers!<br>{{storename}} Team</p>',
                     'btn_text' => 'Shop Now',
                     'btn_color' => '#000000'
@@ -357,7 +358,7 @@ if (!function_exists('saveEnLanguage')) {
 <p><br>Hello {{name}}, <br>Thank you for your previous order.</p>
 <p><br>The feedback of our customers about our products is extremely valuable to us.</p>
 <p>That's why we would like to offer you a {{amount}} gift card to our store in exchange for a video where you share your opinion about our products.</p>
-{{button}}
+<br>{{button}}
 <br>
 <p> We truly appreciate hearing our customers' feedback about our brand because satisfying you is our top priority.</p>
 <br>{{storename}} Team",
@@ -372,6 +373,7 @@ if (!function_exists('saveEnLanguage')) {
 <p><br>Sorry, Your video for {{storename}} was not approved for the following reason:</p>
 {{reason_decline}}
 <br><p>No worries, you can try again if you want!</p>
+<br>{{button}}
 <br>{{storename}} Team",
                     'btn_text' => 'Get my Gift Card',
                     'btn_color' => '#000000'
@@ -381,10 +383,13 @@ if (!function_exists('saveEnLanguage')) {
                     'user_id' => $user_id,
                     'subject' => 'reminder',
                     'type' => 'Reminder',
-                    'body' => "<p><h1>Update on your Video for {{storename}}</h1></p>
-<p><br>Sorry, Your video for {{storename}} was not approved for the following reason:</p>
-{{reason_decline}}
-<br><p>No worries, you can try again if you want!</p>
+                    'body' => "<p><h1>Win a {{amount}} gift card by sharing your experience with us!</h1></p>
+<p><br>Hello, <br>Thank you for your previous order.</p>
+<p>The feedback of our customers about our products is extremely valuable to us.</p>
+<br><p>That's why we would like to offer you a {{amount}} gift card to our store in exchange for a video where you share your opinion about our products</p>
+<br>{{button}}
+<br>
+<p>We truly appreciate hearing our customers' feedback about our brand because satisfying you is our top priority.</p>
 <br>{{storename}} Team",
                     'btn_text' => 'Get my Gift Card',
                     'btn_color' => '#000000'
@@ -410,7 +415,7 @@ if (!function_exists('saveEnLanguage')) {
           <p><br>Nous sommes constamment inspirés par la créativité et la passion de nos clients, et nous apprécions votre soutien.</p>
           <p><br>Voici votre code de réduction :<br>{{discount_code}}</p>
           <p>Vous pouvez utiliser ce code lors du paiement pour bénéficier de votre réduction.</p>
-          {{button}}
+          <br>{{button}}
            <p><br>Cordialement<br>L'équipe de {{storename}}.</p>",
                     'btn_text' => 'Profiter du code de réduction',
                     'btn_color' => '#000000'
@@ -594,6 +599,7 @@ Das {{storename}} Team.",
 <p><br>Lo siento, su video para {{storename}} no fue aprobado por la siguiente razón: <br></p>
 {{reason_decline}}
 <br><p>¡No se preocupe, puede intentarlo de nuevo si lo desea!</p>
+<br>{{button}}
 <br>¡Saludos!<br>
 El equipo de {{storename}}.",
                     'btn_text' => 'Obtener mi tarjeta de regalo',
@@ -635,7 +641,7 @@ El equipo de {{storename}}.",
           <p><br>Somos constantemente inspirados pela criatividade e paixão dos nossos clientes, e apreciamos o seu apoio.</p>
           <p><br>Aqui está o seu desconto :<br>{{discount_code}}</p>
           <p><br>Você pode usar este código ao finalizar a compra para receber o desconto.</p>
-          {{button}}
+          <br>{{button}}
            <p><br>Saudações!<br>Equipe {{storename}}.</p>',
                     'btn_text' => 'Comprar agora',
                     'btn_color' => '#000000'
@@ -706,7 +712,7 @@ El equipo de {{storename}}.",
           <p><br>Siamo costantemente ispirati dalla creatività e dalla passione dei nostri clienti e apprezziamo il tuo sostegno.</p>
           <p><br>Ecco il tuo sconto: <br>{{discount_code}}</p>
           <p><br>Puoi utilizzare questo codice al momento del pagamento per ricevere lo sconto.<p/>
-          {{button}}
+          <br>{{button}}
 
            <p><br>Saluti!<br>Il team di {{storename}}.</p>',
                     'btn_text' => 'Acquista ora',

@@ -220,6 +220,7 @@ class AuthController extends Controller
 <p><br>Hey, Congratulations, Your video for {{storename}} has been approved!</p>
 <p><br>We are constantly inspired by the creativity and passion of our customers, and we appreciate your support.</p>
 <p><br>Here is your Discount :{{discount_code}}</p>
+<br>{{button}}
 <p><br>Cheers!<br>{{storename}} Team</p>";
 
         $emailTemplate['btn_text'] = 'Shop Now';
@@ -238,7 +239,7 @@ class AuthController extends Controller
 <p><br>Hello {{name}}, <br>Thank you for your previous order.</p>
 <p><br>The feedback of our customers about our products is extremely valuable to us.</p>
 <p>That's why we would like to offer you a {{amount}} gift card to our store in exchange for a video where you share your opinion about our products.</p>
-{{button}}
+<br>{{button}}
 <br>
 <p> We truly appreciate hearing our customers' feedback about our brand because satisfying you is our top priority.</p>
 <br>{{storename}} Team";
@@ -256,6 +257,7 @@ class AuthController extends Controller
         $emailTemplate['body'] = "<p><h1>Update on your Video for {{storename}}</h1></p>
 <p><br>Sorry, Your video for {{storename}} was not approved for the following reason:</p>
 {{reason_decline}}
+<br>{{button}}
 <br><p>No worries, you can try again if you want!</p>
 <br>{{storename}} Team";
 
@@ -273,10 +275,13 @@ class AuthController extends Controller
         $emailTemplate['user_id'] = $user_id;
         $emailTemplate['subject'] = 'reminder';
         $emailTemplate['type'] = 'Reminder';
-        $emailTemplate['body'] = "<p><h1>Update on your Video for {{storename}}</h1></p>
-<p><br>Sorry, Your video for {{storename}} was not approved for the following reason:</p>
-{{reason_decline}}
-<br><p>No worries, you can try again if you want!</p>
+        $emailTemplate['body'] = "<p><h1>Win a {{amount}} gift card by sharing your experience with us!</h1></p>
+<p><br>Hello, <br>Thank you for your previous order.</p>
+<p>The feedback of our customers about our products is extremely valuable to us.</p>
+<br><p>That's why we would like to offer you a {{amount}} gift card to our store in exchange for a video where you share your opinion about our products</p>
+<br>{{button}}
+<br>
+<p>We truly appreciate hearing our customers' feedback about our brand because satisfying you is our top priority.</p>
 <br>{{storename}} Team";
 
         $emailTemplate['btn_text'] = 'Get my Gift Card';
