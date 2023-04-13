@@ -35,7 +35,7 @@ class EmailTemplateJob implements ShouldQueue
             ->where('type', '=', $this->details['type'])
             ->first();
         if ($user_template) {
-            $button='<a href="https://google.com" style="text-decoration: none"><button style="font-size: 18px;background:'. $user_template['btn_color'].';color: #fff;border: none;border-radius: 4px;display: block;margin: 50px auto;padding: 12px 40px;cursor: pointer;">'. $user_template['btn_text'].'</button></a>';
+            $button='<a href='.$this->details['url'].' style="text-decoration: none"><button style="font-size: 18px;background:'. $user_template['btn_color'].';color: #fff;border: none;border-radius: 4px;display: block;margin: 50px auto;padding: 12px 40px;cursor: pointer;">'. $user_template['btn_text'].'</button></a>';
             $body['body'] = $user_template['body'];
             $body['body'] = str_replace('{{name}}', $this->details['name'], $user_template['body']);
             $body['body'] = str_replace('{{amount}}', $this->details['amount'], $body['body']);
