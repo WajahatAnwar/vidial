@@ -47,6 +47,7 @@ import { showStoreName } from "./utils";
 import CrispChat from 'react-crisp';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { Editor } from '@tinymce/tinymce-react';
+import "./css/style.css";
 
 /**
 const urlParams = new URLSearchParams(location.search);
@@ -77,7 +78,7 @@ const ReminderEmail = () => {
     // drop zone code start
     const [files, setFiles] = useState([]);
 
-    
+
 
     const validImageTypes = ['image/gif', 'image/jpeg', 'image/png'];
 
@@ -122,19 +123,19 @@ const ReminderEmail = () => {
         saturation: 0,
     });
     const [gradientCheck, setGradientCheck] = useState(false);
+    const editorRef = useRef(null);
     const log = () => {
         if (editorRef.current) {
             console.log(editorRef.current.getContent());
-            setContent(editorRef.current.getContent());
         }
     };
-    const editorRef = useRef(null);
+
     const [htmlContent, setHtmlContent] = useState(`<p>Hey {{name}},</p>
     <p><br>We'd love to hear about your recent shopping experience at {{store_name}}.</p>
     <p><br>Simply record a quick 30-second video sharing your thoughts about our products, and we will reward you with a {{amount}} gift card as a thank you.</p>`);
 
-    const handleEditorChange = (content, _) => {
-      setHtmlContent(content);
+    const handleEditorChange = () => {
+        setContent(content);
     };
     const handleSaveEmailSettings = () => {
 
@@ -171,14 +172,14 @@ const ReminderEmail = () => {
             }
             return response.json();
         }).then((data) => {
-            if(data.success){
+            if (data.success) {
 
-            
-            setSubject(data.data.template.subject);
-            setButtonText(data.data.template.btn_text);
-            setButtonColorHex(data.data.template.btn_color);
-            setHtmlContent(data.data.template.body);
-            setAlreadyUploadedLogo(data.data.template.logo);
+
+                setSubject(data.data.template.subject);
+                setButtonText(data.data.template.btn_text);
+                setButtonColorHex(data.data.template.btn_color);
+                setHtmlContent(data.data.template.body);
+                setAlreadyUploadedLogo(data.data.template.logo);
             }
             //setFiles(data.data.template.logo)
 
@@ -191,7 +192,10 @@ const ReminderEmail = () => {
 
 
     }, []);
-
+    const [finalProcessedContent, setFinalProcessedContent] = useState('');
+    const buttonHtml = `<button style="font-size: 18px;background: ${buttonColorHex};color: rgb(255, 255, 255);border: none;border-radius: 4px;display: block;margin: 0px auto 50px;padding: 8px 80px;" >${buttonText}</button>`;
+    const processedContent = content.replace('{{button}}', buttonHtml);
+    setFinalProcessedContent( + processedContent)
     return (
         <div>
 
@@ -270,7 +274,6 @@ const ReminderEmail = () => {
                                         <Editor
                                             apiKey='your-api-key'
                                             onInit={(evt, editor) => editorRef.current = editor}
-                                            onEditorChange={handleEditorChange}
                                             initialValue={htmlContent}
                                             init={{
                                                 height: 500,
@@ -352,7 +355,11 @@ const ReminderEmail = () => {
 
                                         )}
                                         <div style={{ display: "flex", marginTop: "20px" }}>
-                                            <Button onClick={handleChange}>Preview Template</Button>
+                                            <Button onClick={() => {
+                                                setActive(true);
+                                                console.log(editorRef.current.getContent());
+                                                setContent(editorRef.current.getContent());
+                                            }}>Preview Template</Button>
                                             <span style={{ marginRight: "10px" }}></span>
                                             <Button onClick={handleSaveEmailSettings} primary>Save</Button>
                                         </div>
@@ -367,29 +374,39 @@ const ReminderEmail = () => {
                         title="Sample email"
 
                     >
-                        <Modal.Section>
-                            <div>
-                                <Card sectioned>
+
+                            <div className="previewModel">
+                                <div>
                                     {/* <img style={{ display: "block", margin: "auto", marginTop: "20px", marginBottom: "20px" }} src={logo}></img> */}
                                     {files.map((file, index) => (
-                    <div key={index}>
-                        <img
-                        style={{ display: "block", margin: "auto", marginTop: "20px", marginBottom: "20px" }}
-                            alt={file.name}
-                            src={
-                                validImageTypes.includes(file.type)
-                                    ? window.URL.createObjectURL(file)
-                                    : NoteMinor
-                            }
-                        />
-                    </div>
-                ))}
-                                    <div dangerouslySetInnerHTML={{ __html: htmlContent }}></div>
-                                    <div style={{marginTop:"50px"}}></div>
-                                    <button style={{ fontSize: "18px", background: buttonColorHex, color: "#fff", border: "none", borderRadius: "4px", display: "block", margin: "50px auto", padding: "8px 80px" }}>{buttonText}</button>
-                                </Card>
+                                        <div key={index}>
+                                            <img
+                                                style={{ display: "block", margin: "auto", marginTop: "20px", marginBottom: "20px" }}
+                                                alt={file.name}
+                                                src={
+                                                    validImageTypes.includes(file.type)
+                                                        ? window.URL.createObjectURL(file)
+                                                        : NoteMinor
+                                                }
+                                            />
+                                        </div>
+                                    ))}
+                                    <div className="previewEditor">
+                                        <Editor
+                                            apiKey='your-api-key'
+                                            value={finalProcessedContent}
+                                            onEditorChange={handleEditorChange}
+                                            init={{
+                                                readonly: true,
+                                                height: 500,
+                                                menubar: false,
+                                                toolbar: false
+                                            }}
+                                        />
+                                    </div>
+
+                                </div>
                             </div>
-                        </Modal.Section>
                     </Modal>
                 </Frame>
             </Page>
