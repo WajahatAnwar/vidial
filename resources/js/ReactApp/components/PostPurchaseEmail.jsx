@@ -57,7 +57,7 @@ localStorage.setItem('store',storeName);
 */
 
 const PostPurchaseEmail = () => {
-  
+
     const navigate = useNavigate();
     const [active, setActive] = useState(false);
     const handleChange = useCallback(() => setActive(!active), [active]);
@@ -113,7 +113,28 @@ const PostPurchaseEmail = () => {
             </div>
         </div>
     );
-
+    const uploadedFilesPreview = files.length > 0 && (
+        <div style={{ padding: '0' }}>
+            <div style={{width:"60px",marginBottom:"10px"}} >
+                {files.map((file, index) => (
+                    <div key={index}>
+                        <Thumbnail
+                            size="medium"
+                            alt={file.name}
+                            source={
+                                validImageTypes.includes(file.type)
+                                    ? window.URL.createObjectURL(file)
+                                    : NoteMinor
+                            }
+                        />
+                        <div>
+                        <Icon source={CircleCancelMajor} color="critical" />
+                        </div>
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
     // drop zone code end
     const [buttonColorHide, setButtonColorHide] = useState(false);
     const [buttonColorHex, setButtonColorHex] = useState("#000000");
@@ -125,7 +146,7 @@ const PostPurchaseEmail = () => {
     });
     const [gradientCheck, setGradientCheck] = useState(false);
     const handleSaveEmailSettings = () => {
-        
+
         setContent(editorRef.current.getContent());
         const formData = new FormData();
         formData.append('subject',subject);
@@ -134,7 +155,7 @@ const PostPurchaseEmail = () => {
         formData.append('body',editorRef.current.getContent());
         formData.append('type', 'Post_purchase')
         formData.append('logo', files[0])
-       
+
             fetch('/save-email-settings',{
                 method:"POST",
                 body:formData
@@ -146,8 +167,8 @@ const PostPurchaseEmail = () => {
                     //successToast();
                 }
             })
-           
-        
+
+
     };
     const editorRef = useRef(null);
     const [htmlContent, setHtmlContent] = useState(`<p>Hello {{name}},</p>
@@ -232,9 +253,11 @@ const PostPurchaseEmail = () => {
                                                 {uploadedFiles}
                                                 {fileUpload}
                                             </DropZone>
+
                                             <p style={{ color: "#9A9A9A", marginTop: "10px", marginBottom: "20px" }}>
                                                 You can upload an image in JPG, PNG up to 5MB. Email banner will be displayed in 500px width, for best results, upload an image between 500-1200px wide.
                                             </p>
+                                            {uploadedFilesPreview}
                                         </div>
                                         <Text variant="headingLg" as="h5">
                                             Texts
@@ -382,7 +405,7 @@ const PostPurchaseEmail = () => {
                                         style={{ display: "block", margin: "auto", marginTop: "20px", marginBottom: "20px", width: "100px", height: "100px" }}
 
                                         src={alreadyUploadLogo} />}
-                                    
+
                                     <div dangerouslySetInnerHTML={{ __html: htmlContent }}></div>
                                     <div style={{ marginTop: "50px" }}></div>
                                     <button style={{ fontSize: "18px", background: buttonColorHex, color: "#fff", border: "none", borderRadius: "4px", display: "block", margin: "50px auto", padding: "8px 80px" }}>{buttonText}</button>

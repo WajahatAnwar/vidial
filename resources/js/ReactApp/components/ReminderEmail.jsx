@@ -112,7 +112,28 @@ const ReminderEmail = () => {
             </div>
         </div>
     );
-
+    const uploadedFilesPreview = files.length > 0 && (
+        <div style={{ padding: '0' }}>
+            <div style={{width:"60px",marginBottom:"10px"}} >
+                {files.map((file, index) => (
+                    <div key={index}>
+                        <Thumbnail
+                            size="medium"
+                            alt={file.name}
+                            source={
+                                validImageTypes.includes(file.type)
+                                    ? window.URL.createObjectURL(file)
+                                    : NoteMinor
+                            }
+                        />
+                        <div>
+                        <Icon source={CircleCancelMajor} color="critical" />
+                        </div>
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
     // drop zone code end
     const [buttonColorHide, setButtonColorHide] = useState(false);
     const [buttonColorHex, setButtonColorHex] = useState("#000000");
@@ -192,10 +213,10 @@ const ReminderEmail = () => {
 
 
     }, []);
-    const [finalProcessedContent, setFinalProcessedContent] = useState('');
+
     const buttonHtml = `<button style="font-size: 18px;background: ${buttonColorHex};color: rgb(255, 255, 255);border: none;border-radius: 4px;display: block;margin: 0px auto 50px;padding: 8px 80px;" >${buttonText}</button>`;
     const processedContent = content.replace('{{button}}', buttonHtml);
-    setFinalProcessedContent( + processedContent)
+
     return (
         <div>
 
@@ -245,6 +266,9 @@ const ReminderEmail = () => {
                                             <p style={{ color: "#9A9A9A", marginTop: "10px", marginBottom: "20px" }}>
                                                 You can upload an image in JPG, PNG up to 5MB. Email banner will be displayed in 500px width, for best results, upload an image between 500-1200px wide.
                                             </p>
+
+                                            {uploadedFilesPreview}
+
                                         </div>
                                         <Text variant="headingLg" as="h5">
                                             Texts
@@ -375,38 +399,38 @@ const ReminderEmail = () => {
 
                     >
 
-                            <div className="previewModel">
-                                <div>
-                                    {/* <img style={{ display: "block", margin: "auto", marginTop: "20px", marginBottom: "20px" }} src={logo}></img> */}
-                                    {files.map((file, index) => (
-                                        <div key={index}>
-                                            <img
-                                                style={{ display: "block", margin: "auto", marginTop: "20px", marginBottom: "20px" }}
-                                                alt={file.name}
-                                                src={
-                                                    validImageTypes.includes(file.type)
-                                                        ? window.URL.createObjectURL(file)
-                                                        : NoteMinor
-                                                }
-                                            />
-                                        </div>
-                                    ))}
-                                    <div className="previewEditor">
-                                        <Editor
-                                            apiKey='your-api-key'
-                                            value={finalProcessedContent}
-                                            onEditorChange={handleEditorChange}
-                                            init={{
-                                                readonly: true,
-                                                height: 500,
-                                                menubar: false,
-                                                toolbar: false
-                                            }}
+                        <div className="previewModel">
+                            <div>
+                                {/* <img style={{ display: "block", margin: "auto", marginTop: "20px", marginBottom: "20px" }} src={logo}></img> */}
+                                {files.map((file, index) => (
+                                    <div key={index}>
+                                        <img
+                                            style={{ display: "block", margin: "auto", marginTop: "20px", marginBottom: "20px" }}
+                                            alt={file.name}
+                                            src={
+                                                validImageTypes.includes(file.type)
+                                                    ? window.URL.createObjectURL(file)
+                                                    : NoteMinor
+                                            }
                                         />
                                     </div>
-
+                                ))}
+                                <div className="previewEditor">
+                                    <Editor
+                                        apiKey='your-api-key'
+                                        value={processedContent}
+                                        onEditorChange={handleEditorChange}
+                                        init={{
+                                            readonly: true,
+                                            height: 500,
+                                            menubar: false,
+                                            toolbar: false
+                                        }}
+                                    />
                                 </div>
+
                             </div>
+                        </div>
                     </Modal>
                 </Frame>
             </Page>

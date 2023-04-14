@@ -78,7 +78,7 @@ const UgcApprovedEmail = () => {
     // drop zone code start
     const [files, setFiles] = useState([]);
 
-    
+
 
     const validImageTypes = ['image/gif', 'image/jpeg', 'image/png'];
 
@@ -112,7 +112,28 @@ const UgcApprovedEmail = () => {
             </div>
         </div>
     );
-
+    const uploadedFilesPreview = files.length > 0 && (
+        <div style={{ padding: '0' }}>
+            <div style={{width:"60px",marginBottom:"10px"}} >
+                {files.map((file, index) => (
+                    <div key={index}>
+                        <Thumbnail
+                            size="medium"
+                            alt={file.name}
+                            source={
+                                validImageTypes.includes(file.type)
+                                    ? window.URL.createObjectURL(file)
+                                    : NoteMinor
+                            }
+                        />
+                        <div>
+                        <Icon source={CircleCancelMajor} color="critical" />
+                        </div>
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
     // drop zone code end
     const [buttonColorHide, setButtonColorHide] = useState(false);
     const [buttonColorHex, setButtonColorHex] = useState("#000000");
@@ -243,6 +264,7 @@ const UgcApprovedEmail = () => {
                                             <p style={{ color: "#9A9A9A", marginTop: "10px", marginBottom: "20px" }}>
                                                 You can upload an image in JPG, PNG up to 5MB. Email banner will be displayed in 500px width, for best results, upload an image between 500-1200px wide.
                                             </p>
+                                            {uploadedFilesPreview}
                                         </div>
                                         <Text variant="headingLg" as="h5">
                                             Texts
