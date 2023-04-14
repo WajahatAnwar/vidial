@@ -991,6 +991,7 @@ const Settings = () => {
                                                 >
                                                     <div>
                                                         <img
+                                                        style={{cursor:"pointer"}}
                                                             src={DellIcon}
                                                             onClick={() =>
                                                                 handleRemoveRow(

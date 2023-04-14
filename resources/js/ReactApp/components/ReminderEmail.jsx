@@ -69,6 +69,7 @@ const ReminderEmail = () => {
     const [active, setActive] = useState(false);
     const handleChange = useCallback(() => setActive(!active), [active]);
     const [content, setContent] = useState('');
+    const [from, setFrom] = useState('');
     const [subject, setSubject] = useState('');
     const [buttonText, setButtonText] = useState('Leave a video review');
     const [notes1, setNotes1] = useState(`Use {{order_number}} for the customer’s order number`);
@@ -273,7 +274,7 @@ const ReminderEmail = () => {
                                         <Text variant="headingLg" as="h5">
                                             Texts
                                         </Text>
-                                        <p style={{ fontSize: "15px", marginTop: "20px", marginBottom: "10px", fontWeight: "500" }}>Subject</p>
+                                        <p style={{ fontSize: "15px", marginTop: "20px", marginBottom: "10px", fontWeight: "500" }}>Email Subject </p>
                                         <TextField
 
                                             placeholder="Win a {{amount}} gift card by sharing your experience with us!"
@@ -281,17 +282,30 @@ const ReminderEmail = () => {
                                             onChange={(e) => setSubject(e)}
                                             autoComplete="off"
                                         />
+                                        <p style={{ fontSize: "15px", marginTop: "20px", marginBottom: "10px", fontWeight: "500" }}>From</p>
+                                        <TextField
+
+                                            placeholder=""
+                                            value={from}
+                                            onChange={(e) => setFrom(e)}
+                                            autoComplete="off"
+                                        />
                                         <p style={{ color: "#9A9A9A", marginTop: "20px", }}>
                                             Notes:
                                         </p>
                                         <p style={{ color: "#9A9A9A", }}>
-                                            {notes1}
+                                        Use &#123;&#123;order_number&#125;&#125; for the customer’s order number
                                         </p>
                                         <p style={{ color: "#9A9A9A", }}>
-                                            {notes2}
+                                        Use &#123;&#123;name&#125;&#125; as a placeholder for the user’s first name
                                         </p>
-                                        <p style={{ color: "#9A9A9A", marginBottom: "10px" }}>
-                                            {notes3}
+                                        <p style={{ color: "#9A9A9A", }}>
+                                        Use &#123;&#123;store_name&#125;&#125; to display the name of your brand on the email
+                                        </p>
+                                        <p style={{ color: "#9A9A9A", }}>
+                                        Use &#123;&#123;amount&#125;&#125; for the store credit you are offering to your customer                                        </p>
+                                        <p style={{ color: "#9A9A9A", }}>
+                                        Use &#123;&#123;button&#125;&#125; to display the button call-to-action on the email
                                         </p>
                                         <p style={{ fontSize: "15px", marginTop: "20px", marginBottom: "10px", fontWeight: "500" }}>Content</p>
 
@@ -323,6 +337,7 @@ const ReminderEmail = () => {
 
                                         />
                                         <p style={{ fontSize: "15px", marginTop: "20px", marginBottom: "10px", fontWeight: "500" }}>Button Color</p>
+                                        <div style={{display:"flex",alignItems:"center"}}>
                                         <button
                                             style={{
                                                 marginRight: "10px",
@@ -346,6 +361,13 @@ const ReminderEmail = () => {
                                                 }}
                                             ></img>
                                         </button>
+                                        <div
+                                        style={{
+                                            background: `${buttonColorHex}`,
+                                        }}
+                                        className="colorOptions"
+                                    ></div>
+                                        </div>
                                         {buttonColorHide && (
                                             <div
                                                 className=""
@@ -405,7 +427,7 @@ const ReminderEmail = () => {
                                 {files.map((file, index) => (
                                     <div key={index}>
                                         <img
-                                            style={{ display: "block", margin: "auto", marginTop: "20px", marginBottom: "20px" }}
+                                            style={{ display: "block", margin: "auto", marginTop: "20px", marginBottom: "20px",maxWidth:"250px" }}
                                             alt={file.name}
                                             src={
                                                 validImageTypes.includes(file.type)
