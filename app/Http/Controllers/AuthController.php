@@ -202,19 +202,20 @@ class AuthController extends Controller
             $current_user->role_id = 2;
             $current_user->save();
         }
-
-        $this->videoApprovedTemplate($shop->id);
-        $this->postPurchaseTemplate($shop->id);
-        $this->videoDeclinedTemplate($shop->id);
-        $this->reminderTemplate($shop->id);
+        $user = User::with('settings')->find($shop->id);
+        $this->videoApprovedTemplate($shop->id, $user);
+        $this->postPurchaseTemplate($shop->id, $user);
+        $this->videoDeclinedTemplate($shop->id, $user);
+        $this->reminderTemplate($shop->id, $user);
         
         return view('embedded');
     }
 
-    public function videoApprovedTemplate($user_id){
+    public function videoApprovedTemplate($user_id,$user){
         $emailTemplate['logo'] = '';
         $emailTemplate['user_id'] = $user_id;
-        $emailTemplate['subject'] = 'video approved';
+        $emailTemplate['subject'] = "Here's your " . getCurrencySymbol($user->store_currency) . $user->settings->store_credit . " discount code for " . $user->name;
+
         $emailTemplate['type'] = 'UGC_Approved';
         $emailTemplate['body'] = "<p><h1>Hello! Here is your {{amount}} Gift Card!</h1></p>
 <p><br>Hey, Congratulations, Your video for {{storename}} has been approved!</p>
@@ -229,11 +230,14 @@ class AuthController extends Controller
         ,$emailTemplate);
     }
 
-    public function postPurchaseTemplate($user_id)
+    public function postPurchaseTemplate($user_id, $user)
     {
+
         $emailTemplate['logo'] = '';
         $emailTemplate['user_id'] = $user_id;
-        $emailTemplate['subject'] = 'post purchase';
+        $emailTemplate['subject'] = "Win a " . getCurrencySymbol($user->store_currency) . $user->settings->store_credit . " gift card from " . $user->name;
+
+                           
         $emailTemplate['type'] = 'Post_Purchase';
         $emailTemplate['body'] = "<p><h1>Win a {{amount}} gift card by sharing your experience with us!</h1></p>
 <p><br>Hello {{name}}, <br>Thank you for your previous order.</p>
@@ -248,11 +252,12 @@ class AuthController extends Controller
         EmailTemplate::firstOrCreate(['user_id' => $user_id, 'type' => 'Post_Purchase'],$emailTemplate);
     }
 
-    public function videoDeclinedTemplate($user_id)
+    public function videoDeclinedTemplate($user_id, $user)
     {
         $emailTemplate['logo'] = '';
         $emailTemplate['user_id'] = $user_id;
-        $emailTemplate['subject'] = 'video declined';
+        $emailTemplate['subject'] = "Message for your Video about " . $user->name;
+       
         $emailTemplate['type'] = 'UGC_Declined';
         $emailTemplate['body'] = "<p><h1>Update on your Video for {{storename}}</h1></p>
 <p><br>Sorry, Your video for {{storename}} was not approved for the following reason:</p>
@@ -269,14 +274,15 @@ class AuthController extends Controller
         );
     }
 
-    public function reminderTemplate($user_id)
+    public function reminderTemplate($user_id, $user)
     {
         $emailTemplate['logo'] = '';
         $emailTemplate['user_id'] = $user_id;
-        $emailTemplate['subject'] = 'reminder';
+        $emailTemplate['subject'] = "Share your feedback and receive " . getCurrencySymbol($user->store_currency) . $user->settings->store_credit . " from " . $user->name;
+                           
         $emailTemplate['type'] = 'Reminder';
         $emailTemplate['body'] = "<p><h1>Win a {{amount}} gift card by sharing your experience with us!</h1></p>
-<p><br>Hello, <br>Thank you for your previous order.</p>
+<p><br>Hello {{name}}, <br>Thank you for your previous order.</p>
 <p>The feedback of our customers about our products is extremely valuable to us.</p>
 <br><p>That's why we would like to offer you a {{amount}} gift card to our store in exchange for a video where you share your opinion about our products</p>
 <br>{{button}}

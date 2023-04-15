@@ -67,6 +67,14 @@ const UgcApprovedEmail = () => {
     );
     const navigate = useNavigate();
     const [active, setActive] = useState(false);
+
+    const [activeToggle, setActiveToggle] = useState(false);
+    const toggleActive = useCallback(() => setActiveToggle((activeToggle) => !activeToggle), []);
+
+    const toastMarkup = activeToggle ? (
+        <Toast content="Template Saved" onDismiss={toggleActive} />
+    ) : null;
+    
     const handleChange = useCallback(() => setActive(!active), [active]);
     const [content, setContent] = useState('');
     const [subject, setSubject] = useState('');
@@ -157,7 +165,8 @@ const UgcApprovedEmail = () => {
             then((response) => response.json())
             .then((data) => {
                 if (data.success) {
-                    alert('save settings successfully');
+                    toggleActive();
+                    //alert('save settings successfully');
                     //successToast();
                 }
             })
@@ -198,7 +207,9 @@ const UgcApprovedEmail = () => {
         <div>
 
             <Page>
+
                 <Frame>
+
                     <Grid>
                         <Grid.Cell
                             columnSpan={{
@@ -215,6 +226,7 @@ const UgcApprovedEmail = () => {
                                 <div><img src={backIcon} style={{ marginTop: "4px", }}></img></div>
                                 <p style={{ fontSize: "16px", fontWeight: "500", marginLeft: "8px", marginBottom: "4px" }}>Settings</p>
                             </div>
+                            
                             <Card sectioned>
                                 <Grid>
                                     <Grid.Cell
@@ -393,7 +405,9 @@ const UgcApprovedEmail = () => {
                             </div>
                         </Modal.Section>
                     </Modal>
+                    {toastMarkup && toastMarkup}
                 </Frame>
+                
             </Page>
         </div>
     );

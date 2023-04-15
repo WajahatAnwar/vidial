@@ -300,7 +300,7 @@ if (!function_exists('getCurrencySymbol')) {
 /****** sending mail ******/
 
 if (!function_exists('sendMail')) {
-    function sendMail($to, $subject, $view, $data = [])
+    function sendMail($to, $subject, $view, $data = [],$from= 'Vidial')
     {
         $mgClient = Mailgun::create(
             env('MAILGUN_SECRET'), // Mailgun API Key
@@ -311,7 +311,7 @@ if (!function_exists('sendMail')) {
         $html = view($view, $data)->render();
 
         $params = [
-            'from' => env('MAIL_USERNAME'),
+            'from' => $from." < " . env('MAIL_USERNAME') . " >",
             'to' => $to,
             'subject' => $subject,
             'html' => $html,
@@ -325,22 +325,22 @@ if (!function_exists('emailLanguageConverter')) {
     function emailLanguageConverter($locale, $user_id)
     {
 
-        
-            saveEnLanguage($locale, $user_id);
+        $user = User::with('settings')->find($user_id);
+            saveEnLanguage($locale, $user_id, $user);
         
     }
 }
 
 if (!function_exists('saveEnLanguage')) {
-    function saveEnLanguage($locale, $user_id)
+    function saveEnLanguage($locale, $user_id, $user)
     {
         if ($locale == 'en') {
             $Eng = array(
                 array(
                     'user_id' => $user_id,
-                    'subject' => 'video approved',
+                    'subject' => "Here's your " . getCurrencySymbol($user->store_currency) . $user->settings->store_credit . " discount code for " . $user->name,
                     'type' => 'UGC_Approved',
-                    'body' => '<p><h1>Hello! Here is your {{amount}} Gift Card!</h1></p>
+                    'body' => '<p><h1>Hello {{name}}! Here is your {{amount}} Gift Card!</h1></p>
           <p><br>Hey, Congratulations, Your video for {{storename}} has been approved!</p>
           <p><br>We are constantly inspired by the creativity and passion of our customers, and we appreciate your support.</p>
           <p><br>Here is your Discount :{{discount_code}}</p>
@@ -352,7 +352,7 @@ if (!function_exists('saveEnLanguage')) {
 
                 array(
                     'user_id' => $user_id,
-                    'subject' => 'post purchase',
+                    'subject' => "Win a " . getCurrencySymbol($user->store_currency) . $user->settings->store_credit . " gift card from " . $user->name,
                     'type' => 'Post_Purchase',
                     'body' => "<p><h1>Win a {{amount}} gift card by sharing your experience with us!</h1></p>
 <p><br>Hello {{name}}, <br>Thank you for your previous order.</p>
@@ -367,7 +367,8 @@ if (!function_exists('saveEnLanguage')) {
                 ),
                 array(
                     'user_id' => $user_id,
-                    'subject' => 'video declined',
+                    'subject' => "Message for your Video about " . $user->name,
+                    
                     'type' => 'UGC_Declined',
                     'body' => "<p><h1>Update on your Video for {{storename}}</h1></p>
 <p><br>Sorry, Your video for {{storename}} was not approved for the following reason:</p>
@@ -381,7 +382,7 @@ if (!function_exists('saveEnLanguage')) {
 
                 array(
                     'user_id' => $user_id,
-                    'subject' => 'reminder',
+                    'subject' => "Share your feedback and receive " . getCurrencySymbol($user->store_currency) . $user->settings->store_credit . " from " . $user->name,
                     'type' => 'Reminder',
                     'body' => "<p><h1>Win a {{amount}} gift card by sharing your experience with us!</h1></p>
 <p><br>Hello, <br>Thank you for your previous order.</p>
@@ -409,9 +410,9 @@ if (!function_exists('saveEnLanguage')) {
             $fr = array(
                 array(
                     'user_id' => $user_id,
-                    'subject' => 'video approved',
+                    'subject' => "Voici votre Code de Réduction de " . getCurrencySymbol($user->store_currency) . $user->settings->store_credit . " pour " . $user->name,
                     'type' => 'UGC_Approved',
-                    'body' => "<p><h1>Félicitations ! Votre vidéo pour {{storename}} a été approuvée !</h1></p>
+                    'body' => "<p><h1>Félicitations {{name}}! Votre vidéo pour {{storename}} a été approuvée !</h1></p>
           <p><br>Nous sommes constamment inspirés par la créativité et la passion de nos clients, et nous apprécions votre soutien.</p>
           <p><br>Voici votre code de réduction :<br>{{discount_code}}</p>
           <p>Vous pouvez utiliser ce code lors du paiement pour bénéficier de votre réduction.</p>
@@ -423,7 +424,7 @@ if (!function_exists('saveEnLanguage')) {
 
                 array(
                     'user_id' => $user_id,
-                    'subject' => 'post purchase',
+                    'subject' => "Gagnez une carte-cadeau de " . getCurrencySymbol($user->store_currency) . $user->settings->store_credit . " sur  " . $user->name,
                     'type' => 'Post_Purchase',
                     'body' => "<p><h1>Gagnez une carte cadeau de {{amount}} en partageant votre expérience avec nous !</h1></p>
 <p><br>Bonjour {{name}},</p>
@@ -441,7 +442,7 @@ L'équipe de {{storename}}.",
                 ),
                 array(
                     'user_id' => $user_id,
-                    'subject' => 'video declined',
+                    'subject' => "Message pour votre vidéo à propos de ". $user->name,
                     'type' => 'UGC_Declined',
                     'body' => "<p><h1>Message concernant votre vidéo pour {{storename}}</h1></p>
 <p><br>Désolé, mais votre vidéo pour {{storename}} n'a pas été approuvée pour la raison suivante :</p>
@@ -459,11 +460,11 @@ L'équipe {{storename}}.",
 
                 array(
                     'user_id' => $user_id,
-                    'subject' => 'reminder',
+                    'subject' => "Donnez votre avis et recevez " . getCurrencySymbol($user->store_currency) . $user->settings->store_credit . " de " . $user->name,
                     'type' => 'Reminder',
                     'body' => "<p><h1>Partagez-nous votre avis pour gagner une carte cadeau de {{amount}} !</h1></p>
 <p><br>Bonjour,{{name}}</p>
-<p><br>Nous aimerions beaucoup connaître votre expérience d'achat chez {{store_name}}.</p>
+<p><br>Nous aimerions beaucoup connaître votre expérience d'achat chez {{storename}}.</p>
 <p><br>II vous suffit d'enregistrer une courte vidéo de quelques secondes pour partager vos impressions sur nos produits et nous vous récompenserons avec une carte cadeau de {{amount}} en guise de remerciement.</p>
 <br>{{button}}
 <p><br>Merci pour votre confiance et votre fidélité.</p>
@@ -490,9 +491,9 @@ L'équipe {{storename}}.",
             $de = array(
                 array(
                     'user_id' => $user_id,
-                    'subject' => 'video approved',
+                    'subject' => "Hier ist Ihr " . getCurrencySymbol($user->store_currency) . $user->settings->store_credit . " Rabattcode für " . $user->name,
                     'type' => 'UGC_Approved',
-                    'body' => '<p><h1>Hallo! Hier ist Ihre Geschenkkarte im Wert von {{amount}}!</h1></p>
+                    'body' => '<p><h1>Hallo {{name}}! Hier ist Ihre Geschenkkarte im Wert von {{amount}}!</h1></p>
           <p><br>Herzlichen Glückwunsch! Ihr Video für {{storename}} wurde genehmigt!</p>
           <p><br>Wir sind ständig von der Kreativität und Leidenschaft unserer Kunden inspiriert und wir schätzen Ihre Unterstützung.</p>
           <p><br>Sie können diesen Code beim Bezahlen verwenden, um Ihren Rabatt zu erhalten.</p>
@@ -504,7 +505,7 @@ L'équipe {{storename}}.",
 
                 array(
                     'user_id' => $user_id,
-                    'subject' => 'post purchase',
+                    'subject' => "Gewinnen Sie eine Geschenkkarte im Wert von " . getCurrencySymbol($user->store_currency) . $user->settings->store_credit . " für " . $user->name,
                     'type' => 'Post_Purchase',
                     'body' => "<p><h1>Gewinnen Sie eine Geschenkkarte im Wert von {{amount}}, indem Sie Ihre Erfahrungen mit uns teilen!</h1></p>
 <p><br>Guten Tag!{{name}}, <br>Wir bedanken uns nochmals für Ihre Bestellung.</p>
@@ -522,7 +523,7 @@ Das {{storename}} Team.",
                 ),
                 array(
                     'user_id' => $user_id,
-                    'subject' => 'video declined',
+                    'subject' => "Nachricht für Ihr Video über " . $user->name,
                     'type' => 'UGC_Declined',
                     'body' => "<p><h1>Nachricht bezüglich Ihres Videos für {{storename}}</h1></p>
 <p><br>Entschuldigung, Ihr Video für {{storename}} wurde aus folgendem Grund nicht genehmigt:</p>
@@ -537,7 +538,7 @@ Das {{storename}} Team.",
 
                 array(
                     'user_id' => $user_id,
-                    'subject' => 'reminder',
+                    'subject' => "Teilen Sie Ihr Feedback und erhalten Sie " . getCurrencySymbol($user->store_currency) . $user->settings->store_credit . " von " . $user->name,
                     'type' => 'Reminder',
                     'body' => "<p><h1>Teilen Sie uns Ihre Meinung mit und gewinnen Sie eine Geschenkkarte im Wert von {{amount}} !</h1></p>
 <p><br>Hallo, Wir würden uns freuen, Ihre Einkaufserfahrung bei {{store_name}} kennenzulernen.</p>
@@ -562,9 +563,9 @@ Das {{storename}} Team.",
             $sp = array(
                 array(
                     'user_id' => $user_id,
-                    'subject' => 'video approved',
+                    'subject' => "Aquí está su código de descuento de " . getCurrencySymbol($user->store_currency) . $user->settings->store_credit . " para " . $user->name,
                     'type' => 'UGC_Approved',
-                    'body' => '<p><h1>¡Hola! ¡Aquí está tu tarjeta de regalo de {{amount}}!</h1></p>
+                    'body' => '<p><h1>¡Hola {{name}}! ¡Aquí está tu tarjeta de regalo de {{amount}}!</h1></p>
           <p><br>¡Felicidades! ¡Tu video para {{storename}} ha sido aprobado!</p>
           <p><br>Nos inspiramos constantemente en la creatividad y pasión de nuestros clientes, y apreciamos tu apoyo.</p>
           <p><br>Aquí está tu descuento : <br>{{discount_code}}</p>
@@ -577,7 +578,7 @@ Das {{storename}} Team.",
 
                 array(
                     'user_id' => $user_id,
-                    'subject' => 'post purchase',
+                    'subject' => "Gana una tarjeta de regalo de " . getCurrencySymbol($user->store_currency) . $user->settings->store_credit . " para " . $user->name,
                     'type' => 'Post_Purchase',
                     'body' => "<p><h1>¡Gana una tarjeta de regalo de {{amount}} compartiendo tu experiencia con nosotros!</h1></p>
 <p><br>¡Hola! {{name}}, <br>Gracias de nuevo por tu pedido.</p>
@@ -593,7 +594,7 @@ Das {{storename}} Team.",
                 ),
                 array(
                     'user_id' => $user_id,
-                    'subject' => 'video declined',
+                    'subject' => "Mensaje para su video sobre " . $user->name,
                     'type' => 'UGC_Declined',
                     'body' => "<p><h1>Actualización sobre su video para {{storename}}</h1></p>
 <p><br>Lo siento, su video para {{storename}} no fue aprobado por la siguiente razón: <br></p>
@@ -608,7 +609,7 @@ El equipo de {{storename}}.",
 
                 array(
                     'user_id' => $user_id,
-                    'subject' => 'reminder',
+                    'subject' => "Comparte tus comentarios y recibe " . getCurrencySymbol($user->store_currency) . $user->settings->store_credit . " de " . $user->name,
                     'type' => 'Reminder',
                     'body' => "<p><h1>¡Comparta su opinión para ganar una tarjeta de regalo de {{amount}}!</h1></p>
 <p><br>Hola,
@@ -636,7 +637,7 @@ El equipo de {{storename}}.",
                     'user_id' => $user_id,
                     'subject' => 'video approved',
                     'type' => 'UGC_Approved',
-                    'body' => '<p><h1>HelloOlá! Aqui está o seu Cartão de Presente de {{amount}}!</h1></p>
+                    'body' => '<p><h1>HelloOlá {{name}}! Aqui está o seu Cartão de Presente de {{amount}}!</h1></p>
           <p><br>Parabéns! Seu vídeo para {{storename}} foi aprovado!</p>
           <p><br>Somos constantemente inspirados pela criatividade e paixão dos nossos clientes, e apreciamos o seu apoio.</p>
           <p><br>Aqui está o seu desconto :<br>{{discount_code}}</p>
@@ -707,7 +708,7 @@ El equipo de {{storename}}.",
                     'user_id' => $user_id,
                     'subject' => 'video approved',
                     'type' => 'UGC_Approved',
-                    'body' => '<p><h1>Ciao! Ecco la tua Carta Regalo di {{amount}}!</h1></p>
+                    'body' => '<p><h1>Ciao {{name}}! Ecco la tua Carta Regalo di {{amount}}!</h1></p>
           <p><br>Congratulazioni! Il tuo video per {{storename}} è stato approvato!</p>
           <p><br>Siamo costantemente ispirati dalla creatività e dalla passione dei nostri clienti e apprezziamo il tuo sostegno.</p>
           <p><br>Ecco il tuo sconto: <br>{{discount_code}}</p>

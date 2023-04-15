@@ -16,6 +16,10 @@ class EmailTemplate extends Model
     }
 
     public function getLogoAttribute($value){
-       return url('emails_logo/'. $value);
+        if($value){
+            return url('emails_logo/' . $value);
+        }
+        return $value;
+      
     }
 }

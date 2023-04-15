@@ -7,7 +7,10 @@
     <title>Post Purchase Email</title>
 </head>
 <body>
-    <img src="{{$body['logo']}}" style="display: block;margin: 20px auto;max-width: 300px;">
+    @php
+     $logo = $body['logo']=='' ? url('public/images/landing_footer.png') : $body['logo']  
+    @endphp
+    <img src="{{$logo}}" style="display: block;margin: 20px auto;max-width: 300px;">
      {!! $body['body'] !!}
     <div style="margin-top: 50px;"></div>
 

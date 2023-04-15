@@ -56,6 +56,11 @@ localStorage.setItem('store',storeName);
 */
 
 const UgcDeclinedEmail = () => {
+    const [activeToggle, setActiveToggle] = useState(false);
+    const toggleActive = useCallback(() => setActiveToggle((activeToggle) => !activeToggle), []);
+    const toastMarkup = activeToggle ? (
+        <Toast content="Template Saved" onDismiss={toggleActive} />
+    ) : null;
     const [alreadyUploadLogo, setAlreadyUploadedLogo] = useState('');
 
     const handleDropZoneDrop = useCallback(
@@ -157,7 +162,8 @@ const UgcDeclinedEmail = () => {
             then((response) => response.json())
             .then((data) => {
                 if (data.success) {
-                    alert('save settings successfully');
+                    toastMarkup();
+                    //alert('save settings successfully');
                     //successToast();
                 }
             })
@@ -393,6 +399,7 @@ const UgcDeclinedEmail = () => {
                             </div>
                         </Modal.Section>
                     </Modal>
+                    {toastMarkup && toastMarkup}
                 </Frame>
             </Page>
         </div>

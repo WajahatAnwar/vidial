@@ -47,7 +47,7 @@ import { showStoreName } from "./utils";
 import CrispChat from 'react-crisp';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { Editor } from '@tinymce/tinymce-react';
-import { baseUrl } from "./constants";
+
 
 /**
 const urlParams = new URLSearchParams(location.search);
@@ -57,7 +57,11 @@ localStorage.setItem('store',storeName);
 */
 
 const PostPurchaseEmail = () => {
-  
+    const [activeToggle, setActiveToggle] = useState(false);
+    const toggleActive = useCallback(() => setActiveToggle((activeToggle) => !activeToggle), []);
+    const toastMarkup = activeToggle ? (
+        <Toast content="Template Saved" onDismiss={toggleActive} />
+    ) : null;
     const navigate = useNavigate();
     const [active, setActive] = useState(false);
     const handleChange = useCallback(() => setActive(!active), [active]);
@@ -142,7 +146,8 @@ const PostPurchaseEmail = () => {
             then((response)=>response.json())
             .then((data)=>{
                 if(data.success){
-                    alert('save settings successfully');
+                    toastMarkup();
+                    //alert('save settings successfully');
                     //successToast();
                 }
             })
@@ -390,6 +395,7 @@ const PostPurchaseEmail = () => {
                             </div>
                         </Modal.Section>
                     </Modal>
+                    {toastMarkup && toastMarkup}
                 </Frame>
             </Page>
         </div>

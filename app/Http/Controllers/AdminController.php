@@ -69,6 +69,8 @@ class AdminController extends Controller
 
     public function testEmail()
     {
+        
+        dd(EmailTemplate::find(8)->logo== '' ? 'true' :  'data');
         //dd(sendMail('ali@swishtag.com', $postPurchase['subject'], $postPurchase['body'],$params));
     }
 }

@@ -56,6 +56,11 @@ localStorage.setItem('store',storeName);
 */
 
 const ReminderEmail = () => {
+    const [activeToggle, setActiveToggle] = useState(false);
+    const toggleActive = useCallback(() => setActiveToggle((activeToggle) => !activeToggle), []);
+    const toastMarkup = activeToggle ? (
+        <Toast content="Template Saved" onDismiss={toggleActive} />
+    ) : null;
     const [alreadyUploadLogo, setAlreadyUploadedLogo] = useState('');
     const handleDropZoneDrop = useCallback(
         (_dropFiles, acceptedFiles, _rejectedFiles) => {
@@ -154,7 +159,8 @@ const ReminderEmail = () => {
             then((response) => response.json())
             .then((data) => {
                 if (data.success) {
-                    alert('save settings successfully');
+                    toastMarkup();
+                    //alert('save settings successfully');
                     //successToast();
                 }
             })
@@ -391,6 +397,7 @@ const ReminderEmail = () => {
                             </div>
                         </Modal.Section>
                     </Modal>
+                    {toastMarkup && toastMarkup}
                 </Frame>
             </Page>
         </div>
