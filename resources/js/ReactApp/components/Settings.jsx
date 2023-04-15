@@ -51,7 +51,7 @@ localStorage.setItem('store',storeName);
 
 const Settings = () => {
     const navigate = useNavigate();
-    const [open, setOpen] = useState(false);
+    const [open, setOpen] = useState(true);
 
     const handleToggle = useCallback(() => setOpen((open) => !open), []);
     const [activeRejectionModel, setActiveRejectionModel] = useState(false);
@@ -991,6 +991,7 @@ const Settings = () => {
                                                 >
                                                     <div>
                                                         <img
+                                                        style={{cursor:"pointer"}}
                                                             src={DellIcon}
                                                             onClick={() =>
                                                                 handleRemoveRow(
@@ -1657,8 +1658,7 @@ const Settings = () => {
                                             <img
                                                 className=""
                                                 src={ChevronUp}
-                                                style={{
-                                                }}
+                                                style={{transition: "transform 0.5s ease-in-out 0s",transform: open ? 'rotate(180deg)' : ''}}
                                             ></img>
                                         </div>
                                     </div>

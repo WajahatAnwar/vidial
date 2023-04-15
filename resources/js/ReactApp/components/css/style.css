@@ -3,16 +3,19 @@
     justify-content: space-between;
     align-items: center;
 }
+
 .storesHeadder {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
+
 #checkboxButton button.Polaris-Button {
     padding-top: 0;
     padding-bottom: 0;
 }
-.ordersHeadder{
+
+.ordersHeadder {
     display: flex;
     justify-content: space-between;
     /* margin-top: 20px; */
@@ -20,14 +23,17 @@
     margin-left: 20px;
     margin-right: 20px;
 }
+
 .ruleDiv {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
+
 .ruleDiv span.Polaris-Badge {
     margin-right: 5px;
 }
+
 .butoon-checkbox {
     display: flex;
     align-items: center;
@@ -59,17 +65,19 @@
         width: 26px !important;
         height: 26px !important;
     }
-    .colorWheel
-    {
+
+    .colorWheel {
         width: 26px !important;
         height: 26px !important;
     }
-    .buttonColorPicker{
+
+    .buttonColorPicker {
         margin-left: 111px !important;
     }
 
 }
-.addNew{
+
+.addNew {
     width: 120px;
     display: flex;
     background: #E2F1EA;
@@ -80,22 +88,25 @@
     font-size: 16px;
     font-weight: 400;
 }
-.addNew:hover{
+
+.addNew:hover {
     cursor: pointer;
 }
+
 th.Polaris-DataTable__Cell.Polaris-DataTable__Cell--verticalAlignTop.Polaris-DataTable__Cell--header {
     font-size: 16px;
     font-weight: 600;
 }
 
-.customEditBtn{
+.customEditBtn {
     border: none;
     background: #EBEBEB;
     box-shadow: 0px 1px 0px rgb(0 0 0 / 8%), inset 0px -1px 0px rgb(0 0 0 / 20%);
     border-radius: 4px;
     padding: 5px 16px 0px 12px;
 }
-.eitBtnIcon{
+
+.eitBtnIcon {
     width: 12px;
     margin-top: 4px;
     margin-right: 5px;
@@ -104,6 +115,7 @@ th.Polaris-DataTable__Cell.Polaris-DataTable__Cell--verticalAlignTop.Polaris-Dat
 .camplainTable td.Polaris-DataTable__Cell.Polaris-DataTable__Cell--verticalAlignTop {
     padding-top: 28px;
 }
+
 .datePickerDiv {
     background: #fff;
     border-radius: 5px;
@@ -111,14 +123,15 @@ th.Polaris-DataTable__Cell.Polaris-DataTable__Cell--verticalAlignTop.Polaris-Dat
     padding: 10px;
     z-index: 999;
     margin-right: 20px;
-    box-shadow: 0px 10px 5px 4px rgba(0,0,0,0.39);
+    box-shadow: 0px 10px 5px 4px rgba(0, 0, 0, 0.39);
 }
 
 /* datePicker css start */
 .selectDate span.Polaris-Button__Icon {
     display: none;
 }
-.datepickerDropdownFields{
+
+.datepickerDropdownFields {
     display: grid;
     grid-template-columns: 1fr .2fr 1fr;
     grid-template-rows: 1fr;
@@ -126,7 +139,8 @@ th.Polaris-DataTable__Cell.Polaris-DataTable__Cell--verticalAlignTop.Polaris-Dat
     grid-row-gap: 0px;
     margin-bottom: 10px;
 }
-.iconDateDropdown{
+
+.iconDateDropdown {
     margin-top: 9px;
 }
 
@@ -150,9 +164,9 @@ th.Polaris-DataTable__Cell.Polaris-DataTable__Cell--verticalAlignTop.Polaris-Dat
     position: relative;
     overflow: hidden;
     display: inline-block;
-  }
+}
 
-  .btnCustomUpload {
+.btnCustomUpload {
     border: none;
     color: white;
     background-color: #008060;
@@ -160,71 +174,96 @@ th.Polaris-DataTable__Cell.Polaris-DataTable__Cell--verticalAlignTop.Polaris-Dat
     border-radius: 4px;
     font-size: 15px;
     font-weight: 500;
-  }
+    cursor: pointer;
+}
 
-  .upload-btn-wrapper input[type=file] {
+.upload-btn-wrapper input[type=file] {
     font-size: 100px;
     position: absolute;
     left: 0;
     top: 0;
     opacity: 0;
-  }
-  .colorOptions{
+}
+
+.colorOptions {
     padding: 9px;
     border-radius: 50%;
     width: 40px;
     height: 40px;
     margin-left: 10px;
-  }
-  .colorWheel{
+}
+
+.colorWheel {
     width: 40px !important;
     height: 40px !important;
 }
-.buttonColorPicker{
+
+.buttonColorPicker {
     margin-left: 500px;
 }
-.button_center{
+
+.button_center {
     width: 100%;
     margin: 17px auto;
     display: inline-block;
     text-align: center;
 }
+
 .customHidden {
     opacity: 0;
 }
+
 .textFieldjoin .Polaris-TextField__Backdrop {
     border-bottom-left-radius: 0;
     border-top-left-radius: 0;
 }
-.prefixCustom{
+
+.prefixCustom {
     background: #F6F6F8;
-margin: 0;
+    margin: 0;
     padding: 7px;
     font-weight: 400;
     border: 1px solid #aeb4b9;
     border-right: none;
-border-bottom-left-radius: 4px;
+    border-bottom-left-radius: 4px;
     border-top-left-radius: 4px;
     width: 50px;
     text-align: center;
 }
-.prefixCustomRight{
+
+.prefixCustomRight {
     background: #F6F6F8;
-margin: 0;
+    margin: 0;
     padding: 7px;
     font-weight: 400;
     border: 1px solid #aeb4b9;
     border-left: none;
-border-bottom-right-radius: 4px;
+    border-bottom-right-radius: 4px;
     border-top-right-radius: 4px;
     width: 55px;
     text-align: center;
 }
-.textFieldjoinRight .Polaris-TextField__Backdrop{
+
+.textFieldjoinRight .Polaris-TextField__Backdrop {
     border-bottom-right-radius: 0;
     border-top-right-radius: 0;
 }
-video{
-    border-radius:16px;
+
+video {
+    border-radius: 16px;
     box-shadow: rgb(0 0 0 / 5%) 0rem 1.25rem 1.6875rem 0rem !important;
+}
+
+.previewEditor .tox.tox-tinymce {
+    border: none;
+}
+.tox-statusbar {
+    display: none !important;
+}
+.tox-notification.tox-notification--in.tox-notification--warning {
+    display: none;
+}
+.previewModel {
+    padding: 20px;
+    background: #EBEBEB;
 }

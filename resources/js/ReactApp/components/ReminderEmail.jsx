@@ -47,6 +47,7 @@ import { showStoreName } from "./utils";
 import CrispChat from 'react-crisp';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { Editor } from '@tinymce/tinymce-react';
+import "./css/style.css";
 
 /**
 const urlParams = new URLSearchParams(location.search);
@@ -73,6 +74,7 @@ const ReminderEmail = () => {
     const [active, setActive] = useState(false);
     const handleChange = useCallback(() => setActive(!active), [active]);
     const [content, setContent] = useState('');
+    const [from, setFrom] = useState('');
     const [subject, setSubject] = useState('');
     const [buttonText, setButtonText] = useState('Leave a video review');
     const [notes1, setNotes1] = useState(`Use {{order_number}} for the customer’s order number`);
@@ -82,7 +84,7 @@ const ReminderEmail = () => {
     // drop zone code start
     const [files, setFiles] = useState([]);
 
-    
+
 
     const validImageTypes = ['image/gif', 'image/jpeg', 'image/png'];
 
@@ -116,7 +118,28 @@ const ReminderEmail = () => {
             </div>
         </div>
     );
-
+    const uploadedFilesPreview = files.length > 0 && (
+        <div style={{ padding: '0' }}>
+            <div style={{width:"60px",marginBottom:"10px"}} >
+                {files.map((file, index) => (
+                    <div key={index}>
+                        <Thumbnail
+                            size="medium"
+                            alt={file.name}
+                            source={
+                                validImageTypes.includes(file.type)
+                                    ? window.URL.createObjectURL(file)
+                                    : NoteMinor
+                            }
+                        />
+                        <div>
+                        <Icon source={CircleCancelMajor} color="critical" />
+                        </div>
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
     // drop zone code end
     const [buttonColorHide, setButtonColorHide] = useState(false);
     const [buttonColorHex, setButtonColorHex] = useState("#000000");
@@ -127,19 +150,19 @@ const ReminderEmail = () => {
         saturation: 0,
     });
     const [gradientCheck, setGradientCheck] = useState(false);
+    const editorRef = useRef(null);
     const log = () => {
         if (editorRef.current) {
             console.log(editorRef.current.getContent());
-            setContent(editorRef.current.getContent());
         }
     };
-    const editorRef = useRef(null);
+
     const [htmlContent, setHtmlContent] = useState(`<p>Hey {{name}},</p>
     <p><br>We'd love to hear about your recent shopping experience at {{store_name}}.</p>
     <p><br>Simply record a quick 30-second video sharing your thoughts about our products, and we will reward you with a {{amount}} gift card as a thank you.</p>`);
 
-    const handleEditorChange = (content, _) => {
-      setHtmlContent(content);
+    const handleEditorChange = () => {
+        setContent(content);
     };
     const handleSaveEmailSettings = () => {
 
@@ -177,14 +200,14 @@ const ReminderEmail = () => {
             }
             return response.json();
         }).then((data) => {
-            if(data.success){
+            if (data.success) {
 
-            
-            setSubject(data.data.template.subject);
-            setButtonText(data.data.template.btn_text);
-            setButtonColorHex(data.data.template.btn_color);
-            setHtmlContent(data.data.template.body);
-            setAlreadyUploadedLogo(data.data.template.logo);
+
+                setSubject(data.data.template.subject);
+                setButtonText(data.data.template.btn_text);
+                setButtonColorHex(data.data.template.btn_color);
+                setHtmlContent(data.data.template.body);
+                setAlreadyUploadedLogo(data.data.template.logo);
             }
             //setFiles(data.data.template.logo)
 
@@ -197,6 +220,9 @@ const ReminderEmail = () => {
 
 
     }, []);
+
+    const buttonHtml = `<button style="font-size: 18px;background: ${buttonColorHex};color: rgb(255, 255, 255);border: none;border-radius: 4px;display: block;margin: 0px auto 50px;padding: 8px 80px;" >${buttonText}</button>`;
+    const processedContent = content.replace('{{button}}', buttonHtml);
 
     return (
         <div>
@@ -247,11 +273,14 @@ const ReminderEmail = () => {
                                             <p style={{ color: "#9A9A9A", marginTop: "10px", marginBottom: "20px" }}>
                                                 You can upload an image in JPG, PNG up to 5MB. Email banner will be displayed in 500px width, for best results, upload an image between 500-1200px wide.
                                             </p>
+
+                                            {uploadedFilesPreview}
+
                                         </div>
                                         <Text variant="headingLg" as="h5">
                                             Texts
                                         </Text>
-                                        <p style={{ fontSize: "15px", marginTop: "20px", marginBottom: "10px", fontWeight: "500" }}>Subject</p>
+                                        <p style={{ fontSize: "15px", marginTop: "20px", marginBottom: "10px", fontWeight: "500" }}>Email Subject </p>
                                         <TextField
 
                                             placeholder="Win a {{amount}} gift card by sharing your experience with us!"
@@ -259,24 +288,36 @@ const ReminderEmail = () => {
                                             onChange={(e) => setSubject(e)}
                                             autoComplete="off"
                                         />
+                                        <p style={{ fontSize: "15px", marginTop: "20px", marginBottom: "10px", fontWeight: "500" }}>From</p>
+                                        <TextField
+
+                                            placeholder=""
+                                            value={from}
+                                            onChange={(e) => setFrom(e)}
+                                            autoComplete="off"
+                                        />
                                         <p style={{ color: "#9A9A9A", marginTop: "20px", }}>
                                             Notes:
                                         </p>
                                         <p style={{ color: "#9A9A9A", }}>
-                                            {notes1}
+                                        Use &#123;&#123;order_number&#125;&#125; for the customer’s order number
                                         </p>
                                         <p style={{ color: "#9A9A9A", }}>
-                                            {notes2}
+                                        Use &#123;&#123;name&#125;&#125; as a placeholder for the user’s first name
                                         </p>
-                                        <p style={{ color: "#9A9A9A", marginBottom: "10px" }}>
-                                            {notes3}
+                                        <p style={{ color: "#9A9A9A", }}>
+                                        Use &#123;&#123;store_name&#125;&#125; to display the name of your brand on the email
+                                        </p>
+                                        <p style={{ color: "#9A9A9A", }}>
+                                        Use &#123;&#123;amount&#125;&#125; for the store credit you are offering to your customer                                        </p>
+                                        <p style={{ color: "#9A9A9A", }}>
+                                        Use &#123;&#123;button&#125;&#125; to display the button call-to-action on the email
                                         </p>
                                         <p style={{ fontSize: "15px", marginTop: "20px", marginBottom: "10px", fontWeight: "500" }}>Content</p>
 
                                         <Editor
                                             apiKey='your-api-key'
                                             onInit={(evt, editor) => editorRef.current = editor}
-                                            onEditorChange={handleEditorChange}
                                             initialValue={htmlContent}
                                             init={{
                                                 height: 500,
@@ -302,6 +343,7 @@ const ReminderEmail = () => {
 
                                         />
                                         <p style={{ fontSize: "15px", marginTop: "20px", marginBottom: "10px", fontWeight: "500" }}>Button Color</p>
+                                        <div style={{display:"flex",alignItems:"center"}}>
                                         <button
                                             style={{
                                                 marginRight: "10px",
@@ -325,6 +367,13 @@ const ReminderEmail = () => {
                                                 }}
                                             ></img>
                                         </button>
+                                        <div
+                                        style={{
+                                            background: `${buttonColorHex}`,
+                                        }}
+                                        className="colorOptions"
+                                    ></div>
+                                        </div>
                                         {buttonColorHide && (
                                             <div
                                                 className=""
@@ -358,7 +407,11 @@ const ReminderEmail = () => {
 
                                         )}
                                         <div style={{ display: "flex", marginTop: "20px" }}>
-                                            <Button onClick={handleChange}>Preview Template</Button>
+                                            <Button onClick={() => {
+                                                setActive(true);
+                                                console.log(editorRef.current.getContent());
+                                                setContent(editorRef.current.getContent());
+                                            }}>Preview Template</Button>
                                             <span style={{ marginRight: "10px" }}></span>
                                             <Button onClick={handleSaveEmailSettings} primary>Save</Button>
                                         </div>
@@ -373,29 +426,39 @@ const ReminderEmail = () => {
                         title="Sample email"
 
                     >
-                        <Modal.Section>
+
+                        <div className="previewModel">
                             <div>
-                                <Card sectioned>
-                                    {/* <img style={{ display: "block", margin: "auto", marginTop: "20px", marginBottom: "20px" }} src={logo}></img> */}
-                                    {files.map((file, index) => (
-                    <div key={index}>
-                        <img
-                        style={{ display: "block", margin: "auto", marginTop: "20px", marginBottom: "20px" }}
-                            alt={file.name}
-                            src={
-                                validImageTypes.includes(file.type)
-                                    ? window.URL.createObjectURL(file)
-                                    : NoteMinor
-                            }
-                        />
-                    </div>
-                ))}
-                                    <div dangerouslySetInnerHTML={{ __html: htmlContent }}></div>
-                                    <div style={{marginTop:"50px"}}></div>
-                                    <button style={{ fontSize: "18px", background: buttonColorHex, color: "#fff", border: "none", borderRadius: "4px", display: "block", margin: "50px auto", padding: "8px 80px" }}>{buttonText}</button>
-                                </Card>
+                                {/* <img style={{ display: "block", margin: "auto", marginTop: "20px", marginBottom: "20px" }} src={logo}></img> */}
+                                {files.map((file, index) => (
+                                    <div key={index}>
+                                        <img
+                                            style={{ display: "block", margin: "auto", marginTop: "20px", marginBottom: "20px",maxWidth:"250px" }}
+                                            alt={file.name}
+                                            src={
+                                                validImageTypes.includes(file.type)
+                                                    ? window.URL.createObjectURL(file)
+                                                    : NoteMinor
+                                            }
+                                        />
+                                    </div>
+                                ))}
+                                <div className="previewEditor">
+                                    <Editor
+                                        apiKey='your-api-key'
+                                        value={processedContent}
+                                        onEditorChange={handleEditorChange}
+                                        init={{
+                                            readonly: true,
+                                            height: 500,
+                                            menubar: false,
+                                            toolbar: false
+                                        }}
+                                    />
+                                </div>
+
                             </div>
-                        </Modal.Section>
+                        </div>
                     </Modal>
                     {toastMarkup && toastMarkup}
                 </Frame>
