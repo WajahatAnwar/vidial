@@ -50,7 +50,7 @@ class NotApprovedMailjob implements ShouldQueue
             $subject = "Message pour votre vidéo à propos de ".$this->detail['storename'];
        }else if($this->detail['locale'] == "it"){
             $subject = "Messaggio per il tuo video su ".$this->detail['storename'];
-       }else if($this->detail['locale'] == "pt"){
+       }else if($this->detail['locale'] == "pt"){ 
             $subject = "Mensagem para seu vídeo sobre ".$this->detail['storename'];
        }
 

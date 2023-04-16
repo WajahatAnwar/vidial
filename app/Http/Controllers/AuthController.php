@@ -281,16 +281,16 @@ class AuthController extends Controller
         $emailTemplate['subject'] = "Share your feedback and receive " . getCurrencySymbol($user->store_currency) . $user->settings->store_credit . " from " . $user->name;
                            
         $emailTemplate['type'] = 'Reminder';
-        $emailTemplate['body'] = "<p><h1>Win a {{amount}} gift card by sharing your experience with us!</h1></p>
-<p><br>Hello {{name}}, <br>Thank you for your previous order.</p>
+        $emailTemplate['body'] ="<p><h1>Share your feedback to win a {{amount}} gift card</h1></p>
+<p><br>Hey {{name}}, <br>We'd love to hear about your recent shopping experience at {{storename}}.</p>
 <p>The feedback of our customers about our products is extremely valuable to us.</p>
-<br><p>That's why we would like to offer you a {{amount}} gift card to our store in exchange for a video where you share your opinion about our products</p>
+<br><p>Simply record a quick 30-second video sharing your thoughts about our products, and we will reward you with a {{amount}} gift card as a thank you.</p>
 <br>{{button}}
 <br>
-<p>We truly appreciate hearing our customers' feedback about our brand because satisfying you is our top priority.</p>
-<br>{{storename}} Team";
+<p>Thank you for your trust and your loyalty,</p>
+<br>Cheers,{{storename}} Team";
 
-        $emailTemplate['btn_text'] = 'Get my Gift Card';
+        $emailTemplate['btn_text'] = 'Leave a video review';
         $emailTemplate['btn_color'] = '#000000';
         EmailTemplate::firstOrCreate(
             ['user_id' => $user_id, 'type' => 'Reminder'],

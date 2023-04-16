@@ -115,6 +115,7 @@ class EmailSendToCustomerCron extends Command
                                         $subject_reminder = "Compartilhe seus comentários e receba " . getCurrencySymbol($details['store_currency']) . $details['discount_amount'] . " de " . $details['shopify_store_name'];
                                     }
                                     $params = array(
+                                        
                                         'from' => "Vidial < " . env('MAIL_USERNAME') . " >",
                                         'to' => $Orders_send_mail->email,
                                         'subject' => $subject_reminder,
