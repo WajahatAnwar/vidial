@@ -111,10 +111,7 @@ const UgcDeclinedEmail = () => {
                         </div>
                     </div>
                 ))}
-                {alreadyUploadLogo && <img
-                    style={{ display: "block", margin: "auto", marginTop: "20px", marginBottom: "20px", width: "100px", height: "100px" }}
-
-                    src={alreadyUploadLogo} />}
+           
             </div>
         </div>
     );
@@ -175,7 +172,8 @@ const UgcDeclinedEmail = () => {
         formData.append('buttonColorHex', buttonColorHex);
         formData.append('body', editorRef.current.getContent());
         formData.append('type', 'UGC_Declined')
-        formData.append('logo', files[0])
+        formData.append('logo', files[0]);
+        formData.append('from', from)
 
         fetch('/save-email-settings', {
             method: "POST",
@@ -184,7 +182,7 @@ const UgcDeclinedEmail = () => {
             then((response) => response.json())
             .then((data) => {
                 if (data.success) {
-                    toastMarkup();
+                    toggleActive();
                     //alert('save settings successfully');
                     //successToast();
                 }
@@ -209,8 +207,12 @@ const UgcDeclinedEmail = () => {
                 setButtonColorHex(data.data.template.btn_color);
                 setHtmlContent(data.data.template.body);
                 setAlreadyUploadedLogo(data.data.template.logo);
+                setFrom(data.data.template.from);
+
+               
+                //setFiles(data.data.template.logo);
             }
-            //setFiles(data.data.template.logo)
+
 
             //    console.log("data");
             //    console.log(data);
@@ -445,6 +447,10 @@ const UgcDeclinedEmail = () => {
                                         />
                                     </div>
                                 ))}
+                                {alreadyUploadLogo && <img
+                                    style={{ display: "block", margin: "auto", marginTop: "20px", marginBottom: "20px", width: "100px", height: "100px" }}
+
+                                    src={alreadyUploadLogo} />}
                                 <div className="previewEditor">
                                     <Editor
                                         apiKey='your-api-key'

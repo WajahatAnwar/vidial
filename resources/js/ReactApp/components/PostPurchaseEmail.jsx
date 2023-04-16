@@ -79,6 +79,11 @@ const PostPurchaseEmail = () => {
     const [files, setFiles] = useState([]);
     const [alreadyUploadLogo, setAlreadyUploadedLogo] = useState('');
 
+
+    const handleRemoveThumbnail = () => {
+        setFiles([]);
+        console.log('handle Remove thumbnail');
+    };
     const handleDropZoneDrop = useCallback(
         (_dropFiles, acceptedFiles, _rejectedFiles) => {
             setAlreadyUploadedLogo('');
@@ -107,6 +112,7 @@ const PostPurchaseEmail = () => {
                                     : NoteMinor
                             }
                         />
+                        
                         <div>
                             {file.name}{' '}
                             <Text variant="bodySm" as="p">
@@ -133,7 +139,9 @@ const PostPurchaseEmail = () => {
                             }
                         />
                         <div>
-                        <Icon source={CircleCancelMajor} color="critical" />
+                            <div onClick={handleRemoveThumbnail} >
+                          <Icon source={CircleCancelMajor}  color="critical" />
+                        </div>
                         </div>
                     </div>
                 ))}
@@ -150,6 +158,7 @@ const PostPurchaseEmail = () => {
         saturation: 0,
     });
     const [gradientCheck, setGradientCheck] = useState(false);
+    console.log(files)
     const handleSaveEmailSettings = () => {
 
         setContent(editorRef.current.getContent());
@@ -160,15 +169,17 @@ const PostPurchaseEmail = () => {
         formData.append('body',editorRef.current.getContent());
         formData.append('type', 'Post_purchase')
         formData.append('logo', files[0])
-
+        formData.append('from', from)
+        
             fetch('/save-email-settings',{
                 method:"POST",
                 body:formData
             }).
             then((response)=>response.json())
             .then((data)=>{
+               
                 if(data.success){
-                    toastMarkup();
+                    toggleActive();
                     //alert('save settings successfully');
                     //successToast();
                 }
@@ -190,6 +201,8 @@ const PostPurchaseEmail = () => {
         setContent(content);
     };
 
+    
+
     useEffect(() => {
         fetch("/fetch-email-settings?type=Post_Purchase", {
             method: "GET",
@@ -205,8 +218,12 @@ const PostPurchaseEmail = () => {
             setButtonColorHex(data.data.template.btn_color);
             setHtmlContent(data.data.template.body);
             setAlreadyUploadedLogo(data.data.template.logo);
+            setFrom(data.data.template.from);
+            //setFiles([data.data.template.logo])
+            //setAlreadyUploadedLogo(data.data.template.logo);
+
+                console.table(data.data.template.logo);
             }
-            //setFiles(data.data.template.logo)
 
             //    console.log("data");
             //    console.log(data);
@@ -438,6 +455,10 @@ const PostPurchaseEmail = () => {
                                         />
                                     </div>
                                 ))}
+                                    {alreadyUploadLogo && <img
+                                        style={{ display: "block", margin: "auto", marginTop: "20px", marginBottom: "20px", width: "100px", height: "100px",objectFit:'contain' }}
+
+                                        src={alreadyUploadLogo} />}
                                 <div className="previewEditor">
                                     <Editor
                                         apiKey='your-api-key'

@@ -111,6 +111,7 @@ const ReminderEmail = () => {
                         </div>
                     </div>
                 ))}
+                
                 {alreadyUploadLogo && <img
                     style={{ display: "block", margin: "auto", marginTop: "20px", marginBottom: "20px", width: "100px", height: "100px" }}
 
@@ -174,6 +175,7 @@ const ReminderEmail = () => {
         formData.append('body', editorRef.current.getContent());
         formData.append('type', 'Reminder');
         formData.append('logo', files[0])
+        formData.append('from', from);
 
         fetch('/save-email-settings', {
             method: "POST",
@@ -182,7 +184,7 @@ const ReminderEmail = () => {
             then((response) => response.json())
             .then((data) => {
                 if (data.success) {
-                    toastMarkup();
+                    toggleActive();
                     //alert('save settings successfully');
                     //successToast();
                 }
@@ -207,7 +209,9 @@ const ReminderEmail = () => {
                 setButtonText(data.data.template.btn_text);
                 setButtonColorHex(data.data.template.btn_color);
                 setHtmlContent(data.data.template.body);
+                console.log('ali' + data.data.template.logo);
                 setAlreadyUploadedLogo(data.data.template.logo);
+                setFrom(data.data.template.from);
             }
             //setFiles(data.data.template.logo)
 
@@ -443,6 +447,10 @@ const ReminderEmail = () => {
                                         />
                                     </div>
                                 ))}
+                                {alreadyUploadLogo && <img
+                                    style={{ display: "block", margin: "auto", marginTop: "20px", marginBottom: "20px", width: "100px", height: "100px" }}
+
+                                    src={alreadyUploadLogo} />}
                                 <div className="previewEditor">
                                     <Editor
                                         apiKey='your-api-key'

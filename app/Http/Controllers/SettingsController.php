@@ -136,9 +136,8 @@ class SettingsController extends Controller
         }else{
             $video=$request->video ?? '';
         }
-
-
         $currentUser = Auth::user()->id;
+
         $settings['store_credit']=$request->store_credit;
         $settings['page_display_to_customers']=$request->page_display_to_customers;
         $settings['email_sent_to_customer']=$request->email_sent_to_customer;
@@ -299,7 +298,8 @@ class SettingsController extends Controller
                 'btn_text'=>$request->buttonText ?? '',
                 'btn_color'=>$request->buttonColorHex ?? '#000000',
                 'type'=>$request->type,
-                'user_id'=>Auth::user()->id
+                'user_id'=>Auth::user()->id,
+                'from'=>$request->from ?? 'Vidial'
             ]);
         return response()->json([
             'success' => true,

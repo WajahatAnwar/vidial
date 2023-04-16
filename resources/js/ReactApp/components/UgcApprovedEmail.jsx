@@ -114,10 +114,7 @@ const UgcApprovedEmail = () => {
                         </div>
                     </div>
                 ))}
-                {alreadyUploadLogo && <img
-                    style={{ display: "block", margin: "auto", marginTop: "20px", marginBottom: "20px", width: "100px", height: "100px" }}
-
-                    src={alreadyUploadLogo} />}
+              
             </div>
         </div>
     );
@@ -179,6 +176,7 @@ const UgcApprovedEmail = () => {
         formData.append('body', editorRef.current.getContent());
         formData.append('type', 'UGC_Approved')
         formData.append('logo', files[0])
+        formData.append('from', from);
 
         fetch('/save-email-settings', {
             method: "POST",
@@ -212,6 +210,7 @@ const UgcApprovedEmail = () => {
                 setButtonColorHex(data.data.template.btn_color);
                 setHtmlContent(data.data.template.body);
                 setAlreadyUploadedLogo(data.data.template.logo);
+                setFrom(data.data.template.from);
             }
             //setFiles(data.data.template.logo)
 
@@ -451,6 +450,10 @@ const UgcApprovedEmail = () => {
                                         />
                                     </div>
                                 ))}
+                                {alreadyUploadLogo && <img
+                                    style={{ display: "block", margin: "auto", marginTop: "20px", marginBottom: "20px", width: "100px", height: "100px" }}
+
+                                    src={alreadyUploadLogo} />}
                                 <div className="previewEditor">
                                     <Editor
                                         apiKey='your-api-key'
