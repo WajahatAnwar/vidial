@@ -541,7 +541,7 @@ Das {{storename}} Team.",
                     'subject' => "Teilen Sie Ihr Feedback und erhalten Sie " . getCurrencySymbol($user->store_currency) . $user->settings->store_credit . " von " . $user->name,
                     'type' => 'Reminder',
                     'body' => "<p><h1>Teilen Sie uns Ihre Meinung mit und gewinnen Sie eine Geschenkkarte im Wert von {{amount}} !</h1></p>
-<p><br>Hallo, Wir würden uns freuen, Ihre Einkaufserfahrung bei {{store_name}} kennenzulernen.</p>
+<p><br>Hallo, Wir würden uns freuen, Ihre Einkaufserfahrung bei {{storename}} kennenzulernen.</p>
 <p><br>Sie können einfach ein kurzes 30-Sekunden-Video aufnehmen, in dem Sie Ihre Gedanken zu unseren Produkten teilen, und wir belohnen Sie mit einer Geschenkkarte im Wert von {{amount}} als Dankeschön.</p>
 <br>{{button}}",
                     'btn_text' => 'Ein Video-Review hinterlassen',
@@ -683,7 +683,7 @@ El equipo de {{storename}}.",
                     'subject' => 'reminder',
                     'type' => 'Reminder',
                     'body' => "<p><h1>Compartilhe sua opinião e ganhe um vale-presente de {{amount}}!</h1></p>
-<p><br>Olá, Adoraríamos saber sobre sua experiência de compras recente na {{store_name}}</p>
+<p><br>Olá, Adoraríamos saber sobre sua experiência de compras recente na {{storename}}</p>
 <p><br>Basta gravar um vídeo curto de alguns segundos compartilhando seus pensamentos sobre nossos produtos e recompensaremos você com um vale-presente de {{amount}} como agradecimento.</p>
 <br>{{button}}
 <p><br>Agradecemos pela sua confiança e fidelidade,</p>
@@ -754,7 +754,7 @@ El equipo de {{storename}}.",
                     'subject' => 'reminder',
                     'type' => 'Reminder',
                     'body' => "<p><h1>Condividi la tua opinione per vincere una carta regalo di {{amount}}!</h1></p>
-<p><br>Ciao, Ci piacerebbe sapere della tua recente esperienza di acquisto su {{store_name}}.</p>
+<p><br>Ciao, Ci piacerebbe sapere della tua recente esperienza di acquisto su {{storename}}.</p>
 <p><br>Registrati semplicemente in un breve video di 30 secondi condividendo i tuoi pensieri sui nostri prodotti e ti premieremo con una carta regalo di {{amount}} come ringraziamento. </p>
 <br>{{button}}<br>
 <br><p>Grazie per la tua fiducia e la tua fedeltà,</p>
