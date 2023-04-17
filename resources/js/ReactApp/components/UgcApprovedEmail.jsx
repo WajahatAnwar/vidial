@@ -61,7 +61,7 @@ const UgcApprovedEmail = () => {
     const handleDropZoneDrop = useCallback(
         (_dropFiles, acceptedFiles, _rejectedFiles) => {
             setAlreadyUploadedLogo('');
-            setFiles((files) => [...files, ...acceptedFiles]);
+            setFiles((files) => acceptedFiles);
         },
         []
     );
@@ -74,7 +74,7 @@ const UgcApprovedEmail = () => {
     const toastMarkup = activeToggle ? (
         <Toast content="Template Saved" onDismiss={toggleActive} />
     ) : null;
-    
+
     const handleChange = useCallback(() => setActive(!active), [active]);
     const [content, setContent] = useState('');
     const [subject, setSubject] = useState('');
@@ -114,7 +114,7 @@ const UgcApprovedEmail = () => {
                         </div>
                     </div>
                 ))}
-              
+
             </div>
         </div>
     );
@@ -248,7 +248,7 @@ const UgcApprovedEmail = () => {
                                 <div><img src={backIcon} style={{ marginTop: "4px", }}></img></div>
                                 <p style={{ fontSize: "16px", fontWeight: "500", marginLeft: "8px", marginBottom: "4px" }}>Settings</p>
                             </div>
-                            
+
                             <Card sectioned>
                                 <Grid>
                                     <Grid.Cell
@@ -270,7 +270,7 @@ const UgcApprovedEmail = () => {
                                             <p style={{ marginTop: "20px", marginBottom: "10px", fontWeight: "500", fontSize: "18px" }}>
                                                 Header Logo
                                             </p>
-                                            <DropZone onDrop={handleDropZoneDrop} variableHeight>
+                                            <DropZone onDrop={handleDropZoneDrop} variableHeight allowMultiple={false}>
                                                 {uploadedFiles}
                                                 {fileUpload}
                                             </DropZone>
@@ -435,7 +435,7 @@ const UgcApprovedEmail = () => {
 
                     >
                         <div className="previewModel">
-                            <div>
+                            <div style={{background:"#fff",borderRadius:"15px",paddingTop:"20px"}}>
                                 {/* <img style={{ display: "block", margin: "auto", marginTop: "20px", marginBottom: "20px" }} src={logo}></img> */}
                                 {files.map((file, index) => (
                                     <div key={index}>
@@ -473,7 +473,7 @@ const UgcApprovedEmail = () => {
                     </Modal>
                     {toastMarkup && toastMarkup}
                 </Frame>
-                
+
             </Page>
         </div>
     );

@@ -66,7 +66,9 @@ const ReminderEmail = () => {
     const handleDropZoneDrop = useCallback(
         (_dropFiles, acceptedFiles, _rejectedFiles) => {
             setAlreadyUploadedLogo('');
-            setFiles((files) => [...files, ...acceptedFiles]);
+            // setFiles((files) => []);
+            setFiles((files) => acceptedFiles);
+
         },
         []
     );
@@ -111,7 +113,7 @@ const ReminderEmail = () => {
                         </div>
                     </div>
                 ))}
-                
+
                 {alreadyUploadLogo && <img
                     style={{ display: "block", margin: "auto", marginTop: "20px", marginBottom: "20px", width: "100px", height: "100px" }}
 
@@ -270,7 +272,7 @@ const ReminderEmail = () => {
                                             <p style={{ marginTop: "20px", marginBottom: "10px", fontWeight: "500", fontSize: "18px" }}>
                                                 Header Logo
                                             </p>
-                                            <DropZone onDrop={handleDropZoneDrop} variableHeight>
+                                            <DropZone onDrop={handleDropZoneDrop} variableHeight allowMultiple={false}>
                                                 {uploadedFiles}
                                                 {fileUpload}
                                             </DropZone>
@@ -432,12 +434,12 @@ const ReminderEmail = () => {
                     >
 
                         <div className="previewModel">
-                            <div>
+                            <div style={{background:"#fff",borderRadius:"15px",paddingTop:"20px"}}>
                                 {/* <img style={{ display: "block", margin: "auto", marginTop: "20px", marginBottom: "20px" }} src={logo}></img> */}
                                 {files.map((file, index) => (
                                     <div key={index}>
                                         <img
-                                            style={{ display: "block", margin: "auto", marginTop: "20px", marginBottom: "20px",maxWidth:"250px" }}
+                                            style={{ display: "block", margin: "auto", marginTop: "20px",maxWidth:"250px" }}
                                             alt={file.name}
                                             src={
                                                 validImageTypes.includes(file.type)
@@ -448,7 +450,7 @@ const ReminderEmail = () => {
                                     </div>
                                 ))}
                                 {alreadyUploadLogo && <img
-                                    style={{ display: "block", margin: "auto", marginTop: "20px", marginBottom: "20px", width: "100px", height: "100px" }}
+                                    style={{ display: "block", margin: "auto", marginTop: "20px", marginBottom: "20px",maxWidth:"250px" }}
 
                                     src={alreadyUploadLogo} />}
                                 <div className="previewEditor">

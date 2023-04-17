@@ -87,7 +87,7 @@ const PostPurchaseEmail = () => {
     const handleDropZoneDrop = useCallback(
         (_dropFiles, acceptedFiles, _rejectedFiles) => {
             setAlreadyUploadedLogo('');
-            setFiles((files) => [...files, ...acceptedFiles]);
+            setFiles((files) => acceptedFiles);
         },
         []
     );
@@ -112,7 +112,7 @@ const PostPurchaseEmail = () => {
                                     : NoteMinor
                             }
                         />
-                        
+
                         <div>
                             {file.name}{' '}
                             <Text variant="bodySm" as="p">
@@ -170,14 +170,14 @@ const PostPurchaseEmail = () => {
         formData.append('type', 'Post_purchase')
         formData.append('logo', files[0])
         formData.append('from', from)
-        
+
             fetch('/save-email-settings',{
                 method:"POST",
                 body:formData
             }).
             then((response)=>response.json())
             .then((data)=>{
-               
+
                 if(data.success){
                     toggleActive();
                     //alert('save settings successfully');
@@ -201,7 +201,7 @@ const PostPurchaseEmail = () => {
         setContent(content);
     };
 
-    
+
 
     useEffect(() => {
         fetch("/fetch-email-settings?type=Post_Purchase", {
@@ -278,7 +278,7 @@ const PostPurchaseEmail = () => {
                                             <p style={{ marginTop: "20px", marginBottom: "10px", fontWeight: "500", fontSize: "18px" }}>
                                                 Header Logo
                                             </p>
-                                            <DropZone onDrop={handleDropZoneDrop} variableHeight>
+                                            <DropZone onDrop={handleDropZoneDrop} variableHeight allowMultiple={false}>
                                                 {uploadedFiles}
                                                 {fileUpload}
                                             </DropZone>
@@ -440,7 +440,7 @@ const PostPurchaseEmail = () => {
                     >
                         <Modal.Section>
                         <div className="previewModel">
-                            <div>
+                            <div style={{background:"#fff",borderRadius:"15px",paddingTop:"20px"}}>
                                 {/* <img style={{ display: "block", margin: "auto", marginTop: "20px", marginBottom: "20px" }} src={logo}></img> */}
                                 {files.map((file, index) => (
                                     <div key={index}>

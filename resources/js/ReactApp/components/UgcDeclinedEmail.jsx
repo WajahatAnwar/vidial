@@ -66,7 +66,7 @@ const UgcDeclinedEmail = () => {
     const handleDropZoneDrop = useCallback(
         (_dropFiles, acceptedFiles, _rejectedFiles) => {
             setAlreadyUploadedLogo('');
-            setFiles((files) => [...files, ...acceptedFiles]);
+            setFiles((files) => acceptedFiles);
         },
         []
     );
@@ -111,7 +111,7 @@ const UgcDeclinedEmail = () => {
                         </div>
                     </div>
                 ))}
-           
+
             </div>
         </div>
     );
@@ -209,7 +209,7 @@ const UgcDeclinedEmail = () => {
                 setAlreadyUploadedLogo(data.data.template.logo);
                 setFrom(data.data.template.from);
 
-               
+
                 //setFiles(data.data.template.logo);
             }
 
@@ -267,7 +267,7 @@ const UgcDeclinedEmail = () => {
                                             <p style={{ marginTop: "20px", marginBottom: "10px", fontWeight: "500", fontSize: "18px" }}>
                                                 Header Logo
                                             </p>
-                                            <DropZone onDrop={handleDropZoneDrop} variableHeight>
+                                            <DropZone onDrop={handleDropZoneDrop} variableHeight allowMultiple={false}>
                                                 {uploadedFiles}
                                                 {fileUpload}
                                             </DropZone>
@@ -432,7 +432,7 @@ const UgcDeclinedEmail = () => {
 
                     >
                        <div className="previewModel">
-                            <div>
+                            <div style={{background:"#fff",borderRadius:"15px",paddingTop:"20px"}}>
                                 {/* <img style={{ display: "block", margin: "auto", marginTop: "20px", marginBottom: "20px" }} src={logo}></img> */}
                                 {files.map((file, index) => (
                                     <div key={index}>
