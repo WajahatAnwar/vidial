@@ -393,7 +393,7 @@ if (!function_exists('saveEnLanguage')) {
 <br>{{button}}
 <br>
 <p>Thank you for your trust and your loyalty,</p>
-<br>Cheers,{{storename}} Team",
+<br>Cheers,<br>{{storename}} Team",
                     'btn_text' => 'Leave a video review',
                     'btn_color' => '#000000',
                     'from' => 'Vidial'

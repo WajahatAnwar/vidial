@@ -291,7 +291,7 @@ class AuthController extends Controller
 <br>{{button}}
 <br>
 <p>Thank you for your trust and your loyalty,</p>
-<br>Cheers,{{storename}} Team";
+<br>Cheers,<br>{{storename}} Team";
 
         $emailTemplate['btn_text'] = 'Leave a video review';
         $emailTemplate['btn_color'] = '#000000';
