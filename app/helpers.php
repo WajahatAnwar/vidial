@@ -347,7 +347,8 @@ if (!function_exists('saveEnLanguage')) {
           <br>{{button}}
            <p><br>Cheers!<br>{{storename}} Team</p>',
                     'btn_text' => 'Shop Now',
-                    'btn_color' => '#000000'
+                    'btn_color' => '#000000',
+                    'from'=>'Vidial'
                 ),
 
                 array(
@@ -363,7 +364,8 @@ if (!function_exists('saveEnLanguage')) {
 <p> We truly appreciate hearing our customers' feedback about our brand because satisfying you is our top priority.</p>
 <br>{{storename}} Team",
                     'btn_text' => 'Get my gift card',
-                    'btn_color' => '#000000'
+                    'btn_color' => '#000000',
+                    'from' => 'Vidial'
                 ),
                 array(
                     'user_id' => $user_id,
@@ -377,7 +379,8 @@ if (!function_exists('saveEnLanguage')) {
 <br>{{button}}
 <br>{{storename}} Team",
                     'btn_text' => 'Get my Gift Card',
-                    'btn_color' => '#000000'
+                    'btn_color' => '#000000',
+                    'from' => 'Vidial'
                 ),
 
                 array(
@@ -393,7 +396,8 @@ if (!function_exists('saveEnLanguage')) {
 <p>Thank you for your trust and your loyalty,</p>
 <br>Cheers,{{storename}} Team",
                     'btn_text' => 'Leave a video review',
-                    'btn_color' => '#000000'
+                    'btn_color' => '#000000',
+                    'from' => 'Vidial'
                 )
             );
 
@@ -420,7 +424,8 @@ if (!function_exists('saveEnLanguage')) {
           <br>{{button}}
            <p><br>Cordialement<br>L'équipe de {{storename}}.</p>",
                     'btn_text' => 'Profiter du code de réduction',
-                    'btn_color' => '#000000'
+                    'btn_color' => '#000000',
+                    'from' => 'Vidial'
                 ),
 
                 array(
@@ -439,7 +444,8 @@ Cordialement,
 <br>
 L'équipe de {{storename}}.",
                     'btn_text' => 'Obtenir ma Carte Cadeau',
-                    'btn_color' => '#000000'
+                    'btn_color' => '#000000',
+                    'from' => 'Vidial'
                 ),
                 array(
                     'user_id' => $user_id,
@@ -456,7 +462,8 @@ L'équipe de {{storename}}.",
 <br>
 L'équipe {{storename}}.",
                     'btn_text' => 'Recommencer une vidéo',
-                    'btn_color' => '#000000'
+                    'btn_color' => '#000000',
+                    'from' => 'Vidial'
                 ),
 
                 array(
@@ -473,7 +480,8 @@ L'équipe {{storename}}.",
 <br>
 L'équipe {{storename}}.",
                     'btn_text' => 'Laissez un avis vidéo',
-                    'btn_color' => '#000000'
+                    'btn_color' => '#000000',
+                    'from' => 'Vidial'
                 )
             );
 
@@ -502,7 +510,8 @@ L'équipe {{storename}}.",
           <br>{{button}}
            <p><br>Prost!<br>Das Team von {{storename}}.</p>',
                     'btn_text' => 'Jetzt einkaufen',
-                    'btn_color' => '#000000'
+                    'btn_color' => '#000000',
+                    'from' => 'Vidial'
                 ),
 
                 array(
@@ -535,7 +544,8 @@ Das {{storename}} Team.",
 <p><br>Freundliche Grüße,<br>Das {{storename}}-Team.</p>
 ",
                     'btn_text' => 'Holen Sie sich meine Geschenkkarte',
-                    'btn_color' => '#000000'
+                    'btn_color' => '#000000',
+                    'from' => 'Vidial'
                 ),
 
                 array(
@@ -547,7 +557,8 @@ Das {{storename}} Team.",
 <p><br>Sie können einfach ein kurzes 30-Sekunden-Video aufnehmen, in dem Sie Ihre Gedanken zu unseren Produkten teilen, und wir belohnen Sie mit einer Geschenkkarte im Wert von {{amount}} als Dankeschön.</p>
 <br>{{button}}",
                     'btn_text' => 'Ein Video-Review hinterlassen',
-                    'btn_color' => '#000000'
+                    'btn_color' => '#000000',
+                    'from' => 'Vidial'
                 )
             );
 
@@ -575,7 +586,8 @@ Das {{storename}} Team.",
           <br>{{button}}
            <p><br>¡Saludos!<br>El equipo de {{storename}}.</p>',
                     'btn_text' => 'Comprar ahora',
-                    'btn_color' => '#000000'
+                    'btn_color' => '#000000',
+                    'from' => 'Vidial'
                 ),
 
                 array(
@@ -592,7 +604,8 @@ Das {{storename}} Team.",
 <br>Atentamente,
 <br>El equipo de {{storename}}.",
                     'btn_text' => 'Obtener mi tarjeta de regalo',
-                    'btn_color' => '#000000'
+                    'btn_color' => '#000000',
+                    'from' => 'Vidial'
                 ),
                 array(
                     'user_id' => $user_id,
@@ -606,7 +619,8 @@ Das {{storename}} Team.",
 <br>¡Saludos!<br>
 El equipo de {{storename}}.",
                     'btn_text' => 'Obtener mi tarjeta de regalo',
-                    'btn_color' => '#000000'
+                    'btn_color' => '#000000',
+                    'from' => 'Vidial'
                 ),
 
                 array(
@@ -620,7 +634,8 @@ El equipo de {{storename}}.",
 <br>{{button}}
 <br>Gracias por su confianza y lealtad <br> Saludos cordiales,Equipo {{storename}}.",
                     'btn_text' => 'Deja un comentario en video',
-                    'btn_color' => '#000000'
+                    'btn_color' => '#000000',
+                    'from' => 'Vidial'
                 )
             );
 
@@ -647,7 +662,8 @@ El equipo de {{storename}}.",
           <br>{{button}}
            <p><br>Saudações!<br>Equipe {{storename}}.</p>',
                     'btn_text' => 'Comprar agora',
-                    'btn_color' => '#000000'
+                    'btn_color' => '#000000',
+                    'from' => 'Vidial'
                 ),
 
                 array(
@@ -663,7 +679,8 @@ El equipo de {{storename}}.",
 <p>Realmente valorizamos os comentários de nossos clientes sobre nossa marca, pois sua satisfação é nossa principal prioridade</p>
 <br>Atenciosamente,<br>Equipe {{storename}}.",
                     'btn_text' => 'Obter meu cartão presente',
-                    'btn_color' => '#000000'
+                    'btn_color' => '#000000',
+                    'from' => 'Vidial'
                 ),
                 array(
                     'user_id' => $user_id,
@@ -677,7 +694,8 @@ El equipo de {{storename}}.",
 <br>Atenciosamente,
 <br>Equipe{{storename}}",
                     'btn_text' => 'Obter meu cartão-presente',
-                    'btn_color' => '#000000'
+                    'btn_color' => '#000000',
+                    'from' => 'Vidial'
                 ),
 
                 array(
@@ -691,7 +709,8 @@ El equipo de {{storename}}.",
 <p><br>Agradecemos pela sua confiança e fidelidade,</p>
 <br>Atenciosamente<br>Equipe {{storename}}.",
                     'btn_text' => 'Deixe uma avaliação em vídeo',
-                    'btn_color' => '#000000'
+                    'btn_color' => '#000000',
+                    'from' => 'Vidial'
                 )
             );
 
@@ -719,7 +738,8 @@ El equipo de {{storename}}.",
 
            <p><br>Saluti!<br>Il team di {{storename}}.</p>',
                     'btn_text' => 'Acquista ora',
-                    'btn_color' => '#000000'
+                    'btn_color' => '#000000',
+                    'from' => 'Vidial'
                 ),
 
                 array(
@@ -735,7 +755,8 @@ El equipo de {{storename}}.",
 <p>Apprezziamo molto sentire i commenti dei nostri clienti sulla nostra marca, poiché la tua soddisfazione è la nostra massima priorità.</p>
 <br>Cordiali saluti,<br>Il team di {{store}}.",
                     'btn_text' => 'Ottieni la mia carta regalo',
-                    'btn_color' => '#000000'
+                    'btn_color' => '#000000',
+                    'from' => 'Vidial'
                 ),
                 array(
                     'user_id' => $user_id,
@@ -748,7 +769,8 @@ El equipo de {{storename}}.",
 <br>{{button}}<br>
 <br>Saluti,<br>Il team di {{storename}}.",
                     'btn_text' => 'Ottieni la mia carta regalo',
-                    'btn_color' => '#000000'
+                    'btn_color' => '#000000',
+                    'from' => 'Vidial'
                 ),
 
                 array(
@@ -762,7 +784,8 @@ El equipo de {{storename}}.",
 <br><p>Grazie per la tua fiducia e la tua fedeltà,</p>
 <br>Saluti,II team di {{storename}}.",
                     'btn_text' => 'Lascia una recensione video',
-                    'btn_color' => '#000000'
+                    'btn_color' => '#000000',
+                    'from' => 'Vidial'
                 )
             );
 
