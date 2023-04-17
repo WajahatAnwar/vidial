@@ -72,6 +72,9 @@ const ReminderEmail = () => {
         },
         []
     );
+    const handleRemoveThumbnail = () => {
+        setFiles([]);
+    };
     const navigate = useNavigate();
     const [active, setActive] = useState(false);
     const handleChange = useCallback(() => setActive(!active), [active]);
@@ -136,7 +139,9 @@ const ReminderEmail = () => {
                             }
                         />
                         <div>
-                        <Icon source={CircleCancelMajor} color="critical" />
+                            <div onClick={handleRemoveThumbnail} >
+                                <Icon source={CircleCancelMajor} color="critical" />
+                            </div>
                         </div>
                     </div>
                 ))}

@@ -70,6 +70,9 @@ const UgcDeclinedEmail = () => {
         },
         []
     );
+    const handleRemoveThumbnail = () => {
+        setFiles([]);
+    };
     const navigate = useNavigate();
     const [active, setActive] = useState(false);
     const handleChange = useCallback(() => setActive(!active), [active]);
@@ -130,7 +133,9 @@ const UgcDeclinedEmail = () => {
                             }
                         />
                         <div>
-                            <Icon source={CircleCancelMajor} color="critical" />
+                            <div onClick={handleRemoveThumbnail} >
+                                <Icon source={CircleCancelMajor} color="critical" />
+                            </div>
                         </div>
                     </div>
                 ))}
@@ -450,7 +455,7 @@ const UgcDeclinedEmail = () => {
                                     </div>
                                 ))}
                                 {alreadyUploadLogo && <img
-                                    style={{ display: "block", margin: "auto", marginTop: "20px", marginBottom: "20px", width: "100px", height: "100px" }}
+                                    style={{ display: "block", margin: "auto", marginTop: "20px", marginBottom: "20px", maxWidth: "250px" }}
 
                                     src={alreadyUploadLogo} />}
                                 <div className="previewEditor">
