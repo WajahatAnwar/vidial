@@ -376,7 +376,7 @@ if (!function_exists('saveEnLanguage')) {
 {{reason_decline}}
 <br><p>No worries, you can try again if you want!</p>
 <br>{{button}}
-<br>{{storename}} Team",
+<br>Cheers,<br>{{storename}} Team",
                     'btn_text' => 'Get my Gift Card',
                     'btn_color' => '#000000',
                     'from' => 'Vidial'
