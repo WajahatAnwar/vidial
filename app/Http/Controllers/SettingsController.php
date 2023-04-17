@@ -286,21 +286,24 @@ class SettingsController extends Controller
        */
 
        public function saveEmailSettings(Request $request){
-        $logo_path='';
+       // $logo_path='';
         if ($request->file('logo')) {
             $logo_path = time() . '.' . $request->file('logo')->extension();
             $request->file('logo')->move(public_path('emails_logo'), $logo_path);
         }
-            EmailTemplate::updateOrCreate(['user_id' => Auth::user()->id,'type'=> $request->type],[
-                'logo'=> $logo_path,
-                'subject'=>$request->subject ?? '',
-                'body'=>$request->body ?? '',
-                'btn_text'=>$request->buttonText ?? '',
-                'btn_color'=>$request->buttonColorHex ?? '#000000',
-                'type'=>$request->type,
-                'user_id'=>Auth::user()->id,
-                'from'=>$request->from ?? 'Vidial'
-            ]);
+        EmailTemplate::updateOrCreate(
+            ['user_id' => Auth::user()->id, 'type' => $request->type],
+            array_filter([
+                'logo' => $logo_path ?? null,
+                'subject' => $request->subject ?? '',
+                'body' => $request->body ?? '',
+                'btn_text' => $request->buttonText ?? '',
+                'btn_color' => $request->buttonColorHex ?? '#000000',
+                'type' => $request->type,
+                'user_id' => Auth::user()->id,
+                'from' => $request->from == '' ? 'Vidial' : $request->from
+            ])
+        );
         return response()->json([
             'success' => true,
             'message' => "Template Created Successfully",

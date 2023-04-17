@@ -65,7 +65,7 @@ const UgcDeclinedEmail = () => {
 
     const handleDropZoneDrop = useCallback(
         (_dropFiles, acceptedFiles, _rejectedFiles) => {
-            setAlreadyUploadedLogo('');
+            //setAlreadyUploadedLogo('');
             setFiles((files) => acceptedFiles);
         },
         []
@@ -454,7 +454,7 @@ const UgcDeclinedEmail = () => {
                                         />
                                     </div>
                                 ))}
-                                {alreadyUploadLogo && <img
+                                {files.length <= 0  && <img
                                     style={{ display: "block", margin: "auto", marginTop: "20px", marginBottom: "20px", maxWidth: "250px" }}
 
                                     src={alreadyUploadLogo} />}

@@ -65,7 +65,7 @@ const ReminderEmail = () => {
     const [alreadyUploadLogo, setAlreadyUploadedLogo] = useState('');
     const handleDropZoneDrop = useCallback(
         (_dropFiles, acceptedFiles, _rejectedFiles) => {
-            setAlreadyUploadedLogo('');
+            //setAlreadyUploadedLogo('');
             // setFiles((files) => []);
             setFiles((files) => acceptedFiles);
 
@@ -117,7 +117,7 @@ const ReminderEmail = () => {
                     </div>
                 ))}
 
-                {alreadyUploadLogo && <img
+                {files.length <= 0  && <img
                     style={{ display: "block", margin: "auto", marginTop: "20px", marginBottom: "20px", width: "100px", height: "100px" }}
 
                     src={alreadyUploadLogo} />}
