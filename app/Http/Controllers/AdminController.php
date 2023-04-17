@@ -70,6 +70,9 @@ class AdminController extends Controller
     public function testEmail()
     {
         
+       $user = User::find(3);
+        $response = $user->api()->rest('GET', '/admin/api/2023-04/webhooks.json');
+        dd($response);
         dd(EmailTemplate::find(8)->logo== '' ? 'true' :  'data');
         //dd(sendMail('ali@swishtag.com', $postPurchase['subject'], $postPurchase['body'],$params));
     }

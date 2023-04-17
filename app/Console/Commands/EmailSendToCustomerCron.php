@@ -69,7 +69,7 @@ class EmailSendToCustomerCron extends Command
                         'store_credit' => $settings->store_credit,
                         'page_color' => $settings->page_color,
                         'discount_amount' => $settings->store_credit,
-                        'store_name' => $current_user->email,
+                        'store_name' => $current_user->store_name,
                         'shopify_store_name' => $settings->user->store_name,
                         'store_currency' => $current_user->store_currency,
                         'url' => env('APP_URL') . "/landingPage" . "/" . $settings->locale
@@ -100,19 +100,26 @@ class EmailSendToCustomerCron extends Command
                                     env('MAILGUN_ENDPOINT')
                                );*/
                                     $domain = env('MAILGUN_DOMAIN');
-                                    $subject_reminder = "Share your feedback and receive " . getCurrencySymbol($details['store_currency']) . $details['discount_amount'] . " from " . $details['shopify_store_name'];
+                                    $subject_reminder = "Share your feedback and receive " . getCurrencySymbol($details['store_currency']) 
+                                    . $details['discount_amount'] . " from " . $details['shopify_store_name'];
                                     if ($settings->locale == "en") {
-                                        $subject_reminder = "Share your feedback and receive " . getCurrencySymbol($details['store_currency']) . $details['discount_amount'] . " from " . $details['shopify_store_name'];
+                                        $subject_reminder = "Share your feedback and receive " 
+                                        . getCurrencySymbol($details['store_currency']) . $details['discount_amount'] . " from " . $details['shopify_store_name'];
                                     } else if ($settings->locale == "de") {
-                                        $subject_reminder = "Teilen Sie Ihr Feedback und erhalten Sie " . getCurrencySymbol($details['store_currency']) . $details['discount_amount'] . " von " . $details['shopify_store_name'];
+                                        $subject_reminder = "Teilen Sie Ihr Feedback und erhalten Sie " 
+                                        . getCurrencySymbol($details['store_currency']) . $details['discount_amount'] . " von " . $details['shopify_store_name'];
                                     } else if ($settings->locale == "es") {
-                                        $subject_reminder = "Comparte tus comentarios y recibe " . getCurrencySymbol($details['store_currency']) . $details['discount_amount'] . " de " . $details['shopify_store_name'];
+                                        $subject_reminder = "Comparte tus comentarios y recibe " 
+                                        . getCurrencySymbol($details['store_currency']) . $details['discount_amount'] . " de " . $details['shopify_store_name'];
                                     } else if ($settings->locale == "fr") {
-                                        $subject_reminder = "Donnez votre avis et recevez " . getCurrencySymbol($details['store_currency']) . $details['discount_amount'] . " de " . $details['shopify_store_name'];
+                                        $subject_reminder = "Donnez votre avis et recevez " 
+                                        . getCurrencySymbol($details['store_currency']) . $details['discount_amount'] . " de " . $details['shopify_store_name'];
                                     } else if ($settings->locale == "it") {
-                                        $subject_reminder = "Condividi i tuoi commenti e ricevi " . getCurrencySymbol($details['store_currency']) . $details['discount_amount'] . " da " . $details['shopify_store_name'];
+                                        $subject_reminder = "Condividi i tuoi commenti e ricevi " 
+                                        . getCurrencySymbol($details['store_currency']) . $details['discount_amount'] . " da " . $details['shopify_store_name'];
                                     } else if ($settings->locale == "pt") {
-                                        $subject_reminder = "Compartilhe seus comentários e receba " . getCurrencySymbol($details['store_currency']) . $details['discount_amount'] . " de " . $details['shopify_store_name'];
+                                        $subject_reminder = "Compartilhe seus comentários e receba " 
+                                        . getCurrencySymbol($details['store_currency']) . $details['discount_amount'] . " de " . $details['shopify_store_name'];
                                     }
                                     $params = array(
                                         
@@ -136,7 +143,7 @@ class EmailSendToCustomerCron extends Command
                                     $temlateDetails['mail'] = $Orders_send_mail->email;
                                     $temlateDetails['storename'] = $details['shopify_store_name'];
                                     $temlateDetails['url'] = $details['url'];
-                                    $temlateDetails['amount'] = '';
+                                    $temlateDetails['amount'] = $settings->store_credit ?? 15;
                                     $temlateDetails['name'] = $Orders_send_mail->customer_name;
                                     $temlateDetails['discount_code'] = '';
                                     $temlateDetails['reason_decline'] = '';
@@ -182,19 +189,26 @@ class EmailSendToCustomerCron extends Command
                     );*/
                             $domain = env('MAILGUN_DOMAIN');
 
-                            $subject = "Win a " . getCurrencySymbol($details['store_currency']) . $details['discount_amount'] . " gift card from " . $details['store'];
+                            $subject = "Win a " . getCurrencySymbol($details['store_currency']) 
+                            . $details['discount_amount'] . " gift card from " . $details['store'];
                             if ($settings->locale == "en") {
-                                $subject = "Win a " . getCurrencySymbol($details['store_currency']) . $details['discount_amount'] . " gift card from " . $details['store'];
+                                $subject = "Win a " . getCurrencySymbol($details['store_currency']) 
+                                . $details['discount_amount'] . " gift card from " . $details['store'];
                             } else if ($settings->locale == "de") {
-                                $subject = "Gewinnen Sie eine Geschenkkarte im Wert von " . getCurrencySymbol($details['store_currency']) . $details['discount_amount'] . " für " . $details['store'];
+                                $subject = "Gewinnen Sie eine Geschenkkarte im Wert von " 
+                                . getCurrencySymbol($details['store_currency']) . $details['discount_amount'] . " für " . $details['store'];
                             } else if ($settings->locale == "es") {
-                                $subject = "Gana una tarjeta de regalo de " . getCurrencySymbol($details['store_currency']) . $details['discount_amount'] . " para " . $details['store'];
+                                $subject = "Gana una tarjeta de regalo de " 
+                                . getCurrencySymbol($details['store_currency']) . $details['discount_amount'] . " para " . $details['store'];
                             } else if ($settings->locale == "fr") {
-                                $subject = "Gagnez une carte-cadeau de " . getCurrencySymbol($details['store_currency']) . $details['discount_amount'] . " sur  " . $details['store'];
+                                $subject = "Gagnez une carte-cadeau de " 
+                                . getCurrencySymbol($details['store_currency']) . $details['discount_amount'] . " sur  " . $details['store'];
                             } else if ($settings->locale == "it") {
-                                $subject = "Vinci una carta regalo da " . getCurrencySymbol($details['store_currency']) . $details['discount_amount'] . " per " . $details['store'];
+                                $subject = "Vinci una carta regalo da " 
+                                . getCurrencySymbol($details['store_currency']) . $details['discount_amount'] . " per " . $details['store'];
                             } else if ($settings->locale == "pt") {
-                                $subject = "Ganhe um cartão-presente de " . getCurrencySymbol($details['store_currency']) . $details['discount_amount'] . " para " . $details['store'];
+                                $subject = "Ganhe um cartão-presente de " 
+                                . getCurrencySymbol($details['store_currency']) . $details['discount_amount'] . " para " . $details['store'];
                             }
                             $params = array(
                                 'from' => "Vidial < " . env('MAIL_USERNAME') . " >",
@@ -217,7 +231,7 @@ class EmailSendToCustomerCron extends Command
                             $temlateDetails['name'] = $Orders_send_mail->customer_name;
                             $temlateDetails['storename'] = $details['store_name'];
                             $temlateDetails['url'] = $details['url'];
-                            $temlateDetails['amount'] = '';
+                            $temlateDetails['amount'] = $settings->store_credit ?? 15;
                             $temlateDetails['discount_code'] = '';
                             $temlateDetails['reason_decline'] = '';
                             \Log::info('sending email');
