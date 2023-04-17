@@ -143,7 +143,7 @@ class EmailSendToCustomerCron extends Command
                                     $temlateDetails['mail'] = $Orders_send_mail->email;
                                     $temlateDetails['storename'] = $details['shopify_store_name'];
                                     $temlateDetails['url'] = $details['url'];
-                                    $temlateDetails['amount'] = $settings->store_credit ?? 15;
+                                    $temlateDetails['amount'] = $settings->store_credit;
                                     $temlateDetails['name'] = $Orders_send_mail->customer_name;
                                     $temlateDetails['discount_code'] = '';
                                     $temlateDetails['reason_decline'] = '';
