@@ -300,7 +300,7 @@ if (!function_exists('getCurrencySymbol')) {
 /****** sending mail ******/
 
 if (!function_exists('sendMail')) {
-    function sendMail($to, $subject, $view, $data = [],$from= 'Vidial')
+    function sendMail($to, $subject, $view, $data = [], $from = 'Vidial')
     {
         $mgClient = Mailgun::create(
             env('MAILGUN_SECRET'), // Mailgun API Key
@@ -311,7 +311,7 @@ if (!function_exists('sendMail')) {
         $html = view($view, $data)->render();
 
         $params = [
-            'from' => $from." < " . env('MAIL_USERNAME') . " >",
+            'from' => $from . " < " . env('MAIL_USERNAME') . " >",
             'to' => $to,
             'subject' => $subject,
             'html' => $html,
@@ -326,8 +326,7 @@ if (!function_exists('emailLanguageConverter')) {
     {
 
         $user = User::with('settings')->find($user_id);
-            saveEnLanguage($locale, $user_id, $user);
-        
+        saveEnLanguage($locale, $user_id, $user);
     }
 }
 
@@ -348,7 +347,7 @@ if (!function_exists('saveEnLanguage')) {
            <p><br>Cheers!<br>{{storename}} Team</p>',
                     'btn_text' => 'Shop Now',
                     'btn_color' => '#000000',
-                    'from'=>'Vidial'
+                    'from' => 'Vidial'
                 ),
 
                 array(
@@ -370,7 +369,7 @@ if (!function_exists('saveEnLanguage')) {
                 array(
                     'user_id' => $user_id,
                     'subject' => "Message for your Video about " . $user->store_name,
-                    
+
                     'type' => 'UGC_Declined',
                     'body' => "<p><h1>Update on your Video for {{storename}}</h1></p>
 <p><br>Sorry, Your video for {{storename}} was not approved for the following reason:</p>
@@ -449,7 +448,7 @@ L'équipe de {{storename}}.",
                 ),
                 array(
                     'user_id' => $user_id,
-                    'subject' => "Message pour votre vidéo à propos de ". $user->store_name,
+                    'subject' => "Message pour votre vidéo à propos de " . $user->store_name,
                     'type' => 'UGC_Declined',
                     'body' => "<p><h1>Message concernant votre vidéo pour {{storename}}</h1></p>
 <p><br>Désolé, mais votre vidéo pour {{storename}} n'a pas été approuvée pour la raison suivante :</p>

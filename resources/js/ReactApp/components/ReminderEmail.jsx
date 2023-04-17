@@ -308,14 +308,12 @@ const ReminderEmail = () => {
                                         <p style={{ color: "#9A9A9A", marginTop: "20px", }}>
                                             Notes:
                                         </p>
-                                        <p style={{ color: "#9A9A9A", }}>
-                                        Use &#123;&#123;order_number&#125;&#125; for the customer’s order number
-                                        </p>
+                                        
                                         <p style={{ color: "#9A9A9A", }}>
                                         Use &#123;&#123;name&#125;&#125; as a placeholder for the user’s first name
                                         </p>
                                         <p style={{ color: "#9A9A9A", }}>
-                                        Use &#123;&#123;store_name&#125;&#125; to display the name of your brand on the email
+                                        Use &#123;&#123;storename&#125;&#125; to display the name of your brand on the email
                                         </p>
                                         <p style={{ color: "#9A9A9A", }}>
                                         Use &#123;&#123;amount&#125;&#125; for the store credit you are offering to your customer                                        </p>

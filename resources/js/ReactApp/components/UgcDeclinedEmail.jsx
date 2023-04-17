@@ -303,13 +303,14 @@ const UgcDeclinedEmail = () => {
                                             Notes:
                                         </p>
                                         <p style={{ color: "#9A9A9A", }}>
-                                            Use &#123;&#123;order_number&#125;&#125; for the customer’s order number
+                                            
+                                            Use &#123;&#123;reason_decline&#125;&#125; as a placeholder for the rejection reason
                                         </p>
                                         <p style={{ color: "#9A9A9A", }}>
                                             Use &#123;&#123;name&#125;&#125; as a placeholder for the user’s first name
                                         </p>
                                         <p style={{ color: "#9A9A9A", }}>
-                                            Use &#123;&#123;store_name&#125;&#125; to display the name of your brand on the email
+                                            Use &#123;&#123;storename&#125;&#125; to display the name of your brand on the email
                                         </p>
                                         <p style={{ color: "#9A9A9A", }}>
                                         Use &#123;&#123;amount&#125;&#125; for the store credit you are offering to your customer
@@ -317,9 +318,7 @@ const UgcDeclinedEmail = () => {
                                         <p style={{ color: "#9A9A9A" }}>
                                         Use &#123;&#123;button&#125;&#125; to display the button call-to-action on the email
                                         </p>
-                                        <p style={{ color: "#9A9A9A" }}>
-                                        Use &#123;&#123;reason_decline&#125;&#125; to display the reason for the video rejection
-                                        </p>
+                                       
                                         <p style={{ fontSize: "15px", marginTop: "20px", marginBottom: "10px", fontWeight: "500" }}>Content</p>
 
                                         <Editor
