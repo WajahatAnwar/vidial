@@ -217,10 +217,10 @@ class AuthController extends Controller
         $emailTemplate['subject'] = "Here's your " . getCurrencySymbol($user->store_currency) . $user->settings->store_credit . " discount code for " . $user->store_name;
 
         $emailTemplate['type'] = 'UGC_Approved';
-        $emailTemplate['body'] = "<p><h1>Hello {{name}}! Here is your {{amount}} Gift Card!</h1></p>
-<p><br>Hey, Congratulations, Your video for {{storename}} has been approved!</p>
+        $emailTemplate['body'] = "<p><h1>Hello! Here is your {{amount}} Gift Card!</h1></p>
+<p><br>Hey{{name}}, Congratulations, Your video for {{storename}} has been approved!</p>
 <p><br>We are constantly inspired by the creativity and passion of our customers, and we appreciate your support.</p>
-<p><br>Here is your Discount :{{discount_code}}</p>
+<p><br>Here is your Discount :<br>{{discount_code}}</p>
 <br>{{button}}
 <p><br>Cheers!<br>{{storename}} Team</p>";
 
@@ -263,9 +263,10 @@ class AuthController extends Controller
         $emailTemplate['type'] = 'UGC_Declined';
         $emailTemplate['body'] = "<p><h1>Update on your Video for {{storename}}</h1></p>
 <p><br>Sorry, Your video for {{storename}} was not approved for the following reason:</p>
-{{reason_decline}}
+<br>{{reason_decline}}
+<p><br>No worries, you can try again if you want!</p>
 <br>{{button}}
-<br><p>No worries, you can try again if you want!</p>
+
 <br>Cheers,<br>{{storename}} Team";
 
         $emailTemplate['btn_text'] = 'Get my Gift Card';

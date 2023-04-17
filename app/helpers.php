@@ -339,12 +339,12 @@ if (!function_exists('saveEnLanguage')) {
                     'user_id' => $user_id,
                     'subject' => "Here's your " . getCurrencySymbol($user->store_currency) . $user->settings->store_credit . " discount code for " . $user->store_name,
                     'type' => 'UGC_Approved',
-                    'body' => '<p><h1>Hello {{name}}! Here is your {{amount}} Gift Card!</h1></p>
-          <p><br>Hey, Congratulations, Your video for {{storename}} has been approved!</p>
-          <p><br>We are constantly inspired by the creativity and passion of our customers, and we appreciate your support.</p>
-          <p><br>Here is your Discount :{{discount_code}}</p>
-          <br>{{button}}
-           <p><br>Cheers!<br>{{storename}} Team</p>',
+                    'body' => '<p><h1>Hello! Here is your {{amount}} Gift Card!</h1></p>
+<p><br>Hey{{name}}, Congratulations, Your video for {{storename}} has been approved!</p>
+<p><br>We are constantly inspired by the creativity and passion of our customers, and we appreciate your support.</p>
+<p><br>Here is your Discount :<br>{{discount_code}}</p>
+<br>{{button}}
+<p><br>Cheers!<br>{{storename}} Team</p>',
                     'btn_text' => 'Shop Now',
                     'btn_color' => '#000000',
                     'from' => 'Vidial',
@@ -375,9 +375,10 @@ if (!function_exists('saveEnLanguage')) {
                     'type' => 'UGC_Declined',
                     'body' => "<p><h1>Update on your Video for {{storename}}</h1></p>
 <p><br>Sorry, Your video for {{storename}} was not approved for the following reason:</p>
-{{reason_decline}}
-<br><p>No worries, you can try again if you want!</p>
+<br>{{reason_decline}}
+<p><br>No worries, you can try again if you want!</p>
 <br>{{button}}
+
 <br>Cheers,<br>{{storename}} Team",
                     'btn_text' => 'Get my Gift Card',
                     'btn_color' => '#000000',
@@ -419,13 +420,13 @@ if (!function_exists('saveEnLanguage')) {
                     'user_id' => $user_id,
                     'subject' => "Voici votre Code de Réduction de " . getCurrencySymbol($user->store_currency) . $user->settings->store_credit . " pour " . $user->store_name,
                     'type' => 'UGC_Approved',
-                    'body' => "<p><h1>Voici votre carte cadeau de {{amount}} !</h1></p>
-                    <p><br>Félicitations ! Votre vidéo pour {{storename}} a été approuvée !</p>
+                    'body' => "<p><h1>Voici votre carte cadeau de {{amount}}!</h1></p>
+                    <p><br>Félicitations {{name}}! Votre vidéo pour {{storename}} a été approuvée !</p>
           <p><br>Nous sommes constamment inspirés par la créativité et la passion de nos clients, et nous apprécions votre soutien.</p>
-          <p><br>Voici votre code de réduction :<br>{{discount_code}}</p>
+          <p><br>Voici votre code de réduction:<br>{{discount_code}}</p>
           <p>Vous pouvez utiliser ce code lors du paiement pour bénéficier de votre réduction.</p>
           <br>{{button}}
-           <p><br>Cordialement<br>L'équipe de {{storename}}.</p>",
+           <p><br>Cordialement<br>L'équipe de {{storename}}</p>",
                     'btn_text' => 'Profiter du code de réduction',
                     'btn_color' => '#000000',
                     'from' => 'Vidial',
@@ -434,9 +435,9 @@ if (!function_exists('saveEnLanguage')) {
 
                 array(
                     'user_id' => $user_id,
-                    'subject' => "Gagnez une carte-cadeau de " . getCurrencySymbol($user->store_currency) . $user->settings->store_credit . " sur  " . $user->store_name,
+                    'subject' => "Gagnez une carte-cadeau de " . getCurrencySymbol($user->store_currency) . $user->settings->store_credit . " sur " . $user->store_name,
                     'type' => 'Post_Purchase',
-                    'body' => "<p><h1>Gagnez une carte cadeau de {{amount}} en partageant votre expérience avec nous !</h1></p>
+                    'body' => "<p><h1>Gagnez une carte cadeau de {{amount}} en partageant votre expérience avec nous!</h1></p>
 <p><br>Bonjour {{name}},</p>
 <p><br>Nous vous remercions encore pour votre commande.</p>
 <p><br>Les avis des clients sur nos produits sont extrêmement importants pour nous.</p>
@@ -446,7 +447,7 @@ if (!function_exists('saveEnLanguage')) {
 <br><p>Nous apprécions vraiment d'entendre les commentaires de nos clients sur notre marque, car votre satisfaction est notre priorité absolue.</p>
 Cordialement, 
 <br>
-L'équipe de {{storename}}.",
+L'équipe de {{storename}}",
                     'btn_text' => 'Obtenir ma Carte Cadeau',
                     'btn_color' => '#000000',
                     'from' => 'Vidial',
@@ -457,15 +458,15 @@ L'équipe de {{storename}}.",
                     'subject' => "Message pour votre vidéo à propos de " . $user->store_name,
                     'type' => 'UGC_Declined',
                     'body' => "<p><h1>Message concernant votre vidéo pour {{storename}}</h1></p>
-<p><br>Désolé, mais votre vidéo pour {{storename}} n'a pas été approuvée pour la raison suivante :</p>
+<p><br>Désolé, mais votre vidéo pour {{storename}} n'a pas été approuvée pour la raison suivante:</p>
 <br>
 {{reason_decline}}
 <br><p>Ne vous en faites pas, vous pouvez essayer à nouveau si vous le souhaitez !</p>
 <br>
-{{button}}
+{{button}}<br>
 <br>Cordialement,
 <br>
-L'équipe {{storename}}.",
+L'équipe {{storename}}",
                     'btn_text' => 'Recommencer une vidéo',
                     'btn_color' => '#000000',
                     'from' => 'Vidial',
@@ -476,15 +477,15 @@ L'équipe {{storename}}.",
                     'user_id' => $user_id,
                     'subject' => "Donnez votre avis et recevez " . getCurrencySymbol($user->store_currency) . $user->settings->store_credit . " de " . $user->store_name,
                     'type' => 'Reminder',
-                    'body' => "<p><h1>Partagez-nous votre avis pour gagner une carte cadeau de {{amount}} !</h1></p>
-<p><br>Bonjour,{{name}}</p>
+                    'body' => "<p><h1>Partagez-nous votre avis pour gagner une carte cadeau de {{amount}}!</h1></p>
+<p><br>Bonjour{{name}},</p>
 <p><br>Nous aimerions beaucoup connaître votre expérience d'achat chez {{storename}}.</p>
 <p><br>II vous suffit d'enregistrer une courte vidéo de quelques secondes pour partager vos impressions sur nos produits et nous vous récompenserons avec une carte cadeau de {{amount}} en guise de remerciement.</p>
 <br>{{button}}
 <p><br>Merci pour votre confiance et votre fidélité.</p>
 <br>Cordialement,
 <br>
-L'équipe {{storename}}.",
+L'équipe {{storename}}",
                     'btn_text' => 'Laissez un avis vidéo',
                     'btn_color' => '#000000',
                     'from' => 'Vidial',
@@ -591,12 +592,12 @@ Das {{storename}} Team.",
                     'subject' => "Aquí está su código de descuento de " . getCurrencySymbol($user->store_currency) . $user->settings->store_credit . " para " . $user->store_name,
                     'type' => 'UGC_Approved',
                     'body' => '<p><h1>¡Hola {{name}}! ¡Aquí está tu tarjeta de regalo de {{amount}}!</h1></p>
-          <p><br>¡Felicidades! ¡Tu video para {{storename}} ha sido aprobado!</p>
+          <p><br>¡Felicidades{{name}}! ¡Tu video para {{storename}} ha sido aprobado!</p>
           <p><br>Nos inspiramos constantemente en la creatividad y pasión de nuestros clientes, y apreciamos tu apoyo.</p>
-          <p><br>Aquí está tu descuento : <br>{{discount_code}}</p>
+          <p><br>Aquí está tu descuento: <br>{{discount_code}}</p>
           <p><br>Puedes usar este código al momento de pagar para recibir tu descuento.</p>
           <br>{{button}}
-           <p><br>¡Saludos!<br>El equipo de {{storename}}.</p>',
+           <p><br>¡Saludos!<br>El equipo de {{storename}}</p>',
                     'btn_text' => 'Comprar ahora',
                     'btn_color' => '#000000',
                     'from' => 'Vidial',
@@ -615,7 +616,7 @@ Das {{storename}} Team.",
 <br>
 <p>Realmente apreciamos escuchar los comentarios de nuestros clientes sobre nuestra marca, ya que tu satisfacción es nuestra principal prioridad.</p>
 <br>Atentamente,
-<br>El equipo de {{storename}}.",
+<br>El equipo de {{storename}}",
                     'btn_text' => 'Obtener mi tarjeta de regalo',
                     'btn_color' => '#000000',
                     'from' => 'Vidial',
@@ -631,7 +632,7 @@ Das {{storename}} Team.",
 <br><p>¡No se preocupe, puede intentarlo de nuevo si lo desea!</p>
 <br>{{button}}
 <br>¡Saludos!<br>
-El equipo de {{storename}}.",
+El equipo de {{storename}}",
                     'btn_text' => 'Obtener mi tarjeta de regalo',
                     'btn_color' => '#000000',
                     'from' => 'Vidial',
@@ -643,11 +644,11 @@ El equipo de {{storename}}.",
                     'subject' => "Comparte tus comentarios y recibe " . getCurrencySymbol($user->store_currency) . $user->settings->store_credit . " de " . $user->store_name,
                     'type' => 'Reminder',
                     'body' => "<p><h1>¡Comparta su opinión para ganar una tarjeta de regalo de {{amount}}!</h1></p>
-<p><br>Hola,
-,<br> Nos encantaría conocer su experiencia de compra en {{storename}}.</p>
-<p><br>Simplemente grabe un breve video de unos pocos segundos compartiendo sus opiniones sobre nuestros productos y lo recompensaremos con una tarjeta de regalo de $&nbsp;{{amount}} como agradecimiento.</p>
-<br>{{button}}
-<br>Gracias por su confianza y lealtad <br> Saludos cordiales,Equipo {{storename}}.",
+<p><br>Hola{{name}},
+<br> Nos encantaría conocer su experiencia de compra en {{storename}}.</p>
+<p><br>Simplemente grabe un breve video de unos pocos segundos compartiendo sus opiniones sobre nuestros productos y lo recompensaremos con una tarjeta de regalo de &nbsp;{{amount}} como agradecimiento.</p>
+<br>{{button}}<br>
+<br>Gracias por su confianza y lealtad <br> Saludos cordiales,<br>Equipo {{storename}}",
                     'btn_text' => 'Deja un comentario en video',
                     'btn_color' => '#000000',
                     'from' => 'Vidial',
@@ -670,13 +671,13 @@ El equipo de {{storename}}.",
                     'user_id' => $user_id,
                     'subject' => "Aqui está seu código de desconto de " . getCurrencySymbol($user->store_currency) . $user->settings->store_credit . " para " . $user->store_name,
                     'type' => 'UGC_Approved',
-                    'body' => '<p><h1>Olá {{name}}! Aqui está o seu Cartão de Presente de {{amount}}!</h1></p>
-          <p><br>Parabéns! Seu vídeo para {{storename}} foi aprovado!</p>
+                    'body' => '<p><h1>Olá! Aqui está o seu Cartão de Presente de {{amount}}!</h1></p>
+          <p><br>Parabéns {{name}}! Seu vídeo para {{storename}} foi aprovado!</p>
           <p><br>Somos constantemente inspirados pela criatividade e paixão dos nossos clientes, e apreciamos o seu apoio.</p>
-          <p><br>Aqui está o seu desconto :<br>{{discount_code}}</p>
+          <p><br>Aqui está o seu desconto:<br>{{discount_code}}</p>
           <p><br>Você pode usar este código ao finalizar a compra para receber o desconto.</p>
           <br>{{button}}
-           <p><br>Saudações!<br>Equipe {{storename}}.</p>',
+           <p><br>Saudações!<br>Equipe {{storename}}</p>',
                     'btn_text' => 'Comprar agora',
                     'btn_color' => '#000000',
                     'from' => 'Vidial',
@@ -694,7 +695,7 @@ El equipo de {{storename}}.",
 {{button}}
 <br>
 <p>Realmente valorizamos os comentários de nossos clientes sobre nossa marca, pois sua satisfação é nossa principal prioridade</p>
-<br>Atenciosamente,<br>Equipe {{storename}}.",
+<br>Atenciosamente,<br>Equipe {{storename}}",
                     'btn_text' => 'Obter meu cartão presente',
                     'btn_color' => '#000000',
                     'from' => 'Vidial',
@@ -708,9 +709,9 @@ El equipo de {{storename}}.",
 <p><br>Desculpe, o seu vídeo para {{storename}} não foi aprovado por causa do seguinte motivo:</p>
 {{reason_decline}}
 <br><p>Não se preocupe, você pode tentar novamente se quiser!</p>
-<br>{{button}}
+<br>{{button}}<br>
 <br>Atenciosamente,
-<br>Equipe{{storename}}",
+<br>Equipe {{storename}}",
                     'btn_text' => 'Obter meu cartão-presente',
                     'btn_color' => '#000000',
                     'from' => 'Vidial',
@@ -722,7 +723,7 @@ El equipo de {{storename}}.",
                     'subject' => "Compartilhe seus comentários e receba " . getCurrencySymbol($user->store_currency) . $user->settings->store_credit . " de " . $user->store_name,
                     'type' => 'Reminder',
                     'body' => "<p><h1>Compartilhe sua opinião e ganhe um vale-presente de {{amount}}!</h1></p>
-<p><br>Olá, Adoraríamos saber sobre sua experiência de compras recente na {{storename}}</p>
+<p><br>Olá {{name}}, Adoraríamos saber sobre sua experiência de compras recente na {{storename}}.</p>
 <p><br>Basta gravar um vídeo curto de alguns segundos compartilhando seus pensamentos sobre nossos produtos e recompensaremos você com um vale-presente de {{amount}} como agradecimento.</p>
 <br>{{button}}
 <p><br>Agradecemos pela sua confiança e fidelidade,</p>
