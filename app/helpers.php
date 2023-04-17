@@ -510,13 +510,13 @@ L'équipe {{storename}}",
                     'user_id' => $user_id,
                     'subject' => "Hier ist Ihr " . getCurrencySymbol($user->store_currency) . $user->settings->store_credit . " Rabattcode für " . $user->store_name,
                     'type' => 'UGC_Approved',
-                    'body' => '<p><h1>Hallo {{name}}! Hier ist Ihre Geschenkkarte im Wert von {{amount}}!</h1></p>
-          <p><br>Herzlichen Glückwunsch! Ihr Video für {{storename}} wurde genehmigt!</p>
+                    'body' => '<p><h1>Hallo! Hier ist Ihre Geschenkkarte im Wert von {{amount}}!</h1></p>
+          <p><br>Herzlichen Glückwunsch {{name}}! Ihr Video für {{storename}} wurde genehmigt!</p>
           <p><br>Wir sind ständig von der Kreativität und Leidenschaft unserer Kunden inspiriert und wir schätzen Ihre Unterstützung.</p>
           <p><br>Hier ist Ihr Rabattcode:<br>{{discount_code}}</p>
           <p><br>Sie können diesen Code beim Bezahlen verwenden, um Ihren Rabatt zu erhalten.</p>
           <br>{{button}}
-           <p><br>Prost!<br>Das Team von {{storename}}.</p>',
+           <p><br>Prost!<br>Das Team von {{storename}}</p>',
                     'btn_text' => 'Jetzt einkaufen',
                     'btn_color' => '#000000',
                     'from' => 'Vidial',
@@ -528,16 +528,16 @@ L'équipe {{storename}}",
                     'subject' => "Gewinnen Sie eine Geschenkkarte im Wert von " . getCurrencySymbol($user->store_currency) . $user->settings->store_credit . " für " . $user->store_name,
                     'type' => 'Post_Purchase',
                     'body' => "<p><h1>Gewinnen Sie eine Geschenkkarte im Wert von {{amount}}, indem Sie Ihre Erfahrungen mit uns teilen!</h1></p>
-<p><br>Guten Tag!{{name}}, <br>Wir bedanken uns nochmals für Ihre Bestellung.</p>
+<p><br>Guten Tag {{name}}! <br>Wir bedanken uns nochmals für Ihre Bestellung.</p>
 <p><br>The feedback of our customers about our products is extremely valuable to us.</p>
 <p>Die Kundenbewertungen unserer Produkte sind für uns äußerst wichtig.</p>
 <p><br>Deshalb möchten wir Ihnen eine Geschenkkarte im Wert von {{amount}} für unseren Shop anbieten, wenn Sie uns ein Video zur Verfügung stellen, in dem Sie Ihre Meinung zu unseren Produkten teilen.</p>
 <br>{{button}}
 <br>
-<p>Es ist uns wirklich wichtig, das Feedback unserer Kunden zu unserer Marke zu hören, da Ihre Zufriedenheit für uns höchste Priorität hat</p>
-<br>Mit freundlichen Grüßen,
+<p>Es ist uns wirklich wichtig, das Feedback unserer Kunden zu unserer Marke zu hören, da Ihre Zufriedenheit für uns höchste Priorität hat.</p>
+<br>Mit freundlichen Grüßen,<br>
 
-Das {{storename}} Team.",
+Das {{storename}} Team",
                     'btn_text' => 'Meine Geschenkkarte erhalten',
                     'btn_color' => '#000000',
                     'logo' => ''
@@ -551,7 +551,7 @@ Das {{storename}} Team.",
 <br>{{reason_decline}}
 <br><p>Keine Sorge, Sie können es erneut versuchen, wenn Sie möchten!</p>
 <br>{{button}}
-<p><br>Freundliche Grüße,<br>Das {{storename}}-Team.</p>
+<p><br>Freundliche Grüße,<br>Das {{storename}} Team</p>
 ",
                     'btn_text' => 'Holen Sie sich meine Geschenkkarte',
                     'btn_color' => '#000000',
@@ -563,11 +563,11 @@ Das {{storename}} Team.",
                     'user_id' => $user_id,
                     'subject' => "Teilen Sie Ihr Feedback und erhalten Sie " . getCurrencySymbol($user->store_currency) . $user->settings->store_credit . " von " . $user->store_name,
                     'type' => 'Reminder',
-                    'body' => "<p><h1>Teilen Sie uns Ihre Meinung mit und gewinnen Sie eine Geschenkkarte im Wert von {{amount}} !</h1></p>
-<p><br>Hallo, Wir würden uns freuen, Ihre Einkaufserfahrung bei {{storename}} kennenzulernen.</p>
+                    'body' => "<p><h1>Teilen Sie uns Ihre Meinung mit und gewinnen Sie eine Geschenkkarte im Wert von {{amount}}!</h1></p>
+<p><br>Hallo {{name}}, Wir würden uns freuen, Ihre Einkaufserfahrung bei {{storename}} kennenzulernen.</p>
 <p><br>Sie können einfach ein kurzes 30-Sekunden-Video aufnehmen, in dem Sie Ihre Gedanken zu unseren Produkten teilen, und wir belohnen Sie mit einer Geschenkkarte im Wert von {{amount}} als Dankeschön.</p>
 <br>{{button}}
-<p><br>Freundliche Grüße,<br>Das {{storename}}-Team.</p>",
+<p><br>Freundliche Grüße,<br>Das {{storename}} Team</p>",
                     'btn_text' => 'Ein Video-Review hinterlassen',
                     'btn_color' => '#000000',
                     'from' => 'Vidial',
@@ -769,13 +769,13 @@ El equipo de {{storename}}",
                     'subject' => "Vinci una carta regalo da " . getCurrencySymbol($user->store_currency) . $user->settings->store_credit . " per " . $user->store_name,
                     'type' => 'Post_Purchase',
                     'body' => "<p><h1>Vinci una carta regalo di {{amount}} condividendo la tua esperienza con noi!</h1></p>
-<p><br>Ciao! {{name}}, <br>Grazie ancora per il tuo ordine.</p>
+<p><br>Ciao {{name}}!, <br>Grazie ancora per il tuo ordine.</p>
 <p><br>Le opinioni dei clienti sui nostri prodotti sono estremamente importanti per noi.</p>
 <p>Per questo motivo, vorremmo offrirti una carta regalo di {{amount}} da utilizzare nel nostro negozio in cambio di un video in cui condividi la tua opinione sui nostri prodotti.</p>
 {{button}}
 <br>
 <p>Apprezziamo molto sentire i commenti dei nostri clienti sulla nostra marca, poiché la tua soddisfazione è la nostra massima priorità.</p>
-<br>Cordiali saluti,<br>Il team di {{store}}.",
+<br>Cordiali saluti,<br>Il team di {{storename}}",
                     'btn_text' => 'Ottieni la mia carta regalo',
                     'btn_color' => '#000000',
                     'from' => 'Vidial',
@@ -790,7 +790,7 @@ El equipo de {{storename}}",
 <br>{{reason_decline}}
 <br><p>Non ti preoccupare, puoi provare di nuovo se vuoi!</p>
 <br>{{button}}<br>
-<br>Saluti,<br>Il team di {{storename}}.",
+<br>Saluti,<br>Il team di {{storename}}",
                     'btn_text' => 'Ottieni la mia carta regalo',
                     'btn_color' => '#000000',
                     'from' => 'Vidial',
@@ -802,11 +802,11 @@ El equipo de {{storename}}",
                     'subject' => "Condividi i tuoi commenti e ricevi " . getCurrencySymbol($user->store_currency) . $user->settings->store_credit . " da " . $user->store_name,
                     'type' => 'Reminder',
                     'body' => "<p><h1>Condividi la tua opinione per vincere una carta regalo di {{amount}}!</h1></p>
-<p><br>Ciao, Ci piacerebbe sapere della tua recente esperienza di acquisto su {{storename}}.</p>
+<p><br>Ciao {{name}}, Ci piacerebbe sapere della tua recente esperienza di acquisto su {{storename}}.</p>
 <p><br>Registrati semplicemente in un breve video di 30 secondi condividendo i tuoi pensieri sui nostri prodotti e ti premieremo con una carta regalo di {{amount}} come ringraziamento. </p>
 <br>{{button}}<br>
 <br><p>Grazie per la tua fiducia e la tua fedeltà,</p>
-<br>Saluti,II team di {{storename}}.",
+<br>Saluti,<br>II team di {{storename}}",
                     'btn_text' => 'Lascia una recensione video',
                     'btn_color' => '#000000',
                     'from' => 'Vidial',
