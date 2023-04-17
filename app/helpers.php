@@ -554,7 +554,8 @@ Das {{storename}} Team.",
                     'body' => "<p><h1>Teilen Sie uns Ihre Meinung mit und gewinnen Sie eine Geschenkkarte im Wert von {{amount}} !</h1></p>
 <p><br>Hallo, Wir würden uns freuen, Ihre Einkaufserfahrung bei {{storename}} kennenzulernen.</p>
 <p><br>Sie können einfach ein kurzes 30-Sekunden-Video aufnehmen, in dem Sie Ihre Gedanken zu unseren Produkten teilen, und wir belohnen Sie mit einer Geschenkkarte im Wert von {{amount}} als Dankeschön.</p>
-<br>{{button}}",
+<br>{{button}}
+<p><br>Freundliche Grüße,<br>Das {{storename}}-Team.</p>",
                     'btn_text' => 'Ein Video-Review hinterlassen',
                     'btn_color' => '#000000',
                     'from' => 'Vidial'
@@ -653,7 +654,7 @@ El equipo de {{storename}}.",
                     'user_id' => $user_id,
                     'subject' => "Aqui está seu código de desconto de " . getCurrencySymbol($user->store_currency) . $user->settings->store_credit . " para " . $user->store_name,
                     'type' => 'UGC_Approved',
-                    'body' => '<p><h1>HelloOlá {{name}}! Aqui está o seu Cartão de Presente de {{amount}}!</h1></p>
+                    'body' => '<p><h1>Olá {{name}}! Aqui está o seu Cartão de Presente de {{amount}}!</h1></p>
           <p><br>Parabéns! Seu vídeo para {{storename}} foi aprovado!</p>
           <p><br>Somos constantemente inspirados pela criatividade e paixão dos nossos clientes, e apreciamos o seu apoio.</p>
           <p><br>Aqui está o seu desconto :<br>{{discount_code}}</p>
