@@ -460,7 +460,7 @@ const PostPurchaseEmail = () => {
                                     </div>
                                 ))}
                                     {alreadyUploadLogo && <img
-                                        style={{ display: "block", margin: "auto", marginTop: "20px", marginBottom: "20px", width: "100px", height: "100px",objectFit:'contain' }}
+                                        style={{ display: "block", margin: "auto", marginTop: "20px", marginBottom: "20px", maxWidth: "250px", }}
 
                                         src={alreadyUploadLogo} />}
                                 <div className="previewEditor">
