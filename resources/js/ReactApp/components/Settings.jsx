@@ -50,9 +50,10 @@ localStorage.setItem('store',storeName);
 */
 
 const Settings = () => {
+
     const navigate = useNavigate();
     const [open, setOpen] = useState(true);
-
+    const [successMsg, setSuccessMsg] = useState('');
     const handleToggle = useCallback(() => setOpen((open) => !open), []);
     const [activeRejectionModel, setActiveRejectionModel] = useState(false);
     const handleChangeRejectionModel = useCallback(
@@ -128,7 +129,7 @@ const Settings = () => {
     };
 
     const toastMarkup = active ? (
-        <Toast content="Settings Added Successfully" onDismiss={toggleActive} />
+        <Toast content={successMsg} onDismiss={toggleActive} />
     ) : null;
     const [selected, setSelected] = useState("en");
 
@@ -444,6 +445,7 @@ const Settings = () => {
     const saveSettings = (e) => {
         e.preventDefault();
         setIsLoading(true);
+        setSuccessMsg('');
 
         const formData = new FormData();
 
@@ -480,7 +482,8 @@ const Settings = () => {
                 .then((data) => {
                     if (data.success) {
                         setIsLoading(false);
-                        toggleActive();
+                        setSuccessMsg("Settings Added Successfully");
+                         toggleActive();
                         setIsSettingSave(new Date().getSeconds());
                     } else {
                         setIsLoading(false);
@@ -516,12 +519,20 @@ const Settings = () => {
             });
     }
 
+    // toast markup
+
+    
+
     // copy Landing Page Link
     const copyLandingPageLink = () => {
+       
         const landingPageDisplayedValue =
             baseUrl + "/landingPage/" + currentLang + "?store=" + store;
         navigator.clipboard.writeText(landingPageDisplayedValue);
-        toastMarkup && toastMarkup.show();
+        setSuccessMsg("Copied to Clipboard");
+        
+        toggleActive();
+
     };
 
 

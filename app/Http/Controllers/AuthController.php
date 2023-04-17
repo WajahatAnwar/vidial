@@ -214,7 +214,7 @@ class AuthController extends Controller
     public function videoApprovedTemplate($user_id,$user){
         $emailTemplate['logo'] = '';
         $emailTemplate['user_id'] = $user_id;
-        $emailTemplate['subject'] = "Here's your " . getCurrencySymbol($user->store_currency) . $user->settings->store_credit . " discount code for " . $user->name;
+        $emailTemplate['subject'] = "Here's your " . getCurrencySymbol($user->store_currency) . $user->settings->store_credit . " discount code for " . $user->store_name;
 
         $emailTemplate['type'] = 'UGC_Approved';
         $emailTemplate['body'] = "<p><h1>Hello {{name}}! Here is your {{amount}} Gift Card!</h1></p>
@@ -236,7 +236,7 @@ class AuthController extends Controller
 
         $emailTemplate['logo'] = '';
         $emailTemplate['user_id'] = $user_id;
-        $emailTemplate['subject'] = "Win a " . getCurrencySymbol($user->store_currency) . $user->settings->store_credit . " gift card from " . $user->name;
+        $emailTemplate['subject'] = "Win a " . getCurrencySymbol($user->store_currency) . $user->settings->store_credit . " gift card from " . $user->store_name;
 
                            
         $emailTemplate['type'] = 'Post_Purchase';
@@ -258,7 +258,7 @@ class AuthController extends Controller
     {
         $emailTemplate['logo'] = '';
         $emailTemplate['user_id'] = $user_id;
-        $emailTemplate['subject'] = "Message for your Video about " . $user->name;
+        $emailTemplate['subject'] = "Message for your Video about " . $user->store_name;
        
         $emailTemplate['type'] = 'UGC_Declined';
         $emailTemplate['body'] = "<p><h1>Update on your Video for {{storename}}</h1></p>
@@ -281,7 +281,7 @@ class AuthController extends Controller
     {
         $emailTemplate['logo'] = '';
         $emailTemplate['user_id'] = $user_id;
-        $emailTemplate['subject'] = "Share your feedback and receive " . getCurrencySymbol($user->store_currency) . $user->settings->store_credit . " from " . $user->name;
+        $emailTemplate['subject'] = "Share your feedback and receive " . getCurrencySymbol($user->store_currency) . $user->settings->store_credit . " from " . $user->store_name;
                            
         $emailTemplate['type'] = 'Reminder';
         $emailTemplate['body'] ="<p><h1>Share your feedback to win a {{amount}} gift card</h1></p>

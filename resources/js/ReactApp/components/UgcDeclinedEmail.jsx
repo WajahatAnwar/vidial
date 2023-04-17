@@ -182,7 +182,10 @@ const UgcDeclinedEmail = () => {
             then((response) => response.json())
             .then((data) => {
                 if (data.success) {
-                    toggleActive();
+                    toggleActive()
+                    setTimeout(() => {
+                        navigate('/settings')
+                    }, 3000);
                     //alert('save settings successfully');
                     //successToast();
                 }
