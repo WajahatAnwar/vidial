@@ -356,13 +356,9 @@ if (!function_exists('saveEnLanguage')) {
                     'subject' => "Win a {{amount}} gift card from {{storename}}",
                     'type' => 'Post_Purchase',
                     'body' => "
-<p>Hello {{name}}, <br>Thank you for your previous order.</p>
-<p><br>The feedback of our customers about our products is extremely valuable to us.</p>
-<p>That's why we would like to offer you a {{amount}} gift card to our store in exchange for a video where you share your opinion about our products.</p>
-<br>{{button}}
-<br>
-<p> We truly appreciate hearing our customers' feedback about our brand because satisfying you is our top priority.</p>
-<br>{{storename}} Team",
+<p>Hello {{name}}, <br>Thank you for your previous order.<br><br>The feedback of our customers about our products is extremely valuable to us.</p>
+<p>That's why we would like to offer you a {{amount}} gift card to our store in exchange for a video where you share your opinion about our products.<br><br>{{button}} </p>
+<p>We truly appreciate hearing our customers' feedback about our brand because satisfying you is our top priority.<br><br>{{storename}} Team</p>",
                     'btn_text' => 'Get my gift card',
                     'btn_color' => '#000000',
                     'from'=>auth()->user()->store_name,
