@@ -218,11 +218,9 @@ class AuthController extends Controller
 
         $emailTemplate['type'] = 'UGC_Approved';
         $emailTemplate['body'] = "
-<p>Hey {{name}}, Congratulations, Your video for {{storename}} has been approved!</p>
-<p><br>We are constantly inspired by the creativity and passion of our customers, and we appreciate your support.</p>
-<p><br>Here is your Discount:<br>{{discount_code}}</p>
-<br>{{button}}
-<p><br>Cheers!<br>{{storename}} Team</p>";
+<p>Hey {{name}}, <br>Congratulations, Your video for {{storename}} has been approved!</p>
+<p>We are constantly inspired by the creativity and passion of our customers, and we appreciate your support.</p>
+<p>Here is your Discount:<br><br>{{discount_code}}<br><br>{{button}}<br><br>Cheers!<br>{{storename}} Team</p>";
 
         $emailTemplate['btn_text'] = 'Shop Now';
         $emailTemplate['btn_color'] = '#000000';
@@ -241,13 +239,9 @@ class AuthController extends Controller
                            
         $emailTemplate['type'] = 'Post_Purchase';
         $emailTemplate['body'] = "
-<p>Hello {{name}}, <br>Thank you for your previous order.</p>
-<p><br>The feedback of our customers about our products is extremely valuable to us.</p>
-<p>That's why we would like to offer you a {{amount}} gift card to our store in exchange for a video where you share your opinion about our products.</p>
-<br>{{button}}
-<br>
-<p> We truly appreciate hearing our customers' feedback about our brand because satisfying you is our top priority.</p>
-<br>{{storename}} Team";
+<p>Hello {{name}}, <br>Thank you for your previous order.<br><br>The feedback of our customers about our products is extremely valuable to us.</p>
+<p>That's why we would like to offer you a {{amount}} gift card to our store in exchange for a video where you share your opinion about our products.<br><br>{{button}} </p>
+<p>We truly appreciate hearing our customers' feedback about our brand because satisfying you is our top priority.<br><br>{{storename}} Team</p>";
         $emailTemplate['btn_text'] = 'Get my gift card';
         $emailTemplate['btn_color'] = '#000000';
         $emailTemplate['from'] = auth()->user()->store_name;
@@ -262,12 +256,7 @@ class AuthController extends Controller
        
         $emailTemplate['type'] = 'UGC_Declined';
         $emailTemplate['body'] = "
-<p>Sorry, Your video for {{storename}} was not approved for the following reason:</p>
-<br>{{reason_decline}}
-<p><br>No worries, you can try again if you want!</p>
-<br>{{button}}
-
-<br>Cheers,<br>{{storename}} Team";
+<p>Sorry, Your video for {{storename}} was not approved for the following reason:<br><br>{{reason_decline}}<br><br>No worries, you can try again if you want!<br><br>{{button}} <br><br>Cheers,<br>{{storename}} Team</p>";
 
         $emailTemplate['btn_text'] = 'Get my Gift Card';
         $emailTemplate['btn_color'] = '#000000';
@@ -285,14 +274,7 @@ class AuthController extends Controller
         $emailTemplate['subject'] = "Share your feedback and receive {{amount}} from {{storename}}";
                            
         $emailTemplate['type'] = 'Reminder';
-        $emailTemplate['body'] = "
-<p>Hey {{name}}, <br>We'd love to hear about your recent shopping experience at {{storename}}.</p>
-<p>The feedback of our customers about our products is extremely valuable to us.</p>
-<br><p>Simply record a quick 30-second video sharing your thoughts about our products, and we will reward you with a {{amount}} gift card as a thank you.</p>
-<br>{{button}}
-<br>
-<p>Thank you for your trust and your loyalty,</p>
-<br>Cheers,<br>{{storename}} Team";
+        $emailTemplate['body'] = "<p>Hey {{name}}, <br>We'd love to hear about your recent shopping experience at {{storename}}.<br><br>The feedback of our customers about our products is extremely valuable to us.<br><br>Simply record a quick 30-second video sharing your thoughts about our products, and we will reward you with a {{amount}} gift card as a thank you.<br><br>{{button}}<br><br>Thank you for your trust and your loyalty,<br><br>Cheers,<br>{{storename}} Team</p>";
 
         $emailTemplate['btn_text'] = 'Leave a video review';
         $emailTemplate['btn_color'] = '#000000';

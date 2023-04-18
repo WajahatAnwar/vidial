@@ -340,9 +340,9 @@ if (!function_exists('saveEnLanguage')) {
                     'subject' => "Here's your {{amount}} discount code for {{storename}}",
                     'type' => 'UGC_Approved',
                     'body' => '
-<p>Hey {{name}}, Congratulations, Your video for {{storename}} has been approved!</p>
-<p><br>We are constantly inspired by the creativity and passion of our customers, and we appreciate your support.</p>
-<p><br>Here is your Discount:<br>{{discount_code}}</p>
+<p>Hey {{name}}, <br>Congratulations, Your video for {{storename}} has been approved!</p>
+<p>We are constantly inspired by the creativity and passion of our customers, and we appreciate your support.</p>
+<p>Here is your Discount:<br><br>{{discount_code}}<br><br>{{button}}<br><br>Cheers!<br>{{storename}} Team</p>
 <br>{{button}}
 <p><br>Cheers!<br>{{storename}} Team</p>',
                     'btn_text' => 'Shop Now',
@@ -370,12 +370,7 @@ if (!function_exists('saveEnLanguage')) {
 
                     'type' => 'UGC_Declined',
                     'body' => "
-<p>Sorry, Your video for {{storename}} was not approved for the following reason:</p>
-<br>{{reason_decline}}
-<p><br>No worries, you can try again if you want!</p>
-<br>{{button}}
-
-<br>Cheers,<br>{{storename}} Team",
+<p>Sorry, Your video for {{storename}} was not approved for the following reason:<br><br>{{reason_decline}}<br><br>No worries, you can try again if you want!<br><br>{{button}} <br><br>Cheers,<br>{{storename}} Team</p>",
                     'btn_text' => 'Get my Gift Card',
                     'btn_color' => '#000000',
                     'from'=>auth()->user()->store_name,
@@ -387,13 +382,7 @@ if (!function_exists('saveEnLanguage')) {
                     'subject' => "Share your feedback and receive {{amount}} from {{storename}}",
                     'type' => 'Reminder',
                     'body' => "
-<p>Hey {{name}}, <br>We'd love to hear about your recent shopping experience at {{storename}}.</p>
-<p>The feedback of our customers about our products is extremely valuable to us.</p>
-<br><p>Simply record a quick 30-second video sharing your thoughts about our products, and we will reward you with a {{amount}} gift card as a thank you.</p>
-<br>{{button}}
-<br>
-<p>Thank you for your trust and your loyalty,</p>
-<br>Cheers,<br>{{storename}} Team",
+<p>Hey {{name}}, <br>We'd love to hear about your recent shopping experience at {{storename}}.<br><br>The feedback of our customers about our products is extremely valuable to us.<br><br>Simply record a quick 30-second video sharing your thoughts about our products, and we will reward you with a {{amount}} gift card as a thank you.<br><br>{{button}}<br><br>Thank you for your trust and your loyalty,<br><br>Cheers,<br>{{storename}} Team</p>",
                     'btn_text' => 'Leave a video review',
                     'btn_color' => '#000000',
                     'from'=>auth()->user()->store_name,
@@ -417,12 +406,7 @@ if (!function_exists('saveEnLanguage')) {
                     'subject' => "Voici votre Code de Réduction de {{amount}} pour {{storename}}",
                     'type' => 'UGC_Approved',
                     'body' => "
-                    <p>Félicitations {{name}}! Votre vidéo pour {{storename}} a été approuvée!</p>
-          <p><br>Nous sommes constamment inspirés par la créativité et la passion de nos clients, et nous apprécions votre soutien.</p>
-          <p><br>Voici votre code de réduction:<br>{{discount_code}}</p>
-          <p>Vous pouvez utiliser ce code lors du paiement pour bénéficier de votre réduction.</p>
-          <br>{{button}}
-           <p><br>Cordialement<br>L'équipe de {{storename}}</p>",
+<p>F&eacute;licitations {{name}}! Votre vid&eacute;o pour {{storename}} a &eacute;t&eacute; approuv&eacute;e!<br><br>Nous sommes constamment inspir&eacute;s par la cr&eacute;ativit&eacute; et la passion de nos clients, et nous appr&eacute;cions votre soutien.<br><br>Voici votre code de r&eacute;duction:<br><br>{{discount_code}}<br><br>Vous pouvez utiliser ce code lors du paiement pour b&eacute;n&eacute;ficier de votre r&eacute;duction.<br><br>{{button}}<br><br>Cordialement<br>L'&eacute;quipe de {{storename}}</p>",
                     'btn_text' => 'Profiter du code de réduction',
                     'btn_color' => '#000000',
                     'from'=>auth()->user()->store_name,
@@ -434,16 +418,8 @@ if (!function_exists('saveEnLanguage')) {
                     'subject' => "Gagnez une carte-cadeau de {{amount}} sur {{storename}}",
                     'type' => 'Post_Purchase',
                     'body' => "
-<p>Bonjour {{name}},</p>
-<p><br>Nous vous remercions encore pour votre commande.</p>
-<p><br>Les avis des clients sur nos produits sont extrêmement importants pour nous.</p>
-
-<p> C'est pourquoi nous aimerions vous offrir une carte cadeau de {{amount}} à utiliser sur notre boutique en échange d'une vidéo dans laquelle vous partagez votre avis sur nos produits</p>
-<br>{{button}}
-<br><p>Nous apprécions vraiment d'entendre les commentaires de nos clients sur notre marque, car votre satisfaction est notre priorité absolue.</p>
-Cordialement, 
-<br>
-L'équipe de {{storename}}",
+<p>Bonjour {{name}},<br>Nous vous remercions encore pour votre commande.<br><br>Les avis des clients sur nos produits sont extr&ecirc;mement importants pour nous.</p>
+<p>C'est pourquoi nous aimerions vous offrir une carte cadeau de {{amount}} &agrave; utiliser sur notre boutique en &eacute;change d'une vid&eacute;o dans laquelle vous partagez votre avis sur nos produits<br><br>{{button}}<br><br>Nous appr&eacute;cions vraiment d'entendre les commentaires de nos clients sur notre marque, car votre satisfaction est notre priorit&eacute; absolue.<br><br>Cordialement, <br>L'&eacute;quipe de {{storename}}</p>",
                     'btn_text' => 'Obtenir ma Carte Cadeau',
                     'btn_color' => '#000000',
                     'from'=>auth()->user()->store_name,
@@ -453,16 +429,7 @@ L'équipe de {{storename}}",
                     'user_id' => $user_id,
                     'subject' => "Message pour votre vidéo à propos de {{storename}}",
                     'type' => 'UGC_Declined',
-                    'body' => "
-<p>Désolé, mais votre vidéo pour {{storename}} n'a pas été approuvée pour la raison suivante:</p>
-<br>
-{{reason_decline}}
-<br><p>Ne vous en faites pas, vous pouvez essayer à nouveau si vous le souhaitez!</p>
-<br>
-{{button}}
-<br>Cordialement,
-<br>
-L'équipe {{storename}}",
+                    'body' => "<p>D&eacute;sol&eacute;, mais votre vid&eacute;o pour {{storename}} n'a pas &eacute;t&eacute; approuv&eacute;e pour la raison suivante:<br><br>{{reason_decline}} <br><br>Ne vous en faites pas, vous pouvez essayer &agrave; nouveau si vous le souhaitez!<br><br>{{button}}&nbsp;<br><br>Cordialement, <br>L'&eacute;quipe {{storename}}</p>",
                     'btn_text' => 'Recommencer une vidéo',
                     'btn_color' => '#000000',
                     'from'=>auth()->user()->store_name,
@@ -473,15 +440,7 @@ L'équipe {{storename}}",
                     'user_id' => $user_id,
                     'subject' => "Donnez votre avis et recevez {{amount}} de {{storename}}",
                     'type' => 'Reminder',
-                    'body' => "
-<p>Bonjour {{name}},</p>
-<p><br>Nous aimerions beaucoup connaître votre expérience d'achat chez {{storename}}.</p>
-<p><br>II vous suffit d'enregistrer une courte vidéo de quelques secondes pour partager vos impressions sur nos produits et nous vous récompenserons avec une carte cadeau de {{amount}} en guise de remerciement.</p>
-<br>{{button}}
-<p><br>Merci pour votre confiance et votre fidélité.</p>
-<br>Cordialement,
-<br>
-L'équipe {{storename}}",
+                    'body' => "<p>Bonjour {{name}},<br>Nous aimerions beaucoup conna&icirc;tre votre exp&eacute;rience d'achat chez {{storename}}.<br><br>II vous suffit d'enregistrer une courte vid&eacute;o de quelques secondes pour partager vos impressions sur nos produits et nous vous r&eacute;compenserons avec une carte cadeau de {{amount}} en guise de remerciement.<br><br>{{button}}<br><br>Merci pour votre confiance et votre fid&eacute;lit&eacute;.<br><br>Cordialement,&nbsp;<br>L'&eacute;quipe {{storename}}</p>",
                     'btn_text' => 'Laissez un avis vidéo',
                     'btn_color' => '#000000',
                     'from'=>auth()->user()->store_name,
@@ -507,12 +466,7 @@ L'équipe {{storename}}",
                     'subject' => "Hier ist Ihr {{amount}} Rabattcode für {{storename}}",
                     'type' => 'UGC_Approved',
                     'body' => '
-          <p>Herzlichen Glückwunsch {{name}}! Ihr Video für {{storename}} wurde genehmigt!</p>
-          <p><br>Wir sind ständig von der Kreativität und Leidenschaft unserer Kunden inspiriert und wir schätzen Ihre Unterstützung.</p>
-          <p><br>Hier ist Ihr Rabattcode:<br>{{discount_code}}</p>
-          <p><br>Sie können diesen Code beim Bezahlen verwenden, um Ihren Rabatt zu erhalten.</p>
-          <br>{{button}}
-           <p><br>Prost!<br>Das Team von {{storename}}</p>',
+<p>Herzlichen Gl&uuml;ckwunsch!<br>Ihr Video f&uuml;r {{storename}} wurde genehmigt!<br><br>Wir sind st&auml;ndig von der Kreativit&auml;t und Leidenschaft unserer Kunden inspiriert und wir sch&auml;tzen Ihre Unterst&uuml;tzung.<br><br>Hier ist Ihr Rabattcode:<br><br>{{discount_code}}<br><br>Sie k&ouml;nnen diesen Code beim Bezahlen verwenden, um Ihren Rabatt zu erhalten.<br><br>{{button}}<br><br>Prost!<br>Das Team von {{storename}}</p>',
                     'btn_text' => 'Jetzt einkaufen',
                     'btn_color' => '#000000',
                     'from'=>auth()->user()->store_name,
@@ -523,17 +477,7 @@ L'équipe {{storename}}",
                     'user_id' => $user_id,
                     'subject' => "Gewinnen Sie eine Geschenkkarte im Wert von {{amount}} für {{storename}}",
                     'type' => 'Post_Purchase',
-                    'body' => "
-<p>Guten Tag {{name}}! <br>Wir bedanken uns nochmals für Ihre Bestellung.</p>
-<p><br>The feedback of our customers about our products is extremely valuable to us.</p>
-<p>Die Kundenbewertungen unserer Produkte sind für uns äußerst wichtig.</p>
-<p><br>Deshalb möchten wir Ihnen eine Geschenkkarte im Wert von {{amount}} für unseren Shop anbieten, wenn Sie uns ein Video zur Verfügung stellen, in dem Sie Ihre Meinung zu unseren Produkten teilen.</p>
-<br>{{button}}
-<br>
-<p>Es ist uns wirklich wichtig, das Feedback unserer Kunden zu unserer Marke zu hören, da Ihre Zufriedenheit für uns höchste Priorität hat.</p>
-<br>Mit freundlichen Grüßen,<br>
-
-Das {{storename}} Team",
+                    'body' => "<p>Guten Tag {{name}}! <br>Wir bedanken uns nochmals f&uuml;r Ihre Bestellung.<br><br>The feedback of our customers about our products is extremely valuable to us.<br><br>Die Kundenbewertungen unserer Produkte sind f&uuml;r uns &auml;u&szlig;erst wichtig.<br><br>Deshalb m&ouml;chten wir Ihnen eine Geschenkkarte im Wert von {{amount}} f&uuml;r unseren Shop anbieten, wenn Sie uns ein Video zur Verf&uuml;gung stellen, in dem Sie Ihre Meinung zu unseren Produkten teilen.<br><br>{{button}}<br><br>Es ist uns wirklich wichtig, das Feedback unserer Kunden zu unserer Marke zu h&ouml;ren, da Ihre Zufriedenheit f&uuml;r uns h&ouml;chste Priorit&auml;t hat.<br><br>Mit freundlichen Gr&uuml;&szlig;en,<br>Das {{storename}} Team</p>",
                     'btn_text' => 'Meine Geschenkkarte erhalten',
                     'btn_color' => '#000000',
                     'logo' => ''
@@ -543,11 +487,7 @@ Das {{storename}} Team",
                     'subject' => "Nachricht für Ihr Video über {{storename}}" ,
                     'type' => 'UGC_Declined',
                     'body' => "
-<p>Entschuldigung, Ihr Video für {{storename}} wurde aus folgendem Grund nicht genehmigt:</p>
-<br>{{reason_decline}}
-<br><p>Keine Sorge, Sie können es erneut versuchen, wenn Sie möchten!</p>
-<br>{{button}}
-<p><br>Freundliche Grüße,<br>Das {{storename}} Team</p>
+<p>Entschuldigung, Ihr Video f&uuml;r {{storename}} wurde aus folgendem Grund nicht genehmigt:<br><br>{{reason_decline}} <br><br>Keine Sorge, Sie k&ouml;nnen es erneut versuchen, wenn Sie m&ouml;chten!<br><br>{{button}}<br><br>Freundliche Gr&uuml;&szlig;e,<br>Das {{storename}} Team</p>
 ",
                     'btn_text' => 'Holen Sie sich meine Geschenkkarte',
                     'btn_color' => '#000000',
@@ -560,10 +500,7 @@ Das {{storename}} Team",
                     'subject' => "Teilen Sie Ihr Feedback und erhalten Sie {{amount}} von {{storename}}" ,
                     'type' => 'Reminder',
                     'body' => "
-<p>Hallo {{name}}, Wir würden uns freuen, Ihre Einkaufserfahrung bei {{storename}} kennenzulernen.</p>
-<p><br>Sie können einfach ein kurzes 30-Sekunden-Video aufnehmen, in dem Sie Ihre Gedanken zu unseren Produkten teilen, und wir belohnen Sie mit einer Geschenkkarte im Wert von {{amount}} als Dankeschön.</p>
-<br>{{button}}
-<p><br>Freundliche Grüße,<br>Das {{storename}} Team</p>",
+<p>Hallo {{name}},<br>Wir w&uuml;rden uns freuen, Ihre Einkaufserfahrung bei {{storename}} kennenzulernen.<br><br>Sie k&ouml;nnen einfach ein kurzes 30-Sekunden-Video aufnehmen, in dem Sie Ihre Gedanken zu unseren Produkten teilen, und wir belohnen Sie mit einer Geschenkkarte im Wert von {{amount}} als Dankesch&ouml;n.<br><br>{{button}}<br><br>Freundliche Gr&uuml;&szlig;e,<br>Das {{storename}} Team</p>",
                     'btn_text' => 'Ein Video-Review hinterlassen',
                     'btn_color' => '#000000',
                     'from'=>auth()->user()->store_name,
@@ -588,12 +525,7 @@ Das {{storename}} Team",
                     'subject' => "Aquí está su código de descuento de {{amount}} para {{storename}}" ,
                     'type' => 'UGC_Approved',
                     'body' => '
-          <p>¡Felicidades {{name}}! ¡Tu video para {{storename}} ha sido aprobado!</p>
-          <p><br>Nos inspiramos constantemente en la creatividad y pasión de nuestros clientes, y apreciamos tu apoyo.</p>
-          <p><br>Aquí está tu descuento: <br>{{discount_code}}</p>
-          <p><br>Puedes usar este código al momento de pagar para recibir tu descuento.</p>
-          <br>{{button}}
-           <p><br>¡Saludos!<br>El equipo de {{storename}}</p>',
+<p>&iexcl;Felicidades! &iexcl;Tu video para {{storename}} ha sido aprobado!<br><br>Nos inspiramos constantemente en la creatividad y pasi&oacute;n de nuestros clientes, y apreciamos tu apoyo.<br><br>Aqu&iacute; est&aacute; tu descuento:&nbsp;<br><br>{{discount_code}}<br><br>Puedes usar este c&oacute;digo al momento de pagar para recibir tu descuento.<br><br>{{button}}<br><br>&iexcl;Saludos!<br>El equipo de {{storename}}</p>',
                     'btn_text' => 'Comprar ahora',
                     'btn_color' => '#000000',
                     'from'=>auth()->user()->store_name,
@@ -605,14 +537,7 @@ Das {{storename}} Team",
                     'subject' => "Gana una tarjeta de regalo de {{amount}} para {{storename}}" ,
                     'type' => 'Post_Purchase',
                     'body' => "
-<p>¡Hola {{name}}! <br>Gracias de nuevo por tu pedido.</p>
-<p><br>Las opiniones de los clientes sobre nuestros productos son extremadamente importantes para nosotros.</p>
-<p><br>Por eso nos gustaría ofrecerte una tarjeta de regalo de {{amount}} para nuestra tienda a cambio de un video en el que compartas tu opinión sobre nuestros productos</p>
-<br>{{button}}
-<br>
-<p>Realmente apreciamos escuchar los comentarios de nuestros clientes sobre nuestra marca, ya que tu satisfacción es nuestra principal prioridad.</p>
-<br>Atentamente,
-<br>El equipo de {{storename}}",
+<p>&iexcl;Hola!&nbsp;<br>Gracias de nuevo por tu pedido.<br><br>Las opiniones de los clientes sobre nuestros productos son extremadamente importantes para nosotros.<br><br>Por eso nos gustar&iacute;a ofrecerte una tarjeta de regalo de {{amount}} para nuestra tienda a cambio de un video en el que compartas tu opini&oacute;n sobre nuestros productos<br><br>{{button}}<br><br>Realmente apreciamos escuchar los comentarios de nuestros clientes sobre nuestra marca, ya que tu satisfacci&oacute;n es nuestra principal prioridad.<br><br>Atentamente,&nbsp;<br>El equipo de {{storename}}</p>",
                     'btn_text' => 'Obtener mi tarjeta de regalo',
                     'btn_color' => '#000000',
                     'from'=>auth()->user()->store_name,
@@ -623,12 +548,7 @@ Das {{storename}} Team",
                     'subject' => "Mensaje para su video sobre {{storename}}" ,
                     'type' => 'UGC_Declined',
                     'body' => "
-<p>Lo siento, su video para {{storename}} no fue aprobado por la siguiente razón: <br></p>
-{{reason_decline}}
-<br><p>¡No se preocupe, puede intentarlo de nuevo si lo desea!</p>
-<br>{{button}}
-<br>¡Saludos!<br>
-El equipo de {{storename}}",
+<p>Lo siento, su video para {{storename}} no fue aprobado por la siguiente raz&oacute;n:<br><br>{{reason_decline}}<br><br>&iexcl;No se preocupe, puede intentarlo de nuevo si lo desea!<br><br>{{button}}<br><br>&iexcl;Saludos!<br>El equipo de {{storename}}</p>",
                     'btn_text' => 'Obtener mi tarjeta de regalo',
                     'btn_color' => '#000000',
                     'from'=>auth()->user()->store_name,
@@ -639,12 +559,7 @@ El equipo de {{storename}}",
                     'user_id' => $user_id,
                     'subject' => "Comparte tus comentarios y recibe {{amount}} de {{storename}}" ,
                     'type' => 'Reminder',
-                    'body' => "
-<p>Hola {{name}},
-<br> Nos encantaría conocer su experiencia de compra en {{storename}}.</p>
-<p><br>Simplemente grabe un breve video de unos pocos segundos compartiendo sus opiniones sobre nuestros productos y lo recompensaremos con una tarjeta de regalo de &nbsp;{{amount}} como agradecimiento.</p>
-<br>{{button}}
-<br>Gracias por su confianza y lealtad <br> Saludos cordiales,<br>Equipo {{storename}}",
+                    'body' => "<p>Hola {{name}}, <br>Nos encantar&iacute;a conocer su experiencia de compra en {{storename}}.<br><br>Simplemente grabe un breve video de unos pocos segundos compartiendo sus opiniones sobre nuestros productos y lo recompensaremos con una tarjeta de regalo de {{amount}} como agradecimiento.<br><br>{{button}}&nbsp;<br><br>Gracias por su confianza y lealtad.<br><br>Saludos cordiales,<br>Equipo {{storename}}</p>",
                     'btn_text' => 'Deja un comentario en video',
                     'btn_color' => '#000000',
                     'from'=>auth()->user()->store_name,
@@ -667,13 +582,7 @@ El equipo de {{storename}}",
                     'user_id' => $user_id,
                     'subject' => "Aqui está seu código de desconto de {{amount}} para {{storename}}",
                     'type' => 'UGC_Approved',
-                    'body' => '
-          <p>Parabéns {{name}}! Seu vídeo para {{storename}} foi aprovado!</p>
-          <p><br>Somos constantemente inspirados pela criatividade e paixão dos nossos clientes, e apreciamos o seu apoio.</p>
-          <p><br>Aqui está o seu desconto:<br>{{discount_code}}</p>
-          <p><br>Você pode usar este código ao finalizar a compra para receber o desconto.</p>
-          <br>{{button}}
-           <p><br>Saudações!<br>Equipe {{storename}}</p>',
+                    'body' => '<p>Parab&eacute;ns {{name}}! Seu v&iacute;deo para {{storename}} foi aprovado!<br><br>Somos constantemente inspirados pela criatividade e paix&atilde;o dos nossos clientes, e apreciamos o seu apoio.<br><br>Aqui est&aacute; o seu desconto:<br><br>{{discount_code}}<br><br>Voc&ecirc; pode usar este c&oacute;digo ao finalizar a compra para receber o desconto.<br><br>{{button}}<br><br>Sauda&ccedil;&otilde;es!<br>Equipe {{storename}}</p>',
                     'btn_text' => 'Comprar agora',
                     'btn_color' => '#000000',
                     'from'=>auth()->user()->store_name,
@@ -685,13 +594,7 @@ El equipo de {{storename}}",
                     'subject' => "Ganhe um cartão-presente de {{amount}} para {{storename}}" ,
                     'type' => 'Post_Purchase',
                     'body' => "
-<p>Olá {{name}}, <br>Agradecemos novamente pelo seu pedido.</p>
-<p><br>As opiniões dos clientes sobre nossos produtos são extremamente importantes para nós.</p>
-<p>Por isso, gostaríamos de oferecer um cartão presente de {{amount}} para nossa loja em troca de um vídeo onde você compartilha sua opinião sobre nossos produtos</p>
-<br>{{button}}
-<br>
-<p>Realmente valorizamos os comentários de nossos clientes sobre nossa marca, pois sua satisfação é nossa principal prioridade</p>
-<br>Atenciosamente,<br>Equipe {{storename}}",
+<p>Ol&aacute; {{name}}, <br>Agradecemos novamente pelo seu pedido.<br><br>As opini&otilde;es dos clientes sobre nossos produtos s&atilde;o extremamente importantes para n&oacute;s.<br><br>Por isso, gostar&iacute;amos de oferecer um cart&atilde;o presente de {{amount}} para nossa loja em troca de um v&iacute;deo onde voc&ecirc; compartilha sua opini&atilde;o sobre nossos produtos.<br><br>{{button}}<br><br>Realmente valorizamos os coment&aacute;rios de nossos clientes sobre nossa marca, pois sua satisfa&ccedil;&atilde;o &eacute; nossa principal prioridade.<br><br>Atenciosamente,<br>Equipe {{storename}}</p>",
                     'btn_text' => 'Obter meu cartão presente',
                     'btn_color' => '#000000',
                     'from'=>auth()->user()->store_name,
@@ -701,13 +604,7 @@ El equipo de {{storename}}",
                     'user_id' => $user_id,
                     'subject' => "Mensagem para seu vídeo sobre {{storename}}",
                     'type' => 'UGC_Declined',
-                    'body' => "
-<p>Desculpe, o seu vídeo para {{storename}} não foi aprovado por causa do seguinte motivo:</p>
-<br>{{reason_decline}}
-<br><p>Não se preocupe, você pode tentar novamente se quiser!</p>
-<br>{{button}}
-<br>Atenciosamente,
-<br>Equipe {{storename}}",
+                    'body' => "<p>Desculpe, o seu v&iacute;deo para {{storename}} n&atilde;o foi aprovado por causa do seguinte motivo:<br><br>{{reason_decline}}<br><br>N&atilde;o se preocupe, voc&ecirc; pode tentar novamente se quiser!<br><br>{{button}} <br><br>Atenciosamente,<br>Equipe {{storename}}</p>",
                     'btn_text' => 'Obter meu cartão-presente',
                     'btn_color' => '#000000',
                     'from'=>auth()->user()->store_name,
@@ -719,11 +616,7 @@ El equipo de {{storename}}",
                     'subject' => "Compartilhe seus comentários e receba {{amount}} de {{storename}}",
                     'type' => 'Reminder',
                     'body' => "
-<p>Olá {{name}}, Adoraríamos saber sobre sua experiência de compras recente na {{storename}}.</p>
-<p><br>Basta gravar um vídeo curto de alguns segundos compartilhando seus pensamentos sobre nossos produtos e recompensaremos você com um vale-presente de {{amount}} como agradecimento.</p>
-<br>{{button}}
-<p><br>Agradecemos pela sua confiança e fidelidade,</p>
-<br>Atenciosamente<br>Equipe {{storename}}",
+<p>Ol&aacute; {{name}}, Adorar&iacute;amos saber sobre sua experi&ecirc;ncia de compras recente na {{storename}}.<br><br>Basta gravar um v&iacute;deo curto de alguns segundos compartilhando seus pensamentos sobre nossos produtos e recompensaremos voc&ecirc; com um vale-presente de {{amount}} como agradecimento.<br><br>{{button}}<br><br>Agradecemos pela sua confian&ccedil;a e fidelidade.<br><br>Atenciosamente,<br>Equipe {{storename}}</p>",
                     'btn_text' => 'Deixe uma avaliação em vídeo',
                     'btn_color' => '#000000',
                     'from'=>auth()->user()->store_name,
@@ -747,13 +640,7 @@ El equipo de {{storename}}",
                     'subject' => "Ecco il tuo codice sconto di {{amount}} per {{storename}}",
                     'type' => 'UGC_Approved',
                     'body' => '
-          <p>Congratulazioni {{name}}! Il tuo video per {{storename}} è stato approvato!</p>
-          <p><br>Siamo costantemente ispirati dalla creatività e dalla passione dei nostri clienti e apprezziamo il tuo sostegno.</p>
-          <p><br>Ecco il tuo sconto: <br>{{discount_code}}</p>
-          <p><br>Puoi utilizzare questo codice al momento del pagamento per ricevere lo sconto.<p/>
-          <br>{{button}}
-
-           <p><br>Saluti,<br>Il team di {{storename}}</p>',
+<p>Congratulazioni {{name}}! Il tuo video per {{storename}} &egrave; stato approvato!<br><br>Siamo costantemente ispirati dalla creativit&agrave; e dalla passione dei nostri clienti e apprezziamo il tuo sostegno.<br><br>Ecco il tuo sconto: <br><br>{{discount_code}}<br><br>Puoi utilizzare questo codice al momento del pagamento per ricevere lo sconto.<br><br>{{button}}<br><br>Saluti,<br>Il team di {{storename}}</p>',
                     'btn_text' => 'Acquista ora',
                     'btn_color' => '#000000',
                     'from'=>auth()->user()->store_name,
@@ -765,13 +652,7 @@ El equipo de {{storename}}",
                     'subject' => "Vinci una carta regalo da {{amount}} per {{storename}}",
                     'type' => 'Post_Purchase',
                     'body' => "
-<p>Ciao {{name}}, <br>Grazie ancora per il tuo ordine.</p>
-<p><br>Le opinioni dei clienti sui nostri prodotti sono estremamente importanti per noi.</p>
-<p>Per questo motivo, vorremmo offrirti una carta regalo di {{amount}} da utilizzare nel nostro negozio in cambio di un video in cui condividi la tua opinione sui nostri prodotti.</p>
-<br>{{button}}
-<br>
-<p>Apprezziamo molto sentire i commenti dei nostri clienti sulla nostra marca, poiché la tua soddisfazione è la nostra massima priorità.</p>
-<br>Cordiali saluti,<br>Il team di {{storename}}",
+<p>Ciao {{name}}, <br>Grazie ancora per il tuo ordine.<br><br>Le opinioni dei clienti sui nostri prodotti sono estremamente importanti per noi.<br><br>Per questo motivo, vorremmo offrirti una carta regalo di {{amount}} da utilizzare nel nostro negozio in cambio di un video in cui condividi la tua opinione sui nostri prodotti.<br><br>{{button}}&nbsp;<br><br>Apprezziamo molto sentire i commenti dei nostri clienti sulla nostra marca, poich&eacute; la tua soddisfazione &egrave; la nostra massima priorit&agrave;.<br><br>Cordiali saluti,<br>Il team di {{storename}}</p>",
                     'btn_text' => 'Ottieni la mia carta regalo',
                     'btn_color' => '#000000',
                     'from'=>auth()->user()->store_name,
@@ -781,12 +662,7 @@ El equipo de {{storename}}",
                     'user_id' => $user_id,
                     'subject' => "Messaggio per il tuo video su {{storename}}",
                     'type' => 'UGC_Declined',
-                    'body' => "
-<p>Spiacenti, il tuo video per {{storename}} non è stato approvato per il seguente motivo:</p>
-<br>{{reason_decline}}
-<br><p>Non ti preoccupare, puoi provare di nuovo se vuoi!</p>
-<br>{{button}}<br>
-<br>Saluti,<br>Il team di {{storename}}",
+                    'body' => "<p>Spiacenti, il tuo video per {{storename}} non &egrave; stato approvato per il seguente motivo:<br><br>{{reason_decline}}&nbsp;<br><br>Non ti preoccupare, puoi provare di nuovo se vuoi!<br><br>{{button}}<br><br>Saluti,<br>Il team di {{storename}}</p>",
                     'btn_text' => 'Ottieni la mia carta regalo',
                     'btn_color' => '#000000',
                     'from'=>auth()->user()->store_name,
@@ -798,11 +674,7 @@ El equipo de {{storename}}",
                     'subject' => "Condividi i tuoi commenti e ricevi {{amount}} da {{storename}}" ,
                     'type' => 'Reminder',
                     'body' => "
-<p>Ciao {{name}}, Ci piacerebbe sapere della tua recente esperienza di acquisto su {{storename}}.</p>
-<p><br>Registrati semplicemente in un breve video di 30 secondi condividendo i tuoi pensieri sui nostri prodotti e ti premieremo con una carta regalo di {{amount}} come ringraziamento.</p>
-<br>{{button}}
-<br><p>Grazie per la tua fiducia e la tua fedeltà,</p>
-<br>Saluti,<br>Il team di {{storename}}",
+<p>Ciao {{name}}, Ci piacerebbe sapere della tua recente esperienza di acquisto su {{storename}}.<br><br>Registrati semplicemente in un breve video di 30 secondi condividendo i tuoi pensieri sui nostri prodotti e ti premieremo con una carta regalo di {{amount}} come ringraziamento.<br><br>{{button}}<br><br>Grazie per la tua fiducia e la tua fedelt&agrave;.<br><br>Saluti,<br>Il team di {{storename}}</p>",
                     'btn_text' => 'Lascia una recensione video',
                     'btn_color' => '#000000',
                     'from'=>auth()->user()->store_name,
