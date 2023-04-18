@@ -317,6 +317,14 @@ const UgcDeclinedEmail = () => {
                                         <Text variant="headingLg" as="h5">
                                             Texts
                                         </Text>
+                                        <p style={{ fontSize: "15px", marginTop: "20px", marginBottom: "10px", fontWeight: "500" }}>Email From</p>
+                                        <TextField
+
+                                            placeholder=""
+                                            value={from}
+                                            onChange={(e) => setFrom(e)}
+                                            autoComplete="off"
+                                        />
                                         <p style={{ fontSize: "15px", marginTop: "20px", marginBottom: "10px", fontWeight: "500" }}>Email Subject </p>
                                         <TextField
 
@@ -325,14 +333,7 @@ const UgcDeclinedEmail = () => {
                                             onChange={(e) => setSubject(e)}
                                             autoComplete="off"
                                         />
-                                        <p style={{ fontSize: "15px", marginTop: "20px", marginBottom: "10px", fontWeight: "500" }}>From</p>
-                                        <TextField
 
-                                            placeholder=""
-                                            value={from}
-                                            onChange={(e) => setFrom(e)}
-                                            autoComplete="off"
-                                        />
 
                                         <p style={{ color: "#9A9A9A", marginTop: "20px", }}>
                                             Notes:
