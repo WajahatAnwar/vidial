@@ -217,10 +217,10 @@ class AuthController extends Controller
         $emailTemplate['subject'] = "Here's your {{amount}} discount code for {{storename}}";
 
         $emailTemplate['type'] = 'UGC_Approved';
-        $emailTemplate['body'] = "<p><h1>Hello! Here is your {{amount}} Gift Card!</h1></p>
-<p><br>Hey{{name}}, Congratulations, Your video for {{storename}} has been approved!</p>
+        $emailTemplate['body'] = "
+<p>Hey {{name}}, Congratulations, Your video for {{storename}} has been approved!</p>
 <p><br>We are constantly inspired by the creativity and passion of our customers, and we appreciate your support.</p>
-<p><br>Here is your Discount :<br>{{discount_code}}</p>
+<p><br>Here is your Discount:<br>{{discount_code}}</p>
 <br>{{button}}
 <p><br>Cheers!<br>{{storename}} Team</p>";
 
@@ -240,8 +240,8 @@ class AuthController extends Controller
 
                            
         $emailTemplate['type'] = 'Post_Purchase';
-        $emailTemplate['body'] = "<p><h1>Win a {{amount}} gift card by sharing your experience with us!</h1></p>
-<p><br>Hello {{name}}, <br>Thank you for your previous order.</p>
+        $emailTemplate['body'] = "
+<p>Hello {{name}}, <br>Thank you for your previous order.</p>
 <p><br>The feedback of our customers about our products is extremely valuable to us.</p>
 <p>That's why we would like to offer you a {{amount}} gift card to our store in exchange for a video where you share your opinion about our products.</p>
 <br>{{button}}
@@ -261,8 +261,8 @@ class AuthController extends Controller
         $emailTemplate['subject'] = "Message for your Video about {{storename}}" ;
        
         $emailTemplate['type'] = 'UGC_Declined';
-        $emailTemplate['body'] = "<p><h1>Update on your Video for {{storename}}</h1></p>
-<p><br>Sorry, Your video for {{storename}} was not approved for the following reason:</p>
+        $emailTemplate['body'] = "
+<p>Sorry, Your video for {{storename}} was not approved for the following reason:</p>
 <br>{{reason_decline}}
 <p><br>No worries, you can try again if you want!</p>
 <br>{{button}}
@@ -285,8 +285,8 @@ class AuthController extends Controller
         $emailTemplate['subject'] = "Share your feedback and receive {{amount}} from {{storename}}";
                            
         $emailTemplate['type'] = 'Reminder';
-        $emailTemplate['body'] ="<p><h1>Share your feedback to win a {{amount}} gift card</h1></p>
-<p><br>Hey {{name}}, <br>We'd love to hear about your recent shopping experience at {{storename}}.</p>
+        $emailTemplate['body'] = "
+<p>Hey {{name}}, <br>We'd love to hear about your recent shopping experience at {{storename}}.</p>
 <p>The feedback of our customers about our products is extremely valuable to us.</p>
 <br><p>Simply record a quick 30-second video sharing your thoughts about our products, and we will reward you with a {{amount}} gift card as a thank you.</p>
 <br>{{button}}
