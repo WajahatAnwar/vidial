@@ -46,6 +46,7 @@ import Bureaue from "./imges/bureau 11.png";
 import Toggle from "./Toggle";
 import { showStoreName } from "./utils";
 import CrispChat from 'react-crisp';
+import vidialLogo from "./imges/vidialLogoPower.png";
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { Editor } from '@tinymce/tinymce-react';
 
@@ -283,15 +284,20 @@ const UgcDeclinedEmail = () => {
                                             <p style={{ color: "#9A9A9A", marginTop: "10px", marginBottom: "20px" }}>
                                                 You can upload an image in JPG, PNG up to 5MB. Email banner will be displayed in 500px width, for best results, upload an image between 500-1200px wide.
                                             </p>
-                                            {/* {uploadedFilesPreview} */}
-                                            <div style={{ padding: '0' }}>
-                                                <div style={{ width: "60px", marginBottom: "10px" }} >
-                                                    <img style={{ width: "60px" }} src={alreadyUploadLogo}></img>
-                                                    <div>
+                                            {uploadedFilesPreview}
+                                            {!files.length &&
+                                                <div style={{ padding: '0' }}>
+                                                    <div style={{ width: "60px", marginBottom: "10px" }} >
+                                                        <Thumbnail
+                                                            size="medium"
+                                                            alt="img"
+                                                            source={vidialLogo}
+                                                        />
+                                                        <div>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                                </div>
-
-                                            </div>
+                                            }
                                         </div>
                                         <Text variant="headingLg" as="h5">
                                             Texts
