@@ -455,8 +455,8 @@ const ReminderEmail = () => {
                                         />
                                     </div>
                                 ))}
-                                {alreadyUploadLogo && <img
-                                    style={{ display: "block", margin: "auto", marginTop: "20px", marginBottom: "20px",maxWidth:"250px" }}
+                                {files.length <= 0 && <img
+                                    style={{ display: "block", margin: "auto", marginTop: "20px", marginBottom: "20px", maxWidth: "250px", }}
 
                                     src={alreadyUploadLogo} />}
                                 <div className="previewEditor">
