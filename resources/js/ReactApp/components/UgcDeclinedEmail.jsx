@@ -286,7 +286,7 @@ const UgcDeclinedEmail = () => {
                                             {/* {uploadedFilesPreview} */}
                                             <div style={{ padding: '0' }}>
                                                 <div style={{ width: "60px", marginBottom: "10px" }} >
-                                                    <img style={{ width: "60px" }} src={Bureaue}></img>
+                                                    <img style={{ width: "60px" }} src={alreadyUploadLogo}></img>
                                                     <div>
                                                 </div>
                                                 </div>

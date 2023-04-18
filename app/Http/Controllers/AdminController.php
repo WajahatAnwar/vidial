@@ -69,7 +69,7 @@ class AdminController extends Controller
 
     public function testEmail()
     {
-        
+       $var = 'this is just for testing purpose';
        $user = User::find(3);
         $response = $user->api()->rest('GET', '/admin/api/2023-04/webhooks.json');
         dd($response);
