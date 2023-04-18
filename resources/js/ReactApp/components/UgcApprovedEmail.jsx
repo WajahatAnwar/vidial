@@ -44,6 +44,7 @@ import arrowRight from "./imges/arrowRight.png";
 import backIcon from "./imges/backIcon.png";
 import Toggle from "./Toggle";
 import { showStoreName } from "./utils";
+import Bureaue from "./imges/bureau 11.png";
 import CrispChat from 'react-crisp';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { Editor } from '@tinymce/tinymce-react';
@@ -285,7 +286,15 @@ const UgcApprovedEmail = () => {
                                             <p style={{ color: "#9A9A9A", marginTop: "10px", marginBottom: "20px" }}>
                                                 You can upload an image in JPG, PNG up to 5MB. Email banner will be displayed in 500px width, for best results, upload an image between 500-1200px wide.
                                             </p>
-                                            {uploadedFilesPreview}
+                                            {/* {uploadedFilesPreview} */}
+                                            <div style={{ padding: '0' }}>
+                                                <div style={{ width: "60px", marginBottom: "10px" }} >
+                                                    <img style={{ width: "60px" }} src={Bureaue}></img>
+                                                    <div>
+                                                </div>
+                                                </div>
+
+                                            </div>
                                         </div>
                                         <Text variant="headingLg" as="h5">
                                             Texts
@@ -310,7 +319,7 @@ const UgcApprovedEmail = () => {
                                         <p style={{ color: "#9A9A9A", marginTop: "20px", }}>
                                             Notes:
                                         </p>
-                                        
+
                                         <p style={{ color: "#9A9A9A", }}>
                                         Use &#123;&#123;name&#125;&#125; as a placeholder for the user’s first name
                                         </p>

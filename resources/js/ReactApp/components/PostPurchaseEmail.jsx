@@ -42,6 +42,7 @@ import ChevronUp from "./imges/ChevronUpMinor.png";
 import logo from "./imges/vidialLogoPower.png";
 import arrowRight from "./imges/arrowRight.png";
 import backIcon from "./imges/backIcon.png";
+import Bureaue from "./imges/bureau 11.png";
 import Toggle from "./Toggle";
 import { showStoreName } from "./utils";
 import CrispChat from 'react-crisp';
@@ -179,13 +180,13 @@ const PostPurchaseEmail = () => {
             .then((data)=>{
 
                 if(data.success){
-                   
+
                     toggleActive()
                     setTimeout(() => {
 
                         navigate('/settings')
                     }, 3000);
-                    
+
                     //alert('save settings successfully');
                     //successToast();
                 }
@@ -292,7 +293,15 @@ const PostPurchaseEmail = () => {
                                             <p style={{ color: "#9A9A9A", marginTop: "10px", marginBottom: "20px" }}>
                                                 You can upload an image in JPG, PNG up to 5MB. Email banner will be displayed in 500px width, for best results, upload an image between 500-1200px wide.
                                             </p>
-                                            {uploadedFilesPreview}
+                                            {/* {uploadedFilesPreview} */}
+                                            <div style={{ padding: '0' }}>
+                                                <div style={{ width: "60px", marginBottom: "10px" }} >
+                                                    <img style={{ width: "60px" }} src={Bureaue}></img>
+                                                    <div>
+                                                </div>
+                                                </div>
+
+                                            </div>
                                         </div>
                                         <Text variant="headingLg" as="h5">
                                             Texts
@@ -316,7 +325,7 @@ const PostPurchaseEmail = () => {
                                         <p style={{ color: "#9A9A9A", marginTop: "20px", }}>
                                             Notes:
                                         </p>
-                                        
+
                                         <p style={{ color: "#9A9A9A", }}>
                                         Use &#123;&#123;name&#125;&#125; as a placeholder for the user’s first name
                                         </p>
@@ -459,7 +468,7 @@ const PostPurchaseEmail = () => {
                                         />
                                     </div>
                                 ))}
-                                
+
                                     {files.length <= 0 && <img
                                         style={{ display: "block", margin: "auto", marginTop: "20px", marginBottom: "20px", maxWidth: "250px", }}
 

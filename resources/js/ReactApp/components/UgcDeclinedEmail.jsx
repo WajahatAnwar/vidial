@@ -42,6 +42,7 @@ import ChevronUp from "./imges/ChevronUpMinor.png";
 import logo from "./imges/vidialLogoPower.png";
 import arrowRight from "./imges/arrowRight.png";
 import backIcon from "./imges/backIcon.png";
+import Bureaue from "./imges/bureau 11.png";
 import Toggle from "./Toggle";
 import { showStoreName } from "./utils";
 import CrispChat from 'react-crisp';
@@ -282,7 +283,15 @@ const UgcDeclinedEmail = () => {
                                             <p style={{ color: "#9A9A9A", marginTop: "10px", marginBottom: "20px" }}>
                                                 You can upload an image in JPG, PNG up to 5MB. Email banner will be displayed in 500px width, for best results, upload an image between 500-1200px wide.
                                             </p>
-                                            {uploadedFilesPreview}
+                                            {/* {uploadedFilesPreview} */}
+                                            <div style={{ padding: '0' }}>
+                                                <div style={{ width: "60px", marginBottom: "10px" }} >
+                                                    <img style={{ width: "60px" }} src={Bureaue}></img>
+                                                    <div>
+                                                </div>
+                                                </div>
+
+                                            </div>
                                         </div>
                                         <Text variant="headingLg" as="h5">
                                             Texts
@@ -308,7 +317,7 @@ const UgcDeclinedEmail = () => {
                                             Notes:
                                         </p>
                                         <p style={{ color: "#9A9A9A", }}>
-                                            
+
                                             Use &#123;&#123;reason_decline&#125;&#125; as a placeholder for the rejection reason
                                         </p>
                                         <p style={{ color: "#9A9A9A", }}>
@@ -323,7 +332,7 @@ const UgcDeclinedEmail = () => {
                                         <p style={{ color: "#9A9A9A" }}>
                                         Use &#123;&#123;button&#125;&#125; to display the button call-to-action on the email
                                         </p>
-                                       
+
                                         <p style={{ fontSize: "15px", marginTop: "20px", marginBottom: "10px", fontWeight: "500" }}>Content</p>
 
                                         <Editor
