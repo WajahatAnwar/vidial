@@ -290,19 +290,24 @@ class SettingsController extends Controller
         if ($request->file('logo')) {
             $logo_path = time() . '.' . $request->file('logo')->extension();
             $request->file('logo')->move(public_path('emails_logo'), $logo_path);
+            $data['logo'] = $logo_path;
+        }else {
+            if($request->logo == 'default_logo'){
+                $data['logo'] = '';
+
+            }
         }
+        $data['subject'] = $request->subject ?? '';
+        $data['body'] = $request->body ?? '';
+        $data['btn_text'] = $request->buttonText ?? '';
+        $data['btn_color'] = $request->buttonColorHex ?? '#000000';
+        $data['type'] = $request->type;
+        $data['type'] = $request->type;
+        $data['user_id'] = Auth::user()->id;
+        $data['from'] =$request->from == '' ? 'Vidial' : $request->from;
         EmailTemplate::updateOrCreate(
             ['user_id' => Auth::user()->id, 'type' => $request->type],
-            array_filter([
-                'logo' => $logo_path ?? null,
-                'subject' => $request->subject ?? '',
-                'body' => $request->body ?? '',
-                'btn_text' => $request->buttonText ?? '',
-                'btn_color' => $request->buttonColorHex ?? '#000000',
-                'type' => $request->type,
-                'user_id' => Auth::user()->id,
-                'from' => $request->from == '' ? 'Vidial' : $request->from
-            ])
+            $data
         );
         return response()->json([
             'success' => true,

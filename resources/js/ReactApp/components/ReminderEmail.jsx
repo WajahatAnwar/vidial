@@ -17,6 +17,7 @@ import {
     ColorPicker,
     Spinner,
     Collapsible,
+    Tooltip
 } from "@shopify/polaris";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -59,6 +60,7 @@ localStorage.setItem('store',storeName);
 */
 
 const ReminderEmail = () => {
+    const [activeTootlTip, setActiveTootlTip] = useState(false);
     const [activeToggle, setActiveToggle] = useState(false);
     const toggleActive = useCallback(() => setActiveToggle((activeToggle) => !activeToggle), []);
     const toastMarkup = activeToggle ? (
@@ -77,6 +79,11 @@ const ReminderEmail = () => {
     const handleRemoveThumbnail = () => {
         setFiles([]);
     };
+    const handleRemoveAlreadyUploadedLogo = () => {
+        setActiveTootlTip(true);
+        setAlreadyUploadedLogo(logo);
+
+    }
     const navigate = useNavigate();
     const [active, setActive] = useState(false);
     const handleChange = useCallback(() => setActive(!active), [active]);
@@ -297,8 +304,17 @@ const ReminderEmail = () => {
                                                         <Thumbnail
                                                             size="medium"
                                                             alt="img"
-                                                            source={vidialLogo}
+                                                            source={alreadyUploadLogo}
                                                         />
+                                                        <div onClick={handleRemoveAlreadyUploadedLogo} >
+                                                            {
+                                                                activeTootlTip ? <Tooltip content="This is default setting. You can not change it.">
+                                                                    <Icon source={CircleCancelMajor} color="critical" />
+
+                                                                </Tooltip> : <Icon source={CircleCancelMajor} color="critical" />
+                                                            }
+
+                                                        </div>
                                                         <div>
                                                         </div>
                                                     </div>

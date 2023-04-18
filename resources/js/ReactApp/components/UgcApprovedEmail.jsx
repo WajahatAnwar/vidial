@@ -28,6 +28,7 @@ import {
     Frame,
     Toast,
     List,
+    Tooltip
 } from "@shopify/polaris";
 import { CircleCancelMinor, NoteMinor, CircleCancelMajor, ChevronUpMinor, ChevronLeftMinor } from "@shopify/polaris-icons";
 import {
@@ -58,6 +59,7 @@ localStorage.setItem('store',storeName);
 */
 
 const UgcApprovedEmail = () => {
+    const [activeTootlTip, setActiveTootlTip] = useState(false);
     const [alreadyUploadLogo, setAlreadyUploadedLogo] = useState('');
 
     const handleDropZoneDrop = useCallback(
@@ -67,6 +69,11 @@ const UgcApprovedEmail = () => {
         },
         []
     );
+    const handleRemoveAlreadyUploadedLogo = () => {
+        setActiveTootlTip(true);
+        setAlreadyUploadedLogo(logo);
+
+    }
     const handleRemoveThumbnail = () => {
         setFiles([]);
     };
@@ -294,8 +301,17 @@ const UgcApprovedEmail = () => {
                                                         <Thumbnail
                                                             size="medium"
                                                             alt="img"
-                                                            source={vidialLogo}
+                                                            source={alreadyUploadLogo}
                                                         />
+                                                        <div onClick={handleRemoveAlreadyUploadedLogo} >
+                                                            {
+                                                                activeTootlTip ? <Tooltip content="This is default setting. You can not change it.">
+                                                                    <Icon source={CircleCancelMajor} color="critical" />
+
+                                                                </Tooltip> : <Icon source={CircleCancelMajor} color="critical" />
+                                                            }
+
+                                                        </div>
                                                         <div>
                                                         </div>
                                                     </div>

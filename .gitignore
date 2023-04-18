@@ -4,6 +4,7 @@
 /public/video
 /public/logo
 /public/storage
+/public/emails_logo
 /storage/*.key
 /vendor
 .env

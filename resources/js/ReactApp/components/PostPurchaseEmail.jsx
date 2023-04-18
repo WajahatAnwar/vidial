@@ -17,6 +17,7 @@ import {
     ColorPicker,
     Spinner,
     Collapsible,
+    Tooltip,
 } from "@shopify/polaris";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -59,6 +60,7 @@ localStorage.setItem('store',storeName);
 */
 
 const PostPurchaseEmail = () => {
+    const [activeTootlTip, setActiveTootlTip] = useState(false);
     const [activeToggle, setActiveToggle] = useState(false);
     const toggleActive = useCallback(() => setActiveToggle((activeToggle) => !activeToggle), []);
     const toastMarkup = activeToggle ? (
@@ -96,6 +98,12 @@ const PostPurchaseEmail = () => {
     const successToast = active ? (
         <Toast content="Settings Saved" onDismiss={true} />
     ) : null;
+
+    const handleRemoveAlreadyUploadedLogo = ()=>{
+        setActiveTootlTip(true);
+        setAlreadyUploadedLogo(logo);
+        
+    }
 
     const validImageTypes = ['image/gif', 'image/jpeg', 'image/png'];
 
@@ -162,7 +170,7 @@ const PostPurchaseEmail = () => {
     const [gradientCheck, setGradientCheck] = useState(false);
     console.log(files)
     const handleSaveEmailSettings = () => {
-
+         let logo_file;
         setContent(editorRef.current.getContent());
         const formData = new FormData();
         formData.append('subject',subject);
@@ -170,9 +178,15 @@ const PostPurchaseEmail = () => {
         formData.append('buttonColorHex', buttonColorHex);
         formData.append('body',editorRef.current.getContent());
         formData.append('type', 'Post_purchase')
-        formData.append('logo', files[0])
+        if (files[0]){
+            logo_file = files[0]
+        }else{
+            logo_file = alreadyUploadLogo.includes('/build/assets') ? 'default_logo' : 'already_uploaded_logo';
+        }
+        formData.append('logo', logo_file)
         formData.append('from', from)
-
+        
+        
             fetch('/save-email-settings',{
                 method:"POST",
                 body:formData
@@ -301,9 +315,16 @@ const PostPurchaseEmail = () => {
                                                         <Thumbnail
                                                             size="medium"
                                                             alt="img"
-                                                            source={vidialLogo}
+                                                            source={alreadyUploadLogo}
                                                         />
-                                                        <div>
+                                                        <div onClick={handleRemoveAlreadyUploadedLogo} >
+                                                            {
+                                                                activeTootlTip ? <Tooltip content="This is default setting. You can not change it.">
+                                                                    <Icon source={CircleCancelMajor} color="critical" />
+
+                                                                </Tooltip> : <Icon source={CircleCancelMajor} color="critical" />
+                                                            }
+                                                            
                                                         </div>
                                                     </div>
                                                 </div>

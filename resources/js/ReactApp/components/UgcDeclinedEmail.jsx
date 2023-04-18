@@ -17,6 +17,7 @@ import {
     ColorPicker,
     Spinner,
     Collapsible,
+    Tooltip
 } from "@shopify/polaris";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -58,13 +59,18 @@ localStorage.setItem('store',storeName);
 */
 
 const UgcDeclinedEmail = () => {
+    const [activeTootlTip, setActiveTootlTip] = useState(false);
     const [activeToggle, setActiveToggle] = useState(false);
     const toggleActive = useCallback(() => setActiveToggle((activeToggle) => !activeToggle), []);
     const toastMarkup = activeToggle ? (
         <Toast content="Template Saved" onDismiss={toggleActive} />
     ) : null;
     const [alreadyUploadLogo, setAlreadyUploadedLogo] = useState('');
+    const handleRemoveAlreadyUploadedLogo = () => {
+        setActiveTootlTip(true);
+        setAlreadyUploadedLogo(logo);
 
+    }
     const handleDropZoneDrop = useCallback(
         (_dropFiles, acceptedFiles, _rejectedFiles) => {
             //setAlreadyUploadedLogo('');
@@ -291,8 +297,17 @@ const UgcDeclinedEmail = () => {
                                                         <Thumbnail
                                                             size="medium"
                                                             alt="img"
-                                                            source={vidialLogo}
+                                                            source={alreadyUploadLogo}
                                                         />
+                                                        <div onClick={handleRemoveAlreadyUploadedLogo} >
+                                                            {
+                                                                activeTootlTip ? <Tooltip content="This is default setting. You can not change it.">
+                                                                    <Icon source={CircleCancelMajor} color="critical" />
+
+                                                                </Tooltip> : <Icon source={CircleCancelMajor} color="critical" />
+                                                            }
+
+                                                        </div>
                                                         <div>
                                                         </div>
                                                     </div>
