@@ -342,9 +342,7 @@ if (!function_exists('saveEnLanguage')) {
                     'body' => '
 <p>Hey {{name}}, <br>Congratulations, Your video for {{storename}} has been approved!</p>
 <p>We are constantly inspired by the creativity and passion of our customers, and we appreciate your support.</p>
-<p>Here is your Discount:<br><br>{{discount_code}}<br><br>{{button}}<br><br>Cheers!<br>{{storename}} Team</p>
-<br>{{button}}
-<p><br>Cheers!<br>{{storename}} Team</p>',
+<p>Here is your Discount:<br><br>{{discount_code}}<br><br>{{button}}<br><br>Cheers!<br>{{storename}} Team</p>',
                     'btn_text' => 'Shop Now',
                     'btn_color' => '#000000',
                     'from'=>auth()->user()->store_name,
@@ -406,7 +404,7 @@ if (!function_exists('saveEnLanguage')) {
                     'subject' => "Voici votre Code de Réduction de {{amount}} pour {{storename}}",
                     'type' => 'UGC_Approved',
                     'body' => "
-<p>F&eacute;licitations {{name}}! Votre vid&eacute;o pour {{storename}} a &eacute;t&eacute; approuv&eacute;e!<br><br>Nous sommes constamment inspir&eacute;s par la cr&eacute;ativit&eacute; et la passion de nos clients, et nous appr&eacute;cions votre soutien.<br><br>Voici votre code de r&eacute;duction:<br><br>{{discount_code}}<br><br>Vous pouvez utiliser ce code lors du paiement pour b&eacute;n&eacute;ficier de votre r&eacute;duction.<br><br>{{button}}<br><br>Cordialement<br>L'&eacute;quipe de {{storename}}</p>",
+<p>F&eacute;licitations {{name}}! Votre vid&eacute;o pour {{storename}} a &eacute;t&eacute; approuv&eacute;e!<br><br>Nous sommes constamment inspir&eacute;s par la cr&eacute;ativit&eacute; et la passion de nos clients, et nous appr&eacute;cions votre soutien.<br><br>Voici votre code de r&eacute;duction:<br><br>{{discount_code}}<br><br>Vous pouvez utiliser ce code lors du paiement pour b&eacute;n&eacute;ficier de votre r&eacute;duction.<br><br>{{button}}<br><br>Cordialement,<br>L'&eacute;quipe de {{storename}}</p>",
                     'btn_text' => 'Profiter du code de réduction',
                     'btn_color' => '#000000',
                     'from'=>auth()->user()->store_name,
