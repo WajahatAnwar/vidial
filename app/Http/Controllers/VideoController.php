@@ -205,7 +205,7 @@ public function videoOperation(Request $request){
             $temlateDetails['mail'] = $videos->email;
             $temlateDetails['name'] = $customerName;
             $temlateDetails['storename'] = auth()->user()->store_name;
-            $temlateDetails['amount'] = '';
+            $temlateDetails['amount'] = Auth::user()->settings->store_credit;
             $temlateDetails['url'] = 'https://'.$user->name;
             //$temlateDetails['name'] = $videos->email;
             $temlateDetails['discount_code'] = $code['code'];
