@@ -347,7 +347,7 @@ if (!function_exists('saveEnLanguage')) {
 <p><br>Cheers!<br>{{storename}} Team</p>',
                     'btn_text' => 'Shop Now',
                     'btn_color' => '#000000',
-                    'from' => 'Vidial',
+                    'from'=>auth()->user()->store_name,
                     'logo'=>''
                 ),
 
@@ -365,7 +365,7 @@ if (!function_exists('saveEnLanguage')) {
 <br>{{storename}} Team",
                     'btn_text' => 'Get my gift card',
                     'btn_color' => '#000000',
-                    'from' => 'Vidial',
+                    'from'=>auth()->user()->store_name,
                     'logo' => ''
                 ),
                 array(
@@ -382,7 +382,7 @@ if (!function_exists('saveEnLanguage')) {
 <br>Cheers,<br>{{storename}} Team",
                     'btn_text' => 'Get my Gift Card',
                     'btn_color' => '#000000',
-                    'from' => 'Vidial',
+                    'from'=>auth()->user()->store_name,
                     'logo' => ''
                 ),
 
@@ -400,7 +400,7 @@ if (!function_exists('saveEnLanguage')) {
 <br>Cheers,<br>{{storename}} Team",
                     'btn_text' => 'Leave a video review',
                     'btn_color' => '#000000',
-                    'from' => 'Vidial',
+                    'from'=>auth()->user()->store_name,
                     'logo' => ''
                 )
             );
@@ -429,7 +429,7 @@ if (!function_exists('saveEnLanguage')) {
            <p><br>Cordialement<br>L'équipe de {{storename}}</p>",
                     'btn_text' => 'Profiter du code de réduction',
                     'btn_color' => '#000000',
-                    'from' => 'Vidial',
+                    'from'=>auth()->user()->store_name,
                     'logo' => ''
                 ),
 
@@ -450,7 +450,7 @@ Cordialement,
 L'équipe de {{storename}}",
                     'btn_text' => 'Obtenir ma Carte Cadeau',
                     'btn_color' => '#000000',
-                    'from' => 'Vidial',
+                    'from'=>auth()->user()->store_name,
                     'logo' => ''
                 ),
                 array(
@@ -469,7 +469,7 @@ L'équipe de {{storename}}",
 L'équipe {{storename}}",
                     'btn_text' => 'Recommencer une vidéo',
                     'btn_color' => '#000000',
-                    'from' => 'Vidial',
+                    'from'=>auth()->user()->store_name,
                     'logo' => ''
                 ),
 
@@ -488,7 +488,7 @@ L'équipe {{storename}}",
 L'équipe {{storename}}",
                     'btn_text' => 'Laissez un avis vidéo',
                     'btn_color' => '#000000',
-                    'from' => 'Vidial',
+                    'from'=>auth()->user()->store_name,
                     'logo' => ''
                 )
             );
@@ -519,7 +519,7 @@ L'équipe {{storename}}",
            <p><br>Prost!<br>Das Team von {{storename}}</p>',
                     'btn_text' => 'Jetzt einkaufen',
                     'btn_color' => '#000000',
-                    'from' => 'Vidial',
+                    'from'=>auth()->user()->store_name,
                     'logo' => ''
                 ),
 
@@ -555,7 +555,7 @@ Das {{storename}} Team",
 ",
                     'btn_text' => 'Holen Sie sich meine Geschenkkarte',
                     'btn_color' => '#000000',
-                    'from' => 'Vidial',
+                    'from'=>auth()->user()->store_name,
                     'logo' => ''
                 ),
 
@@ -570,7 +570,7 @@ Das {{storename}} Team",
 <p><br>Freundliche Grüße,<br>Das {{storename}} Team</p>",
                     'btn_text' => 'Ein Video-Review hinterlassen',
                     'btn_color' => '#000000',
-                    'from' => 'Vidial',
+                    'from'=>auth()->user()->store_name,
                     'logo' => ''
                 )
             );
@@ -600,7 +600,7 @@ Das {{storename}} Team",
            <p><br>¡Saludos!<br>El equipo de {{storename}}</p>',
                     'btn_text' => 'Comprar ahora',
                     'btn_color' => '#000000',
-                    'from' => 'Vidial',
+                    'from'=>auth()->user()->store_name,
                     'logo' => ''
                 ),
 
@@ -619,7 +619,7 @@ Das {{storename}} Team",
 <br>El equipo de {{storename}}",
                     'btn_text' => 'Obtener mi tarjeta de regalo',
                     'btn_color' => '#000000',
-                    'from' => 'Vidial',
+                    'from'=>auth()->user()->store_name,
                     'logo' => ''
                 ),
                 array(
@@ -635,7 +635,7 @@ Das {{storename}} Team",
 El equipo de {{storename}}",
                     'btn_text' => 'Obtener mi tarjeta de regalo',
                     'btn_color' => '#000000',
-                    'from' => 'Vidial',
+                    'from'=>auth()->user()->store_name,
                     'logo' => ''
                 ),
 
@@ -651,7 +651,7 @@ El equipo de {{storename}}",
 <br>Gracias por su confianza y lealtad <br> Saludos cordiales,<br>Equipo {{storename}}",
                     'btn_text' => 'Deja un comentario en video',
                     'btn_color' => '#000000',
-                    'from' => 'Vidial',
+                    'from'=>auth()->user()->store_name,
                     'logo' => ''
                 )
             );
@@ -680,7 +680,7 @@ El equipo de {{storename}}",
            <p><br>Saudações!<br>Equipe {{storename}}</p>',
                     'btn_text' => 'Comprar agora',
                     'btn_color' => '#000000',
-                    'from' => 'Vidial',
+                    'from'=>auth()->user()->store_name,
                     'logo' => ''
                 ),
 
@@ -698,7 +698,7 @@ El equipo de {{storename}}",
 <br>Atenciosamente,<br>Equipe {{storename}}",
                     'btn_text' => 'Obter meu cartão presente',
                     'btn_color' => '#000000',
-                    'from' => 'Vidial',
+                    'from'=>auth()->user()->store_name,
                     'logo' => ''
                 ),
                 array(
@@ -714,7 +714,7 @@ El equipo de {{storename}}",
 <br>Equipe {{storename}}",
                     'btn_text' => 'Obter meu cartão-presente',
                     'btn_color' => '#000000',
-                    'from' => 'Vidial',
+                    'from'=>auth()->user()->store_name,
                     'logo' => ''
                 ),
 
@@ -730,7 +730,7 @@ El equipo de {{storename}}",
 <br>Atenciosamente<br>Equipe {{storename}}",
                     'btn_text' => 'Deixe uma avaliação em vídeo',
                     'btn_color' => '#000000',
-                    'from' => 'Vidial',
+                    'from'=>auth()->user()->store_name,
                     'logo' => ''
                 )
             );
@@ -760,7 +760,7 @@ El equipo de {{storename}}",
            <p><br>Saluti,<br>Il team di {{storename}}</p>',
                     'btn_text' => 'Acquista ora',
                     'btn_color' => '#000000',
-                    'from' => 'Vidial',
+                    'from'=>auth()->user()->store_name,
                     'logo' => ''
                 ),
 
@@ -778,7 +778,7 @@ El equipo de {{storename}}",
 <br>Cordiali saluti,<br>Il team di {{storename}}",
                     'btn_text' => 'Ottieni la mia carta regalo',
                     'btn_color' => '#000000',
-                    'from' => 'Vidial',
+                    'from'=>auth()->user()->store_name,
                     'logo' => ''
                 ),
                 array(
@@ -793,7 +793,7 @@ El equipo de {{storename}}",
 <br>Saluti,<br>Il team di {{storename}}",
                     'btn_text' => 'Ottieni la mia carta regalo',
                     'btn_color' => '#000000',
-                    'from' => 'Vidial',
+                    'from'=>auth()->user()->store_name,
                     'logo' => ''
                 ),
 
@@ -809,7 +809,7 @@ El equipo de {{storename}}",
 <br>Saluti,<br>Il team di {{storename}}",
                     'btn_text' => 'Lascia una recensione video',
                     'btn_color' => '#000000',
-                    'from' => 'Vidial',
+                    'from'=>auth()->user()->store_name,
                     'logo' => ''
                 )
             );

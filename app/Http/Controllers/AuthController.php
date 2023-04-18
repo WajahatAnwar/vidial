@@ -226,7 +226,7 @@ class AuthController extends Controller
 
         $emailTemplate['btn_text'] = 'Shop Now';
         $emailTemplate['btn_color'] = '#000000';
-        $emailTemplate['from'] = 'Vidial';
+        $emailTemplate['from'] = auth()->user()->store_name;
         EmailTemplate::firstOrCreate(['user_id'=> $user_id,'type'=> 'UGC_Approved']
         ,$emailTemplate);
     }
@@ -250,7 +250,7 @@ class AuthController extends Controller
 <br>{{storename}} Team";
         $emailTemplate['btn_text'] = 'Get my gift card';
         $emailTemplate['btn_color'] = '#000000';
-        $emailTemplate['from'] = 'Vidial';
+        $emailTemplate['from'] = auth()->user()->store_name;
         EmailTemplate::firstOrCreate(['user_id' => $user_id, 'type' => 'Post_Purchase'],$emailTemplate);
     }
 
@@ -271,7 +271,7 @@ class AuthController extends Controller
 
         $emailTemplate['btn_text'] = 'Get my Gift Card';
         $emailTemplate['btn_color'] = '#000000';
-        $emailTemplate['from'] = 'Vidial';
+        $emailTemplate['from'] = auth()->user()->store_name;
         EmailTemplate::firstOrCreate(
             ['user_id' => $user_id, 'type' => 'UGC_Declined'],
             $emailTemplate
@@ -296,7 +296,7 @@ class AuthController extends Controller
 
         $emailTemplate['btn_text'] = 'Leave a video review';
         $emailTemplate['btn_color'] = '#000000';
-        $emailTemplate['from'] = 'Vidial';
+        $emailTemplate['from'] = auth()->user()->store_name;
         EmailTemplate::firstOrCreate(
             ['user_id' => $user_id, 'type' => 'Reminder'],
             $emailTemplate

@@ -2,19 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use Log;
 use Carbon\Carbon;
 use App\Models\Plan;
+use Mailgun\Mailgun;
 use App\Mail\testMail;
 use App\Models\Orders;
 use App\Models\Setting;
 use App\Jobs\OrdersGetJob;
 use Illuminate\Http\Request;
+use App\Jobs\EmailTemplateJob;
 use GuzzleHttp\Promise\Create;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
-use Mailgun\Mailgun;
-use Log;
+use Illuminate\Support\Facades\Crypt;
 
 class OrdersController extends Controller
 {
@@ -44,7 +46,38 @@ class OrdersController extends Controller
 
     public function sendtest_email()
     {
+        $temlateDetails['user_id'] = auth()->user()->id;
+        $temlateDetails['type'] = 'Post_Purchase';
+        $temlateDetails['view'] = 'emails.post_purchase';
+        $temlateDetails['mail'] = auth()->user()->email;
+        $temlateDetails['name'] = 'Merchant';
+        $temlateDetails['storename'] =auth()->user()->store_name;
+        $temlateDetails['url'] = env('APP_URL') . "/landingPage" . "/" . auth()->user()->settings->locale
+            . "?store=" . auth()->user()->name . "&order_id=" . Crypt::encryptString('1234');
+        $temlateDetails['amount'] = auth()->user()->settings->store_credit;
+        $temlateDetails['discount_code'] = '';
+        $temlateDetails['reason_decline'] = '';
+      
+        dispatch(new EmailTemplateJob($temlateDetails));
 
+        //upadting log files
+        $log_details = [
+            'type' => "EMAIL",
+            'send_to' => auth()->user()->email,
+            'user_id' => auth()->user()->id,
+        ];
+        update_log_file($log_details);
+
+        // }
+
+        return response()->json([
+            'success' => true,
+            'message' => " Test Email Send Successfully To Customers",
+        ]);
+
+
+
+        /** Previous settings 
         $settings=Setting::where('user_id',Auth::user()->id)->first();
         App::setLocale($settings->locale);
         $details = [
@@ -113,7 +146,7 @@ class OrdersController extends Controller
             'message' => " Test Email Send Successfully To Customers",
         ]);
         // return
-
+         */
     }
 
     public function review_updated($id)
