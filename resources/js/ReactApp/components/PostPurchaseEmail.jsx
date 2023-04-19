@@ -102,7 +102,7 @@ const PostPurchaseEmail = () => {
     const handleRemoveAlreadyUploadedLogo = ()=>{
         setActiveTootlTip(true);
         setAlreadyUploadedLogo(logo);
-        
+
     }
 
     const validImageTypes = ['image/gif', 'image/jpeg', 'image/png'];
@@ -185,8 +185,8 @@ const PostPurchaseEmail = () => {
         }
         formData.append('logo', logo_file)
         formData.append('from', from)
-        
-        
+
+
             fetch('/save-email-settings',{
                 method:"POST",
                 body:formData
@@ -256,7 +256,7 @@ const PostPurchaseEmail = () => {
 
 
     }, []);
-    const buttonHtml = `<button style="font-size: 18px;background: ${buttonColorHex};color: rgb(255, 255, 255);border: none;border-radius: 4px;display: block;margin: 0px auto 50px;padding: 8px 80px;" >${buttonText}</button>`;
+    const buttonHtml = `<button style="font-size: 18px;background: ${buttonColorHex};color: rgb(255, 255, 255);border: none;border-radius: 4px;display: block;margin: 0px auto ;padding: 8px 80px;" >${buttonText}</button>`;
     const processedContent = content.replace('{{button}}', buttonHtml);
     return (
         <div>
@@ -324,7 +324,7 @@ const PostPurchaseEmail = () => {
 
                                                                 </Tooltip> : <Icon source={CircleCancelMajor} color="critical" />
                                                             }
-                                                            
+
                                                         </div>
                                                     </div>
                                                 </div>

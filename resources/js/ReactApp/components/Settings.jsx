@@ -521,16 +521,16 @@ const Settings = () => {
 
     // toast markup
 
-    
+
 
     // copy Landing Page Link
     const copyLandingPageLink = () => {
-       
+
         const landingPageDisplayedValue =
             baseUrl + "/landingPage/" + currentLang + "?store=" + store;
         navigator.clipboard.writeText(landingPageDisplayedValue);
         setSuccessMsg("Copied to Clipboard");
-        
+
         toggleActive();
 
     };
@@ -752,7 +752,7 @@ const Settings = () => {
                                             display: "flex",
                                             alignItems: "center",
                                             justifyContent: "space-between",
-                                            marginBottom: "20px",
+
                                         }}
                                     >
                                         <div>
@@ -762,7 +762,6 @@ const Settings = () => {
                                             <p
                                                 style={{
                                                     marginTop: "5px",
-                                                    marginBottom: "10px",
                                                 }}
                                             >
                                                 We'll send a test email to
@@ -1472,7 +1471,7 @@ const Settings = () => {
                                     ></div>
                                 </Card>
 
-                                
+
                                 <Card sectioned>
                                     <div
                                         style={{

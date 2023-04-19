@@ -240,7 +240,7 @@ const UgcApprovedEmail = () => {
 
 
     }, []);
-    const buttonHtml = `<button style="font-size: 18px;background: ${buttonColorHex};color: rgb(255, 255, 255);border: none;border-radius: 4px;display: block;margin: 0px auto 50px;padding: 8px 80px;" >${buttonText}</button>`;
+    const buttonHtml = `<button style="font-size: 18px;background: ${buttonColorHex};color: rgb(255, 255, 255);border: none;border-radius: 4px;display: block;margin: 0px auto;padding: 8px 80px;" >${buttonText}</button>`;
     const processedContent = content.replace('{{button}}', buttonHtml);
     return (
         <div>

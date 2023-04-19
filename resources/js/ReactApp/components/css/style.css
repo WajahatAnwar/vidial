@@ -267,3 +267,6 @@ video {
     padding: 20px;
     background: #EBEBEB;
 }
+select#PolarisSelect1 {
+    cursor: pointer;
+}
