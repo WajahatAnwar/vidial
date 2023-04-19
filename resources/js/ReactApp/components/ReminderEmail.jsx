@@ -17,7 +17,8 @@ import {
     ColorPicker,
     Spinner,
     Collapsible,
-    Tooltip
+    Tooltip,
+    Popover
 } from "@shopify/polaris";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -246,7 +247,34 @@ const ReminderEmail = () => {
 
     const buttonHtml = `<button style="font-size: 18px;background: ${buttonColorHex};color: rgb(255, 255, 255);border: none;border-radius: 4px;display: block;margin: 0px auto;padding: 8px 80px;" >${buttonText}</button>`;
     const processedContent = content.replace('{{button}}', buttonHtml);
+ // popover code start
+ const [popoverActive, setPopoverActive] = useState(false);
 
+ const togglePopoverActive = useCallback(
+     () => setPopoverActive((popoverActive) => !popoverActive),
+     [],
+ );
+
+ const activator = (
+     <button
+                                         style={{
+                                             marginRight: "10px",
+                                             background: "none",
+                                             border: "none",
+                                         }}
+                                         onClick={togglePopoverActive}
+                                     >
+                                         <img
+                                             className="colorWheel"
+                                             src={ColorWheel}
+                                             style={{
+                                                 marginTop: "3px",
+                                                 marginLeft: "4px",
+                                             }}
+                                         ></img>
+                                     </button>
+ );
+ // popover code end
     return (
         <div>
 
@@ -388,50 +416,15 @@ const ReminderEmail = () => {
                                         />
                                         <p style={{ fontSize: "15px", marginTop: "20px", marginBottom: "10px", fontWeight: "500" }}>Button Color</p>
                                         <div style={{display:"flex",alignItems:"center"}}>
-                                        <button
-                                            style={{
-                                                marginRight: "10px",
-                                                background: "none",
-                                                border: "none",
-                                            }}
-                                            onClick={() => {
-                                                setButtonColorHide(
-                                                    !buttonColorHide
-                                                );
-                                                setGradientCheck(false);
 
-                                            }}
+                                        <Popover
+                                            active={popoverActive}
+                                            activator={activator}
+                                            autofocusTarget="first-node"
+                                            onClose={togglePopoverActive}
                                         >
-                                            <img
-                                                className="colorWheel"
-                                                src={ColorWheel}
-                                                style={{
-                                                    marginTop: "3px",
-                                                    marginLeft: "4px",
-                                                }}
-                                            ></img>
-                                        </button>
-                                        <div
-                                        style={{
-                                            background: `${buttonColorHex}`,
-                                        }}
-                                        className="colorOptions"
-                                    ></div>
-                                        </div>
-                                        {buttonColorHide && (
-                                            <div
-                                                className=""
-                                                style={{
-                                                    position: "absolute",
-                                                    backgroundColor: "white",
-                                                    padding: "20px",
-                                                    boxShadow:
-                                                        "0px 0px 6px -1px rgba(0,0,0,0.46)",
-                                                    zIndex: "9999",
-                                                    borderRadius: "8px",
-                                                }}
-                                            >
-                                                <ColorPicker
+                                            <div style={{ padding: "20px" }}>
+                                               <ColorPicker
                                                     onChange={(e) => {
                                                         // console.log(hsbToRgb(e));
                                                         setButtonColor(e);
@@ -448,8 +441,15 @@ const ReminderEmail = () => {
                                                     onChange={handleInputColorChange}
                                                 />
                                             </div>
+                                        </Popover>
+                                        <div
+                                        style={{
+                                            background: `${buttonColorHex}`,
+                                        }}
+                                        className="colorOptions"
+                                    ></div>
+                                        </div>
 
-                                        )}
                                         <div style={{ display: "flex", marginTop: "20px" }}>
                                             <Button onClick={() => {
                                                 setActive(true);
@@ -462,6 +462,7 @@ const ReminderEmail = () => {
                                     </Grid.Cell>
                                 </Grid>
                             </Card>
+                            <div style={{marginBottom:"200px"}}></div>
                         </Grid.Cell>
                     </Grid>
                     <Modal

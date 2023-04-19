@@ -17,6 +17,7 @@ import {
     ColorPicker,
     Spinner,
     Collapsible,
+    Popover,
 } from "@shopify/polaris";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -483,7 +484,7 @@ const Settings = () => {
                     if (data.success) {
                         setIsLoading(false);
                         setSuccessMsg("Settings Added Successfully");
-                         toggleActive();
+                        toggleActive();
                         setIsSettingSave(new Date().getSeconds());
                     } else {
                         setIsLoading(false);
@@ -543,7 +544,34 @@ const Settings = () => {
             console.warn('Crisp chat script not loaded yet!');
         }
     };
+   // popover code start
+   const [popoverActive, setPopoverActive] = useState(false);
 
+   const togglePopoverActive = useCallback(
+       () => setPopoverActive((popoverActive) => !popoverActive),
+       [],
+   );
+
+   const activator = (
+       <button
+                                           style={{
+                                               marginRight: "10px",
+                                               background: "none",
+                                               border: "none",
+                                           }}
+                                           onClick={togglePopoverActive}
+                                       >
+                                           <img
+                                               className="colorWheel"
+                                               src={ColorWheel}
+                                               style={{
+                                                   marginTop: "3px",
+                                                   marginLeft: "4px",
+                                               }}
+                                           ></img>
+                                       </button>
+   );
+   // popover code end
     return (
         <div>
             {isLoading ? (
@@ -764,9 +792,7 @@ const Settings = () => {
                                                     marginTop: "5px",
                                                 }}
                                             >
-                                                We'll send a test email to
-                                                &nbsp;
-                                                {email}
+                                                We'll send a test email to {email}
                                             </p>
                                         </div>
                                         <div
@@ -1001,7 +1027,7 @@ const Settings = () => {
                                                 >
                                                     <div>
                                                         <img
-                                                        style={{cursor:"pointer"}}
+                                                            style={{ cursor: "pointer" }}
                                                             src={DellIcon}
                                                             onClick={() =>
                                                                 handleRemoveRow(
@@ -1405,43 +1431,14 @@ const Settings = () => {
                                             }}
                                             className="colorOptions"
                                         ></div>
-                                        <button
-                                            style={{
-                                                marginRight: "10px",
-                                                background: "none",
-                                                border: "none",
-                                            }}
-                                            onClick={() => {
-                                                setButtonColorHide(
-                                                    !buttonColorHide
-                                                );
-                                                setGradientCheck(false);
-                                                setReload(!reload);
-                                            }}
+
+                                        <Popover
+                                            active={popoverActive}
+                                            activator={activator}
+                                            autofocusTarget="first-node"
+                                            onClose={togglePopoverActive}
                                         >
-                                            <img
-                                                className="colorWheel"
-                                                src={ColorWheel}
-                                                style={{
-                                                    marginTop: "3px",
-                                                    marginLeft: "4px",
-                                                }}
-                                            ></img>
-                                        </button>
-                                        {buttonColorHide && (
-                                            <div
-                                                className="buttonColorPicker"
-                                                style={{
-                                                    marginTop: "166px",
-                                                    position: "absolute",
-                                                    backgroundColor: "white",
-                                                    padding: "20px",
-                                                    boxShadow:
-                                                        "0px 0px 6px -1px rgba(0,0,0,0.46)",
-                                                    zIndex: "9999",
-                                                    borderRadius: "8px",
-                                                }}
-                                            >
+                                            <div style={{ padding: "20px" }}>
                                                 <ColorPicker
                                                     onChange={(e) => {
                                                         // console.log(hsbToRgb(e));
@@ -1459,7 +1456,8 @@ const Settings = () => {
                                                     onChange={handleInputColorChange}
                                                 />
                                             </div>
-                                        )}
+                                        </Popover>
+
                                     </div>
                                     <p>Selected Color Preview</p>
                                     <br />
@@ -1629,7 +1627,7 @@ const Settings = () => {
                                             display: "flex",
                                             alignItems: "center",
                                             justifyContent: "space-between",
-                                            cursor:"pointer",
+                                            cursor: "pointer",
                                         }}
                                         onClick={handleToggle}
                                         ariaExpanded={open}
@@ -1651,7 +1649,7 @@ const Settings = () => {
                                             <img
                                                 className=""
                                                 src={ChevronUp}
-                                                style={{transition: "transform 0.5s ease-in-out 0s",transform: open ? 'rotate(180deg)' : ''}}
+                                                style={{ transition: "transform 0.5s ease-in-out 0s", transform: open ? 'rotate(180deg)' : '' }}
                                             ></img>
                                         </div>
                                     </div>
@@ -1667,11 +1665,11 @@ const Settings = () => {
                                                 alignItems: "center",
                                                 justifyContent: "space-between",
                                                 marginBottom: "20px",
-                                                marginTop:"20px",
+                                                marginTop: "20px",
                                                 border: "1px solid #C9CCCF",
                                                 borderRadius: "10px",
                                                 padding: "8px 20px",
-                                                cursor:"pointer",
+                                                cursor: "pointer",
 
                                             }}
                                             onClick={() => {
@@ -1680,7 +1678,7 @@ const Settings = () => {
                                         >
                                             <div style={{ width: "550px" }}>
                                                 <Text variant="headingLg" as="h5">
-                                                Post Purchase
+                                                    Post Purchase
                                                 </Text>
                                                 <p style={{ marginTop: "5px" }}>
                                                     Customize all the emails your customers will receive.
@@ -1689,13 +1687,13 @@ const Settings = () => {
                                             <div
 
                                             >
-                                               <img
-                                                className=""
-                                                src={arrowRight}
-                                                style={{
-                                                    marginTop:"8px",
-                                                }}
-                                            ></img>
+                                                <img
+                                                    className=""
+                                                    src={arrowRight}
+                                                    style={{
+                                                        marginTop: "8px",
+                                                    }}
+                                                ></img>
                                             </div>
                                         </div>
                                         <div
@@ -1704,11 +1702,11 @@ const Settings = () => {
                                                 alignItems: "center",
                                                 justifyContent: "space-between",
                                                 marginBottom: "20px",
-                                                marginTop:"20px",
+                                                marginTop: "20px",
                                                 border: "1px solid #C9CCCF",
                                                 borderRadius: "10px",
                                                 padding: "8px 20px",
-                                                cursor:"pointer",
+                                                cursor: "pointer",
 
                                             }}
                                             onClick={() => {
@@ -1717,22 +1715,22 @@ const Settings = () => {
                                         >
                                             <div style={{ width: "550px" }}>
                                                 <Text variant="headingLg" as="h5">
-                                                Reminder
+                                                    Reminder
                                                 </Text>
                                                 <p style={{ marginTop: "5px" }}>
-                                                Customize all the emails your customers will receive.
+                                                    Customize all the emails your customers will receive.
                                                 </p>
                                             </div>
                                             <div
 
                                             >
-                                               <img
-                                                className=""
-                                                src={arrowRight}
-                                                style={{
-                                                    marginTop:"8px",
-                                                }}
-                                            ></img>
+                                                <img
+                                                    className=""
+                                                    src={arrowRight}
+                                                    style={{
+                                                        marginTop: "8px",
+                                                    }}
+                                                ></img>
                                             </div>
                                         </div>
                                         <div
@@ -1741,11 +1739,11 @@ const Settings = () => {
                                                 alignItems: "center",
                                                 justifyContent: "space-between",
                                                 marginBottom: "20px",
-                                                marginTop:"20px",
+                                                marginTop: "20px",
                                                 border: "1px solid #C9CCCF",
                                                 borderRadius: "10px",
                                                 padding: "8px 20px",
-                                                cursor:"pointer",
+                                                cursor: "pointer",
 
                                             }}
                                             onClick={() => {
@@ -1754,22 +1752,22 @@ const Settings = () => {
                                         >
                                             <div style={{ width: "550px" }}>
                                                 <Text variant="headingLg" as="h5">
-                                                UGC Approved
+                                                    UGC Approved
                                                 </Text>
                                                 <p style={{ marginTop: "5px" }}>
-                                                Customize all the emails your customers will receive.
+                                                    Customize all the emails your customers will receive.
                                                 </p>
                                             </div>
                                             <div
 
                                             >
-                                               <img
-                                                className=""
-                                                src={arrowRight}
-                                                style={{
-                                                    marginTop:"8px",
-                                                }}
-                                            ></img>
+                                                <img
+                                                    className=""
+                                                    src={arrowRight}
+                                                    style={{
+                                                        marginTop: "8px",
+                                                    }}
+                                                ></img>
                                             </div>
                                         </div>
                                         <div
@@ -1778,11 +1776,11 @@ const Settings = () => {
                                                 alignItems: "center",
                                                 justifyContent: "space-between",
                                                 marginBottom: "20px",
-                                                marginTop:"20px",
+                                                marginTop: "20px",
                                                 border: "1px solid #C9CCCF",
                                                 borderRadius: "10px",
                                                 padding: "8px 20px",
-                                                cursor:"pointer",
+                                                cursor: "pointer",
 
                                             }}
                                             onClick={() => {
@@ -1791,22 +1789,22 @@ const Settings = () => {
                                         >
                                             <div style={{ width: "550px" }}>
                                                 <Text variant="headingLg" as="h5">
-                                                UGC Declined
+                                                    UGC Declined
                                                 </Text>
                                                 <p style={{ marginTop: "5px" }}>
-                                                Customize all the emails your customers will receive.
+                                                    Customize all the emails your customers will receive.
                                                 </p>
                                             </div>
                                             <div
 
                                             >
-                                               <img
-                                                className=""
-                                                src={arrowRight}
-                                                style={{
-                                                    marginTop:"8px",
-                                                }}
-                                            ></img>
+                                                <img
+                                                    className=""
+                                                    src={arrowRight}
+                                                    style={{
+                                                        marginTop: "8px",
+                                                    }}
+                                                ></img>
                                             </div>
                                         </div>
                                     </Collapsible>
@@ -1814,24 +1812,24 @@ const Settings = () => {
 
                                 </Card>
 
-                                    <Card sectioned>
-                                        <div>
-                                            <Text variant="headingLg" as="h5">
-                                                Remove Vidial Watermark
-                                            </Text>
-                                            <p
-                                                style={{
-                                                    marginTop: "15px",
-                                                    marginBottom: "15px",
-                                                }}
-                                            >
-                                                Please contact the live support to verify your store and remove our Branding “Powered by Vidial” for FREE.
-                                            </p>
-                                            <Button primary onClick={handleChatClick}>
-                                                Remove The Watermark
-                                            </Button>
-                                        </div>
-                                    </Card>
+                                <Card sectioned>
+                                    <div>
+                                        <Text variant="headingLg" as="h5">
+                                            Remove Vidial Watermark
+                                        </Text>
+                                        <p
+                                            style={{
+                                                marginTop: "15px",
+                                                marginBottom: "15px",
+                                            }}
+                                        >
+                                            Please contact the live support to verify your store and remove our Branding “Powered by Vidial” for FREE.
+                                        </p>
+                                        <Button primary onClick={handleChatClick}>
+                                            Remove The Watermark
+                                        </Button>
+                                    </div>
+                                </Card>
                                 <div
                                     style={{
                                         textAlign: "right",

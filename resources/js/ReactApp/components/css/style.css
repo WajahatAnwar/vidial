@@ -270,3 +270,8 @@ video {
 select#PolarisSelect1 {
     cursor: pointer;
 }
+.Polaris-Popover__Content {
+
+    width: auto !important;
+    height: auto !important;
+}
