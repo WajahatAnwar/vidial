@@ -827,7 +827,7 @@ const Settings = () => {
                                             </Text>
                                             <p style={{ marginTop: "15px" }}>
                                                 We recommend offering a minimum
-                                                of {storeCurrency} 50 to improve
+                                                of {storeCurrency}50 to improve
                                                 response rates. This can be
                                                 adjusted as necessary, with not
                                                 set minimum limit in place.

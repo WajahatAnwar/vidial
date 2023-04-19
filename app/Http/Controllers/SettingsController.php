@@ -137,7 +137,11 @@ class SettingsController extends Controller
             $video=$request->video ?? '';
         }
         $currentUser = Auth::user()->id;
-
+        $previous_store_credit= '';
+        $alreadySavedSettings = Setting::where('user_id', $currentUser)->first();
+        if($alreadySavedSettings){
+            $previous_store_credit = $alreadySavedSettings->store_credit;
+        }
         $settings['store_credit']=$request->store_credit;
         $settings['page_display_to_customers']=$request->page_display_to_customers;
         $settings['email_sent_to_customer']=$request->email_sent_to_customer;
@@ -148,7 +152,10 @@ class SettingsController extends Controller
         $settings['logo']=$image;
         $settings['video']=$video;
         $settings['email_status'] = $request->setting_status;
-        $settings['instruction_title'] = $request->instruction_title ?? 'Instructions';
+
+        $Instruction_field= $request->instruction_title ? str_replace($previous_store_credit, $request->store_credit, $request->instruction_title) : 'Instruction';
+      
+        $settings['instruction_title'] =$Instruction_field;
         $settings['locale']=$request->locale ?? 'en';
         $language = Setting::where('user_id', Auth::user()->id)->first();
         if($language->locale == $request->locale){
