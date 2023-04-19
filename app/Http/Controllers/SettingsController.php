@@ -304,7 +304,7 @@ class SettingsController extends Controller
         $data['type'] = $request->type;
         $data['type'] = $request->type;
         $data['user_id'] = Auth::user()->id;
-        $data['from'] =$request->from == '' ? 'Vidial' : $request->from;
+        $data['from'] =$request->from == '' ? auth()->user()->store_name : $request->from;
         EmailTemplate::updateOrCreate(
             ['user_id' => Auth::user()->id, 'type' => $request->type],
             $data
