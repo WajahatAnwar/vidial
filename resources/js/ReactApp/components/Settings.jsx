@@ -617,7 +617,7 @@ const Settings = () => {
 
                                     }}
                                 >
-                                    Change Lang & Save
+                                    Sure
                                 </Button>
                             </ButtonGroup>
                         </div>
