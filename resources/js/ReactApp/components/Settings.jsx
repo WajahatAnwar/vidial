@@ -607,17 +607,17 @@ const Settings = () => {
                                         navigate(pageLink);
                                     }}
                                 >
-                                    Cancel
+                                    Customize Content
                                 </Button>
                                 <Button primary onClick={() => {
                                         document.getElementById('sab_ok_id').click();
                                         setTimeout(() => {
                                             navigate(pageLink)
-                                        }, 10000);
+                                        }, 5000);
 
                                     }}
                                 >
-                                    Sure
+                                    Change Lang & Save
                                 </Button>
                             </ButtonGroup>
                         </div>
