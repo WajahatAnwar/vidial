@@ -294,15 +294,16 @@ class SettingsController extends Controller
 
        public function saveEmailSettings(Request $request){
        // $logo_path='';
+       
         if ($request->file('logo')) {
+            // saving new logo
             $logo_path = time() . '.' . $request->file('logo')->extension();
             $request->file('logo')->move(public_path('emails_logo'), $logo_path);
             $data['logo'] = $logo_path;
-        }else {
-            if($request->logo == 'default_logo'){
-                $data['logo'] = '';
+        }
 
-            }
+        if ($request->logo == 'empty_logo') {
+            $data['logo'] = '';
         }
         $data['subject'] = $request->subject ?? '';
         $data['body'] = $request->body ?? '';

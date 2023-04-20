@@ -19,8 +19,9 @@ class EmailTemplate extends Model
         if($value){
             return url('emails_logo/' . $value);
         }
+
     
-       return  url('emails_logo/default.png');
+       //return  url('emails_logo/default.png');
       
     }
 }

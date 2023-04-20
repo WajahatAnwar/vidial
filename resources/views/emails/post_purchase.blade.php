@@ -12,10 +12,12 @@
     <div style="width: 100%; padding: 20px;background: #EBEBEB;display: flex;justify-content: center;">
         <div style="max-width: 600px;background: #fff;padding: 20px;border-radius: 15px;display: block;margin: auto;">
             <div>
-                @php
-                    $logo = $body['logo'] == '' ? url('public/images/landing_footer.png') : $body['logo'];
+                  @php
+                    $logo = $body['logo'];
                 @endphp
+                @if($logo)
                 <img src="{{ $logo }}" style="display: block;margin: 20px auto;max-width: 250px;">
+                @endif
                 {!! $body['body'] !!}
             </div>
         </div>

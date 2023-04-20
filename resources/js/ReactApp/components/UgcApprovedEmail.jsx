@@ -72,7 +72,7 @@ const UgcApprovedEmail = () => {
     );
     const handleRemoveAlreadyUploadedLogo = () => {
         setActiveTootlTip(true);
-        setAlreadyUploadedLogo(logo);
+        setAlreadyUploadedLogo('');
 
     }
     const handleRemoveThumbnail = () => {
@@ -182,7 +182,7 @@ const UgcApprovedEmail = () => {
         setContent(content);
     };
     const handleSaveEmailSettings = () => {
-
+        let logo_file;
         setContent(editorRef.current.getContent());
         const formData = new FormData();
         formData.append('subject', subject);
@@ -190,8 +190,14 @@ const UgcApprovedEmail = () => {
         formData.append('buttonColorHex', buttonColorHex);
         formData.append('body', editorRef.current.getContent());
         formData.append('type', 'UGC_Approved')
-        formData.append('logo', files[0])
+        
         formData.append('from', from);
+        if (files[0]) {
+            logo_file = files[0]
+        } else {
+            logo_file = alreadyUploadLogo == '' ? 'empty_logo' : 'already_uploaded_logo';
+        }
+        formData.append('logo', logo_file)
 
         fetch('/save-email-settings', {
             method: "POST",
@@ -324,7 +330,7 @@ const UgcApprovedEmail = () => {
                                                 You can upload an image in JPG, PNG up to 5MB. Email banner will be displayed in 500px width, for best results, upload an image between 500-1200px wide.
                                             </p>
                                             {uploadedFilesPreview}
-                                            {!files.length &&
+                                            {(!files.length && alreadyUploadLogo) &&
                                                 <div style={{ padding: '0' }}>
                                                     <div style={{ width: "60px", marginBottom: "10px" }} >
                                                         <Thumbnail

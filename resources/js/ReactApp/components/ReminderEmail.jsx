@@ -82,7 +82,7 @@ const ReminderEmail = () => {
     };
     const handleRemoveAlreadyUploadedLogo = () => {
         setActiveTootlTip(true);
-        setAlreadyUploadedLogo(logo);
+        setAlreadyUploadedLogo('');
 
     }
     const navigate = useNavigate();
@@ -183,7 +183,7 @@ const ReminderEmail = () => {
         setContent(content);
     };
     const handleSaveEmailSettings = () => {
-
+        let logo_file;
         setContent(editorRef.current.getContent());
         const formData = new FormData();
         formData.append('subject', subject);
@@ -191,8 +191,15 @@ const ReminderEmail = () => {
         formData.append('buttonColorHex', buttonColorHex);
         formData.append('body', editorRef.current.getContent());
         formData.append('type', 'Reminder');
-        formData.append('logo', files[0])
+        //formData.append('logo', files[0])
         formData.append('from', from);
+
+        if (files[0]) {
+            logo_file = files[0]
+        } else {
+            logo_file = alreadyUploadLogo == '' ? 'empty_logo' : 'already_uploaded_logo';
+        }
+        formData.append('logo', logo_file)
 
         fetch('/save-email-settings', {
             method: "POST",
@@ -326,7 +333,7 @@ const ReminderEmail = () => {
                                             </p>
 
                                             {uploadedFilesPreview}
-                                            {!files.length &&
+                                            {(!files.length && alreadyUploadLogo) &&
                                                 <div style={{ padding: '0' }}>
                                                     <div style={{ width: "60px", marginBottom: "10px" }} >
                                                         <Thumbnail

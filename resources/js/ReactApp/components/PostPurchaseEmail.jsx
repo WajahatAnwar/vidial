@@ -102,7 +102,7 @@ const PostPurchaseEmail = () => {
 
     const handleRemoveAlreadyUploadedLogo = ()=>{
         setActiveTootlTip(true);
-        setAlreadyUploadedLogo(logo);
+        setAlreadyUploadedLogo('');
 
     }
 
@@ -182,7 +182,7 @@ const PostPurchaseEmail = () => {
         if (files[0]){
             logo_file = files[0]
         }else{
-            logo_file = alreadyUploadLogo.includes('/build/assets') ? 'default_logo' : 'already_uploaded_logo';
+            logo_file = alreadyUploadLogo == '' ? 'empty_logo' : 'already_uploaded_logo';
         }
         formData.append('logo', logo_file)
         formData.append('from', from)
@@ -338,7 +338,8 @@ const PostPurchaseEmail = () => {
                                                 You can upload an image in JPG, PNG up to 5MB. Email banner will be displayed in 500px width, for best results, upload an image between 500-1200px wide.
                                             </p>
                                             {uploadedFilesPreview}
-                                            {!files.length &&
+                                            {(!files.length && alreadyUploadLogo) &&
+                                            
                                                 <div style={{ padding: '0' }}>
                                                     <div style={{ width: "60px", marginBottom: "10px" }} >
                                                         <Thumbnail
