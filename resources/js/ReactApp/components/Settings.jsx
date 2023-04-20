@@ -611,7 +611,7 @@ const Settings = () => {
                                 </Button>
                                 <Button primary onClick={() => {
                                         document.getElementById('sab_ok_id').click();
-                                        navigate(pageLink);
+                                        setTimeout(navigate(pageLink), 3000);
                                     }}
                                 >
                                     Sure
