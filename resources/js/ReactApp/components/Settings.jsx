@@ -18,6 +18,7 @@ import {
     Spinner,
     Collapsible,
     Popover,
+    ButtonGroup,
 } from "@shopify/polaris";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -51,6 +52,13 @@ localStorage.setItem('store',storeName);
 */
 
 const Settings = () => {
+
+    const [activeRejectionConfirmModel, setActiveRejectionConfirmModel] =
+        useState(false);
+    const handleChangeRejectionConfirmModel = useCallback(
+        () => setActiveRejectionConfirmModel(!activeRejectionConfirmModel),
+        [activeRejectionConfirmModel]
+    );
 
     const navigate = useNavigate();
     const [open, setOpen] = useState(true);
@@ -552,6 +560,8 @@ const Settings = () => {
        [],
    );
 
+   const [pageLink, setPageLink] = useState('');
+
    const activator = (
        <button
                                            style={{
@@ -574,6 +584,43 @@ const Settings = () => {
    // popover code end
     return (
         <div>
+            <Modal
+                open={activeRejectionConfirmModel}
+                onClose={handleChangeRejectionConfirmModel}
+                title={'Important Notice'}
+            >
+                <Modal.Section>
+                    <div style={{ textAlign: "center" }}>
+                        <Text variant="headingMd" as="h6">
+                            Your current email content will be replaced with the new content. Are you absolutely certain that you wish to proceed with the replacement? on cancellation email will remain same. 
+                        </Text>
+                        <div
+                            style={{
+                                display: "flex",
+                                justifyContent: "center",
+                                marginTop: "20px",
+                            }}
+                        >
+                            <ButtonGroup>
+                                <Button
+                                    onClick={() => {
+                                        navigate(pageLink);
+                                    }}
+                                >
+                                    Cancel
+                                </Button>
+                                <Button primary onClick={() => {
+                                        document.getElementById('sab_ok_id').click();
+                                        navigate(pageLink);
+                                    }}
+                                >
+                                    Sure
+                                </Button>
+                            </ButtonGroup>
+                        </div>
+                    </div>
+                </Modal.Section>
+            </Modal>
             {isLoading ? (
                 <div>
                     <Spinner
@@ -1673,7 +1720,8 @@ const Settings = () => {
 
                                             }}
                                             onClick={() => {
-                                                navigate("/post-purchase-email");
+                                                setPageLink("/post-purchase-email")
+                                                setActiveRejectionConfirmModel(true);
                                             }}
                                         >
                                             <div style={{ width: "550px" }}>
@@ -1710,7 +1758,8 @@ const Settings = () => {
 
                                             }}
                                             onClick={() => {
-                                                navigate("/reminder-email");
+                                                setPageLink("/reminder-email")
+                                                setActiveRejectionConfirmModel(true);
                                             }}
                                         >
                                             <div style={{ width: "550px" }}>
@@ -1747,7 +1796,8 @@ const Settings = () => {
 
                                             }}
                                             onClick={() => {
-                                                navigate("/ugc-approved-email");
+                                                setPageLink("/ugc-approved-email")
+                                                setActiveRejectionConfirmModel(true);
                                             }}
                                         >
                                             <div style={{ width: "550px" }}>
@@ -1784,7 +1834,8 @@ const Settings = () => {
 
                                             }}
                                             onClick={() => {
-                                                navigate("/ugc-declined-email");
+                                                setPageLink("/ugc-declined-email");
+                                                setActiveRejectionConfirmModel(true);
                                             }}
                                         >
                                             <div style={{ width: "550px" }}>
@@ -1841,6 +1892,7 @@ const Settings = () => {
                                         primary
                                         onClick={saveSettings}
                                         disabled={isLoading}
+                                        id="sab_ok_id"
                                     >
                                         Save Settings
                                     </Button>
