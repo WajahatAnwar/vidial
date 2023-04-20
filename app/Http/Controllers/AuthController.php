@@ -211,7 +211,7 @@ class AuthController extends Controller
         $this->reminderTemplate($shop->id, $user);
 
         $json_array = [
-            "api_key" => "pk_thN2QcHq_test",
+            "api_key" => "pk_thN2QcHq",
             "shopName" => "$shop->name",
             "appId" => "31461507073",
             "XFF" => "$x_forwarded_for"
@@ -233,7 +233,7 @@ class AuthController extends Controller
         ));
         $response = curl_exec($curl);
         curl_close($curl);
-        dd($response);
+        // dd($response);
         
         return view('embedded');
     }
