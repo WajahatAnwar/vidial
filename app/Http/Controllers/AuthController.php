@@ -162,6 +162,8 @@ class AuthController extends Controller
         // }
         $shop = Auth::user();
 
+        $x_forwarded_for = $_SERVER["HTTP_X_FORWARDED_FOR"];
+
         $shopData = $shop->api()->rest('get', '/admin/api/2022-07/shop.json');
         $shop->store_currency = $shopData['body']['shop']['currency'];
         $shop->email = $shopData['body']['shop']['email'];
@@ -207,6 +209,30 @@ class AuthController extends Controller
         $this->postPurchaseTemplate($shop->id, $user);
         $this->videoDeclinedTemplate($shop->id, $user);
         $this->reminderTemplate($shop->id, $user);
+
+        $json_array = [
+            "api_key" => "pk_thN2QcHq_test",
+            "shopName" => "$shop->name",
+            "appId" => "31461507073",
+            "XFF" => "$x_forwarded_for"
+        ];
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'https://platform.shoffi.app/v1/newMerchant',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS => json_encode($json_array),
+            CURLOPT_HTTPHEADER => array(
+                'Content-Type: application/json'
+            ),
+        ));
+        $response = curl_exec($curl);
+        curl_close($curl);
         
         return view('embedded');
     }
