@@ -80,6 +80,7 @@ const Settings = () => {
     const [errorMessages, setErorrMessages] = useState([]);
     const [currentLang, setCurrentLang] = useState("en");
     const [isSettingSave, setIsSettingSave] = useState("");
+    const [emailTemplateButton,setEmailTemplateButton] = useState(true);
 
     function handleChange() {
         setToggled((prevCheck) => !prevCheck);
@@ -320,6 +321,7 @@ const Settings = () => {
     }, [isSettingSave]);
 
     const handleSelectChange = (value) => {
+        setEmailTemplateButton(false);
         setSelected(value);
 
         if (value === "en") {
@@ -605,13 +607,17 @@ const Settings = () => {
                                 <Button
                                     onClick={() => {
                                         navigate(pageLink);
+                                        setActiveRejectionConfirmModel(false);
+                                        setEmailTemplateButton(true);
                                     }}
                                 >
                                     Cancel
                                 </Button>
                                 <Button primary onClick={() => {
                                         document.getElementById('sab_ok_id').click();
+                                    setActiveRejectionConfirmModel(false);
                                         navigate(pageLink);
+                                    setEmailTemplateButton(true);
                                     }}
                                 >
                                     Sure
@@ -913,8 +919,8 @@ const Settings = () => {
                                     >
                                         Select the language of your store
                                     </p>
-
-                                    <div style={{ width: "150px" }}>
+                                    
+                                        <div style={{display: 'flex', alignItems: "center" }}>
                                         <Select
                                             options={options}
                                             onChange={(e) => {
@@ -922,6 +928,11 @@ const Settings = () => {
                                             }}
                                             value={selected}
                                         />
+                                        &nbsp;
+                                            <Button primary onClick={() => {
+                                                //setPageLink("/post-purchase-email")
+                                                setActiveRejectionConfirmModel(true);
+                                            }} disabled={emailTemplateButton}>Change Template</Button>
                                     </div>
                                 </Card>
 
@@ -1720,8 +1731,8 @@ const Settings = () => {
 
                                             }}
                                             onClick={() => {
-                                                setPageLink("/post-purchase-email")
-                                                setActiveRejectionConfirmModel(true);
+                                                navigate("/post-purchase-email")
+
                                             }}
                                         >
                                             <div style={{ width: "550px" }}>
@@ -1758,8 +1769,8 @@ const Settings = () => {
 
                                             }}
                                             onClick={() => {
-                                                setPageLink("/reminder-email")
-                                                setActiveRejectionConfirmModel(true);
+                                                navigate("/reminder-email")
+
                                             }}
                                         >
                                             <div style={{ width: "550px" }}>
@@ -1796,8 +1807,8 @@ const Settings = () => {
 
                                             }}
                                             onClick={() => {
-                                                setPageLink("/ugc-approved-email")
-                                                setActiveRejectionConfirmModel(true);
+                                                navigate("/ugc-approved-email")
+
                                             }}
                                         >
                                             <div style={{ width: "550px" }}>
@@ -1834,8 +1845,8 @@ const Settings = () => {
 
                                             }}
                                             onClick={() => {
-                                                setPageLink("/ugc-declined-email");
-                                                setActiveRejectionConfirmModel(true);
+                                                navigate("/ugc-declined-email");
+
                                             }}
                                         >
                                             <div style={{ width: "550px" }}>
