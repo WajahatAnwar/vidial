@@ -931,8 +931,10 @@ const Settings = () => {
                                         &nbsp;
                                             <Button primary onClick={() => {
                                                 //setPageLink("/post-purchase-email")
-                                                setActiveRejectionConfirmModel(true);
-                                            }} disabled={emailTemplateButton}>Change Template</Button>
+                                                document.getElementById('sab_ok_id').click();
+                                                setEmailTemplateButton(true);
+                                                //setActiveRejectionConfirmModel(true);
+                                            }} disabled={emailTemplateButton}>Save</Button>
                                     </div>
                                 </Card>
 
