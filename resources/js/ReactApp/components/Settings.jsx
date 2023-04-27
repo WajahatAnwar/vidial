@@ -611,10 +611,14 @@ const Settings = () => {
                                         setEmailTemplateButton(true);
                                     }}
                                 >
-                                    Cancel
+                                    Customize Content
                                 </Button>
                                 <Button primary onClick={() => {
                                         document.getElementById('sab_ok_id').click();
+                                        setTimeout(() => {
+                                            navigate(pageLink)
+                                        }, 5000);
+
                                     setActiveRejectionConfirmModel(false);
                                         navigate(pageLink);
                                     setEmailTemplateButton(true);
