@@ -98,7 +98,7 @@ class OrdersCreateJob implements ShouldQueue
           'order_id' => $order_id,
           'email' =>  $payload->email ?? $payload->contact_email ,
           'contect_email' =>  $payload->contact_email,
-          'phone_no' => $customer_details->phone,
+          'phone_no' => isset($customer_details->phone) ? $customer_details->phone : '00',
           'confirmed' =>  "" ,
           'order_created_at' => $payload->created_at ,
           'remaining_mail' => $shop_settings->page_display_to_customers,
