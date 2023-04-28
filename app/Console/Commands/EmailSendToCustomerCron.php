@@ -48,7 +48,7 @@ class EmailSendToCustomerCron extends Command
             $settings = Setting::where('user_id', $Orders_send_mail->user_id)->first();
             $current_user = User::find($Orders_send_mail->user_id);
             // check merchant plan has email to send
-            //    \Log::info(json_encode($Orders_send_mail->marchent, JSON_PRETTY_PRINT));
+            //  //  \Log::info(json_encode($Orders_send_mail->marchent, JSON_PRETTY_PRINT));
             if ($Orders_send_mail->marchent != null) {
                 if ($Orders_send_mail->marchent->remaining_email > 0) {
                     // \Log::info("true 1");
@@ -78,10 +78,10 @@ class EmailSendToCustomerCron extends Command
                     if ($Orders_send_mail->email_status == 1) {
                         
                         // \Log::info("if already replied ignore");
-                         \Log::info("email status -- ". $Orders_send_mail->email);
+                       //  \Log::info("email status -- ". $Orders_send_mail->email);
                         //if already replied ignore
                         if ($Orders_send_mail->replied == 0) {
-                            \Log::info("replied 0 " . $Orders_send_mail->email);
+                          //  \Log::info("replied 0 " . $Orders_send_mail->email);
                             // reminder mail check
                             // \Log::info(Carbon::now()->diffInDays(Carbon::parse($Orders_send_mail->reminder_mail)));
                             if ($Orders_send_mail->email_send == 1 && $Orders_send_mail->replied == 0 && $Orders_send_mail->remaining_mail > 0) {
@@ -90,8 +90,8 @@ class EmailSendToCustomerCron extends Command
                                 $date1 = Carbon::parse(Carbon::now());
                                 $date2 = Carbon::parse($Orders_send_mail->reminder_mail);
                                 $diffInHours = $date1->diffInHours($date2);
-                                \Log::info($diffInHours);
-                                \Log::info($Orders_send_mail->order_id);
+                              //  \Log::info($diffInHours);
+                              //  \Log::info($Orders_send_mail->order_id);
 
                                 if ($diffInHours == 0) {
                                     //comment code email by ali
@@ -177,8 +177,8 @@ class EmailSendToCustomerCron extends Command
                         $date1 = Carbon::parse(Carbon::now());
                         $date2 = Carbon::parse($Orders_send_mail->email_send_at);
                         $diffInHours = $date1->diffInHours($date2);
-                        \Log::info('difference in hours --'.$diffInHours);
-                        \Log::info($Orders_send_mail->order_id);
+                      //  \Log::info('difference in hours --'.$diffInHours);
+                      //  \Log::info($Orders_send_mail->order_id);
 
 
                         if ($diffInHours == 0 && $Orders_send_mail->remaining_mail > 0 && $Orders_send_mail->email_send == 0) {
@@ -222,7 +222,7 @@ class EmailSendToCustomerCron extends Command
                                 'v:url' => $details['url'],
                             );
 
-                            \Log::info(json_encode($params, JSON_PRETTY_PRINT));
+                          //  \Log::info(json_encode($params, JSON_PRETTY_PRINT));
                             //comment email code by ali
                             $temlateDetails['user_id'] = $Orders_send_mail->user_id;
                             $temlateDetails['type'] = 'Post_Purchase';
@@ -234,7 +234,7 @@ class EmailSendToCustomerCron extends Command
                             $temlateDetails['amount'] = $settings->store_credit ?? 15;
                             $temlateDetails['discount_code'] = '';
                             $temlateDetails['reason_decline'] = '';
-                            \Log::info('sending email');
+                          //  \Log::info('sending email');
                             dispatch(new EmailTemplateJob($temlateDetails));
                             //$mgClient->messages()->send($domain, $params);
 
