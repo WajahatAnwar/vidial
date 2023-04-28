@@ -148,35 +148,42 @@ class DashboardController extends Controller
 
     // test Function
 
-    public function test(Request $request){
+    public function test(Request $request)
+    {
         return response()->json([
             'success' => true,
             'message' => 'Dashboard data retrieved successfully!',
         ]);
     }
-      // Get Dashboard Content
-     public function getDashboardContent(Request $request){
-          $currentUser = Auth::user()->id;
-          // Pending Videos
-          $pendingVideos = Video::where('user_id',$currentUser)
-          ->where('status',config('constants.video_pending'))->orderBy('id','DESC')
-          ->get()->take(4);
-          // Approved Videos
-          $approvedVideos = Video::where('user_id',$currentUser)
-          ->where('status',config('constants.video_approved'))->orderBy('id','DESC')
-          ->get()->take(4);
-          $pendingVideosCount = Video::where('user_id',$currentUser)
-          ->where('status',config('constants.video_pending'))
-          ->count();
+    // Get Dashboard Content
+    public function getDashboardContent(Request $request)
+    {
+        $currentUser = Auth::user()->id;
+        // Pending Videos
+        $pendingVideos = Video::where('user_id', $currentUser)
+            ->where('status', config('constants.video_pending'))->orderBy('id', 'DESC')
+            ->get()->take(4);
+        // Approved Videos
+        $approvedVideos = Video::where('user_id', $currentUser)
+            ->where('status', config('constants.video_approved'))->orderBy('id', 'DESC')
+            ->get()->take(4);
+        $pendingVideosCount = Video::where('user_id', $currentUser)
+            ->where('status', config('constants.video_pending'))
+            ->count();
 
-          $approvedVideosCount = Video::where('user_id',$currentUser)
-          ->where('status',config('constants.video_approved'))
-          ->count();
-          $data['pendingVideos'] = $pendingVideos;
-          $data['approvedVideos'] = $approvedVideos;
-          $data['pendingVideosCount'] = $pendingVideosCount;
-          $data['approvedVideosCount'] = $approvedVideosCount;
-          $data['user'] = Auth::user();
+        $approvedVideosCount = Video::where('user_id', $currentUser)
+            ->where('status', config('constants.video_approved'))
+            ->count();
+
+        $user = Auth::user();
+        $response = $user->api()->rest('GET', '/admin/api/2022-10/webhooks.json');
+        
+        $data['pendingVideos'] = $pendingVideos;
+        $data['approvedVideos'] = $approvedVideos;
+        $data['pendingVideosCount'] = $pendingVideosCount;
+        $data['approvedVideosCount'] = $approvedVideosCount;
+        $data['webhooks'] = $response;
+        $data['user'] = Auth::user();
 
         //   $response = $data['user']->api()->rest('POST', '/admin/api/2022-07/webhooks.json', [
         //     'webhook' => [
@@ -186,24 +193,25 @@ class DashboardController extends Controller
         //     ]
         //   ]);
 
-          return response()->json([
-             'success' => true,
-             'message' => 'Dashboard content retrieved successfully!',
-              'data' => $data,
+        return response()->json([
+            'success' => true,
+            'message' => 'Dashboard content retrieved successfully!',
+            'data' => $data,
 
-          ]);
+        ]);
     }
-     // get Pending Videos Count
-     public function getPendingVideoCount(){
+    // get Pending Videos Count
+    public function getPendingVideoCount()
+    {
         $currentUser = Auth::user()->id;
-        $pendingVideosCount = Video::where('user_id',$currentUser)
-        ->where('status',config('constants.video_pending'))->orderBy('id','DESC')
-        ->count();
+        $pendingVideosCount = Video::where('user_id', $currentUser)
+            ->where('status', config('constants.video_pending'))->orderBy('id', 'DESC')
+            ->count();
         $data['pendingVideosCount'] = $pendingVideosCount;
         return response()->json([
             'success' => true,
             'message' => 'Videos Count retrieved successfully',
-             'data' => $data,
-         ]);
-     }
+            'data' => $data,
+        ]);
+    }
 }
