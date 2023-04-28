@@ -71,43 +71,43 @@ class OrdersCreateJob implements ShouldQueue
         Log::info(json_encode($this->data));
 
         // $shop_domain = $this->shopDomain;
-        // //Log::info($shop_domain);
-        // //Log::info("order placed");
+        //Log::info($shop_domain);
+        //Log::info("order placed");
 
-        // $payload = $this->data;
-        // //Log::info(json_encode($payload));
-        // $order_id = $payload->id;
+        $payload = $this->data;
+        //Log::info(json_encode($payload));
+        $order_id = $payload->id;
 
 
 
-        // $this->shopDomain = ShopDomain::fromNative($this->shopDomain);
-        // $shop = User::where('name',$this->shopDomain->toNative())->first();
-        // $shop_settings =  $shop->settings;
-        // $customer_details = $payload->customer;
-        //   // $orders = $shop->api()->rest('GET', '/admin/orders.json');
-        //   // foreach ($orders['body']['orders'] as $order_item) {
-        // if($payload->contact_email == null || $payload->contact_email == ""){
-        //   return;
-        // }
-        // Orders::updateOrCreate( 
-        // [
-        //   'order_id' => $order_id
-        // ],
-        // [
-        //   'user_id' =>  $shop->id,
-        //   'order_id' => $order_id,
-        //   'email' =>  $payload->email ?? $payload->contact_email ,
-        //   'contect_email' =>  $payload->contact_email,
-        //   'phone_no' => $customer_details->phone,
-        //   'confirmed' =>  "" ,
-        //   'order_created_at' => $payload->created_at ,
-        //   'remaining_mail' => $shop_settings->page_display_to_customers,
-        //   'email_send_at' => Carbon::parse($payload->created_at)->addDays($shop->settings->page_link) ,
-        //   'reminder_mail' => Carbon::parse($payload->created_at)->addWeek($shop->settings->email_sent_to_customer),
-        //   'email_status' => $shop_settings->email_status ,
-        //   'customer_name'=>$payload->billing_address->first_name ?? $payload->billing_address->last_name,
-        // ]);
-        //   // }
-        //  return true;
+        $this->shopDomain = ShopDomain::fromNative($this->shopDomain);
+        $shop = User::where('name',$this->shopDomain->toNative())->first();
+        $shop_settings =  $shop->settings;
+        $customer_details = $payload->customer;
+          // $orders = $shop->api()->rest('GET', '/admin/orders.json');
+          // foreach ($orders['body']['orders'] as $order_item) {
+        if($payload->contact_email == null || $payload->contact_email == ""){
+          return;
+        }
+        Orders::updateOrCreate( 
+        [
+          'order_id' => $order_id
+        ],
+        [
+          'user_id' =>  $shop->id,
+          'order_id' => $order_id,
+          'email' =>  $payload->email ?? $payload->contact_email ,
+          'contect_email' =>  $payload->contact_email,
+          'phone_no' => $customer_details->phone,
+          'confirmed' =>  "" ,
+          'order_created_at' => $payload->created_at ,
+          'remaining_mail' => $shop_settings->page_display_to_customers,
+          'email_send_at' => Carbon::parse($payload->created_at)->addDays($shop->settings->page_link) ,
+          'reminder_mail' => Carbon::parse($payload->created_at)->addWeek($shop->settings->email_sent_to_customer),
+          'email_status' => $shop_settings->email_status ,
+          'customer_name'=>$payload->billing_address->first_name ?? $payload->billing_address->last_name,
+        ]);
+          // }
+         return true;
     }
 }
