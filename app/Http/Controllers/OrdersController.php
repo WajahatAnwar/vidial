@@ -25,7 +25,7 @@ class OrdersController extends Controller
        $shop = Auth::user();
        $shop_settings =  $shop->settings;
          $orders = $shop->api()->rest('GET', '/admin/orders.json');
-         Log::info($shop->settings->page_link);
+         // Log::info($shop->settings->page_link);
          foreach ($orders['body']['orders'] as $order_item) {
               Orders::create([
                 'user_id' =>  $shop->id,
