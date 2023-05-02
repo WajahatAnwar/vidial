@@ -45,36 +45,35 @@ function Resources() {
                         </div>
                     </div>
                 </Grid.Cell>
-                {/* <Grid.Cell columnSpan={{ xs: 6, sm: 3, md: 3, lg: 6, xl: 6 }}>
+                <Grid.Cell columnSpan={{ xs: 6, sm: 3, md: 3, lg: 6, xl: 6 }}>
                     <div >
-                        <iframe width="465px" height="305px" style={{ borderRadius: "5px" }} src="https://www.youtube.com/embed/GtDPjlUToKU" title="Shopify Explainer Video (Helpful!) What is Shopify and How Does it Work?" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        <iframe width="465px" height="305px" style={{ borderRadius: "5px" }} src=" https://www.youtube.com/embed/xfP-kXVuYiM" title="Shopify Explainer Video (Helpful!) What is Shopify and How Does it Work?" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                         <div style={{padding:"10px"
                         }}>
                         <Text variant="headingXl" as="h4">
-                            Getting Started with Vidial
+                                Send Vidial Emails using Klaviyo
                         </Text>
 
                         <p style={{marginTop:"5px"}}>
-                            Learn how to setup Vidial and all the basic and all the basic functionality of the application to optimize the UGC collection.
+                             Learn how to integrate Vidial with your Klaviyo Flows to send more personalized mails.
                         </p>
                         </div>
                     </div>
-                </Grid.Cell> */}
-                {/* <Grid.Cell columnSpan={{ xs: 6, sm: 3, md: 3, lg: 6, xl: 6 }}>
+                </Grid.Cell>
+                <Grid.Cell columnSpan={{ xs: 6, sm: 3, md: 3, lg: 6, xl: 6 }}>
                     <div >
-                        <iframe width="465px" height="305px" style={{ borderRadius: "5px" }} src="https://www.youtube.com/embed/GtDPjlUToKU" title="Shopify Explainer Video (Helpful!) What is Shopify and How Does it Work?" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        <iframe width="465px" height="305px" style={{ borderRadius: "5px" }} src="https://www.youtube.com/embed/GdA-b29D8jA" title="Shopify Explainer Video (Helpful!) What is Shopify and How Does it Work?" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                         <div style={{padding:"10px"
                         }}>
                         <Text variant="headingXl" as="h4">
-                            Getting Started with Vidial
+                                Request UGC Videos from your Old Customers using your CRM
                         </Text>
 
                         <p style={{marginTop:"5px"}}>
-                            Learn how to setup Vidial and all the basic and all the basic functionality of the application to optimize the UGC collection.
-                        </p>
+                                Learn how to request UGC Videos from your previous customers using your CRM like Klaviyo, and receive them in Vidial.</p>
                         </div>
                     </div>
-                </Grid.Cell> */}
+                </Grid.Cell>
                 {/* <Grid.Cell columnSpan={{ xs: 6, sm: 3, md: 3, lg: 6, xl: 6 }}>
                     <div >
                         <iframe width="465px" height="305px" style={{ borderRadius: "5px" }} src="https://www.youtube.com/embed/GtDPjlUToKU" title="Shopify Explainer Video (Helpful!) What is Shopify and How Does it Work?" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
