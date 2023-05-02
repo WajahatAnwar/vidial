@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" style="overflow-x: hidden;">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -108,7 +108,7 @@ div#error-video , #error-email {
     /* padding-top: 0; */
 }
   </style>
-  <body>
+  <body style="overflow-x: hidden;">
 
   @yield('content')
   @include('layout.script')
