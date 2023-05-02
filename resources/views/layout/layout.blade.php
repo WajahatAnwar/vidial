@@ -112,7 +112,7 @@ div#error-video , #error-email {
 
   @yield('content')
   @include('layout.script')
-
+<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
 
 </body>
 
