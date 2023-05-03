@@ -174,7 +174,7 @@ class SettingsController extends Controller
     /****** Landing Page *******/
     public function landingPage(Request $request,$locale){
         // Language Translation
-        setLan($locale);
+        
         if($this->store!==''){
 
             $user=User::with('settings')->where('name',$this->store)->first();
@@ -182,6 +182,7 @@ class SettingsController extends Controller
             if(!$user || !$user->settings){
               return abort(404);
             }
+            setLan($user->settings->locale ? $user->settings->locale : 'en');
             $currentUser=$user->id;
             $settings=Setting::where('user_id',$currentUser)->first();
         return view('landingPage.template',compact('settings','user'));
