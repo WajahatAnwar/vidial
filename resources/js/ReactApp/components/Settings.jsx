@@ -31,7 +31,7 @@ import {
     Toast,
     List,
 } from "@shopify/polaris";
-import { CircleCancelMinor, NoteMinor, CircleCancelMajor, ChevronUpMinor } from "@shopify/polaris-icons";
+import { CircleCancelMinor, NoteMinor, CircleCancelMajor, ChevronUpMinor, PlayMinor } from "@shopify/polaris-icons";
 import {
     DeleteMajor
 } from '@shopify/polaris-icons';
@@ -43,6 +43,7 @@ import ColorWheel from "./imges/collorWheel.png";
 import ChevronUp from "./imges/ChevronUpMinor.png";
 import arrowRight from "./imges/arrowRight.png";
 import Toggle from "./Toggle";
+import Dropzone from "dropzone";
 
 /**
 const urlParams = new URLSearchParams(location.search);
@@ -52,7 +53,7 @@ localStorage.setItem('store',storeName);
 */
 
 const Settings = () => {
-
+    const [activeTootlTip, setActiveTootlTip] = useState(false);
     const [activeRejectionConfirmModel, setActiveRejectionConfirmModel] =
         useState(false);
     const handleChangeRejectionConfirmModel = useCallback(
@@ -81,6 +82,8 @@ const Settings = () => {
     const [currentLang, setCurrentLang] = useState("en");
     const [isSettingSave, setIsSettingSave] = useState("");
     const [emailTemplateButton,setEmailTemplateButton] = useState(true);
+    const [files, setFiles] = useState([]);
+    const [alreadyUploadLogo, setAlreadyUploadedLogo] = useState('');
 
     function handleChange() {
         setToggled((prevCheck) => !prevCheck);
@@ -230,6 +233,11 @@ const Settings = () => {
     const [previewVedioHide, setPreviewVedioHide] = useState(false);
     const [email, setEmail] = useState("");
     const [storeName, setstoreName] = useState("");
+    const [successToastVideo, setSuccessToastVideo] = useState("");
+    // const successToastVideo = active ? (
+    //     <Toast content="Settings Saved" onDismiss={true} />
+    // ) : null;
+    
     // alert(logoImage);
     const logoHandler = (e) => {
         setImagename(e.target.files[0].name);
@@ -268,6 +276,10 @@ const Settings = () => {
                     setLandingPageDisplayedValue(data.data.page_link);
 
                     setLogoImage(data.data.logo);
+                    console.log(data.data.video);
+                    setAlreadyUploadedLogo(data.data.logo)
+                    setAlreadyUploadedVideo(data.data.video)
+
                     setVideo(data.data.video);
                     setStore(data.data.store);
                     setSelected(data.data?.locale ?? "en");
@@ -584,6 +596,190 @@ const Settings = () => {
                                        </button>
    );
    // popover code end
+   // drop zone code start
+
+
+
+    const handleRemoveThumbnail = () => {
+        setFiles([]);
+        // setLogoImage(alread)
+        //console.log('handle Remove thumbnail');
+    };
+    const handleDropZoneDrop = useCallback(
+        (_dropFiles, acceptedFiles, _rejectedFiles) => {
+            setLogoImage(acceptedFiles[0]);
+            //setAlreadyUploadedLogo('');
+            setFiles((files) => acceptedFiles);
+        },
+        []
+    );
+    const successToast = active ? (
+        <Toast content="Settings Saved" onDismiss={true} />
+    ) : null;
+
+    const handleRemoveAlreadyUploadedLogo = ()=>{
+        //setLogoImage('');
+        //setActiveTootlTip(true);
+        // setAlreadyUploadedLogo('');
+        // console.log('heree me');
+        // const formData = new FormData();
+        // fetch('/checkuploadedlogo', {
+        //     method: 'POST',
+        //     body: formData
+
+        // }).then((response) => response.json()).then((data) => {
+        //     console.log(data);
+        // })
+
+    }
+
+    const validImageTypes = ['image/gif', 'image/jpeg', 'image/png'];
+
+    const fileUpload = !files.length && <DropZone.FileUpload actionHint="Accepts .jpg, and .png" actionTitle="Upload Your Brand Logo" />;
+    const uploadedFiles = files.length > 0 && (
+        <div style={{ padding: '0' }}>
+            <div>
+                {files.map((file, index) => (
+                    <div key={index}>
+                        <Thumbnail
+                            size="small"
+                            alt={file.name}
+                            source={
+                                validImageTypes.includes(file.type)
+                                    ? window.URL.createObjectURL(file)
+                                    : NoteMinor
+                            }
+                        />
+
+                        <div>
+                            {file.name}{' '}
+                            <Text variant="bodySm" as="p">
+                                {file.size} bytes
+                            </Text>
+                        </div>
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
+    const uploadedFilesPreview = files.length > 0 && (
+        <div style={{ padding: '0' }}>
+            <div style={{width:"60px",marginBottom:"10px"}} >
+                {files.map((file, index) => (
+                    <div key={index}>
+                        <Thumbnail
+                            size="medium"
+                            alt={file.name}
+                            source={
+                                validImageTypes.includes(file.type)
+                                    ? window.URL.createObjectURL(file)
+                                    : NoteMinor
+                            }
+                        />
+                        <div>
+                            <div onClick={handleRemoveThumbnail} >
+                          <Icon source={CircleCancelMajor}  color="critical" />
+                        </div>
+                        </div>
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
+    // drop zone code end
+    // drop zone code start
+    const [filesVideos, setFilesVideos] = useState([]);
+    const [alreadyUploadVideo, setAlreadyUploadedVideo] = useState('');
+
+
+    const handleRemoveThumbnailVideo = () => {
+        setFilesVideos([]);
+        
+        
+        //console.log('handle Remove thumbnail');
+    };
+    const handleDropZoneVideo = useCallback(
+        (_dropFiles, acceptedFiles, _rejectedFiles) => {
+            setVideo(acceptedFiles[0]);
+            //setAlreadyUploadedLogo('');
+            setFilesVideos((filesVideos) => acceptedFiles);
+            // setAlreadyUploadedVideo((filesVideos) => acceptedFiles);
+        },
+        []
+    );
+    
+
+    const handleRemoveAlreadyUploadedVideo = () => {
+        setActiveTootlTip(true);
+        setAlreadyUploadedVideo('');
+        setVideo('');
+
+    }
+
+    const validVideoTypes = ['video'];
+
+    const fileUploadVideos = !filesVideos.length && <DropZone.FileUpload actionHint="Accepts .mp4, .avi ..... (please fill all formats)" actionTitle="Upload Your Inspirational Video" />;
+    const uploadedFilesVideos = filesVideos.length > 0 && (
+        <div style={{ padding: '0' }}>
+            <div>
+                {filesVideos.map((file, index) => (
+                    <div key={index}>
+                        <Thumbnail
+                            size="small"
+                            alt={file.name}
+                            source={
+                                validVideoTypes.includes(file.type)
+                                    ? window.URL.createObjectURL(file)
+                                    : NoteMinor
+                            }
+                        />
+
+                        <div>
+                            {file.name}{' '}
+                            <Text variant="bodySm" as="p">
+                                {file.size} bytes
+                            </Text>
+                        </div>
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
+    const uploadedFilesVideosPreview = filesVideos.length > 0 && (
+        <div style={{ padding: '0' }}>
+            <div style={{ width: "60px", marginBottom: "10px" }} >
+                {filesVideos.map((file, index) => (
+                    <div key={index}>
+                        {/* <Thumbnail
+                            size="medium"
+                            alt={file.name}
+                            source={
+                                validVideoTypes.includes(file.type)
+                                    ? window.URL.createObjectURL(file)
+                                    : NoteMinor
+                            }
+                        /> */}
+                        <video
+                            width="108"
+                            height="193"
+                            src={window.URL.createObjectURL(file)}
+                            muted
+                            autoPlay
+                            loop
+                        ></video>
+                        <div>
+                            <div onClick={handleRemoveThumbnailVideo} >
+                                <Icon source={CircleCancelMajor} color="critical" />
+                            </div>
+                        </div>
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
+    // drop zone code end
+
+
     return (
         <div>
             <Modal
@@ -642,6 +838,7 @@ const Settings = () => {
                 <Page>
                     <Frame>
                         <Grid>
+
                             <Grid.Cell
                                 columnSpan={{
                                     xs: 6,
@@ -651,6 +848,27 @@ const Settings = () => {
                                     xl: 12,
                                 }}
                             >
+                                    <Banner
+                                        title="Welcome to Vidial, Bravelsaus  👋 "
+                                        
+                                        status="info"
+                                        onDismiss={() => { }}
+                                    >
+                                        <p>Vidial will help you receive authentic UGC from your customers in autopilot.<br></br>
+                                            Let’s get started by setting up the application.</p>
+                                        <a style={{ textDecoration: "none"}} href="#">
+                                            <button onClick={()=>{
+                                                window.open(
+                                                    'https://www.youtube.com/watch?v=WMcggJ9QXDc&t=7s'
+                                                );
+                                            }} style={{ cursor:'pointer',
+                                            display: "flex", padding: "7px 10px",
+                                            marginTop: "20px", background: "rgba(255, 255, 255, 0.01)", border: "1px solid #95c9b4",borderRadius: "4px"}}>
+                                                <Icon
+                                            source={PlayMinor}
+                                            color="base"
+                                                /><span style={{ marginLeft: "10px" }}>How Vidial Works</span></button></a>
+                                    </Banner>
                                 {error && (
                                     <Card sectioned>
                                         <Banner>
@@ -742,6 +960,7 @@ const Settings = () => {
                                 )}
 
                                 {toastMarkup}
+                                <div style={{marginTop:"20px"}}></div>
                                 <Card sectioned>
                                     <div>
                                         <Text variant="headingLg" as="h5">
@@ -958,13 +1177,11 @@ const Settings = () => {
                                             <Text variant="headingLg" as="h5">
                                                 Your Store Logo (optional)
                                             </Text>
-                                            <p style={{ marginTop: "5px" }}>
-                                                Logo must be a png,jpg,jpeg file
-                                                not bigger than 1 MB. Logo must
-                                                be 175x175 pixels.
+                                                <p style={{ marginTop: "5px", marginBottom:"5px" }}>
+                                                Should be a PNG file, not bigger than 1 MB.
                                             </p>
                                         </div>
-                                        <div style={{ textAlign: "end" }}>
+                                        {/* <div style={{ textAlign: "end" }}>
                                             <div class="upload-btn-wrapper">
                                                 <button class="btnCustomUpload">
                                                     <img
@@ -987,9 +1204,9 @@ const Settings = () => {
                                                     <span>Uploaded</span>
                                                 )}{" "}
                                             </p>
-                                        </div>
+                                        </div> */}
                                     </div>
-                                    {previewLogoHide && (logoImage == 'undefined' || logoImage == '') ? '' :
+                                    {/* {previewLogoHide && (logoImage == 'undefined' || logoImage == '') ? '' :
                                         (
                                             <div style={{ width: "108px" }}>
 
@@ -1005,7 +1222,35 @@ const Settings = () => {
                                                 <div onClick={removeLogo} > <Icon source={CircleCancelMajor} color="critical" /></div>
                                             </div>
                                         )
-                                    }
+                                    } */}
+                                    <div style={{maxWidth:"470px"}}>
+                                            <DropZone  actionTitle="Upload Your Brand Logo" onDrop={handleDropZoneDrop} variableHeight allowMultiple={false}>
+                                            {uploadedFiles}
+                                            {fileUpload}
+                                        </DropZone>
+                                        </div>
+                                        {uploadedFilesPreview}
+                                        {(!files.length && !(alreadyUploadLogo == 'undefined' || alreadyUploadLogo=='')) &&
+
+                                            <div style={{ padding: '0' }}>
+                                                <div style={{ width: "60px", marginBottom: "10px" }} >
+                                                    <Thumbnail
+                                                        size="medium"
+                                                        alt="img"
+                                                        source={baseUrl+'/logo/'+alreadyUploadLogo}
+                                                    />
+                                                    <div onClick={handleRemoveAlreadyUploadedLogo} >
+                                                        {
+                                                            activeTootlTip ? <Tooltip content="This is default setting. You can not change it.">
+                                                                <Icon source={CircleCancelMajor} color="critical" />
+
+                                                            </Tooltip> : <Icon source={CircleCancelMajor} color="critical" />
+                                                        }
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
                                     <div
                                         style={{
                                             width: "450px",
@@ -1120,13 +1365,13 @@ const Settings = () => {
                                             <Text variant="headingLg" as="h5">
                                                 Inspirational Video (optional)
                                             </Text>
-                                            <p style={{ marginTop: "5px" }}>
+                                            <p style={{ marginTop: "5px",marginBottom:"5px" }}>
                                                 Add a video for your customers
                                                 to get inspired and make a UGC
                                                 almost similar.
                                             </p>
                                         </div>
-                                        <div style={{ textAlign: "end" }}>
+                                        {/* <div style={{ textAlign: "end" }}>
                                             <div class="upload-btn-wrapper">
                                                 <button class="btnCustomUpload">
                                                     <img
@@ -1147,9 +1392,9 @@ const Settings = () => {
                                                 {`${videoname}`}{" "}
                                                 {videoname && "uploaded"}{" "}
                                             </p>
-                                        </div>
+                                        </div> */}
                                     </div>
-                                    {previewVedioHide && (
+                                    {/* {previewVedioHide && (
                                         <div style={{ width: "108px" }}>
                                             <video
                                                 width="108"
@@ -1161,7 +1406,40 @@ const Settings = () => {
                                             ></video>
                                             <div onClick={removeInspirationalVideo} > <Icon source={CircleCancelMajor} color="critical" /></div>
                                         </div>
-                                    )}
+                                    )} */}
+                                        <div style={{ maxWidth: "470px" }}>
+                                        <DropZone onDrop={handleDropZoneVideo} variableHeight allowMultiple={false}>
+                                            {uploadedFilesVideos}
+                                            {fileUploadVideos}
+                                        </DropZone>
+
+                                        {uploadedFilesVideosPreview}
+                                            {(!filesVideos.length && !(alreadyUploadVideo == 'undefined' || alreadyUploadVideo == '')) &&
+
+                                            <div style={{ padding: '0' }}>
+                                                <div style={{ width: "60px", marginBottom: "10px" }} >
+
+                                                    <video
+                                                        width="108"
+                                                        height="193"
+                                                        src={baseUrl+'/video/'+alreadyUploadVideo}
+                                                        muted
+                                                        autoPlay
+                                                        loop
+                                                    ></video>
+                                                    <div onClick={handleRemoveAlreadyUploadedVideo} >
+                                                        {
+                                                            activeTootlTip ? <Tooltip content="This is default setting. You can not change it.">
+                                                                <Icon source={CircleCancelMajor} color="critical" />
+
+                                                            </Tooltip> : <Icon source={CircleCancelMajor} color="critical" />
+                                                        }
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                        </div>
                                     <div
                                         style={{
                                             display: "flex",

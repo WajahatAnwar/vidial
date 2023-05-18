@@ -125,7 +125,9 @@ Route::group(['middleware' => 'verify.shopify'], function () {
     Route::post('fetchCurrentUser', [SettingsController::class, 'fetchCurrentUser']);
     Route::post('save-email-settings', [SettingsController::class, 'saveEmailSettings']);
     Route::get('fetch-email-settings', [SettingsController::class, 'fetchEmailSettings']);
-   
+    Route::post('checkuploadedlogo', [SettingsController::class, 'checkuploadedlogo']);
+
+    
     
 });
 
