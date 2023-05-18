@@ -82,6 +82,8 @@ const Settings = () => {
     const [currentLang, setCurrentLang] = useState("en");
     const [isSettingSave, setIsSettingSave] = useState("");
     const [emailTemplateButton,setEmailTemplateButton] = useState(true);
+    const [files, setFiles] = useState([]);
+    const [alreadyUploadLogo, setAlreadyUploadedLogo] = useState('');
 
     function handleChange() {
         setToggled((prevCheck) => !prevCheck);
@@ -274,6 +276,10 @@ const Settings = () => {
                     setLandingPageDisplayedValue(data.data.page_link);
 
                     setLogoImage(data.data.logo);
+                    console.log(data.data.video);
+                    setAlreadyUploadedLogo(data.data.logo)
+                    setAlreadyUploadedVideo(data.data.video)
+
                     setVideo(data.data.video);
                     setStore(data.data.store);
                     setSelected(data.data?.locale ?? "en");
@@ -591,16 +597,17 @@ const Settings = () => {
    );
    // popover code end
    // drop zone code start
-    const [files, setFiles] = useState([]);
-    const [alreadyUploadLogo, setAlreadyUploadedLogo] = useState('');
+
 
 
     const handleRemoveThumbnail = () => {
         setFiles([]);
+        // setLogoImage(alread)
         //console.log('handle Remove thumbnail');
     };
     const handleDropZoneDrop = useCallback(
         (_dropFiles, acceptedFiles, _rejectedFiles) => {
+            setLogoImage(acceptedFiles[0]);
             //setAlreadyUploadedLogo('');
             setFiles((files) => acceptedFiles);
         },
@@ -611,8 +618,18 @@ const Settings = () => {
     ) : null;
 
     const handleRemoveAlreadyUploadedLogo = ()=>{
-        setActiveTootlTip(true);
-        setAlreadyUploadedLogo('');
+        //setLogoImage('');
+        //setActiveTootlTip(true);
+        // setAlreadyUploadedLogo('');
+        // console.log('heree me');
+        // const formData = new FormData();
+        // fetch('/checkuploadedlogo', {
+        //     method: 'POST',
+        //     body: formData
+
+        // }).then((response) => response.json()).then((data) => {
+        //     console.log(data);
+        // })
 
     }
 
@@ -677,10 +694,13 @@ const Settings = () => {
 
     const handleRemoveThumbnailVideo = () => {
         setFilesVideos([]);
+        
+        
         //console.log('handle Remove thumbnail');
     };
     const handleDropZoneVideo = useCallback(
         (_dropFiles, acceptedFiles, _rejectedFiles) => {
+            setVideo(acceptedFiles[0]);
             //setAlreadyUploadedLogo('');
             setFilesVideos((filesVideos) => acceptedFiles);
             // setAlreadyUploadedVideo((filesVideos) => acceptedFiles);
@@ -692,6 +712,7 @@ const Settings = () => {
     const handleRemoveAlreadyUploadedVideo = () => {
         setActiveTootlTip(true);
         setAlreadyUploadedVideo('');
+        setVideo('');
 
     }
 
@@ -741,7 +762,7 @@ const Settings = () => {
                         <video
                             width="108"
                             height="193"
-                            src={alreadyUploadVideo}
+                            src={window.URL.createObjectURL(file)}
                             muted
                             autoPlay
                             loop
@@ -836,7 +857,11 @@ const Settings = () => {
                                         <p>Vidial will help you receive authentic UGC from your customers in autopilot.<br></br>
                                             Let’s get started by setting up the application.</p>
                                         <a style={{ textDecoration: "none"}} href="#">
-                                        <button style={{
+                                            <button onClick={()=>{
+                                                window.open(
+                                                    'https://www.youtube.com/watch?v=WMcggJ9QXDc&t=7s'
+                                                );
+                                            }} style={{ cursor:'pointer',
                                             display: "flex", padding: "7px 10px",
                                             marginTop: "20px", background: "rgba(255, 255, 255, 0.01)", border: "1px solid #95c9b4",borderRadius: "4px"}}>
                                                 <Icon
@@ -1205,14 +1230,14 @@ const Settings = () => {
                                         </DropZone>
                                         </div>
                                         {uploadedFilesPreview}
-                                        {(!files.length && alreadyUploadLogo) &&
+                                        {(!files.length && !(alreadyUploadLogo == 'undefined' || alreadyUploadLogo=='')) &&
 
                                             <div style={{ padding: '0' }}>
                                                 <div style={{ width: "60px", marginBottom: "10px" }} >
                                                     <Thumbnail
                                                         size="medium"
                                                         alt="img"
-                                                        source={alreadyUploadLogo}
+                                                        source={baseUrl+'/logo/'+alreadyUploadLogo}
                                                     />
                                                     <div onClick={handleRemoveAlreadyUploadedLogo} >
                                                         {
@@ -1389,7 +1414,7 @@ const Settings = () => {
                                         </DropZone>
 
                                         {uploadedFilesVideosPreview}
-                                        {(!filesVideos.length && alreadyUploadVideo) &&
+                                            {(!filesVideos.length && !(alreadyUploadVideo == 'undefined' || alreadyUploadVideo == '')) &&
 
                                             <div style={{ padding: '0' }}>
                                                 <div style={{ width: "60px", marginBottom: "10px" }} >
@@ -1397,7 +1422,7 @@ const Settings = () => {
                                                     <video
                                                         width="108"
                                                         height="193"
-                                                        src={alreadyUploadVideo}
+                                                        src={baseUrl+'/video/'+alreadyUploadVideo}
                                                         muted
                                                         autoPlay
                                                         loop

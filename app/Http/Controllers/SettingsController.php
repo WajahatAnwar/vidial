@@ -84,11 +84,7 @@ class SettingsController extends Controller
         $store=User::find(Auth::user()->id);
         if($data){
             $data['instructions'] = json_decode($data['instructions']);
-            // return response()->json([
-            //     'success' => false,
-            //     'message' => "Data not found",
-            //     'data'=>null
-            // ]);
+        
         }
 
         $data['store']=$store->name;
@@ -352,5 +348,22 @@ class SettingsController extends Controller
             ]);
 
 
+     }
+
+     public function checkuploadedlogo(){
+        $settings = Setting::find(Auth::user()->id);
+        if($settings){
+            return response()->json([
+                'success' => true,
+                'message' => "found",
+                'data' => $settings->logo
+            ]);
+        }
+        return response()->json([
+            'success' => false,
+            'message' => "not found",
+            'data' => null
+        ]);
+        
      }
 }

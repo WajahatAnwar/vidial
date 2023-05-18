@@ -189,10 +189,10 @@ class AuthController extends Controller
             'instructions' => $inst,
             'instruction_title' => 'Send us a video to receive a ' . getCurrencySymbol($shop->store_currency) . '50 Gift Card',
             'video' => '',
-            'page_color' => '#000000',
+            'page_color' => '#28282B',
             'page_display_to_customers' => 5,
             'email_sent_to_customer' => 2,
-            'page_link' => 10,
+            'page_link' => 3,
             'locale' => 'en',
             'email_status' => 'true'
         ]);
@@ -250,7 +250,7 @@ class AuthController extends Controller
 <p>Here is your Discount:<br><br>{{discount_code}}<br><br>{{button}}<br><br>Cheers!<br>{{storename}} Team</p>";
 
         $emailTemplate['btn_text'] = 'Shop Now';
-        $emailTemplate['btn_color'] = '#000000';
+        $emailTemplate['btn_color'] = '#28282B';
         $emailTemplate['from'] = auth()->user()->store_name;
         EmailTemplate::firstOrCreate(['user_id'=> $user_id,'type'=> 'UGC_Approved']
         ,$emailTemplate);
@@ -270,7 +270,7 @@ class AuthController extends Controller
 <p>That's why we would like to offer you a {{amount}} gift card to our store in exchange for a video where you share your opinion about our products.<br><br>{{button}} </p>
 <p>We truly appreciate hearing our customers' feedback about our brand because satisfying you is our top priority.<br><br>{{storename}} Team</p>";
         $emailTemplate['btn_text'] = 'Get my gift card';
-        $emailTemplate['btn_color'] = '#000000';
+        $emailTemplate['btn_color'] = '#28282B';
         $emailTemplate['from'] = auth()->user()->store_name;
         EmailTemplate::firstOrCreate(['user_id' => $user_id, 'type' => 'Post_Purchase'],$emailTemplate);
     }
@@ -286,7 +286,7 @@ class AuthController extends Controller
 <p>Sorry, Your video for {{storename}} was not approved for the following reason:<br><br>{{reason_decline}}<br><br>No worries, you can try again if you want!<br><br>{{button}} <br><br>Cheers,<br>{{storename}} Team</p>";
 
         $emailTemplate['btn_text'] = 'Get my Gift Card';
-        $emailTemplate['btn_color'] = '#000000';
+        $emailTemplate['btn_color'] = '#28282B';
         $emailTemplate['from'] = auth()->user()->store_name;
         EmailTemplate::firstOrCreate(
             ['user_id' => $user_id, 'type' => 'UGC_Declined'],
@@ -304,7 +304,7 @@ class AuthController extends Controller
         $emailTemplate['body'] = "<p>Hey {{name}}, <br>We'd love to hear about your recent shopping experience at {{storename}}.<br><br>The feedback of our customers about our products is extremely valuable to us.<br><br>Simply record a quick 30-second video sharing your thoughts about our products, and we will reward you with a {{amount}} gift card as a thank you.<br><br>{{button}}<br><br>Thank you for your trust and your loyalty,<br><br>Cheers,<br>{{storename}} Team</p>";
 
         $emailTemplate['btn_text'] = 'Leave a video review';
-        $emailTemplate['btn_color'] = '#000000';
+        $emailTemplate['btn_color'] = '#28282B';
         $emailTemplate['from'] = auth()->user()->store_name;
         EmailTemplate::firstOrCreate(
             ['user_id' => $user_id, 'type' => 'Reminder'],
