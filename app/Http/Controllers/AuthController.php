@@ -190,9 +190,9 @@ class AuthController extends Controller
             'instruction_title' => 'Send us a video to receive a ' . getCurrencySymbol($shop->store_currency) . '50 Gift Card',
             'video' => '',
             'page_color' => '#28282B',
-            'page_display_to_customers' => 5,
+            'page_display_to_customers' => 3,
             'email_sent_to_customer' => 2,
-            'page_link' => 3,
+            'page_link' => 5,
             'locale' => 'en',
             'email_status' => 'true'
         ]);

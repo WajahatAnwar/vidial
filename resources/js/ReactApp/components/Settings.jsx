@@ -747,7 +747,7 @@ const Settings = () => {
     );
     const uploadedFilesVideosPreview = filesVideos.length > 0 && (
         <div style={{ padding: '0' }}>
-            <div style={{ width: "60px", marginBottom: "10px" }} >
+            <div style={{ width: "108px", marginBottom: "10px" }} >
                 {filesVideos.map((file, index) => (
                     <div key={index}>
                         {/* <Thumbnail
@@ -1223,7 +1223,7 @@ const Settings = () => {
                                             </div>
                                         )
                                     } */}
-                                    <div style={{maxWidth:"470px"}}>
+                                    <div style={{maxWidth:"470px",marginBottom:"20px"}}>
                                             <DropZone  actionTitle="Upload Your Brand Logo" onDrop={handleDropZoneDrop} variableHeight allowMultiple={false}>
                                             {uploadedFiles}
                                             {fileUpload}
@@ -1407,17 +1407,17 @@ const Settings = () => {
                                             <div onClick={removeInspirationalVideo} > <Icon source={CircleCancelMajor} color="critical" /></div>
                                         </div>
                                     )} */}
-                                        <div style={{ maxWidth: "470px" }}>
+                                        <div style={{ maxWidth: "470px",marginBottom:"20px" }}>
                                         <DropZone onDrop={handleDropZoneVideo} variableHeight allowMultiple={false}>
                                             {uploadedFilesVideos}
                                             {fileUploadVideos}
                                         </DropZone>
-
+                                        </div>
                                         {uploadedFilesVideosPreview}
                                             {(!filesVideos.length && !(alreadyUploadVideo == 'undefined' || alreadyUploadVideo == '')) &&
 
                                             <div style={{ padding: '0' }}>
-                                                <div style={{ width: "60px", marginBottom: "10px" }} >
+                                                    <div style={{ width: "108px", marginBottom: "10px",textAlign:"center" }} >
 
                                                     <video
                                                         width="108"
@@ -1439,7 +1439,6 @@ const Settings = () => {
                                                 </div>
                                             </div>
                                         }
-                                        </div>
                                     <div
                                         style={{
                                             display: "flex",
