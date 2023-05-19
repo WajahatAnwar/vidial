@@ -192,7 +192,7 @@ class AuthController extends Controller
             'page_color' => '#28282B',
             'page_display_to_customers' => 3,
             'email_sent_to_customer' => 2,
-            'page_link' => 5,
+            'page_link' => 10,
             'locale' => 'en',
             'email_status' => 'true'
         ]);
