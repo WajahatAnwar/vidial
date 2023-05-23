@@ -113,7 +113,15 @@ div#error-video , #error-email {
   @yield('content')
   @include('layout.script')
 <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-N4VDTDHF16"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
+  gtag('config', 'G-N4VDTDHF16');
+</script>
 </body>
 
 </html>
