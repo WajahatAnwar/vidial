@@ -86,7 +86,13 @@ const Settings = () => {
     const [alreadyUploadLogo, setAlreadyUploadedLogo] = useState('');
 
     function handleChange() {
-        setToggled(!toggled);
+        let isChecked;
+        if (toggled == "false" || toggled == false) {
+            isChecked = false;
+        } else if (toggled == "true" || toggled == true) {
+            isChecked = true;
+        }
+        setToggled(!isChecked);
     }
 
     // remove inpirational video
