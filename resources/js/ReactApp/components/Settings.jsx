@@ -86,7 +86,13 @@ const Settings = () => {
     const [alreadyUploadLogo, setAlreadyUploadedLogo] = useState('');
 
     function handleChange() {
-        setToggled((prevCheck) => !prevCheck);
+        let isChecked;
+        if (toggled == "false" || toggled == false) {
+            isChecked = false;
+        } else if (toggled == "true" || toggled == true) {
+            isChecked = true;
+        }
+        setToggled(!isChecked);
     }
 
     // remove inpirational video
@@ -270,6 +276,7 @@ const Settings = () => {
                 }
                 const data = await response.json();
                 if (data.success) {
+                  
                     setToggled(data.data.email_status);
                     setPriceValue(data.data.store_credit);
                     setLandingPage(data.data.page_display_to_customers);
