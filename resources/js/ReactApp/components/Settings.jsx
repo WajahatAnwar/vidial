@@ -86,7 +86,7 @@ const Settings = () => {
     const [alreadyUploadLogo, setAlreadyUploadedLogo] = useState('');
 
     function handleChange() {
-        setToggled((prevCheck) => !prevCheck);
+        setToggled(!toggled);
     }
 
     // remove inpirational video
@@ -1839,7 +1839,7 @@ const Settings = () => {
                                             }}
                                         >
                                             <Toggle
-                                                toggled={false}
+                                                toggled={toggled}
                                                 onClick={handleChange}
                                             />
                                             
