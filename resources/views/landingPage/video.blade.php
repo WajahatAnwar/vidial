@@ -68,7 +68,7 @@
       </div>
     </div>
   </div>
-              @include('landingPage.footer')
+              {{-- @include('landingPage.footer') --}}
         </div>
     </div>
 </div>

@@ -19,6 +19,7 @@ import {
     Collapsible,
     Popover,
     ButtonGroup,
+    Checkbox,
 } from "@shopify/polaris";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -53,6 +54,11 @@ localStorage.setItem('store',storeName);
 */
 
 const Settings = () => {
+    const [checkedOwnEmail, setOwnEmail] = useState(false);
+    const handleOwnEmail = useCallback(
+        (e) => setOwnEmail(e),
+        [],
+    );
     const [activeTootlTip, setActiveTootlTip] = useState(false);
     const [activeRejectionConfirmModel, setActiveRejectionConfirmModel] =
         useState(false);
@@ -70,8 +76,18 @@ const Settings = () => {
         () => setActiveRejectionModel(!activeRejectionModel),
         [activeRejectionModel]
     );
+    const [dropzoneText, setDropzoneText] = useState("");
+    const handleDropzoneText = useCallback((newValue) => setDropzoneText(newValue), []);
+    const [replyEmail, setReplyEmail] = useState("");
+    const handleReplyEmail = useCallback((newValue) => setReplyEmail(newValue), []);
+    const [mailgunAPI, setMailgunAPI] = useState("");
+    const handleMailgunAPI = useCallback((newValue) => setMailgunAPI(newValue), []);
     const [title, setTitle] = useState("");
     const handleTitle = useCallback((newValue) => setTitle(newValue), []);
+    const [instruction, setInstruction] = useState("Instruction");
+    const handleInstruction = useCallback((newValue) => setInstruction(newValue), []);
+    const [buttonText, setButtonText] = useState("Upload a short video");
+    const handleButtonText = useCallback((newValue) => setButtonText(newValue), []);
     const [active, setActive] = useState(false);
     const [error, setError] = useState(false);
     const toggleActive = useCallback(() => setActive((active) => !active), []);
@@ -81,7 +97,7 @@ const Settings = () => {
     const [errorMessages, setErorrMessages] = useState([]);
     const [currentLang, setCurrentLang] = useState("en");
     const [isSettingSave, setIsSettingSave] = useState("");
-    const [emailTemplateButton,setEmailTemplateButton] = useState(true);
+    const [emailTemplateButton, setEmailTemplateButton] = useState(true);
     const [files, setFiles] = useState([]);
     const [alreadyUploadLogo, setAlreadyUploadedLogo] = useState('');
 
@@ -243,7 +259,7 @@ const Settings = () => {
     // const successToastVideo = active ? (
     //     <Toast content="Settings Saved" onDismiss={true} />
     // ) : null;
-    
+
     // alert(logoImage);
     const logoHandler = (e) => {
         setImagename(e.target.files[0].name);
@@ -276,7 +292,7 @@ const Settings = () => {
                 }
                 const data = await response.json();
                 if (data.success) {
-                  
+
                     setToggled(data.data.email_status);
                     setPriceValue(data.data.store_credit);
                     setLandingPage(data.data.page_display_to_customers);
@@ -574,37 +590,37 @@ const Settings = () => {
             console.warn('Crisp chat script not loaded yet!');
         }
     };
-   // popover code start
-   const [popoverActive, setPopoverActive] = useState(false);
+    // popover code start
+    const [popoverActive, setPopoverActive] = useState(false);
 
-   const togglePopoverActive = useCallback(
-       () => setPopoverActive((popoverActive) => !popoverActive),
-       [],
-   );
+    const togglePopoverActive = useCallback(
+        () => setPopoverActive((popoverActive) => !popoverActive),
+        [],
+    );
 
-   const [pageLink, setPageLink] = useState('');
+    const [pageLink, setPageLink] = useState('');
 
-   const activator = (
-       <button
-                                           style={{
-                                               marginRight: "10px",
-                                               background: "none",
-                                               border: "none",
-                                           }}
-                                           onClick={togglePopoverActive}
-                                       >
-                                           <img
-                                               className="colorWheel"
-                                               src={ColorWheel}
-                                               style={{
-                                                   marginTop: "3px",
-                                                   marginLeft: "4px",
-                                               }}
-                                           ></img>
-                                       </button>
-   );
-   // popover code end
-   // drop zone code start
+    const activator = (
+        <button
+            style={{
+                marginRight: "10px",
+                background: "none",
+                border: "none",
+            }}
+            onClick={togglePopoverActive}
+        >
+            <img
+                className="colorWheel"
+                src={ColorWheel}
+                style={{
+                    marginTop: "3px",
+                    marginLeft: "4px",
+                }}
+            ></img>
+        </button>
+    );
+    // popover code end
+    // drop zone code start
 
 
 
@@ -625,7 +641,7 @@ const Settings = () => {
         <Toast content="Settings Saved" onDismiss={true} />
     ) : null;
 
-    const handleRemoveAlreadyUploadedLogo = ()=>{
+    const handleRemoveAlreadyUploadedLogo = () => {
         //setLogoImage('');
         //setActiveTootlTip(true);
         // setAlreadyUploadedLogo('');
@@ -672,7 +688,7 @@ const Settings = () => {
     );
     const uploadedFilesPreview = files.length > 0 && (
         <div style={{ padding: '0' }}>
-            <div style={{width:"60px",marginBottom:"10px"}} >
+            <div style={{ width: "60px", marginBottom: "10px" }} >
                 {files.map((file, index) => (
                     <div key={index}>
                         <Thumbnail
@@ -686,8 +702,8 @@ const Settings = () => {
                         />
                         <div>
                             <div onClick={handleRemoveThumbnail} >
-                          <Icon source={CircleCancelMajor}  color="critical" />
-                        </div>
+                                <Icon source={CircleCancelMajor} color="critical" />
+                            </div>
                         </div>
                     </div>
                 ))}
@@ -702,8 +718,8 @@ const Settings = () => {
 
     const handleRemoveThumbnailVideo = () => {
         setFilesVideos([]);
-        
-        
+
+
         //console.log('handle Remove thumbnail');
     };
     const handleDropZoneVideo = useCallback(
@@ -715,7 +731,7 @@ const Settings = () => {
         },
         []
     );
-    
+
 
     const handleRemoveAlreadyUploadedVideo = () => {
         setActiveTootlTip(true);
@@ -798,7 +814,7 @@ const Settings = () => {
                 <Modal.Section>
                     <div style={{ textAlign: "center" }}>
                         <Text variant="headingMd" as="h6">
-                            Your current email content will be replaced with the new content. Are you absolutely certain that you wish to proceed with the replacement? on cancellation email will remain same. 
+                            Your current email content will be replaced with the new content. Are you absolutely certain that you wish to proceed with the replacement? on cancellation email will remain same.
                         </Text>
                         <div
                             style={{
@@ -818,15 +834,15 @@ const Settings = () => {
                                     Customize Content
                                 </Button>
                                 <Button primary onClick={() => {
-                                        document.getElementById('sab_ok_id').click();
-                                        setTimeout(() => {
-                                            navigate(pageLink)
-                                        }, 5000);
+                                    document.getElementById('sab_ok_id').click();
+                                    setTimeout(() => {
+                                        navigate(pageLink)
+                                    }, 5000);
 
                                     setActiveRejectionConfirmModel(false);
-                                        navigate(pageLink);
+                                    navigate(pageLink);
                                     setEmailTemplateButton(true);
-                                    }}
+                                }}
                                 >
                                     Sure
                                 </Button>
@@ -856,27 +872,29 @@ const Settings = () => {
                                     xl: 12,
                                 }}
                             >
-                                    <Banner
-                                        title="Welcome to Vidial, Bravelsaus  👋 "
-                                        
-                                        status="info"
-                                        onDismiss={() => { }}
-                                    >
-                                        <p>Vidial will help you receive authentic UGC from your customers in autopilot.<br></br>
-                                            Let’s get started by setting up the application.</p>
-                                        <a style={{ textDecoration: "none"}} href="#">
-                                            <button onClick={()=>{
-                                                window.open(
-                                                    'https://www.youtube.com/watch?v=WMcggJ9QXDc&t=7s'
-                                                );
-                                            }} style={{ cursor:'pointer',
+                                <Banner
+                                    title="Welcome to Vidial, Bravelsaus  👋 "
+
+                                    status="info"
+                                    onDismiss={() => { }}
+                                >
+                                    <p>Vidial will help you receive authentic UGC from your customers in autopilot.<br></br>
+                                        Let’s get started by setting up the application.</p>
+                                    <a style={{ textDecoration: "none" }} href="#">
+                                        <button onClick={() => {
+                                            window.open(
+                                                'https://www.youtube.com/watch?v=WMcggJ9QXDc&t=7s'
+                                            );
+                                        }} style={{
+                                            cursor: 'pointer',
                                             display: "flex", padding: "7px 10px",
-                                            marginTop: "20px", background: "rgba(255, 255, 255, 0.01)", border: "1px solid #95c9b4",borderRadius: "4px"}}>
-                                                <Icon
-                                            source={PlayMinor}
-                                            color="base"
-                                                /><span style={{ marginLeft: "10px" }}>How Vidial Works</span></button></a>
-                                    </Banner>
+                                            marginTop: "20px", background: "rgba(255, 255, 255, 0.01)", border: "1px solid #95c9b4", borderRadius: "4px"
+                                        }}>
+                                            <Icon
+                                                source={PlayMinor}
+                                                color="base"
+                                            /><span style={{ marginLeft: "10px" }}>How Vidial Works</span></button></a>
+                                </Banner>
                                 {error && (
                                     <Card sectioned>
                                         <Banner>
@@ -968,7 +986,7 @@ const Settings = () => {
                                 )}
 
                                 {toastMarkup}
-                                <div style={{marginTop:"20px"}}></div>
+                                <div style={{ marginTop: "20px" }}></div>
                                 <Card sectioned>
                                     <div>
                                         <Text variant="headingLg" as="h5">
@@ -1150,8 +1168,8 @@ const Settings = () => {
                                     >
                                         Select the language of your store
                                     </p>
-                                    
-                                        <div style={{display: 'flex', alignItems: "center" }}>
+
+                                    <div style={{ display: 'flex', alignItems: "center" }}>
                                         <Select
                                             options={options}
                                             onChange={(e) => {
@@ -1160,12 +1178,12 @@ const Settings = () => {
                                             value={selected}
                                         />
                                         &nbsp;
-                                            <Button primary onClick={() => {
-                                                //setPageLink("/post-purchase-email")
-                                                document.getElementById('sab_ok_id').click();
-                                                setEmailTemplateButton(true);
-                                                //setActiveRejectionConfirmModel(true);
-                                            }} disabled={emailTemplateButton}>Save</Button>
+                                        <Button primary onClick={() => {
+                                            //setPageLink("/post-purchase-email")
+                                            document.getElementById('sab_ok_id').click();
+                                            setEmailTemplateButton(true);
+                                            //setActiveRejectionConfirmModel(true);
+                                        }} disabled={emailTemplateButton}>Save</Button>
                                     </div>
                                 </Card>
 
@@ -1185,7 +1203,7 @@ const Settings = () => {
                                             <Text variant="headingLg" as="h5">
                                                 Your Store Logo (optional)
                                             </Text>
-                                                <p style={{ marginTop: "5px", marginBottom:"5px" }}>
+                                            <p style={{ marginTop: "5px", marginBottom: "5px" }}>
                                                 Should be a PNG file, not bigger than 1 MB.
                                             </p>
                                         </div>
@@ -1231,34 +1249,56 @@ const Settings = () => {
                                             </div>
                                         )
                                     } */}
-                                    <div style={{maxWidth:"470px",marginBottom:"20px"}}>
-                                            <DropZone  actionTitle="Upload Your Brand Logo" onDrop={handleDropZoneDrop} variableHeight allowMultiple={false}>
+                                    <div style={{ maxWidth: "470px", marginBottom: "20px" }}>
+                                        <DropZone actionTitle="Upload Your Brand Logo" onDrop={handleDropZoneDrop} variableHeight allowMultiple={false}>
                                             {uploadedFiles}
                                             {fileUpload}
                                         </DropZone>
-                                        </div>
-                                        {uploadedFilesPreview}
-                                        {(!files.length && !(alreadyUploadLogo == 'undefined' || alreadyUploadLogo=='')) &&
+                                    </div>
+                                    {uploadedFilesPreview}
+                                    {(!files.length && !(alreadyUploadLogo == 'undefined' || alreadyUploadLogo == '')) &&
 
-                                            <div style={{ padding: '0' }}>
-                                                <div style={{ width: "60px", marginBottom: "10px" }} >
-                                                    <Thumbnail
-                                                        size="medium"
-                                                        alt="img"
-                                                        source={baseUrl+'/logo/'+alreadyUploadLogo}
-                                                    />
-                                                    <div onClick={handleRemoveAlreadyUploadedLogo} >
-                                                        {
-                                                            activeTootlTip ? <Tooltip content="This is default setting. You can not change it.">
-                                                                <Icon source={CircleCancelMajor} color="critical" />
+                                        <div style={{ padding: '0' }}>
+                                            <div style={{ width: "60px", marginBottom: "10px" }} >
+                                                <Thumbnail
+                                                    size="medium"
+                                                    alt="img"
+                                                    source={baseUrl + '/logo/' + alreadyUploadLogo}
+                                                />
+                                                <div onClick={handleRemoveAlreadyUploadedLogo} >
+                                                    {
+                                                        activeTootlTip ? <Tooltip content="This is default setting. You can not change it.">
+                                                            <Icon source={CircleCancelMajor} color="critical" />
 
-                                                            </Tooltip> : <Icon source={CircleCancelMajor} color="critical" />
-                                                        }
+                                                        </Tooltip> : <Icon source={CircleCancelMajor} color="critical" />
+                                                    }
 
-                                                    </div>
                                                 </div>
                                             </div>
-                                        }
+                                        </div>
+                                    }
+                                    <div
+                                        style={{
+                                            width: "450px",
+                                            marginTop: "20px",
+                                        }}
+                                    >
+
+                                        <p
+                                            style={{
+                                                marginTop: "5px",
+                                                marginBottom: "5px",
+                                            }}
+                                        >
+                                            Dropzone Text
+                                        </p>
+                                        <TextField
+                                            value={dropzoneText}
+                                            onChange={handleDropzoneText}
+                                            autoComplete="off"
+                                        />
+
+                                    </div>
                                     <div
                                         style={{
                                             width: "450px",
@@ -1279,6 +1319,19 @@ const Settings = () => {
                                         <TextField
                                             value={title}
                                             onChange={handleTitle}
+                                            autoComplete="off"
+                                        />
+                                        <p
+                                            style={{
+                                                marginTop: "5px",
+                                                marginBottom: "5px",
+                                            }}
+                                        >
+                                            Instruction
+                                        </p>
+                                        <TextField
+                                            value={instruction}
+                                            onChange={handleInstruction}
                                             autoComplete="off"
                                         />
                                     </div>
@@ -1373,7 +1426,7 @@ const Settings = () => {
                                             <Text variant="headingLg" as="h5">
                                                 Inspirational Video (optional)
                                             </Text>
-                                            <p style={{ marginTop: "5px",marginBottom:"5px" }}>
+                                            <p style={{ marginTop: "5px", marginBottom: "5px" }}>
                                                 Add a video for your customers
                                                 to get inspired and make a UGC
                                                 almost similar.
@@ -1415,38 +1468,60 @@ const Settings = () => {
                                             <div onClick={removeInspirationalVideo} > <Icon source={CircleCancelMajor} color="critical" /></div>
                                         </div>
                                     )} */}
-                                        <div style={{ maxWidth: "470px",marginBottom:"20px" }}>
+                                    <div style={{ maxWidth: "470px", marginBottom: "20px" }}>
                                         <DropZone onDrop={handleDropZoneVideo} variableHeight allowMultiple={false}>
                                             {uploadedFilesVideos}
                                             {fileUploadVideos}
                                         </DropZone>
-                                        </div>
-                                        {uploadedFilesVideosPreview}
-                                            {(!filesVideos.length && !(alreadyUploadVideo == 'undefined' || alreadyUploadVideo == '')) &&
+                                    </div>
+                                    {uploadedFilesVideosPreview}
+                                    {(!filesVideos.length && !(alreadyUploadVideo == 'undefined' || alreadyUploadVideo == '')) &&
 
-                                            <div style={{ padding: '0' }}>
-                                                    <div style={{ width: "108px", marginBottom: "10px",textAlign:"center" }} >
+                                        <div style={{ padding: '0' }}>
+                                            <div style={{ width: "108px", marginBottom: "10px", textAlign: "center" }} >
 
-                                                    <video
-                                                        width="108"
-                                                        height="193"
-                                                        src={baseUrl+'/video/'+alreadyUploadVideo}
-                                                        muted
-                                                        autoPlay
-                                                        loop
-                                                    ></video>
-                                                    <div onClick={handleRemoveAlreadyUploadedVideo} >
-                                                        {
-                                                            activeTootlTip ? <Tooltip content="This is default setting. You can not change it.">
-                                                                <Icon source={CircleCancelMajor} color="critical" />
+                                                <video
+                                                    width="108"
+                                                    height="193"
+                                                    src={baseUrl + '/video/' + alreadyUploadVideo}
+                                                    muted
+                                                    autoPlay
+                                                    loop
+                                                ></video>
+                                                <div onClick={handleRemoveAlreadyUploadedVideo} >
+                                                    {
+                                                        activeTootlTip ? <Tooltip content="This is default setting. You can not change it.">
+                                                            <Icon source={CircleCancelMajor} color="critical" />
 
-                                                            </Tooltip> : <Icon source={CircleCancelMajor} color="critical" />
-                                                        }
+                                                        </Tooltip> : <Icon source={CircleCancelMajor} color="critical" />
+                                                    }
 
-                                                    </div>
                                                 </div>
                                             </div>
-                                        }
+                                        </div>
+                                    }
+                                    <div
+                                        style={{
+                                            width: "450px",
+                                            marginTop: "20px",
+                                        }}
+                                    >
+
+
+                                        <p
+                                            style={{
+                                                marginTop: "5px",
+                                                marginBottom: "5px",
+                                            }}
+                                        >
+                                            Button Text
+                                        </p>
+                                        <TextField
+                                            value={buttonText}
+                                            onChange={handleButtonText}
+                                            autoComplete="off"
+                                        />
+                                    </div>
                                     <div
                                         style={{
                                             display: "flex",
@@ -1847,7 +1922,7 @@ const Settings = () => {
                                                 toggled={toggled}
                                                 onClick={handleChange}
                                             />
-                                            
+
                                         </div>
                                     </div>
 
@@ -1978,6 +2053,7 @@ const Settings = () => {
                                             alignItems: "center",
                                             justifyContent: "space-between",
                                             cursor: "pointer",
+
                                         }}
                                         onClick={handleToggle}
                                         ariaExpanded={open}
@@ -2009,6 +2085,46 @@ const Settings = () => {
                                         transition={{ duration: '500ms', timingFunction: 'ease-in-out' }}
                                         expandOnPrint
                                     >
+                                        <div style={{marginTop:"20px"}}></div>
+                                        <Checkbox
+                                            label="Send with your own email"
+                                            checked={checkedOwnEmail}
+                                            onChange={handleOwnEmail}
+                                        />
+                                        <div
+                                            style={{
+                                                width: "450px",
+                                                marginTop: "10px",
+                                            }}
+                                        >
+
+
+
+                                            <TextField
+                                                value={mailgunAPI}
+                                                onChange={handleMailgunAPI}
+                                                autoComplete="off"
+                                                placeholder="Mailgun API Key"
+                                            />
+                                            <p style={{color:"#717171",marginTop:"5px"}}>Paste your <a href="https://www.google.com/" target="blank" style={{color:"#008060",textDecoration:"underline"}}>Mailgun</a> API Key here. <a href="https://www.google.com/" target="blank" style={{color:"#008060",textDecoration:"underline"}}>See how it works</a></p>
+                                        </div>
+                                        <div
+                                            style={{
+                                                width: "450px",
+                                                marginTop: "10px",
+                                            }}
+                                        >
+
+
+
+                                            <TextField
+                                                value={replyEmail}
+                                                onChange={handleReplyEmail}
+                                                autoComplete="off"
+                                                placeholder="noreply@vidialapp.com"
+                                            />
+                                            <p style={{color:"#717171",marginTop:"5px"}}>Enter the email address that will be used as the sender.</p>
+                                        </div>
                                         <div
                                             style={{
                                                 display: "flex",
