@@ -506,6 +506,7 @@ const Settings = () => {
         formData.append("video", video);
         formData.append("setting_status", toggled);
         formData.append("instruction_title", title);
+        formData.append("dropzone_text", dropzoneText);
 
         formData.append("locale", selected);
         if (

@@ -153,6 +153,7 @@ class SettingsController extends Controller
       
         $settings['instruction_title'] =$Instruction_field;
         $settings['locale']=$request->locale ?? 'en';
+        
         $language = Setting::where('user_id', Auth::user()->id)->first();
         if($language->locale == $request->locale){
         }else {

@@ -192,8 +192,6 @@
             var form = new FormData();
             form.append("video", $("#fileinput")[0].files[0]);
 
-
-
             $.ajax({
                 url: "{{ url('/testUploaded') }}",
                 type: "POST",
