@@ -153,6 +153,8 @@ class SettingsController extends Controller
       
         $settings['instruction_title'] =$Instruction_field;
         $settings['locale']=$request->locale ?? 'en';
+        $settings['dropzone_text'] = $request->dropzone_text;
+        $settings['instruction_subtitle'] = $request->instruction_subtitle;
         
         $language = Setting::where('user_id', Auth::user()->id)->first();
         if($language->locale == $request->locale){

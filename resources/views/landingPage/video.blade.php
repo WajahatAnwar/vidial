@@ -7,6 +7,39 @@
 }
 
 </style>
+    @php
+    $dropzoneText = $settings->dropzone_text
+    @endphp
+@if(!$dropzoneText)
+    @if($settings->locale=='en')
+        @php
+            $dropzoneText = 'Drag & Drop or Browse'
+        @endphp
+    @elseif ($settings->locale=='fr')
+          @php
+            $dropzoneText = 'Glissez-déposez ou Parcourir'
+         @endphp
+    @elseif ($settings->locale=='pt')
+          @php
+            $dropzoneText = 'Arraste e solte ou Procure arquivos'
+         @endphp
+    @elseif ($settings->locale=='de')
+          @php
+            $dropzoneText = 'Ziehen Sie die Datei hierhin oder Durchsuchen Sie Ihre Dateien'
+         @endphp
+    @elseif ($settings->locale=='it')
+          @php
+            $dropzoneText = 'Trascina e rilascia o Sfoglia'
+         @endphp
+    @elseif ($settings->locale=='es')
+          @php
+            $dropzoneText = 'Arrastre y suelte o Buscar archivos'
+         @endphp
+    @endif
+     
+@endif
+    
+
 <div>
     <div class="row justify-content-center " style="margin-top: 40px ">
         <div class="col-md-4 p-3" style="padding-left: 20px !important;padding-right: 20px !important;">
@@ -19,7 +52,7 @@
                   <div id="dropzone-external" class="flex-box dx-theme-border-color">
                     <img id="dropzone-image" src="#" hidden alt="" />
                     <div id="dropzone-text" class="flex-box">
-                        <h3  style="font-size: 29px;font-weight: 700;color: {{$settings->page_color}};text-align: center;">{{ __('uploadVideo.video_upload_heading') }}</h3>
+                        <h3  style="font-size: 29px;font-weight: 700;color: {{$settings->page_color}};text-align: center;">{{$dropzoneText}}</h3>
                         <p style="font-size: 15px;margin-bottom: 0;text-align: center;">{{ __('uploadVideo.video_upload_subheading') }}</p>
                     </div>
                     <div id="upload-progress"></div>

@@ -241,13 +241,13 @@ class AuthController extends Controller
     public function videoApprovedTemplate($user_id,$user){
         $emailTemplate['logo'] = '';
         $emailTemplate['user_id'] = $user_id;
-        $emailTemplate['subject'] = "Here's your {{amount}} discount code for {{storename}}";
+        $emailTemplate['subject'] = "Claim your {{amount}} Gift Card!";
 
         $emailTemplate['type'] = 'UGC_Approved';
-        $emailTemplate['body'] = "
-<p>Hey {{name}}, <br>Congratulations, Your video for {{storename}} has been approved!</p>
-<p>We are constantly inspired by the creativity and passion of our customers, and we appreciate your support.</p>
-<p>Here is your Discount:<br><br>{{discount_code}}<br><br>{{button}}<br><br>Cheers!<br>{{storename}} Team</p>";
+        $emailTemplate['body'] = "<p style='text-align: center;'>Hello {{name}},<br>Congratulations, your Video Review for {{storename}} has been approved!&nbsp;</p>
+<p style='text-align: center;'>We are constantly inspired by the creativity and passion of our customers, and we appreciate your support.</p>
+<p style='text-align: center;'>Here if your Discount code:<br><strong>{{discount_code}}</strong><br><br>You can use this code at the checkout to receive your {{amount}} Discount.</p>
+<p style='text-align: center;'>{{button}}</p>";
 
         $emailTemplate['btn_text'] = 'Shop Now';
         $emailTemplate['btn_color'] = '#28282B';
@@ -261,15 +261,15 @@ class AuthController extends Controller
 
         $emailTemplate['logo'] = '';
         $emailTemplate['user_id'] = $user_id;
-        $emailTemplate['subject'] = "Win a {{amount}} gift card from {{storename}}";
+        $emailTemplate['subject'] = "We have a question for you";
 
                            
         $emailTemplate['type'] = 'Post_Purchase';
-        $emailTemplate['body'] = "
-<p>Hello {{name}}, <br>Thank you for your previous order.<br><br>The feedback of our customers about our products is extremely valuable to us.</p>
-<p>That's why we would like to offer you a {{amount}} gift card to our store in exchange for a video where you share your opinion about our products.<br><br>{{button}} </p>
-<p>We truly appreciate hearing our customers' feedback about our brand because satisfying you is our top priority.<br><br>{{storename}} Team</p>";
-        $emailTemplate['btn_text'] = 'Get my gift card';
+        $emailTemplate['body'] = "<p style='text-align: center;'>Hello {{name}},</p>
+<p style='text-align: center;'>You've recently made a purchase at {{storename}}. We'd love to hear your thoughts!</p>
+<p style='text-align: center;'>We would like to offer you a {{amount}} <strong>gift card</strong> to our store in exchange for a video where you share your thoughts about your purchase.</p>
+<p style='text-align: center;'>Could you take 30 seconds of your time for a {{amount}} <strong>gift card</strong>?</p><p style='text-align: center;'>{{button}}</p>";
+        $emailTemplate['btn_text'] = 'Leave a Review';
         $emailTemplate['btn_color'] = '#28282B';
         $emailTemplate['from'] = auth()->user()->store_name;
         EmailTemplate::firstOrCreate(['user_id' => $user_id, 'type' => 'Post_Purchase'],$emailTemplate);
@@ -279,13 +279,16 @@ class AuthController extends Controller
     {
         $emailTemplate['logo'] = '';
         $emailTemplate['user_id'] = $user_id;
-        $emailTemplate['subject'] = "Message for your Video about {{storename}}" ;
+        $emailTemplate['subject'] = "Update about your Review" ;
        
         $emailTemplate['type'] = 'UGC_Declined';
-        $emailTemplate['body'] = "
-<p>Sorry, Your video for {{storename}} was not approved for the following reason:<br><br>{{reason_decline}}<br><br>No worries, you can try again if you want!<br><br>{{button}} <br><br>Cheers,<br>{{storename}} Team</p>";
+        $emailTemplate['body'] = "<p style='text-align: center;'>Hello {{name}},</p>
+<p style='text-align: center;'><br>Sorry, your video review for {{storename}} was not approved for the following reason:</p>
+<p style='text-align: center;'>{{reason_decline}}</p>
+<p style='text-align: center;'>No worries, you can still try again and get your <strong>{{amount}} Gift Card</strong>!</p>
+<p style='text-align: center;'>{{button}}</p>";
 
-        $emailTemplate['btn_text'] = 'Get my Gift Card';
+        $emailTemplate['btn_text'] = 'Leave a Review';
         $emailTemplate['btn_color'] = '#28282B';
         $emailTemplate['from'] = auth()->user()->store_name;
         EmailTemplate::firstOrCreate(
@@ -298,12 +301,17 @@ class AuthController extends Controller
     {
         $emailTemplate['logo'] = '';
         $emailTemplate['user_id'] = $user_id;
-        $emailTemplate['subject'] = "Share your feedback and receive {{amount}} from {{storename}}";
+        $emailTemplate['subject'] = "Share your Thoughts on {{storename}}";
                            
         $emailTemplate['type'] = 'Reminder';
-        $emailTemplate['body'] = "<p>Hey {{name}}, <br>We'd love to hear about your recent shopping experience at {{storename}}.<br><br>The feedback of our customers about our products is extremely valuable to us.<br><br>Simply record a quick 30-second video sharing your thoughts about our products, and we will reward you with a {{amount}} gift card as a thank you.<br><br>{{button}}<br><br>Thank you for your trust and your loyalty,<br><br>Cheers,<br>{{storename}} Team</p>";
+        $emailTemplate['body'] = "<p style='text-align: center;'>Hello {{name}},</p>
+<p style='text-align: center;'>We noticed you haven't yet submitted your video review for your recent purchase at {{storename}}.&nbsp;</p>
+<p style='text-align: center;'>Remember, we're offering a <strong>{{amount}} Gift Card</strong> for just 30 seconds of your time!</p>
+<p style='text-align: center;'>Your thoughts and feedback are important to us, and we're excited to hear what you think about your purchase.</p>
+<p style='text-align: center;'>Don't miss out on this opportunity. Could you take 30 seconds to share your experience and claim your <strong>{{amount}} Gift Card</strong>?</p>
+<p style='text-align: center;'>{{button}}</p>";
 
-        $emailTemplate['btn_text'] = 'Leave a video review';
+        $emailTemplate['btn_text'] = 'Submit a Review';
         $emailTemplate['btn_color'] = '#28282B';
         $emailTemplate['from'] = auth()->user()->store_name;
         EmailTemplate::firstOrCreate(

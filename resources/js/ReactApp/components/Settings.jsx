@@ -77,6 +77,7 @@ const Settings = () => {
         [activeRejectionModel]
     );
     const [dropzoneText, setDropzoneText] = useState("");
+    const [instructionSubTitle, setInstructionSubTitle] = useState("Instructions");
     const handleDropzoneText = useCallback((newValue) => setDropzoneText(newValue), []);
     const [replyEmail, setReplyEmail] = useState("");
     const handleReplyEmail = useCallback((newValue) => setReplyEmail(newValue), []);
@@ -84,8 +85,8 @@ const Settings = () => {
     const handleMailgunAPI = useCallback((newValue) => setMailgunAPI(newValue), []);
     const [title, setTitle] = useState("");
     const handleTitle = useCallback((newValue) => setTitle(newValue), []);
-    const [instruction, setInstruction] = useState("Instruction");
-    const handleInstruction = useCallback((newValue) => setInstruction(newValue), []);
+   
+    const handleInstruction = useCallback((newValue) => setInstructionSubTitle(newValue), []);
     const [buttonText, setButtonText] = useState("Upload a short video");
     const handleButtonText = useCallback((newValue) => setButtonText(newValue), []);
     const [active, setActive] = useState(false);
@@ -282,6 +283,33 @@ const Settings = () => {
             baseUrl + "/landingPage/" + currentLang + "?store=" + store
         );
     };
+
+    const setByDefaultSettings = ($text,$locale)=>{
+        if ($text){
+            setDropzoneText($text)
+            return;
+        }
+        if($locale == 'en'){
+            setDropzoneText('Drag & Drop or Browse');
+        }
+        else if($locale == 'fr') {
+            setDropzoneText('Glissez-déposez ou Parcourir');
+        }
+        else if ($locale == 'de') {
+            setDropzoneText('Ziehen Sie die Datei hierhin oder Durchsuchen Sie Ihre Dateien');
+        }
+        else if ($locale == 'pt') {
+            setDropzoneText('Arraste e solte ou Procure arquivos');
+        }
+        else if ($locale == 'it') {
+            setDropzoneText('Trascina e rilascia o Sfoglia');
+        }
+        else if ($locale == 'es') {
+            setDropzoneText('Arrastre y suelte o Buscar archivos');
+        }
+
+        return
+    }
     /********  get Settings Data  ******/
     useEffect(() => {
         async function fetchSettings() {
@@ -292,15 +320,15 @@ const Settings = () => {
                 }
                 const data = await response.json();
                 if (data.success) {
-
+                    setByDefaultSettings(data.data.dropzone_text, data.data.locale)
                     setToggled(data.data.email_status);
                     setPriceValue(data.data.store_credit);
                     setLandingPage(data.data.page_display_to_customers);
                     setEmailSentToValue(data.data.email_sent_to_customer);
                     setLandingPageDisplayedValue(data.data.page_link);
-
+                    setInstructionSubTitle(data.data.instruction_subtitle ?? 'Instructions');
                     setLogoImage(data.data.logo);
-                    console.log(data.data.video);
+                    //setDropzoneText(data.data.dropzone_text)
                     setAlreadyUploadedLogo(data.data.logo)
                     setAlreadyUploadedVideo(data.data.video)
 
@@ -356,10 +384,7 @@ const Settings = () => {
         fetchSettings();
     }, [isSettingSave]);
 
-    const handleSelectChange = (value) => {
-        setEmailTemplateButton(false);
-        setSelected(value);
-
+    const languageConvert = (value)=>{
         if (value === "en") {
             setRows([
                 { id: 1, value: "Record a video off up to 30 seconds" },
@@ -378,6 +403,8 @@ const Settings = () => {
                 },
             ]);
             setTitle(`Send us a video to receive a ${storeCurrency}${priceValue} Gift Card`);
+            setDropzoneText('Drag & Drop or Browse');
+
         } else if (value === "fr") {
             setRows([
                 {
@@ -399,6 +426,7 @@ const Settings = () => {
                 },
             ]);
             setTitle(`Envoyez-nous une vidéo pour obtenir une carte cadeau de ${storeCurrency}${priceValue}`);
+            setDropzoneText('Glissez-déposez ou Parcourir');
         } else if (value === "es") {
             setRows([
                 { id: 1, value: "Graba un video de hasta 30 segundos" },
@@ -417,6 +445,7 @@ const Settings = () => {
                 },
             ]);
             setTitle(`Envíanos un video para obtener una tarjeta de regalo de ${storeCurrency}${priceValue}`);
+            setDropzoneText('Arrastre y suelte o Buscar archivos');
         } else if (value === "pt") {
             setRows([
                 { id: 1, value: "Grave um vídeo de até 30 segundos" },
@@ -435,6 +464,7 @@ const Settings = () => {
                 },
             ]);
             setTitle(`Envie-nos um vídeo para receber um cartão presente de ${storeCurrency}${priceValue}`);
+            setDropzoneText('Arraste e solte ou Procure arquivos');
         } else if (value === "it") {
             setRows([
                 { id: 1, value: "Registra un video fino a 30 secondi" },
@@ -453,6 +483,7 @@ const Settings = () => {
                 },
             ]);
             setTitle(`Invia un video per ottenere una carta regalo da ${storeCurrency}${priceValue}`);
+            setDropzoneText('Trascina e rilascia o Sfoglia');
         } else if (value === "de") {
             setRows([
                 {
@@ -474,18 +505,16 @@ const Settings = () => {
                 },
             ]);
             setTitle(`Senden Sie uns ein Video, um eine Geschenkkarte im Wert von ${storeCurrency}${priceValue} zu erhalten`);
+            setDropzoneText('Ziehen Sie die Datei hierhin oder Durchsuchen Sie Ihre Dateien');
         }
-        // save Locale into DB
-        // fetch("/saveLocale", {
-        //     method: "POST",
-        //     headers: {
-        //         "Content-Type": "application/json",
-        //     },
-        //     body: JSON.stringify({ value }),
-        // })
-        //     .then((response) => response.json())
-        //     .then((data) => toggleActive())
-        //     .catch((error) => console.error(error));
+    }
+   
+    const handleSelectChange = (value) => {
+        setEmailTemplateButton(false);
+        setSelected(value);
+        languageConvert(value)
+        
+      
     };
 
     /******** save settings into DB ******/
@@ -507,6 +536,7 @@ const Settings = () => {
         formData.append("setting_status", toggled);
         formData.append("instruction_title", title);
         formData.append("dropzone_text", dropzoneText);
+        formData.append("instruction_subtitle", instructionSubTitle);
 
         formData.append("locale", selected);
         if (
@@ -1331,7 +1361,7 @@ const Settings = () => {
                                             Instruction
                                         </p>
                                         <TextField
-                                            value={instruction}
+                                            value={instructionSubTitle}
                                             onChange={handleInstruction}
                                             autoComplete="off"
                                         />
