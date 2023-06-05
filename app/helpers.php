@@ -628,10 +628,15 @@ if (!function_exists('saveEnLanguage')) {
             $portu = array(
                 array(
                     'user_id' => $user_id,
-                    'subject' => "Aqui está seu código de desconto de {{amount}} para {{storename}}",
+                    'subject' => "Reivindique o seu cartão-presente de {{amount}}!",
                     'type' => 'UGC_Approved',
-                    'body' => '<p>Parab&eacute;ns {{name}}! Seu v&iacute;deo para {{storename}} foi aprovado!<br><br>Somos constantemente inspirados pela criatividade e paix&atilde;o dos nossos clientes, e apreciamos o seu apoio.<br><br>Aqui est&aacute; o seu desconto:<br><br>{{discount_code}}<br><br>Voc&ecirc; pode usar este c&oacute;digo ao finalizar a compra para receber o desconto.<br><br>{{button}}<br><br>Sauda&ccedil;&otilde;es!<br>Equipe {{storename}}</p>',
-                    'btn_text' => 'Comprar agora',
+                    'body' => "<p style='text-align: center;'>Ol&aacute; {{name}},</p>
+<p style='text-align: center;'>Parab&eacute;ns, a sua avalia&ccedil;&atilde;o em v&iacute;deo para a {{storename}} foi aprovada!</p>
+<p style='text-align: center;'>Estamos constantemente inspirados pela criatividade e paix&atilde;o dos nossos clientes, e agradecemos o seu apoio.</p>
+<p style='text-align: center;'>Aqui est&aacute; o seu c&oacute;digo de desconto:</p>
+<p style='text-align: center;'><strong>{{discount_code}}</strong></p>
+<p style='text-align: center;'>Voc&ecirc; pode usar este c&oacute;digo no momento da compra para receber o seu desconto de {{amount}}.</p>",
+                    'btn_text' => 'Compre Agora',
                     'btn_color' => '#28282B',
                     'from' => auth()->user()->store_name,
                     'logo' => ''
@@ -653,10 +658,14 @@ if (!function_exists('saveEnLanguage')) {
                 ),
                 array(
                     'user_id' => $user_id,
-                    'subject' => "Mensagem para seu vídeo sobre {{storename}}",
+                    'subject' => "Mensagem sobre a sua avaliação",
                     'type' => 'UGC_Declined',
-                    'body' => "<p>Desculpe, o seu v&iacute;deo para {{storename}} n&atilde;o foi aprovado por causa do seguinte motivo:<br><br>{{reason_decline}}<br><br>N&atilde;o se preocupe, voc&ecirc; pode tentar novamente se quiser!<br><br>{{button}} <br><br>Atenciosamente,<br>Equipe {{storename}}</p>",
-                    'btn_text' => 'Obter meu cartão-presente',
+                    'body' => "<p style='text-align: center;'>Ol&aacute; {{name}},</p>
+<p style='text-align: center;'>Desculpe, a sua avalia&ccedil;&atilde;o em v&iacute;deo para {{storename}} n&atilde;o foi aprovada pelo seguinte motivo:</p>
+<p style='text-align: center;'>{{reason_decline}}</p>
+<p style='text-align: center;'>N&atilde;o se preocupe, voc&ecirc; ainda pode tentar novamente e obter o seu cart&atilde;o-presente de <strong>{{amount}}</strong>!</p>
+<p style='text-align: center;'>{{button}}</p>",
+                    'btn_text' => 'Deixe sua opinião',
                     'btn_color' => '#28282B',
                     'from' => auth()->user()->store_name,
                     'logo' => ''
@@ -664,11 +673,15 @@ if (!function_exists('saveEnLanguage')) {
 
                 array(
                     'user_id' => $user_id,
-                    'subject' => "Compartilhe seus comentários e receba {{amount}} de {{storename}}",
+                    'subject' => "Compartilhe sua opinião sobre {{storename}}",
                     'type' => 'Reminder',
-                    'body' => "
-<p>Ol&aacute; {{name}}, Adorar&iacute;amos saber sobre sua experi&ecirc;ncia de compras recente na {{storename}}.<br><br>Basta gravar um v&iacute;deo curto de alguns segundos compartilhando seus pensamentos sobre nossos produtos e recompensaremos voc&ecirc; com um vale-presente de {{amount}} como agradecimento.<br><br>{{button}}<br><br>Agradecemos pela sua confian&ccedil;a e fidelidade.<br><br>Atenciosamente,<br>Equipe {{storename}}</p>",
-                    'btn_text' => 'Deixe uma avaliação em vídeo',
+                    'body' => "<p style='text-align: center;'>Ol&aacute; {{name}},</p>
+<p style='text-align: center;'>Notamos que voc&ecirc; ainda n&atilde;o enviou sua avalia&ccedil;&atilde;o em v&iacute;deo para sua compra recente na {{storename}}.</p>
+<p style='text-align: center;'>Lembre-se, estamos oferecendo um <strong>cart&atilde;o-presente de {{amount}}</strong> por apenas 30 segundos do seu tempo!</p>
+<p style='text-align: center;'>Suas impress&otilde;es e coment&aacute;rios s&atilde;o importantes para n&oacute;s, e estamos ansiosos para ouvir o que voc&ecirc; pensa sobre sua compra.</p>
+<p style='text-align: center;'>N&atilde;o perca essa oportunidade. Voc&ecirc; poderia tirar 30 segundos para compartilhar sua experi&ecirc;ncia e reivindicar seu <strong>cart&atilde;o-presente de {{amount}}</strong>?</p>
+<p style='text-align: center;'>{{button}}</p>",
+                    'btn_text' => 'Deixe sua opinião',
                     'btn_color' => '#28282B',
                     'from' => auth()->user()->store_name,
                     'logo' => ''
