@@ -56,7 +56,7 @@
                     <img id="dropzone-image" src="#" hidden alt="" />
                     <div id="dropzone-text" class="flex-box">
                         <h3  style="font-size: 29px;font-weight: 700;color: #fff;text-align: center;">{{$dropzoneText}}</h3>
-                        <p style="font-size: 15px;margin-bottom: 0;text-align: center;">{{ __('uploadVideo.video_upload_subheading') }}</p>
+                        <p style="font-size: 15px;margin-bottom: 0;text-align: center;color: #fff">{{ __('uploadVideo.video_upload_subheading') }}</p>
                     </div>
                     <div id="upload-progress"></div>
                   </div>
