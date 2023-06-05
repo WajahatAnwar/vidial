@@ -111,7 +111,9 @@
       </div>
     </div>
   </div>
-              {{-- @include('landingPage.footer') --}}
+  @if ( $user->water_mark == 0)
+        @include('landingPage.footer')
+    @endif
         </div>
     </div>
 </div>
