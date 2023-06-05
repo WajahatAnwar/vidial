@@ -7,7 +7,7 @@
             <h3 class="text-center mt-4 mb-3 adjustHeaddingSize" style="font-size: 30px;font-weight: 600;">{{$settings->instruction_title}}</h3>
 
 
-            <p  class="text-center mb-2" style="color: #FF5175;font-size: 20px;font-weight: 500;">
+            <p  class="text-center mb-2" style="color: {{$settings->page_color}};font-size: 20px;font-weight: 500;">
             {{$settings->instruction_subtitle ? $settings->instruction_subtitle : 'Instructions'}}
             </p>
             <div style="">

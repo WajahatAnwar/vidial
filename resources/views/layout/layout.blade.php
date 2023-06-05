@@ -22,7 +22,6 @@
      #dropzone-external {
     width: 100%;
     height: 150px;
-    background-color: #FFDEE5;
     padding: 10px;
     border: 2px dashed #FFAABC;
     border-radius: 14px;

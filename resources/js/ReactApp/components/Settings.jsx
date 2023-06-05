@@ -290,22 +290,22 @@ const Settings = () => {
             return;
         }
         if($locale == 'en'){
-            setDropzoneText('Drag & Drop or Browse');
+            setDropzoneText('Record or upload');
         }
         else if($locale == 'fr') {
-            setDropzoneText('Glissez-déposez ou Parcourir');
+            setDropzoneText('Filmer ou télécharger');
         }
         else if ($locale == 'de') {
-            setDropzoneText('Ziehen Sie die Datei hierhin oder Durchsuchen Sie Ihre Dateien');
+            setDropzoneText('Aufnehmen oder hochladen');
         }
         else if ($locale == 'pt') {
-            setDropzoneText('Arraste e solte ou Procure arquivos');
+            setDropzoneText('Gravar ou enviar');
         }
         else if ($locale == 'it') {
-            setDropzoneText('Trascina e rilascia o Sfoglia');
+            setDropzoneText('Registrare o caricare');
         }
         else if ($locale == 'es') {
-            setDropzoneText('Arrastre y suelte o Buscar archivos');
+            setDropzoneText('Grabar o subir');
         }
 
         return
@@ -403,7 +403,7 @@ const Settings = () => {
                 },
             ]);
             setTitle(`Send us a video to receive a ${storeCurrency}${priceValue} Gift Card`);
-            setDropzoneText('Drag & Drop or Browse');
+            setDropzoneText('Record or upload');
 
         } else if (value === "fr") {
             setRows([
@@ -426,7 +426,7 @@ const Settings = () => {
                 },
             ]);
             setTitle(`Envoyez-nous une vidéo pour obtenir une carte cadeau de ${storeCurrency}${priceValue}`);
-            setDropzoneText('Glissez-déposez ou Parcourir');
+            setDropzoneText('Filmer ou télécharger');
         } else if (value === "es") {
             setRows([
                 { id: 1, value: "Graba un video de hasta 30 segundos" },
@@ -445,7 +445,7 @@ const Settings = () => {
                 },
             ]);
             setTitle(`Envíanos un video para obtener una tarjeta de regalo de ${storeCurrency}${priceValue}`);
-            setDropzoneText('Arrastre y suelte o Buscar archivos');
+            setDropzoneText('Grabar o subir');
         } else if (value === "pt") {
             setRows([
                 { id: 1, value: "Grave um vídeo de até 30 segundos" },
@@ -464,7 +464,7 @@ const Settings = () => {
                 },
             ]);
             setTitle(`Envie-nos um vídeo para receber um cartão presente de ${storeCurrency}${priceValue}`);
-            setDropzoneText('Arraste e solte ou Procure arquivos');
+            setDropzoneText('Gravar ou enviar');
         } else if (value === "it") {
             setRows([
                 { id: 1, value: "Registra un video fino a 30 secondi" },
@@ -483,7 +483,7 @@ const Settings = () => {
                 },
             ]);
             setTitle(`Invia un video per ottenere una carta regalo da ${storeCurrency}${priceValue}`);
-            setDropzoneText('Trascina e rilascia o Sfoglia');
+            setDropzoneText('Registrare o caricare');
         } else if (value === "de") {
             setRows([
                 {
@@ -505,7 +505,7 @@ const Settings = () => {
                 },
             ]);
             setTitle(`Senden Sie uns ein Video, um eine Geschenkkarte im Wert von ${storeCurrency}${priceValue} zu erhalten`);
-            setDropzoneText('Ziehen Sie die Datei hierhin oder Durchsuchen Sie Ihre Dateien');
+            setDropzoneText('Aufnehmen oder hochladen');
         }
     }
    
