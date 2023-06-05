@@ -271,7 +271,7 @@ function Dashboard() {
                 return response.json();
             })
             .then((data) => {
-                console.log(data);
+                //console.log(data);
                 if (data.success) {
                     setPendingVideos(data.data.pendingVideos);
                     setApprovedVideos(data.data.approvedVideos);

@@ -278,3 +278,6 @@ select#PolarisSelect1 {
 .Polaris-Checkbox__Backdrop:before{
     background-color: #008060 !important;
 }
+#tinymce p{
+   font-weight: 500;
+}
