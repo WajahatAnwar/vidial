@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Mail\thanksyouMail;
+use App\Models\Log;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -44,12 +45,14 @@ class ThanksMailjob implements ShouldQueue
         'from' => env('MAIL_USERNAME'),
         'to' => $this->details['mail'],
         'subject' => 'New Video on The Store',
-        'template' => $this->details['locale']=='en' ? 'inform_merchant_new_ugc_uploaded' : "inform_merchant_new_ugc_uploaded_".$this->details['locale'],
+        // 'template' => $this->details['locale']=='en' ? 'inform_merchant_new_ugc_uploaded' : "inform_merchant_new_ugc_uploaded_".$this->details['locale'],
+        'template' => 'inform_merchant_new_ugc_uploaded',
+
         'v:storename' => $this->details['url'],
     );
 
     $mgClient->messages()->send($domain, $params);
-
+  
         // Mail::to($this->details['mail'])->send(new thanksyouMail($this->details));
     }
 }

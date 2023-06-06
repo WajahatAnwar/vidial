@@ -31,7 +31,7 @@
             </button>
             @if($settings->video=='undefined' || $settings->video=='')
             @else
-            <h5 class="text-center mb-3 mt-4">{{__('landingPage.footer_instruction_text')}}</h5>
+            <h5 class="text-center mb-3 mt-4">{{$settings->inspirational_video_title ? $settings->inspirational_video_title : __('landingPage.footer_instruction_text')}}</h5>
 
               <video muted autoPlay loop  width="300px" height="531px" playsinline  controls style="display: block;margin: auto;    border-radius: 16px;box-shadow: #0000000d 0 1.25rem 1.6875rem!important;margin-bottom: 50px;">
                 <source src="{{ url('video/'.$settings->video) }}" type="video/mp4">

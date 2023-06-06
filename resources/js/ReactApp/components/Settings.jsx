@@ -76,9 +76,9 @@ const Settings = () => {
         () => setActiveRejectionModel(!activeRejectionModel),
         [activeRejectionModel]
     );
-    const [dropzoneText, setDropzoneText] = useState("");
+    const [videoTitle, setVideoTitle] = useState("");
     const [instructionSubTitle, setInstructionSubTitle] = useState("Instructions");
-    const handleDropzoneText = useCallback((newValue) => setDropzoneText(newValue), []);
+    const handleDropzoneText = useCallback((newValue) => setVideoTitle(newValue), []);
     const [replyEmail, setReplyEmail] = useState("");
     const handleReplyEmail = useCallback((newValue) => setReplyEmail(newValue), []);
     const [mailgunAPI, setMailgunAPI] = useState("");
@@ -247,7 +247,8 @@ const Settings = () => {
     const [video, setVideo] = useState("");
     const [store, setStore] = useState("");
     //const [baseUrl, setBaseUrl] = useState("https://app.vidial.co");
-     const [baseUrl, setBaseUrl] = useState("https://phpstack-953879-3439374.cloudwaysapps.com");
+    //const [baseUrl, setBaseUrl] = useState("https://phpstack-953879-3439374.cloudwaysapps.com");
+    const [baseUrl, setBaseUrl] = useState("https://45f9-72-255-51-52.ngrok-free.app");
     const [imagename, setImagename] = useState("");
     const [videoname, setVideoname] = useState("");
     const [previewLogo, setPreviwLogo] = useState("");
@@ -286,26 +287,26 @@ const Settings = () => {
 
     const setByDefaultSettings = ($text,$locale)=>{
         if ($text){
-            setDropzoneText($text)
+            setVideoTitle($text)
             return;
         }
         if($locale == 'en'){
-            setDropzoneText('Record or upload');
+            setVideoTitle('Here’s an example of what kind of video you can record:');
         }
         else if($locale == 'fr') {
-            setDropzoneText('Filmer ou télécharger');
+            setVideoTitle('Voici un exemple de vidéo que vous pouvez enregistrer:');
         }
         else if ($locale == 'de') {
-            setDropzoneText('Aufnehmen oder hochladen');
+            setVideoTitle('Hier ist ein Beispiel für ein Video, das Sie aufnehmen können:');
         }
         else if ($locale == 'pt') {
-            setDropzoneText('Gravar ou enviar');
+            setVideoTitle('Aqui está um exemplo de vídeo que você pode gravar:');
         }
         else if ($locale == 'it') {
-            setDropzoneText('Registrare o caricare');
+            setVideoTitle('Ecco un esempio di video che potete registrare:');
         }
         else if ($locale == 'es') {
-            setDropzoneText('Grabar o subir');
+            setVideoTitle('Aquí hay un ejemplo de video que puede grabar:');
         }
 
         return
@@ -320,7 +321,7 @@ const Settings = () => {
                 }
                 const data = await response.json();
                 if (data.success) {
-                    setByDefaultSettings(data.data.dropzone_text, data.data.locale)
+                    setByDefaultSettings(data.data.inspirational_video_title, data.data.locale)
                     setToggled(data.data.email_status);
                     setPriceValue(data.data.store_credit);
                     setLandingPage(data.data.page_display_to_customers);
@@ -328,7 +329,7 @@ const Settings = () => {
                     setLandingPageDisplayedValue(data.data.page_link);
                     setInstructionSubTitle(data.data.instruction_subtitle ?? 'Instructions');
                     setLogoImage(data.data.logo);
-                    //setDropzoneText(data.data.dropzone_text)
+                    //setVideoTitle(data.data.dropzone_text)
                     setAlreadyUploadedLogo(data.data.logo)
                     setAlreadyUploadedVideo(data.data.video)
 
@@ -403,7 +404,7 @@ const Settings = () => {
                 },
             ]);
             setTitle(`Send us a video to receive a ${storeCurrency}${priceValue} Gift Card`);
-            setDropzoneText('Record or upload');
+            setVideoTitle('Here’s an example of what kind of video you can record:');
 
         } else if (value === "fr") {
             setRows([
@@ -426,7 +427,7 @@ const Settings = () => {
                 },
             ]);
             setTitle(`Envoyez-nous une vidéo pour obtenir une carte cadeau de ${storeCurrency}${priceValue}`);
-            setDropzoneText('Filmer ou télécharger');
+            setVideoTitle('Voici un exemple de vidéo que vous pouvez enregistrer:');
         } else if (value === "es") {
             setRows([
                 { id: 1, value: "Graba un video de hasta 30 segundos" },
@@ -445,7 +446,7 @@ const Settings = () => {
                 },
             ]);
             setTitle(`Envíanos un video para obtener una tarjeta de regalo de ${storeCurrency}${priceValue}`);
-            setDropzoneText('Grabar o subir');
+            setVideoTitle('Aquí hay un ejemplo de video que puede grabar:');
         } else if (value === "pt") {
             setRows([
                 { id: 1, value: "Grave um vídeo de até 30 segundos" },
@@ -464,7 +465,7 @@ const Settings = () => {
                 },
             ]);
             setTitle(`Envie-nos um vídeo para receber um cartão presente de ${storeCurrency}${priceValue}`);
-            setDropzoneText('Gravar ou enviar');
+            setVideoTitle('Aqui está um exemplo de vídeo que você pode gravar:');
         } else if (value === "it") {
             setRows([
                 { id: 1, value: "Registra un video fino a 30 secondi" },
@@ -483,7 +484,7 @@ const Settings = () => {
                 },
             ]);
             setTitle(`Invia un video per ottenere una carta regalo da ${storeCurrency}${priceValue}`);
-            setDropzoneText('Registrare o caricare');
+            setVideoTitle('Ecco un esempio di video che potete registrare:');
         } else if (value === "de") {
             setRows([
                 {
@@ -505,7 +506,7 @@ const Settings = () => {
                 },
             ]);
             setTitle(`Senden Sie uns ein Video, um eine Geschenkkarte im Wert von ${storeCurrency}${priceValue} zu erhalten`);
-            setDropzoneText('Aufnehmen oder hochladen');
+            setVideoTitle('Hier ist ein Beispiel für ein Video, das Sie aufnehmen können:');
         }
     }
    
@@ -519,6 +520,7 @@ const Settings = () => {
 
     /******** save settings into DB ******/
     const saveSettings = (e) => {
+        
         e.preventDefault();
         setIsLoading(true);
         setSuccessMsg('');
@@ -531,11 +533,12 @@ const Settings = () => {
         formData.append("page_link", landingPageDisplayedValue);
         formData.append("instructions", JSON.stringify(rows));
         formData.append("page_color", buttonColorHex);
-        formData.append("logo", logoImage);
-        formData.append("video", video);
+        formData.append("logo", files.length > 0 ? files[0] : logoImage);
+        formData.append("video", filesVideos.length > 0 ? filesVideos[0] : video);
+        
         formData.append("setting_status", toggled);
         formData.append("instruction_title", title);
-        formData.append("dropzone_text", dropzoneText);
+        formData.append("video_title", videoTitle);
         formData.append("instruction_subtitle", instructionSubTitle);
 
         formData.append("locale", selected);
@@ -655,15 +658,13 @@ const Settings = () => {
 
 
 
-    const handleRemoveThumbnail = () => {
+    const handleRemoveLogoThumbnail = () => {
         setFiles([]);
-        // setLogoImage(alread)
-        //console.log('handle Remove thumbnail');
+        //setLogoImage('')
+        console.log('handle Remove thumbnail');
     };
     const handleDropZoneDrop = useCallback(
         (_dropFiles, acceptedFiles, _rejectedFiles) => {
-            setLogoImage(acceptedFiles[0]);
-            //setAlreadyUploadedLogo('');
             setFiles((files) => acceptedFiles);
         },
         []
@@ -673,19 +674,8 @@ const Settings = () => {
     ) : null;
 
     const handleRemoveAlreadyUploadedLogo = () => {
-        //setLogoImage('');
-        //setActiveTootlTip(true);
-        // setAlreadyUploadedLogo('');
-        // console.log('heree me');
-        // const formData = new FormData();
-        // fetch('/checkuploadedlogo', {
-        //     method: 'POST',
-        //     body: formData
-
-        // }).then((response) => response.json()).then((data) => {
-        //     console.log(data);
-        // })
-
+        setLogoImage('');
+        setAlreadyUploadedLogo('');
     }
 
     const validImageTypes = ['image/gif', 'image/jpeg', 'image/png'];
@@ -732,7 +722,7 @@ const Settings = () => {
                             }
                         />
                         <div>
-                            <div onClick={handleRemoveThumbnail} >
+                            <div onClick={handleRemoveLogoThumbnail} >
                                 <Icon source={CircleCancelMajor} color="critical" />
                             </div>
                         </div>
@@ -749,11 +739,9 @@ const Settings = () => {
 
     const handleRemoveThumbnailVideo = () => {
         setFilesVideos([]);
-
-
         //console.log('handle Remove thumbnail');
     };
-    const handleDropZoneVideo = useCallback(
+    const handleDropZoneVideo = useCallback(        
         (_dropFiles, acceptedFiles, _rejectedFiles) => {
             setVideo(acceptedFiles[0]);
             //setAlreadyUploadedLogo('');
@@ -765,7 +753,7 @@ const Settings = () => {
 
 
     const handleRemoveAlreadyUploadedVideo = () => {
-        setActiveTootlTip(true);
+        // setActiveTootlTip(true);
         setAlreadyUploadedVideo('');
         setVideo('');
 
@@ -1298,7 +1286,7 @@ const Settings = () => {
                                                 />
                                                 <div onClick={handleRemoveAlreadyUploadedLogo} >
                                                     {
-                                                        activeTootlTip ? <Tooltip content="This is default setting. You can not change it.">
+                                                        activeTootlTip ? <Tooltip content="">
                                                             <Icon source={CircleCancelMajor} color="critical" />
 
                                                         </Tooltip> : <Icon source={CircleCancelMajor} color="critical" />
@@ -1321,10 +1309,10 @@ const Settings = () => {
                                                 marginBottom: "5px",
                                             }}
                                         >
-                                            Dropzone Text
+                                            Inspirational Video Title
                                         </p>
                                         <TextField
-                                            value={dropzoneText}
+                                            value={videoTitle}
                                             onChange={handleDropzoneText}
                                             autoComplete="off"
                                         />
@@ -1358,7 +1346,7 @@ const Settings = () => {
                                                 marginBottom: "5px",
                                             }}
                                         >
-                                            Instruction
+                                            Instructions
                                         </p>
                                         <TextField
                                             value={instructionSubTitle}

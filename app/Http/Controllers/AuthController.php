@@ -244,12 +244,12 @@ class AuthController extends Controller
         $emailTemplate['subject'] = "Claim your {{amount}} Gift Card!";
 
         $emailTemplate['type'] = 'UGC_Approved';
-        $emailTemplate['body'] = "<p style='text-align: center;'>Hello {{name}},</p>
-<p style='text-align: center;'>Congratulations, your Video Review for {{storename}} has been approved!&nbsp;</p>
-<p style='text-align: center;'>We are constantly inspired by the creativity and passion of our customers, and we appreciate your support.</p>
-<p style='text-align: center;'>Here if your Discount code:</p>
-<p style='text-align: center;'><strong>{{discount_code}}</strong><br><br>You can use this code at the checkout to receive your {{amount}} Discount.</p>
-<p style='text-align: center;'>{{button}}</p>";
+        $emailTemplate['body'] = '<p style="text-align: center;">Hello {{name}},</p>
+<p style="text-align: center;">Congratulations, your Video Review for {{storename}} has been approved!&nbsp;</p>
+<p style="text-align: center;">We are constantly inspired by the creativity and passion of our customers, and we appreciate your support.</p>
+<p style="text-align: center;">Here if your Discount code:</p>
+<h3 style="text-align: center;">{{discount_code}}</h3>
+<p style="text-align: center;">You can use this code at the checkout to receive your {{amount}} Discount.<br><br>{{button}}</p>';
 
         $emailTemplate['btn_text'] = 'Shop Now';
         $emailTemplate['btn_color'] = '#28282B';
@@ -310,8 +310,7 @@ class AuthController extends Controller
 <p style='text-align: center;'>We noticed you haven't yet submitted your video review for your recent purchase at {{storename}}.&nbsp;</p>
 <p style='text-align: center;'>Remember, we're offering a <strong>{{amount}} Gift Card</strong> for just 30 seconds of your time!</p>
 <p style='text-align: center;'>Your thoughts and feedback are important to us, and we're excited to hear what you think about your purchase.</p>
-<p style='text-align: center;'>Don't miss out on this opportunity. Could you take 30 seconds to share your experience and claim your <strong>{{amount}} Gift Card</strong>?</p>
-<p style='text-align: center;'>{{button}}</p>";
+<p style='text-align: center;'>Don't miss out on this opportunity. Could you take 30 seconds to share your experience and claim your <strong>{{amount}} Gift Card</strong>?<br><br>{{button}}</p>";
 
         $emailTemplate['btn_text'] = 'Submit a Review';
         $emailTemplate['btn_color'] = '#28282B';
