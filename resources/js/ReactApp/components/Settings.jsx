@@ -247,8 +247,8 @@ const Settings = () => {
     const [video, setVideo] = useState("");
     const [store, setStore] = useState("");
     //const [baseUrl, setBaseUrl] = useState("https://app.vidial.co");
-    //const [baseUrl, setBaseUrl] = useState("https://phpstack-953879-3439374.cloudwaysapps.com");
-    const [baseUrl, setBaseUrl] = useState("https://45f9-72-255-51-52.ngrok-free.app");
+    const [baseUrl, setBaseUrl] = useState("https://phpstack-953879-3439374.cloudwaysapps.com");
+    //const [baseUrl, setBaseUrl] = useState("https://45f9-72-255-51-52.ngrok-free.app");
     const [imagename, setImagename] = useState("");
     const [videoname, setVideoname] = useState("");
     const [previewLogo, setPreviwLogo] = useState("");
