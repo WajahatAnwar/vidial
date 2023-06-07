@@ -371,7 +371,7 @@ if (!function_exists('saveEnLanguage')) {
                     'type' => 'UGC_Declined',
                     'body' => '<p style="text-align: center;">Hello {{name}},</p>
 <p style="text-align: center;">Sorry, your video review for {{storename}} was not approved for the following reason:</p>
-<p style="text-align: center;"><em>"&ldquo;{{reason_decline}}&rdquo;"</em></p>
+<p style="text-align: center;"><em>&ldquo;{{reason_decline}}&rdquo;</em></p>
 <p style="text-align: center;">No worries, you can still try again and get your <strong>{{amount}} Gift Card</strong>!</p>
 <p style="text-align: center;">{{button}}</p>',
                     'btn_text' => 'Leave a Review',
@@ -444,7 +444,7 @@ if (!function_exists('saveEnLanguage')) {
                     'type' => 'UGC_Declined',
                     'body' => "<p style='text-align: center;'>Bonjour {{name}},</p>
 <p style='text-align: center;'>D&eacute;sol&eacute;, votre avis vid&eacute;o pour {{storename}} n'a pas &eacute;t&eacute; approuv&eacute; pour la raison suivante :</p>
-<p style='text-align: center;'><em>'&ldquo;{{reason_decline}}&rdquo;'</em></p>
+<p style='text-align: center;'><em>&ldquo;{{reason_decline}}&rdquo;</em></p>
 <p style='text-align: center;'>Ne vous inqui&eacute;tez pas, vous pouvez toujours essayer &agrave; nouveau et obtenir votre carte-cadeau de <strong>{{amount}}</strong>!</p>
 <p style='text-align: center;'>&nbsp;</p>
 <p style='text-align: center;'>{{button}}</p>",
@@ -520,7 +520,7 @@ if (!function_exists('saveEnLanguage')) {
                     'subject' => "Nachricht zu Ihrer Bewertung",
                     'type' => 'UGC_Declined',
                     'body' => "<p style='text-align: center;'>Hallo {{name}},<br>Leider wurde Ihre Video-Bewertung f&uuml;r {{storename}} aus folgendem Grund nicht genehmigt:</p>
-<p style='text-align: center;'><em>'&ldquo;{{reason_decline}}&rdquo;'</em></p>
+<p style='text-align: center;'><em>&ldquo;{{reason_decline}}&rdquo;</em></p>
 <p style='text-align: center;'>Machen Sie sich keine Sorgen, Sie k&ouml;nnen es immer noch einmal versuchen und Ihre <strong>{{amount}}</strong> Geschenkkarte erhalten!</p>
 <p style='text-align: center;'>{{button}}</p>",
                     'btn_text' => 'Ich bewerte',
@@ -596,7 +596,7 @@ if (!function_exists('saveEnLanguage')) {
                     'type' => 'UGC_Declined',
                     'body' => "<p style='text-align: center;'>Hola {{name}},</p>
 <p style='text-align: center;'>Lo sentimos, tu rese&ntilde;a en v&iacute;deo para {{storename}} no fue aprobada por la siguiente raz&oacute;n:</p>
-<p style='text-align: center;'><em>'&ldquo;{{reason_decline}}&rdquo;'</em></p>
+<p style='text-align: center;'><em>&ldquo;{{reason_decline}}&rdquo;</em></p>
 <p style='text-align: center;'>&iexcl;No te preocupes, a&uacute;n puedes intentarlo de nuevo y obtener tu tarjeta de regalo de <strong>{{amount}}</strong>!</p>
 <p style='text-align: center;'>{{button}}</p>",
                     'btn_text' => 'Dejo mi opinión',
@@ -672,7 +672,7 @@ if (!function_exists('saveEnLanguage')) {
                     'type' => 'UGC_Declined',
                     'body' => "<p style='text-align: center;'>Ol&aacute; {{name}},</p>
 <p style='text-align: center;'>Desculpe, a sua avalia&ccedil;&atilde;o em v&iacute;deo para {{storename}} n&atilde;o foi aprovada pelo seguinte motivo:</p>
-<p style='text-align: center;'><em>'&ldquo;{{reason_decline}}&rdquo;'</em></p>
+<p style='text-align: center;'><em>&ldquo;{{reason_decline}}&rdquo;</em></p>
 <p style='text-align: center;'>N&atilde;o se preocupe, voc&ecirc; ainda pode tentar novamente e obter o seu cart&atilde;o-presente de <strong>{{amount}}</strong>!</p>
 <p style='text-align: center;'>{{button}}</p>",
                     'btn_text' => 'Deixe sua opinião',
@@ -746,7 +746,7 @@ if (!function_exists('saveEnLanguage')) {
                     'type' => 'UGC_Declined',
                     'body' => '<p style="text-align: center;">Ciao {{name}},</p>
 <p style="text-align: center;">Siamo spiacenti, la tua recensione video per {{storename}} non &egrave; stata approvata per il seguente motivo:</p>
-<p style="text-align: center;"><em>"&ldquo;{{reason_decline}}&rdquo;"</em></p>
+<p style="text-align: center;"><em>&ldquo;{{reason_decline}}&rdquo;</em></p>
 <p style="text-align: center;">Non preoccuparti, puoi sempre riprovare e ottenere la tua Gift Card da <strong>{{amount}}!</strong></p>
 <p style="text-align: center;">{{button}}</p>',
                     'btn_text' => 'Lascia una recensione',
