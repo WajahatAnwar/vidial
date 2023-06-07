@@ -42,7 +42,7 @@ class EmailTemplateJob implements ShouldQueue
             }
         if ($user_template) {
             $button='<a href='.$this->details['url'].' style="text-decoration: none"><button style="font-size: 18px;background:'. $user_template['btn_color']. ';color: #fff;border: none;border-radius: 4px;display: block;margin: 50px auto;padding: 16px 30px;;cursor: pointer;border-radius: 25px;">'. $user_template['btn_text'].'</button></a>';
-            $discountButton = '<span style="background-color:#FFE70d">'. $this->details['discount_code'].'</span>';
+            $discountButton = '<span style="background-color:#FFE70d; padding:5px">'. $this->details['discount_code'].'</span>';
             $body['body'] = $user_template['body'];
             $body['body'] = str_replace('{{name}}', $this->details['name'] ?? 'Customer', $body['body']);
             $body['body'] = str_replace('{{amount}}', $symbol.$this->details['amount'], $body['body']);
