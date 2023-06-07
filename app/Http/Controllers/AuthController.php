@@ -247,7 +247,7 @@ class AuthController extends Controller
         $emailTemplate['body'] = '<p style="text-align: center;">Hello {{name}},</p>
 <p style="text-align: center;">Congratulations, your Video Review for {{storename}} has been approved!&nbsp;</p>
 <p style="text-align: center;">We are constantly inspired by the creativity and passion of our customers, and we appreciate your support.</p>
-<p style="text-align: center;">Here if your Discount code:</p>
+<p style="text-align: center;">Here is your Discount code:</p>
 <h1 style="text-align: center;">{{discount_code}}</h1>
 <p style="text-align: center;">You can use this code at the checkout to receive your {{amount}} Discount.<br><br>{{button}}</p>';
 
