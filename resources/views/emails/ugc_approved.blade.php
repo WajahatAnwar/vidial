@@ -9,7 +9,7 @@
 </head>
 
 <body style="margin: 0;padding: 0;">
-    <div style="width: 100%; padding: 20px;background: #EBEBEB;display: flex;justify-content: center;">
+    <div style="width: 100%; padding: 20px;background: #ffffff;display: flex;justify-content: center;">
         <div style="max-width: 600px;background: #fff;padding: 20px;border-radius: 15px;display: block;margin: auto;">
             <div>
                   @php
