@@ -415,7 +415,7 @@ if (!function_exists('saveEnLanguage')) {
 <p style='text-align: center;'>F&eacute;licitations, votre avis vid&eacute;o pour {{storename}} a &eacute;t&eacute; approuv&eacute;!</p>
 <p style='text-align: center;'>Nous sommes constamment inspir&eacute;s par la cr&eacute;ativit&eacute; et la passion de nos clients, et nous appr&eacute;cions votre soutien.</p>
 <p style='text-align: center;'>Voici votre code de r&eacute;duction :</p>
-<h3 style='text-align: center;'><strong>{{discount_code}}</strong></h3>
+<h1 style='text-align: center;'><strong>{{discount_code}}</strong></h1>
 <p style='text-align: center;'>Vous pouvez utiliser le code au moment de l&rsquo;achat pour recevoir votre r&eacute;duction de {{amount}}.</p>
 <p style='text-align: center;'>{{button}}</p>",
                     'btn_text' => 'Achetez Maintenant',
@@ -492,7 +492,7 @@ if (!function_exists('saveEnLanguage')) {
 <p style='text-align: center;'>Gl&uuml;ckwunsch, Ihre Video-Bewertung f&uuml;r {{storename}} wurde genehmigt!</p>
 <p style='text-align: center;'>Wir sind st&auml;ndig von der Kreativit&auml;t und Leidenschaft unserer Kunden inspiriert und wir sch&auml;tzen Ihre Unterst&uuml;tzung.</p>
 <p style='text-align: center;'>Hier ist Ihr Rabattcode:</p>
-<h3 style='text-align: center;'><strong>{{discount_code}}</strong></h3>
+<h1 style='text-align: center;'><strong>{{discount_code}}</strong></h1>
 <p style='text-align: center;'>Sie k&ouml;nnen diesen Code an der Kasse verwenden, um Ihren {{amount}} Rabatt zu erhalten</p>
 
 <p style='text-align: center;'>{{button}}</p>",
@@ -566,7 +566,7 @@ if (!function_exists('saveEnLanguage')) {
 <p style='text-align: center;'>&iexcl;Felicidades, tu rese&ntilde;a en v&iacute;deo para {{storename}} ha sido aprobada!</p>
 <p style='text-align: center;'>Nos inspira constantemente la creatividad y la pasi&oacute;n de nuestros clientes, y apreciamos tu apoyo.</p>
 <p style='text-align: center;'>Aqu&iacute; est&aacute; tu c&oacute;digo de descuento:</p>
-<h3 style='text-align: center;'><strong>{{discount_code}}</strong></h3>
+<h1 style='text-align: center;'><strong>{{discount_code}}</strong></h1>
 <p style='text-align: center;'>Puedes usar este c&oacute;digo en la caja para recibir tu descuento de {{amount}}.</p>
 <p style='text-align: center;'>{{button}}</p>
 ",
@@ -641,7 +641,7 @@ if (!function_exists('saveEnLanguage')) {
 <p style='text-align: center;'>Parab&eacute;ns, a sua avalia&ccedil;&atilde;o em v&iacute;deo para a {{storename}} foi aprovada!</p>
 <p style='text-align: center;'>Estamos constantemente inspirados pela criatividade e paix&atilde;o dos nossos clientes, e agradecemos o seu apoio.</p>
 <p style='text-align: center;'>Aqui est&aacute; o seu c&oacute;digo de desconto:</p>
-<h3 style='text-align: center;'><strong>{{discount_code}}</strong></h3>
+<h1 style='text-align: center;'><strong>{{discount_code}}</strong></h1>
 <p style='text-align: center;'>Voc&ecirc; pode usar este c&oacute;digo no momento da compra para receber o seu desconto de {{amount}}.</p>
 
 <p style='text-align: center;'>{{button}}</p>
@@ -717,7 +717,7 @@ if (!function_exists('saveEnLanguage')) {
 <p style='text-align: center;'>Complimenti, la tua recensione video per {{storename}} &egrave; stata approvata!</p>
 <p style='text-align: center;'>Siamo costantemente ispirati dalla creativit&agrave; e dalla passione dei nostri clienti, e apprezziamo il tuo sostegno.</p>
 <p style='text-align: center;'>Ecco il tuo codice di sconto:</p>
-<h3 style='text-align: center;'><strong>{{discount_code}}</strong></h3>
+<h1 style='text-align: center;'><strong>{{discount_code}}</strong></h1>
 
 <p style='text-align: center;'>&Egrave; possibile utilizzare questo codice alla cassa per ricevere il vostro sconto di {{amount}}.</p><p style='text-align: center;''>&nbsp;{{button}}&nbsp;</p>",
                     'btn_text' => 'Acquista ora',
