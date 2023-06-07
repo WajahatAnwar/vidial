@@ -168,6 +168,7 @@ class AuthController extends Controller
         $shop->store_currency = $shopData['body']['shop']['currency'];
         $shop->email = $shopData['body']['shop']['email'];
         $shop->store_name = $shopData['body']['shop']['name'];
+        // $shop->store_handle = $shopData['body']['shop']['name'];
         // $shop->plan_id = 1;
         $shop->save();
 

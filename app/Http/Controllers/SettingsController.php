@@ -91,6 +91,7 @@ class SettingsController extends Controller
         $data['email']=$store->email;
         $data['store_name']=$store->store_name;
         $data['btn_color']=$data->page_color;
+        $data['storeHandle'] = $store->store_handle ? $store->store_handle : $store->store_name;
         $data['store_currency']= getCurrencySymbol($store->store_currency);
         return response()->json([
             'success' => true,
@@ -156,6 +157,9 @@ class SettingsController extends Controller
         //$settings['dropzone_text'] = $request->dropzone_text;
         $settings['inspirational_video_title'] = $request->video_title;
         $settings['instruction_subtitle'] = $request->instruction_subtitle;
+        $settings['video_btn_text'] = $request->video_btn_text;
+        
+
         
         $language = Setting::where('user_id', Auth::user()->id)->first();
         if($language->locale == $request->locale){
@@ -186,6 +190,25 @@ class SettingsController extends Controller
             $currentUser=$user->id;
             $settings=Setting::where('user_id',$currentUser)->first();
         return view('landingPage.template',compact('settings','user'));
+        }
+    }
+
+
+    /****** Landing Page2 *******/
+    public function landingPage2(Request $request, $locale)
+    {
+        
+        $requestSegments = request()->segments(0);
+        if($requestSegments){
+            $user = User::with('settings')->where('store_handle', $requestSegments)->orWhere('store_name', $requestSegments)->first();
+          
+            if(!$user){
+                return abort(404);
+            }
+            setLan($user->settings->locale ? $user->settings->locale : 'en');
+            $currentUser = $user->id;
+            $settings = Setting::where('user_id', $currentUser)->first();
+            return view('landingPage.template', compact('settings', 'user'));
         }
     }
 
@@ -370,4 +393,66 @@ class SettingsController extends Controller
         ]);
         
      }
+
+     /** 
+      * check store handle availablity
+      */
+      public function checkHandle(Request $request){
+        $validator = Validator::make($request->all(), [
+            'store_handle' => 'required',
+        ], []);
+
+        if ($validator->fails()) {
+            // $str['success'] = false;
+            // $error = $validator->errors()->toArray();
+            // foreach ($error as $x_value) {
+            //     $err[] = $x_value[0];
+            // }
+            // $str['message'] = $err['0'];
+            // // $str['data'] = $validator->errors()->toArray();
+            // return $str;
+            
+            return response()->json([
+                'success' => false,
+                'message' => $validator->errors()->first(),
+                'data' => null
+            ]);
+        }
+        $handleExistance = User::where('store_handle', $request->store_handle)
+        ->orWhere('store_name', $request->store_handle)
+        ->where('id', '!=',Auth::user()->id)
+        ->first();
+        if($handleExistance){
+            return response()->json([
+                'success' => false,
+                'message' => "Store handle already exist",
+                'data' => null
+            ]);
+        } else {
+            return response()->json([
+                'success' => true,
+                'message' => "Store handle available",
+                'data' => null
+            ]);
+        } 
+     
+      }
+
+      public function saveHandle(Request $request){
+        if ($request->filled('store_handle')) {
+            User::find(Auth::user()->id)->update(['store_handle'=>$request->store_handle]);
+          
+            return response()->json([
+                'success' => true,
+                'message' => "Store save",
+                'data' => null
+            ]);
+        }
+
+        return response()->json([
+                'success' => false,
+                'message' => "something went wrong",
+                'data' => null
+            ]);
+      }
 }

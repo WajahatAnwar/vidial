@@ -29,6 +29,7 @@ class User extends Authenticatable implements IShopModel
         'init_flag',
         'remaining_email',
         'remaining_videos',
+        'store_handle'
     ];
 
     /**

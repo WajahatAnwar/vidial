@@ -54,6 +54,11 @@ localStorage.setItem('store',storeName);
 */
 
 const Settings = () => {
+    const [storeHandle, setStoreHandle] = useState(null);
+    const [isHandleAvailable, setIsHandleAvailable] = useState(true);
+    const [storeHandleState, setStoreHandleState] = useState(false);
+    const [storeHandleResponse, setStoreHandleResponse] = useState(null); 
+
     const [checkedOwnEmail, setOwnEmail] = useState(false);
     const handleOwnEmail = useCallback(
         (e) => setOwnEmail(e),
@@ -87,7 +92,7 @@ const Settings = () => {
     const handleTitle = useCallback((newValue) => setTitle(newValue), []);
    
     const handleInstruction = useCallback((newValue) => setInstructionSubTitle(newValue), []);
-    const [buttonText, setButtonText] = useState("Upload a short video");
+    const [buttonText, setButtonText] = useState(null);
     const handleButtonText = useCallback((newValue) => setButtonText(newValue), []);
     const [active, setActive] = useState(false);
     const [error, setError] = useState(false);
@@ -247,8 +252,8 @@ const Settings = () => {
     const [video, setVideo] = useState("");
     const [store, setStore] = useState("");
     //const [baseUrl, setBaseUrl] = useState("https://app.vidial.co");
-    const [baseUrl, setBaseUrl] = useState("https://phpstack-953879-3439374.cloudwaysapps.com");
-    //const [baseUrl, setBaseUrl] = useState("https://45f9-72-255-51-52.ngrok-free.app");
+    //const [baseUrl, setBaseUrl] = useState("https://phpstack-953879-3439374.cloudwaysapps.com");
+    const [baseUrl, setBaseUrl] = useState("https://45f9-72-255-51-52.ngrok-free.app");
     const [imagename, setImagename] = useState("");
     const [videoname, setVideoname] = useState("");
     const [previewLogo, setPreviwLogo] = useState("");
@@ -280,37 +285,96 @@ const Settings = () => {
 
     // Review Landing Page
     const reviewPage = (store) => {
+        // window.open(
+        //     baseUrl + "/landingPage/" + currentLang + "?store=" + store
+        // );
         window.open(
-            baseUrl + "/landingPage/" + currentLang + "?store=" + store
+            baseUrl + "/" + storeHandle
         );
     };
 
-    const setByDefaultSettings = ($text,$locale)=>{
-        if ($text){
-            setVideoTitle($text)
-            return;
-        }
+    const setByDefaultSettings = ($columnType,$locale)=>{
+        
         if($locale == 'en'){
+            if ($columnType =='video_title'){
             setVideoTitle('Here’s an example of what kind of video you can record:');
+            }
+            if ($columnType == 'btn_txt'){
+                setButtonText('Upload Your Video');
+            }
         }
         else if($locale == 'fr') {
+            if ($columnType == 'video_title') {
             setVideoTitle('Voici un exemple de vidéo que vous pouvez enregistrer:');
+            }
+            if ($columnType == 'btn_txt') {
+                setButtonText('Téléchargez une courte vidéo');
+            }
         }
         else if ($locale == 'de') {
+            if ($columnType == 'video_title') {
             setVideoTitle('Hier ist ein Beispiel für ein Video, das Sie aufnehmen können:');
+            }
+            if ($columnType == 'btn_txt') {
+                setButtonText('Laden Sie ein kurzes Video hoch');
+            }
         }
         else if ($locale == 'pt') {
+            if ($columnType == 'video_title') {
             setVideoTitle('Aqui está um exemplo de vídeo que você pode gravar:');
+            }
+            if ($columnType == 'btn_txt') {
+                setButtonText('Carregue um breve vídeo');
+            }
         }
         else if ($locale == 'it') {
+            if ($columnType == 'video_title') {
             setVideoTitle('Ecco un esempio di video che potete registrare:');
+            }
+            if ($columnType == 'btn_txt') {
+                setButtonText('Caricare un breve video');
+            }
         }
         else if ($locale == 'es') {
+            if ($columnType == 'video_title') {
             setVideoTitle('Aquí hay un ejemplo de video que puede grabar:');
+            }
+            if ($columnType == 'btn_txt') {
+                setButtonText('Cargue un breve video');
+            }
         }
 
         return
     }
+
+
+        const handleStoreHandle = useCallback((newValue) => {
+            setStoreHandle(newValue);
+            setIsHandleAvailable(true);
+            setStoreHandleState(true);
+            setStoreHandleResponse(null);
+             const formData = new FormData();
+            formData.append('store_handle', newValue);
+              fetch('/check-handle',{
+                method:"POST",
+                  body: formData
+              })
+              .then((response)=> response.json())
+              .then((data)=>{
+                  if (data.success){
+                      setIsHandleAvailable(false);
+                      setStoreHandleResponse('Store Handle Found');
+
+                  }else{
+                      setIsHandleAvailable(true);
+                      setStoreHandleResponse(data.message);
+
+                  }
+                  setStoreHandleState(false)
+              })
+        }, []);
+
+    
     /********  get Settings Data  ******/
     useEffect(() => {
         async function fetchSettings() {
@@ -321,7 +385,15 @@ const Settings = () => {
                 }
                 const data = await response.json();
                 if (data.success) {
-                    setByDefaultSettings(data.data.inspirational_video_title, data.data.locale)
+                    setStoreHandle(data.data.storeHandle);
+                    // setting for already existing users
+                    data.data.inspirational_video_title ? setVideoTitle(data.data.inspirational_video_title) 
+                        : setByDefaultSettings('video_title', data.data.locale)
+                    data.data.video_btn_text ? setButtonText(data.data.video_btn_text)
+                        : setByDefaultSettings('btn_txt', data.data.locale)
+
+                        
+
                     setToggled(data.data.email_status);
                     setPriceValue(data.data.store_credit);
                     setLandingPage(data.data.page_display_to_customers);
@@ -405,6 +477,7 @@ const Settings = () => {
             ]);
             setTitle(`Send us a video to receive a ${storeCurrency}${priceValue} Gift Card`);
             setVideoTitle('Here’s an example of what kind of video you can record:');
+            setButtonText('Upload Your Video');
 
         } else if (value === "fr") {
             setRows([
@@ -428,6 +501,7 @@ const Settings = () => {
             ]);
             setTitle(`Envoyez-nous une vidéo pour obtenir une carte cadeau de ${storeCurrency}${priceValue}`);
             setVideoTitle('Voici un exemple de vidéo que vous pouvez enregistrer:');
+            setButtonText('Téléchargez une courte vidéo');
         } else if (value === "es") {
             setRows([
                 { id: 1, value: "Graba un video de hasta 30 segundos" },
@@ -447,6 +521,8 @@ const Settings = () => {
             ]);
             setTitle(`Envíanos un video para obtener una tarjeta de regalo de ${storeCurrency}${priceValue}`);
             setVideoTitle('Aquí hay un ejemplo de video que puede grabar:');
+            setButtonText('Cargue un breve video');
+
         } else if (value === "pt") {
             setRows([
                 { id: 1, value: "Grave um vídeo de até 30 segundos" },
@@ -466,6 +542,9 @@ const Settings = () => {
             ]);
             setTitle(`Envie-nos um vídeo para receber um cartão presente de ${storeCurrency}${priceValue}`);
             setVideoTitle('Aqui está um exemplo de vídeo que você pode gravar:');
+            setButtonText('Carregue um breve vídeo');
+
+            
         } else if (value === "it") {
             setRows([
                 { id: 1, value: "Registra un video fino a 30 secondi" },
@@ -485,6 +564,8 @@ const Settings = () => {
             ]);
             setTitle(`Invia un video per ottenere una carta regalo da ${storeCurrency}${priceValue}`);
             setVideoTitle('Ecco un esempio di video che potete registrare:');
+            setButtonText('Caricare un breve video');
+
         } else if (value === "de") {
             setRows([
                 {
@@ -507,6 +588,8 @@ const Settings = () => {
             ]);
             setTitle(`Senden Sie uns ein Video, um eine Geschenkkarte im Wert von ${storeCurrency}${priceValue} zu erhalten`);
             setVideoTitle('Hier ist ein Beispiel für ein Video, das Sie aufnehmen können:');
+            setButtonText('Laden Sie ein kurzes Video hoch');
+
         }
     }
    
@@ -540,7 +623,12 @@ const Settings = () => {
         formData.append("instruction_title", title);
         formData.append("video_title", videoTitle);
         formData.append("instruction_subtitle", instructionSubTitle);
+        formData.append("video_btn_text", buttonText);
+        if (!isHandleAvailable){
+            formData.append("store_handle", storeHandle);
+        }
 
+        
         formData.append("locale", selected);
         if (
             (priceValue == "" ||
@@ -607,8 +695,11 @@ const Settings = () => {
     // copy Landing Page Link
     const copyLandingPageLink = () => {
 
-        const landingPageDisplayedValue =
-            baseUrl + "/landingPage/" + currentLang + "?store=" + store;
+        // const landingPageDisplayedValue =
+        //     baseUrl + "/landingPage/" + currentLang + "?store=" + store;
+        const landingPageDisplayedValue = baseUrl + "/" + storeHandle;
+
+
         navigator.clipboard.writeText(landingPageDisplayedValue);
         setSuccessMsg("Copied to Clipboard");
 
@@ -757,6 +848,21 @@ const Settings = () => {
         setAlreadyUploadedVideo('');
         setVideo('');
 
+    }
+
+    const handleSaveStoreHandle = ()=>{
+  
+        const formData = new FormData();
+        if(!isHandleAvailable){
+            formData.append('store_handle', storeHandle);
+            fetch('store_handle',{
+            method:"POST",
+            body:formData
+           }).then((response)=>response.json()).then((data)=>{
+                    console.log(data);
+           })
+        }
+        
     }
 
     const validVideoTypes = ['video'];
@@ -1131,6 +1237,40 @@ const Settings = () => {
                                         </div>
                                     </div>
                                 </Card>
+                                    <Card sectioned>
+                                        <Text variant="headingXl" as="h4">
+                                            Store Handle
+                                        </Text>
+                                        <p
+                                            style={{
+                                                marginTop: "5px",
+                                                marginBottom: "10px",
+                                            }}
+                                        >
+                                            Select the handle of your store
+                                        </p>
+
+                                        <div style={{ display: 'flex', alignItems: "center" }}>
+                                            <div>
+                                           <TextField
+                                            value={storeHandle}
+                                            onChange={(handleStoreHandle)}
+                                            autoComplete="off"
+                                        />
+                                        
+                                            </div>
+                                        <div style={{marginLeft:"10px",}}>
+                                              {
+                                                    storeHandleState ? <Spinner accessibilityLabel="Spinner example" size="large" />
+                                                        : <Button primary disabled={isHandleAvailable} onClick={handleSaveStoreHandle}>Save</Button>
+                                              }
+                                                
+                                               
+                                         </div>
+
+                                        </div>
+                                        {storeHandleResponse ? <span style={{ marginTop: "10px",display:"inline-block", color: isHandleAvailable ? 'red' : 'green'}}>{storeHandleResponse}</span> : '' }
+                                    </Card>
                                 <Card sectioned>
                                     <div
                                         style={{

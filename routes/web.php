@@ -42,6 +42,7 @@ Route::get('/getSession', [AuthController::class, 'getSession']);
 Route::middleware(['auth'])->group(function () {
 
     Route::get('/', function () {
+      
         return view('non_embedded');
     });
     Route::get('getDataofallPlans', [AdminController::class, 'fetchingdataofusers']);
@@ -54,6 +55,7 @@ Route::middleware(['auth'])->group(function () {
 
 // Landing Page View
 Route::get('landingPage/{locale}', [SettingsController::class, 'landingPage']);
+
 // Landing Page
 Route::get('uploadVideo/{locale}/{order_id?}', [SettingsController::class, 'uploadVideo'])->name('uploadVideo');
 // upload video on Dropbox
@@ -126,7 +128,9 @@ Route::group(['middleware' => 'verify.shopify'], function () {
     Route::post('save-email-settings', [SettingsController::class, 'saveEmailSettings']);
     Route::get('fetch-email-settings', [SettingsController::class, 'fetchEmailSettings']);
     Route::post('checkuploadedlogo', [SettingsController::class, 'checkuploadedlogo']);
-
+    Route::post('check-handle', [SettingsController::class, 'checkHandle']);
+    Route::post('store_handle', [SettingsController::class, 'saveHandle']);
+    
     
     
 });
@@ -144,5 +148,5 @@ Route::get('get_plans', [OrdersController::class, 'get_plans'])->name('get_plans
 Route::get('testEmail',[AdminController::class, 'testEmail']);
 
 ######################################################################## EXTRA ROUTES ########################################################################
-
+Route::get('/{handle}', [SettingsController::class, 'landingPage2']);
 Route::view('/{any}', 'non_embedded')->where('any', '^(?!webhook).*$')->name('non_embedded');

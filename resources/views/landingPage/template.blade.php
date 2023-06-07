@@ -27,7 +27,7 @@
 
             </div>
             <button type="button"  class="btn btn-primary savevedio_redirect" id="redirect" store="{{ $user->name }}" locale= "{{ $settings->locale }}"   value="" style="width: 100%;font-size: 20px;font-weight: 700;background: {{$settings->page_color}};height: 60px;border: none;">
-                {{__('landingPage.button_text')}}
+                {{$settings->video_btn_text ? $settings->video_btn_text : __('landingPage.button_text')}}
             </button>
             @if($settings->video=='undefined' || $settings->video=='')
             @else
