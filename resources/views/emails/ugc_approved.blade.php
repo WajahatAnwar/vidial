@@ -16,7 +16,7 @@
                     $logo = $body['logo'];
                 @endphp
                 @if($logo)
-                <img src="{{ $logo }}" style="display: block;margin: 20px auto;max-width: 250px;">
+                <img src="{{ $logo }}" style="display: block;margin: 20px auto;max-width: 150px;">
                 @endif
                 {!! $body['body'] !!}
                 
