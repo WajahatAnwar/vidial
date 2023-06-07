@@ -9,8 +9,8 @@
 </head>
 
 <body style="margin: 0;padding: 0;">
-    <div style="width: 100%; padding: 20px;background: #ffffff;display: flex;justify-content: center;">
-        <div style="max-width: 600px;background: #fff;padding: 20px;border-radius: 15px;display: block;margin: auto;">
+
+        <div style="max-width: 100%;background: #fff;text-align:center;padding: 20px; border-radius: 15px;display: block;margin: auto;">
             <div>
                   @php
                     $logo = $body['logo'];
@@ -22,7 +22,7 @@
                 
             </div>
         </div>
-    </div>
+    
 
 
 
