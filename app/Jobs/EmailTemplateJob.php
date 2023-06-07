@@ -42,11 +42,12 @@ class EmailTemplateJob implements ShouldQueue
             }
         if ($user_template) {
             $button='<a href='.$this->details['url'].' style="text-decoration: none"><button style="font-size: 18px;background:'. $user_template['btn_color']. ';color: #fff;border: none;border-radius: 4px;display: block;margin: 50px auto;padding: 16px 30px;;cursor: pointer;border-radius: 25px;">'. $user_template['btn_text'].'</button></a>';
+            $discountButton = '<span style="background-color:#FFFF00">'. $this->details['discount_code'].'</span>';
             $body['body'] = $user_template['body'];
             $body['body'] = str_replace('{{name}}', $this->details['name'] ?? 'Customer', $body['body']);
             $body['body'] = str_replace('{{amount}}', $symbol.$this->details['amount'], $body['body']);
             $body['body'] = str_replace('{{storename}}', $this->details['storename'], $body['body']);
-            $body['body'] = str_replace('{{discount_code}}', $this->details['discount_code'], $body['body']);
+            $body['body'] = str_replace('{{discount_code}}', $discountButton, $body['body']);
             $body['body'] = str_replace('{{button}}', $button, $body['body']);
             $body['body'] = str_replace('{{reason_decline}}', $this->details['reason_decline'], $body['body']);
             $body['body'] = str_replace('<br>', "", $body['body']);
