@@ -10,7 +10,7 @@
 
 <body style="margin: 0;padding: 0;">
 
-        <div style="width:100%;background:#fff;text-align:center;padding: 20px; border-radius: 15px;display: block;margin: auto;">
+        <div style="background:#fff;text-align:center;padding: 20px; border-radius: 15px;display:flex;margin: auto;">
             <div>
                   @php
                     $logo = $body['logo'];
