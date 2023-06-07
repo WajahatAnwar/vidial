@@ -6,7 +6,8 @@
        border-color:{{$settings->page_color}};
 }
      #dropzone-external {
-        background-color: {{$settings->page_color}}
+        background-color: {{$settings->page_color}};
+        border: 2px dashed {{$settings->page_color}};
      }
 
 </style>
