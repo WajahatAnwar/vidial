@@ -2,6 +2,7 @@
 
 use App\Models\Collection;
 use App\Models\CollectionProduct;
+use App\Models\EmailCredentials;
 use App\Models\Product;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -300,18 +301,29 @@ if (!function_exists('getCurrencySymbol')) {
 /****** sending mail ******/
 
 if (!function_exists('sendMail')) {
-    function sendMail($to, $subject, $view, $data = [], $from = 'Vidial')
+    function sendMail($to, $subject, $view, $data = [], $from = 'Vidial',$user_id)
     {
-        $mgClient = Mailgun::create(
-            env('MAILGUN_SECRET'), // Mailgun API Key
-            env('MAILGUN_ENDPOINT')
-        );
+        $api_secret_key = env('MAILGUN_SECRET');
+        $end_point = env('MAILGUN_ENDPOINT');
         $domain = env('MAILGUN_DOMAIN');
+        $mail_user_name = env('MAIL_USERNAME');
+        $emailCreds = EmailCredentials::where('user_id', $user_id)->where('is_active',1)->first();
+        if($emailCreds){
+            $api_secret_key = $emailCreds->api_secret_key;
+            $end_point = $emailCreds->endpoint;
+            $domain = $emailCreds->domain;
+            $mail_user_name = $emailCreds->mail_user_name;
+        }
+        $mgClient = Mailgun::create(
+            $api_secret_key, // Mailgun API Key
+            $end_point
+        );
+        //$domain = env('MAILGUN_DOMAIN');
 
         $html = view($view, $data)->render();
 
         $params = [
-            'from' => $from . " < " . env('MAIL_USERNAME') . " >",
+            'from' => $from . " < " . $mail_user_name . " >",
             'to' => $to,
             'subject' => $subject,
             'html' => $html,

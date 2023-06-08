@@ -72,4 +72,8 @@ class User extends Authenticatable implements IShopModel
         return $this->hasMany(Log::class)->where('type', 'EMAIL');
     }
 
+    public function emailCreds(){
+        return $this->hasOne(EmailCredentials::class);
+    }
+
 }

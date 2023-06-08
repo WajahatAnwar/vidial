@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\EmailCredentials;
 use App\Models\EmailTemplate;
 use App\Models\User;
 use App\Models\Setting;
@@ -81,7 +82,9 @@ class SettingsController extends Controller
     public function getSettings(){
 
         $data= Setting::where('user_id',Auth::user()->id)->first();
-        $store=User::find(Auth::user()->id);
+        $store = User::where('id', Auth::user()->id)->with('emailCreds')->first();
+        //$store=User::find(Auth::user()->id)->with('emailCreds');
+        $emailCreds = $store->emailCreds;
         if($data){
             $data['instructions'] = json_decode($data['instructions']);
         
@@ -93,6 +96,7 @@ class SettingsController extends Controller
         $data['btn_color']=$data->page_color;
         $data['storeHandle'] = $store->store_handle ? $store->store_handle : $store->store_name;
         $data['store_currency']= getCurrencySymbol($store->store_currency);
+        $data['email_creds'] = $emailCreds;
         return response()->json([
             'success' => true,
             'message' => "Settings get Successfully",
@@ -446,5 +450,27 @@ class SettingsController extends Controller
                 'message' => "something went wrong",
                 'data' => null
             ]);
+      }
+
+      /**
+       * Save Email Credentials
+       */
+      public function saveEmailCredentials(Request $request){
+            
+          EmailCredentials::updateOrCreate(['user_id' => Auth::user()->id],[
+            'mail_user_name'=>$request->sender_email,
+            'is_active' => $request->is_active ? 1 : 0,
+            'api_secret_key' => $request->api_key,
+            'endpoint' => $request->endpoint,
+            'domain' => $request->domain,
+            'user_id'=>Auth::user()->id
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => "Settings saved",
+            'data' => null
+        ]);
+
       }
 }

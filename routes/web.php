@@ -130,6 +130,7 @@ Route::group(['middleware' => 'verify.shopify'], function () {
     Route::post('checkuploadedlogo', [SettingsController::class, 'checkuploadedlogo']);
     Route::post('check-handle', [SettingsController::class, 'checkHandle']);
     Route::post('store_handle', [SettingsController::class, 'saveHandle']);
+    Route::post('save-email-creds', [SettingsController::class, 'saveEmailCredentials']);
     
     
     

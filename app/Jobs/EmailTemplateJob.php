@@ -59,7 +59,7 @@ class EmailTemplateJob implements ShouldQueue
             $user_template['subject'] =str_replace('{{amount}}', $symbol.$this->details['amount'], $user_template['subject']);
             $user_template['subject'] = str_replace('{{storename}}',$this->details['storename'], $user_template['subject']);
             $from = str_replace('{{storename}}',$this->details['storename'], $user_template->from);
-            sendMail($this->details['mail'], $user_template['subject'], $this->details['view'], ['body' => $body], $from);
+            sendMail($this->details['mail'], $user_template['subject'], $this->details['view'], ['body' => $body], $from, $this->details['user_id']);
             //dd('sent');
         }
     }

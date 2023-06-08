@@ -58,11 +58,14 @@ const Settings = () => {
     const [approvedStoreHandle, setApprovedStoreHandle] = useState(null);
     const [isHandleAvailable, setIsHandleAvailable] = useState(true);
     const [storeHandleState, setStoreHandleState] = useState(false);
-    const [storeHandleResponse, setStoreHandleResponse] = useState(null); 
-
-    const [checkedOwnEmail, setOwnEmail] = useState(false);
-    const handleOwnEmail = useCallback(
-        (e) => setOwnEmail(e),
+    const [storeHandleResponse, setStoreHandleResponse] = useState(null);
+    const [emailCredsError, setEmailCredsError] = useState(false);
+    const [emailCredsMsg, setEmailCredsMsg] = useState(''); 
+   
+    
+    const [isEmailActive, setIsEmailActive] = useState(false);
+    const handleIsEmailActive = useCallback(
+        (e) => setIsEmailActive(e),
         [],
     );
     const [activeTootlTip, setActiveTootlTip] = useState(false);
@@ -85,10 +88,16 @@ const Settings = () => {
     const [videoTitle, setVideoTitle] = useState("");
     const [instructionSubTitle, setInstructionSubTitle] = useState("Instructions");
     const handleDropzoneText = useCallback((newValue) => setVideoTitle(newValue), []);
-    const [replyEmail, setReplyEmail] = useState("");
-    const handleReplyEmail = useCallback((newValue) => setReplyEmail(newValue), []);
+    const [senderEmail, setSenderEmail] = useState("");
+    const handleSenderEmail = useCallback((newValue) => setSenderEmail(newValue), []);
     const [mailgunAPI, setMailgunAPI] = useState("");
+    const [mailgunDomain, setMailgunDomain] = useState("");
+    const [mailgunEndpoint, setMailgunEndpoint] = useState("");
+
+    
     const handleMailgunAPI = useCallback((newValue) => setMailgunAPI(newValue), []);
+    const handleMailgunDomain = useCallback((newValue) => setMailgunDomain(newValue), []);
+    const handleMailgunEndPoint = useCallback((newValue) => setMailgunEndpoint(newValue), []);
     const [title, setTitle] = useState("");
     const handleTitle = useCallback((newValue) => setTitle(newValue), []);
    
@@ -375,6 +384,58 @@ const Settings = () => {
               })
         }, []);
 
+
+        /**
+         * Save Merchent Email Creds
+         */
+    const handleSaveEmailCredentials = ()=>{
+        setEmailCredsError(false);
+        setEmailCredsMsg('');
+        if (senderEmail.length <= 0){
+            setEmailCredsError(true);
+            setEmailCredsMsg('Email field is required');
+            return;
+        }
+        if (mailgunAPI.length <= 0) {
+            setEmailCredsError(true);
+            setEmailCredsMsg('Api field is required');
+            return;
+        }
+        if (mailgunEndpoint.length <= 0) {
+            setEmailCredsError(true);
+            setEmailCredsMsg('Endpoint field is required');
+            return;
+        }
+        if (mailgunDomain.length <= 0) {
+            setEmailCredsError(true);
+            setEmailCredsMsg('Domain field is required');
+            return;
+        }
+        const formData = new FormData();
+        formData.append('is_active', isEmailActive);
+        formData.append('sender_email',senderEmail);
+        formData.append('api_key',mailgunAPI);
+        formData.append('endpoint',mailgunEndpoint);
+        formData.append('domain',mailgunDomain);
+        fetch('/save-email-creds',{
+            method:"POST",
+            body:formData
+        })
+        .then((response)=> response.json()).then((data)=>{
+            if (data.success){
+                setSuccessMsg("Settings Added Successfully");
+                toggleActive();
+                setIsSettingSave(new Date().getSeconds());
+            }
+        })
+    }
+    const setterEmailCreds = (data)=>{
+        setMailgunAPI(data.data.email_creds.api_secret_key);
+        setIsEmailActive(data.data.email_creds.is_active);
+        setSenderEmail(data.data.email_creds.mail_user_name);
+        setMailgunDomain(data.data.email_creds.domain);
+        setMailgunEndpoint(data.data.email_creds.endpoint);
+    }
     
     /********  get Settings Data  ******/
     useEffect(() => {
@@ -386,6 +447,9 @@ const Settings = () => {
                 }
                 const data = await response.json();
                 if (data.success) {
+                    console.log(data.data.email_creds);
+                    data.data.email_creds ? setterEmailCreds(data) : ''
+                    
                     setApprovedStoreHandle(data.data.storeHandle);
                     setStoreHandle(data.data.storeHandle);
                     // setting for already existing users
@@ -450,7 +514,6 @@ const Settings = () => {
                             baseUrl + "/" + "video/" + data.data.video
                         );
                     }
-                    console.log(store);
                 }
             } catch (error) {
                 console.log(error);
@@ -2232,6 +2295,19 @@ const Settings = () => {
                                             <p style={{ marginTop: "5px" }}>
                                                 Customize all the emails your customers will receive
                                             </p>
+                                            {
+                                                    emailCredsError ? <Banner>
+                                                        <List type="bullet">
+                                                            {
+                                                                <List.Item>{emailCredsMsg}</List.Item>
+                                            
+                                                            }
+
+
+                                                        </List>
+                                                    </Banner>  : ''
+                                            }
+                                                
                                         </div>
                                         <div
                                             style={{
@@ -2255,8 +2331,8 @@ const Settings = () => {
                                         <div style={{marginTop:"20px"}}></div>
                                         <Checkbox
                                             label="Send with your own email"
-                                            checked={checkedOwnEmail}
-                                            onChange={handleOwnEmail}
+                                            checked={isEmailActive}
+                                            onChange={handleIsEmailActive}
                                         />
                                         <div
                                             style={{
@@ -2265,7 +2341,7 @@ const Settings = () => {
                                             }}
                                         >
 
-
+                                                
 
                                             <TextField
                                                 value={mailgunAPI}
@@ -2285,13 +2361,59 @@ const Settings = () => {
 
 
                                             <TextField
-                                                value={replyEmail}
-                                                onChange={handleReplyEmail}
+                                                value={senderEmail}
+                                                onChange={handleSenderEmail}
                                                 autoComplete="off"
                                                 placeholder="noreply@vidialapp.com"
                                             />
                                             <p style={{color:"#717171",marginTop:"5px"}}>Enter the email address that will be used as the sender.</p>
+                                                
                                         </div>
+
+                                            <div
+                                                style={{
+                                                    width: "450px",
+                                                    marginTop: "10px",
+                                                }}
+                                            >
+
+
+                                                <TextField
+                                                    value={mailgunDomain}
+                                                    onChange={handleMailgunDomain}
+                                                    autoComplete="off"
+                                                    placeholder="Mailgun Domain"
+                                                />
+                                                <p style={{ color: "#717171", marginTop: "5px" }}>Enter the mail gun Domain.</p>
+
+                                            </div>
+
+
+                                            <div
+                                                style={{
+                                                    width: "450px",
+                                                    marginTop: "10px",
+                                                }}
+                                            >
+
+                                                <TextField
+                                                    value={mailgunEndpoint}
+                                                    onChange={handleMailgunEndPoint}
+                                                    autoComplete="off"
+                                                    placeholder="Mailgun Endpoint"
+                                                />
+                                                <p style={{ color: "#717171", marginTop: "5px" }}>Enter the mail gun endpoint.</p>
+
+                                            </div>
+                                            <div
+                                                style={{
+                                                    width: "450px",
+                                                    marginTop: "10px",
+                                                }}
+                                            >
+                                                <Button  primary onClick={handleSaveEmailCredentials}>Save</Button>
+                                                </div>                                    
+
                                         <div
                                             style={{
                                                 display: "flex",
