@@ -20,6 +20,7 @@ import {
     Popover,
     ButtonGroup,
     Checkbox,
+    Label,
 } from "@shopify/polaris";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -46,6 +47,7 @@ import arrowRight from "./imges/arrowRight.png";
 import Toggle from "./Toggle";
 import Dropzone from "dropzone";
 import './css/editor.css';
+import EmailCredsToggle from "./EmailCredsToggle";
 /**
 const urlParams = new URLSearchParams(location.search);
 const shopParam = urlParams.get('shop');
@@ -60,7 +62,9 @@ const Settings = () => {
     const [storeHandleState, setStoreHandleState] = useState(false);
     const [storeHandleResponse, setStoreHandleResponse] = useState(null);
     const [emailCredsError, setEmailCredsError] = useState(false);
-    const [emailCredsMsg, setEmailCredsMsg] = useState(''); 
+    const [emailCredsMsg, setEmailCredsMsg] = useState('');
+    const [emailCredsToggle, setEmailCredsToggle] = useState(false); 
+    
    
     
     const [isEmailActive, setIsEmailActive] = useState(false);
@@ -391,19 +395,14 @@ const Settings = () => {
     const handleSaveEmailCredentials = ()=>{
         setEmailCredsError(false);
         setEmailCredsMsg('');
-        if (senderEmail.length <= 0){
-            setEmailCredsError(true);
-            setEmailCredsMsg('Email field is required');
-            return;
-        }
         if (mailgunAPI.length <= 0) {
             setEmailCredsError(true);
             setEmailCredsMsg('Api field is required');
             return;
         }
-        if (mailgunEndpoint.length <= 0) {
+        if (senderEmail.length <= 0){
             setEmailCredsError(true);
-            setEmailCredsMsg('Endpoint field is required');
+            setEmailCredsMsg('Email field is required');
             return;
         }
         if (mailgunDomain.length <= 0) {
@@ -411,8 +410,15 @@ const Settings = () => {
             setEmailCredsMsg('Domain field is required');
             return;
         }
+        
+        if (mailgunEndpoint.length <= 0) {
+            setEmailCredsError(true);
+            setEmailCredsMsg('Endpoint field is required');
+            return;
+        }
+        
         const formData = new FormData();
-        formData.append('is_active', isEmailActive);
+        formData.append('is_active', emailCredsToggle);
         formData.append('sender_email',senderEmail);
         formData.append('api_key',mailgunAPI);
         formData.append('endpoint',mailgunEndpoint);
@@ -432,10 +438,13 @@ const Settings = () => {
     const setterEmailCreds = (data)=>{
         setMailgunAPI(data.data.email_creds.api_secret_key);
         setIsEmailActive(data.data.email_creds.is_active);
+        setEmailCredsToggle(data.data.email_creds.is_active);
         setSenderEmail(data.data.email_creds.mail_user_name);
         setMailgunDomain(data.data.email_creds.domain);
         setMailgunEndpoint(data.data.email_creds.endpoint);
     }
+
+    
     
     /********  get Settings Data  ******/
     useEffect(() => {
@@ -2295,19 +2304,19 @@ const Settings = () => {
                                             <p style={{ marginTop: "5px" }}>
                                                 Customize all the emails your customers will receive
                                             </p>
-                                            {
+                                            
+                                                {
                                                     emailCredsError ? <Banner>
                                                         <List type="bullet">
                                                             {
                                                                 <List.Item>{emailCredsMsg}</List.Item>
-                                            
+
                                                             }
 
 
                                                         </List>
-                                                    </Banner>  : ''
-                                            }
-                                                
+                                                    </Banner> : ''
+                                                } 
                                         </div>
                                         <div
                                             style={{
@@ -2329,11 +2338,24 @@ const Settings = () => {
                                         expandOnPrint
                                     >
                                         <div style={{marginTop:"20px"}}></div>
-                                        <Checkbox
+                                            <div style={{display:"flex",alignItems:"center", marginRight:"5px"}} >
+                                                <EmailCredsToggle toggled={emailCredsToggle} onClick={() => {
+                                                    setEmailCredsToggle(!emailCredsToggle);
+                                                    setEmailCredsError(false);
+                                                }}></EmailCredsToggle>
+                                            
+                                            <p style={{fontWeight:"bold",marginLeft:"5px"}}>Send with your own email</p>
+                                            
+                                     
+                                            </div>
+                                        {
+                                                emailCredsToggle ? 
+                                        <>
+                                                        {/* <Checkbox
                                             label="Send with your own email"
                                             checked={isEmailActive}
                                             onChange={handleIsEmailActive}
-                                        />
+                                        /> */}
                                         <div
                                             style={{
                                                 width: "450px",
@@ -2349,7 +2371,7 @@ const Settings = () => {
                                                 autoComplete="off"
                                                 placeholder="Mailgun API Key"
                                             />
-                                            <p style={{color:"#717171",marginTop:"5px"}}>Paste your <a href="https://www.google.com/" target="blank" style={{color:"#008060",textDecoration:"underline"}}>Mailgun</a> API Key here. <a href="https://www.google.com/" target="blank" style={{color:"#008060",textDecoration:"underline"}}>See how it works</a></p>
+                                                            <p style={{ color: "#717171", marginTop: "5px" }}>Paste your <a href="https://www.mailgun.com/blog/product/getting-started-with-mailgun-introduction-to-platform-training/" target="blank" style={{ color: "#008060", textDecoration: "underline" }}>Mailgun</a> API Key here. <a href="https://documentation.mailgun.com/en/latest/index.html" target="blank" style={{color:"#008060",textDecoration:"underline"}}>See how it works</a></p>
                                         </div>
                                         <div
                                             style={{
@@ -2384,7 +2406,7 @@ const Settings = () => {
                                                     autoComplete="off"
                                                     placeholder="Mailgun Domain"
                                                 />
-                                                <p style={{ color: "#717171", marginTop: "5px" }}>Enter the mail gun Domain.</p>
+                                                <p style={{ color: "#717171", marginTop: "5px" }}>Enter the Mailgun Domain.</p>
 
                                             </div>
 
@@ -2402,7 +2424,7 @@ const Settings = () => {
                                                     autoComplete="off"
                                                     placeholder="Mailgun Endpoint"
                                                 />
-                                                <p style={{ color: "#717171", marginTop: "5px" }}>Enter the mail gun endpoint.</p>
+                                                <p style={{ color: "#717171", marginTop: "5px" }}>Enter the Mailgun endpoint.</p>
 
                                             </div>
                                             <div
@@ -2412,8 +2434,10 @@ const Settings = () => {
                                                 }}
                                             >
                                                 <Button  primary onClick={handleSaveEmailCredentials}>Save</Button>
-                                                </div>                                    
-
+                                                </div>   
+                                                    </>                                 
+                                               : ''
+                                            }
                                         <div
                                             style={{
                                                 display: "flex",
