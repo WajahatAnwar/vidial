@@ -403,25 +403,17 @@ class SettingsController extends Controller
         ], []);
 
         if ($validator->fails()) {
-            // $str['success'] = false;
-            // $error = $validator->errors()->toArray();
-            // foreach ($error as $x_value) {
-            //     $err[] = $x_value[0];
-            // }
-            // $str['message'] = $err['0'];
-            // // $str['data'] = $validator->errors()->toArray();
-            // return $str;
-            
             return response()->json([
                 'success' => false,
                 'message' => $validator->errors()->first(),
                 'data' => null
             ]);
         }
-        $handleExistance = User::where('store_handle', $request->store_handle)
-        ->orWhere('store_name', $request->store_handle)
-        ->where('id', '!=',Auth::user()->id)
-        ->first();
+        $handleExistance = User::where(function ($query) use ($request) {
+            $query->where('store_handle', $request->store_handle)
+                ->orWhere('store_name', $request->store_handle);
+        })->where('id', '!=', Auth::user()->id)->first();
+        //dd(Auth::user()->id);
         if($handleExistance){
             return response()->json([
                 'success' => false,

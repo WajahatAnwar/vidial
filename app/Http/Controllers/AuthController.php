@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use App\Models\Setting;
 
+
 class AuthController extends Controller
 {
     //
@@ -165,10 +166,24 @@ class AuthController extends Controller
         $x_forwarded_for = $_SERVER["HTTP_X_FORWARDED_FOR"];
 
         $shopData = $shop->api()->rest('get', '/admin/api/2022-07/shop.json');
+        $shop_store_name = $shopData['body']['shop']['name'];
         $shop->store_currency = $shopData['body']['shop']['currency'];
         $shop->email = $shopData['body']['shop']['email'];
-        $shop->store_name = $shopData['body']['shop']['name'];
-        // $shop->store_handle = $shopData['body']['shop']['name'];
+        $shop->store_name = $shop_store_name;
+        /**
+         * check shop handle already exist
+         */
+        $handleExistance = User::where(function ($query) use ($shop_store_name) {
+            $query->where('store_handle', $shop_store_name)
+            ->orWhere('store_name', $shop_store_name);
+        })->where('id', '!=', Auth::user()->id)->first();
+        if($handleExistance){
+            $shop->store_handle = $shopData['body']['shop']['name'].'_'. Str::random(5);
+            
+        }else {
+            $shop->store_handle = $shopData['body']['shop']['name'];
+        }
+
         // $shop->plan_id = 1;
         $shop->save();
 

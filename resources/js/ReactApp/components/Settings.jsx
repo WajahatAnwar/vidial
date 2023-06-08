@@ -55,6 +55,7 @@ localStorage.setItem('store',storeName);
 
 const Settings = () => {
     const [storeHandle, setStoreHandle] = useState(null);
+    const [approvedStoreHandle, setApprovedStoreHandle] = useState(null);
     const [isHandleAvailable, setIsHandleAvailable] = useState(true);
     const [storeHandleState, setStoreHandleState] = useState(false);
     const [storeHandleResponse, setStoreHandleResponse] = useState(null); 
@@ -289,7 +290,7 @@ const Settings = () => {
         //     baseUrl + "/landingPage/" + currentLang + "?store=" + store
         // );
         window.open(
-            baseUrl + "/" + storeHandle
+            baseUrl + "/" + approvedStoreHandle
         );
     };
 
@@ -385,6 +386,7 @@ const Settings = () => {
                 }
                 const data = await response.json();
                 if (data.success) {
+                    setApprovedStoreHandle(data.data.storeHandle);
                     setStoreHandle(data.data.storeHandle);
                     // setting for already existing users
                     data.data.inspirational_video_title ? setVideoTitle(data.data.inspirational_video_title) 
@@ -697,7 +699,7 @@ const Settings = () => {
 
         // const landingPageDisplayedValue =
         //     baseUrl + "/landingPage/" + currentLang + "?store=" + store;
-        const landingPageDisplayedValue = baseUrl + "/" + storeHandle;
+        const landingPageDisplayedValue = baseUrl + "/" + approvedStoreHandle;
 
 
         navigator.clipboard.writeText(landingPageDisplayedValue);
