@@ -1440,28 +1440,7 @@ const Settings = () => {
                                             </div>
                                         </div>
                                     }
-                                    <div
-                                        style={{
-                                            width: "450px",
-                                            marginTop: "20px",
-                                        }}
-                                    >
-
-                                        <p
-                                            style={{
-                                                marginTop: "5px",
-                                                marginBottom: "5px",
-                                            }}
-                                        >
-                                            Inspirational Video Title
-                                        </p>
-                                        <TextField
-                                            value={videoTitle}
-                                            onChange={handleDropzoneText}
-                                            autoComplete="off"
-                                        />
-
-                                    </div>
+                                  
                                     <div
                                         style={{
                                             width: "450px",
@@ -1577,6 +1556,7 @@ const Settings = () => {
                                             Add another instruction
                                         </Button>
                                     </div>
+                                       
                                     <div
                                         style={{
                                             display: "flex",
@@ -1589,6 +1569,28 @@ const Settings = () => {
                                             <Text variant="headingLg" as="h5">
                                                 Inspirational Video (optional)
                                             </Text>
+                                                <div
+                                                    style={{
+                                                        width: "450px",
+                                                        marginTop: "20px",
+                                                    }}
+                                                >
+
+                                                    <p
+                                                        style={{
+                                                            marginTop: "5px",
+                                                            marginBottom: "5px",
+                                                        }}
+                                                    >
+                                                        Inspirational Video Title
+                                                    </p>
+                                                    <TextField
+                                                        value={videoTitle}
+                                                        onChange={handleDropzoneText}
+                                                        autoComplete="off"
+                                                    />
+
+                                                </div>
                                             <p style={{ marginTop: "5px", marginBottom: "5px" }}>
                                                 Add a video for your customers
                                                 to get inspired and make a UGC
