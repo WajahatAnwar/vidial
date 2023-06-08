@@ -624,9 +624,9 @@ const Settings = () => {
         formData.append("video_title", videoTitle);
         formData.append("instruction_subtitle", instructionSubTitle);
         formData.append("video_btn_text", buttonText);
-        if (!isHandleAvailable){
-            formData.append("store_handle", storeHandle);
-        }
+        // if (!isHandleAvailable){
+        //     formData.append("store_handle", storeHandle);
+        // }
 
         
         formData.append("locale", selected);
@@ -859,7 +859,11 @@ const Settings = () => {
             method:"POST",
             body:formData
            }).then((response)=>response.json()).then((data)=>{
-                    console.log(data);
+                    if(data.success){
+                        setSuccessMsg('save store handle');
+                        toggleActive();
+                        setIsSettingSave(new Date().getSeconds());
+                    }
            })
         }
         
