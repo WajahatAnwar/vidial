@@ -265,8 +265,8 @@ const Settings = () => {
     // console.log(logoImage);
     const [video, setVideo] = useState("");
     const [store, setStore] = useState("");
-    //const [baseUrl, setBaseUrl] = useState("https://app.vidial.co");
-    const [baseUrl, setBaseUrl] = useState("https://phpstack-953879-3439374.cloudwaysapps.com");
+    const [baseUrl, setBaseUrl] = useState("https://app.vidial.co");
+    //const [baseUrl, setBaseUrl] = useState("https://phpstack-953879-3439374.cloudwaysapps.com");
     //const [baseUrl, setBaseUrl] = useState("https://45f9-72-255-51-52.ngrok-free.app");
     const [imagename, setImagename] = useState("");
     const [videoname, setVideoname] = useState("");
@@ -405,24 +405,27 @@ const Settings = () => {
             setEmailCredsMsg('Email field is required');
             return;
         }
-        if (mailgunDomain.length <= 0) {
-            setEmailCredsError(true);
-            setEmailCredsMsg('Domain field is required');
-            return;
-        }
+        const domain = getEmailDomain(senderEmail);
+
+        // if (mailgunDomain.length <= 0) {
+        //     setEmailCredsError(true);
+        //     setEmailCredsMsg('Domain field is required');
+        //     return;
+        // }
         
-        if (mailgunEndpoint.length <= 0) {
-            setEmailCredsError(true);
-            setEmailCredsMsg('Endpoint field is required');
-            return;
-        }
+        // if (mailgunEndpoint.length <= 0) {
+        //     setEmailCredsError(true);
+        //     setEmailCredsMsg('Endpoint field is required');
+        //     return;
+        // }
         
         const formData = new FormData();
         formData.append('is_active', emailCredsToggle);
         formData.append('sender_email',senderEmail);
         formData.append('api_key',mailgunAPI);
-        formData.append('endpoint',mailgunEndpoint);
-        formData.append('domain',mailgunDomain);
+        formData.append('endpoint', 'https://api.mailgun.net/v3/' + domain +'/messages');
+        // formData.append('endpoint', mailgunEndpoint);
+        formData.append('domain', domain);
         fetch('/save-email-creds',{
             method:"POST",
             body:formData
@@ -444,7 +447,15 @@ const Settings = () => {
         setMailgunEndpoint(data.data.email_creds.endpoint);
     }
 
-    
+    function getEmailDomain(email) {
+        // Find the index of the "@" symbol
+        const atIndex = email.indexOf("@");
+
+        // Extract the domain by slicing the string after the "@"
+        const domain = email.slice(atIndex + 1);
+
+        return domain;
+    }
     
     /********  get Settings Data  ******/
     useEffect(() => {
@@ -2392,7 +2403,7 @@ const Settings = () => {
                                                 
                                         </div>
 
-                                            <div
+                                            {/* <div
                                                 style={{
                                                     width: "450px",
                                                     marginTop: "10px",
@@ -2426,7 +2437,7 @@ const Settings = () => {
                                                 />
                                                 <p style={{ color: "#717171", marginTop: "5px" }}>Enter the Mailgun endpoint.</p>
 
-                                            </div>
+                                            </div> */}
                                             <div
                                                 style={{
                                                     width: "450px",
