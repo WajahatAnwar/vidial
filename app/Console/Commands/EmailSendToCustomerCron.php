@@ -75,7 +75,7 @@ class EmailSendToCustomerCron extends Command
                         'store_currency' => $current_user->store_currency,
                         // 'url' => env('APP_URL') . "/landingPage" . "/" . $settings->locale
                         //     . "?store=" . $settings->user->name . "&order_id=" . Crypt::encryptString($Orders_send_mail->id)
-                        'url'=> env('APP_URL').'/'. ($current_user->store_handle ? $current_user->store_handle : $current_user->store_name) . '?order_id=' . Crypt::encryptString($Orders_send_mail->id)
+                        'url'=> env('APP_URL').'/'. ($current_user->store_handle ? str_replace(' ', '_', $current_user->store_handle) : str_replace(' ', '_', $current_user->store_name)) . '?order_id=' . Crypt::encryptString($Orders_send_mail->id)
                         
                     ];
                     Log::info(json_encode($details));

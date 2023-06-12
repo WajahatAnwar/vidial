@@ -179,10 +179,10 @@ class AuthController extends Controller
         })->where('id', '!=', Auth::user()->id)->first();
         if($handleExistance){
 
-            $shop->store_handle = $shopData['body']['shop']['name'] . '_' . Str::random(5);
+            $shop->store_handle = str_replace(' ','_', $shopData['body']['shop']['name'] . '_' . Str::random(5));
             
         }else {
-            $shop->store_handle = $shopData['body']['shop']['name'];
+            $shop->store_handle = str_replace(' ', '_', $shopData['body']['shop']['name'] . '_' . Str::random(5));
         }
 
         // $shop->plan_id = 1;
