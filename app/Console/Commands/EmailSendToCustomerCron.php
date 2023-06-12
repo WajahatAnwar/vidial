@@ -3,18 +3,19 @@
 namespace App\Console\Commands;
 
 use Carbon\Carbon;
+use App\Models\User;
+use Mailgun\Mailgun;
 use App\Models\Orders;
 use App\Models\Setting;
 use App\Mail\orderReviewMail;
+use App\Jobs\EmailTemplateJob;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Mail\orderReviewReminderMail;
-use App\Models\User;
 use Illuminate\Support\Facades\Crypt;
-use Mailgun\Mailgun;
-use App\Jobs\EmailTemplateJob;
 
 class EmailSendToCustomerCron extends Command
 {
@@ -77,6 +78,7 @@ class EmailSendToCustomerCron extends Command
                         'url'=> env('APP_URL').'/'. ($current_user->store_handle ? $current_user->store_handle : $current_user->store_name) . '?order_id=' . Crypt::encryptString($Orders_send_mail->id)
                         
                     ];
+                    Log::info(json_encode($details));
                     if ($Orders_send_mail->email_status == 1) {
                         
                         // \Log::info("if already replied ignore");
