@@ -1327,13 +1327,13 @@ const Settings = () => {
                                     </div>
                                 </Card>
                                     <Card sectioned>
-                                        <Text variant="headingXl" as="h4">
+                                        <Text variant="headingLg" as="h5">
                                             Landing Page URL
                                         </Text>
                                         <p
                                             style={{
                                                 marginTop: "5px",
-                                                marginBottom: "10px",
+                                                marginBottom: "20px",
                                             }}
                                         >
                                             This will be the URL of the Landing Page your customers will land on.
@@ -1348,7 +1348,7 @@ const Settings = () => {
                                         />
                                         
                                             </div>
-                                        <div style={{marginLeft:"10px",}}>
+                                        <div style={{marginLeft:"13px",}}>
                                               {
                                                     storeHandleState ? <Spinner accessibilityLabel="Spinner example" size="large" />
                                                         : <Button primary disabled={isHandleAvailable} onClick={handleSaveStoreHandle}>Save</Button>
