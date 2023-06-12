@@ -7,7 +7,9 @@
             <h3 class="text-center mt-4 mb-3 adjustHeaddingSize" style="font-size: 30px;font-weight: 600;">{{$settings->instruction_title}}</h3>
 
 
-            <p  class="text-center mb-2" style="color: #FF5175;font-size: 20px;font-weight: 500;">Instructions</p>
+            <p  class="text-center mb-2" style="color: {{$settings->page_color}};font-size: 20px;font-weight: 500;">
+            {{$settings->instruction_subtitle ? $settings->instruction_subtitle : 'Instructions'}}
+            </p>
             <div style="">
 
                 @php
@@ -25,11 +27,11 @@
 
             </div>
             <button type="button"  class="btn btn-primary savevedio_redirect" id="redirect" store="{{ $user->name }}" locale= "{{ $settings->locale }}"   value="" style="width: 100%;font-size: 20px;font-weight: 700;background: {{$settings->page_color}};height: 60px;border: none;">
-                {{__('landingPage.button_text')}}
+                {{$settings->video_btn_text ? $settings->video_btn_text : __('landingPage.button_text')}}
             </button>
             @if($settings->video=='undefined' || $settings->video=='')
             @else
-            <h5 class="text-center mb-3 mt-4">{{__('landingPage.footer_instruction_text')}}</h5>
+            <h5 class="text-center mb-3 mt-4">{{$settings->inspirational_video_title ? $settings->inspirational_video_title : __('landingPage.footer_instruction_text')}}</h5>
 
               <video muted autoPlay loop  width="300px" height="531px" playsinline  controls style="display: block;margin: auto;    border-radius: 16px;box-shadow: #0000000d 0 1.25rem 1.6875rem!important;margin-bottom: 50px;">
                 <source src="{{ url('video/'.$settings->video) }}" type="video/mp4">

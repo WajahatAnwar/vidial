@@ -29,6 +29,7 @@ class User extends Authenticatable implements IShopModel
         'init_flag',
         'remaining_email',
         'remaining_videos',
+        'store_handle'
     ];
 
     /**
@@ -69,6 +70,10 @@ class User extends Authenticatable implements IShopModel
     public function mail_count()
     {
         return $this->hasMany(Log::class)->where('type', 'EMAIL');
+    }
+
+    public function emailCreds(){
+        return $this->hasOne(EmailCredentials::class);
     }
 
 }

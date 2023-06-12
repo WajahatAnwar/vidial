@@ -19,6 +19,8 @@ import {
     Collapsible,
     Popover,
     ButtonGroup,
+    Checkbox,
+    Label,
 } from "@shopify/polaris";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -44,7 +46,8 @@ import ChevronUp from "./imges/ChevronUpMinor.png";
 import arrowRight from "./imges/arrowRight.png";
 import Toggle from "./Toggle";
 import Dropzone from "dropzone";
-
+import './css/editor.css';
+import EmailCredsToggle from "./EmailCredsToggle";
 /**
 const urlParams = new URLSearchParams(location.search);
 const shopParam = urlParams.get('shop');
@@ -53,6 +56,22 @@ localStorage.setItem('store',storeName);
 */
 
 const Settings = () => {
+    const [storeHandle, setStoreHandle] = useState(null);
+    const [approvedStoreHandle, setApprovedStoreHandle] = useState(null);
+    const [isHandleAvailable, setIsHandleAvailable] = useState(true);
+    const [storeHandleState, setStoreHandleState] = useState(false);
+    const [storeHandleResponse, setStoreHandleResponse] = useState(null);
+    const [emailCredsError, setEmailCredsError] = useState(false);
+    const [emailCredsMsg, setEmailCredsMsg] = useState('');
+    const [emailCredsToggle, setEmailCredsToggle] = useState(false); 
+    
+   
+    
+    const [isEmailActive, setIsEmailActive] = useState(false);
+    const handleIsEmailActive = useCallback(
+        (e) => setIsEmailActive(e),
+        [],
+    );
     const [activeTootlTip, setActiveTootlTip] = useState(false);
     const [activeRejectionConfirmModel, setActiveRejectionConfirmModel] =
         useState(false);
@@ -70,8 +89,25 @@ const Settings = () => {
         () => setActiveRejectionModel(!activeRejectionModel),
         [activeRejectionModel]
     );
+    const [videoTitle, setVideoTitle] = useState("");
+    const [instructionSubTitle, setInstructionSubTitle] = useState("Instructions");
+    const handleDropzoneText = useCallback((newValue) => setVideoTitle(newValue), []);
+    const [senderEmail, setSenderEmail] = useState("");
+    const handleSenderEmail = useCallback((newValue) => setSenderEmail(newValue), []);
+    const [mailgunAPI, setMailgunAPI] = useState("");
+    const [mailgunDomain, setMailgunDomain] = useState("");
+    const [mailgunEndpoint, setMailgunEndpoint] = useState("");
+
+    
+    const handleMailgunAPI = useCallback((newValue) => setMailgunAPI(newValue), []);
+    const handleMailgunDomain = useCallback((newValue) => setMailgunDomain(newValue), []);
+    const handleMailgunEndPoint = useCallback((newValue) => setMailgunEndpoint(newValue), []);
     const [title, setTitle] = useState("");
     const handleTitle = useCallback((newValue) => setTitle(newValue), []);
+   
+    const handleInstruction = useCallback((newValue) => setInstructionSubTitle(newValue), []);
+    const [buttonText, setButtonText] = useState(null);
+    const handleButtonText = useCallback((newValue) => setButtonText(newValue), []);
     const [active, setActive] = useState(false);
     const [error, setError] = useState(false);
     const toggleActive = useCallback(() => setActive((active) => !active), []);
@@ -81,7 +117,7 @@ const Settings = () => {
     const [errorMessages, setErorrMessages] = useState([]);
     const [currentLang, setCurrentLang] = useState("en");
     const [isSettingSave, setIsSettingSave] = useState("");
-    const [emailTemplateButton,setEmailTemplateButton] = useState(true);
+    const [emailTemplateButton, setEmailTemplateButton] = useState(true);
     const [files, setFiles] = useState([]);
     const [alreadyUploadLogo, setAlreadyUploadedLogo] = useState('');
 
@@ -231,6 +267,7 @@ const Settings = () => {
     const [store, setStore] = useState("");
     const [baseUrl, setBaseUrl] = useState("https://app.vidial.co");
     //const [baseUrl, setBaseUrl] = useState("https://phpstack-953879-3439374.cloudwaysapps.com");
+    //const [baseUrl, setBaseUrl] = useState("https://45f9-72-255-51-52.ngrok-free.app");
     const [imagename, setImagename] = useState("");
     const [videoname, setVideoname] = useState("");
     const [previewLogo, setPreviwLogo] = useState("");
@@ -243,7 +280,7 @@ const Settings = () => {
     // const successToastVideo = active ? (
     //     <Toast content="Settings Saved" onDismiss={true} />
     // ) : null;
-    
+
     // alert(logoImage);
     const logoHandler = (e) => {
         setImagename(e.target.files[0].name);
@@ -262,10 +299,164 @@ const Settings = () => {
 
     // Review Landing Page
     const reviewPage = (store) => {
+        // window.open(
+        //     baseUrl + "/landingPage/" + currentLang + "?store=" + store
+        // );
         window.open(
-            baseUrl + "/landingPage/" + currentLang + "?store=" + store
+            baseUrl + "/" + approvedStoreHandle
         );
     };
+
+    const setByDefaultSettings = ($columnType,$locale)=>{
+        
+        if($locale == 'en'){
+            if ($columnType =='video_title'){
+            setVideoTitle('Here’s an example of what kind of video you can record:');
+            }
+            if ($columnType == 'btn_txt'){
+                setButtonText('Upload Your Video');
+            }
+        }
+        else if($locale == 'fr') {
+            if ($columnType == 'video_title') {
+            setVideoTitle('Voici un exemple de vidéo que vous pouvez enregistrer:');
+            }
+            if ($columnType == 'btn_txt') {
+                setButtonText('Téléchargez une courte vidéo');
+            }
+        }
+        else if ($locale == 'de') {
+            if ($columnType == 'video_title') {
+            setVideoTitle('Hier ist ein Beispiel für ein Video, das Sie aufnehmen können:');
+            }
+            if ($columnType == 'btn_txt') {
+                setButtonText('Laden Sie ein kurzes Video hoch');
+            }
+        }
+        else if ($locale == 'pt') {
+            if ($columnType == 'video_title') {
+            setVideoTitle('Aqui está um exemplo de vídeo que você pode gravar:');
+            }
+            if ($columnType == 'btn_txt') {
+                setButtonText('Carregue um breve vídeo');
+            }
+        }
+        else if ($locale == 'it') {
+            if ($columnType == 'video_title') {
+            setVideoTitle('Ecco un esempio di video che potete registrare:');
+            }
+            if ($columnType == 'btn_txt') {
+                setButtonText('Caricare un breve video');
+            }
+        }
+        else if ($locale == 'es') {
+            if ($columnType == 'video_title') {
+            setVideoTitle('Aquí hay un ejemplo de video que puede grabar:');
+            }
+            if ($columnType == 'btn_txt') {
+                setButtonText('Cargue un breve video');
+            }
+        }
+
+        return
+    }
+
+
+        const handleStoreHandle = useCallback((newValue) => {
+            setStoreHandle(newValue);
+            setIsHandleAvailable(true);
+            setStoreHandleState(true);
+            setStoreHandleResponse(null);
+             const formData = new FormData();
+            formData.append('store_handle', newValue);
+              fetch('/check-handle',{
+                method:"POST",
+                  body: formData
+              })
+              .then((response)=> response.json())
+              .then((data)=>{
+                  if (data.success){
+                      setIsHandleAvailable(false);
+                      setStoreHandleResponse('Store Handle Found');
+
+                  }else{
+                      setIsHandleAvailable(true);
+                      setStoreHandleResponse(data.message);
+
+                  }
+                  setStoreHandleState(false)
+              })
+        }, []);
+
+
+        /**
+         * Save Merchent Email Creds
+         */
+    const handleSaveEmailCredentials = ()=>{
+        setEmailCredsError(false);
+        setEmailCredsMsg('');
+        if (mailgunAPI.length <= 0) {
+            setEmailCredsError(true);
+            setEmailCredsMsg('Api field is required');
+            return;
+        }
+        if (senderEmail.length <= 0){
+            setEmailCredsError(true);
+            setEmailCredsMsg('Email field is required');
+            return;
+        }
+        const domain = getEmailDomain(senderEmail);
+
+        // if (mailgunDomain.length <= 0) {
+        //     setEmailCredsError(true);
+        //     setEmailCredsMsg('Domain field is required');
+        //     return;
+        // }
+        
+        // if (mailgunEndpoint.length <= 0) {
+        //     setEmailCredsError(true);
+        //     setEmailCredsMsg('Endpoint field is required');
+        //     return;
+        // }
+        
+        const formData = new FormData();
+        formData.append('is_active', emailCredsToggle);
+        formData.append('sender_email',senderEmail);
+        formData.append('api_key',mailgunAPI);
+        formData.append('endpoint', 'https://api.mailgun.net/v3/' + domain +'/messages');
+        // formData.append('endpoint', mailgunEndpoint);
+        formData.append('domain', domain);
+        fetch('/save-email-creds',{
+            method:"POST",
+            body:formData
+        })
+        .then((response)=> response.json()).then((data)=>{
+            if (data.success){
+                setSuccessMsg("Settings Added Successfully");
+                toggleActive();
+                setIsSettingSave(new Date().getSeconds());
+            }
+        })
+    }
+    const setterEmailCreds = (data)=>{
+        setMailgunAPI(data.data.email_creds.api_secret_key);
+        setIsEmailActive(data.data.email_creds.is_active);
+        setEmailCredsToggle(data.data.email_creds.is_active);
+        setSenderEmail(data.data.email_creds.mail_user_name);
+        setMailgunDomain(data.data.email_creds.domain);
+        setMailgunEndpoint(data.data.email_creds.endpoint);
+    }
+
+    function getEmailDomain(email) {
+        // Find the index of the "@" symbol
+        const atIndex = email.indexOf("@");
+
+        // Extract the domain by slicing the string after the "@"
+        const domain = email.slice(atIndex + 1);
+
+        return domain;
+    }
+    
     /********  get Settings Data  ******/
     useEffect(() => {
         async function fetchSettings() {
@@ -276,15 +467,27 @@ const Settings = () => {
                 }
                 const data = await response.json();
                 if (data.success) {
-                  
+                    console.log(data.data.email_creds);
+                    data.data.email_creds ? setterEmailCreds(data) : ''
+                    
+                    setApprovedStoreHandle(data.data.storeHandle);
+                    setStoreHandle(data.data.storeHandle);
+                    // setting for already existing users
+                    data.data.inspirational_video_title ? setVideoTitle(data.data.inspirational_video_title) 
+                        : setByDefaultSettings('video_title', data.data.locale)
+                    data.data.video_btn_text ? setButtonText(data.data.video_btn_text)
+                        : setByDefaultSettings('btn_txt', data.data.locale)
+
+                        
+
                     setToggled(data.data.email_status);
                     setPriceValue(data.data.store_credit);
                     setLandingPage(data.data.page_display_to_customers);
                     setEmailSentToValue(data.data.email_sent_to_customer);
                     setLandingPageDisplayedValue(data.data.page_link);
-
+                    setInstructionSubTitle(data.data.instruction_subtitle ?? 'Instructions');
                     setLogoImage(data.data.logo);
-                    console.log(data.data.video);
+                    //setVideoTitle(data.data.dropzone_text)
                     setAlreadyUploadedLogo(data.data.logo)
                     setAlreadyUploadedVideo(data.data.video)
 
@@ -331,7 +534,6 @@ const Settings = () => {
                             baseUrl + "/" + "video/" + data.data.video
                         );
                     }
-                    console.log(store);
                 }
             } catch (error) {
                 console.log(error);
@@ -340,10 +542,7 @@ const Settings = () => {
         fetchSettings();
     }, [isSettingSave]);
 
-    const handleSelectChange = (value) => {
-        setEmailTemplateButton(false);
-        setSelected(value);
-
+    const languageConvert = (value)=>{
         if (value === "en") {
             setRows([
                 { id: 1, value: "Record a video off up to 30 seconds" },
@@ -362,6 +561,9 @@ const Settings = () => {
                 },
             ]);
             setTitle(`Send us a video to receive a ${storeCurrency}${priceValue} Gift Card`);
+            setVideoTitle('Here’s an example of what kind of video you can record:');
+            setButtonText('Upload Your Video');
+
         } else if (value === "fr") {
             setRows([
                 {
@@ -383,6 +585,8 @@ const Settings = () => {
                 },
             ]);
             setTitle(`Envoyez-nous une vidéo pour obtenir une carte cadeau de ${storeCurrency}${priceValue}`);
+            setVideoTitle('Voici un exemple de vidéo que vous pouvez enregistrer:');
+            setButtonText('Téléchargez une courte vidéo');
         } else if (value === "es") {
             setRows([
                 { id: 1, value: "Graba un video de hasta 30 segundos" },
@@ -401,6 +605,9 @@ const Settings = () => {
                 },
             ]);
             setTitle(`Envíanos un video para obtener una tarjeta de regalo de ${storeCurrency}${priceValue}`);
+            setVideoTitle('Aquí hay un ejemplo de video que puede grabar:');
+            setButtonText('Cargue un breve video');
+
         } else if (value === "pt") {
             setRows([
                 { id: 1, value: "Grave um vídeo de até 30 segundos" },
@@ -419,6 +626,10 @@ const Settings = () => {
                 },
             ]);
             setTitle(`Envie-nos um vídeo para receber um cartão presente de ${storeCurrency}${priceValue}`);
+            setVideoTitle('Aqui está um exemplo de vídeo que você pode gravar:');
+            setButtonText('Carregue um breve vídeo');
+
+            
         } else if (value === "it") {
             setRows([
                 { id: 1, value: "Registra un video fino a 30 secondi" },
@@ -437,6 +648,9 @@ const Settings = () => {
                 },
             ]);
             setTitle(`Invia un video per ottenere una carta regalo da ${storeCurrency}${priceValue}`);
+            setVideoTitle('Ecco un esempio di video che potete registrare:');
+            setButtonText('Caricare un breve video');
+
         } else if (value === "de") {
             setRows([
                 {
@@ -458,22 +672,23 @@ const Settings = () => {
                 },
             ]);
             setTitle(`Senden Sie uns ein Video, um eine Geschenkkarte im Wert von ${storeCurrency}${priceValue} zu erhalten`);
+            setVideoTitle('Hier ist ein Beispiel für ein Video, das Sie aufnehmen können:');
+            setButtonText('Laden Sie ein kurzes Video hoch');
+
         }
-        // save Locale into DB
-        // fetch("/saveLocale", {
-        //     method: "POST",
-        //     headers: {
-        //         "Content-Type": "application/json",
-        //     },
-        //     body: JSON.stringify({ value }),
-        // })
-        //     .then((response) => response.json())
-        //     .then((data) => toggleActive())
-        //     .catch((error) => console.error(error));
+    }
+   
+    const handleSelectChange = (value) => {
+        setEmailTemplateButton(false);
+        setSelected(value);
+        languageConvert(value)
+        
+      
     };
 
     /******** save settings into DB ******/
     const saveSettings = (e) => {
+        
         e.preventDefault();
         setIsLoading(true);
         setSuccessMsg('');
@@ -486,11 +701,19 @@ const Settings = () => {
         formData.append("page_link", landingPageDisplayedValue);
         formData.append("instructions", JSON.stringify(rows));
         formData.append("page_color", buttonColorHex);
-        formData.append("logo", logoImage);
-        formData.append("video", video);
+        formData.append("logo", files.length > 0 ? files[0] : logoImage);
+        formData.append("video", filesVideos.length > 0 ? filesVideos[0] : video);
+        
         formData.append("setting_status", toggled);
         formData.append("instruction_title", title);
+        formData.append("video_title", videoTitle);
+        formData.append("instruction_subtitle", instructionSubTitle);
+        formData.append("video_btn_text", buttonText);
+        // if (!isHandleAvailable){
+        //     formData.append("store_handle", storeHandle);
+        // }
 
+        
         formData.append("locale", selected);
         if (
             (priceValue == "" ||
@@ -557,8 +780,11 @@ const Settings = () => {
     // copy Landing Page Link
     const copyLandingPageLink = () => {
 
-        const landingPageDisplayedValue =
-            baseUrl + "/landingPage/" + currentLang + "?store=" + store;
+        // const landingPageDisplayedValue =
+        //     baseUrl + "/landingPage/" + currentLang + "?store=" + store;
+        const landingPageDisplayedValue = baseUrl + "/" + approvedStoreHandle;
+
+
         navigator.clipboard.writeText(landingPageDisplayedValue);
         setSuccessMsg("Copied to Clipboard");
 
@@ -574,49 +800,47 @@ const Settings = () => {
             console.warn('Crisp chat script not loaded yet!');
         }
     };
-   // popover code start
-   const [popoverActive, setPopoverActive] = useState(false);
+    // popover code start
+    const [popoverActive, setPopoverActive] = useState(false);
 
-   const togglePopoverActive = useCallback(
-       () => setPopoverActive((popoverActive) => !popoverActive),
-       [],
-   );
+    const togglePopoverActive = useCallback(
+        () => setPopoverActive((popoverActive) => !popoverActive),
+        [],
+    );
 
-   const [pageLink, setPageLink] = useState('');
+    const [pageLink, setPageLink] = useState('');
 
-   const activator = (
-       <button
-                                           style={{
-                                               marginRight: "10px",
-                                               background: "none",
-                                               border: "none",
-                                           }}
-                                           onClick={togglePopoverActive}
-                                       >
-                                           <img
-                                               className="colorWheel"
-                                               src={ColorWheel}
-                                               style={{
-                                                   marginTop: "3px",
-                                                   marginLeft: "4px",
-                                               }}
-                                           ></img>
-                                       </button>
-   );
-   // popover code end
-   // drop zone code start
+    const activator = (
+        <button
+            style={{
+                marginRight: "10px",
+                background: "none",
+                border: "none",
+            }}
+            onClick={togglePopoverActive}
+        >
+            <img
+                className="colorWheel"
+                src={ColorWheel}
+                style={{
+                    marginTop: "3px",
+                    marginLeft: "4px",
+                }}
+            ></img>
+        </button>
+    );
+    // popover code end
+    // drop zone code start
 
 
 
-    const handleRemoveThumbnail = () => {
+    const handleRemoveLogoThumbnail = () => {
         setFiles([]);
-        // setLogoImage(alread)
-        //console.log('handle Remove thumbnail');
+        //setLogoImage('')
+        console.log('handle Remove thumbnail');
     };
     const handleDropZoneDrop = useCallback(
         (_dropFiles, acceptedFiles, _rejectedFiles) => {
-            setLogoImage(acceptedFiles[0]);
-            //setAlreadyUploadedLogo('');
             setFiles((files) => acceptedFiles);
         },
         []
@@ -625,20 +849,9 @@ const Settings = () => {
         <Toast content="Settings Saved" onDismiss={true} />
     ) : null;
 
-    const handleRemoveAlreadyUploadedLogo = ()=>{
-        //setLogoImage('');
-        //setActiveTootlTip(true);
-        // setAlreadyUploadedLogo('');
-        // console.log('heree me');
-        // const formData = new FormData();
-        // fetch('/checkuploadedlogo', {
-        //     method: 'POST',
-        //     body: formData
-
-        // }).then((response) => response.json()).then((data) => {
-        //     console.log(data);
-        // })
-
+    const handleRemoveAlreadyUploadedLogo = () => {
+        setLogoImage('');
+        setAlreadyUploadedLogo('');
     }
 
     const validImageTypes = ['image/gif', 'image/jpeg', 'image/png'];
@@ -672,7 +885,7 @@ const Settings = () => {
     );
     const uploadedFilesPreview = files.length > 0 && (
         <div style={{ padding: '0' }}>
-            <div style={{width:"60px",marginBottom:"10px"}} >
+            <div style={{ width: "60px", marginBottom: "10px" }} >
                 {files.map((file, index) => (
                     <div key={index}>
                         <Thumbnail
@@ -685,9 +898,9 @@ const Settings = () => {
                             }
                         />
                         <div>
-                            <div onClick={handleRemoveThumbnail} >
-                          <Icon source={CircleCancelMajor}  color="critical" />
-                        </div>
+                            <div onClick={handleRemoveLogoThumbnail} >
+                                <Icon source={CircleCancelMajor} color="critical" />
+                            </div>
                         </div>
                     </div>
                 ))}
@@ -702,11 +915,9 @@ const Settings = () => {
 
     const handleRemoveThumbnailVideo = () => {
         setFilesVideos([]);
-        
-        
         //console.log('handle Remove thumbnail');
     };
-    const handleDropZoneVideo = useCallback(
+    const handleDropZoneVideo = useCallback(        
         (_dropFiles, acceptedFiles, _rejectedFiles) => {
             setVideo(acceptedFiles[0]);
             //setAlreadyUploadedLogo('');
@@ -715,13 +926,32 @@ const Settings = () => {
         },
         []
     );
-    
+
 
     const handleRemoveAlreadyUploadedVideo = () => {
-        setActiveTootlTip(true);
+        // setActiveTootlTip(true);
         setAlreadyUploadedVideo('');
         setVideo('');
 
+    }
+
+    const handleSaveStoreHandle = ()=>{
+  
+        const formData = new FormData();
+        if(!isHandleAvailable){
+            formData.append('store_handle', storeHandle);
+            fetch('store_handle',{
+            method:"POST",
+            body:formData
+           }).then((response)=>response.json()).then((data)=>{
+                    if(data.success){
+                        setSuccessMsg('save store handle');
+                        toggleActive();
+                        setIsSettingSave(new Date().getSeconds());
+                    }
+           })
+        }
+        
     }
 
     const validVideoTypes = ['video'];
@@ -798,7 +1028,7 @@ const Settings = () => {
                 <Modal.Section>
                     <div style={{ textAlign: "center" }}>
                         <Text variant="headingMd" as="h6">
-                            Your current email content will be replaced with the new content. Are you absolutely certain that you wish to proceed with the replacement? on cancellation email will remain same. 
+                            Your current email content will be replaced with the new content. Are you absolutely certain that you wish to proceed with the replacement? on cancellation email will remain same.
                         </Text>
                         <div
                             style={{
@@ -818,15 +1048,15 @@ const Settings = () => {
                                     Customize Content
                                 </Button>
                                 <Button primary onClick={() => {
-                                        document.getElementById('sab_ok_id').click();
-                                        setTimeout(() => {
-                                            navigate(pageLink)
-                                        }, 5000);
+                                    document.getElementById('sab_ok_id').click();
+                                    setTimeout(() => {
+                                        navigate(pageLink)
+                                    }, 5000);
 
                                     setActiveRejectionConfirmModel(false);
-                                        navigate(pageLink);
+                                    navigate(pageLink);
                                     setEmailTemplateButton(true);
-                                    }}
+                                }}
                                 >
                                     Sure
                                 </Button>
@@ -856,27 +1086,29 @@ const Settings = () => {
                                     xl: 12,
                                 }}
                             >
-                                    <Banner
-                                        title="Welcome to Vidial, Bravelsaus  👋 "
-                                        
-                                        status="info"
-                                        onDismiss={() => { }}
-                                    >
-                                        <p>Vidial will help you receive authentic UGC from your customers in autopilot.<br></br>
-                                            Let’s get started by setting up the application.</p>
-                                        <a style={{ textDecoration: "none"}} href="#">
-                                            <button onClick={()=>{
-                                                window.open(
-                                                    'https://www.youtube.com/watch?v=WMcggJ9QXDc&t=7s'
-                                                );
-                                            }} style={{ cursor:'pointer',
+                                <Banner
+                                    title="Welcome to Vidial, Bravelsaus  👋 "
+
+                                    status="info"
+                                    onDismiss={() => { }}
+                                >
+                                    <p>Vidial will help you receive authentic UGC from your customers in autopilot.<br></br>
+                                        Let’s get started by setting up the application.</p>
+                                    <a style={{ textDecoration: "none" }} href="#">
+                                        <button onClick={() => {
+                                            window.open(
+                                                'https://www.youtube.com/watch?v=WMcggJ9QXDc&t=7s'
+                                            );
+                                        }} style={{
+                                            cursor: 'pointer',
                                             display: "flex", padding: "7px 10px",
-                                            marginTop: "20px", background: "rgba(255, 255, 255, 0.01)", border: "1px solid #95c9b4",borderRadius: "4px"}}>
-                                                <Icon
-                                            source={PlayMinor}
-                                            color="base"
-                                                /><span style={{ marginLeft: "10px" }}>How Vidial Works</span></button></a>
-                                    </Banner>
+                                            marginTop: "20px", background: "rgba(255, 255, 255, 0.01)", border: "1px solid #95c9b4", borderRadius: "4px"
+                                        }}>
+                                            <Icon
+                                                source={PlayMinor}
+                                                color="base"
+                                            /><span style={{ marginLeft: "10px" }}>How Vidial Works</span></button></a>
+                                </Banner>
                                 {error && (
                                     <Card sectioned>
                                         <Banner>
@@ -968,7 +1200,7 @@ const Settings = () => {
                                 )}
 
                                 {toastMarkup}
-                                <div style={{marginTop:"20px"}}></div>
+                                <div style={{ marginTop: "20px" }}></div>
                                 <Card sectioned>
                                     <div>
                                         <Text variant="headingLg" as="h5">
@@ -1094,6 +1326,40 @@ const Settings = () => {
                                         </div>
                                     </div>
                                 </Card>
+                                    <Card sectioned>
+                                        <Text variant="headingLg" as="h5">
+                                            Landing Page URL
+                                        </Text>
+                                        <p
+                                            style={{
+                                                marginTop: "5px",
+                                                marginBottom: "20px",
+                                            }}
+                                        >
+                                            This will be the URL of the Landing Page your customers will land on.
+                                        </p>
+
+                                        <div style={{ display: 'flex', alignItems: "center" }}>
+                                            <div>
+                                           <TextField
+                                            value={storeHandle}
+                                            onChange={(handleStoreHandle)}
+                                            autoComplete="off"
+                                        />
+                                        
+                                            </div>
+                                        <div style={{marginLeft:"13px",}}>
+                                              {
+                                                    storeHandleState ? <Spinner accessibilityLabel="Spinner example" size="large" />
+                                                        : <Button primary disabled={isHandleAvailable} onClick={handleSaveStoreHandle}>Save</Button>
+                                              }
+                                                
+                                               
+                                         </div>
+
+                                        </div>
+                                        {storeHandleResponse ? <span style={{ marginTop: "10px",display:"inline-block", color: isHandleAvailable ? 'red' : 'green'}}>{storeHandleResponse}</span> : '' }
+                                    </Card>
                                 <Card sectioned>
                                     <div
                                         style={{
@@ -1150,8 +1416,8 @@ const Settings = () => {
                                     >
                                         Select the language of your store
                                     </p>
-                                    
-                                        <div style={{display: 'flex', alignItems: "center" }}>
+
+                                    <div style={{ display: 'flex', alignItems: "center" }}>
                                         <Select
                                             options={options}
                                             onChange={(e) => {
@@ -1160,12 +1426,12 @@ const Settings = () => {
                                             value={selected}
                                         />
                                         &nbsp;
-                                            <Button primary onClick={() => {
-                                                //setPageLink("/post-purchase-email")
-                                                document.getElementById('sab_ok_id').click();
-                                                setEmailTemplateButton(true);
-                                                //setActiveRejectionConfirmModel(true);
-                                            }} disabled={emailTemplateButton}>Save</Button>
+                                        <Button primary onClick={() => {
+                                            //setPageLink("/post-purchase-email")
+                                            document.getElementById('sab_ok_id').click();
+                                            setEmailTemplateButton(true);
+                                            //setActiveRejectionConfirmModel(true);
+                                        }} disabled={emailTemplateButton}>Save</Button>
                                     </div>
                                 </Card>
 
@@ -1185,7 +1451,7 @@ const Settings = () => {
                                             <Text variant="headingLg" as="h5">
                                                 Your Store Logo (optional)
                                             </Text>
-                                                <p style={{ marginTop: "5px", marginBottom:"5px" }}>
+                                            <p style={{ marginTop: "5px", marginBottom: "5px" }}>
                                                 Should be a PNG file, not bigger than 1 MB.
                                             </p>
                                         </div>
@@ -1231,34 +1497,35 @@ const Settings = () => {
                                             </div>
                                         )
                                     } */}
-                                    <div style={{maxWidth:"470px",marginBottom:"20px"}}>
-                                            <DropZone  actionTitle="Upload Your Brand Logo" onDrop={handleDropZoneDrop} variableHeight allowMultiple={false}>
+                                    <div style={{ maxWidth: "470px", marginBottom: "20px" }}>
+                                        <DropZone actionTitle="Upload Your Brand Logo" onDrop={handleDropZoneDrop} variableHeight allowMultiple={false}>
                                             {uploadedFiles}
                                             {fileUpload}
                                         </DropZone>
-                                        </div>
-                                        {uploadedFilesPreview}
-                                        {(!files.length && !(alreadyUploadLogo == 'undefined' || alreadyUploadLogo=='')) &&
+                                    </div>
+                                    {uploadedFilesPreview}
+                                    {(!files.length && !(alreadyUploadLogo == 'undefined' || alreadyUploadLogo == '')) &&
 
-                                            <div style={{ padding: '0' }}>
-                                                <div style={{ width: "60px", marginBottom: "10px" }} >
-                                                    <Thumbnail
-                                                        size="medium"
-                                                        alt="img"
-                                                        source={baseUrl+'/logo/'+alreadyUploadLogo}
-                                                    />
-                                                    <div onClick={handleRemoveAlreadyUploadedLogo} >
-                                                        {
-                                                            activeTootlTip ? <Tooltip content="This is default setting. You can not change it.">
-                                                                <Icon source={CircleCancelMajor} color="critical" />
+                                        <div style={{ padding: '0' }}>
+                                            <div style={{ width: "60px", marginBottom: "10px" }} >
+                                                <Thumbnail
+                                                    size="medium"
+                                                    alt="img"
+                                                    source={baseUrl + '/logo/' + alreadyUploadLogo}
+                                                />
+                                                <div onClick={handleRemoveAlreadyUploadedLogo} >
+                                                    {
+                                                        activeTootlTip ? <Tooltip content="">
+                                                            <Icon source={CircleCancelMajor} color="critical" />
 
-                                                            </Tooltip> : <Icon source={CircleCancelMajor} color="critical" />
-                                                        }
+                                                        </Tooltip> : <Icon source={CircleCancelMajor} color="critical" />
+                                                    }
 
-                                                    </div>
                                                 </div>
                                             </div>
-                                        }
+                                        </div>
+                                    }
+                                  
                                     <div
                                         style={{
                                             width: "450px",
@@ -1279,6 +1546,19 @@ const Settings = () => {
                                         <TextField
                                             value={title}
                                             onChange={handleTitle}
+                                            autoComplete="off"
+                                        />
+                                        <p
+                                            style={{
+                                                marginTop: "5px",
+                                                marginBottom: "5px",
+                                            }}
+                                        >
+                                            Instructions
+                                        </p>
+                                        <TextField
+                                            value={instructionSubTitle}
+                                            onChange={handleInstruction}
                                             autoComplete="off"
                                         />
                                     </div>
@@ -1361,6 +1641,7 @@ const Settings = () => {
                                             Add another instruction
                                         </Button>
                                     </div>
+                                       
                                     <div
                                         style={{
                                             display: "flex",
@@ -1373,7 +1654,29 @@ const Settings = () => {
                                             <Text variant="headingLg" as="h5">
                                                 Inspirational Video (optional)
                                             </Text>
-                                            <p style={{ marginTop: "5px",marginBottom:"5px" }}>
+                                                <div
+                                                    style={{
+                                                        width: "450px",
+                                                        marginTop: "20px",
+                                                    }}
+                                                >
+
+                                                    <p
+                                                        style={{
+                                                            marginTop: "5px",
+                                                            marginBottom: "5px",
+                                                        }}
+                                                    >
+                                                        Inspirational Video Title
+                                                    </p>
+                                                    <TextField
+                                                        value={videoTitle}
+                                                        onChange={handleDropzoneText}
+                                                        autoComplete="off"
+                                                    />
+
+                                                </div>
+                                            <p style={{ marginTop: "5px", marginBottom: "5px" }}>
                                                 Add a video for your customers
                                                 to get inspired and make a UGC
                                                 almost similar.
@@ -1415,38 +1718,60 @@ const Settings = () => {
                                             <div onClick={removeInspirationalVideo} > <Icon source={CircleCancelMajor} color="critical" /></div>
                                         </div>
                                     )} */}
-                                        <div style={{ maxWidth: "470px",marginBottom:"20px" }}>
+                                    <div style={{ maxWidth: "470px", marginBottom: "20px" }}>
                                         <DropZone onDrop={handleDropZoneVideo} variableHeight allowMultiple={false}>
                                             {uploadedFilesVideos}
                                             {fileUploadVideos}
                                         </DropZone>
-                                        </div>
-                                        {uploadedFilesVideosPreview}
-                                            {(!filesVideos.length && !(alreadyUploadVideo == 'undefined' || alreadyUploadVideo == '')) &&
+                                    </div>
+                                    {uploadedFilesVideosPreview}
+                                    {(!filesVideos.length && !(alreadyUploadVideo == 'undefined' || alreadyUploadVideo == '')) &&
 
-                                            <div style={{ padding: '0' }}>
-                                                    <div style={{ width: "108px", marginBottom: "10px",textAlign:"center" }} >
+                                        <div style={{ padding: '0' }}>
+                                            <div style={{ width: "108px", marginBottom: "10px", textAlign: "center" }} >
 
-                                                    <video
-                                                        width="108"
-                                                        height="193"
-                                                        src={baseUrl+'/video/'+alreadyUploadVideo}
-                                                        muted
-                                                        autoPlay
-                                                        loop
-                                                    ></video>
-                                                    <div onClick={handleRemoveAlreadyUploadedVideo} >
-                                                        {
-                                                            activeTootlTip ? <Tooltip content="This is default setting. You can not change it.">
-                                                                <Icon source={CircleCancelMajor} color="critical" />
+                                                <video
+                                                    width="108"
+                                                    height="193"
+                                                    src={baseUrl + '/video/' + alreadyUploadVideo}
+                                                    muted
+                                                    autoPlay
+                                                    loop
+                                                ></video>
+                                                <div onClick={handleRemoveAlreadyUploadedVideo} >
+                                                    {
+                                                        activeTootlTip ? <Tooltip content="This is default setting. You can not change it.">
+                                                            <Icon source={CircleCancelMajor} color="critical" />
 
-                                                            </Tooltip> : <Icon source={CircleCancelMajor} color="critical" />
-                                                        }
+                                                        </Tooltip> : <Icon source={CircleCancelMajor} color="critical" />
+                                                    }
 
-                                                    </div>
                                                 </div>
                                             </div>
-                                        }
+                                        </div>
+                                    }
+                                    <div
+                                        style={{
+                                            width: "450px",
+                                            marginTop: "20px",
+                                        }}
+                                    >
+
+
+                                        <p
+                                            style={{
+                                                marginTop: "5px",
+                                                marginBottom: "5px",
+                                            }}
+                                        >
+                                            Button Text
+                                        </p>
+                                        <TextField
+                                            value={buttonText}
+                                            onChange={handleButtonText}
+                                            autoComplete="off"
+                                        />
+                                    </div>
                                     <div
                                         style={{
                                             display: "flex",
@@ -1847,7 +2172,7 @@ const Settings = () => {
                                                 toggled={toggled}
                                                 onClick={handleChange}
                                             />
-                                            
+
                                         </div>
                                     </div>
 
@@ -1978,6 +2303,7 @@ const Settings = () => {
                                             alignItems: "center",
                                             justifyContent: "space-between",
                                             cursor: "pointer",
+
                                         }}
                                         onClick={handleToggle}
                                         ariaExpanded={open}
@@ -1989,6 +2315,19 @@ const Settings = () => {
                                             <p style={{ marginTop: "5px" }}>
                                                 Customize all the emails your customers will receive
                                             </p>
+                                            
+                                                {
+                                                    emailCredsError ? <Banner>
+                                                        <List type="bullet">
+                                                            {
+                                                                <List.Item>{emailCredsMsg}</List.Item>
+
+                                                            }
+
+
+                                                        </List>
+                                                    </Banner> : ''
+                                                } 
                                         </div>
                                         <div
                                             style={{
@@ -2009,6 +2348,107 @@ const Settings = () => {
                                         transition={{ duration: '500ms', timingFunction: 'ease-in-out' }}
                                         expandOnPrint
                                     >
+                                        <div style={{marginTop:"20px"}}></div>
+                                            <div style={{display:"flex",alignItems:"center", marginRight:"5px"}} >
+                                                <EmailCredsToggle toggled={emailCredsToggle} onClick={() => {
+                                                    setEmailCredsToggle(!emailCredsToggle);
+                                                    setEmailCredsError(false);
+                                                }}></EmailCredsToggle>
+                                            
+                                            <p style={{fontWeight:"bold",marginLeft:"5px"}}>Send with your own email</p>
+                                            
+                                     
+                                            </div>
+                                        {
+                                                emailCredsToggle ? 
+                                        <>
+                                                        {/* <Checkbox
+                                            label="Send with your own email"
+                                            checked={isEmailActive}
+                                            onChange={handleIsEmailActive}
+                                        /> */}
+                                        <div
+                                            style={{
+                                                width: "450px",
+                                                marginTop: "10px",
+                                            }}
+                                        >
+
+                                                
+
+                                            <TextField
+                                                value={mailgunAPI}
+                                                onChange={handleMailgunAPI}
+                                                autoComplete="off"
+                                                placeholder="Mailgun API Key"
+                                            />
+                                                            <p style={{ color: "#717171", marginTop: "5px" }}>Paste your <a href="https://www.mailgun.com/blog/product/getting-started-with-mailgun-introduction-to-platform-training/" target="blank" style={{ color: "#008060", textDecoration: "underline" }}>Mailgun</a> API Key here. <a href="https://documentation.mailgun.com/en/latest/index.html" target="blank" style={{color:"#008060",textDecoration:"underline"}}>See how it works</a></p>
+                                        </div>
+                                        <div
+                                            style={{
+                                                width: "450px",
+                                                marginTop: "10px",
+                                            }}
+                                        >
+
+
+
+                                            <TextField
+                                                value={senderEmail}
+                                                onChange={handleSenderEmail}
+                                                autoComplete="off"
+                                                placeholder="noreply@vidialapp.com"
+                                            />
+                                            <p style={{color:"#717171",marginTop:"5px"}}>Enter the email address that will be used as the sender.</p>
+                                                
+                                        </div>
+
+                                            {/* <div
+                                                style={{
+                                                    width: "450px",
+                                                    marginTop: "10px",
+                                                }}
+                                            >
+
+
+                                                <TextField
+                                                    value={mailgunDomain}
+                                                    onChange={handleMailgunDomain}
+                                                    autoComplete="off"
+                                                    placeholder="Mailgun Domain"
+                                                />
+                                                <p style={{ color: "#717171", marginTop: "5px" }}>Enter the Mailgun Domain.</p>
+
+                                            </div>
+
+
+                                            <div
+                                                style={{
+                                                    width: "450px",
+                                                    marginTop: "10px",
+                                                }}
+                                            >
+
+                                                <TextField
+                                                    value={mailgunEndpoint}
+                                                    onChange={handleMailgunEndPoint}
+                                                    autoComplete="off"
+                                                    placeholder="Mailgun Endpoint"
+                                                />
+                                                <p style={{ color: "#717171", marginTop: "5px" }}>Enter the Mailgun endpoint.</p>
+
+                                            </div> */}
+                                            <div
+                                                style={{
+                                                    width: "450px",
+                                                    marginTop: "10px",
+                                                }}
+                                            >
+                                                <Button  primary onClick={handleSaveEmailCredentials}>Save</Button>
+                                                </div>   
+                                                    </>                                 
+                                               : ''
+                                            }
                                         <div
                                             style={{
                                                 display: "flex",

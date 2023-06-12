@@ -52,8 +52,9 @@ class OrdersController extends Controller
         $temlateDetails['mail'] = auth()->user()->email;
         $temlateDetails['name'] = 'Merchant';
         $temlateDetails['storename'] =auth()->user()->store_name;
-        $temlateDetails['url'] = env('APP_URL') . "/landingPage" . "/" . auth()->user()->settings->locale
-            . "?store=" . auth()->user()->name . "&order_id=" . Crypt::encryptString('1234');
+        // $temlateDetails['url'] = env('APP_URL') . "/landingPage" . "/" . auth()->user()->settings->locale
+        //     . "?store=" . auth()->user()->name . "&order_id=" . Crypt::encryptString('1234');
+        $temlateDetails['url'] = env('APP_URL') . "/".(auth()->user()->store_handle ? auth()->user()->store_handle : auth()->user()->store_name) ."?order_id=" . Crypt::encryptString('1234');
         $temlateDetails['amount'] = auth()->user()->settings->store_credit;
         $temlateDetails['discount_code'] = '';
         $temlateDetails['reason_decline'] = '';

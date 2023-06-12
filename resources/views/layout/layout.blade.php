@@ -22,9 +22,8 @@
      #dropzone-external {
     width: 100%;
     height: 150px;
-    background-color: #FFDEE5;
     padding: 10px;
-    border: 2px dashed #FFAABC;
+    /* border: 2px dashed #FFAABC; */
     border-radius: 14px;
 }
 
@@ -76,10 +75,7 @@
     padding: 0.375rem 1.75rem;
 
 }
-.form-check-input:checked {
-    background-color: #FF5175;
-    border-color: #FF5175;
-}
+
 .stepsWrapper{
     max-width: 370px;
     margin-bottom: 40px !important;

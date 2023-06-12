@@ -252,7 +252,7 @@ const ReminderEmail = () => {
 
     }, []);
 
-    const buttonHtml = `<button style="font-size: 18px;background: ${buttonColorHex};color: rgb(255, 255, 255);border: none;border-radius: 4px;display: block;margin: 0px auto;padding: 8px 80px;" >${buttonText}</button>`;
+    const buttonHtml = `<button style="font-size: 15px;background: ${buttonColorHex};color: rgb(255, 255, 255);border: none;border-radius: 4px;display: block;margin: 0px auto;padding: 16px 30px;border-radius: 25px;" >${buttonText}</button>`;
     const processedContent = content.replace('{{button}}', buttonHtml);
  // popover code start
  const [popoverActive, setPopoverActive] = useState(false);

@@ -553,6 +553,7 @@ return response()->json([
 
 // save User Uploaded data into database
   public function saveVideo(Request $request){
+   
       /****** check link expiration ******/
 
       $order = null;
@@ -683,7 +684,7 @@ return response()->json([
 
      if($request->filled('store')){
         setLan($locale);
-        $user=User::select('id')->where('name',$request->store)->first();
+        $user=User::with('settings')->select('id')->where('name',$request->store)->first();
 
         $store=$request->store;
         if(!$user){
@@ -691,7 +692,7 @@ return response()->json([
             return abort(404);
         }
         $current_user_id=$user->id;
-        return view('landingPage.congratulations',compact('current_user_id','store'));
+        return view('landingPage.congratulations',compact('current_user_id','store','user'));
      }
      return abort(404);
 

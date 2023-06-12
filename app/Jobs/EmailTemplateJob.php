@@ -41,14 +41,16 @@ class EmailTemplateJob implements ShouldQueue
               $symbol = getCurrencySymbol($user->store_currency);
             }
         if ($user_template) {
-            $button='<a href='.$this->details['url'].' style="text-decoration: none"><button style="font-size: 18px;background:'. $user_template['btn_color']. ';color: #fff;border: none;border-radius: 4px;display: block;margin: 50px auto;padding: 12px 40px;cursor: pointer;">'. $user_template['btn_text'].'</button></a>';
+            $button='<a href='.$this->details['url'].' style="text-decoration: none"><button style="font-size: 18px;background:'. $user_template['btn_color']. ';color: #fff;border: none;border-radius: 4px;display: block;margin: 50px auto;padding: 16px 30px;;cursor: pointer;border-radius: 25px;">'. $user_template['btn_text'].'</button></a>';
+            $discountButton = '<span style="background-color:#FFE70d; padding:5px;border-radius:5px">'. $this->details['discount_code'].'</span>';
             $body['body'] = $user_template['body'];
             $body['body'] = str_replace('{{name}}', $this->details['name'] ?? 'Customer', $body['body']);
             $body['body'] = str_replace('{{amount}}', $symbol.$this->details['amount'], $body['body']);
             $body['body'] = str_replace('{{storename}}', $this->details['storename'], $body['body']);
-            $body['body'] = str_replace('{{discount_code}}', $this->details['discount_code'], $body['body']);
+            $body['body'] = str_replace('{{discount_code}}', $discountButton, $body['body']);
             $body['body'] = str_replace('{{button}}', $button, $body['body']);
             $body['body'] = str_replace('{{reason_decline}}', $this->details['reason_decline'], $body['body']);
+            $body['body'] = str_replace('<br>', "", $body['body']);
            
             $body['btn_text'] =  $user_template['btn_text'];
             $body['btn_color'] =  $user_template['btn_color'];
@@ -57,7 +59,7 @@ class EmailTemplateJob implements ShouldQueue
             $user_template['subject'] =str_replace('{{amount}}', $symbol.$this->details['amount'], $user_template['subject']);
             $user_template['subject'] = str_replace('{{storename}}',$this->details['storename'], $user_template['subject']);
             $from = str_replace('{{storename}}',$this->details['storename'], $user_template->from);
-            sendMail($this->details['mail'], $user_template['subject'], $this->details['view'], ['body' => $body], $from);
+            sendMail($this->details['mail'], $user_template['subject'], $this->details['view'], ['body' => $body], $from, $this->details['user_id']);
             //dd('sent');
         }
     }

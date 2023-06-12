@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\EmailCredentials;
 use App\Models\EmailTemplate;
 use App\Models\User;
 use App\Models\Setting;
@@ -81,7 +82,9 @@ class SettingsController extends Controller
     public function getSettings(){
 
         $data= Setting::where('user_id',Auth::user()->id)->first();
-        $store=User::find(Auth::user()->id);
+        $store = User::where('id', Auth::user()->id)->with('emailCreds')->first();
+        //$store=User::find(Auth::user()->id)->with('emailCreds');
+        $emailCreds = $store->emailCreds;
         if($data){
             $data['instructions'] = json_decode($data['instructions']);
         
@@ -91,7 +94,9 @@ class SettingsController extends Controller
         $data['email']=$store->email;
         $data['store_name']=$store->store_name;
         $data['btn_color']=$data->page_color;
+        $data['storeHandle'] = $store->store_handle ? $store->store_handle : $store->store_name;
         $data['store_currency']= getCurrencySymbol($store->store_currency);
+        $data['email_creds'] = $emailCreds;
         return response()->json([
             'success' => true,
             'message' => "Settings get Successfully",
@@ -153,6 +158,13 @@ class SettingsController extends Controller
       
         $settings['instruction_title'] =$Instruction_field;
         $settings['locale']=$request->locale ?? 'en';
+        //$settings['dropzone_text'] = $request->dropzone_text;
+        $settings['inspirational_video_title'] = $request->video_title;
+        $settings['instruction_subtitle'] = $request->instruction_subtitle;
+        $settings['video_btn_text'] = $request->video_btn_text;
+        
+
+        
         $language = Setting::where('user_id', Auth::user()->id)->first();
         if($language->locale == $request->locale){
         }else {
@@ -182,6 +194,25 @@ class SettingsController extends Controller
             $currentUser=$user->id;
             $settings=Setting::where('user_id',$currentUser)->first();
         return view('landingPage.template',compact('settings','user'));
+        }
+    }
+
+
+    /****** Landing Page2 *******/
+    public function landingPage2(Request $request, $locale)
+    {
+        
+        $requestSegments = request()->segments(0);
+        if($requestSegments){
+            $user = User::with('settings')->where('store_handle', $requestSegments)->orWhere('store_name', $requestSegments)->first();
+          
+            if(!$user){
+                return abort(404);
+            }
+            setLan($user->settings->locale ? $user->settings->locale : 'en');
+            $currentUser = $user->id;
+            $settings = Setting::where('user_id', $currentUser)->first();
+            return view('landingPage.template', compact('settings', 'user'));
         }
     }
 
@@ -366,4 +397,80 @@ class SettingsController extends Controller
         ]);
         
      }
+
+     /** 
+      * check store handle availablity
+      */
+      public function checkHandle(Request $request){
+        $validator = Validator::make($request->all(), [
+            'store_handle' => 'required',
+        ], []);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => $validator->errors()->first(),
+                'data' => null
+            ]);
+        }
+        $handleExistance = User::where(function ($query) use ($request) {
+            $query->where('store_handle', str_replace(' ', '_', $request->store_handle))
+                ->orWhere('store_name', $request->store_handle);
+        })->where('id', '!=', Auth::user()->id)->first();
+        //dd(Auth::user()->id);
+        if($handleExistance){
+            return response()->json([
+                'success' => false,
+                'message' => "Store handle already exist",
+                'data' => null
+            ]);
+        } else {
+            return response()->json([
+                'success' => true,
+                'message' => "Store handle available",
+                'data' => null
+            ]);
+        } 
+     
+      }
+
+      public function saveHandle(Request $request){
+        if ($request->filled('store_handle')) {
+            User::find(Auth::user()->id)->update(['store_handle' => str_replace(' ', '_', $request->store_handle)]);
+          
+            return response()->json([
+                'success' => true,
+                'message' => "Store save",
+                'data' => null
+            ]);
+        }
+
+        return response()->json([
+                'success' => false,
+                'message' => "something went wrong",
+                'data' => null
+            ]);
+      }
+
+      /**
+       * Save Email Credentials
+       */
+      public function saveEmailCredentials(Request $request){
+            
+          EmailCredentials::updateOrCreate(['user_id' => Auth::user()->id],[
+            'mail_user_name'=>$request->sender_email,
+            'is_active' => $request->is_active ? 1 : 0,
+            'api_secret_key' => $request->api_key,
+            'endpoint' => $request->endpoint,
+            'domain' => $request->domain,
+            'user_id'=>Auth::user()->id
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => "Settings saved",
+            'data' => null
+        ]);
+
+      }
 }
