@@ -414,7 +414,7 @@ class SettingsController extends Controller
             ]);
         }
         $handleExistance = User::where(function ($query) use ($request) {
-            $query->where('store_handle', str_replace(' ', '_', $request->store_handle))
+            $query->where('store_handle', $request->store_handle)
                 ->orWhere('store_name', $request->store_handle);
         })->where('id', '!=', Auth::user()->id)->first();
         //dd(Auth::user()->id);
@@ -436,7 +436,7 @@ class SettingsController extends Controller
 
       public function saveHandle(Request $request){
         if ($request->filled('store_handle')) {
-            User::find(Auth::user()->id)->update(['store_handle'=> str_replace(' ', '_', $request->store_handle)]);
+            User::find(Auth::user()->id)->update(['store_handle' => $request->store_handle]);
           
             return response()->json([
                 'success' => true,

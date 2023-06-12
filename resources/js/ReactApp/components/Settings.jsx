@@ -1328,7 +1328,7 @@ const Settings = () => {
                                 </Card>
                                     <Card sectioned>
                                         <Text variant="headingXl" as="h4">
-                                            Store Handle
+                                            Landing Page URL
                                         </Text>
                                         <p
                                             style={{
@@ -1336,7 +1336,7 @@ const Settings = () => {
                                                 marginBottom: "10px",
                                             }}
                                         >
-                                            Select the handle of your store
+                                            This will be the URL of the Landing Page your customers will land on.
                                         </p>
 
                                         <div style={{ display: 'flex', alignItems: "center" }}>
