@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Plan;
 use App\Models\User;
+use Mailgun\Mailgun;
 use App\Models\Video;
 use Illuminate\Http\Request;
 use App\Models\EmailTemplate;
-use Carbon\Carbon;
+
 class AdminController extends Controller
 {
     public function showadminlogin()
@@ -69,6 +71,17 @@ class AdminController extends Controller
 
     public function testEmail()
     {
+        $api_secret_key = env('MAILGUN_SECRET');
+        $end_point = env('MAILGUN_ENDPOINT');
+
+        $mgClient = Mailgun::create(
+            env('MAILGUN_SECRET'), // Mailgun API Key
+            env('MAILGUN_ENDPOINT')
+        );
+        dd($mgClient);
+        $tag  = [];
+        $result = $mgClient->suppressions()->unsubscribes()->create(env('MAILGUN_DOMAIN'), 'imeform1122@gmail.com', $tag);
+        dd($result);
         dd(str_replace(14, 32, 'hi this is 12'));
        $var = 'this is just for testing purpose';
        $user = User::find(3);

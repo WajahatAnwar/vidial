@@ -281,3 +281,9 @@ select#PolarisSelect1 {
 #tinymce p{
    font-weight: 500;
 }
+.storeHandleParent input {
+    width: 245px;
+}
+.storeHandleParent #PolarisTextField1-Prefix{
+    margin-right: 0!important;
+}

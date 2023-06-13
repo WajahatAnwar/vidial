@@ -303,7 +303,7 @@ const Settings = () => {
         //     baseUrl + "/landingPage/" + currentLang + "?store=" + store
         // );
         window.open(
-            baseUrl + "/" + approvedStoreHandle
+            baseUrl + "/s/" + approvedStoreHandle
         );
     };
 
@@ -364,6 +364,8 @@ const Settings = () => {
 
         const handleStoreHandle = useCallback((newValue) => {
             setStoreHandle(newValue);
+            
+
             setIsHandleAvailable(true);
             setStoreHandleState(true);
             setStoreHandleResponse(null);
@@ -377,11 +379,11 @@ const Settings = () => {
               .then((data)=>{
                   if (data.success){
                       setIsHandleAvailable(false);
-                      setStoreHandleResponse('Store Handle Found');
+                      setStoreHandleResponse('Available');
 
                   }else{
                       setIsHandleAvailable(true);
-                      setStoreHandleResponse(data.message);
+                      setStoreHandleResponse('Un Available');
 
                   }
                   setStoreHandleState(false)
@@ -782,7 +784,7 @@ const Settings = () => {
 
         // const landingPageDisplayedValue =
         //     baseUrl + "/landingPage/" + currentLang + "?store=" + store;
-        const landingPageDisplayedValue = baseUrl + "/" + approvedStoreHandle;
+        const landingPageDisplayedValue = baseUrl + "/s/" + approvedStoreHandle;
 
 
         navigator.clipboard.writeText(landingPageDisplayedValue);
@@ -1339,12 +1341,13 @@ const Settings = () => {
                                             This will be the URL of the Landing Page your customers will land on.
                                         </p>
 
-                                        <div style={{ display: 'flex', alignItems: "center" }}>
+                                        <div style={{ display: 'flex', alignItems: "center" }} className="storeHandleParent">
                                             <div>
                                            <TextField
                                             value={storeHandle}
                                             onChange={(handleStoreHandle)}
                                             autoComplete="off"
+                                           prefix={baseUrl+ '/s/'}
                                         />
                                         
                                             </div>

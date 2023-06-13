@@ -199,12 +199,13 @@ class SettingsController extends Controller
 
 
     /****** Landing Page2 *******/
-    public function landingPage2(Request $request, $locale)
+    public static function landingPage2(Request $request, $locale)
     {
         
         $requestSegments = request()->segments(0);
-        if($requestSegments){
-            $user = User::with('settings')->where('store_handle', $requestSegments)->orWhere('store_name', $requestSegments)->first();
+        
+        if($requestSegments[1]){
+            $user = User::with('settings')->where('store_handle', $requestSegments[1])->orWhere('store_name', $requestSegments[1])->first();
           
             if(!$user){
                 return abort(404);

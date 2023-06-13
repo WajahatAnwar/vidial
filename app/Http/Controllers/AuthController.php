@@ -173,17 +173,17 @@ class AuthController extends Controller
         /**
          * check shop handle already exist
          */
-        $handleExistance = User::where(function ($query) use ($shop_store_name) {
-            $query->where('store_handle',$shop_store_name)
-            ->orWhere('store_name', $shop_store_name);
-        })->where('id', '!=', Auth::user()->id)->first();
-        if($handleExistance){
+        // $handleExistance = User::where(function ($query) use ($shop_store_name) {
+        //     $query->where('store_handle',$shop_store_name)
+        //     ->orWhere('store_name', $shop_store_name);
+        // })->where('id', '!=', Auth::user()->id)->first();
+        // if($handleExistance){
 
-            $shop->store_handle = str_replace(' ','_', $shopData['body']['shop']['name'] . '_' . Str::random(5));
+        //     $shop->store_handle = str_replace(' ','_', $shopData['body']['shop']['name'] . '_' . Str::random(5));
             
-        }else {
-            $shop->store_handle = str_replace(' ', '_', $shopData['body']['shop']['name'] . '_' . Str::random(5));
-        }
+        // }else {
+        //     $shop->store_handle = str_replace(' ', '_', $shopData['body']['shop']['name']);
+        // }
 
         // $shop->plan_id = 1;
         $shop->save();
@@ -196,6 +196,28 @@ class AuthController extends Controller
             ['id' => 5, 'value' => "Describe the main benefits of " . $shop->store_name],
         ]);
 
+        /**
+         * check shop handle already exist
+         */
+
+        if(User::where('id', $shop->id)->whereNull('store_handle')->first()){
+
+            $handleExistance = User::where(function ($query) use ($shop_store_name) {
+                $query->where('store_handle', $shop_store_name)
+                    ->orWhere('store_name', $shop_store_name);
+            })->where('id', '!=', Auth::user()->id)->first();
+            if ($handleExistance) {
+                User::where('id', $shop->id)->update([
+                    'store_handle' => str_replace(' ', '_', $shopData['body']['shop']['name'] . '_' . Str::random(5))
+                ]);
+            } else {
+                User::where('id', $shop->id)->update([
+                    'store_handle' => str_replace(' ', '_', $shopData['body']['shop']['name'])
+                ]);
+            }
+        }
+       
+       
         // adding settings on installation
         Setting::firstOrCreate([
             'user_id' => $shop->id
@@ -261,7 +283,7 @@ class AuthController extends Controller
         $emailTemplate['subject'] = "Claim your {{amount}} Gift Card!";
 
         $emailTemplate['type'] = 'UGC_Approved';
-        $emailTemplate['body'] = '<p style="text-align: center;">Hello {{name}},</p>
+        $emailTemplate['body'] = '<p style="text-align: center;">Hello,</p>
 <p style="text-align: center;">Congratulations, your Video Review for {{storename}} has been approved!&nbsp;</p>
 <p style="text-align: center;">We are constantly inspired by the creativity and passion of our customers, and we appreciate your support.</p>
 <p style="text-align: center;">Here is your Discount code:</p>
@@ -301,7 +323,7 @@ class AuthController extends Controller
         $emailTemplate['subject'] = "Update about your Review" ;
        
         $emailTemplate['type'] = 'UGC_Declined';
-        $emailTemplate['body'] = '<p style="text-align: center;">Hello {{name}},</p>
+        $emailTemplate['body'] = '<p style="text-align: center;">Hello,</p>
 <p style="text-align: center;">Sorry, your video review for {{storename}} was not approved for the following reason:</p>
 <p style="text-align: center;"><em>"&ldquo;{{reason_decline}}&rdquo;"</em></p>
 <p style="text-align: center;">No worries, you can still try again and get your <strong>{{amount}} Gift Card</strong>!</p>

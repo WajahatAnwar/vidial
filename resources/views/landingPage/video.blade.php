@@ -1,12 +1,27 @@
 @extends('layout.layout')
 @section('content')
+@php
+$hexColor =$settings->page_color; // Replace with hexadecimal color code
+// Remove the '#' symbol if present
+$hexColor = ltrim($hexColor, '#');
+
+// Extract the red, green, and blue components
+$red = hexdec(substr($hexColor, 0, 2));
+$green = hexdec(substr($hexColor, 2, 2));
+$blue = hexdec(substr($hexColor, 4, 2));
+
+// Format the RGB values
+$rgbColor = sprintf('rgba(%d, %d, %d,%f)', $red, $green, $blue,0.1);
+
+@endphp
 <style>
-    .form-check-input:checked {
+    .form-check-input:checked { 
        background-color:{{$settings->page_color}};
        border-color:{{$settings->page_color}};
 }
      #dropzone-external {
-        background-color: {{$settings->page_color}};
+        background-color: {{$rgbColor}};
+        
         border: 2px dashed {{$settings->page_color}};
      }
 
@@ -23,8 +38,8 @@
                   <div id="dropzone-external" class="flex-box dx-theme-border-color">
                     <img id="dropzone-image" src="#" hidden alt="" />
                     <div id="dropzone-text" class="flex-box">
-                        <h3  style="font-size: 29px;font-weight: 700;color: #fff;text-align: center;">{{__('uploadVideo.video_upload_heading')}}</h3>
-                        <p style="font-size: 15px;margin-bottom: 0;text-align: center;color: #fff">{{ __('uploadVideo.video_upload_subheading') }}</p>
+                        <h3  style="font-size: 29px;font-weight: 700;color:{{$settings->page_color}};text-align: center;">{{__('uploadVideo.video_upload_heading')}}</h3>
+                        <p style="font-size: 15px;margin-bottom: 0;text-align: center;color:#000;">{{ __('uploadVideo.video_upload_subheading') }}</p>
                     </div>
                     <div id="upload-progress"></div>
                   </div>

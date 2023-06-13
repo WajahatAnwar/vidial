@@ -149,5 +149,6 @@ Route::get('get_plans', [OrdersController::class, 'get_plans'])->name('get_plans
 Route::get('testEmail',[AdminController::class, 'testEmail']);
 
 ######################################################################## EXTRA ROUTES ########################################################################
-Route::get('/{handle}', [SettingsController::class, 'landingPage2']);
+Route::get('s/{handle}', [SettingsController::class, 'landingPage2']);
+
 Route::view('/{any}', 'non_embedded')->where('any', '^(?!webhook).*$')->name('non_embedded');

@@ -351,7 +351,7 @@ if (!function_exists('saveEnLanguage')) {
                     'user_id' => $user_id,
                     'subject' => "Claim your {{amount}} Gift Card!",
                     'type' => 'UGC_Approved',
-                    'body' => '<p style="text-align: center;">Hello {{name}},</p>
+                    'body' => '<p style="text-align: center;">Hello,</p>
 <p style="text-align: center;">Congratulations, your Video Review for {{storename}} has been approved!&nbsp;</p>
 <p style="text-align: center;">We are constantly inspired by the creativity and passion of our customers, and we appreciate your support.</p>
 <p style="text-align: center;">Here is your Discount code:</p>
@@ -381,7 +381,7 @@ if (!function_exists('saveEnLanguage')) {
                     'subject' => "Update about your Review",
 
                     'type' => 'UGC_Declined',
-                    'body' => '<p style="text-align: center;">Hello {{name}},</p>
+                    'body' => '<p style="text-align: center;">Hello,</p>
 <p style="text-align: center;">Sorry, your video review for {{storename}} was not approved for the following reason:</p>
 <p style="text-align: center;"><em>&ldquo;{{reason_decline}}&rdquo;</em></p>
 <p style="text-align: center;">No worries, you can still try again and get your <strong>{{amount}} Gift Card</strong>!</p>
@@ -454,7 +454,7 @@ if (!function_exists('saveEnLanguage')) {
                     'user_id' => $user_id,
                     'subject' => "Message concernant votre avis",
                     'type' => 'UGC_Declined',
-                    'body' => "<p style='text-align: center;'>Bonjour {{name}},</p>
+                    'body' => "<p style='text-align: center;'>Bonjour,</p>
 <p style='text-align: center;'>D&eacute;sol&eacute;, votre avis vid&eacute;o pour {{storename}} n'a pas &eacute;t&eacute; approuv&eacute; pour la raison suivante :</p>
 <p style='text-align: center;'><em>&ldquo;{{reason_decline}}&rdquo;</em></p>
 <p style='text-align: center;'>Ne vous inqui&eacute;tez pas, vous pouvez toujours essayer &agrave; nouveau et obtenir votre carte-cadeau de <strong>{{amount}}</strong>!</p>
@@ -500,7 +500,7 @@ if (!function_exists('saveEnLanguage')) {
                     'user_id' => $user_id,
                     'subject' => "Fordern Sie Ihre {{amount}} Geschenkkarte an!",
                     'type' => 'UGC_Approved',
-                    'body' => "<p style='text-align: center;'>Hallo {{name}},&nbsp;</p>
+                    'body' => "<p style='text-align: center;'>Hallo,&nbsp;</p>
 <p style='text-align: center;'>Gl&uuml;ckwunsch, Ihre Video-Bewertung f&uuml;r {{storename}} wurde genehmigt!</p>
 <p style='text-align: center;'>Wir sind st&auml;ndig von der Kreativit&auml;t und Leidenschaft unserer Kunden inspiriert und wir sch&auml;tzen Ihre Unterst&uuml;tzung.</p>
 <p style='text-align: center;'>Hier ist Ihr Rabattcode:</p>
@@ -531,7 +531,7 @@ if (!function_exists('saveEnLanguage')) {
                     'user_id' => $user_id,
                     'subject' => "Nachricht zu Ihrer Bewertung",
                     'type' => 'UGC_Declined',
-                    'body' => "<p style='text-align: center;'>Hallo {{name}},<br>Leider wurde Ihre Video-Bewertung f&uuml;r {{storename}} aus folgendem Grund nicht genehmigt:</p>
+                    'body' => "<p style='text-align: center;'>Hallo,<br>Leider wurde Ihre Video-Bewertung f&uuml;r {{storename}} aus folgendem Grund nicht genehmigt:</p>
 <p style='text-align: center;'><em>&ldquo;{{reason_decline}}&rdquo;</em></p>
 <p style='text-align: center;'>Machen Sie sich keine Sorgen, Sie k&ouml;nnen es immer noch einmal versuchen und Ihre <strong>{{amount}}</strong> Geschenkkarte erhalten!</p>
 <p style='text-align: center;'>{{button}}</p>",
@@ -574,7 +574,7 @@ if (!function_exists('saveEnLanguage')) {
                     'user_id' => $user_id,
                     'subject' => "¡Reclama tu tarjeta de regalo de {{amount}}!",
                     'type' => 'UGC_Approved',
-                    'body' => "<p style='text-align: center;'>Hola {{name}},&nbsp;</p>
+                    'body' => "<p style='text-align: center;'>Hola,&nbsp;</p>
 <p style='text-align: center;'>&iexcl;Felicidades, tu rese&ntilde;a en v&iacute;deo para {{storename}} ha sido aprobada!</p>
 <p style='text-align: center;'>Nos inspira constantemente la creatividad y la pasi&oacute;n de nuestros clientes, y apreciamos tu apoyo.</p>
 <p style='text-align: center;'>Aqu&iacute; est&aacute; tu c&oacute;digo de descuento:</p>
@@ -606,7 +606,7 @@ if (!function_exists('saveEnLanguage')) {
                     'user_id' => $user_id,
                     'subject' => "Mensaje acerca de tu reseña",
                     'type' => 'UGC_Declined',
-                    'body' => "<p style='text-align: center;'>Hola {{name}},</p>
+                    'body' => "<p style='text-align: center;'>Hola,</p>
 <p style='text-align: center;'>Lo sentimos, tu rese&ntilde;a en v&iacute;deo para {{storename}} no fue aprobada por la siguiente raz&oacute;n:</p>
 <p style='text-align: center;'><em>&ldquo;{{reason_decline}}&rdquo;</em></p>
 <p style='text-align: center;'>&iexcl;No te preocupes, a&uacute;n puedes intentarlo de nuevo y obtener tu tarjeta de regalo de <strong>{{amount}}</strong>!</p>
@@ -649,7 +649,7 @@ if (!function_exists('saveEnLanguage')) {
                     'user_id' => $user_id,
                     'subject' => "Reivindique o seu cartão-presente de {{amount}}!",
                     'type' => 'UGC_Approved',
-                    'body' => "<p style='text-align: center;'>Ol&aacute; {{name}},</p>
+                    'body' => "<p style='text-align: center;'>Ol&aacute;,</p>
 <p style='text-align: center;'>Parab&eacute;ns, a sua avalia&ccedil;&atilde;o em v&iacute;deo para a {{storename}} foi aprovada!</p>
 <p style='text-align: center;'>Estamos constantemente inspirados pela criatividade e paix&atilde;o dos nossos clientes, e agradecemos o seu apoio.</p>
 <p style='text-align: center;'>Aqui est&aacute; o seu c&oacute;digo de desconto:</p>
@@ -682,7 +682,7 @@ if (!function_exists('saveEnLanguage')) {
                     'user_id' => $user_id,
                     'subject' => "Mensagem sobre a sua avaliação",
                     'type' => 'UGC_Declined',
-                    'body' => "<p style='text-align: center;'>Ol&aacute; {{name}},</p>
+                    'body' => "<p style='text-align: center;'>Ol&aacute;,</p>
 <p style='text-align: center;'>Desculpe, a sua avalia&ccedil;&atilde;o em v&iacute;deo para {{storename}} n&atilde;o foi aprovada pelo seguinte motivo:</p>
 <p style='text-align: center;'><em>&ldquo;{{reason_decline}}&rdquo;</em></p>
 <p style='text-align: center;'>N&atilde;o se preocupe, voc&ecirc; ainda pode tentar novamente e obter o seu cart&atilde;o-presente de <strong>{{amount}}</strong>!</p>
@@ -725,7 +725,7 @@ if (!function_exists('saveEnLanguage')) {
                     'user_id' => $user_id,
                     'subject' => "Richiedi la tua Gift Card da {{amount}}!",
                     'type' => 'UGC_Approved',
-                    'body' => "<p style='text-align: center;'>Ciao {{name}},&nbsp;</p>
+                    'body' => "<p style='text-align: center;'>Ciao,&nbsp;</p>
 <p style='text-align: center;'>Complimenti, la tua recensione video per {{storename}} &egrave; stata approvata!</p>
 <p style='text-align: center;'>Siamo costantemente ispirati dalla creativit&agrave; e dalla passione dei nostri clienti, e apprezziamo il tuo sostegno.</p>
 <p style='text-align: center;'>Ecco il tuo codice di sconto:</p>
@@ -756,7 +756,7 @@ if (!function_exists('saveEnLanguage')) {
                     'user_id' => $user_id,
                     'subject' => "Messaggio riguardo alla tua recensione",
                     'type' => 'UGC_Declined',
-                    'body' => '<p style="text-align: center;">Ciao {{name}},</p>
+                    'body' => '<p style="text-align: center;">Ciao,</p>
 <p style="text-align: center;">Siamo spiacenti, la tua recensione video per {{storename}} non &egrave; stata approvata per il seguente motivo:</p>
 <p style="text-align: center;"><em>&ldquo;{{reason_decline}}&rdquo;</em></p>
 <p style="text-align: center;">Non preoccuparti, puoi sempre riprovare e ottenere la tua Gift Card da <strong>{{amount}}!</strong></p>
