@@ -261,7 +261,7 @@ class AuthController extends Controller
         $emailTemplate['subject'] = "Claim your {{amount}} Gift Card!";
 
         $emailTemplate['type'] = 'UGC_Approved';
-        $emailTemplate['body'] = '<p style="text-align: center;">Hello {{name}},</p>
+        $emailTemplate['body'] = '<p style="text-align: center;">Hello,</p>
 <p style="text-align: center;">Congratulations, your Video Review for {{storename}} has been approved!&nbsp;</p>
 <p style="text-align: center;">We are constantly inspired by the creativity and passion of our customers, and we appreciate your support.</p>
 <p style="text-align: center;">Here is your Discount code:</p>
@@ -301,7 +301,7 @@ class AuthController extends Controller
         $emailTemplate['subject'] = "Update about your Review" ;
        
         $emailTemplate['type'] = 'UGC_Declined';
-        $emailTemplate['body'] = '<p style="text-align: center;">Hello {{name}},</p>
+        $emailTemplate['body'] = '<p style="text-align: center;">Hello,</p>
 <p style="text-align: center;">Sorry, your video review for {{storename}} was not approved for the following reason:</p>
 <p style="text-align: center;"><em>"&ldquo;{{reason_decline}}&rdquo;"</em></p>
 <p style="text-align: center;">No worries, you can still try again and get your <strong>{{amount}} Gift Card</strong>!</p>
