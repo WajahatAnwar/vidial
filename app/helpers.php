@@ -423,7 +423,7 @@ if (!function_exists('saveEnLanguage')) {
                     'user_id' => $user_id,
                     'subject' => "Réclamez votre carte-cadeau de {{amount}}!",
                     'type' => 'UGC_Approved',
-                    'body' => "<p style='text-align: center;'>Bonjour {{name}},&nbsp;</p>
+                    'body' => "<p style='text-align: center;'>Bonjour,&nbsp;</p>
 <p style='text-align: center;'>F&eacute;licitations, votre avis vid&eacute;o pour {{storename}} a &eacute;t&eacute; approuv&eacute;!</p>
 <p style='text-align: center;'>Nous sommes constamment inspir&eacute;s par la cr&eacute;ativit&eacute; et la passion de nos clients, et nous appr&eacute;cions votre soutien.</p>
 <p style='text-align: center;'>Voici votre code de r&eacute;duction :</p>
