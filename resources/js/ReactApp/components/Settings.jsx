@@ -303,7 +303,7 @@ const Settings = () => {
         //     baseUrl + "/landingPage/" + currentLang + "?store=" + store
         // );
         window.open(
-            baseUrl + "/" + approvedStoreHandle
+            baseUrl + "/s/" + approvedStoreHandle
         );
     };
 
@@ -784,7 +784,7 @@ const Settings = () => {
 
         // const landingPageDisplayedValue =
         //     baseUrl + "/landingPage/" + currentLang + "?store=" + store;
-        const landingPageDisplayedValue = baseUrl + "/" + approvedStoreHandle;
+        const landingPageDisplayedValue = baseUrl + "/s/" + approvedStoreHandle;
 
 
         navigator.clipboard.writeText(landingPageDisplayedValue);
@@ -1347,7 +1347,7 @@ const Settings = () => {
                                             value={storeHandle}
                                             onChange={(handleStoreHandle)}
                                             autoComplete="off"
-                                           prefix={baseUrl+ '/'}
+                                           prefix={baseUrl+ '/s/'}
                                         />
                                         
                                             </div>
