@@ -1347,7 +1347,7 @@ const Settings = () => {
                                             value={storeHandle}
                                             onChange={(handleStoreHandle)}
                                             autoComplete="off"
-                                           prefix={baseUrl+ '/s/'}
+                                                    prefix={baseUrl.replace('https://','') + '/s/'}
                                         />
                                         
                                             </div>
