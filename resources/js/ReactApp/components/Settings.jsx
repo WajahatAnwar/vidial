@@ -958,7 +958,7 @@ const Settings = () => {
 
     const validVideoTypes = ['video'];
 
-    const fileUploadVideos = !filesVideos.length && <DropZone.FileUpload actionHint="Accepts .mp4, .avi ..... (please fill all formats)" actionTitle="Upload Your Inspirational Video" />;
+    const fileUploadVideos = !filesVideos.length && <DropZone.FileUpload actionHint="Accepts .mp4, .avi, .mov" actionTitle="Upload Your Inspirational Video" />;
     const uploadedFilesVideos = filesVideos.length > 0 && (
         <div style={{ padding: '0' }}>
             <div>
