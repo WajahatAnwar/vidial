@@ -20,7 +20,7 @@
                 @endif
                 {!! $body['body'] !!}
                 
-                <p style="text-align:center;"><a href="%unsubscribe_url%">unsubscribe</a></p>
+                {{-- <p style="text-align:center;"><a href="%unsubscribe_url%">unsubscribe</a></p> --}}
             </div>
         </div>
     
