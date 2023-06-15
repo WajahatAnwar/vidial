@@ -78,6 +78,7 @@ class AdminController extends Controller
             env('MAILGUN_SECRET'), // Mailgun API Key
             env('MAILGUN_ENDPOINT')
         );
+        dd('test');
         dd($mgClient);
         $tag  = [];
         $result = $mgClient->suppressions()->unsubscribes()->create(env('MAILGUN_DOMAIN'), 'imeform1122@gmail.com', $tag);
