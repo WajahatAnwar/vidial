@@ -78,7 +78,7 @@ class EmailSendToCustomerCron extends Command
                         'url'=> env('APP_URL').'/s/'. ($current_user->store_handle ? $current_user->store_handle : str_replace(' ', '_', $current_user->store_name)) . '?order_id=' . Crypt::encryptString($Orders_send_mail->id)
                         
                     ];
-                    Log::info(json_encode($details));
+                    // Log::info(json_encode($details));
                     if ($Orders_send_mail->email_status == 1) {
                         
                         // \Log::info("if already replied ignore");
