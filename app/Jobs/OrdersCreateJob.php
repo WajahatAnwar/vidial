@@ -67,8 +67,8 @@ class OrdersCreateJob implements ShouldQueue
     public function handle()
     {
         // Convert domain
-        Log::info("BELOW IS MY ORDER");
-        Log::info(json_encode($this->data));
+        // Log::info("BELOW IS MY ORDER");
+        // Log::info(json_encode($this->data));
 
         // $shop_domain = $this->shopDomain;
         //Log::info($shop_domain);
