@@ -19,6 +19,7 @@ use App\Models\Setting;
 use App\Jobs\ThanksMailjob;
 use Illuminate\Http\Request;
 use App\Jobs\NotApprovedMailjob;
+use App\Models\Discount;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Crypt;
@@ -222,7 +223,14 @@ public function videoOperation(Request $request){
        $updateUser->remaining_videos=$remainingVideos - 1;
        $updateUser->save();
 
+       /** save discount history */
 
+       Discount::create([
+        'discount_code'=> $code['code'],
+        'discount_id'=> $code['id'],
+        'video_id'=>$videos->id,
+        'discount_meta'=>json_encode($code)
+       ]);
 
         return response()->json([
             'success' => true,
@@ -654,6 +662,7 @@ return response()->json([
     $rules_requirements=[
         "price_rule"=>[
         "title"=>"vidial_code",
+        'usage_limit' => 1,
         "target_type"=>"line_item",
         "target_selection"=>"all",
         "allocation_method"=>"across",
