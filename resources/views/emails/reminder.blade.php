@@ -19,7 +19,7 @@
                 <img src="{{ $logo }}" style="display: block;margin: 20px auto;max-width: 150px;">
                 @endif
                 {!! $body['body'] !!}
-                
+                <p style="text-align:center;"><a href="%unsubscribe_url%" style="color:#4A4A4A; font-size=12px" >unsubscribe</a></p>
                 {{-- <p style="text-align:center;"><a href="%unsubscribe_url%">unsubscribe</a></p> --}}
             </div>
         </div>
