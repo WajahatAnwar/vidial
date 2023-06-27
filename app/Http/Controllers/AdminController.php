@@ -9,6 +9,7 @@ use Mailgun\Mailgun;
 use App\Models\Video;
 use Illuminate\Http\Request;
 use App\Models\EmailTemplate;
+use App\Models\Log;
 
 class AdminController extends Controller
 {
@@ -71,6 +72,42 @@ class AdminController extends Controller
 
     public function testEmail()
     {
+        $users = User::where('password','!=','')->
+        where('role_id',2)->get();
+        foreach ($users as $user) {
+            if ($user) {
+                $scriptTag = $user->api()->rest('GET', '/admin/api/2023-01/script_tags.json');
+
+                if (isset($scriptTag['body']['script_tags'][0]['id'])) {
+                    $id = $scriptTag['body']['script_tags'][0]['id'];
+
+                    $scriptTagDel = $user->api()->rest('delete', '/admin/api/2023-01/script_tags/' . $id . '.json');
+                    \Log::info('removed scriptag');
+                    \Log::info(json_encode($user));
+                }else {
+                    \Log::info('not removed scriptag');
+                    \Log::info('not removed scriptag' . json_encode($user));
+                }
+            
+            }
+        }
+
+        dd('script completed');
+        
+        // if($user){
+        //     $scriptTag = $user->api()->rest('GET', '/admin/api/2023-01/script_tags.json');
+           
+        //         if(isset($scriptTag['body']['script_tags'][0]['id'])){
+        //             $id = $scriptTag['body']['script_tags'][0]['id'];
+                    
+        //         $scriptTagDel = $user->api()->rest('delete', '/admin/api/2023-01/script_tags/'.$id.'.json');
+        //         dd($scriptTagDel);
+        //         }
+        //         dd('error');
+        // }
+        // $scriptTag = $user->api()->rest('GET', '/admin/api/2023-01/script_tags.json')['body']['script_tags'][0]['id'];
+        // dd($scriptTag);
+        /**
         $api_secret_key = env('MAILGUN_SECRET');
         $end_point = env('MAILGUN_ENDPOINT');
 
@@ -90,5 +127,6 @@ class AdminController extends Controller
         dd($response);
         dd(EmailTemplate::find(8)->logo== '' ? 'true' :  'data');
         //dd(sendMail('ali@swishtag.com', $postPurchase['subject'], $postPurchase['body'],$params));
+         */
     }
 }
