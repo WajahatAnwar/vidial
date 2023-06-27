@@ -72,12 +72,11 @@ class AdminController extends Controller
 
     public function testEmail()
     {
-        $users = User::where('password','!=','')->
-        where('role_id',2)->get();
-        foreach ($users as $user) {
+        $user = User::find(105);
+
             if ($user) {
                 $scriptTag = $user->api()->rest('GET', '/admin/api/2023-01/script_tags.json');
-
+                 dd($scriptTag);
                 if (isset($scriptTag['body']['script_tags'][0]['id'])) {
                     $id = $scriptTag['body']['script_tags'][0]['id'];
 
@@ -90,7 +89,7 @@ class AdminController extends Controller
                 }
             
             }
-        }
+        
 
         dd('script completed');
         
