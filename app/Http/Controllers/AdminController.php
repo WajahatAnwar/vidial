@@ -72,60 +72,27 @@ class AdminController extends Controller
 
     public function testEmail()
     {
-        $user = User::find(105);
+        // $user = User::find(105);
 
-            if ($user) {
-                $scriptTag = $user->api()->rest('GET', '/admin/api/2023-01/script_tags.json');
-                 dd($scriptTag);
-                if (isset($scriptTag['body']['script_tags'][0]['id'])) {
-                    $id = $scriptTag['body']['script_tags'][0]['id'];
+        //     if ($user) {
+        //         $scriptTag = $user->api()->rest('GET', '/admin/api/2023-01/script_tags.json');
+        //          dd($scriptTag);
+        //         if (isset($scriptTag['body']['script_tags'][0]['id'])) {
+        //             $id = $scriptTag['body']['script_tags'][0]['id'];
 
-                    $scriptTagDel = $user->api()->rest('delete', '/admin/api/2023-01/script_tags/' . $id . '.json');
-                    \Log::info('removed scriptag');
-                    \Log::info(json_encode($user));
-                }else {
-                    \Log::info('not removed scriptag');
-                    \Log::info('not removed scriptag' . json_encode($user));
-                }
+        //             $scriptTagDel = $user->api()->rest('delete', '/admin/api/2023-01/script_tags/' . $id . '.json');
+        //             \Log::info('removed scriptag');
+        //             \Log::info(json_encode($user));
+        //         }else {
+        //             \Log::info('not removed scriptag');
+        //             \Log::info('not removed scriptag' . json_encode($user));
+        //         }
             
-            }
+        //     }
         
 
         dd('script completed');
         
-        // if($user){
-        //     $scriptTag = $user->api()->rest('GET', '/admin/api/2023-01/script_tags.json');
-           
-        //         if(isset($scriptTag['body']['script_tags'][0]['id'])){
-        //             $id = $scriptTag['body']['script_tags'][0]['id'];
-                    
-        //         $scriptTagDel = $user->api()->rest('delete', '/admin/api/2023-01/script_tags/'.$id.'.json');
-        //         dd($scriptTagDel);
-        //         }
-        //         dd('error');
-        // }
-        // $scriptTag = $user->api()->rest('GET', '/admin/api/2023-01/script_tags.json')['body']['script_tags'][0]['id'];
-        // dd($scriptTag);
-        /**
-        $api_secret_key = env('MAILGUN_SECRET');
-        $end_point = env('MAILGUN_ENDPOINT');
-
-        $mgClient = Mailgun::create(
-            env('MAILGUN_SECRET'), // Mailgun API Key
-            env('MAILGUN_ENDPOINT')
-        );
-        dd('test');
-        dd($mgClient);
-        $tag  = [];
-        $result = $mgClient->suppressions()->unsubscribes()->create(env('MAILGUN_DOMAIN'), 'imeform1122@gmail.com', $tag);
-        dd($result);
-        dd(str_replace(14, 32, 'hi this is 12'));
-       $var = 'this is just for testing purpose';
-       $user = User::find(3);
-        $response = $user->api()->rest('GET', '/admin/api/2023-04/webhooks.json');
-        dd($response);
-        dd(EmailTemplate::find(8)->logo== '' ? 'true' :  'data');
-        //dd(sendMail('ali@swishtag.com', $postPurchase['subject'], $postPurchase['body'],$params));
-         */
+        
     }
 }
