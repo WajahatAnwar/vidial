@@ -34,6 +34,27 @@
                     host: "{{ \Request::get('host') }}",
                     forceRedirect: true,
                 });
+
+                var shop = "{{ $shopDomain ?? Auth::user()->name }}";
+            const {
+                fetch: originalFetch
+            } = window;
+            window.fetch = async (...args) => {
+                let [resource, config] = args;
+                // request interceptor here
+                let token = await utils.getSessionToken(app);
+                config = {
+                    ...config,
+                    headers: {
+                        ...config?.headers,
+                        'Accept': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    }
+                }
+                const response = await originalFetch(resource, config);
+                // response interceptor here
+                return response;
+            };
             </script>
 
             @include('shopify-app::partials.token_handler')
