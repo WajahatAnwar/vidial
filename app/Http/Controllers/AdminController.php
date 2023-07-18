@@ -20,20 +20,20 @@ class AdminController extends Controller
     {
 
         $user_info = User::with(['plan', 'videos_count', 'mail_count'])
-            ->where('role_id', "2")
+            ->where('role_id', config('constants.user'))
             ->withCount('videos')
             ->get();
 
         $store_list = [];
         
         foreach ($user_info as $user) {
-            $video_count = Video::where("status", "Approved")->where("user_id", $user->id)->count();
+            $video_count = Video::where("status", config('constants.video_approved'))->where("user_id", $user->id)->count();
             
             $approved_videos_count = $user->videos_count;
             $plan_info = $user->plan;
             $send_mail_count = $user->mail_count->count();
 
-            if ($user != null) {
+            if ($user) {
                 $store_list[] = [
                     'id' => $user->id,
                     'store_name' => $user->name,
@@ -41,6 +41,9 @@ class AdminController extends Controller
                     'approved_video' => $video_count,
                     'email_send' => $send_mail_count,
                     'Watermark' => $user->water_mark,
+                    'install_date'=>$user->formatted_created_at,
+                    'install_status'=> $user->deleted_at ? 0 : 1,
+                    'store_email'=> $user->email
                 ];
             }
         }

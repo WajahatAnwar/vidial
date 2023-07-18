@@ -110,10 +110,10 @@ function AdminDashboard(props) {
             }
             return response.json();
         }).then((data) => {
+
             setUsers(data.user_details);
-            console.log(data);
-            //    console.log("data");
-            //    console.log(data);
+            //console.log(data);
+
         }).catch((error) => {
             console.log(error);
         });
@@ -233,8 +233,6 @@ function AdminDashboard(props) {
                                     'text',
                                     'text',
                                     'text',
-
-
                                 ]}
                                 headings={[
                                     'Id',
@@ -247,8 +245,6 @@ function AdminDashboard(props) {
                                     'Install Status',
                                     'Total Customers',
                                     'Store Email',
-                                    
-
                                 ]}
                                 // rows={tableRows && tableRows}
 
@@ -261,10 +257,10 @@ function AdminDashboard(props) {
                                         user.approved_video,
                                         user.email_send,
                                         <Toggle toggled={user.Watermark} onClick={() => handlewatermark(user.id, !user.Watermark)} />,
-                                        <div>hello1</div>,
-                                        <div>hello2</div>,
-                                        <div>hello3</div>,
-                                        <div>hello4</div>
+                                        <div>{user.install_date}</div>,
+                                        <div>{user.install_status ? <Badge status="success">Installed</Badge> : <Badge status="critical">Un Installed</Badge> }</div>,
+                                        <div></div>,
+                                        <div>{user.store_email}</div>
                                     ]
                                 )}
                             // rows={[['1','Store1',,1,2, ]]}
