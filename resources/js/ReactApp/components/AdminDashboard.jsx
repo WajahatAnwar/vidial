@@ -227,6 +227,13 @@ function AdminDashboard(props) {
                                     'text',
                                     'text',
                                     'text',
+                                    'text',
+                                    'text',
+                                    'text',
+                                    'text',
+                                    'text',
+                                    'text',
+
 
                                 ]}
                                 headings={[
@@ -236,6 +243,11 @@ function AdminDashboard(props) {
                                     'Approved Videos',
                                     'Email Sent',
                                     'Remove Watermark',
+                                    'Install Date',
+                                    'Install Status',
+                                    'Total Customers',
+                                    'Store Email',
+                                    
 
                                 ]}
                                 // rows={tableRows && tableRows}
@@ -249,6 +261,10 @@ function AdminDashboard(props) {
                                         user.approved_video,
                                         user.email_send,
                                         <Toggle toggled={user.Watermark} onClick={() => handlewatermark(user.id, !user.Watermark)} />,
+                                        <div>hello1</div>,
+                                        <div>hello2</div>,
+                                        <div>hello3</div>,
+                                        <div>hello4</div>
                                     ]
                                 )}
                             // rows={[['1','Store1',,1,2, ]]}

@@ -1089,7 +1089,7 @@ const Settings = () => {
                                 }}
                             >
                                 <Banner
-                                    title="Welcome to Vidial, Bravelsaus  👋 "
+                                    title="Welcome to Vidial,  STORE NAME 👋 "
 
                                     status="info"
                                     onDismiss={() => { }}
@@ -1373,10 +1373,7 @@ const Settings = () => {
                                     >
                                         <div style={{}}>
                                             <Text variant="headingLg" as="h5">
-                                                What amount of store credit
-                                                would you offer to the customers
-                                                for the usage of their UGC
-                                                videos?
+                                            What size discount code will you offer to customers for their UGC videos?
                                             </Text>
                                             <p style={{ marginTop: "15px" }}>
                                                 We recommend offering a minimum
