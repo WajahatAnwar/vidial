@@ -214,4 +214,18 @@ class DashboardController extends Controller
             'data' => $data,
         ]);
     }
+
+    /**
+     * Update App
+     */
+
+     public function updateApp(){
+        $user = Auth::user();
+        $data['user'] = $user;
+        return response()->json([
+            'success' => true,
+            'message' => 'user data',
+            'data' => $data,
+        ]);
+     }
 }

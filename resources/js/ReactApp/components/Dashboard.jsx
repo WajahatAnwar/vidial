@@ -111,6 +111,7 @@ function Dashboard() {
     const [approvedUserVideoId, setapprovedUserVideoId] = useState(false);
     const [isClicked, setisClicked] = useState(false);
 
+
     /******** Operation on Videos  ******/
     const videoOperation = (id) => {
         const status = "Approved";
@@ -289,13 +290,13 @@ function Dashboard() {
     }, [reload]);
 
     const navigate = useNavigate();
-
+    
     return (
         <Page>
             <Grid>
 
                 <Grid.Cell columnSpan={{ xs: 6, sm: 6, md: 6, lg: 12, xl: 12 }}>
-
+                    <br></br>
                     <Text variant="headingXl" as="h4">
                         Welcome to Vidial 👋
                     </Text>
