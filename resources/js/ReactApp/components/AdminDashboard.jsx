@@ -259,7 +259,7 @@ function AdminDashboard(props) {
                                         <Toggle toggled={user.Watermark} onClick={() => handlewatermark(user.id, !user.Watermark)} />,
                                         <div>{user.install_date}</div>,
                                         <div>{user.install_status ? <Badge status="success">Installed</Badge> : <Badge status="critical">Un Installed</Badge> }</div>,
-                                        <div></div>,
+                                        <div>{user.customers_count}</div>,
                                         <div>{user.store_email}</div>
                                     ]
                                 )}
