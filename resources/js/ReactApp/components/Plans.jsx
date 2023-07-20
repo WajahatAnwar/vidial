@@ -226,7 +226,7 @@ function Plans() {
                                         padding: "5px 0",
                                     }}
                                 >
-                                    {data.ugc_video_count} monthly UGC videos
+                                        {data.ugc_video_count == 500000 ? 'Unlimited monthly UGC videos' : `${data.ugc_video_count} monthly UGC videos`} 
                                 </p>
                                 <p
                                     style={{
