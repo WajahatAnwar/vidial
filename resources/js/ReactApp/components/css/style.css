@@ -292,3 +292,7 @@ select#PolarisSelect1 {
     top: 10px;
     right: 10px;
 }
+.loadingStateCustom .Polaris-Card {
+    padding: 20px;
+    margin-top: 10px;
+}
