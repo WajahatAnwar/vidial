@@ -210,7 +210,7 @@ function AdminDashboard(props) {
     }
 
     return (
-        <Page>
+        <Page fullWidth>
             {
                 responseState == 'pending' ? <div className="" >
                     <SkeletonPage primaryAction>
