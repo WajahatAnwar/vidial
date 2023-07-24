@@ -129,10 +129,10 @@ function TabsExample() {
             id: "Resources",
             content: "Resources",
         },
-        {
-            id: "Community",
-            content: "Community",
-        },
+        // {
+        //     id: "Community",
+        //     content: "Community",
+        // },
         // {
         //     id: "admin",
         //     content: "Admin dashboard",

@@ -1,8 +1,9 @@
 import "@shopify/polaris/build/esm/styles.css";
-import { AppProvider } from "@shopify/polaris";
+import { AppProvider, Button } from "@shopify/polaris";
 import en from "@shopify/polaris/locales/en.json";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import CustomBar from "./CustomBar";
+
 // import NavigationCustom from "./NavigationCustom";
 
 import Loading from "./Loading";
@@ -26,11 +27,24 @@ import UgcDeclinedEmail from "./UgcDeclinedEmail"
 const VidialApp = () => {
 
     let location = useLocation();
-
+    
     const [topBarCheck, setTopBarCheck] = useState(false);
     const [currentUser, setCurrentUser] = useState(false);
 
     const navigate = useNavigate();
+    /** Update app */
+    const handleUpdateApp = () => {
+        fetch('update-app').then((response) => response.json())
+            .then((data) => {
+                let url = 'authenticate?shop=';
+                if (data.success) {
+                    url = url + data.data.user.name;
+                    window.open(url)
+                }
+
+
+            })
+    }
 
     useEffect(() => {
 
@@ -87,7 +101,12 @@ const VidialApp = () => {
 
                 <Route path="*" element={<Loading />} />
             </Routes>
-
+            {
+            location.search ? <div className="updateButton">
+                <Button onClick={handleUpdateApp} success primary>Update App</Button>
+            </div> : ''
+            }
+           
         </AppProvider>
     );
 };

@@ -266,8 +266,8 @@ const Settings = () => {
     const [video, setVideo] = useState("");
     const [store, setStore] = useState("");
     const [baseUrl, setBaseUrl] = useState("https://app.vidial.co");
-    //const [baseUrl, setBaseUrl] = useState("https://phpstack-953879-3439374.cloudwaysapps.com");
-    //const [baseUrl, setBaseUrl] = useState("https://883a-72-255-51-52.ngrok-free.app");
+    // const [baseUrl, setBaseUrl] = useState("https://phpstack-953879-3439374.cloudwaysapps.com");
+    //const [baseUrl, setBaseUrl] = useState("https://51ax6.localto.net");
     const [imagename, setImagename] = useState("");
     const [videoname, setVideoname] = useState("");
     const [previewLogo, setPreviwLogo] = useState("");
@@ -562,7 +562,7 @@ const Settings = () => {
                     value: "Describe the main benefits of " + storeName,
                 },
             ]);
-            setTitle(`Send us a video to receive a ${storeCurrency}${priceValue} Gift Card`);
+            setTitle(`Send us a video to receive a ${storeCurrency}${priceValue} discount code`);
             setVideoTitle('Here’s an example of what kind of video you can record:');
             setButtonText('Upload Your Video');
 
@@ -683,9 +683,7 @@ const Settings = () => {
     const handleSelectChange = (value) => {
         setEmailTemplateButton(false);
         setSelected(value);
-        languageConvert(value)
-        
-      
+        languageConvert(value) 
     };
 
     /******** save settings into DB ******/
@@ -1089,7 +1087,7 @@ const Settings = () => {
                                 }}
                             >
                                 <Banner
-                                    title="Welcome to Vidial, Bravelsaus  👋 "
+                                    title= {`Welcome to Vidial, ${storeName} 👋`}
 
                                     status="info"
                                     onDismiss={() => { }}
@@ -1373,10 +1371,7 @@ const Settings = () => {
                                     >
                                         <div style={{}}>
                                             <Text variant="headingLg" as="h5">
-                                                What amount of store credit
-                                                would you offer to the customers
-                                                for the usage of their UGC
-                                                videos?
+                                            What size discount code will you offer to customers for their UGC videos?
                                             </Text>
                                             <p style={{ marginTop: "15px" }}>
                                                 We recommend offering a minimum
