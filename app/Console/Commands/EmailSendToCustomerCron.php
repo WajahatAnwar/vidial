@@ -50,6 +50,7 @@ class EmailSendToCustomerCron extends Command
 
         // ->get();
         $order_list = Orders::with('marchent')->whereHas('marchent', function ($query) {
+            
             $query->whereHas('settings', function ($subQuery) {
                 $subQuery->where('email_status','=', 'true');
             });
@@ -58,9 +59,6 @@ class EmailSendToCustomerCron extends Command
         ->where('replied', '=', 0)
         ->get();
 
-        Log::info('orders cronjob');
-        Log::info(json_encode($order_list));
-        return;
         foreach ($order_list as $Orders_send_mail) {
             /******** check user activate email settings *********/
             // if ($Orders_send_mail->marchent->settings->email_status) {
