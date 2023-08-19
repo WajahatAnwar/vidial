@@ -265,8 +265,8 @@ const Settings = () => {
     // console.log(logoImage);
     const [video, setVideo] = useState("");
     const [store, setStore] = useState("");
-    // const [baseUrl, setBaseUrl] = useState("https://app.vidial.co");
-    const [baseUrl, setBaseUrl] = useState("https://phpstack-953879-3439374.cloudwaysapps.com");
+    const [baseUrl, setBaseUrl] = useState("https://app.vidial.co");
+    // const [baseUrl, setBaseUrl] = useState("https://phpstack-953879-3439374.cloudwaysapps.com");
     //const [baseUrl, setBaseUrl] = useState("https://51ax6.localto.net");
     const [imagename, setImagename] = useState("");
     const [videoname, setVideoname] = useState("");
