@@ -44,7 +44,7 @@ class EmailSendToCustomerCron extends Command
 
 
 
-        $order_list = Orders::with('marchent','settings')->get();
+        $order_list = Orders::with('marchent')->get();
         Log::info('orders cronjob');
         Log::info(json_encode($order_list));
         return;
