@@ -226,7 +226,7 @@ class AuthController extends Controller
             'store_credit' => 50,
             'logo' => '',
             'instructions' => $inst,
-            'instruction_title' => 'Send us a video to receive a ' . getCurrencySymbol($shop->store_currency) . '50 Gift Card',
+            'instruction_title' => 'Send us a video to receive a ' . getCurrencySymbol($shop->store_currency) . '50 discount code',
             'video' => '',
             'page_color' => '#28282B',
             'page_display_to_customers' => 3,

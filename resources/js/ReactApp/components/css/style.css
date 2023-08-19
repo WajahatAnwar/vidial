@@ -287,3 +287,12 @@ select#PolarisSelect1 {
 .storeHandleParent #PolarisTextField1-Prefix{
     margin-right: 0!important;
 }
+.updateButton {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+}
+.loadingStateCustom .Polaris-Card {
+    padding: 20px;
+    margin-top: 10px;
+}

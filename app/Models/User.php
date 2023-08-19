@@ -51,6 +51,8 @@ class User extends Authenticatable implements IShopModel
         'email_verified_at' => 'datetime',
     ];
 
+    /*** Relationships  ***/
+
     public function settings()
     {
         return $this->hasOne(Setting::class);
@@ -74,6 +76,13 @@ class User extends Authenticatable implements IShopModel
 
     public function emailCreds(){
         return $this->hasOne(EmailCredentials::class);
+    }
+
+    /**** Accessors ***/
+    
+    public function getFormattedCreatedAtAttribute()
+    {
+        return $this->created_at->format(config('constants.date_format')); // Customize the format as needed
     }
 
 }

@@ -15,9 +15,10 @@ const Loading = () => {
             const data = await fetch('/getSession');
             const response = await data.json();
             setCurrentUser(response.data);
+            
 
-            if (response.success) {
-
+            if (response.success && response.data.role_id==1) {
+                
                 navigate("/admin-dashboard");
 
             } else {

@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use Carbon\Carbon;
+use App\Models\Log;
 use App\Models\Plan;
 use App\Models\User;
 use Mailgun\Mailgun;
 use App\Models\Video;
 use Illuminate\Http\Request;
 use App\Models\EmailTemplate;
-use App\Models\Log;
 
 class AdminController extends Controller
 {
@@ -20,20 +21,21 @@ class AdminController extends Controller
     {
 
         $user_info = User::with(['plan', 'videos_count', 'mail_count'])
-            ->where('role_id', "2")
+            ->where('role_id', config('constants.user'))
             ->withCount('videos')
+            ->withTrashed()
             ->get();
 
         $store_list = [];
         
         foreach ($user_info as $user) {
-            $video_count = Video::where("status", "Approved")->where("user_id", $user->id)->count();
+            $video_count = Video::where("status", config('constants.video_approved'))->where("user_id", $user->id)->count();
             
             $approved_videos_count = $user->videos_count;
             $plan_info = $user->plan;
             $send_mail_count = $user->mail_count->count();
-
-            if ($user != null) {
+            
+            if ($user) {
                 $store_list[] = [
                     'id' => $user->id,
                     'store_name' => $user->name,
@@ -41,6 +43,10 @@ class AdminController extends Controller
                     'approved_video' => $video_count,
                     'email_send' => $send_mail_count,
                     'Watermark' => $user->water_mark,
+                    'install_date'=>$user->formatted_created_at,
+                    'install_status'=> $user->deleted_at ? 0 : 1,
+                    'store_email'=> $user->email,
+                    'customers_count'=> $this->customersCount($user)
                 ];
             }
         }
@@ -72,27 +78,32 @@ class AdminController extends Controller
 
     public function testEmail()
     {
-        // $user = User::find(105);
-
-        //     if ($user) {
-        //         $scriptTag = $user->api()->rest('GET', '/admin/api/2023-01/script_tags.json');
-        //          dd($scriptTag);
-        //         if (isset($scriptTag['body']['script_tags'][0]['id'])) {
-        //             $id = $scriptTag['body']['script_tags'][0]['id'];
-
-        //             $scriptTagDel = $user->api()->rest('delete', '/admin/api/2023-01/script_tags/' . $id . '.json');
-        //             \Log::info('removed scriptag');
-        //             \Log::info(json_encode($user));
-        //         }else {
-        //             \Log::info('not removed scriptag');
-        //             \Log::info('not removed scriptag' . json_encode($user));
-        //         }
-            
-        //     }
-        
-
-        dd('script completed');
-        
+        $user = User::find(7);
+        try {
+            $customersCount = $user->api()->rest('GET', '/admin/api/2023-07/customers/count.json')['body'];
+            if(isset($customersCount['count'])){
+                return $customersCount['count'];
+            }
+            return false;
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
         
     }
+
+    /**
+     * get count of customers
+     */
+
+     public function customersCount($user){
+        try {
+            $customersCount = $user->api()->rest('GET', '/admin/api/2023-07/customers/count.json')['body'];
+            if (isset($customersCount['count'])) {
+                return $customersCount['count'];
+            }
+            return false;
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
+     }
 }

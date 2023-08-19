@@ -174,18 +174,18 @@ function Plans() {
                                     )}
                                 </div>
                                 {/* @endif */}
-                                <Text variant="headingXl" as="h4">
+                                <Text variant="headingLg" as="h5">
                                     {data.name}
                                 </Text>
-                                {/* <p
-                                            style={{
-                                                marginBottom: "30px",
-                                                marginTop: "10px",
-                                                height: "100px",
-                                            }}
+                                 <p
+                                    style={{
+                                        marginBottom: "30px",
+                                        marginTop: "10px",
+                                        height: "100px",
+                                    }}
                                         >
                                             {data.description}
-                                        </p> */}
+                                        </p> 
                                 <Text
                                     variant="headingXl"
                                     as="h4"
@@ -226,7 +226,7 @@ function Plans() {
                                         padding: "5px 0",
                                     }}
                                 >
-                                    {data.ugc_video_count} monthly UGC videos
+                                        {data.ugc_video_count == 500000 ? 'Unlimited monthly UGC videos' : `${data.ugc_video_count} monthly UGC videos`} 
                                 </p>
                                 <p
                                     style={{

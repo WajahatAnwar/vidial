@@ -8,6 +8,11 @@ import {
     Spinner,
     Toast,
     Frame,
+    TextContainer,
+    SkeletonBodyText,
+    SkeletonPage,
+    Layout,
+    SkeletonDisplayText,
 } from "@shopify/polaris";
 import { Grid, Text, Banner, Button, Icon, Select, Checkbox, Tabs, Tooltip, Badge } from '@shopify/polaris';
 import React, { useEffect } from 'react';
@@ -35,6 +40,8 @@ function AdminDashboard(props) {
     const [queryValue, setQueryValue] = useState("");
     const [tableRowsStatic, setTableRowsStatic] = useState([]);
     const [tableRows, setTableRows] = useState([]);
+    const [responseState, setResponseState] = useState(null);
+    
     const logState = state => {
         console.log("Toggled:", state)
     }
@@ -102,6 +109,7 @@ function AdminDashboard(props) {
     }
 
     useEffect(() => {
+        setResponseState('pending');
         fetch("/getDataofallPlans", {
             method: "GET",
         }).then((response) => {
@@ -110,11 +118,13 @@ function AdminDashboard(props) {
             }
             return response.json();
         }).then((data) => {
+
             setUsers(data.user_details);
-            console.log(data);
-            //    console.log("data");
-            //    console.log(data);
+            setResponseState(null);
+            //console.log(data);
+
         }).catch((error) => {
+            setResponseState(null);
             console.log(error);
         });
 
@@ -135,8 +145,7 @@ function AdminDashboard(props) {
         realRows = realRows.filter((value) => value[1].toLowerCase().includes(queryValue.toLowerCase()))
         setTableRows(realRows);
 
-        console.log(availability);
-        console.log(realRows);
+      
 
         if (availability.length == 1)
             realRows = realRows.filter((value) => value[2].props.value == availability[0])
@@ -201,10 +210,52 @@ function AdminDashboard(props) {
     }
 
     return (
-        <Page>
+        <Page fullWidth>
+            {
+                responseState == 'pending' ? <div className="" >
+                    <SkeletonPage primaryAction>
+                        <div className="loadingStateCustom">
+                                    <SkeletonBodyText />
+                               <Card>
+                                    <TextContainer>
+                                        <SkeletonDisplayText size="small" />
+                                        <SkeletonBodyText />
+                                    </TextContainer>
+                               </Card>
+                                   <Card>
+                                    <TextContainer>
+                                        <SkeletonDisplayText size="small" />
+                                        <SkeletonBodyText />
+                                    </TextContainer>
+                                    </Card>
+                              
+                            
+                                    <Card>
+                                        <TextContainer>
+                                            <SkeletonDisplayText size="small" />
+                                            <SkeletonBodyText lines={2} />
+                                        </TextContainer>
+                                    </Card>
+                                    <Card>
+                                        <SkeletonBodyText lines={1} />
+                                    </Card>
+
+                                    <Card>
+                                        <TextContainer>
+                                            <SkeletonDisplayText size="small" />
+                                            <SkeletonBodyText lines={2} />
+                                        </TextContainer>
+                                    </Card>
+                                    <Card>
+                                        <SkeletonBodyText lines={2} />
+                                    </Card>
+                        </div>
+                    </SkeletonPage>
+                </div>  : 
             <Grid>
                 <Grid.Cell columnSpan={{ xs: 6, sm: 6, md: 12, lg: 12, xl: 12 }}>
                     <div style={{ height: "0px" }}>
+                        
                         <Frame>
                             {toastMarkup}
                         </Frame>
@@ -233,8 +284,6 @@ function AdminDashboard(props) {
                                     'text',
                                     'text',
                                     'text',
-
-
                                 ]}
                                 headings={[
                                     'Id',
@@ -242,29 +291,29 @@ function AdminDashboard(props) {
                                     'Plan',
                                     'Approved Videos',
                                     'Email Sent',
-                                    'Remove Watermark',
-                                    'Install Date',
-                                    'Install Status',
                                     'Total Customers',
                                     'Store Email',
-                                    
+                                    'Install Date',
+                                    'Install Status',
+                                    'Remove Watermark',
 
+                                    
                                 ]}
                                 // rows={tableRows && tableRows}
 
                                 rows={users.map((user) =>
-
                                     [
                                         user.id,
                                         user.store_name,
                                         <Badge>{user.plan_name}</Badge>,
                                         user.approved_video,
                                         user.email_send,
+                                        <div>{user.customers_count}</div>,
+                                        <div>{user.store_email}</div>,
+                                        <div>{user.install_date}</div>,
+                                        <div>{user.install_status ? <Badge status="success">Installed</Badge> : <Badge status="critical">Un Installed</Badge> }</div>,
                                         <Toggle toggled={user.Watermark} onClick={() => handlewatermark(user.id, !user.Watermark)} />,
-                                        <div>hello1</div>,
-                                        <div>hello2</div>,
-                                        <div>hello3</div>,
-                                        <div>hello4</div>
+                                        
                                     ]
                                 )}
                             // rows={[['1','Store1',,1,2, ]]}
@@ -273,7 +322,7 @@ function AdminDashboard(props) {
                     </div>
                 </Grid.Cell>
             </Grid>
-
+            }
         </Page>
     );
     function disambiguateLabel(key, value) {
