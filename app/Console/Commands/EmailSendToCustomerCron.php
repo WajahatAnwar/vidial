@@ -49,7 +49,7 @@ class EmailSendToCustomerCron extends Command
         // ->where('replied', '=', 0)
 
         // ->get();
-        $order_list = Orders::whereHas('marchent', function ($query) {
+        $order_list = Orders::with('marchent')->whereHas('marchent', function ($query) {
             $query->whereHas('settings', function ($subQuery) {
                 $subQuery->where('email_status','=', 'true');
             });
