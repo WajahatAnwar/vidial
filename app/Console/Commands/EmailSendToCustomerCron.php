@@ -51,7 +51,7 @@ class EmailSendToCustomerCron extends Command
         // ->get();
         $order_list = Orders::whereHas('marchent', function ($query) {
             $query->whereHas('settings', function ($subQuery) {
-                $subQuery->where('email_status', true);
+                $subQuery->where('email_status','=', 'true');
             });
         })
         ->where('remaining_mail', '>', 0)
