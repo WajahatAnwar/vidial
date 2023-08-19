@@ -44,10 +44,23 @@ class EmailSendToCustomerCron extends Command
 
 
 
-        $order_list = Orders::with('marchent')
-        ->where('remaining_mail','>',0)
+        // $order_list = Orders::with('marchent')
+        // ->where('remaining_mail','>',0)
+        // ->where('replied', '=', 0)
+
+        // ->get();
+        $order_list = Orders::with([
+            'marchent' => function ($query) {
+                // Load the user's settings that have email_status = true
+                $query->with('settings')->whereHas('settings', function ($subQuery) {
+                    $subQuery->where('email_status','=', 'true');
+                });
+            }
+        ])
+        ->where('remaining_mail', '>', 0)
         ->where('replied', '=', 0)
         ->get();
+
         Log::info('orders cronjob');
         Log::info(json_encode($order_list));
         return;
