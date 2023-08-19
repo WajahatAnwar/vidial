@@ -46,6 +46,7 @@ class EmailSendToCustomerCron extends Command
 
         $order_list = Orders::with('marchent')
         ->where('remaining_mail','>',0)
+        ->where('replied', '=', 0)
         ->get();
         Log::info('orders cronjob');
         Log::info(json_encode($order_list));
@@ -60,6 +61,7 @@ class EmailSendToCustomerCron extends Command
                 // check merchant plan has email to send
                 //  //  \Log::info(json_encode($Orders_send_mail->marchent, JSON_PRETTY_PRINT));
                 if ($Orders_send_mail->marchent != null) {
+                    /** check merchant has email in subscription */
                     if ($Orders_send_mail->marchent->remaining_email > 0) {
                         // \Log::info("true 1");
                         //check if setting Activated
