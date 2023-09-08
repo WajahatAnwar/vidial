@@ -265,9 +265,9 @@ const Settings = () => {
     // console.log(logoImage);
     const [video, setVideo] = useState("");
     const [store, setStore] = useState("");
-    const [baseUrl, setBaseUrl] = useState("https://app.vidial.co");
+    //const [baseUrl, setBaseUrl] = useState("https://app.vidial.co");
     // const [baseUrl, setBaseUrl] = useState("https://phpstack-953879-3439374.cloudwaysapps.com");
-    //const [baseUrl, setBaseUrl] = useState("https://51ax6.localto.net");
+    const [baseUrl, setBaseUrl] = useState("https://51ax6.localto.net");
     const [imagename, setImagename] = useState("");
     const [videoname, setVideoname] = useState("");
     const [previewLogo, setPreviwLogo] = useState("");
@@ -277,6 +277,7 @@ const Settings = () => {
     const [email, setEmail] = useState("");
     const [storeName, setstoreName] = useState("");
     const [successToastVideo, setSuccessToastVideo] = useState("");
+    const [favIcon,setFavIcon] = useState(null);
     // const successToastVideo = active ? (
     //     <Toast content="Settings Saved" onDismiss={true} />
     // ) : null;
@@ -360,12 +361,8 @@ const Settings = () => {
 
         return
     }
-
-
         const handleStoreHandle = useCallback((newValue) => {
             setStoreHandle(newValue);
-            
-
             setIsHandleAvailable(true);
             setStoreHandleState(true);
             setStoreHandleResponse(null);
@@ -408,18 +405,6 @@ const Settings = () => {
             return;
         }
         const domain = getEmailDomain(senderEmail);
-
-        // if (mailgunDomain.length <= 0) {
-        //     setEmailCredsError(true);
-        //     setEmailCredsMsg('Domain field is required');
-        //     return;
-        // }
-        
-        // if (mailgunEndpoint.length <= 0) {
-        //     setEmailCredsError(true);
-        //     setEmailCredsMsg('Endpoint field is required');
-        //     return;
-        // }
         
         const formData = new FormData();
         formData.append('is_active', emailCredsToggle);
@@ -457,6 +442,12 @@ const Settings = () => {
         const domain = email.slice(atIndex + 1);
 
         return domain;
+    }
+
+    /******** handle fav icon **********/
+    const handleFavIcon = (e)=>{
+        setFavIcon(e.target.files[0]);
+      
     }
     
     /********  get Settings Data  ******/
@@ -709,6 +700,7 @@ const Settings = () => {
         formData.append("video_title", videoTitle);
         formData.append("instruction_subtitle", instructionSubTitle);
         formData.append("video_btn_text", buttonText);
+        formData.append('fav_icon',favIcon);
         // if (!isHandleAvailable){
         //     formData.append("store_handle", storeHandle);
         // }
@@ -729,11 +721,9 @@ const Settings = () => {
             // Generating request for sending Data to the server
             fetch("/save_settings", {
                 method: "post",
-
                 body: formData,
-            })
-                .then((response) => response.json())
-                .then((data) => {
+            }).then((response) => response.json())
+              .then((data) => {
                     if (data.success) {
                         setIsLoading(false);
                         setSuccessMsg("Settings Added Successfully");
@@ -1523,6 +1513,14 @@ const Settings = () => {
                                             </div>
                                         </div>
                                     }
+                                    <div>
+                                            <p style={{marginTop: "5px",marginBottom: "5px"}}>
+                                                Choose Favicon
+                                            </p>
+                                    </div>
+                                    <div>
+                                        <input type="file" name="fav_icon" value="" onChange={handleFavIcon}></input>
+                                    </div>
                                   
                                     <div
                                         style={{
@@ -1680,42 +1678,9 @@ const Settings = () => {
                                                 almost similar.
                                             </p>
                                         </div>
-                                        {/* <div style={{ textAlign: "end" }}>
-                                            <div class="upload-btn-wrapper">
-                                                <button class="btnCustomUpload">
-                                                    <img
-                                                        style={{
-                                                            marginRight: "10px",
-                                                        }}
-                                                        src={UploadIcon}
-                                                    ></img>
-                                                    Upload Your Video
-                                                </button>
-                                                <input
-                                                    type="file"
-                                                    name="myvideoFile"
-                                                    onChange={videoHandler}
-                                                />
-                                            </div>
-                                            <p>
-                                                {`${videoname}`}{" "}
-                                                {videoname && "uploaded"}{" "}
-                                            </p>
-                                        </div> */}
+                                      
                                     </div>
-                                    {/* {previewVedioHide && (
-                                        <div style={{ width: "108px" }}>
-                                            <video
-                                                width="108"
-                                                height="193"
-                                                src={previewVedio}
-                                                muted
-                                                autoPlay
-                                                loop
-                                            ></video>
-                                            <div onClick={removeInspirationalVideo} > <Icon source={CircleCancelMajor} color="critical" /></div>
-                                        </div>
-                                    )} */}
+                                    
                                     <div style={{ maxWidth: "470px", marginBottom: "20px" }}>
                                         <DropZone onDrop={handleDropZoneVideo} variableHeight allowMultiple={false}>
                                             {uploadedFilesVideos}
