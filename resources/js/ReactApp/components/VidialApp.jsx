@@ -23,6 +23,7 @@ import PostPurchaseEmail from "./PostPurchaseEmail"
 import ReminderEmail from "./ReminderEmail"
 import UgcApprovedEmail from "./UgcApprovedEmail"
 import UgcDeclinedEmail from "./UgcDeclinedEmail"
+import UgcStarApproved from "./UgcStarApproved";
 
 const VidialApp = () => {
 
@@ -98,6 +99,7 @@ const VidialApp = () => {
                 <Route path="/reminder-email" element={<ReminderEmail />} />
                 <Route path="/ugc-approved-email" element={<UgcApprovedEmail />} />
                 <Route path="/ugc-declined-email" element={<UgcDeclinedEmail />} />
+                <Route path="/ugc-star-approved" element={<UgcStarApproved/>}/>
 
                 <Route path="*" element={<Loading />} />
             </Routes>
