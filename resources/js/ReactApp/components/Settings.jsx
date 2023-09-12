@@ -94,10 +94,13 @@ const Settings = () => {
     const handleDropzoneText = useCallback((newValue) => setVideoTitle(newValue), []);
     const [senderEmail, setSenderEmail] = useState("");
     const [senderApi, setSenderApi] = useState("");
+    const [senderClientId, setSenderClientId] = useState("");
     const [senderSecKey, setSenderSecKey] = useState("");
     const [senderFolder, setSenderFolder] = useState("");
 
+
     const handleSenderApi = useCallback((newValue) => setSenderApi(newValue), []); 
+    const handleSenderClientId = useCallback((newValue) => setSenderClientId(newValue), []); 
     const handleSenderSecKey = useCallback((newValue) => setSenderSecKey(newValue), []); 
     const handleSenderFolder = useCallback((newValue) => setSenderFolder(newValue), []); 
     const handleSenderEmail = useCallback((newValue) => setSenderEmail(newValue), []);
@@ -277,9 +280,9 @@ const Settings = () => {
     // console.log(logoImage);
     const [video, setVideo] = useState("");
     const [store, setStore] = useState("");
-    const [baseUrl, setBaseUrl] = useState("https://app.vidial.co");
+    // const [baseUrl, setBaseUrl] = useState("https://app.vidial.co");
     // const [baseUrl, setBaseUrl] = useState("https://phpstack-953879-3439374.cloudwaysapps.com");
-    //const [baseUrl, setBaseUrl] = useState("https://o3hxqjy.localto.net/login");
+    const [baseUrl, setBaseUrl] = useState("https://o3hxqjy.localto.net");
     const [imagename, setImagename] = useState("");
     const [videoname, setVideoname] = useState("");
     const [previewLogo, setPreviwLogo] = useState("");
@@ -2739,6 +2742,16 @@ const Settings = () => {
                                             />
                                             </div>
 
+                                            <div style={{marginTop:"10px",width:"450px"}}>
+                                             <TextField
+                                                value={senderClientId}
+                                                onChange={handleSenderClientId}
+                                                autoComplete="off"
+                                                placeholder="Set Client Id"
+                                                
+                                            />
+                                            </div>    
+
                                         <div style={{marginTop:"10px",width:"450px"}}>    
 
 					                        <TextField
@@ -2759,6 +2772,18 @@ const Settings = () => {
                                             />
 
                                         </div>
+
+                                        <div style={{marginTop:"10px",width:"450px"}}>
+
+                                                <TextField
+                                                    value={senderFolder}
+                                                    onChange={handleSenderFolder}
+                                                    autoComplete="off"
+                                                    disabled
+                                                    placeholder="www.google.com"
+                                                />
+
+                                                </div>
 
                                         <div style={{marginTop:"20px"}}>
                                         <Button primary onClick={handleChatClick}>
