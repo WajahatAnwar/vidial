@@ -93,16 +93,16 @@ const Settings = () => {
     const [instructionSubTitle, setInstructionSubTitle] = useState("Instructions");
     const handleDropzoneText = useCallback((newValue) => setVideoTitle(newValue), []);
     const [senderEmail, setSenderEmail] = useState("");
-    const [senderApi, setSenderApi] = useState("");
-    const [senderClientId, setSenderClientId] = useState("");
-    const [senderSecKey, setSenderSecKey] = useState("");
-    const [senderFolder, setSenderFolder] = useState("");
+    const [gdApi, setGdApi] = useState("");
+    const [gdClientId, setGdClientId] = useState("");
+    const [setGdSecretKey, setSenderSecKey] = useState("");
+    const [gdFolder, setGdFolder] = useState("");
 
 
-    const handleSenderApi = useCallback((newValue) => setSenderApi(newValue), []); 
-    const handleSenderClientId = useCallback((newValue) => setSenderClientId(newValue), []); 
+    const handleSenderApi = useCallback((newValue) => setGdApi(newValue), []); 
+    const handleSenderClientId = useCallback((newValue) => setGdClientId(newValue), []); 
     const handleSenderSecKey = useCallback((newValue) => setSenderSecKey(newValue), []); 
-    const handleSenderFolder = useCallback((newValue) => setSenderFolder(newValue), []); 
+    const handleSenderFolder = useCallback((newValue) => setGdFolder(newValue), []); 
     const handleSenderEmail = useCallback((newValue) => setSenderEmail(newValue), []);
 
 
@@ -463,6 +463,13 @@ const Settings = () => {
     const handleFavIcon = (e)=>{
         setFavIcon(e.target.files[0]);
       
+    }
+
+    /************** handle Connect to Google Drive **************/
+    const handleConnectGD = ()=>{
+        let url = baseUrl + `/connect-gd?api_key=${gdApi}&client_id=${gdClientId}
+        &secret_key=${setGdSecretKey}&folder_name=${gdFolder}&shop=${store}`
+        window.open(url,'_blank');
     }
     
     /********  get Settings Data  ******/
@@ -2699,17 +2706,17 @@ const Settings = () => {
                                         </p> */}
                                         <div style={{marginTop:"10px",width:"450px"}}>
                                              <TextField
-                                                value={senderApi}
+                                                value={gdApi}
                                                 onChange={handleSenderApi}
                                                 autoComplete="off"
-                                                placeholder="Set Api"
+                                                placeholder="Set Api Key"
                                                 
                                             />
                                             </div>
 
                                             <div style={{marginTop:"10px",width:"450px"}}>
                                              <TextField
-                                                value={senderClientId}
+                                                value={gdClientId}
                                                 onChange={handleSenderClientId}
                                                 autoComplete="off"
                                                 placeholder="Set Client Id"
@@ -2720,7 +2727,7 @@ const Settings = () => {
                                         <div style={{marginTop:"10px",width:"450px"}}>    
 
 					                        <TextField
-                                                value={senderSecKey}
+                                                value={setGdSecretKey}
                                                 onChange={handleSenderSecKey}
                                                 autoComplete="off"
                                                 placeholder="Set Secret Key"
@@ -2730,10 +2737,10 @@ const Settings = () => {
                                         <div style={{marginTop:"10px",width:"450px"}}>
 
 					                        <TextField
-                                                value={senderFolder}
+                                                value={gdFolder}
                                                 onChange={handleSenderFolder}
                                                 autoComplete="off"
-                                                placeholder="Set Folder"
+                                                placeholder="Folder Name"
                                             />
 
                                         </div>
@@ -2741,7 +2748,7 @@ const Settings = () => {
                                         <div style={{marginTop:"10px",width:"450px"}}>
 
                                                 <TextField
-                                                    value={senderFolder}
+                                                    value={gdFolder}
                                                     onChange={handleSenderFolder}
                                                     autoComplete="off"
                                                     disabled
@@ -2751,8 +2758,8 @@ const Settings = () => {
                                                 </div>
 
                                         <div style={{marginTop:"20px"}}>
-                                        <Button primary onClick={handleChatClick}>
-                                            Save
+                                        <Button primary onClick={handleConnectGD}>
+                                            Connect
                                         </Button>
                                         </div>
                                     </div>

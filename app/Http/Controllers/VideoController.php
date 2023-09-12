@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Jobs\EmailTemplateJob;
 use Auth;
 use Dropbox;
 use DateTime;
@@ -16,11 +15,13 @@ use App\Models\Orders;
 use GuzzleHttp\Client;
 use App\Jobs\videoMail;
 use App\Models\Setting;
+use App\Models\Discount;
 use App\Jobs\ThanksMailjob;
 use Illuminate\Http\Request;
+use App\Jobs\EmailTemplateJob;
 use App\Jobs\NotApprovedMailjob;
-use App\Models\Discount;
 use Illuminate\Support\Facades\Log;
+use App\Jobs\UploadVideoGoogleDrive;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Crypt;
 
@@ -231,6 +232,10 @@ public function videoOperation(Request $request){
         'video_id'=>$videos->id,
         'discount_meta'=>json_encode($code)
        ]);
+
+       /*********************** saving approved video to Google Drive *************************/
+        dispatch(new UploadVideoGoogleDrive($user, $videos->video_link));
+
 
         return response()->json([
             'success' => true,

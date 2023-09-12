@@ -800,3 +800,24 @@ if (!function_exists('saveEnLanguage')) {
         /********* for post purchase ****/
     }
 }
+
+/****************** create connection with Google Drive ***********************/
+if(!function_exists('connectGoogleDrive')){
+    function connectGoogleDrive($user){
+        $gClient = new \Google_Client();
+        // $this->gClient->setApplicationName('web client latest'); // ADD YOUR AUTH2 APPLICATION NAME (WHEN YOUR GENERATE SECRATE KEY)
+        $gClient->setClientId($user->client_id);
+        $gClient->setClientSecret($user->secret_key);
+        $gClient->setRedirectUri(route('google.login'));
+        $gClient->setDeveloperKey($user->api_key);
+        $gClient->setScopes(array(
+            'https://www.googleapis.com/auth/drive.file',
+            'https://www.googleapis.com/auth/drive'
+        ));
+
+        $gClient->setAccessType("offline");
+
+        $gClient->setApprovalPrompt("force");
+        return $gClient;
+    }
+}
