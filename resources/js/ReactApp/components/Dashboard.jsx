@@ -21,9 +21,12 @@ import WaitingLogo from "./imges/WaitingLogo.png";
 import ApprovedLogo from "./imges/ApprovedLogo.png";
 import WaitingIcon from "./imges/waiting2.png";
 import VideoTumbnail from "./imges/bureau 11.png";
+import staricon from "./imges/Staricon.svg";
+
 import {
     CircleCancelMajor,
     CircleTickMajor,
+    FavoriteMajor,
     PlayCircleMajor,
 } from "@shopify/polaris-icons";
 import downloadIcon from "./imges/downloadIcon.png";
@@ -32,7 +35,7 @@ import { downloadVideo } from "./utils";
 
 function Dashboard() {
     // const cLocation = useLocation();
-    const { pathname ,search } = useLocation();
+    const { pathname, search } = useLocation();
     const [activeRejectionModel, setActiveRejectionModel] = useState(false);
     const handleChangeRejectionModel = useCallback(
         () => setActiveRejectionModel(!activeRejectionModel),
@@ -133,7 +136,7 @@ function Dashboard() {
                     if (data.success) {
                         alert(
                             "Congratulation video has been approved code :" +
-                                data.data.code
+                            data.data.code
                         );
                     } else {
                         alert(data.message);
@@ -150,7 +153,7 @@ function Dashboard() {
     /******** move to plan page *****/
 
     const upgradePlan = () => {
-     navigate('/plans'+search);
+        navigate('/plans' + search);
     };
     /******** Rejection popup   ******/
 
@@ -280,7 +283,7 @@ function Dashboard() {
                     setPendingVideosCount(data.data.pendingVideosCount);
                     setUserEmail(
                         data.data.user.ugc_email_count -
-                            data.data.user.remaining_email
+                        data.data.user.remaining_email
                     );
                 }
             })
@@ -290,7 +293,7 @@ function Dashboard() {
     }, [reload]);
 
     const navigate = useNavigate();
-    
+
     return (
         <Page>
             <Grid>
@@ -473,7 +476,7 @@ function Dashboard() {
                                                                     "6px 12px",
                                                                 borderRadius:
                                                                     "9px",
-                                                                width: "86px",
+                                                                width: "124px",
                                                                 margin: "auto",
                                                                 marginTop:
                                                                     "10px",
@@ -505,7 +508,10 @@ function Dashboard() {
                                                                         />
                                                                     </Link>
                                                                 </div>
-                                                                <div>
+                                                                <div style={{
+                                                                        marginRight:
+                                                                            "20px",
+                                                                    }}>
                                                                     <Link
                                                                         to={`${pathname}/${search}`}
                                                                         onClick={() => {
@@ -521,6 +527,17 @@ function Dashboard() {
                                                                             color="critical"
                                                                         />
                                                                     </Link>
+                                                                </div>
+                                                                {/* <div>
+                                                                    <Link>
+                                                                        <Icon
+                                                                            source={FavoriteMajor}
+                                                                            color="warning"
+                                                                        />
+                                                                    </Link>
+                                                                </div> */}
+                                                                <div>
+                                                                    <img src={staricon} alt="" style={{width:"20px"}} />
                                                                 </div>
                                                             </div>
                                                         </div>

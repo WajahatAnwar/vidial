@@ -93,7 +93,19 @@ const Settings = () => {
     const [instructionSubTitle, setInstructionSubTitle] = useState("Instructions");
     const handleDropzoneText = useCallback((newValue) => setVideoTitle(newValue), []);
     const [senderEmail, setSenderEmail] = useState("");
+    const [senderApi, setSenderApi] = useState("");
+    const [senderClientId, setSenderClientId] = useState("");
+    const [senderSecKey, setSenderSecKey] = useState("");
+    const [senderFolder, setSenderFolder] = useState("");
+
+
+    const handleSenderApi = useCallback((newValue) => setSenderApi(newValue), []); 
+    const handleSenderClientId = useCallback((newValue) => setSenderClientId(newValue), []); 
+    const handleSenderSecKey = useCallback((newValue) => setSenderSecKey(newValue), []); 
+    const handleSenderFolder = useCallback((newValue) => setSenderFolder(newValue), []); 
     const handleSenderEmail = useCallback((newValue) => setSenderEmail(newValue), []);
+
+
     const [mailgunAPI, setMailgunAPI] = useState("");
     const [mailgunDomain, setMailgunDomain] = useState("");
     const [mailgunEndpoint, setMailgunEndpoint] = useState("");
@@ -200,8 +212,11 @@ const Settings = () => {
     ];
 
     const [priceValue, setPriceValue] = useState("50");
+    const [priceStarValue, setPriceStarValue] = useState("50");
 
     const priceValueHandler = useCallback((value) => setPriceValue(value), []);
+    const priceStarValueHandler = useCallback((value) => setPriceStarValue(value), []);
+
     const [landingPageValue, setLandingPage] = useState("12");
 
     const landingPageHandler = useCallback(
@@ -1393,6 +1408,47 @@ const Settings = () => {
                                     </div>
                                 </Card>
                                 <Card sectioned>
+                                    <div
+                                        style={{
+                                            display: "flex",
+                                            alignItems: "center",
+                                            justifyContent: "space-between",
+                                        }}
+                                    >
+                                        <div style={{}}>
+                                            <Text variant="headingLg" as="h5">
+                                            What size discount code will you offer to customers for their UGC Star videos?
+                                            </Text>
+                                            <p style={{ marginTop: "15px" }}>
+                                                We recommend offering a minimum
+                                                of {storeCurrency}50 to improve
+                                                response rates. This can be
+                                                adjusted as necessary, with not
+                                                set minimum limit in place.
+                                            </p>
+                                        </div>
+                                        <div
+                                            className="textFieldjoin"
+                                            style={{
+                                                marginLeft: "204px",
+                                                width: "200px",
+                                                textAlign: "end",
+                                                display: "flex",
+                                                alignItems: "center",
+                                            }}
+                                        >
+                                            <div className="Polaris-TextField__Prefix prefixCustom">
+                                                {storeCurrency}
+                                            </div>
+                                            <TextField
+                                                value={priceStarValue}
+                                                onChange={priceStarValueHandler}
+                                                autoComplete="off"
+                                            />
+                                        </div>
+                                    </div>
+                                </Card>
+                                <Card sectioned>
                                     <Text variant="headingXl" as="h4">
                                         Language
                                     </Text>
@@ -2540,6 +2596,44 @@ const Settings = () => {
 
                                             }}
                                             onClick={() => {
+                                                navigate("/ugc-star-approved")
+
+                                            }}
+                                        >
+                                            <div style={{ width: "550px" }}>
+                                                <Text variant="headingLg" as="h5">
+                                                    UGC Star Approved
+                                                </Text>
+                                                <p style={{ marginTop: "5px" }}>
+                                                    Customize all the emails your customers will receive.
+                                                </p>
+                                            </div>
+                                            <div
+
+                                            >
+                                                <img
+                                                    className=""
+                                                    src={arrowRight}
+                                                    style={{
+                                                        marginTop: "8px",
+                                                    }}
+                                                ></img>
+                                            </div>
+                                        </div>
+                                        <div
+                                            style={{
+                                                display: "flex",
+                                                alignItems: "center",
+                                                justifyContent: "space-between",
+                                                marginBottom: "20px",
+                                                marginTop: "20px",
+                                                border: "1px solid #C9CCCF",
+                                                borderRadius: "10px",
+                                                padding: "8px 20px",
+                                                cursor: "pointer",
+
+                                            }}
+                                            onClick={() => {
                                                 navigate("/ugc-declined-email");
 
                                             }}
@@ -2585,6 +2679,82 @@ const Settings = () => {
                                         <Button primary onClick={handleChatClick}>
                                             Remove The Watermark
                                         </Button>
+                                    </div>
+                                </Card>
+
+                                <Card sectioned>
+                                    <div className="googledrivesection">
+                                        <div style={{marginBottom:"15px"}}>
+                                        <Text variant="headingLg" as="h5">
+                                            Google Drive
+                                        </Text>
+                                        </div>
+                                        {/* <p
+                                            style={{
+                                                marginTop: "15px",
+                                                marginBottom: "15px",
+                                            }}
+                                        >
+                                            Please contact the live support to verify your store and remove our Branding “Powered by Vidial” for FREE.
+                                        </p> */}
+                                        <div style={{marginTop:"10px",width:"450px"}}>
+                                             <TextField
+                                                value={senderApi}
+                                                onChange={handleSenderApi}
+                                                autoComplete="off"
+                                                placeholder="Set Api"
+                                                
+                                            />
+                                            </div>
+
+                                            <div style={{marginTop:"10px",width:"450px"}}>
+                                             <TextField
+                                                value={senderClientId}
+                                                onChange={handleSenderClientId}
+                                                autoComplete="off"
+                                                placeholder="Set Client Id"
+                                                
+                                            />
+                                            </div>    
+
+                                        <div style={{marginTop:"10px",width:"450px"}}>    
+
+					                        <TextField
+                                                value={senderSecKey}
+                                                onChange={handleSenderSecKey}
+                                                autoComplete="off"
+                                                placeholder="Set Secret Key"
+                                            />
+                                        </div>
+
+                                        <div style={{marginTop:"10px",width:"450px"}}>
+
+					                        <TextField
+                                                value={senderFolder}
+                                                onChange={handleSenderFolder}
+                                                autoComplete="off"
+                                                placeholder="Set Folder"
+                                            />
+
+                                        </div>
+
+                                        <div style={{marginTop:"10px",width:"450px"}}>
+
+                                                <TextField
+                                                    value={senderFolder}
+                                                    onChange={handleSenderFolder}
+                                                    autoComplete="off"
+                                                    disabled
+                                                    placeholder="www.google.com"
+                                                />
+
+                                                </div>
+
+                                        <div style={{marginTop:"20px"}}>
+                                        <Button primary onClick={handleChatClick}>
+                                            Save
+                                        </Button>
+                                        </div>
                                     </div>
                                 </Card>
                                 <div
