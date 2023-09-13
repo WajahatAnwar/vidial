@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CampaignController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EmailController;
+use App\Http\Controllers\GoogleDriveController;
 use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\SettingsController;
 use Illuminate\Support\Facades\Route;
@@ -152,5 +153,7 @@ Route::get('testEmail',[AdminController::class, 'testEmail']);
 
 ######################################################################## EXTRA ROUTES ########################################################################
 Route::get('s/{handle}', [SettingsController::class, 'landingPage2']);
+Route::get('google-login', [GoogleDriveController::class, 'googleLogin'])->name('google.login');
+Route::get('connect-gd', [GoogleDriveController::class, 'connectDrive'])->name('google.connect');
 
 Route::view('/{any}', 'non_embedded')->where('any', '^(?!webhook).*$')->name('non_embedded');

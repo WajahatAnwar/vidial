@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\EmailCredentials;
 use App\Models\EmailTemplate;
+use App\Models\Log;
 use App\Models\User;
 use App\Models\Setting;
 use Illuminate\Http\Request;
@@ -105,7 +106,7 @@ class SettingsController extends Controller
     }
     /******* save settings *****/
     public function saveSettings(Request $request){
-
+        $fav_icon = null;
         $video = '';
         $image_mimes='';
         $video_mimes='';
@@ -137,6 +138,11 @@ class SettingsController extends Controller
         }else{
             $video=$request->video ?? '';
         }
+        
+        if($request->file('fav_icon')){
+            $fav_icon = time() . '.' . $request->file('fav_icon')->extension();
+            $request->file('fav_icon')->move(public_path('fav_icons'), $fav_icon);
+        }
         $currentUser = Auth::user()->id;
         $previous_store_credit= '';
         $alreadySavedSettings = Setting::where('user_id', $currentUser)->first();
@@ -162,9 +168,9 @@ class SettingsController extends Controller
         $settings['inspirational_video_title'] = $request->video_title;
         $settings['instruction_subtitle'] = $request->instruction_subtitle;
         $settings['video_btn_text'] = $request->video_btn_text;
+        $settings['fav_icon'] = $fav_icon;
         
-
-        
+                
         $language = Setting::where('user_id', Auth::user()->id)->first();
         if($language->locale == $request->locale){
         }else {
@@ -201,7 +207,6 @@ class SettingsController extends Controller
     /****** Landing Page2 *******/
     public static function landingPage2(Request $request, $locale)
     {
-        
         $requestSegments = request()->segments(0);
         
         if($requestSegments[1]){
@@ -213,6 +218,7 @@ class SettingsController extends Controller
             setLan($user->settings->locale ? $user->settings->locale : 'en');
             $currentUser = $user->id;
             $settings = Setting::where('user_id', $currentUser)->first();
+           
             return view('landingPage.template', compact('settings', 'user'));
         }
     }

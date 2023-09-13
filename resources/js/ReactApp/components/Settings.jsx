@@ -93,7 +93,19 @@ const Settings = () => {
     const [instructionSubTitle, setInstructionSubTitle] = useState("Instructions");
     const handleDropzoneText = useCallback((newValue) => setVideoTitle(newValue), []);
     const [senderEmail, setSenderEmail] = useState("");
+    const [gdApi, setGdApi] = useState("");
+    const [gdClientId, setGdClientId] = useState("");
+    const [setGdSecretKey, setSenderSecKey] = useState("");
+    const [gdFolder, setGdFolder] = useState("");
+
+
+    const handleSenderApi = useCallback((newValue) => setGdApi(newValue), []); 
+    const handleSenderClientId = useCallback((newValue) => setGdClientId(newValue), []); 
+    const handleSenderSecKey = useCallback((newValue) => setSenderSecKey(newValue), []); 
+    const handleSenderFolder = useCallback((newValue) => setGdFolder(newValue), []); 
     const handleSenderEmail = useCallback((newValue) => setSenderEmail(newValue), []);
+
+
     const [mailgunAPI, setMailgunAPI] = useState("");
     const [mailgunDomain, setMailgunDomain] = useState("");
     const [mailgunEndpoint, setMailgunEndpoint] = useState("");
@@ -200,8 +212,11 @@ const Settings = () => {
     ];
 
     const [priceValue, setPriceValue] = useState("50");
+    const [priceStarValue, setPriceStarValue] = useState("50");
 
     const priceValueHandler = useCallback((value) => setPriceValue(value), []);
+    const priceStarValueHandler = useCallback((value) => setPriceStarValue(value), []);
+
     const [landingPageValue, setLandingPage] = useState("12");
 
     const landingPageHandler = useCallback(
@@ -265,9 +280,9 @@ const Settings = () => {
     // console.log(logoImage);
     const [video, setVideo] = useState("");
     const [store, setStore] = useState("");
-    const [baseUrl, setBaseUrl] = useState("https://app.vidial.co");
+    //const [baseUrl, setBaseUrl] = useState("https://app.vidial.co");
     // const [baseUrl, setBaseUrl] = useState("https://phpstack-953879-3439374.cloudwaysapps.com");
-    //const [baseUrl, setBaseUrl] = useState("https://51ax6.localto.net");
+    const [baseUrl, setBaseUrl] = useState("https://51ax6.localto.net");
     const [imagename, setImagename] = useState("");
     const [videoname, setVideoname] = useState("");
     const [previewLogo, setPreviwLogo] = useState("");
@@ -277,6 +292,7 @@ const Settings = () => {
     const [email, setEmail] = useState("");
     const [storeName, setstoreName] = useState("");
     const [successToastVideo, setSuccessToastVideo] = useState("");
+    const [favIcon,setFavIcon] = useState(null);
     // const successToastVideo = active ? (
     //     <Toast content="Settings Saved" onDismiss={true} />
     // ) : null;
@@ -360,12 +376,8 @@ const Settings = () => {
 
         return
     }
-
-
         const handleStoreHandle = useCallback((newValue) => {
             setStoreHandle(newValue);
-            
-
             setIsHandleAvailable(true);
             setStoreHandleState(true);
             setStoreHandleResponse(null);
@@ -408,18 +420,6 @@ const Settings = () => {
             return;
         }
         const domain = getEmailDomain(senderEmail);
-
-        // if (mailgunDomain.length <= 0) {
-        //     setEmailCredsError(true);
-        //     setEmailCredsMsg('Domain field is required');
-        //     return;
-        // }
-        
-        // if (mailgunEndpoint.length <= 0) {
-        //     setEmailCredsError(true);
-        //     setEmailCredsMsg('Endpoint field is required');
-        //     return;
-        // }
         
         const formData = new FormData();
         formData.append('is_active', emailCredsToggle);
@@ -457,6 +457,19 @@ const Settings = () => {
         const domain = email.slice(atIndex + 1);
 
         return domain;
+    }
+
+    /******** handle fav icon **********/
+    const handleFavIcon = (e)=>{
+        setFavIcon(e.target.files[0]);
+      
+    }
+
+    /************** handle Connect to Google Drive **************/
+    const handleConnectGD = ()=>{
+        let url = baseUrl + `/connect-gd?api_key=${gdApi}&client_id=${gdClientId}
+        &secret_key=${setGdSecretKey}&folder_name=${gdFolder}&shop=${store}`
+        window.open(url,'_blank');
     }
     
     /********  get Settings Data  ******/
@@ -709,6 +722,7 @@ const Settings = () => {
         formData.append("video_title", videoTitle);
         formData.append("instruction_subtitle", instructionSubTitle);
         formData.append("video_btn_text", buttonText);
+        formData.append('fav_icon',favIcon);
         // if (!isHandleAvailable){
         //     formData.append("store_handle", storeHandle);
         // }
@@ -729,11 +743,9 @@ const Settings = () => {
             // Generating request for sending Data to the server
             fetch("/save_settings", {
                 method: "post",
-
                 body: formData,
-            })
-                .then((response) => response.json())
-                .then((data) => {
+            }).then((response) => response.json())
+              .then((data) => {
                     if (data.success) {
                         setIsLoading(false);
                         setSuccessMsg("Settings Added Successfully");
@@ -1403,6 +1415,47 @@ const Settings = () => {
                                     </div>
                                 </Card>
                                 <Card sectioned>
+                                    <div
+                                        style={{
+                                            display: "flex",
+                                            alignItems: "center",
+                                            justifyContent: "space-between",
+                                        }}
+                                    >
+                                        <div style={{}}>
+                                            <Text variant="headingLg" as="h5">
+                                            What size discount code will you offer to customers for their UGC Star videos?
+                                            </Text>
+                                            <p style={{ marginTop: "15px" }}>
+                                                We recommend offering a minimum
+                                                of {storeCurrency}50 to improve
+                                                response rates. This can be
+                                                adjusted as necessary, with not
+                                                set minimum limit in place.
+                                            </p>
+                                        </div>
+                                        <div
+                                            className="textFieldjoin"
+                                            style={{
+                                                marginLeft: "204px",
+                                                width: "200px",
+                                                textAlign: "end",
+                                                display: "flex",
+                                                alignItems: "center",
+                                            }}
+                                        >
+                                            <div className="Polaris-TextField__Prefix prefixCustom">
+                                                {storeCurrency}
+                                            </div>
+                                            <TextField
+                                                value={priceStarValue}
+                                                onChange={priceStarValueHandler}
+                                                autoComplete="off"
+                                            />
+                                        </div>
+                                    </div>
+                                </Card>
+                                <Card sectioned>
                                     <Text variant="headingXl" as="h4">
                                         Language
                                     </Text>
@@ -1523,6 +1576,14 @@ const Settings = () => {
                                             </div>
                                         </div>
                                     }
+                                    <div>
+                                            <p style={{marginTop: "5px",marginBottom: "5px"}}>
+                                                Choose Favicon
+                                            </p>
+                                    </div>
+                                    <div>
+                                        <input type="file" name="fav_icon" value="" onChange={handleFavIcon}></input>
+                                    </div>
                                   
                                     <div
                                         style={{
@@ -1680,42 +1741,9 @@ const Settings = () => {
                                                 almost similar.
                                             </p>
                                         </div>
-                                        {/* <div style={{ textAlign: "end" }}>
-                                            <div class="upload-btn-wrapper">
-                                                <button class="btnCustomUpload">
-                                                    <img
-                                                        style={{
-                                                            marginRight: "10px",
-                                                        }}
-                                                        src={UploadIcon}
-                                                    ></img>
-                                                    Upload Your Video
-                                                </button>
-                                                <input
-                                                    type="file"
-                                                    name="myvideoFile"
-                                                    onChange={videoHandler}
-                                                />
-                                            </div>
-                                            <p>
-                                                {`${videoname}`}{" "}
-                                                {videoname && "uploaded"}{" "}
-                                            </p>
-                                        </div> */}
+                                      
                                     </div>
-                                    {/* {previewVedioHide && (
-                                        <div style={{ width: "108px" }}>
-                                            <video
-                                                width="108"
-                                                height="193"
-                                                src={previewVedio}
-                                                muted
-                                                autoPlay
-                                                loop
-                                            ></video>
-                                            <div onClick={removeInspirationalVideo} > <Icon source={CircleCancelMajor} color="critical" /></div>
-                                        </div>
-                                    )} */}
+                                    
                                     <div style={{ maxWidth: "470px", marginBottom: "20px" }}>
                                         <DropZone onDrop={handleDropZoneVideo} variableHeight allowMultiple={false}>
                                             {uploadedFilesVideos}
@@ -2575,6 +2603,44 @@ const Settings = () => {
 
                                             }}
                                             onClick={() => {
+                                                navigate("/ugc-star-approved")
+
+                                            }}
+                                        >
+                                            <div style={{ width: "550px" }}>
+                                                <Text variant="headingLg" as="h5">
+                                                    UGC Star Approved
+                                                </Text>
+                                                <p style={{ marginTop: "5px" }}>
+                                                    Customize all the emails your customers will receive.
+                                                </p>
+                                            </div>
+                                            <div
+
+                                            >
+                                                <img
+                                                    className=""
+                                                    src={arrowRight}
+                                                    style={{
+                                                        marginTop: "8px",
+                                                    }}
+                                                ></img>
+                                            </div>
+                                        </div>
+                                        <div
+                                            style={{
+                                                display: "flex",
+                                                alignItems: "center",
+                                                justifyContent: "space-between",
+                                                marginBottom: "20px",
+                                                marginTop: "20px",
+                                                border: "1px solid #C9CCCF",
+                                                borderRadius: "10px",
+                                                padding: "8px 20px",
+                                                cursor: "pointer",
+
+                                            }}
+                                            onClick={() => {
                                                 navigate("/ugc-declined-email");
 
                                             }}
@@ -2620,6 +2686,82 @@ const Settings = () => {
                                         <Button primary onClick={handleChatClick}>
                                             Remove The Watermark
                                         </Button>
+                                    </div>
+                                </Card>
+
+                                <Card sectioned>
+                                    <div className="googledrivesection">
+                                        <div style={{marginBottom:"15px"}}>
+                                        <Text variant="headingLg" as="h5">
+                                            Google Drive
+                                        </Text>
+                                        </div>
+                                        {/* <p
+                                            style={{
+                                                marginTop: "15px",
+                                                marginBottom: "15px",
+                                            }}
+                                        >
+                                            Please contact the live support to verify your store and remove our Branding “Powered by Vidial” for FREE.
+                                        </p> */}
+                                        <div style={{marginTop:"10px",width:"450px"}}>
+                                             <TextField
+                                                value={gdApi}
+                                                onChange={handleSenderApi}
+                                                autoComplete="off"
+                                                placeholder="Set Api Key"
+                                                
+                                            />
+                                            </div>
+
+                                            <div style={{marginTop:"10px",width:"450px"}}>
+                                             <TextField
+                                                value={gdClientId}
+                                                onChange={handleSenderClientId}
+                                                autoComplete="off"
+                                                placeholder="Set Client Id"
+                                                
+                                            />
+                                            </div>    
+
+                                        <div style={{marginTop:"10px",width:"450px"}}>    
+
+					                        <TextField
+                                                value={setGdSecretKey}
+                                                onChange={handleSenderSecKey}
+                                                autoComplete="off"
+                                                placeholder="Set Secret Key"
+                                            />
+                                        </div>
+
+                                        <div style={{marginTop:"10px",width:"450px"}}>
+
+					                        <TextField
+                                                value={gdFolder}
+                                                onChange={handleSenderFolder}
+                                                autoComplete="off"
+                                                placeholder="Folder Name"
+                                            />
+
+                                        </div>
+
+                                        <div style={{marginTop:"10px",width:"450px"}}>
+
+                                                <TextField
+                                                    value={gdFolder}
+                                                    onChange={handleSenderFolder}
+                                                    autoComplete="off"
+                                                    disabled
+                                                    placeholder="www.google.com"
+                                                />
+
+                                                </div>
+
+                                        <div style={{marginTop:"20px"}}>
+                                        <Button primary onClick={handleConnectGD}>
+                                            Connect
+                                        </Button>
+                                        </div>
                                     </div>
                                 </Card>
                                 <div
