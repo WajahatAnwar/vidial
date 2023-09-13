@@ -24,8 +24,7 @@ class UploadVideoGoogleDrive implements ShouldQueue
     public $video_link = null;
     public $gClient = null;
     public function __construct($user,$video_link)
-    {
-        $this->gClient = connectGoogleDrive($user);
+    {               
         $this->user = $user;
         $this->video_link = $video_link;
     }
@@ -38,29 +37,47 @@ class UploadVideoGoogleDrive implements ShouldQueue
     public function handle()
     {
         Log::info('job start successfully');
+        // $gClient = connectGoogleDrive($this->user);
+        $gClient = new \Google_Client();
+        // $this->gClient->setApplicationName('web client latest'); // ADD YOUR AUTH2 APPLICATION NAME (WHEN YOUR GENERATE SECRATE KEY)
+        $gClient->setClientId("1069774697878-9u8ff84ipr8o0cj5224dpci4pfg5kbv0.apps.googleusercontent.com");
+        $gClient->setClientSecret("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");
+        $gClient->setRedirectUri(route('google.login'));
+        $gClient->setDeveloperKey("AIzaSyDiXltJigQEvPGi4JcjsagDq-R_OchuLTQ");
+        $gClient->setScopes(array(
+            'https://www.googleapis.com/auth/drive.file',
+            'https://www.googleapis.com/auth/drive'
+        ));
 
-        $service = new \Google_Service_Drive($this->gClient);
+        $gClient->setAccessType("offline");
+
+        $gClient->setApprovalPrompt("force");
+        Log::info('print client');
+        Log::info(json_encode($gClient));
+
+        $service = new \Google_Service_Drive($gClient);
 
         $currentUser = User::find($this->user->id);
+      
 
-        $this->gClient->setAccessToken(json_decode($currentUser->gd_access_token, true));
+        $gClient->setAccessToken(json_decode($currentUser->gd_access_token, true));
 
-        if ($this->gClient->isAccessTokenExpired()) {
+        if ($gClient->isAccessTokenExpired()) {
 
             // SAVE REFRESH TOKEN TO SOME VARIABLE
-            $refreshTokenSaved = $this->gClient->getRefreshToken();
+            $refreshTokenSaved = $gClient->getRefreshToken();
 
             // UPDATE ACCESS TOKEN
-            $this->gClient->fetchAccessTokenWithRefreshToken($refreshTokenSaved);
+            $gClient->fetchAccessTokenWithRefreshToken($refreshTokenSaved);
 
             // PASS ACCESS TOKEN TO SOME VARIABLE
-            $updatedAccessToken = $this->gClient->getAccessToken();
+            $updatedAccessToken = $gClient->getAccessToken();
 
             // APPEND REFRESH TOKEN
             $updatedAccessToken['refresh_token'] = $refreshTokenSaved;
 
             // SET THE NEW ACCES TOKEN
-            $this->gClient->setAccessToken($updatedAccessToken);
+            $gClient->setAccessToken($updatedAccessToken);
 
             $currentUser->gd_access_token = $updatedAccessToken;
 
@@ -80,7 +97,7 @@ class UploadVideoGoogleDrive implements ShouldQueue
 
         $result = $service->files->create($file, array(
 
-            'data' => file_get_contents(public_path('test.mp4')), // ADD YOUR FILE PATH WHICH YOU WANT TO UPLOAD ON GOOGLE DRIVE
+            'data' => $this->video_link, // ADD YOUR FILE PATH WHICH YOU WANT TO UPLOAD ON GOOGLE DRIVE
             'mimeType' => 'application/octet-stream',
             'uploadType' => 'media'
         ));

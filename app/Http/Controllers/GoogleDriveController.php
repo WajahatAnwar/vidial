@@ -15,10 +15,10 @@ class GoogleDriveController extends Controller
     {
         $this->gClient = new \Google_Client();
         // $this->gClient->setApplicationName('web client latest'); // ADD YOUR AUTH2 APPLICATION NAME (WHEN YOUR GENERATE SECRATE KEY)
-        $this->gClient->setClientId($request->client_id);
-        $this->gClient->setClientSecret($request->secret_key);
+        $this->gClient->setClientId('262447359719-solom9qbsnd9f611bj6ddqmu516misjd.apps.googleusercontent.com');
+        $this->gClient->setClientSecret('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');
         $this->gClient->setRedirectUri(route('google.login'));
-        $this->gClient->setDeveloperKey($request->api_key);
+        $this->gClient->setDeveloperKey('AIzaSyBgg79T8bjDU5NWvYV0YVx95OghW-9C73I');
         $this->gClient->setScopes(array(
             'https://www.googleapis.com/auth/drive.file',
             'https://www.googleapis.com/auth/drive'
@@ -27,13 +27,14 @@ class GoogleDriveController extends Controller
         $this->gClient->setAccessType("offline");
 
         $this->gClient->setApprovalPrompt("force");
+        
 
     }
 
     public function googleLogin(Request $request)
     {
         $google_oauthV2 = new \Google_Service_Oauth2($this->gClient);
-
+      
         if ($request->get('code')) {
 
             $this->gClient->authenticate($request->get('code'));

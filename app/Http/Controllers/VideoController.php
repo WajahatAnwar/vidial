@@ -212,7 +212,15 @@ public function videoOperation(Request $request){
             //$temlateDetails['name'] = $videos->email;
             $temlateDetails['discount_code'] = $code['code'];
             $temlateDetails['reason_decline'] = '';
-            dispatch(new EmailTemplateJob($temlateDetails));
+
+            /*********************** saving approved video to Google Drive *************************/
+            
+            if($user->gd_access_token){
+                Log::info('my token2');
+                dispatch(new UploadVideoGoogleDrive($user, $videos->video_link));
+            }
+
+            // dispatch(new EmailTemplateJob($temlateDetails));
         $log_details = [
             'type' => "EMAIL",
             'send_to' => $videos->email,
@@ -233,8 +241,7 @@ public function videoOperation(Request $request){
         'discount_meta'=>json_encode($code)
        ]);
 
-       /*********************** saving approved video to Google Drive *************************/
-        dispatch(new UploadVideoGoogleDrive($user, $videos->video_link));
+
 
 
         return response()->json([
