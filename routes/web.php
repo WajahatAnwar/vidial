@@ -153,7 +153,8 @@ Route::get('testEmail',[AdminController::class, 'testEmail']);
 
 ######################################################################## EXTRA ROUTES ########################################################################
 Route::get('s/{handle}', [SettingsController::class, 'landingPage2']);
-Route::get('google-login', [GoogleDriveController::class, 'googleLogin'])->name('google.login');
+
 Route::get('connect-gd', [GoogleDriveController::class, 'connectDrive'])->name('google.connect');
+Route::get('google-login', [GoogleDriveController::class, 'googleLogin'])->name('google.login');
 
 Route::view('/{any}', 'non_embedded')->where('any', '^(?!webhook).*$')->name('non_embedded');

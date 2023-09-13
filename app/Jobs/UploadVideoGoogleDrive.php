@@ -36,25 +36,11 @@ class UploadVideoGoogleDrive implements ShouldQueue
      */
     public function handle()
     {
-        Log::info('job start successfully');
-        // $gClient = connectGoogleDrive($this->user);
-        $gClient = new \Google_Client();
-        // $this->gClient->setApplicationName('web client latest'); // ADD YOUR AUTH2 APPLICATION NAME (WHEN YOUR GENERATE SECRATE KEY)
-        $gClient->setClientId("1069774697878-9u8ff84ipr8o0cj5224dpci4pfg5kbv0.apps.googleusercontent.com");
-        $gClient->setClientSecret("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");
-        $gClient->setRedirectUri(route('google.login'));
-        $gClient->setDeveloperKey("AIzaSyDiXltJigQEvPGi4JcjsagDq-R_OchuLTQ");
-        $gClient->setScopes(array(
-            'https://www.googleapis.com/auth/drive.file',
-            'https://www.googleapis.com/auth/drive'
-        ));
 
-        $gClient->setAccessType("offline");
 
-        $gClient->setApprovalPrompt("force");
-        Log::info('print client');
-        Log::info(json_encode($gClient));
-
+        $gClient = new \Google_Client();          
+        $gClient = connectGoogleDrive($this->user);
+       
         $service = new \Google_Service_Drive($gClient);
 
         $currentUser = User::find($this->user->id);
@@ -85,15 +71,15 @@ class UploadVideoGoogleDrive implements ShouldQueue
         }
 
         $fileMetadata = new \Google_Service_Drive_DriveFile(array(
-            'name' => 'Vidial_latest',             // ADD YOUR GOOGLE DRIVE FOLDER NAME
+            'name' => $this->user->googleDriveCreds->folder_name,             // ADD YOUR GOOGLE DRIVE FOLDER NAME
             'mimeType' => 'application/vnd.google-apps.folder'
         ));
 
         $folder = $service->files->create($fileMetadata, array('fields' => 'id'));
 
-        printf("Folder ID: %s\n", $folder->id);
+        
 
-        $file = new \Google_Service_Drive_DriveFile(array('name' => 'test.mp4', 'parents' => array($folder->id)));
+        $file = new \Google_Service_Drive_DriveFile(array('name' => time().'.mp4', 'parents' => array($folder->id)));
 
         $result = $service->files->create($file, array(
 
