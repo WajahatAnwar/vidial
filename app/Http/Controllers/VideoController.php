@@ -186,7 +186,7 @@ public function videoOperation(Request $request){
         $videos->status =config('constants.video_approved');
         $videos->save();
         $current_settings= Setting::where('user_id',$user->id)->first();
-        $code = $this->createDiscountCode();
+        $code = $this->createDiscountCode($request->type);
         $redirect = 'https://'.$user->name;
         $customerName = optional($videos->order)->customer_name;
         $details = [
@@ -213,14 +213,7 @@ public function videoOperation(Request $request){
             $temlateDetails['discount_code'] = $code['code'];
             $temlateDetails['reason_decline'] = '';
 
-            /*********************** saving approved video to Google Drive *************************/
-            
-            if($user->gd_access_token){
-                Log::info('my token2');
-                dispatch(new UploadVideoGoogleDrive($user, $videos->video_link));
-            }
-
-            // dispatch(new EmailTemplateJob($temlateDetails));
+             dispatch(new EmailTemplateJob($temlateDetails));
         $log_details = [
             'type' => "EMAIL",
             'send_to' => $videos->email,
@@ -242,7 +235,11 @@ public function videoOperation(Request $request){
        ]);
 
 
+            /*********************** saving approved video to Google Drive *************************/
 
+            if ($user->gd_access_token) {
+                dispatch(new UploadVideoGoogleDrive($user, $videos->video_link));
+            }
 
         return response()->json([
             'success' => true,
@@ -667,10 +664,11 @@ return response()->json([
 
   // create discount code
 
-  public function createDiscountCode(){
-
+  public function createDiscountCode($type){
+        
     $shop = Auth::user();
     $settings=Setting::where('user_id',Auth::user()->id)->first();
+    $discount_amount =  ($type == 'star_rating') ? $settings->star_credit : $settings->store_credit;
     $rules_requirements=[
         "price_rule"=>[
         "title"=>"vidial_code",
@@ -679,9 +677,9 @@ return response()->json([
         "target_selection"=>"all",
         "allocation_method"=>"across",
         "value_type"=>"fixed_amount",
-        "price_rule"=>"-".$settings->store_credit,
+        "price_rule"=>"-". $discount_amount,
         "customer_selection"=>"all",
-        "value"=>"-".$settings->store_credit,
+        "value"=>"-". $discount_amount,
         "starts_at"=> Carbon::now()->toIso8601String(),
     ]];
     $priceRule = $shop->api()->rest('POST', '/admin/api/2022-10/price_rules.json',$rules_requirements);

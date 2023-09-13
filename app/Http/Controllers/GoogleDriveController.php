@@ -133,10 +133,10 @@ class GoogleDriveController extends Controller
     public function connectDrive(Request $request)
     {
         $request->session()->put('current_user', $request->shop);
-        $request->session()->put('api_key', $request->api_key);
-        $request->session()->put('secret_key', $request->secret_key);
-        $request->session()->put('client_id', $request->client_id);
-        $request->session()->put('folder_name', $request->folder_name);
+        $request->session()->put('api_key', trim($request->api_key));
+        $request->session()->put('secret_key', trim($request->secret_key));
+        $request->session()->put('client_id', trim($request->client_id));
+        $request->session()->put('folder_name', trim($request->folder_name));
         // return redirect('google-login',['params'=>$request->all()]);
         return redirect()->route('google.login',$request->all());
 

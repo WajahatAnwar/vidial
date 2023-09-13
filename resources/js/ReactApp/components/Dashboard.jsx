@@ -112,6 +112,7 @@ function Dashboard() {
     const [reload, setReload] = useState("");
     const [rejectVideoId, setRejectVideoId] = useState(false);
     const [approvedUserVideoId, setapprovedUserVideoId] = useState(false);
+    const [approvedVideoType, setApprovedVideoType] = useState(null);
     const [isClicked, setisClicked] = useState(false);
 
 
@@ -212,8 +213,9 @@ function Dashboard() {
 
     /**** approved video ***/
 
-    const approvedUserVideo = (id) => {
+    const approvedUserVideo = (id,type=null) => {
         setapprovedUserVideoId(id);
+        setApprovedVideoType(type);
 
         setActiveApprovedConfirmModel(true);
     };
@@ -223,8 +225,14 @@ function Dashboard() {
         setisClicked(true);
         var formData = new FormData();
         formData.append("video_id", approvedUserVideoId);
+        formData.append("type", approvedVideoType);
         if (approvedUserVideoId) {
-            setVideoFeedback("Congratulations, you just approved the video.");
+            if (approvedVideoType=='star_rating'){
+                setVideoFeedback("Congratulations, you just approved the star rating video.");
+            }else{
+                setVideoFeedback("Congratulations, you just approved the video.");
+
+            }
             setVideoFeedbackPopupTitle("Confirmation for Approving Video");
             fetch("/videoOperation", {
                 method: "post",
@@ -256,6 +264,7 @@ function Dashboard() {
                     }
                     setisClicked(false);
                     setReload(true);
+                    setApprovedVideoType(null);
                     return;
                 })
                 .catch((error) => {
@@ -495,7 +504,8 @@ function Dashboard() {
                                                                     }}
                                                                     onClick={() => {
                                                                         approvedUserVideo(
-                                                                            video.id
+                                                                            video.id,
+                                                                          
                                                                         );
                                                                     }}
                                                                 >
@@ -536,7 +546,14 @@ function Dashboard() {
                                                                         />
                                                                     </Link>
                                                                 </div> */}
-                                                                <div>
+                                                                <div style={{
+                                                                    cursor:'pointer'
+                                                                }} onClick={() => {
+                                                                    approvedUserVideo(
+                                                                        video.id,
+                                                                        'star_rating'
+                                                                    );
+                                                                }}>
                                                                     <img src={staricon} alt="" style={{width:"20px"}} />
                                                                 </div>
                                                             </div>

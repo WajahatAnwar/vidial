@@ -212,10 +212,10 @@ const Settings = () => {
     ];
 
     const [priceValue, setPriceValue] = useState("50");
-    const [priceStarValue, setPriceStarValue] = useState("50");
+    const [starStoreCredit, setStarStoreCredit] = useState("50");
 
     const priceValueHandler = useCallback((value) => setPriceValue(value), []);
-    const priceStarValueHandler = useCallback((value) => setPriceStarValue(value), []);
+    const priceStarValueHandler = useCallback((value) => setStarStoreCredit(value), []);
 
     const [landingPageValue, setLandingPage] = useState("12");
 
@@ -246,7 +246,7 @@ const Settings = () => {
     );
     // add row code start
     const [rows, setRows] = useState([]);
-    console.log(rows);
+   
 
     const handleAddRow = () => {
         setRows([
@@ -482,7 +482,7 @@ const Settings = () => {
                 }
                 const data = await response.json();
                 if (data.success) {
-                    console.log(data.data.email_creds);
+                    
                     data.data.email_creds ? setterEmailCreds(data) : ''
                     
                     setApprovedStoreHandle(data.data.storeHandle);
@@ -505,7 +505,7 @@ const Settings = () => {
                     //setVideoTitle(data.data.dropzone_text)
                     setAlreadyUploadedLogo(data.data.logo)
                     setAlreadyUploadedVideo(data.data.video)
-
+                    setStarStoreCredit(data.data.star_credit);
                     setVideo(data.data.video);
                     setStore(data.data.store);
                     setSelected(data.data?.locale ?? "en");
@@ -722,7 +722,8 @@ const Settings = () => {
         formData.append("video_title", videoTitle);
         formData.append("instruction_subtitle", instructionSubTitle);
         formData.append("video_btn_text", buttonText);
-        formData.append('fav_icon',favIcon);
+        formData.append('fav_icon', favIcon);
+        formData.append('star_credit', starStoreCredit);
         // if (!isHandleAvailable){
         //     formData.append("store_handle", storeHandle);
         // }
@@ -734,7 +735,7 @@ const Settings = () => {
                 landingPageValue == "" ||
                 emailSentToValue == "" ||
                 landingPageDisplayedValue == "" ||
-                rows == "",
+                rows == ""
             )
         ) {
             setError(true);
@@ -1448,7 +1449,7 @@ const Settings = () => {
                                                 {storeCurrency}
                                             </div>
                                             <TextField
-                                                value={priceStarValue}
+                                                value={starStoreCredit}
                                                 onChange={priceStarValueHandler}
                                                 autoComplete="off"
                                             />
@@ -2591,7 +2592,7 @@ const Settings = () => {
                                         </div>
                                         <div
                                             style={{
-                                                display: "flex",
+                                                display: "block",
                                                 alignItems: "center",
                                                 justifyContent: "space-between",
                                                 marginBottom: "20px",
@@ -2748,11 +2749,10 @@ const Settings = () => {
                                         <div style={{marginTop:"10px",width:"450px"}}>
 
                                                 <TextField
-                                                    value={gdFolder}
-                                                    onChange={handleSenderFolder}
+                                                    value={baseUrl+'/google-login'}
                                                     autoComplete="off"
                                                     disabled
-                                                    placeholder="www.google.com"
+                                                    placeholder={baseUrl + '/google-login'}
                                                 />
 
                                                 </div>

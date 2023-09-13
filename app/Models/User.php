@@ -30,7 +30,8 @@ class User extends Authenticatable implements IShopModel
         'remaining_email',
         'remaining_videos',
         'store_handle',
-        'gd_access_token'
+        'gd_access_token',
+        'star_credit'
     ];
 
     /**

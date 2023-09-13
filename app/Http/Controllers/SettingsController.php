@@ -124,7 +124,8 @@ class SettingsController extends Controller
             'instructions' => 'required',
             'email_sent_to_customer' => 'required|numeric|min:1',
             'logo' => $image_mimes,
-            'video'=>$video_mimes
+            'video'=>$video_mimes,
+            'star_credit' => 'required|numeric|min:1',
         ]);
         if($request->file('logo')){
             $image = time().'.'.$request->file('logo')->extension();
@@ -169,6 +170,7 @@ class SettingsController extends Controller
         $settings['instruction_subtitle'] = $request->instruction_subtitle;
         $settings['video_btn_text'] = $request->video_btn_text;
         $settings['fav_icon'] = $fav_icon;
+        $settings['star_credit'] = $request->star_credit;
         
                 
         $language = Setting::where('user_id', Auth::user()->id)->first();
@@ -337,6 +339,7 @@ class SettingsController extends Controller
             $data['logo'] = $logo_path;
         }
 
+
         if ($request->logo == 'empty_logo') {
             $data['logo'] = '';
         }
@@ -345,7 +348,7 @@ class SettingsController extends Controller
         $data['btn_text'] = $request->buttonText ?? '';
         $data['btn_color'] = $request->buttonColorHex ?? '#000000';
         $data['type'] = $request->type;
-        $data['type'] = $request->type;
+        // $data['type'] = $request->type;
         $data['user_id'] = Auth::user()->id;
         $data['from'] =$request->from == '' ? auth()->user()->store_name : $request->from;
         EmailTemplate::updateOrCreate(

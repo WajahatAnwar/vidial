@@ -244,6 +244,7 @@ class AuthController extends Controller
             $current_user->save();
         }
         $user = User::with('settings')->find($shop->id);
+        $this->starVideoApprovedTemplate($shop->id, $user);
         $this->videoApprovedTemplate($shop->id, $user);
         $this->postPurchaseTemplate($shop->id, $user);
         $this->videoDeclinedTemplate($shop->id, $user);
@@ -275,6 +276,30 @@ class AuthController extends Controller
         // dd($response);
         
         return view('embedded');
+    }
+
+    /******************* on App Install Email Settings ***********************/
+    public function starVideoApprovedTemplate($user_id, $user)
+    {
+        $emailTemplate['logo'] = '';
+        $emailTemplate['user_id'] = $user_id;
+        $emailTemplate['subject'] = "Claim your {{amount}} Gift Card!";
+
+        $emailTemplate['type'] = 'UGC_Star_Approved';
+        $emailTemplate['body'] = '<p style="text-align: center;">Hello,</p>
+<p style="text-align: center;">Congratulations, your Video Review for {{storename}} has been approved!&nbsp;</p>
+<p style="text-align: center;">We are constantly inspired by the creativity and passion of our customers, and we appreciate your support.</p>
+<p style="text-align: center;">Here is your Discount code:</p>
+<h1 style="text-align: center;">{{discount_code}}</h1>
+<p style="text-align: center;">You can use this code at the checkout to receive your {{amount}} Discount.<br><br>{{button}}</p>';
+
+        $emailTemplate['btn_text'] = 'Shop Now';
+        $emailTemplate['btn_color'] = '#28282B';
+        $emailTemplate['from'] = auth()->user()->store_name;
+        EmailTemplate::firstOrCreate(
+            ['user_id' => $user_id, 'type' => 'UGC_Star_Approved'],
+            $emailTemplate
+        );
     }
 
     public function videoApprovedTemplate($user_id,$user){
