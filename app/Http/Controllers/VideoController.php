@@ -189,25 +189,20 @@ public function videoOperation(Request $request){
         $code = $this->createDiscountCode($request->type);
         $redirect = 'https://'.$user->name;
         $customerName = optional($videos->order)->customer_name;
-        $details = [
-            'mail' => $videos->email,
-            'title' => 'Mail From Vidal',
-            'body' => 'This is the test email for customers',
-            'store_name' => auth()->user()->store_name,
-            'coupen_code' => $code['code'],
-            'locale' =>$user->settings->locale,
-            'url' =>$redirect,
-            'store_credit'=>$current_settings->store_credit,
-            'store_currency'=>getCurrencySymbol($user->store_currency)
-        ];
-            //dispatch(new videoMail($details));
+            if($request->type== 'star_rating'){
+                $temlateDetails['amount'] = Auth::user()->settings->star_credit;
+                $temlateDetails['type'] = 'UGC_Star_Approved';
+                $temlateDetails['view'] = 'emails.ugc_star_approved';
+            }else {
+                $temlateDetails['amount'] = Auth::user()->settings->store_credit;
+                $temlateDetails['type'] = 'UGC_Approved';
+                $temlateDetails['view'] = 'emails.ugc_approved';
+
+            }
             $temlateDetails['user_id'] = Auth::user()->id;
-            $temlateDetails['type'] = 'UGC_Approved';
-            $temlateDetails['view'] = 'emails.ugc_approved';
             $temlateDetails['mail'] = $videos->email;
             $temlateDetails['name'] = $customerName;
             $temlateDetails['storename'] = auth()->user()->store_name;
-            $temlateDetails['amount'] = Auth::user()->settings->store_credit;
             $temlateDetails['url'] = 'https://'.$user->name;
             //$temlateDetails['name'] = $videos->email;
             $temlateDetails['discount_code'] = $code['code'];
