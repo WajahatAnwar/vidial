@@ -95,13 +95,13 @@ const Settings = () => {
     const [senderEmail, setSenderEmail] = useState("");
     const [gdApi, setGdApi] = useState("");
     const [gdClientId, setGdClientId] = useState("");
-    const [setGdSecretKey, setSenderSecKey] = useState("");
+    const [gdSecretKey, setGdSecretKey] = useState("");
     const [gdFolder, setGdFolder] = useState("");
 
 
     const handleSenderApi = useCallback((newValue) => setGdApi(newValue), []); 
     const handleSenderClientId = useCallback((newValue) => setGdClientId(newValue), []); 
-    const handleSenderSecKey = useCallback((newValue) => setSenderSecKey(newValue), []); 
+    const handleSenderSecKey = useCallback((newValue) => setGdSecretKey(newValue), []); 
     const handleSenderFolder = useCallback((newValue) => setGdFolder(newValue), []); 
     const handleSenderEmail = useCallback((newValue) => setSenderEmail(newValue), []);
 
@@ -292,7 +292,10 @@ const Settings = () => {
     const [email, setEmail] = useState("");
     const [storeName, setstoreName] = useState("");
     const [successToastVideo, setSuccessToastVideo] = useState("");
-    const [favIcon,setFavIcon] = useState(null);
+    const [favIcon, setFavIcon] = useState(null);
+    const [gdError, setGdError] = useState(false);
+    const [gdErrorMsg, setGdErrorMsg] = useState('');
+    
     // const successToastVideo = active ? (
     //     <Toast content="Settings Saved" onDismiss={true} />
     // ) : null;
@@ -448,6 +451,12 @@ const Settings = () => {
         setMailgunDomain(data.data.email_creds.domain);
         setMailgunEndpoint(data.data.email_creds.endpoint);
     }
+    const setterGdCreds = (data) => {
+        setGdApi(data.data.gd_creds.api_key);
+        setGdClientId(data.data.gd_creds.client_id);
+        setGdSecretKey(data.data.gd_creds.secret_key);
+        setGdFolder(data.data.gd_creds.folder_name);
+    }
 
     function getEmailDomain(email) {
         // Find the index of the "@" symbol
@@ -467,8 +476,29 @@ const Settings = () => {
 
     /************** handle Connect to Google Drive **************/
     const handleConnectGD = ()=>{
+        setGdError(false);
+        if(gdApi.length<=0){
+            setGdError(true);
+            setGdErrorMsg('Api key is required');
+            return;
+        }
+        if (gdClientId.length <= 0) {
+            setGdError(true);
+            setGdErrorMsg('Client id is required');
+            return;
+        }
+        if (gdSecretKey.length <= 0) {
+            setGdError(true);
+            setGdErrorMsg('Secret key is required');
+            return;
+        }
+        if (gdFolder.length <= 0) {
+            setGdError(true);
+            setGdErrorMsg('Folder name is required');
+            return;
+        }
         let url = baseUrl + `/connect-gd?api_key=${gdApi}&client_id=${gdClientId}
-        &secret_key=${setGdSecretKey}&folder_name=${gdFolder}&shop=${store}`
+        &secret_key=${gdSecretKey}&folder_name=${gdFolder}&shop=${store}`
         window.open(url,'_blank');
     }
     
@@ -482,8 +512,9 @@ const Settings = () => {
                 }
                 const data = await response.json();
                 if (data.success) {
-                    
+                   
                     data.data.email_creds ? setterEmailCreds(data) : ''
+                    data.data.gd_creds ? setterGdCreds(data) : ''
                     
                     setApprovedStoreHandle(data.data.storeHandle);
                     setStoreHandle(data.data.storeHandle);
@@ -2592,7 +2623,7 @@ const Settings = () => {
                                         </div>
                                         <div
                                             style={{
-                                                display: "block",
+                                                display: "flex",
                                                 alignItems: "center",
                                                 justifyContent: "space-between",
                                                 marginBottom: "20px",
@@ -2691,6 +2722,18 @@ const Settings = () => {
                                 </Card>
 
                                 <Card sectioned>
+                                        {
+                                            gdError ? <Banner>
+                                                <List type="bullet">
+                                                    {
+                                                        <List.Item>{gdErrorMsg}</List.Item>
+
+                                                    }
+
+
+                                                </List>
+                                            </Banner> : ''
+                                        }
                                     <div className="googledrivesection">
                                         <div style={{marginBottom:"15px"}}>
                                         <Text variant="headingLg" as="h5">
@@ -2728,7 +2771,7 @@ const Settings = () => {
                                         <div style={{marginTop:"10px",width:"450px"}}>    
 
 					                        <TextField
-                                                value={setGdSecretKey}
+                                                value={gdSecretKey}
                                                 onChange={handleSenderSecKey}
                                                 autoComplete="off"
                                                 placeholder="Set Secret Key"

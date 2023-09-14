@@ -408,7 +408,7 @@ function WaitingVideos() {
                                                                     "6px 12px",
                                                                 borderRadius:
                                                                     "9px",
-                                                                width: "86px",
+                                                                width: "124px",
                                                                 margin: "auto",
                                                                 marginTop:
                                                                     "10px",
@@ -440,7 +440,10 @@ function WaitingVideos() {
                                                                         />
                                                                     </Link>
                                                                 </div>
-                                                                <div>
+                                                                <div style={{
+                                                                    marginRight:
+                                                                        "20px",
+                                                                }}>
                                                                     <Link
                                                                         to={`${pathname}/${search}`}
                                                                         onClick={() => {

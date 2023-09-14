@@ -83,7 +83,7 @@ class SettingsController extends Controller
     public function getSettings(){
 
         $data= Setting::where('user_id',Auth::user()->id)->first();
-        $store = User::where('id', Auth::user()->id)->with('emailCreds')->first();
+        $store = User::where('id', Auth::user()->id)->with('emailCreds', 'googleDriveCreds')->first();
         //$store=User::find(Auth::user()->id)->with('emailCreds');
         $emailCreds = $store->emailCreds;
         if($data){
@@ -98,6 +98,7 @@ class SettingsController extends Controller
         $data['storeHandle'] = $store->store_handle ? $store->store_handle : $store->store_name;
         $data['store_currency']= getCurrencySymbol($store->store_currency);
         $data['email_creds'] = $emailCreds;
+        $data['gd_creds'] = $store->googleDriveCreds;
         return response()->json([
             'success' => true,
             'message' => "Settings get Successfully",

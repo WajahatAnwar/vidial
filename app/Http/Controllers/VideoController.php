@@ -183,6 +183,7 @@ public function videoOperation(Request $request){
 
 
     if($videos){
+        $videos->approved_video_type = $request->type == 'star_rating' ? 'star_rating' : null;
         $videos->status =config('constants.video_approved');
         $videos->save();
         $current_settings= Setting::where('user_id',$user->id)->first();
@@ -233,7 +234,7 @@ public function videoOperation(Request $request){
             /*********************** saving approved video to Google Drive *************************/
 
             if ($user->gd_access_token) {
-                dispatch(new UploadVideoGoogleDrive($user, $videos->video_link));
+                dispatch(new UploadVideoGoogleDrive($user, $videos->video_link, $videos->path));
             }
 
         return response()->json([
