@@ -350,6 +350,21 @@ if (!function_exists('saveEnLanguage')) {
                 array(
                     'user_id' => $user_id,
                     'subject' => "Claim your {{amount}} Gift Card!",
+                    'type' => 'UGC_Star_Approved',
+                    'body' => '<p style="text-align: center;">Hello,</p>
+<p style="text-align: center;">Congratulations, your Video Review for {{storename}} has been star approved!&nbsp;</p>
+<p style="text-align: center;">We are constantly inspired by the creativity and passion of our customers, and we appreciate your support.</p>
+<p style="text-align: center;">Here is your Discount code:</p>
+<h1 style="text-align: center;">{{discount_code}}</h1>
+<p style="text-align: center;">You can use this code at the checkout to receive your {{amount}} Discount.<br><br>{{button}}</p>',
+                    'btn_text' => 'Shop Now',
+                    'btn_color' => '#28282B',
+                    'from' => auth()->user()->store_name,
+                    'logo' => ''
+                ),
+                array(
+                    'user_id' => $user_id,
+                    'subject' => "Claim your {{amount}} Gift Card!",
                     'type' => 'UGC_Approved',
                     'body' => '<p style="text-align: center;">Hello,</p>
 <p style="text-align: center;">Congratulations, your Video Review for {{storename}} has been approved!&nbsp;</p>
@@ -419,6 +434,22 @@ if (!function_exists('saveEnLanguage')) {
         /**** French ******/
         if ($locale == 'fr') {
             $fr = array(
+                array(
+                    'user_id' => $user_id,
+                    'subject' => "Réclamez votre carte-cadeau de {{amount}}!",
+                    'type' => 'UGC_Star_Approved',
+                    'body' => "<p style='text-align: center;'>Bonjour,&nbsp;</p>
+<p style='text-align: center;'>F&eacute;licitations, votre avis vid&eacute;o pour {{storename}} a &eacute;t&eacute; approuv&eacute;!</p>
+<p style='text-align: center;'>Nous sommes constamment inspir&eacute;s par la cr&eacute;ativit&eacute; et la passion de nos clients, et nous appr&eacute;cions votre soutien.</p>
+<p style='text-align: center;'>Voici votre code de r&eacute;duction :</p>
+<h1 style='text-align: center;'><strong>{{discount_code}}</strong></h1>
+<p style='text-align: center;'>Vous pouvez utiliser le code au moment de l&rsquo;achat pour recevoir votre r&eacute;duction de {{amount}}.</p>
+<p style='text-align: center;'>{{button}}</p>",
+                    'btn_text' => 'Achetez Maintenant',
+                    'btn_color' => '#28282B',
+                    'from' => auth()->user()->store_name,
+                    'logo' => ''
+                ),
                 array(
                     'user_id' => $user_id,
                     'subject' => "Réclamez votre carte-cadeau de {{amount}}!",
@@ -499,6 +530,23 @@ if (!function_exists('saveEnLanguage')) {
                 array(
                     'user_id' => $user_id,
                     'subject' => "Fordern Sie Ihre {{amount}} Geschenkkarte an!",
+                    'type' => 'UGC_Star_Approved',
+                    'body' => "<p style='text-align: center;'>Hallo,&nbsp;</p>
+<p style='text-align: center;'>Gl&uuml;ckwunsch, Ihre Video-Bewertung f&uuml;r {{storename}} wurde genehmigt!</p>
+<p style='text-align: center;'>Wir sind st&auml;ndig von der Kreativit&auml;t und Leidenschaft unserer Kunden inspiriert und wir sch&auml;tzen Ihre Unterst&uuml;tzung.</p>
+<p style='text-align: center;'>Hier ist Ihr Rabattcode:</p>
+<h1 style='text-align: center;'><strong>{{discount_code}}</strong></h1>
+<p style='text-align: center;'>Sie k&ouml;nnen diesen Code an der Kasse verwenden, um Ihren {{amount}} Rabatt zu erhalten</p>
+
+<p style='text-align: center;'>{{button}}</p>",
+                    'btn_text' => 'Jetzt kaufen',
+                    'btn_color' => '#28282B',
+                    'from' => auth()->user()->store_name,
+                    'logo' => ''
+                ),
+                array(
+                    'user_id' => $user_id,
+                    'subject' => "Fordern Sie Ihre {{amount}} Geschenkkarte an!",
                     'type' => 'UGC_Approved',
                     'body' => "<p style='text-align: center;'>Hallo,&nbsp;</p>
 <p style='text-align: center;'>Gl&uuml;ckwunsch, Ihre Video-Bewertung f&uuml;r {{storename}} wurde genehmigt!</p>
@@ -570,6 +618,23 @@ if (!function_exists('saveEnLanguage')) {
 
         if ($locale == 'es') {
             $sp = array(
+                array(
+                    'user_id' => $user_id,
+                    'subject' => "¡Reclama tu tarjeta de regalo de {{amount}}!",
+                    'type' => 'UGC_Star_Approved',
+                    'body' => "<p style='text-align: center;'>Hola,&nbsp;</p>
+<p style='text-align: center;'>&iexcl;Felicidades, tu rese&ntilde;a en v&iacute;deo para {{storename}} ha sido aprobada!</p>
+<p style='text-align: center;'>Nos inspira constantemente la creatividad y la pasi&oacute;n de nuestros clientes, y apreciamos tu apoyo.</p>
+<p style='text-align: center;'>Aqu&iacute; est&aacute; tu c&oacute;digo de descuento:</p>
+<h1 style='text-align: center;'><strong>{{discount_code}}</strong></h1>
+<p style='text-align: center;'>Puedes usar este c&oacute;digo en la caja para recibir tu descuento de {{amount}}.</p>
+<p style='text-align: center;'>{{button}}</p>
+",
+                    'btn_text' => 'Comprar ahora',
+                    'btn_color' => '#28282B',
+                    'from' => auth()->user()->store_name,
+                    'logo' => ''
+                ),
                 array(
                     'user_id' => $user_id,
                     'subject' => "¡Reclama tu tarjeta de regalo de {{amount}}!",
@@ -648,6 +713,24 @@ if (!function_exists('saveEnLanguage')) {
                 array(
                     'user_id' => $user_id,
                     'subject' => "Reivindique o seu cartão-presente de {{amount}}!",
+                    'type' => 'UGC_Star_Approved',
+                    'body' => "<p style='text-align: center;'>Ol&aacute;,</p>
+<p style='text-align: center;'>Parab&eacute;ns, a sua avalia&ccedil;&atilde;o em v&iacute;deo para a {{storename}} foi aprovada!</p>
+<p style='text-align: center;'>Estamos constantemente inspirados pela criatividade e paix&atilde;o dos nossos clientes, e agradecemos o seu apoio.</p>
+<p style='text-align: center;'>Aqui est&aacute; o seu c&oacute;digo de desconto:</p>
+<h1 style='text-align: center;'><strong>{{discount_code}}</strong></h1>
+<p style='text-align: center;'>Voc&ecirc; pode usar este c&oacute;digo no momento da compra para receber o seu desconto de {{amount}}.</p>
+
+<p style='text-align: center;'>{{button}}</p>
+",
+                    'btn_text' => 'Compre Agora',
+                    'btn_color' => '#28282B',
+                    'from' => auth()->user()->store_name,
+                    'logo' => ''
+                ),
+                array(
+                    'user_id' => $user_id,
+                    'subject' => "Reivindique o seu cartão-presente de {{amount}}!",
                     'type' => 'UGC_Approved',
                     'body' => "<p style='text-align: center;'>Ol&aacute;,</p>
 <p style='text-align: center;'>Parab&eacute;ns, a sua avalia&ccedil;&atilde;o em v&iacute;deo para a {{storename}} foi aprovada!</p>
@@ -721,6 +804,22 @@ if (!function_exists('saveEnLanguage')) {
         /**** Italian ***/
         if ($locale == 'it') {
             $it = array(
+                array(
+                    'user_id' => $user_id,
+                    'subject' => "Richiedi la tua Gift Card da {{amount}}!",
+                    'type' => 'UGC_Star_Approved',
+                    'body' => "<p style='text-align: center;'>Ciao,&nbsp;</p>
+<p style='text-align: center;'>Complimenti, la tua recensione video per {{storename}} &egrave; stata approvata!</p>
+<p style='text-align: center;'>Siamo costantemente ispirati dalla creativit&agrave; e dalla passione dei nostri clienti, e apprezziamo il tuo sostegno.</p>
+<p style='text-align: center;'>Ecco il tuo codice di sconto:</p>
+<h1 style='text-align: center;'><strong>{{discount_code}}</strong></h1>
+
+<p style='text-align: center;'>&Egrave; possibile utilizzare questo codice alla cassa per ricevere il vostro sconto di {{amount}}.</p><p style='text-align: center;''>&nbsp;{{button}}&nbsp;</p>",
+                    'btn_text' => 'Acquista ora',
+                    'btn_color' => '#28282B',
+                    'from' => auth()->user()->store_name,
+                    'logo' => ''
+                ),
                 array(
                     'user_id' => $user_id,
                     'subject' => "Richiedi la tua Gift Card da {{amount}}!",

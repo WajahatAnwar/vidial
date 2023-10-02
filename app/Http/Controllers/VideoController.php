@@ -183,44 +183,33 @@ public function videoOperation(Request $request){
 
 
     if($videos){
+        $videos->approved_video_type = $request->type == 'star_rating' ? 'star_rating' : null;
         $videos->status =config('constants.video_approved');
         $videos->save();
         $current_settings= Setting::where('user_id',$user->id)->first();
-        $code = $this->createDiscountCode();
+        $code = $this->createDiscountCode($request->type);
         $redirect = 'https://'.$user->name;
         $customerName = optional($videos->order)->customer_name;
-        $details = [
-            'mail' => $videos->email,
-            'title' => 'Mail From Vidal',
-            'body' => 'This is the test email for customers',
-            'store_name' => auth()->user()->store_name,
-            'coupen_code' => $code['code'],
-            'locale' =>$user->settings->locale,
-            'url' =>$redirect,
-            'store_credit'=>$current_settings->store_credit,
-            'store_currency'=>getCurrencySymbol($user->store_currency)
-        ];
-            //dispatch(new videoMail($details));
+            if($request->type== 'star_rating'){
+                $temlateDetails['amount'] = Auth::user()->settings->star_credit;
+                $temlateDetails['type'] = 'UGC_Star_Approved';
+                $temlateDetails['view'] = 'emails.ugc_star_approved';
+            }else {
+                $temlateDetails['amount'] = Auth::user()->settings->store_credit;
+                $temlateDetails['type'] = 'UGC_Approved';
+                $temlateDetails['view'] = 'emails.ugc_approved';
+
+            }
             $temlateDetails['user_id'] = Auth::user()->id;
-            $temlateDetails['type'] = 'UGC_Approved';
-            $temlateDetails['view'] = 'emails.ugc_approved';
             $temlateDetails['mail'] = $videos->email;
             $temlateDetails['name'] = $customerName;
             $temlateDetails['storename'] = auth()->user()->store_name;
-            $temlateDetails['amount'] = Auth::user()->settings->store_credit;
             $temlateDetails['url'] = 'https://'.$user->name;
             //$temlateDetails['name'] = $videos->email;
             $temlateDetails['discount_code'] = $code['code'];
             $temlateDetails['reason_decline'] = '';
 
-            /*********************** saving approved video to Google Drive *************************/
-            
-            if($user->gd_access_token){
-                Log::info('my token2');
-                dispatch(new UploadVideoGoogleDrive($user, $videos->video_link));
-            }
-
-            // dispatch(new EmailTemplateJob($temlateDetails));
+             dispatch(new EmailTemplateJob($temlateDetails));
         $log_details = [
             'type' => "EMAIL",
             'send_to' => $videos->email,
@@ -242,7 +231,11 @@ public function videoOperation(Request $request){
        ]);
 
 
+            /*********************** saving approved video to Google Drive *************************/
 
+            if ($user->gd_access_token) {
+                dispatch(new UploadVideoGoogleDrive($user, $videos->video_link, $videos->path));
+            }
 
         return response()->json([
             'success' => true,
@@ -667,10 +660,11 @@ return response()->json([
 
   // create discount code
 
-  public function createDiscountCode(){
-
+  public function createDiscountCode($type){
+        
     $shop = Auth::user();
     $settings=Setting::where('user_id',Auth::user()->id)->first();
+    $discount_amount =  ($type == 'star_rating') ? $settings->star_credit : $settings->store_credit;
     $rules_requirements=[
         "price_rule"=>[
         "title"=>"vidial_code",
@@ -679,9 +673,9 @@ return response()->json([
         "target_selection"=>"all",
         "allocation_method"=>"across",
         "value_type"=>"fixed_amount",
-        "price_rule"=>"-".$settings->store_credit,
+        "price_rule"=>"-". $discount_amount,
         "customer_selection"=>"all",
-        "value"=>"-".$settings->store_credit,
+        "value"=>"-". $discount_amount,
         "starts_at"=> Carbon::now()->toIso8601String(),
     ]];
     $priceRule = $shop->api()->rest('POST', '/admin/api/2022-10/price_rules.json',$rules_requirements);

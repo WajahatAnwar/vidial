@@ -189,7 +189,7 @@ const UgcStarApproved = () => {
         formData.append('buttonText', buttonText);
         formData.append('buttonColorHex', buttonColorHex);
         formData.append('body', editorRef.current.getContent());
-        formData.append('type', 'UGC_Approved')
+        formData.append('type', 'UGC_Star_Approved');
         
         formData.append('from', from);
         if (files[0]) {
@@ -218,7 +218,7 @@ const UgcStarApproved = () => {
 
     };
     useEffect(() => {
-        fetch("/fetch-email-settings?type=UGC_Approved", {
+        fetch("/fetch-email-settings?type=UGC_Star_Approved", {
             method: "GET",
         }).then((response) => {
             if (!response.ok) {

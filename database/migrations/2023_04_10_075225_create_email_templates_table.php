@@ -20,7 +20,7 @@ return new class extends Migration
             $table->longText('body');
             $table->string('btn_text');
             $table->string('btn_color');
-            $table->enum('type',['Post_Purchase','Reminder','UGC_Approved','UGC_Declined']);
+            $table->enum('type',['Post_Purchase','Reminder','UGC_Approved','UGC_Declined','UGC_Star_Approved']);
             $table->unsignedBigInteger('user_id');
             $table->timestamps();
         });
