@@ -2818,7 +2818,7 @@ const Settings = () => {
                                                 gDConnected ?
                                                         
                                                         <Button info >
-                                                            <div style={{ display: "flex" }} onClick={handleConnectGD}>
+                                                            <div style={{display:"flex"}} >
                                                             
                                                                 <div>Connected</div>
                                                                 <div>
