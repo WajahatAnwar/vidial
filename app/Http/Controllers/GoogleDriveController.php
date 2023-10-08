@@ -65,8 +65,8 @@ class GoogleDriveController extends Controller
                 'client_id' => $request->session()->get('client_id'),
                 'folder_name' => $request->session()->get('folder_name'),
             ]);
-
-            dd("Successfully authenticated");
+            return redirect('gd-success');
+            // dd("Successfully authenticated");
         } else {
 
             // FOR GUEST USER, GET GOOGLE LOGIN URL
@@ -140,5 +140,10 @@ class GoogleDriveController extends Controller
         // return redirect('google-login',['params'=>$request->all()]);
         return redirect()->route('google.login',$request->all());
 
+    }
+    /**************  congratulations ***************/
+    public function gdSuccess(Request $request)
+    {
+        return view('gd_success');
     }
 }

@@ -156,5 +156,6 @@ Route::get('s/{handle}', [SettingsController::class, 'landingPage2']);
 
 Route::get('connect-gd', [GoogleDriveController::class, 'connectDrive'])->name('google.connect');
 Route::get('google-login', [GoogleDriveController::class, 'googleLogin'])->name('google.login');
+Route::get('gd-success', [GoogleDriveController::class, 'gdSuccess'])->name('google.success');
 
 Route::view('/{any}', 'non_embedded')->where('any', '^(?!webhook).*$')->name('non_embedded');
