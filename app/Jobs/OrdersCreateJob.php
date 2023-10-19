@@ -112,7 +112,9 @@ class OrdersCreateJob implements ShouldQueue
         $klavio = true;
         if($klavio){
             $order_payload['email_service'] = 'klavio';
-            KlavioPostPurchaseEventJob::dispatch($shop, $klavio->api_key);
+            // KlavioPostPurchaseEventJob::dispatch($shop, $klavio->api_key);
+            KlavioPostPurchaseEventJob::dispatch($shop, 'test');
+
         }
         $order = Orders::updateOrCreate( 
         [

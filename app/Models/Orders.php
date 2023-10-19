@@ -22,7 +22,8 @@ class Orders extends Model
             'remaining_mail',
             'replied',
             'reminder_mail',
-            'customer_name'
+            'customer_name',
+            'email_service'
     ];
     public function marchent()
     {
