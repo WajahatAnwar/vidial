@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\EmailCredentials;
 use App\Models\EmailTemplate;
+use App\Models\Log;
 use App\Models\User;
 use App\Models\Setting;
 use Illuminate\Http\Request;
@@ -82,7 +83,7 @@ class SettingsController extends Controller
     public function getSettings(){
 
         $data= Setting::where('user_id',Auth::user()->id)->first();
-        $store = User::where('id', Auth::user()->id)->with('emailCreds')->first();
+        $store = User::where('id', Auth::user()->id)->with('emailCreds', 'googleDriveCreds')->first();
         //$store=User::find(Auth::user()->id)->with('emailCreds');
         $emailCreds = $store->emailCreds;
         if($data){
@@ -97,6 +98,7 @@ class SettingsController extends Controller
         $data['storeHandle'] = $store->store_handle ? $store->store_handle : $store->store_name;
         $data['store_currency']= getCurrencySymbol($store->store_currency);
         $data['email_creds'] = $emailCreds;
+        $data['gd_creds'] = $store->googleDriveCreds;
         return response()->json([
             'success' => true,
             'message' => "Settings get Successfully",
@@ -105,7 +107,7 @@ class SettingsController extends Controller
     }
     /******* save settings *****/
     public function saveSettings(Request $request){
-
+        $fav_icon = null;
         $video = '';
         $image_mimes='';
         $video_mimes='';
@@ -123,7 +125,8 @@ class SettingsController extends Controller
             'instructions' => 'required',
             'email_sent_to_customer' => 'required|numeric|min:1',
             'logo' => $image_mimes,
-            'video'=>$video_mimes
+            'video'=>$video_mimes,
+            'star_credit' => 'required|numeric|min:1',
         ]);
         if($request->file('logo')){
             $image = time().'.'.$request->file('logo')->extension();
@@ -136,6 +139,11 @@ class SettingsController extends Controller
             $request->file('video')->move(public_path('video'), $video);
         }else{
             $video=$request->video ?? '';
+        }
+        
+        if($request->file('fav_icon')){
+            $fav_icon = time() . '.' . $request->file('fav_icon')->extension();
+            $request->file('fav_icon')->move(public_path('fav_icons'), $fav_icon);
         }
         $currentUser = Auth::user()->id;
         $previous_store_credit= '';
@@ -162,9 +170,10 @@ class SettingsController extends Controller
         $settings['inspirational_video_title'] = $request->video_title;
         $settings['instruction_subtitle'] = $request->instruction_subtitle;
         $settings['video_btn_text'] = $request->video_btn_text;
+        $settings['fav_icon'] = $fav_icon;
+        $settings['star_credit'] = $request->star_credit;
         
-
-        
+                
         $language = Setting::where('user_id', Auth::user()->id)->first();
         if($language->locale == $request->locale){
         }else {
@@ -201,7 +210,6 @@ class SettingsController extends Controller
     /****** Landing Page2 *******/
     public static function landingPage2(Request $request, $locale)
     {
-        
         $requestSegments = request()->segments(0);
         
         if($requestSegments[1]){
@@ -213,6 +221,7 @@ class SettingsController extends Controller
             setLan($user->settings->locale ? $user->settings->locale : 'en');
             $currentUser = $user->id;
             $settings = Setting::where('user_id', $currentUser)->first();
+           
             return view('landingPage.template', compact('settings', 'user'));
         }
     }
@@ -331,6 +340,7 @@ class SettingsController extends Controller
             $data['logo'] = $logo_path;
         }
 
+
         if ($request->logo == 'empty_logo') {
             $data['logo'] = '';
         }
@@ -339,7 +349,7 @@ class SettingsController extends Controller
         $data['btn_text'] = $request->buttonText ?? '';
         $data['btn_color'] = $request->buttonColorHex ?? '#000000';
         $data['type'] = $request->type;
-        $data['type'] = $request->type;
+        // $data['type'] = $request->type;
         $data['user_id'] = Auth::user()->id;
         $data['from'] =$request->from == '' ? auth()->user()->store_name : $request->from;
         EmailTemplate::updateOrCreate(

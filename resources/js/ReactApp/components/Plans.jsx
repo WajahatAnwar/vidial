@@ -32,7 +32,7 @@ function Plans() {
             })
             .then((data) => {
                 if (data.success) {
-                    console.log(data.data);
+                   
                     // console.log(data.users);
                     setPlan(data.data);
                     setUser(data.users);

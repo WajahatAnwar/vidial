@@ -130,7 +130,7 @@ function ApprovedVideos() {
                                                             marginTop: "10px",
                                                         }}
                                                     >
-                                                        Approved {video.updated_at}
+                                                        {video.approved_video_type == 'star_rating' ? 'Star Approved' : 'Approved'} {video.updated_at}
 
                                                     </p>
                                                     <p

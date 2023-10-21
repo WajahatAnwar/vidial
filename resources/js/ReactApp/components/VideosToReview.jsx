@@ -24,6 +24,8 @@ import VideoTumbnail from "./imges/bureau 11.png";
 import { CircleCancelMajor, CircleTickMajor } from "@shopify/polaris-icons";
 import downloadIcon from "./imges/downloadIcon.png";
 import noVedio from "./imges/film.png";
+import staricon from "./imges/Staricon.svg";
+
 function WaitingVideos() {
     const { pathname,search } = useLocation();
     const [videoFeedback, setVideoFeedback] = useState(
@@ -100,6 +102,8 @@ function WaitingVideos() {
     const [videos, setVideos] = useState([]);
     const [rejectVideoId, setRejectVideoId] = useState(false);
     const [approvedUserVideoId, setapprovedUserVideoId] = useState(false);
+    const [approvedVideoType, setApprovedVideoType] = useState(null);
+
     const [isClicked, setisClicked] = useState(false);
 
     /******** Operation on Videos  ******/
@@ -198,8 +202,9 @@ function WaitingVideos() {
 
     /**** approved video ***/
 
-    const approvedUserVideo = (id) => {
+    const approvedUserVideo = (id, type = null) => {
         setapprovedUserVideoId(id);
+        setApprovedVideoType(type);
 
         setActiveApprovedConfirmModel(true);
     };
@@ -209,9 +214,16 @@ function WaitingVideos() {
         setisClicked(true);
         var formData = new FormData();
         formData.append("video_id", approvedUserVideoId);
+        formData.append("type", approvedVideoType);
+        
 
         if (approvedUserVideoId) {
-            setVideoFeedback("Congratulations, you just approved the video.");
+            if (approvedVideoType == 'star_rating') {
+                setVideoFeedback("Congratulations, you just approved the star rating video.");
+            } else {
+                setVideoFeedback("Congratulations, you just approved the video.");
+
+            }
             setVideoFeedbackPopupTitle("Confirmation for Approving Video");
             fetch("/videoOperation", {
                 method: "post",
@@ -396,7 +408,7 @@ function WaitingVideos() {
                                                                     "6px 12px",
                                                                 borderRadius:
                                                                     "9px",
-                                                                width: "86px",
+                                                                width: "124px",
                                                                 margin: "auto",
                                                                 marginTop:
                                                                     "10px",
@@ -428,7 +440,10 @@ function WaitingVideos() {
                                                                         />
                                                                     </Link>
                                                                 </div>
-                                                                <div>
+                                                                <div style={{
+                                                                    marginRight:
+                                                                        "20px",
+                                                                }}>
                                                                     <Link
                                                                         to={`${pathname}/${search}`}
                                                                         onClick={() => {
@@ -444,6 +459,16 @@ function WaitingVideos() {
                                                                             color="critical"
                                                                         />
                                                                     </Link>
+                                                                </div>
+                                                                <div style={{
+                                                                    cursor: 'pointer'
+                                                                }} onClick={() => {
+                                                                    approvedUserVideo(
+                                                                        video.id,
+                                                                        'star_rating'
+                                                                    );
+                                                                }}>
+                                                                    <img src={staricon} alt="" style={{ width: "20px" }} />
                                                                 </div>
                                                             </div>
                                                         </div>

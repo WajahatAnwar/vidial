@@ -33,7 +33,7 @@ import {
     Toast,
     List,
 } from "@shopify/polaris";
-import { CircleCancelMinor, NoteMinor, CircleCancelMajor, ChevronUpMinor, PlayMinor } from "@shopify/polaris-icons";
+import { CircleCancelMinor, NoteMinor, CircleCancelMajor, ChevronUpMinor, PlayMinor, ConnectMinor, TickMinor } from "@shopify/polaris-icons";
 import {
     DeleteMajor
 } from '@shopify/polaris-icons';
@@ -63,10 +63,10 @@ const Settings = () => {
     const [storeHandleResponse, setStoreHandleResponse] = useState(null);
     const [emailCredsError, setEmailCredsError] = useState(false);
     const [emailCredsMsg, setEmailCredsMsg] = useState('');
-    const [emailCredsToggle, setEmailCredsToggle] = useState(false); 
-    
-   
-    
+    const [emailCredsToggle, setEmailCredsToggle] = useState(false);
+    const [gDConnected, setGDConnected] = useState(true);
+
+
     const [isEmailActive, setIsEmailActive] = useState(false);
     const handleIsEmailActive = useCallback(
         (e) => setIsEmailActive(e),
@@ -93,18 +93,30 @@ const Settings = () => {
     const [instructionSubTitle, setInstructionSubTitle] = useState("Instructions");
     const handleDropzoneText = useCallback((newValue) => setVideoTitle(newValue), []);
     const [senderEmail, setSenderEmail] = useState("");
+    const [gdApi, setGdApi] = useState("");
+    const [gdClientId, setGdClientId] = useState("");
+    const [gdSecretKey, setGdSecretKey] = useState("");
+    const [gdFolder, setGdFolder] = useState("");
+
+
+    const handleSenderApi = useCallback((newValue) => setGdApi(newValue), []);
+    const handleSenderClientId = useCallback((newValue) => setGdClientId(newValue), []);
+    const handleSenderSecKey = useCallback((newValue) => setGdSecretKey(newValue), []);
+    const handleSenderFolder = useCallback((newValue) => setGdFolder(newValue), []);
     const handleSenderEmail = useCallback((newValue) => setSenderEmail(newValue), []);
+
+
     const [mailgunAPI, setMailgunAPI] = useState("");
     const [mailgunDomain, setMailgunDomain] = useState("");
     const [mailgunEndpoint, setMailgunEndpoint] = useState("");
 
-    
+
     const handleMailgunAPI = useCallback((newValue) => setMailgunAPI(newValue), []);
     const handleMailgunDomain = useCallback((newValue) => setMailgunDomain(newValue), []);
     const handleMailgunEndPoint = useCallback((newValue) => setMailgunEndpoint(newValue), []);
     const [title, setTitle] = useState("");
     const handleTitle = useCallback((newValue) => setTitle(newValue), []);
-   
+
     const handleInstruction = useCallback((newValue) => setInstructionSubTitle(newValue), []);
     const [buttonText, setButtonText] = useState(null);
     const handleButtonText = useCallback((newValue) => setButtonText(newValue), []);
@@ -200,8 +212,11 @@ const Settings = () => {
     ];
 
     const [priceValue, setPriceValue] = useState("50");
+    const [starStoreCredit, setStarStoreCredit] = useState("50");
 
     const priceValueHandler = useCallback((value) => setPriceValue(value), []);
+    const priceStarValueHandler = useCallback((value) => setStarStoreCredit(value), []);
+
     const [landingPageValue, setLandingPage] = useState("12");
 
     const landingPageHandler = useCallback(
@@ -231,7 +246,7 @@ const Settings = () => {
     );
     // add row code start
     const [rows, setRows] = useState([]);
-    console.log(rows);
+
 
     const handleAddRow = () => {
         setRows([
@@ -266,8 +281,8 @@ const Settings = () => {
     const [video, setVideo] = useState("");
     const [store, setStore] = useState("");
     const [baseUrl, setBaseUrl] = useState("https://app.vidial.co");
-    // const [baseUrl, setBaseUrl] = useState("https://phpstack-953879-3439374.cloudwaysapps.com");
-    //const [baseUrl, setBaseUrl] = useState("https://51ax6.localto.net");
+    //const [baseUrl, setBaseUrl] = useState("https://phpstack-953879-3439374.cloudwaysapps.com");
+    //const [baseUrl, setBaseUrl] = useState("https://bf00-59-103-104-202.ngrok-free.app");
     const [imagename, setImagename] = useState("");
     const [videoname, setVideoname] = useState("");
     const [previewLogo, setPreviwLogo] = useState("");
@@ -277,6 +292,12 @@ const Settings = () => {
     const [email, setEmail] = useState("");
     const [storeName, setstoreName] = useState("");
     const [successToastVideo, setSuccessToastVideo] = useState("");
+    const [favIcon, setFavIcon] = useState(null);
+    const [favIconPreview, setFavIconPreview] = useState(null);
+    
+    const [gdError, setGdError] = useState(false);
+    const [gdErrorMsg, setGdErrorMsg] = useState('');
+
     // const successToastVideo = active ? (
     //     <Toast content="Settings Saved" onDismiss={true} />
     // ) : null;
@@ -307,19 +328,19 @@ const Settings = () => {
         );
     };
 
-    const setByDefaultSettings = ($columnType,$locale)=>{
-        
-        if($locale == 'en'){
-            if ($columnType =='video_title'){
-            setVideoTitle('Here’s an example of what kind of video you can record:');
+    const setByDefaultSettings = ($columnType, $locale) => {
+
+        if ($locale == 'en') {
+            if ($columnType == 'video_title') {
+                setVideoTitle('Here’s an example of what kind of video you can record:');
             }
-            if ($columnType == 'btn_txt'){
+            if ($columnType == 'btn_txt') {
                 setButtonText('Upload Your Video');
             }
         }
-        else if($locale == 'fr') {
+        else if ($locale == 'fr') {
             if ($columnType == 'video_title') {
-            setVideoTitle('Voici un exemple de vidéo que vous pouvez enregistrer:');
+                setVideoTitle('Voici un exemple de vidéo que vous pouvez enregistrer:');
             }
             if ($columnType == 'btn_txt') {
                 setButtonText('Téléchargez une courte vidéo');
@@ -327,7 +348,7 @@ const Settings = () => {
         }
         else if ($locale == 'de') {
             if ($columnType == 'video_title') {
-            setVideoTitle('Hier ist ein Beispiel für ein Video, das Sie aufnehmen können:');
+                setVideoTitle('Hier ist ein Beispiel für ein Video, das Sie aufnehmen können:');
             }
             if ($columnType == 'btn_txt') {
                 setButtonText('Laden Sie ein kurzes Video hoch');
@@ -335,7 +356,7 @@ const Settings = () => {
         }
         else if ($locale == 'pt') {
             if ($columnType == 'video_title') {
-            setVideoTitle('Aqui está um exemplo de vídeo que você pode gravar:');
+                setVideoTitle('Aqui está um exemplo de vídeo que você pode gravar:');
             }
             if ($columnType == 'btn_txt') {
                 setButtonText('Carregue um breve vídeo');
@@ -343,7 +364,7 @@ const Settings = () => {
         }
         else if ($locale == 'it') {
             if ($columnType == 'video_title') {
-            setVideoTitle('Ecco un esempio di video che potete registrare:');
+                setVideoTitle('Ecco un esempio di video che potete registrare:');
             }
             if ($columnType == 'btn_txt') {
                 setButtonText('Caricare un breve video');
@@ -351,7 +372,7 @@ const Settings = () => {
         }
         else if ($locale == 'es') {
             if ($columnType == 'video_title') {
-            setVideoTitle('Aquí hay un ejemplo de video que puede grabar:');
+                setVideoTitle('Aquí hay un ejemplo de video que puede grabar:');
             }
             if ($columnType == 'btn_txt') {
                 setButtonText('Cargue un breve video');
@@ -360,41 +381,37 @@ const Settings = () => {
 
         return
     }
+    const handleStoreHandle = useCallback((newValue) => {
+        setStoreHandle(newValue);
+        setIsHandleAvailable(true);
+        setStoreHandleState(true);
+        setStoreHandleResponse(null);
+        const formData = new FormData();
+        formData.append('store_handle', newValue);
+        fetch('/check-handle', {
+            method: "POST",
+            body: formData
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.success) {
+                    setIsHandleAvailable(false);
+                    setStoreHandleResponse('Available');
+
+                } else {
+                    setIsHandleAvailable(true);
+                    setStoreHandleResponse('Un Available');
+
+                }
+                setStoreHandleState(false)
+            })
+    }, []);
 
 
-        const handleStoreHandle = useCallback((newValue) => {
-            setStoreHandle(newValue);
-            
-
-            setIsHandleAvailable(true);
-            setStoreHandleState(true);
-            setStoreHandleResponse(null);
-             const formData = new FormData();
-            formData.append('store_handle', newValue);
-              fetch('/check-handle',{
-                method:"POST",
-                  body: formData
-              })
-              .then((response)=> response.json())
-              .then((data)=>{
-                  if (data.success){
-                      setIsHandleAvailable(false);
-                      setStoreHandleResponse('Available');
-
-                  }else{
-                      setIsHandleAvailable(true);
-                      setStoreHandleResponse('Un Available');
-
-                  }
-                  setStoreHandleState(false)
-              })
-        }, []);
-
-
-        /**
-         * Save Merchent Email Creds
-         */
-    const handleSaveEmailCredentials = ()=>{
+    /**
+     * Save Merchent Email Creds
+     */
+    const handleSaveEmailCredentials = () => {
         setEmailCredsError(false);
         setEmailCredsMsg('');
         if (mailgunAPI.length <= 0) {
@@ -402,51 +419,46 @@ const Settings = () => {
             setEmailCredsMsg('Api field is required');
             return;
         }
-        if (senderEmail.length <= 0){
+        if (senderEmail.length <= 0) {
             setEmailCredsError(true);
             setEmailCredsMsg('Email field is required');
             return;
         }
         const domain = getEmailDomain(senderEmail);
 
-        // if (mailgunDomain.length <= 0) {
-        //     setEmailCredsError(true);
-        //     setEmailCredsMsg('Domain field is required');
-        //     return;
-        // }
-        
-        // if (mailgunEndpoint.length <= 0) {
-        //     setEmailCredsError(true);
-        //     setEmailCredsMsg('Endpoint field is required');
-        //     return;
-        // }
-        
         const formData = new FormData();
         formData.append('is_active', emailCredsToggle);
-        formData.append('sender_email',senderEmail);
-        formData.append('api_key',mailgunAPI);
-        formData.append('endpoint', 'https://api.mailgun.net/v3/' + domain +'/messages');
+        formData.append('sender_email', senderEmail);
+        formData.append('api_key', mailgunAPI);
+        formData.append('endpoint', 'https://api.mailgun.net/v3/' + domain + '/messages');
         // formData.append('endpoint', mailgunEndpoint);
         formData.append('domain', domain);
-        fetch('/save-email-creds',{
-            method:"POST",
-            body:formData
+        fetch('/save-email-creds', {
+            method: "POST",
+            body: formData
         })
-        .then((response)=> response.json()).then((data)=>{
-            if (data.success){
-                setSuccessMsg("Settings Added Successfully");
-                toggleActive();
-                setIsSettingSave(new Date().getSeconds());
-            }
-        })
+            .then((response) => response.json()).then((data) => {
+                if (data.success) {
+                    setSuccessMsg("Settings Added Successfully");
+                    toggleActive();
+                    setIsSettingSave(new Date().getSeconds());
+                }
+            })
     }
-    const setterEmailCreds = (data)=>{
+    const setterEmailCreds = (data) => {
         setMailgunAPI(data.data.email_creds.api_secret_key);
         setIsEmailActive(data.data.email_creds.is_active);
         setEmailCredsToggle(data.data.email_creds.is_active);
         setSenderEmail(data.data.email_creds.mail_user_name);
         setMailgunDomain(data.data.email_creds.domain);
         setMailgunEndpoint(data.data.email_creds.endpoint);
+    }
+    const setterGdCreds = (data) => {
+        setGDConnected(true);
+        setGdApi(data.data.gd_creds.api_key);
+        setGdClientId(data.data.gd_creds.client_id);
+        setGdSecretKey(data.data.gd_creds.secret_key);
+        setGdFolder(data.data.gd_creds.folder_name);
     }
 
     function getEmailDomain(email) {
@@ -458,7 +470,41 @@ const Settings = () => {
 
         return domain;
     }
-    
+
+    /******** handle fav icon **********/
+    const handleFavIcon = (e) => {
+        setFavIcon(e.target.files[0]);
+
+    }
+
+    /************** handle Connect to Google Drive **************/
+    const handleConnectGD = () => {
+        setGdError(false);
+        if (gdApi.length <= 0) {
+            setGdError(true);
+            setGdErrorMsg('Api key is required');
+            return;
+        }
+        if (gdClientId.length <= 0) {
+            setGdError(true);
+            setGdErrorMsg('Client id is required');
+            return;
+        }
+        if (gdSecretKey.length <= 0) {
+            setGdError(true);
+            setGdErrorMsg('Secret key is required');
+            return;
+        }
+        if (gdFolder.length <= 0) {
+            setGdError(true);
+            setGdErrorMsg('Folder name is required');
+            return;
+        }
+        let url = baseUrl + `/connect-gd?api_key=${gdApi}&client_id=${gdClientId}
+        &secret_key=${gdSecretKey}&folder_name=${gdFolder}&shop=${store}`
+        window.open(url, '_blank');
+    }
+
     /********  get Settings Data  ******/
     useEffect(() => {
         async function fetchSettings() {
@@ -469,18 +515,19 @@ const Settings = () => {
                 }
                 const data = await response.json();
                 if (data.success) {
-                    console.log(data.data.email_creds);
+                    setFavIconPreview(data.data.fav_icon ?? null);
                     data.data.email_creds ? setterEmailCreds(data) : ''
-                    
+                    data.data.gd_creds ? setterGdCreds(data) : setGDConnected(false)
+
                     setApprovedStoreHandle(data.data.storeHandle);
                     setStoreHandle(data.data.storeHandle);
                     // setting for already existing users
-                    data.data.inspirational_video_title ? setVideoTitle(data.data.inspirational_video_title) 
+                    data.data.inspirational_video_title ? setVideoTitle(data.data.inspirational_video_title)
                         : setByDefaultSettings('video_title', data.data.locale)
                     data.data.video_btn_text ? setButtonText(data.data.video_btn_text)
                         : setByDefaultSettings('btn_txt', data.data.locale)
 
-                        
+
 
                     setToggled(data.data.email_status);
                     setPriceValue(data.data.store_credit);
@@ -492,7 +539,7 @@ const Settings = () => {
                     //setVideoTitle(data.data.dropzone_text)
                     setAlreadyUploadedLogo(data.data.logo)
                     setAlreadyUploadedVideo(data.data.video)
-
+                    setStarStoreCredit(data.data.star_credit);
                     setVideo(data.data.video);
                     setStore(data.data.store);
                     setSelected(data.data?.locale ?? "en");
@@ -544,7 +591,7 @@ const Settings = () => {
         fetchSettings();
     }, [isSettingSave]);
 
-    const languageConvert = (value)=>{
+    const languageConvert = (value) => {
         if (value === "en") {
             setRows([
                 { id: 1, value: "Record a video off up to 30 seconds" },
@@ -631,7 +678,7 @@ const Settings = () => {
             setVideoTitle('Aqui está um exemplo de vídeo que você pode gravar:');
             setButtonText('Carregue um breve vídeo');
 
-            
+
         } else if (value === "it") {
             setRows([
                 { id: 1, value: "Registra un video fino a 30 secondi" },
@@ -679,16 +726,16 @@ const Settings = () => {
 
         }
     }
-   
+
     const handleSelectChange = (value) => {
         setEmailTemplateButton(false);
         setSelected(value);
-        languageConvert(value) 
+        languageConvert(value)
     };
 
     /******** save settings into DB ******/
     const saveSettings = (e) => {
-        
+
         e.preventDefault();
         setIsLoading(true);
         setSuccessMsg('');
@@ -703,24 +750,26 @@ const Settings = () => {
         formData.append("page_color", buttonColorHex);
         formData.append("logo", files.length > 0 ? files[0] : logoImage);
         formData.append("video", filesVideos.length > 0 ? filesVideos[0] : video);
-        
+
         formData.append("setting_status", toggled);
         formData.append("instruction_title", title);
         formData.append("video_title", videoTitle);
         formData.append("instruction_subtitle", instructionSubTitle);
         formData.append("video_btn_text", buttonText);
+        formData.append('fav_icon', favIcon);
+        formData.append('star_credit', starStoreCredit);
         // if (!isHandleAvailable){
         //     formData.append("store_handle", storeHandle);
         // }
 
-        
+
         formData.append("locale", selected);
         if (
             (priceValue == "" ||
                 landingPageValue == "" ||
                 emailSentToValue == "" ||
                 landingPageDisplayedValue == "" ||
-                rows == "",
+                rows == ""
             )
         ) {
             setError(true);
@@ -729,10 +778,8 @@ const Settings = () => {
             // Generating request for sending Data to the server
             fetch("/save_settings", {
                 method: "post",
-
                 body: formData,
-            })
-                .then((response) => response.json())
+            }).then((response) => response.json())
                 .then((data) => {
                     if (data.success) {
                         setIsLoading(false);
@@ -917,7 +964,7 @@ const Settings = () => {
         setFilesVideos([]);
         //console.log('handle Remove thumbnail');
     };
-    const handleDropZoneVideo = useCallback(        
+    const handleDropZoneVideo = useCallback(
         (_dropFiles, acceptedFiles, _rejectedFiles) => {
             setVideo(acceptedFiles[0]);
             //setAlreadyUploadedLogo('');
@@ -935,23 +982,23 @@ const Settings = () => {
 
     }
 
-    const handleSaveStoreHandle = ()=>{
-  
+    const handleSaveStoreHandle = () => {
+
         const formData = new FormData();
-        if(!isHandleAvailable){
+        if (!isHandleAvailable) {
             formData.append('store_handle', storeHandle);
-            fetch('store_handle',{
-            method:"POST",
-            body:formData
-           }).then((response)=>response.json()).then((data)=>{
-                    if(data.success){
-                        setSuccessMsg('save store handle');
-                        toggleActive();
-                        setIsSettingSave(new Date().getSeconds());
-                    }
-           })
+            fetch('store_handle', {
+                method: "POST",
+                body: formData
+            }).then((response) => response.json()).then((data) => {
+                if (data.success) {
+                    setSuccessMsg('save store handle');
+                    toggleActive();
+                    setIsSettingSave(new Date().getSeconds());
+                }
+            })
         }
-        
+
     }
 
     const validVideoTypes = ['video'];
@@ -1087,7 +1134,7 @@ const Settings = () => {
                                 }}
                             >
                                 <Banner
-                                    title= {`Welcome to Vidial, ${storeName} 👋`}
+                                    title={`Welcome to Vidial, ${storeName} 👋`}
 
                                     status="info"
                                     onDismiss={() => { }}
@@ -1326,41 +1373,41 @@ const Settings = () => {
                                         </div>
                                     </div>
                                 </Card>
-                                    <Card sectioned>
-                                        <Text variant="headingLg" as="h5">
-                                            Landing Page URL
-                                        </Text>
-                                        <p
-                                            style={{
-                                                marginTop: "5px",
-                                                marginBottom: "20px",
-                                            }}
-                                        >
-                                            This will be the URL of the Landing Page your customers will land on.
-                                        </p>
+                                <Card sectioned>
+                                    <Text variant="headingLg" as="h5">
+                                        Landing Page URL
+                                    </Text>
+                                    <p
+                                        style={{
+                                            marginTop: "5px",
+                                            marginBottom: "20px",
+                                        }}
+                                    >
+                                        This will be the URL of the Landing Page your customers will land on.
+                                    </p>
 
-                                        <div style={{ display: 'flex', alignItems: "center" }} className="storeHandleParent">
-                                            <div>
-                                           <TextField
-                                            value={storeHandle}
-                                            onChange={(handleStoreHandle)}
-                                            autoComplete="off"
-                                                    prefix={baseUrl.replace('https://','') + '/s/'}
-                                        />
-                                        
-                                            </div>
-                                        <div style={{marginLeft:"13px",}}>
-                                              {
-                                                    storeHandleState ? <Spinner accessibilityLabel="Spinner example" size="large" />
-                                                        : <Button primary disabled={isHandleAvailable} onClick={handleSaveStoreHandle}>Save</Button>
-                                              }
-                                                
-                                               
-                                         </div>
+                                    <div style={{ display: 'flex', alignItems: "center" }} className="storeHandleParent">
+                                        <div>
+                                            <TextField
+                                                value={storeHandle}
+                                                onChange={(handleStoreHandle)}
+                                                autoComplete="off"
+                                                prefix={baseUrl.replace('https://', '') + '/s/'}
+                                            />
 
                                         </div>
-                                        {storeHandleResponse ? <span style={{ marginTop: "10px",display:"inline-block", color: isHandleAvailable ? 'red' : 'green'}}>{storeHandleResponse}</span> : '' }
-                                    </Card>
+                                        <div style={{ marginLeft: "13px", }}>
+                                            {
+                                                storeHandleState ? <Spinner accessibilityLabel="Spinner example" size="large" />
+                                                    : <Button primary disabled={isHandleAvailable} onClick={handleSaveStoreHandle}>Save</Button>
+                                            }
+
+
+                                        </div>
+
+                                    </div>
+                                    {storeHandleResponse ? <span style={{ marginTop: "10px", display: "inline-block", color: isHandleAvailable ? 'red' : 'green' }}>{storeHandleResponse}</span> : ''}
+                                </Card>
                                 <Card sectioned>
                                     <div
                                         style={{
@@ -1371,7 +1418,7 @@ const Settings = () => {
                                     >
                                         <div style={{}}>
                                             <Text variant="headingLg" as="h5">
-                                            What size discount code will you offer to customers for their UGC videos?
+                                                What size discount code will you offer to customers for their UGC videos?
                                             </Text>
                                             <p style={{ marginTop: "15px" }}>
                                                 We recommend offering a minimum
@@ -1397,6 +1444,47 @@ const Settings = () => {
                                             <TextField
                                                 value={priceValue}
                                                 onChange={priceValueHandler}
+                                                autoComplete="off"
+                                            />
+                                        </div>
+                                    </div>
+                                </Card>
+                                <Card sectioned>
+                                    <div
+                                        style={{
+                                            display: "flex",
+                                            alignItems: "center",
+                                            justifyContent: "space-between",
+                                        }}
+                                    >
+                                        <div style={{}}>
+                                            <Text variant="headingLg" as="h5">
+                                                What size discount code will you offer to customers for their UGC Star videos?
+                                            </Text>
+                                            <p style={{ marginTop: "15px" }}>
+                                                We recommend offering a minimum
+                                                of {storeCurrency}50 to improve
+                                                response rates. This can be
+                                                adjusted as necessary, with not
+                                                set minimum limit in place.
+                                            </p>
+                                        </div>
+                                        <div
+                                            className="textFieldjoin"
+                                            style={{
+                                                marginLeft: "204px",
+                                                width: "200px",
+                                                textAlign: "end",
+                                                display: "flex",
+                                                alignItems: "center",
+                                            }}
+                                        >
+                                            <div className="Polaris-TextField__Prefix prefixCustom">
+                                                {storeCurrency}
+                                            </div>
+                                            <TextField
+                                                value={starStoreCredit}
+                                                onChange={priceStarValueHandler}
                                                 autoComplete="off"
                                             />
                                         </div>
@@ -1523,7 +1611,25 @@ const Settings = () => {
                                             </div>
                                         </div>
                                     }
-                                  
+                                    <div>
+                                        <p style={{ marginTop: "5px", marginBottom: "5px" }}>
+                                            Choose Favicon
+                                        </p>
+                                            
+                                    </div>
+                                    <div>
+                                        <input type="file" name="fav_icon" onChange={handleFavIcon}></input>
+                                    </div>
+                                    <div style={{marginTop:"10px"}}>
+                                            {
+                                                favIconPreview ? <Thumbnail
+                                                    size="medium"
+                                                    alt="img"
+                                                    source={favIconPreview}
+                                                />
+                                                    : ''
+                                            }
+                                    </div>
                                     <div
                                         style={{
                                             width: "450px",
@@ -1639,7 +1745,7 @@ const Settings = () => {
                                             Add another instruction
                                         </Button>
                                     </div>
-                                       
+
                                     <div
                                         style={{
                                             display: "flex",
@@ -1652,70 +1758,37 @@ const Settings = () => {
                                             <Text variant="headingLg" as="h5">
                                                 Inspirational Video (optional)
                                             </Text>
-                                                <div
+                                            <div
+                                                style={{
+                                                    width: "450px",
+                                                    marginTop: "20px",
+                                                }}
+                                            >
+
+                                                <p
                                                     style={{
-                                                        width: "450px",
-                                                        marginTop: "20px",
+                                                        marginTop: "5px",
+                                                        marginBottom: "5px",
                                                     }}
                                                 >
+                                                    Inspirational Video Title
+                                                </p>
+                                                <TextField
+                                                    value={videoTitle}
+                                                    onChange={handleDropzoneText}
+                                                    autoComplete="off"
+                                                />
 
-                                                    <p
-                                                        style={{
-                                                            marginTop: "5px",
-                                                            marginBottom: "5px",
-                                                        }}
-                                                    >
-                                                        Inspirational Video Title
-                                                    </p>
-                                                    <TextField
-                                                        value={videoTitle}
-                                                        onChange={handleDropzoneText}
-                                                        autoComplete="off"
-                                                    />
-
-                                                </div>
+                                            </div>
                                             <p style={{ marginTop: "5px", marginBottom: "5px" }}>
                                                 Add a video for your customers
                                                 to get inspired and make a UGC
                                                 almost similar.
                                             </p>
                                         </div>
-                                        {/* <div style={{ textAlign: "end" }}>
-                                            <div class="upload-btn-wrapper">
-                                                <button class="btnCustomUpload">
-                                                    <img
-                                                        style={{
-                                                            marginRight: "10px",
-                                                        }}
-                                                        src={UploadIcon}
-                                                    ></img>
-                                                    Upload Your Video
-                                                </button>
-                                                <input
-                                                    type="file"
-                                                    name="myvideoFile"
-                                                    onChange={videoHandler}
-                                                />
-                                            </div>
-                                            <p>
-                                                {`${videoname}`}{" "}
-                                                {videoname && "uploaded"}{" "}
-                                            </p>
-                                        </div> */}
+
                                     </div>
-                                    {/* {previewVedioHide && (
-                                        <div style={{ width: "108px" }}>
-                                            <video
-                                                width="108"
-                                                height="193"
-                                                src={previewVedio}
-                                                muted
-                                                autoPlay
-                                                loop
-                                            ></video>
-                                            <div onClick={removeInspirationalVideo} > <Icon source={CircleCancelMajor} color="critical" /></div>
-                                        </div>
-                                    )} */}
+
                                     <div style={{ maxWidth: "470px", marginBottom: "20px" }}>
                                         <DropZone onDrop={handleDropZoneVideo} variableHeight allowMultiple={false}>
                                             {uploadedFilesVideos}
@@ -2313,19 +2386,19 @@ const Settings = () => {
                                             <p style={{ marginTop: "5px" }}>
                                                 Customize all the emails your customers will receive
                                             </p>
-                                            
-                                                {
-                                                    emailCredsError ? <Banner>
-                                                        <List type="bullet">
-                                                            {
-                                                                <List.Item>{emailCredsMsg}</List.Item>
 
-                                                            }
+                                            {
+                                                emailCredsError ? <Banner>
+                                                    <List type="bullet">
+                                                        {
+                                                            <List.Item>{emailCredsMsg}</List.Item>
+
+                                                        }
 
 
-                                                        </List>
-                                                    </Banner> : ''
-                                                } 
+                                                    </List>
+                                                </Banner> : ''
+                                            }
                                         </div>
                                         <div
                                             style={{
@@ -2346,62 +2419,62 @@ const Settings = () => {
                                         transition={{ duration: '500ms', timingFunction: 'ease-in-out' }}
                                         expandOnPrint
                                     >
-                                        <div style={{marginTop:"20px"}}></div>
-                                            <div style={{display:"flex",alignItems:"center", marginRight:"5px"}} >
-                                                <EmailCredsToggle toggled={emailCredsToggle} onClick={() => {
-                                                    setEmailCredsToggle(!emailCredsToggle);
-                                                    setEmailCredsError(false);
-                                                }}></EmailCredsToggle>
-                                            
-                                            <p style={{fontWeight:"bold",marginLeft:"5px"}}>Send with your own email</p>
-                                            
-                                     
-                                            </div>
+                                        <div style={{ marginTop: "20px" }}></div>
+                                        <div style={{ display: "flex", alignItems: "center", marginRight: "5px" }} >
+                                            <EmailCredsToggle toggled={emailCredsToggle} onClick={() => {
+                                                setEmailCredsToggle(!emailCredsToggle);
+                                                setEmailCredsError(false);
+                                            }}></EmailCredsToggle>
+
+                                            <p style={{ fontWeight: "bold", marginLeft: "5px" }}>Send with your own email</p>
+
+
+                                        </div>
                                         {
-                                                emailCredsToggle ? 
-                                        <>
-                                                        {/* <Checkbox
+                                            emailCredsToggle ?
+                                                <>
+                                                    {/* <Checkbox
                                             label="Send with your own email"
                                             checked={isEmailActive}
                                             onChange={handleIsEmailActive}
                                         /> */}
-                                        <div
-                                            style={{
-                                                width: "450px",
-                                                marginTop: "10px",
-                                            }}
-                                        >
-
-                                                
-
-                                            <TextField
-                                                value={mailgunAPI}
-                                                onChange={handleMailgunAPI}
-                                                autoComplete="off"
-                                                placeholder="Mailgun API Key"
-                                            />
-                                                            <p style={{ color: "#717171", marginTop: "5px" }}>Paste your <a href="https://www.mailgun.com/blog/product/getting-started-with-mailgun-introduction-to-platform-training/" target="blank" style={{ color: "#008060", textDecoration: "underline" }}>Mailgun</a> API Key here. <a href="https://documentation.mailgun.com/en/latest/index.html" target="blank" style={{color:"#008060",textDecoration:"underline"}}>See how it works</a></p>
-                                        </div>
-                                        <div
-                                            style={{
-                                                width: "450px",
-                                                marginTop: "10px",
-                                            }}
-                                        >
+                                                    <div
+                                                        style={{
+                                                            width: "450px",
+                                                            marginTop: "10px",
+                                                        }}
+                                                    >
 
 
 
-                                            <TextField
-                                                value={senderEmail}
-                                                onChange={handleSenderEmail}
-                                                autoComplete="off"
-                                                placeholder="noreply@vidialapp.com"
-                                            />
-                                            <p style={{color:"#717171",marginTop:"5px"}}>Enter the email address that will be used as the sender.</p>
-                                                
-                                        </div>
+                                                        <TextField
+                                                            value={mailgunAPI}
+                                                            onChange={handleMailgunAPI}
+                                                            autoComplete="off"
+                                                            placeholder="Mailgun API Key"
+                                                        />
+                                                        <p style={{ color: "#717171", marginTop: "5px" }}>Paste your <a href="https://www.mailgun.com/blog/product/getting-started-with-mailgun-introduction-to-platform-training/" target="blank" style={{ color: "#008060", textDecoration: "underline" }}>Mailgun</a> API Key here. <a href="https://documentation.mailgun.com/en/latest/index.html" target="blank" style={{ color: "#008060", textDecoration: "underline" }}>See how it works</a></p>
+                                                    </div>
+                                                    <div
+                                                        style={{
+                                                            width: "450px",
+                                                            marginTop: "10px",
+                                                        }}
+                                                    >
 
-                                            {/* <div
+
+
+                                                        <TextField
+                                                            value={senderEmail}
+                                                            onChange={handleSenderEmail}
+                                                            autoComplete="off"
+                                                            placeholder="noreply@vidialapp.com"
+                                                        />
+                                                        <p style={{ color: "#717171", marginTop: "5px" }}>Enter the email address that will be used as the sender.</p>
+
+                                                    </div>
+
+                                                    {/* <div
                                                 style={{
                                                     width: "450px",
                                                     marginTop: "10px",
@@ -2436,17 +2509,17 @@ const Settings = () => {
                                                 <p style={{ color: "#717171", marginTop: "5px" }}>Enter the Mailgun endpoint.</p>
 
                                             </div> */}
-                                            <div
-                                                style={{
-                                                    width: "450px",
-                                                    marginTop: "10px",
-                                                }}
-                                            >
-                                                <Button  primary onClick={handleSaveEmailCredentials}>Save</Button>
-                                                </div>   
-                                                    </>                                 
-                                               : ''
-                                            }
+                                                    <div
+                                                        style={{
+                                                            width: "450px",
+                                                            marginTop: "10px",
+                                                        }}
+                                                    >
+                                                        <Button primary onClick={handleSaveEmailCredentials}>Save</Button>
+                                                    </div>
+                                                </>
+                                                : ''
+                                        }
                                         <div
                                             style={{
                                                 display: "flex",
@@ -2575,6 +2648,44 @@ const Settings = () => {
 
                                             }}
                                             onClick={() => {
+                                                navigate("/ugc-star-approved")
+
+                                            }}
+                                        >
+                                            <div style={{ width: "550px" }}>
+                                                <Text variant="headingLg" as="h5">
+                                                    UGC Star Approved
+                                                </Text>
+                                                <p style={{ marginTop: "5px" }}>
+                                                    Customize all the emails your customers will receive.
+                                                </p>
+                                            </div>
+                                            <div
+
+                                            >
+                                                <img
+                                                    className=""
+                                                    src={arrowRight}
+                                                    style={{
+                                                        marginTop: "8px",
+                                                    }}
+                                                ></img>
+                                            </div>
+                                        </div>
+                                        <div
+                                            style={{
+                                                display: "flex",
+                                                alignItems: "center",
+                                                justifyContent: "space-between",
+                                                marginBottom: "20px",
+                                                marginTop: "20px",
+                                                border: "1px solid #C9CCCF",
+                                                borderRadius: "10px",
+                                                padding: "8px 20px",
+                                                cursor: "pointer",
+
+                                            }}
+                                            onClick={() => {
                                                 navigate("/ugc-declined-email");
 
                                             }}
@@ -2620,6 +2731,109 @@ const Settings = () => {
                                         <Button primary onClick={handleChatClick}>
                                             Remove The Watermark
                                         </Button>
+                                    </div>
+                                </Card>
+
+                                <Card sectioned>
+                                    {
+                                        gdError ? <Banner>
+                                            <List type="bullet">
+                                                {
+                                                    <List.Item>{gdErrorMsg}</List.Item>
+
+                                                }
+
+
+                                            </List>
+                                        </Banner> : ''
+                                    }
+                                    <div className="googledrivesection">
+                                        <div style={{ marginBottom: "15px" }}>
+                                            <Text variant="headingLg" as="h5">
+                                                Google Drive
+                                            </Text>
+                                        </div>
+                                        {/* <p
+                                            style={{
+                                                marginTop: "15px",
+                                                marginBottom: "15px",
+                                            }}
+                                        >
+                                            Please contact the live support to verify your store and remove our Branding “Powered by Vidial” for FREE.
+                                        </p> */}
+                                        <div style={{ marginTop: "10px", width: "450px" }}>
+                                            <TextField
+                                                value={gdApi}
+                                                onChange={handleSenderApi}
+                                                autoComplete="off"
+                                                placeholder="Set Api Key"
+
+                                            />
+                                        </div>
+
+                                        <div style={{ marginTop: "10px", width: "450px" }}>
+                                            <TextField
+                                                value={gdClientId}
+                                                onChange={handleSenderClientId}
+                                                autoComplete="off"
+                                                placeholder="Set Client Id"
+
+                                            />
+                                        </div>
+
+                                        <div style={{ marginTop: "10px", width: "450px" }}>
+
+                                            <TextField
+                                                value={gdSecretKey}
+                                                onChange={handleSenderSecKey}
+                                                autoComplete="off"
+                                                placeholder="Set Secret Key"
+                                            />
+                                        </div>
+
+                                        <div style={{ marginTop: "10px", width: "450px" }}>
+
+                                            <TextField
+                                                value={gdFolder}
+                                                onChange={handleSenderFolder}
+                                                autoComplete="off"
+                                                placeholder="Folder Name"
+                                            />
+
+                                        </div>
+
+                                        <div style={{ marginTop: "10px", width: "450px" }}>
+
+                                            <TextField
+                                                value={baseUrl + '/google-login'}
+                                                autoComplete="off"
+                                                disabled
+                                                placeholder={baseUrl + '/google-login'}
+                                            />
+
+                                        </div>
+
+                                        <div style={{ marginTop: "20px" }}>
+                                            {
+                                                gDConnected ?
+                                                        
+                                                        <Button info >
+                                                            <div style={{display:"flex"}} >
+                                                            
+                                                                <div>Connected</div>
+                                                                <div>
+                                                                    <Icon
+                                                                        source={TickMinor}
+                                                                        color="base"
+                                                                    />
+                                                                </div>
+                                                            </div>
+                                                    </Button>
+                                                    : <Button primary onClick={handleConnectGD}>
+                                                        Connect
+                                                    </Button>
+                                            }
+                                        </div>
                                     </div>
                                 </Card>
                                 <div

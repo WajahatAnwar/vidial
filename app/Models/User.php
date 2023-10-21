@@ -29,7 +29,9 @@ class User extends Authenticatable implements IShopModel
         'init_flag',
         'remaining_email',
         'remaining_videos',
-        'store_handle'
+        'store_handle',
+        'gd_access_token',
+        'star_credit'
     ];
 
     /**
@@ -76,6 +78,10 @@ class User extends Authenticatable implements IShopModel
 
     public function emailCreds(){
         return $this->hasOne(EmailCredentials::class);
+    }
+
+    public function googleDriveCreds(){
+        return $this->hasOne(GoogleDriveCred::class);
     }
 
     /**** Accessors ***/
