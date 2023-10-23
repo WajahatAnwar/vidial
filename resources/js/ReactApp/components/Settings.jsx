@@ -469,6 +469,13 @@ const Settings = () => {
         setGdFolder(data.data.gd_creds.folder_name);
     }
 
+    /******* setter for klavio *********/
+    const setterKlavio = (data) => {
+        setKlavioConnected(true);
+        setKlavioApi(data.data.klavio.api_key);
+        setKlavioEmail(data.data.klavio.email);
+    }
+
     function getEmailDomain(email) {
         // Find the index of the "@" symbol
         const atIndex = email.indexOf("@");
@@ -515,6 +522,7 @@ const Settings = () => {
 
     /************** handle Connect to Klavio **************/
     const handleConnectKlavio = () => {
+       
         setKlavioError(false);
         if (klavioApi.length <= 0) {
             setKlavioError(true);
@@ -526,6 +534,16 @@ const Settings = () => {
             setKlavioErrorMsg('Email is required');
             return;
         }
+
+        const formData = new FormData();
+        formData.append('api_key', klavioApi);
+        formData.append('email', klavioEmail);
+        fetch('save-klavio-settings',{
+            body:formData,
+            method:'POST'
+        }).then(response=>response.json()).then((data)=>{
+             console.log(data);
+        })
     }
 
     /********  get Settings Data  ******/
@@ -543,7 +561,7 @@ const Settings = () => {
                     setFavIconPreview(data.data.fav_icon ?? null);
                     data.data.email_creds ? setterEmailCreds(data) : ''
                     data.data.gd_creds ? setterGdCreds(data) : setGDConnected(false)
-                    data.data.gd_creds ? setterGdCreds(data) : setKlavioConnected(false)
+                    data.data.klavio ? setterKlavio(data) : setKlavioConnected(false)
 
                     setApprovedStoreHandle(data.data.storeHandle);
                     setStoreHandle(data.data.storeHandle);
