@@ -20,10 +20,13 @@ class KlavioPostPurchaseEventJob implements ShouldQueue
      */
     public $shop =null;
     public $api_key = null;
-    public function __construct($shop,$api_key)
+    public $email = null;
+    public $order = null;
+    public function __construct($shop,$api_key,$email,$order)
     {
         $this->shop = $shop;
         $this->api_key = $api_key;
+        $this->order = $order;
     }
 
     /**
@@ -34,39 +37,45 @@ class KlavioPostPurchaseEventJob implements ShouldQueue
     public function handle()
     {
         $client = new \GuzzleHttp\Client();
+
+        // Create the data structure as an associative array
+        $data = [
+            "data" => [
+                "type" => "event",
+                "attributes" => [
+                    "properties" => [
+                        "newKey" => "New Value"
+                    ],
+                    "metric" => [
+                        "data" => [
+                            "type" => "metric",
+                            "attributes" => [
+                                "name" => "Post Purchase ".$this->order['order_id']
+                            ]
+                        ]
+                    ],
+                    "profile" => [
+                        "data" => [
+                            "type" => "profile",
+                            "attributes" => [
+                                "email" => $this->email, // Replace with your dynamic variable
+                                "properties" => [
+                                    "newKey" => "New Value"
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ];
+
+        // Convert the array to a JSON string
+        $jsonBody = json_encode($data);
+
         $response = $client->request('POST', 'https://a.klaviyo.com/api/events/', [
-            'body' => '{
-  "data": {
-    "type": "event",
-    "attributes": {
-      "properties": {
-        "newKey": "New Value"
-      },
-      "metric": {
-        "data": {
-          "type": "metric",
-          "attributes": {
-            "name": "Post Purchase Vidial"
-          }
-        }
-      },
-      "profile": {
-        "data": {
-          "type": "profile",
-          "attributes": {
-            "email": "ali.swishtag@gmail.com",
-            "properties": {
-              "newKey": "New Value"
-            }
-          }
-          
-        }
-      }
-    }
-  }
-}',
+            'body' => $jsonBody,
             'headers' => [
-                'Authorization' => 'Klaviyo-API-Key '.$this->api_key.'',
+                'Authorization' => 'Klaviyo-API-Key ' . $this->api_key,
                 'accept' => 'application/json',
                 'content-type' => 'application/json',
                 'revision' => '2023-10-15',
@@ -75,4 +84,5 @@ class KlavioPostPurchaseEventJob implements ShouldQueue
 
         return $response->getBody()->getContents();
     }
+
 }
