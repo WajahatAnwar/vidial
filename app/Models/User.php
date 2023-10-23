@@ -84,11 +84,17 @@ class User extends Authenticatable implements IShopModel
         return $this->hasOne(GoogleDriveCred::class);
     }
 
+    public function klavio(){
+        return $this->hasOne(KlavioCredential::class);
+    }
+
     /**** Accessors ***/
     
     public function getFormattedCreatedAtAttribute()
     {
         return $this->created_at->format(config('constants.date_format')); // Customize the format as needed
     }
+
+
 
 }

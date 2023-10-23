@@ -2,15 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\EmailCredentials;
-use App\Models\EmailTemplate;
 use App\Models\Log;
 use App\Models\User;
 use App\Models\Setting;
 use Illuminate\Http\Request;
+use App\Models\EmailTemplate;
+use App\Models\EmailCredentials;
+use App\Models\KlavioCredential;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Crypt;
 
 
 class SettingsController extends Controller
@@ -83,7 +85,7 @@ class SettingsController extends Controller
     public function getSettings(){
 
         $data= Setting::where('user_id',Auth::user()->id)->first();
-        $store = User::where('id', Auth::user()->id)->with('emailCreds', 'googleDriveCreds')->first();
+        $store = User::where('id', Auth::user()->id)->with('emailCreds', 'googleDriveCreds','klavio')->first();
         //$store=User::find(Auth::user()->id)->with('emailCreds');
         $emailCreds = $store->emailCreds;
         if($data){
@@ -99,6 +101,7 @@ class SettingsController extends Controller
         $data['store_currency']= getCurrencySymbol($store->store_currency);
         $data['email_creds'] = $emailCreds;
         $data['gd_creds'] = $store->googleDriveCreds;
+        $data['klavio'] = $store->klavio;
         return response()->json([
             'success' => true,
             'message' => "Settings get Successfully",
@@ -475,6 +478,21 @@ class SettingsController extends Controller
             'endpoint' => $request->endpoint,
             'domain' => $request->domain,
             'user_id'=>Auth::user()->id
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => "Settings saved",
+            'data' => null
+        ]);
+
+      }
+
+      /************* save klavio credentials ****************/
+      public function saveKlavioCreds(Request $request){
+        KlavioCredential::updateOrCreate(['user_id' => Auth::user()->id],[
+            'api_key' => Crypt::encrypt($request->api_key),
+            'email' => $request->email,
         ]);
 
         return response()->json([

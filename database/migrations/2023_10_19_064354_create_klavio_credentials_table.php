@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->longText('api_key');
             $table->unsignedBigInteger('user_id');
+            $table->string('email')->nullable();
             $table->timestamps();
         });
     }
