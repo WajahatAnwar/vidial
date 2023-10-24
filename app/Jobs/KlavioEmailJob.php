@@ -9,7 +9,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
-class KlavioPostPurchaseEventJob implements ShouldQueue
+class KlavioEmailJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -18,16 +18,19 @@ class KlavioPostPurchaseEventJob implements ShouldQueue
      *
      * @return void
      */
-    public $shop =null;
     public $api_key = null;
     public $email = null;
     public $order = null;
-    public function __construct($shop,$api_key,$email,$order)
+    public $eventName = null;
+    public $video = null;
+    public $video_id = null;
+    public function __construct($api_key,$email,$order=null,$video=null,$video_id=null)
     {
-        $this->shop = $shop;
         $this->api_key = $api_key;
         $this->order = $order;
         $this->email = $email;
+        $this->video = $video;
+        $this->video_id = $video_id;
     }
 
     /**
@@ -38,7 +41,7 @@ class KlavioPostPurchaseEventJob implements ShouldQueue
     public function handle()
     {
         $client = new \GuzzleHttp\Client();
-
+        $this->eventName = $this->order ? 'Post Purchase '.$this->order['order_id'] : $this->video['type']. $this->video_id;
         $data = [
             "data" => [
                 "type" => "event",
@@ -50,7 +53,7 @@ class KlavioPostPurchaseEventJob implements ShouldQueue
                         "data" => [
                             "type" => "metric",
                             "attributes" => [
-                                "name" => "Post Purchase ".$this->order['order_id'],
+                                "name" => $this->eventName,
                             ]
                         ]
                     ],
