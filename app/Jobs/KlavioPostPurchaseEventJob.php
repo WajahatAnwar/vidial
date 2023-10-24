@@ -27,6 +27,7 @@ class KlavioPostPurchaseEventJob implements ShouldQueue
         $this->shop = $shop;
         $this->api_key = $api_key;
         $this->order = $order;
+        $this->email = $email;
     }
 
     /**
