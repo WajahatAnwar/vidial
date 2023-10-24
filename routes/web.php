@@ -1,17 +1,17 @@
 <?php
 
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\CampaignController;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\EmailController;
-use App\Http\Controllers\GoogleDriveController;
-use App\Http\Controllers\OrdersController;
-use App\Http\Controllers\SettingsController;
+use App\Models\Orders;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\VideoController;
-use App\Http\Controllers\InstallationController;
 use Illuminate\Support\Facades\Artisan;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\EmailController;
+use App\Http\Controllers\VideoController;
+use App\Http\Controllers\OrdersController;
+use App\Http\Controllers\CampaignController;
+use App\Http\Controllers\SettingsController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\GoogleDriveController;
 
 /*
 |--------------------------------------------------------------------------
@@ -135,53 +135,16 @@ Route::group(['middleware' => 'verify.shopify'], function () {
     Route::get('update-app', [DashboardController::class, 'updateApp']);
     Route::post('save-klavio-settings', [SettingsController::class, 'saveKlavioCreds'])->name('connect.klavio');
     Route::get('test',function(){
-        $client = new \GuzzleHttp\Client();
-        $api_key = 'pk_f79264c1cd85dae3902cb4874f0e1132da';
-        $email = 'ali.swishtag@gmail.com';
-        // Create the data structure as an associative array
-        $data = [
-            "data" => [
-                "type" => "event",
-                "attributes" => [
-                    "properties" => [
-                        "newKey" => "New Value"
-                    ],
-                    "metric" => [
-                        "data" => [
-                            "type" => "metric",
-                            "attributes" => [
-                                "name" => "Post Purchase Vidial 3"
-                            ]
-                        ]
-                    ],
-                    "profile" => [
-                        "data" => [
-                            "type" => "profile",
-                            "attributes" => [
-                                "email" => $email, // Replace with your dynamic variable
-                                "properties" => [
-                                    "newKey" => "New Value"
-                                ]
-                            ]
-                        ]
-                    ]
-                ]
-            ]
-        ];
+        $order_list = Orders::with('marchent')->whereHas('marchent', function ($query) {
 
-        // Convert the array to a JSON string
-        $jsonBody = json_encode($data);
-
-        $response = $client->request('POST', 'https://a.klaviyo.com/api/events/', [
-            'body' => $jsonBody,
-            'headers' => [
-                'Authorization' => 'Klaviyo-API-Key ' . $api_key,
-                'accept' => 'application/json',
-                'content-type' => 'application/json',
-                'revision' => '2023-10-15',
-            ],
-        ]);
-        dd($response->getBody()->getContents(), $response->getBody());
+            $query->whereHas('settings', function ($subQuery) {
+                $subQuery->where('email_status', '=', 'true');
+            });
+        })
+            ->where('remaining_mail', '>', 0)
+            ->where('replied', '=', 0)
+            ->get();
+            dd($order_list);
     });
     
     
