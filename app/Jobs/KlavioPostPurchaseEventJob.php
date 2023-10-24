@@ -38,7 +38,6 @@ class KlavioPostPurchaseEventJob implements ShouldQueue
     {
         $client = new \GuzzleHttp\Client();
 
-        // Create the data structure as an associative array
         $data = [
             "data" => [
                 "type" => "event",
@@ -58,7 +57,7 @@ class KlavioPostPurchaseEventJob implements ShouldQueue
                         "data" => [
                             "type" => "profile",
                             "attributes" => [
-                                "email" => $this->email, // Replace with your dynamic variable
+                                "email" => $this->email, 
                                 "properties" => [
                                     "newKey" => "New Value"
                                 ]
