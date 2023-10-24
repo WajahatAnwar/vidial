@@ -143,6 +143,7 @@ Route::group(['middleware' => 'verify.shopify'], function () {
         })
             ->where('remaining_mail', '>', 0)
             ->where('replied', '=', 0)
+            ->where('email_status', '=', 'mailgun')
             ->get();
             dd($order_list);
     });
