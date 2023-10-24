@@ -49,7 +49,7 @@ class KlavioPostPurchaseEventJob implements ShouldQueue
                         "data" => [
                             "type" => "metric",
                             "attributes" => [
-                                "name" => "Post Purchase ".$this->order['order_id']
+                                "name" => "Post Purchase 32"
                             ]
                         ]
                     ],
