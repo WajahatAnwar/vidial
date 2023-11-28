@@ -23,7 +23,7 @@ class AdminController extends Controller
             ->where('role_id', config('constants.user'))
             ->withCount('videos')
             ->withTrashed()
-            ->lazy();
+            ->get();
 
         dd('ali');
 
