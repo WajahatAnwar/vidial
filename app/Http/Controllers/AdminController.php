@@ -27,7 +27,7 @@ class AdminController extends Controller
             ->withTrashed()
             ->lazy();
 
-        dd($user_info);
+        dd($user_info->toArray());
 
         $store_list = [];
         
