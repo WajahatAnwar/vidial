@@ -35,7 +35,7 @@ function AdminDashboard(props) {
 
     const navigate = useNavigate();
     const [pagination, setPagination] = useState({
-        path: 'getDataofallPlans',
+        path: url('getDataofallPlans'),
         next_cursor: null,
         next_page_url: null,
         prev_cursor: null,
