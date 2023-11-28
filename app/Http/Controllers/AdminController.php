@@ -52,19 +52,19 @@ class AdminController extends Controller
             }
         }
         $info = $user_info->toArray();
-        dd($info['path']);
+       
         //  return $user_info->next_cursor;
         return response()->json([
             'success' => true,
             'message' => 'User Plan Shown',
             'user_details' => $store_list,
             'pagination' => [
-                'next_cursor' => $user_info->next_cursor,
-                'next_page_url' => $user_info->next_page_url,
-                'path' => $user_info->path,
-                'per_page' => $user_info->per_page,
-                'prev_cursor' => $user_info->prev_cursor,
-                'prev_page_url' => $user_info->prev_page_url
+                'next_cursor' => $info['next_cursor'],
+                'next_page_url' => $info['next_page_url'],
+                'path' => $info['path'],
+                'per_page' => $info['per_page'],
+                'prev_cursor' => $info['prev_cursor'],
+                'prev_page_url' => $info['prev_page_url']
             ]
         ]);
     }
