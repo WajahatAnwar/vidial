@@ -56,6 +56,14 @@ class AdminController extends Controller
             'success' => true,
             'message' => 'User Plan Shown',
             'user_details' => $store_list,
+            'pagination' => [
+                'next_cursor' => $user_info->next_cursor,
+                'next_page_url' => $user_info->next_page_url,
+                'path' => $user_info->path,
+                'per_page' => $user_info->per_page,
+                'prev_cursor' => $user_info->prev_cursor,
+                'prev_page_url' => $user_info->prev_page_url
+            ]
         ]);
     }
 
