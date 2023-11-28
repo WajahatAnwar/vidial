@@ -24,6 +24,7 @@ class AdminController extends Controller
             ->withCount('videos')
             ->withTrashed()
             ->lazy();
+            dd($user_info);
 
         $store_list = [];
         
