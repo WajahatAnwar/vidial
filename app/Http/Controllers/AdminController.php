@@ -25,6 +25,7 @@ class AdminController extends Controller
             ->withCount('videos')
             ->withTrashed()
             ->cursorPaginate($request->page_count);
+            dd($user_info);
 
         $store_list = [];
         
