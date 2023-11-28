@@ -138,8 +138,9 @@ function AdminDashboard(props) {
         if (currentCursor) {
             url.searchParams.set('cursor', currentCursor);
         }
+        console.log(url);
         setResponseState('pending');
-        fetch("/getDataofallPlans", {
+        fetch(url, {
             method: "GET",
         }).then((response) => {
             if (!response.ok) {
