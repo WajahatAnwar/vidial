@@ -20,7 +20,7 @@ class AdminController extends Controller
     public function fetchingdataofusers()
     {
         $user_info = User::with(['plan', 'videos_count','mail_count' => function($q) {
-            $q->chunk(100);
+            $q->lazy();
         }])
             ->where('role_id', config('constants.user'))
             ->withCount('videos')
