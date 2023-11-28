@@ -19,13 +19,13 @@ class AdminController extends Controller
     }
     public function fetchingdataofusers()
     {
-       
+        dd(User::all());
         $user_info = User::with(['plan', 'videos_count', 'mail_count'])
             ->where('role_id', config('constants.user'))
             ->withCount('videos')
             ->withTrashed()
             ->get();
-        dd(User::all());
+        
         $store_list = [];
         
         foreach ($user_info as $user) {
