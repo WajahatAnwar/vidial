@@ -51,7 +51,8 @@ class AdminController extends Controller
                 ];
             }
         }
-        dd($user_info->toArray());
+        $info = $user_info->toArray();
+        dd($info['path']);
         //  return $user_info->next_cursor;
         return response()->json([
             'success' => true,
