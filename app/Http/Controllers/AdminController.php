@@ -22,7 +22,7 @@ class AdminController extends Controller
         $users = User::all();
        
         foreach ($users as $key => $user) {
-            echo $user->mail_count ? $user->id : 'no id';
+            echo $user->mail_count;
         }
 
         die();
