@@ -40,13 +40,15 @@ Route::post('/reset-password', [AuthController::class, 'resetPasswordAction']);
 Route::post('/set-password', [AuthController::class, 'setPassword']);
 Route::get('/getSession', [AuthController::class, 'getSession']);
 
+Route::get('getDataofallPlans', [AdminController::class, 'fetchingdataofusers']);
+
 Route::middleware(['auth'])->group(function () {
 
     Route::get('/', function () {
       
         return view('non_embedded');
     });
-    Route::get('getDataofallPlans', [AdminController::class, 'fetchingdataofusers']);
+   
     Route::post('update_status_for_water_mark', [AdminController::class, 'update_status_for_water_mark']);
 
 });
