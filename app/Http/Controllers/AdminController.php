@@ -19,7 +19,7 @@ class AdminController extends Controller
     }
     public function fetchingdataofusers()
     {
-        dd(User::with('mail_count')->get());
+        dd(User::with('mail_count')->where('id',2)->get());
         // $user_info = User::with(['plan', 'videos_count', 'mail_count'])
         //     ->get();
         $user_info = User::with(['plan', 'videos_count'])
