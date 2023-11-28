@@ -51,7 +51,7 @@ class AdminController extends Controller
                 ];
             }
         }
-         return $user_info;
+         return $user_info->next_cursor;
         return response()->json([
             'success' => true,
             'message' => 'User Plan Shown',
