@@ -24,7 +24,7 @@ class AdminController extends Controller
             ->where('role_id', config('constants.user'))
             ->withCount('videos')
             ->withTrashed()
-            ->cursorPaginate($request->page_count);
+            ->cursorPaginate(10);
             dd($user_info);
 
         $store_list = [];
