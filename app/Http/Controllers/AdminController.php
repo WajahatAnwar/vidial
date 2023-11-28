@@ -24,9 +24,10 @@ class AdminController extends Controller
         $users = User::all();
 
         $temp = array();
-        // foreach ($users as $key => $user) {
-        //     array_push($temp, count($user->mail_count));
-        // }
+        foreach ($users as $key => $user) {
+            
+            array_push($temp, 1);
+        }
 
         return response()->json([
             'success' => true,
