@@ -23,9 +23,7 @@ class AdminController extends Controller
             ->where('role_id', config('constants.user'))
             ->withCount('videos')
             ->withTrashed()
-            ->get();
-
-        dd('ali');
+            ->lazy();
 
         $store_list = [];
         
@@ -56,7 +54,7 @@ class AdminController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'User Plan Shown',
-            'user_details' => $store_list,
+            // 'user_details' => $store_list,
         ]);
     }
 
