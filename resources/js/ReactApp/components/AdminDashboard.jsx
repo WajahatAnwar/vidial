@@ -148,8 +148,6 @@ function AdminDashboard(props) {
             }
             return response.json();
         }).then((data) => {
-            console.log(data.user_details);
-            console.log('data.user_details');
             setUsers(data.user_details);
             setResponseState(null);
 
@@ -200,7 +198,7 @@ function AdminDashboard(props) {
 
         
 
-    }, []);
+    }, [reload]);
 
     function handlewatermark(id, status) {
         const requestData = {
