@@ -19,11 +19,10 @@ class AdminController extends Controller
     }
     public function fetchingdataofusers()
     {
-        $users = User::with('mail_count')->get();
-        dd($users);
+        $users = User::all();
+       
         foreach ($users as $key => $user) {
-            echo 'id :'.$user['id'] . '<br>';
-            // echo $user->mail_count->count();
+            echo $user->mail_count;
         }
 
         die();
