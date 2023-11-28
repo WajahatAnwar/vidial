@@ -1,17 +1,17 @@
 <?php
 
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\CampaignController;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\EmailController;
-use App\Http\Controllers\GoogleDriveController;
-use App\Http\Controllers\OrdersController;
-use App\Http\Controllers\SettingsController;
+use App\Models\Orders;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\VideoController;
-use App\Http\Controllers\InstallationController;
 use Illuminate\Support\Facades\Artisan;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\EmailController;
+use App\Http\Controllers\VideoController;
+use App\Http\Controllers\OrdersController;
+use App\Http\Controllers\CampaignController;
+use App\Http\Controllers\SettingsController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\GoogleDriveController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,9 +23,6 @@ use Illuminate\Support\Facades\Artisan;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('getDataofallPlans', [AdminController::class, 'fetchingdataofusers']);
-
 
 Route::get(
     '/app-install',
@@ -43,14 +40,13 @@ Route::post('/reset-password', [AuthController::class, 'resetPasswordAction']);
 Route::post('/set-password', [AuthController::class, 'setPassword']);
 Route::get('/getSession', [AuthController::class, 'getSession']);
 
-
 Route::middleware(['auth'])->group(function () {
 
     Route::get('/', function () {
       
         return view('non_embedded');
     });
-   
+    Route::get('getDataofallPlans', [AdminController::class, 'fetchingdataofusers']);
     Route::post('update_status_for_water_mark', [AdminController::class, 'update_status_for_water_mark']);
 
 });
@@ -137,7 +133,20 @@ Route::group(['middleware' => 'verify.shopify'], function () {
     Route::post('store_handle', [SettingsController::class, 'saveHandle']);
     Route::post('save-email-creds', [SettingsController::class, 'saveEmailCredentials']);
     Route::get('update-app', [DashboardController::class, 'updateApp']);
+    Route::post('save-klavio-settings', [SettingsController::class, 'saveKlavioCreds'])->name('connect.klavio');
+    Route::get('test',function(){
+        $order_list = Orders::with('marchent')->whereHas('marchent', function ($query) {
 
+            $query->whereHas('settings', function ($subQuery) {
+                $subQuery->where('email_status', '=', 'true');
+            });
+        })
+            ->where('remaining_mail', '>', 0)
+            ->where('replied', '=', 0)
+            ->where('email_service', '=', 'mailgun')
+            ->get();
+            dd($order_list);
+    });
     
     
     
