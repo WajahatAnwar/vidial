@@ -22,7 +22,8 @@ class AdminController extends Controller
         $users = User::all();
        
         foreach ($users as $key => $user) {
-            echo $user->mail_count ? $user->mail_count->count() : 0 . "<br>";
+            Log::info(json_encode($user));
+            // echo $user->mail_count ? $user->mail_count->count() : 0 ;
             // return count();
         }
 
