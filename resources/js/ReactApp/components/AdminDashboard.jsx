@@ -148,8 +148,9 @@ function AdminDashboard(props) {
             }
             return response.json();
         }).then((data) => {
-            console.log(data.user_details);
+            console.log(data);
             console.log('data.user_details');
+            return
             setUsers(data.user_details);
             setResponseState(null);
 
