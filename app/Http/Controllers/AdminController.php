@@ -21,12 +21,12 @@ class AdminController extends Controller
     }
     public function fetchingdataofusers()
     {
-        return $users = User::all();
+        $users = User::all();
 
         $temp = array();
-        foreach ($users as $key => $user) {
-            array_push($temp, count($user->mail_count));
-        }
+        // foreach ($users as $key => $user) {
+        //     array_push($temp, count($user->mail_count));
+        // }
 
         return response()->json([
             'success' => true,
