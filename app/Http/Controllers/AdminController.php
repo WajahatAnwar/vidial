@@ -11,6 +11,7 @@ use Mailgun\Mailgun;
 use App\Models\Video;
 use Illuminate\Http\Request;
 use App\Models\EmailTemplate;
+use Illuminate\Support\Facades\Log as FacadesLog;
 
 class AdminController extends Controller
 {
@@ -22,7 +23,7 @@ class AdminController extends Controller
         $users = User::all();
        
         foreach ($users as $key => $user) {
-            Log::info(json_encode($user));
+            FacadesLog::info(json_encode($user));
             // echo $user->mail_count ? $user->mail_count->count() : 0 ;
             // return count();
         }
