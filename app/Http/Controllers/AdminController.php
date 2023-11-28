@@ -24,7 +24,7 @@ class AdminController extends Controller
             ->where('role_id', config('constants.user'))
             ->withCount('videos')
             ->withTrashed()
-            ->get();
+            ->lazy();
 
         $store_list = [];
         
