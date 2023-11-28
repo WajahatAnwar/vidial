@@ -25,7 +25,7 @@ class AdminController extends Controller
             ->withCount('videos')
             ->withTrashed()
             ->get();
-        dd($user_info);
+        dd(User::all());
         $store_list = [];
         
         foreach ($user_info as $user) {
