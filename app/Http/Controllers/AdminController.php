@@ -21,14 +21,13 @@ class AdminController extends Controller
     public function fetchingdataofusers()
     {
         $users = User::all();
-       
+
+        $temp = array();
         foreach ($users as $key => $user) {
-            FacadesLog::info("JANG START HA");
-            FacadesLog::info(count($user->mail_count));
-            
-            // echo $user->mail_count ? $user->mail_count->count() : 0 ;
-            // return count();
+            array_push($temp, count($user->mail_count));
         }
+
+        return $temp;
 
         die();
         // $user_info = User::with(['plan', 'videos_count', 'mail_count'])
@@ -40,14 +39,14 @@ class AdminController extends Controller
             ->get();
         dd($user_info);
         $store_list = [];
-        
+
         foreach ($user_info as $user) {
             $video_count = Video::where("status", config('constants.video_approved'))->where("user_id", $user->id)->count();
-            
+
             $approved_videos_count = $user->videos_count;
             $plan_info = $user->plan;
             $send_mail_count = $user->mail_count->count();
-            
+
             if ($user) {
                 $store_list[] = [
                     'id' => $user->id,
@@ -56,10 +55,10 @@ class AdminController extends Controller
                     'approved_video' => $video_count,
                     'email_send' => $send_mail_count,
                     'Watermark' => $user->water_mark,
-                    'install_date'=>$user->formatted_created_at,
-                    'install_status'=> $user->deleted_at ? 0 : 1,
-                    'store_email'=> $user->email,
-                    'customers_count'=> $this->customersCount($user)
+                    'install_date' => $user->formatted_created_at,
+                    'install_status' => $user->deleted_at ? 0 : 1,
+                    'store_email' => $user->email,
+                    'customers_count' => $this->customersCount($user)
                 ];
             }
         }
@@ -94,21 +93,21 @@ class AdminController extends Controller
         $user = User::find(7);
         try {
             $customersCount = $user->api()->rest('GET', '/admin/api/2023-07/customers/count.json')['body'];
-            if(isset($customersCount['count'])){
+            if (isset($customersCount['count'])) {
                 return $customersCount['count'];
             }
             return false;
         } catch (Exception $e) {
             return $e->getMessage();
         }
-        
     }
 
     /**
      * get count of customers
      */
 
-     public function customersCount($user){
+    public function customersCount($user)
+    {
         try {
             $customersCount = $user->api()->rest('GET', '/admin/api/2023-07/customers/count.json')['body'];
             if (isset($customersCount['count'])) {
@@ -118,5 +117,5 @@ class AdminController extends Controller
         } catch (Exception $e) {
             return $e->getMessage();
         }
-     }
+    }
 }
