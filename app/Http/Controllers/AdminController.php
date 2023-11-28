@@ -24,7 +24,8 @@ class AdminController extends Controller
        
         foreach ($users as $key => $user) {
             FacadesLog::info("JANG START HA");
-            FacadesLog::info(json_encode($user->mail_count));
+            FacadesLog::info(count($user->mail_count));
+            
             // echo $user->mail_count ? $user->mail_count->count() : 0 ;
             // return count();
         }
