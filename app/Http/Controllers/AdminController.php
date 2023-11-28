@@ -19,7 +19,7 @@ class AdminController extends Controller
     }
     public function fetchingdataofusers()
     {
-        dd(Log::all());
+        dd(Log::lazy()->first());
         $user_info = User::with(['plan', 'videos_count','mail_count'])
             ->where('role_id', config('constants.user'))
             ->withCount('videos')
