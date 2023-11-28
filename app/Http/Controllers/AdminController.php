@@ -21,7 +21,7 @@ class AdminController extends Controller
     }
     public function fetchingdataofusers()
     {
-        $users = User::all();
+        return $users = User::all();
 
         $temp = array();
         foreach ($users as $key => $user) {
