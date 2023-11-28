@@ -19,8 +19,8 @@ class AdminController extends Controller
     }
     public function fetchingdataofusers()
     {
-        dd(Log::all());
-        $user_info = User::with(['plan', 'videos_count'])
+        
+        $user_info = User::with(['plan', 'videos_count','mail_count'])
             ->where('role_id', config('constants.user'))
             ->withCount('videos')
             ->withTrashed()
