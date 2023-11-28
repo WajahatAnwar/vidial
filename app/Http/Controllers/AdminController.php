@@ -12,6 +12,7 @@ use App\Models\Video;
 use Illuminate\Http\Request;
 use App\Models\EmailTemplate;
 use Illuminate\Support\Facades\Log as FacadesLog;
+use Mailgun\Model\Message\SendResponse;
 
 class AdminController extends Controller
 {
@@ -27,7 +28,13 @@ class AdminController extends Controller
             array_push($temp, count($user->mail_count));
         }
 
-        return $temp;
+        return response()->json([
+            'success' => true,
+            'message' => 'User Plan Shown',
+            'user_details' => $users,
+            'mail_count' => $temp
+        ]);
+
 
         die();
         // $user_info = User::with(['plan', 'videos_count', 'mail_count'])
