@@ -13,6 +13,7 @@ import {
     SkeletonPage,
     Layout,
     SkeletonDisplayText,
+    Pagination,
 } from "@shopify/polaris";
 import { Grid, Text, Banner, Button, Icon, Select, Checkbox, Tabs, Tooltip, Badge } from '@shopify/polaris';
 import React, { useEffect } from 'react';
@@ -33,7 +34,14 @@ import Toggle from "./Toggle";
 function AdminDashboard(props) {
 
     const navigate = useNavigate();
-
+    const [pagination, setPagination] = useState({
+        path: 'getDataofallPlans',
+        next_cursor: null,
+        next_page_url: null,
+        prev_cursor: null,
+        prev_page_url: null,
+    });
+    const [currentCursor, setCurrentCursor] = useState(null);
     const [reload, setReload] = useState(false);
     const [loading, setLoading] = useState(false);
     const [availability, setAvailability] = useState([]);
@@ -108,7 +116,28 @@ function AdminDashboard(props) {
         });
     }
 
+
+    const pageOptions = [
+        { label: '5', value: '5' },
+        { label: '10', value: '10' },
+        { label: '20', value: '20' },
+        { label: '50', value: '50' },
+        { label: '100', value: '100' },
+    ];
+    const [pageCount, setPageCount] = useState("10");
+    const handlePageCount = useCallback((value) => { setPageCount(value); setReload(!reload); setCurrentCursor(null) }, [tableRows]);
+
+
+
     useEffect(() => {
+        let url = new URL(pagination.path);
+        if (pageCount) {
+            url.searchParams.set('page_count', pageCount);
+        }
+
+        if (currentCursor) {
+            url.searchParams.set('cursor', currentCursor);
+        }
         setResponseState('pending');
         fetch("/getDataofallPlans", {
             method: "GET",
@@ -121,6 +150,15 @@ function AdminDashboard(props) {
 
             setUsers(data.user_details);
             setResponseState(null);
+
+
+            setPagination({
+                path: data.user_details.path,
+                next_cursor: data.user_details.next_cursor,
+                next_page_url: data.user_details.next_page_url,
+                prev_cursor: data.user_details.prev_cursor,
+                prev_page_url: data.user_details.prev_page_url,
+            });
             //console.log(data);
 
         }).catch((error) => {
@@ -157,6 +195,8 @@ function AdminDashboard(props) {
             realRows = realRows.filter((value) => value[2].props.value == availability[0] || value[2].props.value == availability[1] || value[2].props.value == availability[2])
 
         setTableRows(realRows);
+
+        
 
     }, []);
 
@@ -264,6 +304,16 @@ function AdminDashboard(props) {
                         <h1 className="Polaris-Header-Title" style={{ paddingBottom: "10px", paddingTop: "10px" }}>Stores List</h1>
                         <div style={{ marginBottom: "10px" }}><Button outline onClick={logoutHandler}>Log Out</Button></div>
                     </div>
+
+                    <div>
+                                <Select
+                                    labelInline
+                                    label="Rows:"
+                                    options={pageOptions}
+                                    value={pageCount}
+                                    onChange={handlePageCount}
+                                />
+                    </div>
                     <div style={{ height: "568px" }}>
                         <Card>
                             <Tabs tabs={tabs} selected={selectedTab} onSelect={handleTabChange}>
@@ -318,6 +368,24 @@ function AdminDashboard(props) {
                                 )}
                             // rows={[['1','Store1',,1,2, ]]}
                             />
+                                    <hr></hr>
+                                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', paddingTop: '22px', paddingBottom: '22px' }}>
+                                        <Pagination hasNext={pagination.next_cursor ? true : false} hasPrevious={pagination.prev_cursor ? true : false} onNext={() => {
+                                            setPagination({
+                                                ...pagination,
+                                                path: pagination.next_page_url
+                                            })
+                                            setCurrentCursor(pagination.next_cursor);
+                                            setReload(!reload);
+                                        }} onPrevious={() => {
+                                            setPagination({
+                                                ...pagination,
+                                                path: pagination.prev_page_url
+                                            })
+                                            setCurrentCursor(pagination.prev_cursor);
+                                            setReload(!reload);
+                                        }} />
+                                    </div>
                         </Card>
                     </div>
                 </Grid.Cell>
