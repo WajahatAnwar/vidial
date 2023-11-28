@@ -24,6 +24,9 @@ use Illuminate\Support\Facades\Artisan;
 |
 */
 
+Route::get('getDataofallPlans', [AdminController::class, 'fetchingdataofusers']);
+
+
 Route::get(
     '/app-install',
     [AuthController::class, 'app_install_index']
@@ -40,7 +43,6 @@ Route::post('/reset-password', [AuthController::class, 'resetPasswordAction']);
 Route::post('/set-password', [AuthController::class, 'setPassword']);
 Route::get('/getSession', [AuthController::class, 'getSession']);
 
-Route::get('getDataofallPlans', [AdminController::class, 'fetchingdataofusers']);
 
 Route::middleware(['auth'])->group(function () {
 
