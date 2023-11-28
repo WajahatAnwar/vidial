@@ -155,11 +155,11 @@ function AdminDashboard(props) {
 
 
             setPagination({
-                path: data.path,
-                next_cursor: data.next_cursor,
-                next_page_url: data.next_page_url,
-                prev_cursor: data.prev_cursor,
-                prev_page_url: data.prev_page_url,
+                path: data.pagination.path,
+                next_cursor: data.pagination.next_cursor,
+                next_page_url: data.pagination.next_page_url,
+                prev_cursor: data.pagination.prev_cursor,
+                prev_page_url: data.pagination.prev_page_url,
             });
             //console.log(data);
 
