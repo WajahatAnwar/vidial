@@ -19,12 +19,11 @@ class AdminController extends Controller
     }
     public function fetchingdataofusers()
     {
-        $user_info = User::with(['plan', 'videos_count','mail_count'])
+        $user_info = User::with(['plan', 'videos_count'])
             ->where('role_id', config('constants.user'))
             ->withCount('videos')
             ->withTrashed()
-            ->lazy();
-            dd($user_info->toArray());
+            ->get();
 
         $store_list = [];
         
@@ -33,8 +32,8 @@ class AdminController extends Controller
             
             $approved_videos_count = $user->videos_count;
             $plan_info = $user->plan;
-            // $send_mail_count = $user->mail_count->count();
-            $send_mail_count = 100;
+            $send_mail_count = $user->mail_count->count();
+            // $send_mail_count = 100;
             
             if ($user) {
                 $store_list[] = [
