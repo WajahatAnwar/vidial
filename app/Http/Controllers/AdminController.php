@@ -21,31 +21,11 @@ class AdminController extends Controller
     }
     public function fetchingdataofusers()
     {
-        $users = User::all();
-
-        $temp = array();
-        foreach ($users as $key => $user) {
-            
-            array_push($temp, 1);
-        }
-
-        return response()->json([
-            'success' => true,
-            'message' => 'User Plan Shown',
-            'user_details' => $users,
-            'mail_count' => $temp
-        ]);
-
-
-        die();
-        // $user_info = User::with(['plan', 'videos_count', 'mail_count'])
-        //     ->get();
         $user_info = User::with(['plan', 'videos_count'])
             ->where('role_id', config('constants.user'))
             ->withCount('videos')
             ->withTrashed()
             ->get();
-        dd($user_info);
         $store_list = [];
 
         foreach ($user_info as $user) {
