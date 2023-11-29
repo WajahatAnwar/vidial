@@ -754,7 +754,37 @@ return response()->json([
  }
 
  public function myTesting(){
-    dd(Auth::user());
+        $user = User::find(192);
+        if ($user->remaining_videos === NULL || $user->remaining_videos == '') {
+            $remainingVideos = $user->ugc_video_count;
+        } else if ($user->remaining_videos == 0) {
+            $remainingVideos = 0;
+        } else {
+            $remainingVideos = $user->remaining_videos;
+        }
+        $remaining_email = $user->remaining_email;
+        // remaining video
+        if ($remainingVideos <= 0) {
+            $data['remaining_Videos'] = 1;
+            return response()->json([
+                'success' => false,
+                'message' => 'You have reached the limit of videos allowed in your current plan.To
+            accept more videos,please upgrade your plan',
+                'data' => $data
+            ]);
+        }
+        if ($remaining_email <= 0) {
+            $data['remaining_emails'] = 1;
+            return response()->json([
+                'success' => false,
+                'message' => 'Email Limitation has been expired',
+                'message' => 'You have reached the limit of emails allowed in your current plan.To
+            accept more emails,please upgrade your plan',
+                'data' => $data
+            ]);
+        }
+
+        dd('condition successfull');
  }
 
 
