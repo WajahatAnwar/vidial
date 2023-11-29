@@ -115,8 +115,6 @@ Route::get('get_settings', [SettingsController::class, 'getSettings'])->middlewa
 
 Route::group(['middleware' => 'verify.shopify'], function () {
     
-    Route::get('my-test', [VideoController::class, 'myTesting']);
-
     Route::get('getPendingVideos', [VideoController::class, 'getPendingVideos']);
     Route::post('videoOperation', [VideoController::class, 'videoOperation']);
     Route::post('rejectVideo', [VideoController::class, 'rejectVideo']);
