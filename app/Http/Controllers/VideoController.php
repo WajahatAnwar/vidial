@@ -753,5 +753,9 @@ return response()->json([
 
  }
 
+ public function myTesting(){
+    dd(Auth::user());
+ }
+
 
 }
