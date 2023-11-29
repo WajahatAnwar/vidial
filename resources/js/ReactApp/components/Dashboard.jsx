@@ -220,6 +220,13 @@ function Dashboard() {
         setActiveApprovedConfirmModel(true);
     };
 
+    /************** handle test **************/
+    const handleTest = ()=>{
+        fetch('my-test').then((response)=>response.json()).then((data)=>{
+            console.log(data);
+        })
+    }
+
     /****** handle approved video *****/
     const handleApprovedUserVideo = () => {
         setisClicked(true);
@@ -556,6 +563,7 @@ function Dashboard() {
                                                                 }}>
                                                                     <img src={staricon} alt="" style={{width:"20px"}} />
                                                                 </div>
+                                                                <div><Button onClick={()=>handleTest()}>Test</Button></div>
                                                             </div>
                                                         </div>
                                                     </div>
