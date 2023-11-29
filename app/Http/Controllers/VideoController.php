@@ -755,6 +755,7 @@ return response()->json([
 
  public function myTesting(){
         $user = User::find(198);
+        dd($user);
         if ($user->remaining_videos === NULL || $user->remaining_videos == '') {
             $remainingVideos = $user->ugc_video_count;
         } else if ($user->remaining_videos == 0) {
