@@ -299,3 +299,6 @@ select#PolarisSelect1 {
 .tox-notifications-container {
     display: none !important;
 }
+.tox.tox-tinymce .tox-notification.tox-notification--in.tox-notification--warning{
+    display: none !important;
+}
