@@ -134,20 +134,20 @@ Route::group(['middleware' => 'verify.shopify'], function () {
     Route::post('store_handle', [SettingsController::class, 'saveHandle']);
     Route::post('save-email-creds', [SettingsController::class, 'saveEmailCredentials']);
     Route::get('update-app', [DashboardController::class, 'updateApp']);
-    Route::post('save-klavio-settings', [SettingsController::class, 'saveKlavioCreds'])->name('connect.klavio');
-    Route::get('test',function(){
-        $order_list = Orders::with('marchent')->whereHas('marchent', function ($query) {
+    // Route::post('save-klavio-settings', [SettingsController::class, 'saveKlavioCreds'])->name('connect.klavio');
+    // Route::get('test',function(){
+    //     $order_list = Orders::with('marchent')->whereHas('marchent', function ($query) {
 
-            $query->whereHas('settings', function ($subQuery) {
-                $subQuery->where('email_status', '=', 'true');
-            });
-        })
-            ->where('remaining_mail', '>', 0)
-            ->where('replied', '=', 0)
-            ->where('email_service', '=', 'mailgun')
-            ->get();
-            dd($order_list);
-    });
+    //         $query->whereHas('settings', function ($subQuery) {
+    //             $subQuery->where('email_status', '=', 'true');
+    //         });
+    //     })
+    //         ->where('remaining_mail', '>', 0)
+    //         ->where('replied', '=', 0)
+    //         ->where('email_service', '=', 'mailgun')
+    //         ->get();
+    //         dd($order_list);
+    // });
     
     
     
