@@ -261,7 +261,7 @@ video {
     display: none !important;
 }
 .tox-notification.tox-notification--in.tox-notification--warning {
-    display: none;
+    display: none !important;
 }
 .previewModel {
     padding: 20px;
