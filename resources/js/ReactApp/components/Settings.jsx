@@ -507,8 +507,9 @@ const Settings = () => {
 
     /********  get Settings Data  ******/
     useEffect(() => {
+        console.log("massab 126");
         async function fetchSettings() {
-            console.log("massab 126");
+            
             try {
                 const response = await fetch("/get_settings");
                 if (!response.ok) {
