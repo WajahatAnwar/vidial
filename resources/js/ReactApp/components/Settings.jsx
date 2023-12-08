@@ -508,6 +508,7 @@ const Settings = () => {
     /********  get Settings Data  ******/
     useEffect(() => {
         async function fetchSettings() {
+            console.log("massab 126");
             try {
                 const response = await fetch("/get_settings");
                 if (!response.ok) {
@@ -845,6 +846,7 @@ const Settings = () => {
             window.$crisp.push(['do', 'chat:toggle']);
         } else {
             console.warn('Crisp chat script not loaded yet!');
+            
         }
     };
     // popover code start

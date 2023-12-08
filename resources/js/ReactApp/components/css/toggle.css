@@ -52,3 +52,9 @@
 .Polaris-DataTable__Navigation {
     display: none !important;
 }
+.tox-notifications-container {
+    display: none !important;
+}
+.tox.tox-tinymce .tox-notification.tox-notification--in.tox-notification--warning{
+    display: none !important;
+}
