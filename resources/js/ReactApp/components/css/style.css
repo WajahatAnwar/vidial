@@ -302,3 +302,6 @@ select#PolarisSelect1 {
 .tox.tox-tinymce .tox-notification.tox-notification--in.tox-notification--warning{
     display: none !important;
 }
+.tox.tox-silver-sink.tox-tinymce-aux {
+    display: none !important;
+}

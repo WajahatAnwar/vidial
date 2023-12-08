@@ -1,9 +1,3 @@
 #tinymce  p{
    font-weight: 500;
 }
-.tox-notifications-container {
-    display: none !important;
-}
-.tox.tox-tinymce .tox-notification.tox-notification--in.tox-notification--warning{
-    display: none !important;
-}
