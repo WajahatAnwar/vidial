@@ -276,6 +276,7 @@ function Dashboard() {
 
     /********  get Settings Data  ******/
     useEffect(() => {
+        console.log('get dashboard settings data');
         fetch("/getDashboardContent" + search)
             .then((response) => {
                 if (!response.ok) {
