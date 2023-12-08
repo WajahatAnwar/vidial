@@ -508,6 +508,7 @@ const Settings = () => {
     /********  get Settings Data  ******/
     useEffect(() => {
         console.log("massab 126");
+        console.log("ali");
         async function fetchSettings() {
             
             try {
