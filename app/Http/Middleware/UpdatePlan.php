@@ -31,10 +31,15 @@ class UpdatePlan
 
 
 
-        $current_user_approved_video_count = Video::where("user_id", auth()->user()->id)->where('status', config('constants.video_approved'))
-        ->where('created_at', '>=',$charge->activated_on)
-        ->where('created_at', '<=',Carbon::now())
-        ->count();
+        // $current_user_approved_video_count = Video::where("user_id", auth()->user()->id)->where('status', config('constants.video_approved'))
+        // ->where('created_at', '>=',$charge->activated_on)
+        // ->where('created_at', '<=',Carbon::now())
+        // ->count();
+        $last_30_days = \Carbon\Carbon::today()->subDays(30);
+        $current_user_approved_video_count = Video::where("user_id", auth()->user()->id)
+            ->where('status', config('constants.video_approved'))
+            ->where('created_at', '>=', $last_30_days)
+            ->count();
 
         // $orderCount = Order::where('order_created_at', '>=', $this->user->created_at)
         // ->where('user_id', $this->user->id)
