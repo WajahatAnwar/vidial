@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Video;
 use App\Models\Orders;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
@@ -75,6 +76,14 @@ Route::get('redirect_back', function () {
 });
 
 Route::get('/test-email', [EmailController::class, 'email']);
+Route::get('my-test',function(){
+    $last_30_days = \Carbon\Carbon::today()->subDays(30);
+    $current_user_approved_video_count = Video::where("user_id", auth()->user()->id)
+        ->where('status', config('constants.video_approved'))
+        ->where('created_at', '>=', $last_30_days)
+        ->count();
+    dd($current_user_approved_video_count);
+});
 
 Route::get('/cron', function () {
     Artisan::call('schedule:run');
