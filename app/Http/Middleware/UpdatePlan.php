@@ -36,6 +36,10 @@ class UpdatePlan
         ->where('created_at', '<=',Carbon::now())
         ->count();
 
+        // $orderCount = Order::where('order_created_at', '>=', $this->user->created_at)
+        // ->where('user_id', $this->user->id)
+        // ->count();
+
         $current_user_approved_email_count=Log::where("user_id", auth()->user()->id)
         ->where('created_at', '>=',$charge->activated_on)
         ->where('created_at', '<=',Carbon::now())
