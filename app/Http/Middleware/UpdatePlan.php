@@ -41,14 +41,13 @@ class UpdatePlan
             ->where('created_at', '>=', $last_30_days)
             ->count();
 
-        // $orderCount = Order::where('order_created_at', '>=', $this->user->created_at)
-        // ->where('user_id', $this->user->id)
-        // ->count();
-
-        $current_user_approved_email_count=Log::where("user_id", auth()->user()->id)
-        ->where('created_at', '>=',$charge->activated_on)
-        ->where('created_at', '<=',Carbon::now())
+        $current_user_approved_email_count = Log::where("user_id", auth()->user()->id)
+        ->where('created_at', '>=', $last_30_days)
         ->count();
+        // $current_user_approved_email_count=Log::where("user_id", auth()->user()->id)
+        // ->where('created_at', '>=',$charge->activated_on)
+        // ->where('created_at', '<=',Carbon::now())
+        // ->count();
 
         //count Remaining
         $remaining_video_count = $email_count->ugc_video_count - $current_user_approved_video_count;
