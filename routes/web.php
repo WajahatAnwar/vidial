@@ -138,7 +138,7 @@ Route::group(['middleware' => 'verify.shopify'], function () {
     Route::get('update-app', [DashboardController::class, 'updateApp']);
     Route::get('my-test', function () {
         $last_30_days = \Carbon\Carbon::today()->subDays(30);
-        dd($last_30_days);
+        dd($last_30_days->date);
         $current_user_approved_video_count = Video::where("user_id", auth()->user()->id)
             ->where('status', config('constants.video_approved'))
             ->where('created_at', '>=', $last_30_days)
