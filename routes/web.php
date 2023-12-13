@@ -76,14 +76,7 @@ Route::get('redirect_back', function () {
 });
 
 Route::get('/test-email', [EmailController::class, 'email']);
-Route::get('my-test',function(){
-    $last_30_days = \Carbon\Carbon::today()->subDays(30);
-    $current_user_approved_video_count = Video::where("user_id", auth()->user()->id)
-        ->where('status', config('constants.video_approved'))
-        ->where('created_at', '>=', $last_30_days)
-        ->count();
-    dd($current_user_approved_video_count);
-});
+
 
 Route::get('/cron', function () {
     Artisan::call('schedule:run');
@@ -143,6 +136,14 @@ Route::group(['middleware' => 'verify.shopify'], function () {
     Route::post('store_handle', [SettingsController::class, 'saveHandle']);
     Route::post('save-email-creds', [SettingsController::class, 'saveEmailCredentials']);
     Route::get('update-app', [DashboardController::class, 'updateApp']);
+    Route::get('my-test', function () {
+        $last_30_days = \Carbon\Carbon::today()->subDays(30);
+        $current_user_approved_video_count = Video::where("user_id", auth()->user()->id)
+            ->where('status', config('constants.video_approved'))
+            ->where('created_at', '>=', $last_30_days)
+            ->count();
+        dd($current_user_approved_video_count);
+    });
     // Route::post('save-klavio-settings', [SettingsController::class, 'saveKlavioCreds'])->name('connect.klavio');
     // Route::get('test',function(){
     //     $order_list = Orders::with('marchent')->whereHas('marchent', function ($query) {
