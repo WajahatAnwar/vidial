@@ -233,8 +233,8 @@ class DashboardController extends Controller
         ]);
      }
 
-     public function syncCustomers(){ 
-
+     public function syncCustomers(){
+        dd('stop');
         $user = User::find(236);
         
         syncCustomers($user);
@@ -242,6 +242,7 @@ class DashboardController extends Controller
      }
     public function customerWebhook()
     {
+        dd('stop');
     
         $users =User::where('role_id',2)->withTrashed()->get();
         foreach($users as $user){
