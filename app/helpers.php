@@ -981,7 +981,7 @@ if (!function_exists('syncCustomers')) {
                     'page_info' => $next,
                 ]);
                 foreach ($response['body']['customers'] as $customer) {
-                    CustomLog::info('my customers create');
+                    CustomLog::info('eeewwwmy customers create eewww');
 
 
                     Customer::updateOrCreate(
