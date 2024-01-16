@@ -331,6 +331,7 @@ function AdminDashboard(props) {
                                         onChange={(e) => handleSearch(e)}
                                         autoComplete="off"
                                         placeholder="Search by Store Name"
+                                        style={{ margin : "0px 10px" }}
                                     />
                     </div>
                     <div>
