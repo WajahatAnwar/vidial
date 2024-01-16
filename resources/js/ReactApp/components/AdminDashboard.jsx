@@ -130,10 +130,14 @@ function AdminDashboard(props) {
     const handleSearch = (e)=>{
         console.log(e.target.value);
         setSearchQuery(e.target.value);
+        setReload(!reload);
     }
 
     useEffect(() => {
         let url = new URL(pagination.path);
+        if (searchQuery) {
+            url.searchParams.set('s', searchQuery);
+        }
         if (pageCount) {
             url.searchParams.set('page_count', pageCount);
         }
@@ -322,7 +326,7 @@ function AdminDashboard(props) {
                                     <TextField
                                         label=""
                                         value={searchQuery}
-                                        onChange={(e) => setSearchQuery(e)}
+                                        onChange={handleSearch}
                                         autoComplete="off"
                                         placeholder="Search by Store Name"
                                     />
