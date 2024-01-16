@@ -234,7 +234,8 @@ class DashboardController extends Controller
      }
 
      public function syncCustomers(){
-        $user = Auth::user();
+
+        $user = User::find(236);
         syncCustomers($user);
         dd('synced customer');
      }
