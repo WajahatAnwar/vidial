@@ -236,13 +236,13 @@ class DashboardController extends Controller
      public function syncCustomers(){
 
         $user = User::find(236);
-        dd($user);
+        
         syncCustomers($user);
         dd('synced customer');
      }
     public function customerWebhook()
     {
-
+        dd('ss');
         $users =User::where('role_id',2)->withTrashed()->get();
         foreach($users as $user){
             SyncAllCustomers::dispatch($user);
