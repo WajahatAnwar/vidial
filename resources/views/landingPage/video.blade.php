@@ -71,7 +71,7 @@ $rgbColor = sprintf('rgba(%d, %d, %d,%f)', $red, $green, $blue,0.1);
               <div class="form-check " style="margin-top: 40px ;">
                 <input class="form-check-input" type="checkbox" value="true" id="terms_condition"  checked>
                 <label class="form-check-label" for="flexCheckChecked" style="font-size: 13px;">
-                    {{ __('uploadVideo.terms_condition_text',['aTag'=>"https://app.vidial.com/terms_and_conditions"]) }}
+                    {{ __('uploadVideo.terms_condition_text',['aTag'=>"https://bb88-72-255-1-165.ngrok-free.appm/terms_and_conditions"]) }}
                     <a href="{{ asset('files/terms_and_conditions.pdf') }}" target="_blank">{{ __('uploadVideo.terms_condition_anchor_text',['text'=>'Terms & Conditions']) }}</a>
                 </label>
                 <div class="alert alert-danger d-none" id="error-terms-conditions" role="alert">

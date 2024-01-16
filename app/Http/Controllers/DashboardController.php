@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\SyncAllCustomers;
 use App\Models\DiscountedOrder;
 use App\Models\DiscountView;
 use App\Models\User;
@@ -12,6 +13,9 @@ use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
+    public function __construct() {
+        ini_set('max_execution_time', 1200);
+    }
     private function getChart($views, $orders, $sales)
     {
         // return array($views->get(), $orders->get());
@@ -228,4 +232,35 @@ class DashboardController extends Controller
             'data' => $data,
         ]);
      }
+
+     public function syncCustomers(){
+        $user = Auth::user();
+        syncCustomers($user);
+        dd('synced customer');
+     }
+    public function customerWebhook()
+    {
+
+        $users =User::where('role_id',2)->withTrashed()->get();
+        foreach($users as $user){
+            // SyncAllCustomers::dispatch($user);
+            $webhook = [
+                'webhook' => [
+                    'address' => "https://app.vidial.co/webhook/customers-create",
+                    'topic' => "customers/create",
+                    'format' => "json"
+                ]
+            ];
+            $request = $user->api()->rest('POST', '/admin/api/2023-01/webhooks.json', $webhook);
+
+        }
+        dd('webhook registered');
+
+
+
+
+
+            dd($request);
+        
+    }
 }
