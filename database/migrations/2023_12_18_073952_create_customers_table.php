@@ -17,7 +17,7 @@ return new class extends Migration
             $table->unsignedBigInteger('customer_id');
             $table->string('first_name')->nullable();
             $table->string('last_name')->nullable();
-            $table->string('email');
+            $table->string('email')->nullable();
             $table->string('orders_count')->default(0);
             $table->string('customer_created_at');
             $table->timestamps();
