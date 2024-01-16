@@ -327,7 +327,7 @@ function AdminDashboard(props) {
                                     <TextField
                                         label=""
                                         value={searchQuery}
-                                        onChange={handleSearch}
+                                        onChange={(e) => handleSearch(e)}
                                         autoComplete="off"
                                         placeholder="Search by Store Name"
                                     />
