@@ -22,6 +22,10 @@ class AdminController extends Controller
 
         $user_info = User::with(['plan', 'videos_count', 'mail_count','customers'])
             ->where('role_id', config('constants.user'))
+            ->when($request->s !='',function($query){
+                $query->where('name','like','%'.request()->s.'%')
+                ->orWhere('store_name','like','%'.request()->s.'%');
+            })
             ->withCount('videos')
             ->withTrashed()
             ->cursorPaginate($request->page_count);
