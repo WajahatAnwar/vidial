@@ -324,14 +324,14 @@ function AdminDashboard(props) {
                                     onChange={handlePageCount}
                                 />
                     </div>
-                    <div>
+                                <div style={{ margin: "0px 20px" }}>
                                     <TextField
                                         label=""
                                         value={searchQuery}
                                         onChange={(e) => handleSearch(e)}
                                         autoComplete="off"
                                         placeholder="Search by Store Name"
-                                        style={{ margin : "0px 10px" }}
+                                       
                                     />
                     </div>
                     <div>
