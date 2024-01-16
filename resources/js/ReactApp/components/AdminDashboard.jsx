@@ -136,9 +136,9 @@ function AdminDashboard(props) {
 
     useEffect(() => {
         let url = new URL(pagination.path);
-        if (searchQuery) {
-            url.searchParams.set('s', searchQuery);
-        }
+        // if (searchQuery) {
+        //     url.searchParams.set('s', searchQuery);
+        // }
         if (pageCount) {
             url.searchParams.set('page_count', pageCount);
         }
