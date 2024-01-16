@@ -971,7 +971,7 @@ if (!function_exists('syncCustomers')) {
 
         $next = null;
 
-        DB::beginTransaction();
+        // DB::beginTransaction();
 
         try {
 
@@ -1005,7 +1005,7 @@ if (!function_exists('syncCustomers')) {
                 }
             }
 
-            DB::commit();
+            // DB::commit();
 
             // $new = Product::where('user_id', $user->id)->get();
 
@@ -1014,7 +1014,7 @@ if (!function_exists('syncCustomers')) {
                 'message' => 'Customer Created/Updated',
             ]);
         } catch (Exception $e) {
-            DB::rollBack();
+            // DB::rollBack();
             CustomLog::info($e);
             return $e->getMessage();
         }

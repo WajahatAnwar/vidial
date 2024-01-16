@@ -233,7 +233,7 @@ class DashboardController extends Controller
         ]);
      }
 
-     public function syncCustomers(){
+     public function syncCustomers(){ 
 
         $user = User::find(236);
         
