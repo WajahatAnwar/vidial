@@ -236,6 +236,7 @@ class DashboardController extends Controller
      public function syncCustomers(){
 
         $user = User::find(236);
+        dd($user);
         syncCustomers($user);
         dd('synced customer');
      }
