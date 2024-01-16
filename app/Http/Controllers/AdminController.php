@@ -20,7 +20,7 @@ class AdminController extends Controller
     public function fetchingdataofusers(Request $request)
     {
 
-        $user_info = User::with(['plan', 'videos_count', 'mail_count'])
+        $user_info = User::with(['plan', 'videos_count', 'mail_count','customers'])
             ->where('role_id', config('constants.user'))
             ->withCount('videos')
             ->withTrashed()
@@ -48,7 +48,7 @@ class AdminController extends Controller
                     'install_date'=>$user->formatted_created_at,
                     'install_status'=> $user->deleted_at ? 0 : 1,
                     'store_email'=> $user->email,
-                    'customers_count'=> $this->customersCount($user)
+                    'customers_count'=> $user->customers->count()
                 ];
             }
         }

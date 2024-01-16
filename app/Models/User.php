@@ -91,4 +91,8 @@ class User extends Authenticatable implements IShopModel
         return $this->created_at->format(config('constants.date_format')); // Customize the format as needed
     }
 
+    public function customers(){
+       return $this->hasMany(Customer::class);
+    }
+
 }
