@@ -35,7 +35,7 @@ function AdminDashboard(props) {
 
     const navigate = useNavigate();
     const [pagination, setPagination] = useState({
-        path: 'https://bb88-72-255-1-165.ngrok-free.app/getDataofallPlans',
+        path: 'https://app.vidial.co/getDataofallPlans',
         next_cursor: null,
         next_page_url: null,
         prev_cursor: null,
