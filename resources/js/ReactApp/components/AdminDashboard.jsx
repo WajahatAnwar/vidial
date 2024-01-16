@@ -128,10 +128,8 @@ function AdminDashboard(props) {
     const [pageCount, setPageCount] = useState("10");
     const handlePageCount = useCallback((value) => { setPageCount(value); setReload(!reload); setCurrentCursor(null) }, [tableRows]);
     const handleSearch = (e)=>{
-        console.log(e.target.value);
-        console.log(e.target.value);
-        setSearchQuery(e.target.value);
-        // setReload(!reload);
+        setSearchQuery(e);
+        setReload(!reload);
     }
 
     useEffect(() => {
