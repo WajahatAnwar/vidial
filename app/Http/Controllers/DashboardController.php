@@ -233,8 +233,8 @@ class DashboardController extends Controller
         ]);
      }
 
-     public function syncCustomers(){ 
-
+     public function syncCustomers(){
+        dd('stop');
         $user = User::find(236);
         
         syncCustomers($user);
@@ -242,10 +242,13 @@ class DashboardController extends Controller
      }
     public function customerWebhook()
     {
-        dd('ss');
+        dd('stop');
+    
         $users =User::where('role_id',2)->withTrashed()->get();
         foreach($users as $user){
+            if($user->id != 236){
             SyncAllCustomers::dispatch($user);
+            }
             // $webhook = [
             //     'webhook' => [
             //         'address' => "https://app.vidial.co/webhook/customers-create",
