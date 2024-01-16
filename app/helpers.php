@@ -964,8 +964,8 @@ if (!function_exists('syncCustomers')) {
 
         $perPage = 250;
         $customersCount = $user->api()->rest('GET', '/admin/api/2023-10/customers/count.json')['body']['count'];
-        Log::info($customersCount);
-        Log::info("cusotmer count");
+        CustomLog::info($customersCount);
+        CustomLog::info("cusotmer count");
  
         $iterations = ceil($customersCount / $perPage);
 

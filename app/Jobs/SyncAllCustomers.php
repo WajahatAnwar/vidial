@@ -19,6 +19,7 @@ class SyncAllCustomers implements ShouldQueue
      * Create a new job instance.
      */
     public $data = null;
+    public $timeout = 99999999999;
     public function __construct($data)
     {
         ini_set('max_execution_time', 1200);
