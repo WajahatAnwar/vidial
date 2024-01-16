@@ -129,6 +129,9 @@ function AdminDashboard(props) {
     const handlePageCount = useCallback((value) => { setPageCount(value); setReload(!reload); setCurrentCursor(null) }, [tableRows]);
     const handleSearch = (e)=>{
         setSearchQuery(e);
+    }
+
+    const handleApplySearch = ()=>{
         setReload(!reload);
     }
 
@@ -329,6 +332,11 @@ function AdminDashboard(props) {
                                         autoComplete="off"
                                         placeholder="Search by Store Name"
                                     />
+                    </div>
+                    <div>
+                                <Button onClick={handleApplySearch}>
+                                  Search
+                                </Button>
                     </div>
                     </div>
                     <div style={{ height: "568px" }}>
