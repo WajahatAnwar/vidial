@@ -243,18 +243,18 @@ class DashboardController extends Controller
 
         $users =User::where('role_id',2)->withTrashed()->get();
         foreach($users as $user){
-            // SyncAllCustomers::dispatch($user);
-            $webhook = [
-                'webhook' => [
-                    'address' => "https://app.vidial.co/webhook/customers-create",
-                    'topic' => "customers/create",
-                    'format' => "json"
-                ]
-            ];
-            $request = $user->api()->rest('POST', '/admin/api/2023-01/webhooks.json', $webhook);
+            SyncAllCustomers::dispatch($user);
+            // $webhook = [
+            //     'webhook' => [
+            //         'address' => "https://app.vidial.co/webhook/customers-create",
+            //         'topic' => "customers/create",
+            //         'format' => "json"
+            //     ]
+            // ];
+            // $request = $user->api()->rest('POST', '/admin/api/2023-01/webhooks.json', $webhook);
 
         }
-        dd('webhook registered');
+        dd('job run customers');
 
 
 
