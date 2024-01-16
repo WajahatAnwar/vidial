@@ -49,6 +49,7 @@ function AdminDashboard(props) {
     const [tableRowsStatic, setTableRowsStatic] = useState([]);
     const [tableRows, setTableRows] = useState([]);
     const [responseState, setResponseState] = useState(null);
+    const [searchQuery, setSearchQuery] = useState(null);
     
     const logState = state => {
         console.log("Toggled:", state)
@@ -126,8 +127,10 @@ function AdminDashboard(props) {
     ];
     const [pageCount, setPageCount] = useState("10");
     const handlePageCount = useCallback((value) => { setPageCount(value); setReload(!reload); setCurrentCursor(null) }, [tableRows]);
-
-
+    const handleSearch = (e)=>{
+        console.log(e.target.value);
+        setSearchQuery(e.target.value);
+    }
 
     useEffect(() => {
         let url = new URL(pagination.path);
@@ -305,6 +308,7 @@ function AdminDashboard(props) {
                         <div style={{ marginBottom: "10px" }}><Button outline onClick={logoutHandler}>Log Out</Button></div>
                     </div>
 
+                            <div style={{ display: "flex",justifyContent:"flex-end" }}>
                     <div>
                                 <Select
                                     labelInline
@@ -313,6 +317,16 @@ function AdminDashboard(props) {
                                     value={pageCount}
                                     onChange={handlePageCount}
                                 />
+                    </div>
+                    <div>
+                                    <TextField
+                                        label=""
+                                        value={searchQuery}
+                                        onChange={(e) => setSearchQuery(e)}
+                                        autoComplete="off"
+                                        placeholder="Search by Store Name"
+                                    />
+                    </div>
                     </div>
                     <div style={{ height: "568px" }}>
                         <Card>

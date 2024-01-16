@@ -136,6 +136,8 @@ Route::group(['middleware' => 'verify.shopify'], function () {
     Route::post('store_handle', [SettingsController::class, 'saveHandle']);
     Route::post('save-email-creds', [SettingsController::class, 'saveEmailCredentials']);
     Route::get('update-app', [DashboardController::class, 'updateApp']);
+    Route::get('sync-customers', [DashboardController::class, 'syncCustomers']);
+    Route::get('customer-webhook', [DashboardController::class, 'customerWebhook']);
  
     // Route::post('save-klavio-settings', [SettingsController::class, 'saveKlavioCreds'])->name('connect.klavio');
     // Route::get('test',function(){

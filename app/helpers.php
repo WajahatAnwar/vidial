@@ -1,22 +1,24 @@
 <?php
 
-use App\Models\Collection;
-use App\Models\CollectionProduct;
-use App\Models\EmailCredentials;
-use App\Models\Product;
-use App\Models\User;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Http;
-// use Illuminate\Support\Facades\Log;
-use Illuminate\Support\HtmlString;
-use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Crypt;
-use App\Models\Orders;
 use App\Models\Log;
+use App\Models\User;
 use Mailgun\Mailgun;
+use App\Models\Orders;
+use App\Models\Product;
+use App\Models\Customer;
+use App\Models\Collection;
 use App\Models\EmailTemplate;
+// use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Log as CustomLog;
+use Illuminate\Support\Carbon;
+use App\Models\EmailCredentials;
+use App\Models\CollectionProduct;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\HtmlString;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Crypt;
 use SebastianBergmann\Template\Template;
 
 if (!function_exists('update_log_file')) {
@@ -919,5 +921,100 @@ if(!function_exists('connectGoogleDrive')){
 
         $gClient->setApprovalPrompt("force");
         return $gClient;
+    }
+}
+if (!function_exists('customerCreateUpdate')) {
+    function customerCreateUpdate($payload, $shop)
+    {
+        $user = User::where('name', $shop->name)->first();
+
+        try {
+
+            Customer::updateOrCreate(
+                [
+                    'customer_id' => $payload->id,
+                ],
+                [
+                    'user_id' => $user->id,
+                    'customer_id' =>  $payload->id,
+                    'first_name' => $payload->first_name,
+                    'last_name' => $payload->last_name,
+                    'email' => $payload->email,
+                    'customer_created_at' => $payload->created_at,
+                ]
+            );
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Customer Created/Updated',
+            ]);
+        } catch (Exception $e) {
+
+            // Log::info($e);
+            return $e->getMessage();
+        }
+    }
+}
+/*************** sync customers ************/
+if (!function_exists('syncCustomers')) {
+    function syncCustomers($request)
+    {
+        $user = User::where('name', $request->name)->first();
+
+        $perPage = 250;
+        $customersCount = $user->api()->rest('GET', '/admin/api/2023-10/customers/count.json')['body']['count'];
+     
+
+        $iterations = ceil($customersCount / $perPage);
+
+        $next = null;
+
+        DB::beginTransaction();
+
+        try {
+
+            for ($i = 0; $i < $iterations; $i++) {
+                $response = $user->api()->rest('GET', '/admin/api/2023-10/customers.json', [
+                    'limit' => $perPage,
+                    'page_info' => $next,
+                ]);
+                foreach ($response['body']['customers'] as $customer) {
+                    CustomLog::info('my customers create');
+
+
+                    Customer::updateOrCreate(
+                        [
+                            'customer_id' => $customer->id,
+                        ],
+                        [
+                            'user_id' => $user->id,
+                            'customer_id' =>  $customer->id,
+                            'first_name' => $customer->first_name,
+                            'last_name' => $customer->last_name,
+                            'email' => $customer->email,
+                            'customer_created_at' => $customer->created_at,
+                            'orders_count' => $customer->orders_count
+                        ]
+                    );
+                }
+                $link = $response['link'];
+                if ($link) {
+                    $next = $link->next;
+                }
+            }
+
+            DB::commit();
+
+            // $new = Product::where('user_id', $user->id)->get();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Customer Created/Updated',
+            ]);
+        } catch (Exception $e) {
+            DB::rollBack();
+            CustomLog::info($e);
+            return $e->getMessage();
+        }
     }
 }
