@@ -324,7 +324,7 @@ function AdminDashboard(props) {
                                     onChange={handlePageCount}
                                 />
                     </div>
-                                <div style={{ margin: "0px 20px" }}>
+                                <div style={{ margin: "0px 10px" }}>
                                     <TextField
                                         label=""
                                         value={searchQuery}
