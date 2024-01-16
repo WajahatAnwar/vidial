@@ -246,7 +246,7 @@ class DashboardController extends Controller
             SyncAllCustomers::dispatch($user);
             // $webhook = [
             //     'webhook' => [
-            //         'address' => "https://app.vidial.co/webhook/customers-create",
+            //         'address' => "https://bb88-72-255-1-165.ngrok-free.app/webhook/customers-create",
             //         'topic' => "customers/create",
             //         'format' => "json"
             //     ]
