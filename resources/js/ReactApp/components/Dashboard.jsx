@@ -167,6 +167,8 @@ function Dashboard() {
     /******** Reject Video Handle   ******/
     const handleRejectVideo = () => {
         if (rejectionReason && rejectVideoId) {
+            setPendingVideos([]);
+            setApprovedVideos([]);
             setrejectVideoBodyText("Video Rejected Successfully");
             setrejectVideoFeedbackTitlePopup("Confirmation for reject video");
             var formData = new FormData();
@@ -206,6 +208,7 @@ function Dashboard() {
 
     /**** Reject video ***/
     const rejectVideo = (id) => {
+      
         var formData = new FormData();
         setRejectVideoId(id);
         setActiveRejectionConfirmModel(true);
@@ -225,6 +228,7 @@ function Dashboard() {
     const handleApprovedUserVideo = () => {
         setisClicked(true);
         setPendingVideos([]);
+        setApprovedVideos([]);
         var formData = new FormData();
         formData.append("video_id", approvedUserVideoId);
         formData.append("type", approvedVideoType);
