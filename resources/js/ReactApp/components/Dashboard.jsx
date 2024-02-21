@@ -224,6 +224,7 @@ function Dashboard() {
     /****** handle approved video *****/
     const handleApprovedUserVideo = () => {
         setisClicked(true);
+        setPendingVideos([]);
         var formData = new FormData();
         formData.append("video_id", approvedUserVideoId);
         formData.append("type", approvedVideoType);
@@ -292,7 +293,7 @@ function Dashboard() {
                 if (data.success) {
                     setTimeout(() => {
                         setPendingVideos(data.data.pendingVideos);
-                    }, 1000);
+                    }, 500);
                     setApprovedVideos(data.data.approvedVideos);
                     setApprovedVideosCount(data.data.approvedVideosCount);
                     setPendingVideosCount(data.data.pendingVideosCount);
