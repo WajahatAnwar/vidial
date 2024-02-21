@@ -263,7 +263,8 @@ function Dashboard() {
                         setVideoFeedback(data.message);
                     }
                     setisClicked(false);
-                    setReload(true);
+                    // setReload(true);
+                    setReload(new Date().getSeconds());
                     setApprovedVideoType(null);
                     return;
                 })
