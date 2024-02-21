@@ -223,8 +223,6 @@ function Dashboard() {
 
     /****** handle approved video *****/
     const handleApprovedUserVideo = () => {
-        // setReloadPendingVideos(false);
-        setPendingVideos([]);
         setisClicked(true);
         var formData = new FormData();
         formData.append("video_id", approvedUserVideoId);
@@ -294,11 +292,8 @@ function Dashboard() {
                 if (data.success) {
                     setTimeout(() => {
                         setPendingVideos(data.data.pendingVideos);
-                        // setPendingVideos(fetchedVideos);
-                        // setLoading(false); // Set loading to false after data is fetched
-                    }, 2000);
-                  
-                    // setApprovedVideos(data.data.approvedVideos);
+                    }, 1000);
+                    setApprovedVideos(data.data.approvedVideos);
                     setApprovedVideosCount(data.data.approvedVideosCount);
                     setPendingVideosCount(data.data.pendingVideosCount);
                     setUserEmail(
@@ -436,9 +431,7 @@ function Dashboard() {
                         ) : (
                             <Card.Section>
                                 <Grid>
-                                    {
-                                    reloadPendingVideos ?
-                                    pendingVideos &&
+                                    {pendingVideos &&
                                         pendingVideos.map((video) => {
                                             return (
                                                 <Grid.Cell
@@ -574,7 +567,7 @@ function Dashboard() {
                                                     </div>
                                                 </Grid.Cell>
                                             );
-                                        }) : ''}
+                                        })}
                                 </Grid>
                             </Card.Section>
                         )}
