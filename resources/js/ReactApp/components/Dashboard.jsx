@@ -295,9 +295,7 @@ function Dashboard() {
             .then((data) => {
                 //console.log(data);
                 if (data.success) {
-                    setTimeout(() => {
-                        setPendingVideos(data.data.pendingVideos);
-                    }, 500);
+                    setPendingVideos(data.data.pendingVideos);
                     setApprovedVideos(data.data.approvedVideos);
                     setApprovedVideosCount(data.data.approvedVideosCount);
                     setPendingVideosCount(data.data.pendingVideosCount);
