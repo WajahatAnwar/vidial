@@ -109,7 +109,7 @@ function Dashboard() {
     const [approvedVideosCount, setApprovedVideosCount] = useState(0);
     const [pendingVideosCount, setPendingVideosCount] = useState(0);
     const [userEmail, setUserEmail] = useState(0);
-    const [reload, setReload] = useState("");
+    const [reload, setReload] = useState(false);
     const [rejectVideoId, setRejectVideoId] = useState(false);
     const [approvedUserVideoId, setapprovedUserVideoId] = useState(false);
     const [approvedVideoType, setApprovedVideoType] = useState(null);
@@ -264,7 +264,7 @@ function Dashboard() {
                     }
                     setisClicked(false);
                     // setReload(true);
-                    setReload(new Date().getSeconds());
+                    setReload(true);
                     setApprovedVideoType(null);
                     return;
                 })
@@ -277,7 +277,7 @@ function Dashboard() {
 
     /********  get Settings Data  ******/
     useEffect(() => {
-        console.log('get dashboard settings data');
+        console.log('get dashboard settings data 1222');
         fetch("/getDashboardContent" + search)
             .then((response) => {
                 if (!response.ok) {
