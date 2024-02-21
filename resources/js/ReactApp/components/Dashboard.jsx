@@ -223,7 +223,8 @@ function Dashboard() {
 
     /****** handle approved video *****/
     const handleApprovedUserVideo = () => {
-        setReloadPendingVideos(false);
+        // setReloadPendingVideos(false);
+        setPendingVideos([]);
         setisClicked(true);
         var formData = new FormData();
         formData.append("video_id", approvedUserVideoId);
@@ -291,8 +292,13 @@ function Dashboard() {
             .then((data) => {
                 //console.log(data);
                 if (data.success) {
-                    setPendingVideos(data.data.pendingVideos);
-                    setApprovedVideos(data.data.approvedVideos);
+                    setTimeout(() => {
+                        setPendingVideos(data.data.pendingVideos);
+                        // setPendingVideos(fetchedVideos);
+                        // setLoading(false); // Set loading to false after data is fetched
+                    }, 2000);
+                  
+                    // setApprovedVideos(data.data.approvedVideos);
                     setApprovedVideosCount(data.data.approvedVideosCount);
                     setPendingVideosCount(data.data.pendingVideosCount);
                     setUserEmail(
