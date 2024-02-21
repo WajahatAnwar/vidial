@@ -105,6 +105,7 @@ function Dashboard() {
     // const activatorApprovedSuccessModel = <Button onClick={handleChangeApprovedSuccessModel}>Open</Button>;
 
     const [pendingVideos, setPendingVideos] = useState([]);
+    const [reloadPendingVideos, setReloadPendingVideos] = useState(false);
     const [approvedVideos, setApprovedVideos] = useState([]);
     const [approvedVideosCount, setApprovedVideosCount] = useState(0);
     const [pendingVideosCount, setPendingVideosCount] = useState(0);
@@ -222,6 +223,7 @@ function Dashboard() {
 
     /****** handle approved video *****/
     const handleApprovedUserVideo = () => {
+        setReloadPendingVideos(false);
         setisClicked(true);
         var formData = new FormData();
         formData.append("video_id", approvedUserVideoId);
@@ -277,6 +279,7 @@ function Dashboard() {
 
     /********  get Settings Data  ******/
     useEffect(() => {
+        setReloadPendingVideos(true);
         console.log('get dashboard settings data 1222');
         fetch("/getDashboardContent" + search)
             .then((response) => {
@@ -427,7 +430,9 @@ function Dashboard() {
                         ) : (
                             <Card.Section>
                                 <Grid>
-                                    {pendingVideos &&
+                                    {
+                                    reloadPendingVideos ?
+                                    pendingVideos &&
                                         pendingVideos.map((video) => {
                                             return (
                                                 <Grid.Cell
@@ -563,7 +568,7 @@ function Dashboard() {
                                                     </div>
                                                 </Grid.Cell>
                                             );
-                                        })}
+                                        }) : ''}
                                 </Grid>
                             </Card.Section>
                         )}
