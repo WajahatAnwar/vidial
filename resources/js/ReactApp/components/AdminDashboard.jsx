@@ -125,8 +125,16 @@ function AdminDashboard(props) {
         // { label: '50', value: '50' },
         // { label: '100', value: '100' },
     ];
+    const sortingOptions = [
+        { label: 'User Id', value: 'id' },
+        { label: 'Install Date', value: 'created_at' },
+        // { label: '50', value: '50' },
+        // { label: '100', value: '100' },
+    ];
     const [pageCount, setPageCount] = useState("10");
+    const [sorting, setSorting] = useState("id");
     const handlePageCount = useCallback((value) => { setPageCount(value); setReload(!reload); setCurrentCursor(null) }, [tableRows]);
+    const handleSorting = useCallback((value) => { setSorting(value); setReload(!reload); setCurrentCursor(null) }, [tableRows]);
     const handleSearch = (e)=>{
         setSearchQuery(e);
     }
@@ -159,15 +167,13 @@ function AdminDashboard(props) {
         }).then((data) => {
             setUsers(data.user_details);
             setResponseState(null);
-
-
-            setPagination({
-                path: data.pagination.path,
-                next_cursor: data.pagination.next_cursor,
-                next_page_url: data.pagination.next_page_url,
-                prev_cursor: data.pagination.prev_cursor,
-                prev_page_url: data.pagination.prev_page_url,
-            });
+            // setPagination({
+            //     path: data.pagination.path,
+            //     next_cursor: data.pagination.next_cursor,
+            //     next_page_url: data.pagination.next_page_url,
+            //     prev_cursor: data.pagination.prev_cursor,
+            //     prev_page_url: data.pagination.prev_page_url,
+            // });
             //console.log(data);
 
         }).catch((error) => {
@@ -316,13 +322,20 @@ function AdminDashboard(props) {
 
                             <div style={{ display: "flex",justifyContent:"flex-end" }}>
                     <div>
-                                <Select
+                                {/* <Select
                                     labelInline
                                     label="Rows:"
                                     options={pageOptions}
                                     value={pageCount}
                                     onChange={handlePageCount}
-                                />
+                                /> */}
+                                    {/* <Select
+                                        labelInline
+                                        label="Sort By:"
+                                        options={sortingOptions}
+                                        value={sorting}
+                                        onChange={handleSorting}
+                                    /> */}
                     </div>
                                 <div style={{ margin: "0px 10px" }}>
                                     <TextField
@@ -380,21 +393,21 @@ function AdminDashboard(props) {
                                 rows={users.map((user) =>
                                     [
                                         user.id,
-                                        user.store_name,
-                                        <Badge>{user.plan_name}</Badge>,
-                                        user.approved_video,
-                                        user.email_send,
+                                        user.name,
+                                        <Badge>{user.plan ? user.plan.name : null }</Badge>,
+                                        user.videos_count,
+                                        user.emails_sent_count,
                                         <div>{user.customers_count}</div>,
-                                        <div>{user.store_email}</div>,
-                                        <div>{user.install_date}</div>,
-                                        <div>{user.install_status ? <Badge status="success">Installed</Badge> : <Badge status="critical">Un Installed</Badge> }</div>,
-                                        <Toggle toggled={user.Watermark} onClick={() => handlewatermark(user.id, !user.Watermark)} />,
+                                        <div>{user.email}</div>,
+                                        <div>{user.created_at}</div>,
+                                        <div>{!user.deleted_at ? <Badge status="success">Installed</Badge> : <Badge status="critical">Un Installed</Badge> }</div>,
+                                        <Toggle toggled={user.water_mark} onClick={() => handlewatermark(user.id, !user.water_mark)} />,
                                         
                                     ]
                                 )}
                             // rows={[['1','Store1',,1,2, ]]}
                             />
-                                    <hr></hr>
+                                    {/* <hr></hr>
                                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', paddingTop: '22px', paddingBottom: '22px' }}>
                                         <Pagination hasNext={pagination.next_cursor ? true : false} hasPrevious={pagination.prev_cursor ? true : false} onNext={() => {
                                             setPagination({
@@ -411,7 +424,7 @@ function AdminDashboard(props) {
                                             setCurrentCursor(pagination.prev_cursor);
                                             setReload(!reload);
                                         }} />
-                                    </div>
+                                    </div> */}
                         </Card>
                     </div>
                 </Grid.Cell>

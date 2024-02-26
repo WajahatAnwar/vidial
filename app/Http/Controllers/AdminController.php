@@ -19,7 +19,8 @@ class AdminController extends Controller
     }
     public function fetchingdataofusers(Request $request)
     {
-        $user_info = User::with(['plan', 'videos_count', 'mail_count','customers'])
+        $user_info = User::with(['plan'])
+        ->withCount(['videos_count', 'emailsSent','customers'])
             ->where('role_id', config('constants.user'))
             ->when($request->s !='',function($query){
                 $query->where('name','like','%'.request()->s.'%')
@@ -27,52 +28,11 @@ class AdminController extends Controller
             })
             ->withCount('videos')
             ->withTrashed()->get();
-            dd($user_info);
-            // ->cursorPaginate($request->page_count);
-            
-          
-
-        $store_list = [];
-        
-        foreach ($user_info as $user) {
-            $video_count = Video::where("status", config('constants.video_approved'))->where("user_id", $user->id)->count();
-            
-            $approved_videos_count = $user->videos_count;
-            $plan_info = $user->plan;
-            $send_mail_count = $user->mail_count->count();
-            
-            if ($user) {
-                $store_list[] = [
-                    'id' => $user->id,
-                    'store_name' => $user->name,
-                    'plan_name' => $plan_info ? $plan_info->name : null,
-                    'approved_video' => $video_count,
-                    'email_send' => $send_mail_count,
-                    'Watermark' => $user->water_mark,
-                    'install_date'=>$user->formatted_created_at,
-                    'install_status'=> $user->deleted_at ? 0 : 1,
-                    'store_email'=> $user->email,
-                    'customers_count'=> $user->customers->count()
-                ];
-            }
-        }
-        // $info = $user_info->toArray();
-        $info = [];
-       
-        //  return $user_info->next_cursor;
-        return response()->json([
+            return response()->json([
             'success' => true,
-            'message' => 'User Plan Shown',
-            'user_details' => $store_list,
-            'pagination' => [
-                // 'next_cursor' => $info['next_cursor'],
-                // 'next_page_url' => $info['next_page_url'],
-                // 'path' => $info['path'],
-                // 'per_page' => $info['per_page'],
-                // 'prev_cursor' => $info['prev_cursor'],
-                // 'prev_page_url' => $info['prev_page_url']
-            ]
-        ]);
+            'message' => 'Users List',
+            'user_details' => $user_info,
+            ]);
     }
 
     public function update_status_for_water_mark(Request $request)
