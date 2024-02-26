@@ -27,6 +27,7 @@ class AdminController extends Controller
             })
             ->withCount('videos')
             ->withTrashed()->get();
+            dd($user_info);
             // ->cursorPaginate($request->page_count);
             
           
