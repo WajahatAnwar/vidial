@@ -126,13 +126,15 @@ function AdminDashboard(props) {
         // { label: '100', value: '100' },
     ];
     const sortingOptions = [
-        { label: 'User Id', value: 'id' },
-        { label: 'Install Date', value: 'created_at' },
+        { label: 'User Id (desc)', value: 'id desc' },
+        { label: 'User Id (asc)', value: 'id asc' },
+        { label: 'Install Date (desc)', value: 'created_at desc' },
+        { label: 'Install Date (asc)', value: 'created_at asc' },
         // { label: '50', value: '50' },
         // { label: '100', value: '100' },
     ];
     const [pageCount, setPageCount] = useState("10");
-    const [sorting, setSorting] = useState("id");
+    const [sorting, setSorting] = useState("id desc");
     const handlePageCount = useCallback((value) => { setPageCount(value); setReload(!reload); setCurrentCursor(null) }, [tableRows]);
     const handleSorting = useCallback((value) => { setSorting(value); setReload(!reload); setCurrentCursor(null) }, [tableRows]);
     const handleSearch = (e)=>{
@@ -144,6 +146,8 @@ function AdminDashboard(props) {
     }
 
     useEffect(() => {
+        console.log(sorting);
+        console.log("sorting");
         let url = new URL(pagination.path);
         if (searchQuery) {
             url.searchParams.set('s', searchQuery);
@@ -151,11 +155,14 @@ function AdminDashboard(props) {
         if (pageCount) {
             url.searchParams.set('page_count', pageCount);
         }
+        if (sorting) {
+            url.searchParams.set('sorting', sorting);
+        }
 
         if (currentCursor) {
             url.searchParams.set('cursor', currentCursor);
         }
-        console.log(url);
+
         setResponseState('pending');
         fetch(url, {
             method: "GET",
@@ -329,13 +336,13 @@ function AdminDashboard(props) {
                                     value={pageCount}
                                     onChange={handlePageCount}
                                 /> */}
-                                    {/* <Select
+                                    <Select
                                         labelInline
                                         label="Sort By:"
                                         options={sortingOptions}
                                         value={sorting}
                                         onChange={handleSorting}
-                                    /> */}
+                                    />
                     </div>
                                 <div style={{ margin: "0px 10px" }}>
                                     <TextField
