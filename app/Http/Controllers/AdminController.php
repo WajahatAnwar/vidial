@@ -26,7 +26,7 @@ class AdminController extends Controller
                 ->orWhere('store_name','like','%'.request()->s.'%');
             })
             ->withCount('videos')
-            ->withTrashed();
+            ->withTrashed()->get();
             // ->cursorPaginate($request->page_count);
             
           
