@@ -55,7 +55,8 @@ class AdminController extends Controller
                 ];
             }
         }
-        $info = $user_info->toArray();
+        // $info = $user_info->toArray();
+        $info = [];
        
         //  return $user_info->next_cursor;
         return response()->json([
