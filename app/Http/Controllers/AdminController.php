@@ -19,7 +19,6 @@ class AdminController extends Controller
     }
     public function fetchingdataofusers(Request $request)
     {
-
         $user_info = User::with(['plan', 'videos_count', 'mail_count','customers'])
             ->where('role_id', config('constants.user'))
             ->when($request->s !='',function($query){
@@ -27,8 +26,8 @@ class AdminController extends Controller
                 ->orWhere('store_name','like','%'.request()->s.'%');
             })
             ->withCount('videos')
-            ->withTrashed()
-            ->cursorPaginate($request->page_count);
+            ->withTrashed();
+            // ->cursorPaginate($request->page_count);
             
           
 
