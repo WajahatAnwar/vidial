@@ -22,6 +22,8 @@ class ThanksMailjob implements ShouldQueue
      *
      * @return void
      */
+    public $timeout = 9999999999999999;
+    public $tries = 2;
     public $details;
     public function __construct($details)
     {

@@ -27,6 +27,8 @@ class CustomersCreateJob implements ShouldQueue
      * @var object
      */
     public $data;
+    public $timeout = 9999999999999999;
+    public $tries = 2;
 
     /**
      * Create a new job instance.

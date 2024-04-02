@@ -16,12 +16,17 @@ class NotApprovedMailjob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+
+    public $timeout = 9999999999999999;
+    public $tries = 2;
+
     /**
      * Create a new job instance.
      *
      * @return void
      */
     public $detail;
+    
     public function __construct($detail)
     {
         $this->detail = $detail;
