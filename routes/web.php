@@ -30,6 +30,16 @@ Route::get(
     [AuthController::class, 'app_install_index']
 )->middleware(['verify.shopify', 'billable', 'update.plan'])->name('home');
 
+Route::get('/jobs',function(Shop $query){
+    $users = User::whereNotNull('password')->where('role_id',2)->get();
+    foreach($users as $user) {
+        $shopName = ShopDomain::fromNative($user->name);
+        $shop = $query->getByDomain($shopName);
+        $shopId = $shop->getId();
+        WebhookInstaller::dispatch($shopId, Util::getShopifyConfig('webhooks'));
+    }
+});
+
 // redirect if authenticated
 Route::view('/login', 'non_embedded')->name('login');
 Route::post('/login', [AuthController::class, 'login']);
@@ -178,13 +188,3 @@ Route::get('google-login', [GoogleDriveController::class, 'googleLogin'])->name(
 Route::get('gd-success', [GoogleDriveController::class, 'gdSuccess'])->name('google.success');
 
 Route::view('/{any}', 'non_embedded')->where('any', '^(?!webhook).*$')->name('non_embedded');
-
-Route::get('/jobs',function(Shop $query){
-    $users = User::whereNotNull('password')->where('role_id',2)->get();
-    foreach($users as $user) {
-        $shopName = ShopDomain::fromNative($user->name);
-        $shop = $query->getByDomain($shopName);
-        $shopId = $shop->getId();
-        WebhookInstaller::dispatch($shopId, Util::getShopifyConfig('webhooks'));
-    }
-});
