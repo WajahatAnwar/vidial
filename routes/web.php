@@ -2,6 +2,7 @@
 
 use App\Models\Video;
 use App\Models\Orders;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\AuthController;
