@@ -13,6 +13,10 @@ use App\Http\Controllers\CampaignController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GoogleDriveController;
+use Osiset\ShopifyApp\Contracts\Queries\Shop;
+use Osiset\ShopifyApp\Messaging\Jobs\WebhookInstaller;
+use Osiset\ShopifyApp\Objects\Values\ShopDomain;
+use Osiset\ShopifyApp\Util;
 
 /*
 |--------------------------------------------------------------------------
