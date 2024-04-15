@@ -395,7 +395,7 @@ const ReminderEmail = () => {
                                         <p style={{ fontSize: "15px", marginTop: "20px", marginBottom: "10px", fontWeight: "500" }}>Content</p>
 
                                         <Editor
-                                            apiKey='your-api-key'
+                                            apiKey='56v4up7ui10gxxmlar74323csz4le1w22v06j5l8erek0zmk'
                                             onInit={(evt, editor) => editorRef.current = editor}
                                             initialValue={htmlContent}
                                             init={{
