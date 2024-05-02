@@ -83,6 +83,9 @@ class OrdersCreateJob implements ShouldQueue
         $this->shopDomain = ShopDomain::fromNative($this->shopDomain);
         $shop = User::where('name',$this->shopDomain->toNative())->first();
         $shop_settings =  $shop->settings;
+        if($shop_settings){
+       
+        Log::info('order create job run successfully');
         $customer_details = $payload->customer;
           // $orders = $shop->api()->rest('GET', '/admin/orders.json');
           // foreach ($orders['body']['orders'] as $order_item) {
@@ -111,6 +114,10 @@ class OrdersCreateJob implements ShouldQueue
           'email_status' => $shop_settings->email_status ,
           'customer_name'=> $custmerName,
         ]);
+    }else {
+        Log::info('shop settings not found');
+         Log::info(json_encode($shop->id));
+    }
           // }
          return true;
     }
