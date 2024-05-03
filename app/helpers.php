@@ -306,33 +306,44 @@ if (!function_exists('getCurrencySymbol')) {
 if (!function_exists('sendMail')) {
     function sendMail($to, $subject, $view, $data = [], $from = 'Vidial',$user_id)
     {
-        $api_secret_key = env('MAILGUN_SECRET');
-        $end_point = env('MAILGUN_ENDPOINT');
-        $domain = env('MAILGUN_DOMAIN');
-        $mail_user_name = env('MAIL_USERNAME');
-        $emailCreds = EmailCredentials::where('user_id', $user_id)->where('is_active',1)->first();
-        if($emailCreds){
-            $api_secret_key = $emailCreds->api_secret_key;
-            $end_point = $emailCreds->endpoint;
-            $domain = $emailCreds->domain;
-            $mail_user_name = $emailCreds->mail_user_name;
+        try {
+            $api_secret_key = env('MAILGUN_SECRET');
+            $end_point = env('MAILGUN_ENDPOINT');
+            $domain = env('MAILGUN_DOMAIN');
+            $mail_user_name = env('MAIL_USERNAME');
+            $emailCreds = EmailCredentials::where('user_id', $user_id)->where('is_active', 1)->first();
+            if ($emailCreds) {
+                $api_secret_key = $emailCreds->api_secret_key;
+                $end_point = $emailCreds->endpoint;
+                $domain = $emailCreds->domain;
+                $mail_user_name = $emailCreds->mail_user_name;
+            }
+            $mgClient = Mailgun::create(
+                $api_secret_key, // Mailgun API Key
+                $end_point
+            );
+            //$domain = env('MAILGUN_DOMAIN');
+
+            $html = view($view, $data)->render();
+
+            $params = [
+                'from' => $from . " < " . $mail_user_name . " >",
+                'to' => $to,
+                'subject' => $subject,
+                'html' => $html,
+            ];
+
+            $mgClient->messages()->send($domain, $params);
+
+            // Return true if email sending is successful
+            return true;
+        } catch (\Exception $e) {
+            // Log the error
+            CustomLog::info('Error sending email: ' . $e->getMessage());
+
+            // Return false to indicate failure
+            return false;
         }
-        $mgClient = Mailgun::create(
-            $api_secret_key, // Mailgun API Key
-            $end_point
-        );
-        //$domain = env('MAILGUN_DOMAIN');
-
-        $html = view($view, $data)->render();
-
-        $params = [
-            'from' => $from . " < " . $mail_user_name . " >",
-            'to' => $to,
-            'subject' => $subject,
-            'html' => $html,
-        ];
-
-        return $mgClient->messages()->send($domain, $params);
     }
 }
 
