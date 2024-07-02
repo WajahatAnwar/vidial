@@ -189,7 +189,7 @@ class AuthController extends Controller
         $shop->save();
 
         $inst = json_encode([
-            ['id' => 1, 'value' => 'Record a video off up to 30 seconds'],
+            ['id' => 1, 'value' => 'Record a video (up to 30 seconds)'],
             ['id' => 2, 'value' => 'Share your genuine experience of the product'],
             ['id' => 3, 'value' => 'Showcase the product'],
             ['id' => 4, 'value' => "Tell why you've decided to try  " . $shop->store_name],

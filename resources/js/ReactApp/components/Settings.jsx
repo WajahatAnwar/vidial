@@ -237,7 +237,7 @@ const Settings = () => {
         []
     );
     const [instructionFieldValue, setinstructionFieldValue] = useState(
-        "Record a video off up to 30 seconds"
+        "Record a video (up to 30 seconds)"
     );
 
     const handleInstructionFieldChange = useCallback(
@@ -558,7 +558,7 @@ const Settings = () => {
                             : [
                                 {
                                     id: 1,
-                                    value: "Record a video off up to 30 seconds",
+                                    value: "Record a video (up to 30 seconds)",
                                 },
                                 {
                                     id: 2,
@@ -597,7 +597,7 @@ const Settings = () => {
     const languageConvert = (value) => {
         if (value === "en") {
             setRows([
-                { id: 1, value: "Record a video off up to 30 seconds" },
+                { id: 1, value: "Record a video (up to 30 seconds)" },
                 {
                     id: 2,
                     value: "Share your genuine experience of the product",
@@ -1422,7 +1422,7 @@ const Settings = () => {
                                     >
                                         <div style={{}}>
                                             <Text variant="headingLg" as="h5">
-                                                What size discount code will you offer to customers for their UGC videos?
+                                                    Choose discount code amount for Standard approved videos
                                             </Text>
                                             <p style={{ marginTop: "15px" }}>
                                                 We recommend offering a minimum
@@ -1463,7 +1463,7 @@ const Settings = () => {
                                     >
                                         <div style={{}}>
                                             <Text variant="headingLg" as="h5">
-                                                What size discount code will you offer to customers for their UGC Star videos?
+                                                    Choose discount code amount for Star approved videos
                                             </Text>
                                             <p style={{ marginTop: "15px" }}>
                                                 We recommend offering a minimum
@@ -1862,7 +1862,7 @@ const Settings = () => {
                                             }}
                                         >
                                             <Text variant="headingLg" as="h5">
-                                                Button Colours
+                                                Button Color
                                             </Text>
                                             <p style={{ marginTop: "5px" }}>
                                                 Choose the branding color of
