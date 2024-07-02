@@ -1138,13 +1138,12 @@ const Settings = () => {
                                 }}
                             >
                                 <Banner
-                                    title={`Welcome to Vidial, ${storeName} 👋`}
+                                        title={`Welcome to GoodAuthentic 👋`}
 
                                     status="info"
                                     onDismiss={() => { }}
                                 >
-                                    <p>Vidial will help you receive authentic UGC from your customers in autopilot.<br></br>
-                                        Let’s get started by setting up the application.</p>
+                                        <p>GoodAuthentic will help you collect videos from and reward your customers.</p>
                                     <a style={{ textDecoration: "none" }} href="#">
                                         <button onClick={() => {
                                             window.open(
@@ -1255,7 +1254,7 @@ const Settings = () => {
                                 <Card sectioned>
                                     <div>
                                         <Text variant="headingLg" as="h5">
-                                            Preview
+                                                Landing Page Settings
                                         </Text>
                                         <p
                                             style={{
