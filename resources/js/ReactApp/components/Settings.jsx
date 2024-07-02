@@ -1256,7 +1256,7 @@ const Settings = () => {
                                         <Text variant="headingLg" as="h5">
                                                 Landing Page Settings
                                         </Text>
-                                        <p
+                                        {/* <p
                                             style={{
                                                 marginTop: "5px",
                                                 marginBottom: "20px",
@@ -1264,8 +1264,10 @@ const Settings = () => {
                                         >
                                             Here’s what your customers will see
                                             and receive by email
-                                        </p>
+                                        </p> */}
+
                                     </div>
+                                    <br></br>
                                     <div
                                         style={{
                                             display: "flex",
@@ -2229,7 +2231,7 @@ const Settings = () => {
                                     >
                                         <div style={{ width: "450px" }}>
                                             <Text variant="headingLg" as="h5">
-                                                Set up Emails
+                                                    Send Emails from GoodAuthentic
                                             </Text>
                                             <p style={{ marginTop: "5px" }}>
                                                 Choose the time to send the
