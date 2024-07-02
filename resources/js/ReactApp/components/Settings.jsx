@@ -567,11 +567,11 @@ const Settings = () => {
                                 { id: 3, value: "Showcase the product" },
                                 {
                                     id: 4,
-                                    value: "Tell why you've decided to try " + data.data.store_name,
+                                    value: "Explain why you've decided to try the product",
                                 },
                                 {
                                     id: 5,
-                                    value: "Describe the main benefits of " + data.data.store_name,
+                                    value: "Describe the main benefits of the product",
                                 },
                             ]
                     );
@@ -605,11 +605,11 @@ const Settings = () => {
                 { id: 3, value: "Showcase the product" },
                 {
                     id: 4,
-                    value: "Tell why you've decided to try " + storeName,
+                    value: "Explain why you've decided to try the product",
                 },
                 {
                     id: 5,
-                    value: "Describe the main benefits of " + storeName,
+                    value: "Describe the main benefits of the product",
                 },
             ]);
             setTitle(`Send us a video to receive a ${storeCurrency}${priceValue} discount code`);
