@@ -332,7 +332,7 @@ const Settings = () => {
 
         if ($locale == 'en') {
             if ($columnType == 'video_title') {
-                setVideoTitle('Here’s an example of what kind of video you can record:');
+                setVideoTitle("Here's an example of a great video");
             }
             if ($columnType == 'btn_txt') {
                 setButtonText('Upload Your Video');
@@ -613,7 +613,7 @@ const Settings = () => {
                 },
             ]);
             setTitle(`Send us a video to receive a ${storeCurrency}${priceValue} discount code`);
-            setVideoTitle('Here’s an example of what kind of video you can record:');
+            setVideoTitle("Here's an example of a great video");
             setButtonText('Upload Your Video');
 
         } else if (value === "fr") {
@@ -1746,7 +1746,7 @@ const Settings = () => {
                                         ))}
                                     <div style={{ marginTop: "20px" }}>
                                         <Button primary onClick={handleAddRow}>
-                                            Add another instruction
+                                            Add another step
                                         </Button>
                                     </div>
 
