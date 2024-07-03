@@ -125,10 +125,10 @@ function TabsExample() {
             id: "plans-customers-1",
             content: "Plans",
         },
-        {
-            id: "Resources",
-            content: "Resources",
-        },
+        // {
+        //     id: "Resources",
+        //     content: "Resources",
+        // },
         // {
         //     id: "Community",
         //     content: "Community",

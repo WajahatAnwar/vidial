@@ -75,13 +75,13 @@ function Plans() {
         <Page>
             <div style={{ textAlign: "center", marginBottom: "20px" }}>
                 <Text variant="headingXl" as="h4">
-                    Choose the perfect plan for your team’s needs
+                    Choose the perfect plan
                 </Text>
 
                 <div style={{marginTop:"10px"}}></div>
 
                 <Text variant="headingXs" as="h6">
-                    Video Capacity,Emails Capacity & Storage Duration
+                    Integrations and more service available
                 </Text>
 
 

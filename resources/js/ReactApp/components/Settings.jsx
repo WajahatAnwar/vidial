@@ -1285,8 +1285,7 @@ const Settings = () => {
                                                     marginBottom: "10px",
                                                 }}
                                             >
-                                                Here’s the Landing Page that
-                                                your users will see
+                                                View the page customers will see
                                             </p>
                                         </div>
                                         <div
@@ -1301,7 +1300,7 @@ const Settings = () => {
                                                     reviewPage(store);
                                                 }}
                                             >
-                                                View The Landing Page
+                                                View Landing Page
                                             </Button>
                                         </div>
                                     </div>
@@ -1322,9 +1321,7 @@ const Settings = () => {
                                                     marginBottom: "10px",
                                                 }}
                                             >
-                                                Share the landing page link with
-                                                your customers to get them to
-                                                send UGC videos
+                                                    Copy the landing page link to send to your customers
                                             </p>
                                         </div>
                                         <div
@@ -1353,7 +1350,7 @@ const Settings = () => {
                                     >
                                         <div>
                                             <Text variant="headingLg" as="h5">
-                                                Email Sent To Customers
+                                                    Send Test Email
                                             </Text>
                                             <p
                                                 style={{
@@ -2372,7 +2369,7 @@ const Settings = () => {
                                                 Email Customization
                                             </Text>
                                             <p style={{ marginTop: "5px" }}>
-                                                Customize all the emails your customers will receive
+                                                If GoodAuthentic is sending emails, design them here.
                                             </p>
 
                                             {
@@ -2837,7 +2834,7 @@ const Settings = () => {
                                         disabled={isLoading}
                                         id="sab_ok_id"
                                     >
-                                        Save Settings
+                                            Save Landing Page
                                     </Button>
                                 </div>
                             </Grid.Cell>
