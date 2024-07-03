@@ -42,7 +42,9 @@
 .cross_handler {
     display: none;
 }
-
+.setting_banner .Polaris-Button--plain.Polaris-Button--iconOnly svg{
+    display: none;
+}
 @media (max-width: 784.98px) {
     /* .Polaris-Frame__Content {
         padding-right: 20px;

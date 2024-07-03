@@ -1137,6 +1137,7 @@ const Settings = () => {
                                     xl: 12,
                                 }}
                             >
+                                <div className="setting_banner">
                                 <Banner
                                         title={`Welcome to GoodAuthentic 👋`}
 
@@ -1159,6 +1160,7 @@ const Settings = () => {
                                                 color="base"
                                             /><span style={{ marginLeft: "10px" }}>How Vidial Works</span></button></a>
                                 </Banner>
+                                    </div>
                                 {error && (
                                     <Card sectioned>
                                         <Banner>
@@ -2291,7 +2293,7 @@ const Settings = () => {
                                                     Reminder Email Cadence
                                             </Text>
                                             <p style={{ marginTop: "5px" }}>
-                                                    This is the timing between each additional email to your customer.
+                                                    Design the reminder emails sent by GoodAuthentic
                                             </p>
                                         </div>
                                         <div
@@ -2528,7 +2530,7 @@ const Settings = () => {
                                                     Post Purchase
                                                 </Text>
                                                 <p style={{ marginTop: "5px" }}>
-                                                    Customize all the emails your customers will receive.
+                                                        Design the post purchase emails sent by GoodAuthentic
                                                 </p>
                                             </div>
                                             <div
@@ -2566,7 +2568,7 @@ const Settings = () => {
                                                     Reminder
                                                 </Text>
                                                 <p style={{ marginTop: "5px" }}>
-                                                    Customize all the emails your customers will receive.
+                                                        Design the reminder emails sent by GoodAuthentic
                                                 </p>
                                             </div>
                                             <div
@@ -2601,10 +2603,10 @@ const Settings = () => {
                                         >
                                             <div style={{ width: "550px" }}>
                                                 <Text variant="headingLg" as="h5">
-                                                    UGC Approved
+                                                        Standard Approval
                                                 </Text>
                                                 <p style={{ marginTop: "5px" }}>
-                                                    Customize all the emails your customers will receive.
+                                                        Design the standard approval emails sent by GoodAuthentic
                                                 </p>
                                             </div>
                                             <div
@@ -2639,10 +2641,10 @@ const Settings = () => {
                                         >
                                             <div style={{ width: "550px" }}>
                                                 <Text variant="headingLg" as="h5">
-                                                    UGC Star Approved
+                                                    Star Approval
                                                 </Text>
                                                 <p style={{ marginTop: "5px" }}>
-                                                    Customize all the emails your customers will receive.
+                                                        Design the star approval emails sent by GoodAuthentic
                                                 </p>
                                             </div>
                                             <div
@@ -2680,7 +2682,7 @@ const Settings = () => {
                                                     UGC Declined
                                                 </Text>
                                                 <p style={{ marginTop: "5px" }}>
-                                                    Customize all the emails your customers will receive.
+                                                        Design the declined emails sent by GoodAuthentic
                                                 </p>
                                             </div>
                                             <div

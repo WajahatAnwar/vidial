@@ -323,11 +323,11 @@ const PostPurchaseEmail = () => {
                                             Post Purchase Email
                                         </Text>
                                         <p style={{ marginTop: "5px" }}>
-                                            Customize all the emails your customers will receive.
+                                            Design the post purchase emails sent by GoodAuthentic
                                         </p>
                                         <div style={{ width: "472px" }}>
                                             <p style={{ marginTop: "20px", marginBottom: "10px", fontWeight: "500", fontSize: "18px" }}>
-                                                Header Logo
+                                                Header Image
                                             </p>
                                             <DropZone onDrop={handleDropZoneDrop} variableHeight allowMultiple={false}>
                                                 {uploadedFiles}
@@ -361,7 +361,7 @@ const PostPurchaseEmail = () => {
                                             }
                                         </div>
                                         <Text variant="headingLg" as="h5">
-                                            Texts
+                                            Body Text
                                         </Text>
                                         <p style={{ fontSize: "15px", marginTop: "20px", marginBottom: "10px", fontWeight: "500" }}>Email From</p>
                                         <TextField
@@ -381,11 +381,11 @@ const PostPurchaseEmail = () => {
                                         />
 
                                         <p style={{ color: "#9A9A9A", marginTop: "20px", }}>
-                                            Notes:
+                                            Variables:
                                         </p>
 
                                         <p style={{ color: "#9A9A9A", }}>
-                                        Use &#123;&#123;name&#125;&#125; as a placeholder for the user’s first name
+                                            Use &#123;&#123;name&#125;&#125; to display the customer's first name
                                         </p>
                                         <p style={{ color: "#9A9A9A", }}>
                                         Use &#123;&#123;storename&#125;&#125; to display the name of your brand on the email
