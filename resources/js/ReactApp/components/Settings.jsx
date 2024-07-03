@@ -1147,7 +1147,7 @@ const Settings = () => {
                                     <a style={{ textDecoration: "none" }} href="#">
                                         <button onClick={() => {
                                             window.open(
-                                                'https://www.youtube.com/watch?v=WMcggJ9QXDc&t=7s'
+                                                'https://goodauthentic.notion.site/Merchant-Guide-d8e3158efbd64a69a876b89d37d78b62'
                                             );
                                         }} style={{
                                             cursor: 'pointer',
@@ -1426,11 +1426,8 @@ const Settings = () => {
                                                     Choose discount code amount for Standard approved videos
                                             </Text>
                                             <p style={{ marginTop: "15px" }}>
-                                                We recommend offering a minimum
-                                                of {storeCurrency}50 to improve
-                                                response rates. This can be
-                                                adjusted as necessary, with not
-                                                set minimum limit in place.
+                                               
+                                                    We recommend offering a minimum of {storeCurrency}50 to improve response rates. This can be adjusted and there is no minimum.
                                             </p>
                                         </div>
                                         <div
@@ -1467,11 +1464,7 @@ const Settings = () => {
                                                     Choose discount code amount for Star approved videos
                                             </Text>
                                             <p style={{ marginTop: "15px" }}>
-                                                We recommend offering a minimum
-                                                of {storeCurrency}50 to improve
-                                                response rates. This can be
-                                                adjusted as necessary, with not
-                                                set minimum limit in place.
+                                                    We recommend a minimum of {storeCurrency}75 to improve response rates and effort. This can be adjusted and there is no minimum.
                                             </p>
                                         </div>
                                         <div
@@ -1677,8 +1670,7 @@ const Settings = () => {
                                             marginBottom: "5px",
                                         }}
                                     >
-                                        You may adjust these instructions
-                                        according to the needs of your Store.
+                                            Adjust these instructions based on what kind of videos you want.
                                     </p>
                                     <div
                                         style={{
@@ -1694,8 +1686,7 @@ const Settings = () => {
                                         ></img>
                                         <div>
                                             <p>
-                                                Be very clear about what your
-                                                costumers should video.
+                                                Tip: Be very clear in your instructions. Keep it simple.
                                             </p>
                                             <p>
                                                 Keep it simple, with minimum
@@ -1786,9 +1777,7 @@ const Settings = () => {
 
                                             </div>
                                             <p style={{ marginTop: "5px", marginBottom: "5px" }}>
-                                                Add a video for your customers
-                                                to get inspired and make a UGC
-                                                almost similar.
+                                                    Add an example video for your customers.
                                             </p>
                                         </div>
 
@@ -2234,8 +2223,7 @@ const Settings = () => {
                                                     Send Emails from GoodAuthentic
                                             </Text>
                                             <p style={{ marginTop: "5px" }}>
-                                                Choose the time to send the
-                                                first email to your customers
+                                                    If you want this app to send your emails, toggle this on. Turn off if you are sending your own.
                                             </p>
                                         </div>
                                         <div
@@ -2262,12 +2250,11 @@ const Settings = () => {
                                     >
                                         <div style={{ width: "550px" }}>
                                             <Text variant="headingLg" as="h5">
-                                                Post Purchase Emails Sent To
-                                                Customers
+                                                Post Purchase Emails
+                            
                                             </Text>
                                             <p style={{ marginTop: "5px" }}>
-                                                Choose the time to send the
-                                                first email to your customers
+                                                    This is the timing of the first email sent to your customer.
                                             </p>
                                         </div>
                                         <div
@@ -2304,13 +2291,10 @@ const Settings = () => {
                                     >
                                         <div style={{ width: "550px" }}>
                                             <Text variant="headingLg" as="h5">
-                                                Reminder Emails Sent To
-                                                Customers
+                                                    Reminder Email Cadence
                                             </Text>
                                             <p style={{ marginTop: "5px" }}>
-                                                Choose the delay between each
-                                                reminder emails (we’ll send
-                                                emails each defined weeks)
+                                                    This is the timing between each additional email to your customer.
                                             </p>
                                         </div>
                                         <div
@@ -2344,11 +2328,10 @@ const Settings = () => {
                                     >
                                         <div style={{ width: "550px" }}>
                                             <Text variant="headingLg" as="h5">
-                                                Maximum Sent Emails To Customers
+                                                    Number of Emails to Send
                                             </Text>
                                             <p style={{ marginTop: "5px" }}>
-                                                Choose the maximum of emails you
-                                                want to send to your customers
+                                                GoodAuthentic will stop sending emails after this many to each customer.
                                             </p>
                                         </div>
                                         <div
@@ -2723,7 +2706,7 @@ const Settings = () => {
                                 <Card sectioned>
                                     <div>
                                         <Text variant="headingLg" as="h5">
-                                            Remove Vidial Watermark
+                                            Remove GoodAuthentic Watermark
                                         </Text>
                                         <p
                                             style={{
@@ -2731,10 +2714,10 @@ const Settings = () => {
                                                 marginBottom: "15px",
                                             }}
                                         >
-                                            Please contact the live support to verify your store and remove our Branding “Powered by Vidial” for FREE.
+                                                Please contact live support to verify your store and remove the "Powered by GoodAuthentic" branding for FREE.
                                         </p>
                                         <Button primary onClick={handleChatClick}>
-                                            Remove The Watermark
+                                                Remove Watermark
                                         </Button>
                                     </div>
                                 </Card>
