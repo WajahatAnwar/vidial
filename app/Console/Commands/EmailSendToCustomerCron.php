@@ -142,7 +142,7 @@ class EmailSendToCustomerCron extends Command
                                         }
                                         $params = array(
 
-                                            'from' => "Vidial < " . env('MAIL_USERNAME') . " >",
+                                            'from' => "GoodAuthentic < " . env('MAIL_USERNAME') . " >",
                                             'to' => $Orders_send_mail->email,
                                             'subject' => $subject_reminder,
                                             'template' => $settings->locale == 'en' ? 'reminder-email' : "reminder-email_" . $settings->locale,
@@ -230,7 +230,7 @@ class EmailSendToCustomerCron extends Command
                                         . getCurrencySymbol($details['store_currency']) . $details['discount_amount'] . " para " . $details['store'];
                                 }
                                 $params = array(
-                                    'from' => "Vidial < " . env('MAIL_USERNAME') . " >",
+                                    'from' => "GoodAuthentic < " . env('MAIL_USERNAME') . " >",
                                     'to' => $Orders_send_mail->email,
                                     'subject' => $subject,
                                     'template' => $settings->locale == 'en' ? 'mail_post_purchase' : "mail_post_purchase_" . $settings->locale,

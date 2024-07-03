@@ -472,7 +472,7 @@ dd($current_user_approved_video_count);
 //  Generating Unique Discount Code
   public function generateUniqueDiscountCode(){
     $code = substr(base_convert(sha1(uniqid(mt_rand())), 16, 36), 0, 10);
-    return $code = 'vidial'.$code;
+    return $code = 'GA'.$code;
   }
 
   // Get Date and Time

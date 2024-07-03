@@ -319,7 +319,7 @@ function Dashboard() {
                 <Grid.Cell columnSpan={{ xs: 6, sm: 6, md: 6, lg: 12, xl: 12 }}>
                     <br></br>
                     <Text variant="headingXl" as="h4">
-                        Welcome to Vidial 👋
+                        Welcome to GoodAuthentic 👋
                     </Text>
                 </Grid.Cell>
                 <Grid.Cell columnSpan={{ xs: 6, sm: 6, md: 4, lg: 4, xl: 4 }}>

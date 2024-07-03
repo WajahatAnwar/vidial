@@ -36,11 +36,11 @@ function Resources() {
                         <div style={{padding:"10px"
                         }}>
                         <Text variant="headingXl" as="h4">
-                            Getting Started with Vidial
+                                Getting Started with GoodAuthentic
                         </Text>
 
                         <p style={{marginTop:"5px"}}>
-                            Learn how to setup Vidial and all the basic and all the basic functionality of the application to optimize the UGC collection.
+                            Learn how to setup GoodAuthentic and all the basic and all the basic functionality of the application to optimize the UGC collection.
                         </p>
                         </div>
                     </div>
@@ -51,11 +51,11 @@ function Resources() {
                         <div style={{padding:"10px"
                         }}>
                         <Text variant="headingXl" as="h4">
-                                Send Vidial Emails using Klaviyo
+                                Send GoodAuthentic Emails using Klaviyo
                         </Text>
 
                         <p style={{marginTop:"5px"}}>
-                             Learn how to integrate Vidial with your Klaviyo Flows to send more personalized mails.
+                             Learn how to integrate GoodAuthentic with your Klaviyo Flows to send more personalized mails.
                         </p>
                         </div>
                     </div>
