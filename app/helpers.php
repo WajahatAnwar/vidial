@@ -407,7 +407,7 @@ if (!function_exists('saveEnLanguage')) {
                 ),
                 array(
                     'user_id' => $user_id,
-                    'subject' => "Update about your Review",
+                    'subject' => "Update about your video",
 
                     'type' => 'UGC_Declined',
                     'body' => '<p style="text-align: center;">Hello,</p>

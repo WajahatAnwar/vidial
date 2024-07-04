@@ -413,7 +413,7 @@ const UgcApprovedEmail = () => {
                                         <p style={{ fontSize: "15px", marginTop: "20px", marginBottom: "10px", fontWeight: "500" }}>Button Text(Linked to Store Homepage)</p>
                                         <TextField
 
-                                            placeholder="Leave a video review"
+                                            placeholder="Record Video"
                                             value={buttonText}
                                             onChange={(e) => setButtonText(e)}
 

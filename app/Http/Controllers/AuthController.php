@@ -346,7 +346,7 @@ class AuthController extends Controller
     {
         $emailTemplate['logo'] = '';
         $emailTemplate['user_id'] = $user_id;
-        $emailTemplate['subject'] = "Update about your Review" ;
+        $emailTemplate['subject'] = "Update about your video" ;
        
         $emailTemplate['type'] = 'UGC_Declined';
         $emailTemplate['body'] = '<p style="text-align: center;">Hello,</p>

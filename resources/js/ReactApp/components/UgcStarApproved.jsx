@@ -414,7 +414,7 @@ const UgcStarApproved = () => {
                                         <p style={{ fontSize: "15px", marginTop: "20px", marginBottom: "10px", fontWeight: "500" }}>Button Text(Linked to Landing Page)</p>
                                         <TextField
 
-                                            placeholder="Leave a video review"
+                                            placeholder="Record Video"
                                             value={buttonText}
                                             onChange={(e) => setButtonText(e)}
 
