@@ -363,7 +363,7 @@ if (!function_exists('saveEnLanguage')) {
             $Eng = array(
                 array(
                     'user_id' => $user_id,
-                    'subject' => "Claim your {{amount}} Gift Card!",
+                    'subject' => "Claim your discount code",
                     'type' => 'UGC_Star_Approved',
                     'body' => '<p style="text-align: center;">Hello,</p>
 <p style="text-align: center;">Congratulations, your Video Review for {{storename}} has been star approved!&nbsp;</p>
@@ -378,7 +378,7 @@ if (!function_exists('saveEnLanguage')) {
                 ),
                 array(
                     'user_id' => $user_id,
-                    'subject' => "Claim your {{amount}} Gift Card!",
+                    'subject' => "Claim your discount code",
                     'type' => 'UGC_Approved',
                     'body' => '<p style="text-align: center;">Hello,</p>
 <p style="text-align: center;">Congratulations, your Video Review for {{storename}} has been approved!&nbsp;</p>
@@ -400,7 +400,7 @@ if (!function_exists('saveEnLanguage')) {
 <p style='text-align: center;'>You've recently made a purchase at {{storename}}. We'd love to hear your thoughts!</p>
 <p style='text-align: center;'>We would like to offer you a <strong>{{amount}} gift card</strong> to our store in exchange for a video where you share your thoughts about your purchase.</p>
 <p style='text-align: center;'>Could you take 30 seconds of your time for a <strong>{{amount}} gift card</strong>?</p><p style='text-align: center;'>{{button}}</p>",
-                    'btn_text' => 'Leave a Review',
+                    'btn_text' => 'Record Video',
                     'btn_color' => '#28282B',
                     'from' => auth()->user()->store_name,
                     'logo' => ''
@@ -415,7 +415,7 @@ if (!function_exists('saveEnLanguage')) {
 <p style="text-align: center;"><em>&ldquo;{{reason_decline}}&rdquo;</em></p>
 <p style="text-align: center;">No worries, you can still try again and get your <strong>{{amount}} Gift Card</strong>!</p>
 <p style="text-align: center;">{{button}}</p>',
-                    'btn_text' => 'Leave a Review',
+                    'btn_text' => 'Record Video',
                     'btn_color' => '#28282B',
                     'from' => auth()->user()->store_name,
                     'logo' => ''

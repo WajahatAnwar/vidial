@@ -211,7 +211,7 @@
                         console.log(key, value)
                         // Display error message
                     });
-                    //alert("Error: " + textStatus + " - " + errorThrown);
+                    //alert("Error: " + Body Texttatus + " - " + errorThrown);
                 }
             });
         });

@@ -91,7 +91,7 @@ const ReminderEmail = () => {
     const [content, setContent] = useState('');
     const [from, setFrom] = useState('');
     const [subject, setSubject] = useState('');
-    const [buttonText, setButtonText] = useState('Leave a video review');
+    const [buttonText, setButtonText] = useState('Record Video');
     const [notes1, setNotes1] = useState(`Use {{order_number}} for the customer’s order number`);
     const [notes2, setNotes2] = useState(`Use {{name}} or {{last_name}} as a placeholder for the user’s first or last name`);
     const [notes3, setNotes3] = useState(`Use {{amount}} for the store credit you are offering to your customers`);
@@ -318,11 +318,11 @@ const ReminderEmail = () => {
                                             Reminder Email
                                         </Text>
                                         <p style={{ marginTop: "5px" }}>
-                                            Customize all the emails your customers will receive.
+                                            Design the reminder emails sent by GoodAuthentic
                                         </p>
                                         <div style={{ width: "472px" }}>
                                             <p style={{ marginTop: "20px", marginBottom: "10px", fontWeight: "500", fontSize: "18px" }}>
-                                                Header Logo
+                                                Header Image
                                             </p>
                                             <DropZone onDrop={handleDropZoneDrop} variableHeight allowMultiple={false}>
                                                 {uploadedFiles}
@@ -358,7 +358,7 @@ const ReminderEmail = () => {
 
                                         </div>
                                         <Text variant="headingLg" as="h5">
-                                            Texts
+                                            Body Text
                                         </Text>
                                         <p style={{ fontSize: "15px", marginTop: "20px", marginBottom: "10px", fontWeight: "500" }}>Email From</p>
                                         <TextField
@@ -382,15 +382,11 @@ const ReminderEmail = () => {
                                         </p>
 
                                         <p style={{ color: "#9A9A9A", }}>
-                                        Use &#123;&#123;name&#125;&#125; as a placeholder for the user’s first name
+                                            Use &#123;&#123;name&#125;&#125; to display the customer's first name
                                         </p>
+                                                                           
                                         <p style={{ color: "#9A9A9A", }}>
-                                        Use &#123;&#123;storename&#125;&#125; to display the name of your brand on the email
-                                        </p>
-                                        <p style={{ color: "#9A9A9A", }}>
-                                        Use &#123;&#123;amount&#125;&#125; for the store credit you are offering to your customer                                        </p>
-                                        <p style={{ color: "#9A9A9A", }}>
-                                        Use &#123;&#123;button&#125;&#125; to display the button call-to-action on the email
+                                            Use &#123;&#123;button&#125;&#125; to display the call-to-action button
                                         </p>
                                         <p style={{ fontSize: "15px", marginTop: "20px", marginBottom: "10px", fontWeight: "500" }}>Content</p>
 
@@ -413,10 +409,10 @@ const ReminderEmail = () => {
                                                 content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
                                             }}
                                         />
-                                        <p style={{ fontSize: "15px", marginTop: "20px", marginBottom: "10px", fontWeight: "500" }}>Button Text</p>
+                                        <p style={{ fontSize: "15px", marginTop: "20px", marginBottom: "10px", fontWeight: "500" }}>Button Text(Linked to Landing Page)</p>
                                         <TextField
 
-                                            placeholder="Leave a video review"
+                                            placeholder="Record Video"
                                             value={buttonText}
                                             onChange={(e) => setButtonText(e)}
 

@@ -317,7 +317,7 @@ const UgcDeclinedEmail = () => {
                                         </p>
                                         <div style={{ width: "472px" }}>
                                             <p style={{ marginTop: "20px", marginBottom: "10px", fontWeight: "500", fontSize: "18px" }}>
-                                                Header Logo
+                                                Header Image
                                             </p>
                                             <DropZone onDrop={handleDropZoneDrop} variableHeight allowMultiple={false}>
                                                 {uploadedFiles}
@@ -351,7 +351,7 @@ const UgcDeclinedEmail = () => {
                                             }
                                         </div>
                                         <Text variant="headingLg" as="h5">
-                                            Texts
+                                            Body Text
                                         </Text>
                                         <p style={{ fontSize: "15px", marginTop: "20px", marginBottom: "10px", fontWeight: "500" }}>Email From</p>
                                         <TextField

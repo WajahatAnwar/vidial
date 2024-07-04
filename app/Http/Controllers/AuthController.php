@@ -284,7 +284,7 @@ class AuthController extends Controller
     {
         $emailTemplate['logo'] = '';
         $emailTemplate['user_id'] = $user_id;
-        $emailTemplate['subject'] = "Claim your {{amount}} Gift Card!";
+        $emailTemplate['subject'] = "Claim your discount code";
 
         $emailTemplate['type'] = 'UGC_Star_Approved';
         $emailTemplate['body'] = '<p style="text-align: center;">Hello,</p>
@@ -306,7 +306,7 @@ class AuthController extends Controller
     public function videoApprovedTemplate($user_id,$user){
         $emailTemplate['logo'] = '';
         $emailTemplate['user_id'] = $user_id;
-        $emailTemplate['subject'] = "Claim your {{amount}} Gift Card!";
+        $emailTemplate['subject'] = "Claim your discount code";
 
         $emailTemplate['type'] = 'UGC_Approved';
         $emailTemplate['body'] = '<p style="text-align: center;">Hello,</p>
@@ -336,7 +336,7 @@ class AuthController extends Controller
 <p style='text-align: center;'>You've recently made a purchase at {{storename}}. We'd love to hear your thoughts!</p>
 <p style='text-align: center;'>We would like to offer you a <strong>{{amount}} gift card</strong> to our store in exchange for a video where you share your thoughts about your purchase.</p>
 <p style='text-align: center;'>Could you take 30 seconds of your time for a <strong>{{amount}} gift card</strong>?</p><p style='text-align: center;'>{{button}}</p>";
-        $emailTemplate['btn_text'] = 'Leave a Review';
+        $emailTemplate['btn_text'] = 'Record Video';
         $emailTemplate['btn_color'] = '#28282B';
         $emailTemplate['from'] = auth()->user()->store_name;
         EmailTemplate::firstOrCreate(['user_id' => $user_id, 'type' => 'Post_Purchase'],$emailTemplate);
@@ -355,7 +355,7 @@ class AuthController extends Controller
 <p style="text-align: center;">No worries, you can still try again and get your <strong>{{amount}} Gift Card</strong>!</p>
 <p style="text-align: center;">{{button}}</p>';
 
-        $emailTemplate['btn_text'] = 'Leave a Review';
+        $emailTemplate['btn_text'] = 'Record Video';
         $emailTemplate['btn_color'] = '#28282B';
         $emailTemplate['from'] = auth()->user()->store_name;
         EmailTemplate::firstOrCreate(
