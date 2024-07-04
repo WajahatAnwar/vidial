@@ -328,7 +328,7 @@ class AuthController extends Controller
 
         $emailTemplate['logo'] = '';
         $emailTemplate['user_id'] = $user_id;
-        $emailTemplate['subject'] = "We have a question for you";
+        $emailTemplate['subject'] = "Send a video and we'll send a big discount";
 
                            
         $emailTemplate['type'] = 'Post_Purchase';

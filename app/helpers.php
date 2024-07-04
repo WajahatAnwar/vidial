@@ -394,7 +394,7 @@ if (!function_exists('saveEnLanguage')) {
 
                 array(
                     'user_id' => $user_id,
-                    'subject' => "We have a question for you",
+                    'subject' => "Send a video and we'll send a big discount",
                     'type' => 'Post_Purchase',
                     'body' => "<p style='text-align: center;'>Hello {{name}},</p>
 <p style='text-align: center;'>You've recently made a purchase at {{storename}}. We'd love to hear your thoughts!</p>
