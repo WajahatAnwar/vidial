@@ -24,6 +24,7 @@ import ReminderEmail from "./ReminderEmail"
 import UgcApprovedEmail from "./UgcApprovedEmail"
 import UgcDeclinedEmail from "./UgcDeclinedEmail"
 import UgcStarApproved from "./UgcStarApproved";
+import Email from "./Email";
 
 const VidialApp = () => {
 
@@ -92,7 +93,7 @@ const VidialApp = () => {
                 <Route path="/settings" element={<Settings />} />
                 <Route path="/videos-to-review" element={<VideosToReview />} />
                 <Route path="/approved-videos" element={<ApprovedVideos />} />
-                <Route path="/email" element={<Settings />} />
+                <Route path="/email" element={<Email />} />
                 <Route path="/plans" element={<Plans />} />
                 <Route path="/resources" element={<Resources />} />
                 <Route path="/admin-dashboard" element={<AdminDashboard />} />

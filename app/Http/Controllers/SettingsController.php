@@ -188,6 +188,34 @@ class SettingsController extends Controller
         ]);
     }
 
+    public function saveEmailTab(Request $request){
+        $validatedData = $request->validate([
+            'page_display_to_customers' => 'required|numeric|min:1',
+            'email_sent_to_customer' => 'required|numeric|min:1',
+            'page_link' => 'required|numeric|min:1',
+
+
+        ]);
+       
+        
+        $currentUser = Auth::user()->id;
+       
+        $settings = Setting::where('user_id', $currentUser)->first();
+        
+        if($settings){
+            $settings->page_display_to_customers = $request->page_display_to_customers;
+            $settings->email_sent_to_customer = $request->email_sent_to_customer;
+            $settings->page_link = $request->page_link;
+            $settings->page_display_to_customers = $request->page_display_to_customers;
+            $settings->email_status = $request->setting_status;
+            $settings->save();
+        }
+        return response()->json([
+            'success' => true,
+            'message' => "Email Tab Saved Successfully",
+        ]);
+    }
+
     /****** Landing Page *******/
     public function landingPage(Request $request,$locale){
         // Language Translation

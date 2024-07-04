@@ -127,6 +127,8 @@ Route::post('change_pop_up_type', [SettingsController::class, 'change_pop_up_typ
 Route::post('get_dashboard_data', [DashboardController::class, 'get_dashboard_data'])->middleware(['verify.shopify']);
 
 Route::post('save_settings', [SettingsController::class, 'saveSettings'])->middleware(['verify.shopify']);
+Route::post('save-email-tab', [SettingsController::class, 'saveEmailTab'])->middleware(['verify.shopify']);
+
 
 Route::get('get_settings', [SettingsController::class, 'getSettings'])->middleware(['verify.shopify']);
 
