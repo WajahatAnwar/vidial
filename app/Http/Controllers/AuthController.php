@@ -287,12 +287,12 @@ class AuthController extends Controller
         $emailTemplate['subject'] = "Claim your discount code";
 
         $emailTemplate['type'] = 'UGC_Star_Approved';
-        $emailTemplate['body'] = '<p style="text-align: center;">Hello,</p>
-<p style="text-align: center;">Congratulations, your Video Review for {{storename}} has been approved!&nbsp;</p>
-<p style="text-align: center;">We are constantly inspired by the creativity and passion of our customers, and we appreciate your support.</p>
-<p style="text-align: center;">Here is your Discount code:</p>
-<h1 style="text-align: center;">{{discount_code}}</h1>
-<p style="text-align: center;">You can use this code at the checkout to receive your {{amount}} Discount.<br><br>{{button}}</p>';
+        $emailTemplate['body'] = '<p style="text-align: left;">Hello,</p>
+<p style="text-align: left;">Congratulations, your Video Review for {{storename}} has been approved!&nbsp;</p>
+<p style="text-align: left;">We are constantly inspired by the creativity and passion of our customers, and we appreciate your support.</p>
+<p style="text-align: left;">Here is your Discount code:</p>
+<h1 style="text-align: left;">{{discount_code}}</h1>
+<p style="text-align: left;">You can use this code at the checkout to receive your {{amount}} Discount.<br><br>{{button}}</p>';
 
         $emailTemplate['btn_text'] = 'Shop Now';
         $emailTemplate['btn_color'] = '#28282B';
@@ -309,12 +309,12 @@ class AuthController extends Controller
         $emailTemplate['subject'] = "Claim your discount code";
 
         $emailTemplate['type'] = 'UGC_Approved';
-        $emailTemplate['body'] = '<p style="text-align: center;">Hello,</p>
-<p style="text-align: center;">Congratulations, your Video Review for {{storename}} has been approved!&nbsp;</p>
-<p style="text-align: center;">We are constantly inspired by the creativity and passion of our customers, and we appreciate your support.</p>
-<p style="text-align: center;">Here is your Discount code:</p>
-<h1 style="text-align: center;">{{discount_code}}</h1>
-<p style="text-align: center;">You can use this code at the checkout to receive your {{amount}} Discount.<br><br>{{button}}</p>';
+        $emailTemplate['body'] = '<p style="text-align: left;">Hello,</p>
+<p style="text-align: left;">Congratulations, your Video Review for {{storename}} has been approved!&nbsp;</p>
+<p style="text-align: left;">We are constantly inspired by the creativity and passion of our customers, and we appreciate your support.</p>
+<p style="text-align: left;">Here is your Discount code:</p>
+<h1 style="text-align: left;">{{discount_code}}</h1>
+<p style="text-align: left;">You can use this code at the checkout to receive your {{amount}} Discount.<br><br>{{button}}</p>';
 
         $emailTemplate['btn_text'] = 'Shop Now';
         $emailTemplate['btn_color'] = '#28282B';
@@ -332,10 +332,10 @@ class AuthController extends Controller
 
                            
         $emailTemplate['type'] = 'Post_Purchase';
-        $emailTemplate['body'] = "<p style='text-align: center;'>Hello {{name}},</p>
-<p style='text-align: center;'>You've recently made a purchase at {{storename}}. We'd love to hear your thoughts!</p>
-<p style='text-align: center;'>We would like to offer you a <strong>{{amount}} gift card</strong> to our store in exchange for a video where you share your thoughts about your purchase.</p>
-<p style='text-align: center;'>Could you take 30 seconds of your time for a <strong>{{amount}} gift card</strong>?</p><p style='text-align: center;'>{{button}}</p>";
+        $emailTemplate['body'] = "<p style='text-align: left;'>Hello {{name}},</p>
+<p style='text-align: left;'>You recently made a purchase from us and we'd love to hear your thoughts!</p>
+<p style='text-align: left;'>We are offering a <strong>{{amount}} discount code</strong> to our store in exchange for a video where you give us feedback about your experience.</p>
+<p style='text-align: left;'>Could you take 30 seconds of your time for <strong>{{amount}} </strong>?</p><p style='text-align: center;'>{{button}}</p>";
         $emailTemplate['btn_text'] = 'Record Video';
         $emailTemplate['btn_color'] = '#28282B';
         $emailTemplate['from'] = auth()->user()->store_name;
@@ -349,11 +349,11 @@ class AuthController extends Controller
         $emailTemplate['subject'] = "Update about your video" ;
        
         $emailTemplate['type'] = 'UGC_Declined';
-        $emailTemplate['body'] = '<p style="text-align: center;">Hello,</p>
-<p style="text-align: center;">Sorry, your video review for {{storename}} was not approved for the following reason:</p>
-<p style="text-align: center;"><em>"&ldquo;{{reason_decline}}&rdquo;"</em></p>
-<p style="text-align: center;">No worries, you can still try again and get your <strong>{{amount}} Gift Card</strong>!</p>
-<p style="text-align: center;">{{button}}</p>';
+        $emailTemplate['body'] = '<p style="text-align: left;">Hello,</p>
+<p style="text-align: left;">Sorry, your video review for {{storename}} was not approved for the following reason:</p>
+<p style="text-align: left;"><em>"&ldquo;{{reason_decline}}&rdquo;"</em></p>
+<p style="text-align: left;">No worries, you can still try again and get your <strong>{{amount}} Gift Card</strong>!</p>
+<p style="text-align: left;">{{button}}</p>';
 
         $emailTemplate['btn_text'] = 'Record Video';
         $emailTemplate['btn_color'] = '#28282B';
@@ -371,11 +371,11 @@ class AuthController extends Controller
         $emailTemplate['subject'] = "Share your Thoughts on {{storename}}";
                            
         $emailTemplate['type'] = 'Reminder';
-        $emailTemplate['body'] = "<p style='text-align: center;'>Hello {{name}},</p>
-<p style='text-align: center;'>We noticed you haven't yet submitted your video review for your recent purchase at {{storename}}.&nbsp;</p>
-<p style='text-align: center;'>Remember, we're offering a <strong>{{amount}} Gift Card</strong> for just 30 seconds of your time!</p>
-<p style='text-align: center;'>Your thoughts and feedback are important to us, and we're excited to hear what you think about your purchase.</p>
-<p style='text-align: center;'>Don't miss out on this opportunity. Could you take 30 seconds to share your experience and claim your <strong>{{amount}} Gift Card</strong>?<br><br>{{button}}</p>";
+        $emailTemplate['body'] = "<p style='text-align: left;'>Hello {{name}},</p>
+<p style='text-align: left;'>We noticed you haven't yet submitted your video review!&nbsp;</p>
+<p style='text-align: left;'>Remember, we're offering a <strong>{{amount}} discount code</strong> for just 30 seconds of your time!</p>
+<p style='text-align: left;'>Your thoughts and feedback are important to us, and we're excited to hear what you think about your purchase.</p>
+<p style='text-align: left;'>Don't miss out on this opportunity. Could you take 30 seconds to share your experience and claim your <strong>{{amount}} Gift Card</strong>?<br><br>{{button}}</p>";
 
         $emailTemplate['btn_text'] = 'Submit a Review';
         $emailTemplate['btn_color'] = '#28282B';
