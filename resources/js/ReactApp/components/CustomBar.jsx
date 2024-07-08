@@ -43,7 +43,7 @@ function TabsExample() {
     const [selected, setSelected] = useState(0);
     const handleTabChange = useCallback((selectedTabIndex) => {
 
-
+   
         if (selectedTabIndex == 0) {
             setSelected(selectedTabIndex);
             navigate(`/dashboard${search}`);

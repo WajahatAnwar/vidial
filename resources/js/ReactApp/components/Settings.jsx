@@ -1679,10 +1679,12 @@ const Settings = () => {
                                             marginBottom: "20px",
                                         }}
                                     >
-                                        <img
+                                        {/* <img
                                             src={ErrorIcon}
                                             style={{ marginRight: "12px" }}
-                                        ></img>
+                                        ></img> */}
+
+                                            <span style={{ fontSize:'30px' }} >💡</span>
                                         <div>
                                             <p>
                                                 Tip: Be very clear in your instructions. Keep it simple.
