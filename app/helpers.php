@@ -366,11 +366,11 @@ if (!function_exists('saveEnLanguage')) {
                     'subject' => "Claim your discount code",
                     'type' => 'UGC_Star_Approved',
                     'body' => '<p style="text-align: left;">Hello,</p>
-<p style="text-align: left;">Congratulations, your Video Review for {{storename}} has been star approved!&nbsp;</p>
-<p style="text-align: left;">We are constantly inspired by the creativity and passion of our customers, and we appreciate your support.</p>
+<p style="text-align: left;">Congratulations, your video has been approved and marked as a Star video! This means you’re getting an even better discount for submitting an especially great video.&nbsp;</p>
+<p style="text-align: left;">We appreciate your support and thank you so much for taking the time to make your video.</p>
 <p style="text-align: left;">Here is your Discount code:</p>
 <h1 style="text-align: left;">{{discount_code}}</h1>
-<p style="text-align: left;">You can use this code at the checkout to receive your {{amount}} Discount.<br><br>{{button}}</p>',
+<p style="text-align: left;">You can use this code at the checkout to receive your {{amount}} discount.<br><br>{{button}}</p>',
                     'btn_text' => 'Shop Now',
                     'btn_color' => '#28282B',
                     'from' => auth()->user()->store_name,
@@ -381,8 +381,8 @@ if (!function_exists('saveEnLanguage')) {
                     'subject' => "Claim your discount code",
                     'type' => 'UGC_Approved',
                     'body' => '<p style="text-align: left;">Hello,</p>
-<p style="text-align: left;">Congratulations, your Video Review for {{storename}} has been approved!&nbsp;</p>
-<p style="text-align: left;">We are constantly inspired by the creativity and passion of our customers, and we appreciate your support.</p>
+<p style="text-align: left;">Congratulations, your video has been approved!&nbsp;</p>
+<p style="text-align: left;">We appreciate your support and thank you so much for taking the time to make your video.</p>
 <p style="text-align: left;">Here is your Discount code:</p>
 <h1 style="text-align: left;">{{discount_code}}</h1>
 <p style="text-align: left;">You can use this code at the checkout to receive your {{amount}} Discount.<br><br>{{button}}</p>',
@@ -411,9 +411,9 @@ if (!function_exists('saveEnLanguage')) {
 
                     'type' => 'UGC_Declined',
                     'body' => '<p style="text-align: left;">Hello,</p>
-<p style="text-align: left;">Sorry, your video review for {{storename}} was not approved for the following reason:</p>
+<p style="text-align: left;">Sorry, your video was not approved for the following reason:</p>
 <p style="text-align: left;"><em>&ldquo;{{reason_decline}}&rdquo;</em></p>
-<p style="text-align: left;">No worries, you can still try again and get your <strong>{{amount}} Gift Card</strong>!</p>
+<p style="text-align: left;">No worries, you can still try again and get your <strong>{{amount}}</strong>!</p>
 <p style="text-align: left;">{{button}}</p>',
                     'btn_text' => 'Record Video',
                     'btn_color' => '#28282B',
