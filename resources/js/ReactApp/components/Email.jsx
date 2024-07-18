@@ -1369,6 +1369,11 @@ const Email = () => {
                                     >
                                         <div style={{ marginTop: "20px" }}></div>
                                         <div style={{ display: "flex", alignItems: "center", marginRight: "5px" }} >
+                                                <div style={{ marginBottom: "15px" }}>
+                                                    <Text variant="headingLg" as="h5">
+                                                        Send Using Mailgun
+                                                    </Text>
+                                                </div>
                                             <EmailCredsToggle toggled={emailCredsToggle} onClick={() => {
                                                 setEmailCredsToggle(!emailCredsToggle);
                                                 setEmailCredsError(false);
