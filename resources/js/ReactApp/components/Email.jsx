@@ -1662,7 +1662,109 @@ const Email = () => {
 
 
                                 </Card>
+                                    <Card sectioned>
+                                        <div style={{ display: "flex", alignItems: "center", marginRight: "5px" }} >
+                                            <EmailCredsToggle toggled={emailCredsToggle} onClick={() => {
+                                                setEmailCredsToggle(!emailCredsToggle);
+                                                setEmailCredsError(false);
+                                            }}></EmailCredsToggle>
 
+                                            <p style={{ fontWeight: "bold", marginLeft: "5px" }}>Send with your own email</p>
+
+
+                                        </div>
+
+                                        {
+                                            emailCredsToggle ?
+                                                <>
+                                                    {/* <Checkbox
+                                            label="Send with your own email"
+                                            checked={isEmailActive}
+                                            onChange={handleIsEmailActive}
+                                        /> */}
+                                                    <div
+                                                        style={{
+                                                            width: "450px",
+                                                            marginTop: "10px",
+                                                        }}
+                                                    >
+
+
+
+                                                        <TextField
+                                                            value={mailgunAPI}
+                                                            onChange={handleMailgunAPI}
+                                                            autoComplete="off"
+                                                            placeholder="Mailgun API Key"
+                                                        />
+                                                        <p style={{ color: "#717171", marginTop: "5px" }}>Paste your <a href="https://www.mailgun.com/blog/product/getting-started-with-mailgun-introduction-to-platform-training/" target="blank" style={{ color: "#008060", textDecoration: "underline" }}>Mailgun</a> API Key here. <a href="https://documentation.mailgun.com/en/latest/index.html" target="blank" style={{ color: "#008060", textDecoration: "underline" }}>See how it works</a></p>
+                                                    </div>
+                                                    <div
+                                                        style={{
+                                                            width: "450px",
+                                                            marginTop: "10px",
+                                                        }}
+                                                    >
+
+
+
+                                                        <TextField
+                                                            value={senderEmail}
+                                                            onChange={handleSenderEmail}
+                                                            autoComplete="off"
+                                                            placeholder="noreply@vidialapp.com"
+                                                        />
+                                                        <p style={{ color: "#717171", marginTop: "5px" }}>Enter the email address that will be used as the sender.</p>
+
+                                                    </div>
+
+                                                    {/* <div
+                                                style={{
+                                                    width: "450px",
+                                                    marginTop: "10px",
+                                                }}
+                                            >
+
+
+                                                <TextField
+                                                    value={mailgunDomain}
+                                                    onChange={handleMailgunDomain}
+                                                    autoComplete="off"
+                                                    placeholder="Mailgun Domain"
+                                                />
+                                                <p style={{ color: "#717171", marginTop: "5px" }}>Enter the Mailgun Domain.</p>
+
+                                            </div>
+
+
+                                            <div
+                                                style={{
+                                                    width: "450px",
+                                                    marginTop: "10px",
+                                                }}
+                                            >
+
+                                                <TextField
+                                                    value={mailgunEndpoint}
+                                                    onChange={handleMailgunEndPoint}
+                                                    autoComplete="off"
+                                                    placeholder="Mailgun Endpoint"
+                                                />
+                                                <p style={{ color: "#717171", marginTop: "5px" }}>Enter the Mailgun endpoint.</p>
+
+                                            </div> */}
+                                                    <div
+                                                        style={{
+                                                            width: "450px",
+                                                            marginTop: "10px",
+                                                        }}
+                                                    >
+                                                        <Button primary onClick={handleSaveEmailCredentials}>Save</Button>
+                                                    </div>
+                                                </>
+                                                : ''
+                                        }
+                                    </Card>
                                 <Card sectioned>
                                     <div>
                                         <Text variant="headingLg" as="h5">

@@ -2541,7 +2541,7 @@ const Settings = () => {
                                         <div className="googledrivesection">
                                             <div style={{ marginBottom: "15px" }}>
                                                 <Text variant="headingLg" as="h5">
-                                                    Klavio
+                                                    Connect Klaviyo
                                                 </Text>
                                             </div>
                                             {/* <p
