@@ -145,10 +145,10 @@ function Plans() {
 
                         data.name != "Free" &&
 
-
+                        
                         <Grid.Cell
                             columnSpan={{ xs: 6, sm: 6, md: 6, lg: 3, xl: 3 }}
-                            {...data.name =='100 Video Plan' ? 'style={{display:none}}' : ''}
+                            
                         >
                             <div
                                 style={{

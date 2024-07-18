@@ -160,7 +160,7 @@ class OrdersController extends Controller
 
     public function get_plans()
     {
-       $all_plans = Plan::all();
+       $all_plans = Plan::whereNotIn('name', ['100 Video Plan', 'Unlimited Video Plan'])->get();
        return response()->json([
         'success' => true,
         'message' => 'Fetch Plans Successfully',
