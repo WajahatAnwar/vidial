@@ -65,6 +65,7 @@ const Settings = () => {
     const [emailCredsMsg, setEmailCredsMsg] = useState('');
     const [emailCredsToggle, setEmailCredsToggle] = useState(false);
     const [gDConnected, setGDConnected] = useState(true);
+    const [klavioConnected, setKlavioConnected] = useState(true);
 
 
     const [isEmailActive, setIsEmailActive] = useState(false);
@@ -98,12 +99,17 @@ const Settings = () => {
     const [gdSecretKey, setGdSecretKey] = useState("");
     const [gdFolder, setGdFolder] = useState("");
 
+    const [klavioApi, setKlavioApi] = useState("");
+    const [klavioEmail, setKlavioEmail] = useState("");
+
 
     const handleSenderApi = useCallback((newValue) => setGdApi(newValue), []);
     const handleSenderClientId = useCallback((newValue) => setGdClientId(newValue), []);
     const handleSenderSecKey = useCallback((newValue) => setGdSecretKey(newValue), []);
     const handleSenderFolder = useCallback((newValue) => setGdFolder(newValue), []);
     const handleSenderEmail = useCallback((newValue) => setSenderEmail(newValue), []);
+    const handleKlavioApi = useCallback((newValue) => setKlavioApi(newValue), []);
+    const handleKlavioEmail = useCallback((newValue) => setKlavioEmail(newValue), []);
 
 
     const [mailgunAPI, setMailgunAPI] = useState("");
@@ -280,9 +286,9 @@ const Settings = () => {
     // console.log(logoImage);
     const [video, setVideo] = useState("");
     const [store, setStore] = useState("");
-    // const [baseUrl, setBaseUrl] = useState("https://app.vidial.co");
-    //const [baseUrl, setBaseUrl] = useState("https://phpstack-953879-3439374.cloudwaysapps.com");
-    const [baseUrl, setBaseUrl] = useState("https://app.vidial.co");
+    //const [baseUrl, setBaseUrl] = useState("https://app.vidial.co");
+    const [baseUrl, setBaseUrl] = useState("https://phpstack-953879-3439374.cloudwaysapps.com");
+    //const [baseUrl, setBaseUrl] = useState("https://d8f5-72-255-40-111.ngrok-free.app");
     const [imagename, setImagename] = useState("");
     const [videoname, setVideoname] = useState("");
     const [previewLogo, setPreviwLogo] = useState("");
@@ -296,7 +302,9 @@ const Settings = () => {
     const [favIconPreview, setFavIconPreview] = useState(null);
     
     const [gdError, setGdError] = useState(false);
+    const [klavioError, setKlavioError] = useState(false);
     const [gdErrorMsg, setGdErrorMsg] = useState('');
+    const [klavioErrorMsg, setKlavioErrorMsg] = useState('');
 
     // const successToastVideo = active ? (
     //     <Toast content="Settings Saved" onDismiss={true} />
@@ -461,6 +469,13 @@ const Settings = () => {
         setGdFolder(data.data.gd_creds.folder_name);
     }
 
+    /******* setter for klavio *********/
+    const setterKlavio = (data) => {
+        setKlavioConnected(true);
+        setKlavioApi(data.data.klavio.api_key);
+        setKlavioEmail(data.data.klavio.email);
+    }
+
     function getEmailDomain(email) {
         // Find the index of the "@" symbol
         const atIndex = email.indexOf("@");
@@ -505,6 +520,32 @@ const Settings = () => {
         window.open(url, '_blank');
     }
 
+    /************** handle Connect to Klavio **************/
+    const handleConnectKlavio = () => {
+       
+        setKlavioError(false);
+        if (klavioApi.length <= 0) {
+            setKlavioError(true);
+            setKlavioErrorMsg('Api key is required');
+            return;
+        }
+        if (klavioEmail.length <= 0) {
+            setKlavioError(true);
+            setKlavioErrorMsg('Email is required');
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('api_key', klavioApi);
+        formData.append('email', klavioEmail);
+        fetch('save-klavio-settings',{
+            body:formData,
+            method:'POST'
+        }).then(response=>response.json()).then((data)=>{
+             console.log(data);
+        })
+    }
+
     /********  get Settings Data  ******/
     useEffect(() => {
         console.log("massab 126");
@@ -518,9 +559,12 @@ const Settings = () => {
                 }
                 const data = await response.json();
                 if (data.success) {
+                    console.log(data);
+                    console.log('data');
                     setFavIconPreview(data.data.fav_icon ?? null);
                     data.data.email_creds ? setterEmailCreds(data) : ''
                     data.data.gd_creds ? setterGdCreds(data) : setGDConnected(false)
+                    data.data.klavio ? setterKlavio(data) : setKlavioConnected(false)
 
                     setApprovedStoreHandle(data.data.storeHandle);
                     setStoreHandle(data.data.storeHandle);
@@ -2479,6 +2523,81 @@ const Settings = () => {
                                         </div>
                                     </div>
                                 </Card>
+
+                                {/********* Klavio  *********/}
+                                    <Card sectioned>
+                                        {
+                                            klavioError ? <Banner>
+                                                <List type="bullet">
+                                                    {
+                                                        <List.Item>{klavioErrorMsg}</List.Item>
+
+                                                    }
+
+
+                                                </List>
+                                            </Banner> : ''
+                                        }
+                                        <div className="googledrivesection">
+                                            <div style={{ marginBottom: "15px" }}>
+                                                <Text variant="headingLg" as="h5">
+                                                    Klavio
+                                                </Text>
+                                            </div>
+                                            {/* <p
+                                            style={{
+                                                marginTop: "15px",
+                                                marginBottom: "15px",
+                                            }}
+                                        >
+                                            Please contact the live support to verify your store and remove our Branding “Powered by Vidial” for FREE.
+                                        </p> */}
+                                            <div style={{ marginTop: "10px", width: "450px" }}>
+                                                <TextField
+                                                    value={klavioApi}
+                                                    onChange={handleKlavioApi}
+                                                    autoComplete="off"
+                                                    placeholder="Set Api Key"
+
+                                                />
+                                            </div>
+
+                                            <div style={{ marginTop: "10px", width: "450px" }}>
+                                                <TextField
+                                                    value={klavioEmail}
+                                                    onChange={handleKlavioEmail}
+                                                    autoComplete="off"
+                                                    placeholder="Set Email"
+
+                                                />
+                                            </div>
+
+                                        
+
+                                            <div style={{ marginTop: "20px" }}>
+                                                {
+                                                    klavioConnected ?
+
+                                                        <Button info >
+                                                            <div style={{ display: "flex" }} >
+
+                                                                <div>Connected</div>
+                                                                <div>
+                                                                    <Icon
+                                                                        source={TickMinor}
+                                                                        color="base"
+                                                                    />
+                                                                </div>
+                                                            </div>
+                                                        </Button>
+                                                        : <Button primary onClick={handleConnectKlavio}>
+                                                            Connect
+                                                        </Button>
+                                                }
+                                            </div>
+                                        </div>
+                                    </Card>
+
                                 <div
                                     style={{
                                         textAlign: "right",

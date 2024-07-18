@@ -1,8 +1,8 @@
 <?php
 
 use App\Models\Video;
-use App\Models\Orders;
 use App\Models\User;
+use App\Models\Orders;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\AuthController;
@@ -170,6 +170,20 @@ Route::group(['middleware' => 'verify.shopify'], function () {
     //         ->get();
     //         dd($order_list);
     // });
+    Route::post('save-klavio-settings', [SettingsController::class, 'saveKlavioCreds'])->name('connect.klavio');
+    Route::get('test',function(){
+        $order_list = Orders::with('marchent')->whereHas('marchent', function ($query) {
+
+            $query->whereHas('settings', function ($subQuery) {
+                $subQuery->where('email_status', '=', 'true');
+            });
+        })
+            ->where('remaining_mail', '>', 0)
+            ->where('replied', '=', 0)
+            ->where('email_service', '=', 'mailgun')
+            ->get();
+            dd($order_list);
+    });
     
     
     
