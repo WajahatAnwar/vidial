@@ -83,7 +83,7 @@ class SettingsController extends Controller
     }
         /******* Get settings *****/
     public function getSettings(){
-
+        
         $data= Setting::where('user_id',Auth::user()->id)->first();
         $store = User::where('id', Auth::user()->id)->with('emailCreds', 'googleDriveCreds','klavio')->first();
         //$store=User::find(Auth::user()->id)->with('emailCreds');
@@ -92,7 +92,9 @@ class SettingsController extends Controller
             $data['instructions'] = json_decode($data['instructions']);
         
         }
-
+             $plan = Plan::
+             where('id', $store->plan_id)
+             ->first();
         $data['store']=$store->name;
         $data['email']=$store->email;
         $data['store_name']=$store->store_name;
@@ -102,6 +104,8 @@ class SettingsController extends Controller
         $data['email_creds'] = $emailCreds;
         $data['gd_creds'] = $store->googleDriveCreds;
         $data['klavio'] = $store->klavio;
+        $data['plan_id'] = $store->plan_id;
+        $data['plan_name'] = $store->name;
         return response()->json([
             'success' => true,
             'message' => "Settings get Successfully",

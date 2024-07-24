@@ -293,6 +293,7 @@ const Email = () => {
     const [storeName, setstoreName] = useState("");
     const [successToastVideo, setSuccessToastVideo] = useState("");
     const [favIcon, setFavIcon] = useState(null);
+    const [planName,setPlanName] = useState(null);
     const [favIconPreview, setFavIconPreview] = useState(null);
     
     const [gdError, setGdError] = useState(false);
@@ -518,6 +519,7 @@ const Email = () => {
                 }
                 const data = await response.json();
                 if (data.success) {
+                    setPlanName(data.data.plan_name)
                     setFavIconPreview(data.data.fav_icon ?? null);
                     data.data.email_creds ? setterEmailCreds(data) : ''
                     data.data.gd_creds ? setterGdCreds(data) : setGDConnected(false)
@@ -1663,6 +1665,8 @@ const Email = () => {
 
 
                                 </Card>
+                                {
+                                        (planName == 'Premium' || planName == 'Enterprise') ?
                                     <Card sectioned>
                                         <div style={{ display: "flex", alignItems: "center", marginRight: "5px" }} >
                                             <div style={{ marginBottom: "15px" }}>
@@ -1772,6 +1776,8 @@ const Email = () => {
                                                 : ''
                                         }
                                     </Card>
+                                    : null
+                                 }
                                 <Card sectioned>
                                     <div>
                                         <Text variant="headingLg" as="h5">
@@ -1790,7 +1796,7 @@ const Email = () => {
                                         </Button>
                                     </div>
                                 </Card>
-
+                                    { (planName == 'Premium' || planName == 'Enterprise') ?
                                 <Card sectioned>
                                     {
                                         gdError ? <Banner>
@@ -1893,6 +1899,8 @@ const Email = () => {
                                         </div>
                                     </div>
                                 </Card>
+                                : null
+                                }
                                 <div
                                     style={{
                                         textAlign: "right",

@@ -119,7 +119,7 @@ function TabsExample() {
         },
         {
             id: "teteat-customers-1",
-            content: "Settings",
+            content: "Landing Page",
         },
         {
             id: "plans-customers-1",

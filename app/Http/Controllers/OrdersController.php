@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Crypt;
-
+use App\Http\Resources\PlanResource;
 class OrdersController extends Controller
 {
     public function fetch_orders(Request $request)
@@ -160,7 +160,8 @@ class OrdersController extends Controller
 
     public function get_plans()
     {
-       $all_plans = Plan::whereNotIn('name', ['400 Video Plan','100 Video Plan', 'Unlimited Video Plan'])->get();
+       $all_plans = Plan::where('id', '>',12)->get();
+   
        return response()->json([
         'success' => true,
         'message' => 'Fetch Plans Successfully',

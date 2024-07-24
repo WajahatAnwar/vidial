@@ -143,7 +143,7 @@ function Plans() {
                     {plan.map((data) => (
 
 
-                        data.name != "Free" &&
+                        
 
                         
                         <Grid.Cell
@@ -223,11 +223,24 @@ function Plans() {
                                         marginBottom: "8px",
                                         textAlign: "center",
                                         fontSize: "14px",
+                                        padding: "5px 0",
+                                    }}
+                                >
+                                    {data.name == 'Free' ? '' : data.name == 'Standard' ? 'Everything in Standard' : data.name == 'Premium' ? 'Everything in Premium' : 'Premium Support'}
+                                </p>
+                                <p
+                                    style={{
+                                        marginBottom: "8px",
+                                        textAlign: "center",
+                                        fontSize: "14px",
                                         background: "#F9F9F9B2",
                                         padding: "5px 0",
                                     }}
                                 >
-                                        {data.ugc_video_count == 500000 ? 'Unlimited monthly UGC videos' : `${data.ugc_video_count} monthly UGC videos`} 
+                                        {
+                                        // data.ugc_video_count == 500000 ? 'Unlimited monthly UGC videos' : `${data.ugc_video_count} monthly UGC videos`
+                                        data.name == 'Free' ? '' : 'Unlimited Emails'
+                                        }
                                 </p>
                                 <p
                                     style={{
@@ -237,7 +250,9 @@ function Plans() {
                                         padding: "5px 0",
                                     }}
                                 >
-                                    {data.ugc_email_count} post-purchase emails
+                                        {
+                                        data.name == 'Free' ? '1 UGC video monthly' : 'Unlimited Videos'
+                                        }
                                 </p>
                                 <p
                                     style={{
@@ -248,7 +263,9 @@ function Plans() {
                                         padding: "5px 0",
                                     }}
                                 >
-                                    1 year video storage
+                                    {
+                                        (data.name == 'Free') || (data.name == 'Standard')  ? 'no integration' : 'klaviyo integration'
+                                    }
                                 </p>
                             </div>
                         </Grid.Cell>
