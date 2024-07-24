@@ -218,6 +218,9 @@ public function videoOperation(Request $request){
             'type' => "EMAIL",
             'send_to' => $videos->email,
             'user_id' =>$user->id,
+            'customer_name' => $customerName,
+            'customer_email' => $videos->email,
+            'email_type' => config('constants.video_approved'),
             ];
         update_log_file($log_details);
        $updateUser= User::find(Auth::user()->id);
@@ -316,6 +319,9 @@ public function rejectVideo(Request $request){
                 'type' => "EMAIL",
                 'send_to' => $videos->email,
                 'user_id' =>$user->id,
+                'customer_name' => $customerName,
+                'customer_email' => $videos->email,
+                'email_type' => config('constants.video_reject'),
                 ];
             update_log_file($log_details);
 
@@ -638,6 +644,7 @@ if(Video::create($video)){
     'type' => "EMAIL",
     'send_to' => $user->email,
     'user_id' =>$user->id,
+    'email_type' => config('constants.thanks_mail'),
     ];
     update_log_file($log_details);
 

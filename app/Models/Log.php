@@ -12,5 +12,8 @@ class Log extends Model
         'type',
         'send_to',
         'user_id',
+        'customer_name',
+        'customer_email',
+        'email_type',
     ];
 }

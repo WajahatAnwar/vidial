@@ -175,7 +175,10 @@ class EmailSendToCustomerCron extends Command
                                             'type' => "EMAIL",
                                             'send_to' => $Orders_send_mail->email,
                                             'user_id' => $settings->user->id,
-                                            'order_id' => $Orders_send_mail->order_id
+                                            'order_id' => $Orders_send_mail->order_id,
+                                            'email_type'=>config('constants.reminder_mail'),
+                                            'customer_name'=>$Orders_send_mail->customer_name,
+                                            'customer_email'=>$Orders_send_mail->customer_email
                                         ];
                                         update_log_file($log_details);
                                         // \Mail::to($Orders_send_mail->email)->send(new orderReviewReminderMail($details));
@@ -262,7 +265,10 @@ class EmailSendToCustomerCron extends Command
                                     'type' => "EMAIL",
                                     'send_to' => $Orders_send_mail->email,
                                     'user_id' => $settings->user->id,
-                                    'order_id' => $Orders_send_mail->order_id
+                                    'order_id' => $Orders_send_mail->order_id,
+                                    'email_type'=>config('constants.post_purchase'),
+                                    'customer_name'=>$Orders_send_mail->customer_name,
+                                    'customer_email'=>$Orders_send_mail->customer_email
                                 ];
                                 update_log_file($log_details);
 
