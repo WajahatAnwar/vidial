@@ -30,7 +30,12 @@ class AppUninstalledJob extends \Osiset\ShopifyApp\Messaging\Jobs\AppUninstalled
         $shop = $shopQuery->getByDomain($this->shopDomain);
 
         $user = User::where('name', $shop->name)->first();
+        if($user){
+        $shopId = $shop->getId();
         $shopCommand->softDelete($shopId);
-
+        }else{
+            Log::info('user not found in app uninsall'.json_encode($shop->name));
+        }
+        
     }
 }

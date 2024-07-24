@@ -53,7 +53,7 @@ class EmailSendToCustomerCron extends Command
         })
         ->where('remaining_mail', '>', 0)
         ->where('replied', '=', 0)
-        ->get();
+        ->lazy();
 
         foreach ($order_list as $Orders_send_mail) {
             /******** check user activate email settings *********/
