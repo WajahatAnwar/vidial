@@ -178,7 +178,7 @@ class EmailSendToCustomerCron extends Command
                                             'order_id' => $Orders_send_mail->order_id,
                                             'email_type'=>config('constants.reminder_mail'),
                                             'customer_name'=>$Orders_send_mail->customer_name,
-                                            'customer_email'=>$Orders_send_mail->customer_email
+                                            'customer_email'=>$Orders_send_mail->email
                                         ];
                                         update_log_file($log_details);
                                         // \Mail::to($Orders_send_mail->email)->send(new orderReviewReminderMail($details));
