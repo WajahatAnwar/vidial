@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Crypt;
+use Carbon\Carbon;
 
 
 class SettingsController extends Controller
@@ -534,5 +535,20 @@ class SettingsController extends Controller
             'data' => null
         ]);
 
+      }
+
+      /************* Last 30 days logs ****************/
+
+      public function logs(){
+        $now = Carbon::now();
+        $logs = Log::where('user_id', Auth::user()->id)
+        ->where('created_at', '>=', $now->subDays(30))
+        ->get();
+        $data['logs'] = $logs;
+        return response()->json([
+            'success' => true,
+            'message' => "Logs fetched",
+            'data' => $data
+        ]);
       }
 }

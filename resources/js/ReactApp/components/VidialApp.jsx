@@ -3,6 +3,7 @@ import { AppProvider, Button } from "@shopify/polaris";
 import en from "@shopify/polaris/locales/en.json";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import CustomBar from "./CustomBar";
+import Logs from "./Logs";
 
 // import NavigationCustom from "./NavigationCustom";
 
@@ -102,6 +103,7 @@ const VidialApp = () => {
                 <Route path="/ugc-approved-email" element={<UgcApprovedEmail />} />
                 <Route path="/ugc-declined-email" element={<UgcDeclinedEmail />} />
                 <Route path="/ugc-star-approved" element={<UgcStarApproved/>}/>
+                <Route path="/logs" element={<Logs />} />
 
                 <Route path="*" element={<Loading />} />
             </Routes>

@@ -62,8 +62,10 @@ function TabsExample() {
         }else if (selectedTabIndex == 5) {
             setSelected(selectedTabIndex);
             navigate("/email" + location.search);
-        }else if (selectedTabIndex == 6) {
-            window.open('https://www.facebook.com/groups/vidial/', '_blank');
+        }
+        else if (selectedTabIndex == 6) {
+            setSelected(selectedTabIndex);
+            navigate("/logs" + location.search);
         }
         // else if (selectedTabIndex == 7) {
         //     navigate("/admin-dashboard");
@@ -128,6 +130,10 @@ function TabsExample() {
         {
             id:"email",
             content: "Emails"
+        },
+        {
+            id: "logs",
+            content: "Logs"
         }
         // {
         //     id: "Resources",

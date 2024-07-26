@@ -56,10 +56,10 @@ Route::post('/reset-password', [AuthController::class, 'resetPasswordAction']);
 Route::post('/set-password', [AuthController::class, 'setPassword']);
 Route::get('/getSession', [AuthController::class, 'getSession']);
 
-Route::middleware(['auth'])->group(function () {
+/*********************** Admin routes *******************/
 
+Route::middleware(['auth'])->group(function () {
     Route::get('/', function () {
-      
         return view('non_embedded');
     });
     Route::get('getDataofallPlans', [AdminController::class, 'fetchingdataofusers']);
@@ -155,23 +155,10 @@ Route::group(['middleware' => 'verify.shopify'], function () {
     Route::get('update-app', [DashboardController::class, 'updateApp']);
     Route::get('sync-customers', [DashboardController::class, 'syncCustomers']);
     Route::get('customer-webhook', [DashboardController::class, 'customerWebhook']);
- 
-    // Route::post('save-klavio-settings', [SettingsController::class, 'saveKlavioCreds'])->name('connect.klavio');
-    // Route::get('test',function(){
-    //     $order_list = Orders::with('marchent')->whereHas('marchent', function ($query) {
-
-    //         $query->whereHas('settings', function ($subQuery) {
-    //             $subQuery->where('email_status', '=', 'true');
-    //         });
-    //     })
-    //         ->where('remaining_mail', '>', 0)
-    //         ->where('replied', '=', 0)
-    //         ->where('email_service', '=', 'mailgun')
-    //         ->get();
-    //         dd($order_list);
-    // });
     Route::post('save-klavio-settings', [SettingsController::class, 'saveKlavioCreds'])->name('connect.klavio');
+    Route::get('logs', [SettingsController::class, 'logs'])->name('logs');
     Route::get('test',function(){
+        dd('test');
         $order_list = Orders::with('marchent')->whereHas('marchent', function ($query) {
 
             $query->whereHas('settings', function ($subQuery) {
@@ -201,7 +188,6 @@ Route::get('review_updated/{id}', [OrdersController::class, 'review_updated'])->
 Route::get('get_plans', [OrdersController::class, 'get_plans'])->name('get_plans')->middleware(['verify.shopify']);
 Route::get('testEmail',[AdminController::class, 'testEmail']);
 
-######################################################################## EXTRA ROUTES ########################################################################
 Route::get('s/{handle}', [SettingsController::class, 'landingPage2']);
 
 Route::get('connect-gd', [GoogleDriveController::class, 'connectDrive'])->name('google.connect');

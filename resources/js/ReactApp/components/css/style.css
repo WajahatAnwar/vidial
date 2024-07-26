@@ -307,3 +307,33 @@ select#PolarisSelect1 {
 .tox.tox-silver-sink.tox-tinymce-aux {
     display: none !important;
 }
+.cstm-select{
+    display: flex;
+    justify-content: end;
+    padding: 12px 10px;
+    background-color: white;
+}
+
+.cstm-search{
+    display: flex;
+
+}
+.cstm-eventname{
+    border: 1px solid #D0D5DD;
+    display: flex;
+    align-items: center;
+    padding: 1px 0px;
+    border-radius: 6px;
+
+}
+.cstm-green-dot{
+    width: 10px;
+    height: 10px;
+    background-color: #008060;
+    border-radius: 100%;
+    margin-right: 10px;
+    margin-left:7px;
+}
+.cstm-logs-wrapper{
+    margin: 12px 0px;
+}
