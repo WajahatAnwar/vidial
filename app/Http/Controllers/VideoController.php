@@ -26,7 +26,7 @@ use Illuminate\Support\Facades\Log;
 use App\Jobs\UploadVideoGoogleDrive;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Crypt;
-
+use App\Models\Customer;
 
 class VideoController extends Controller
 {
@@ -642,10 +642,16 @@ if(Video::create($video)){
 
     $log_details = [
     'type' => "EMAIL",
-    'send_to' => $user->email,
+    'send_to' => $request->email,
     'user_id' =>$user->id,
     'email_type' => config('constants.thanks_mail'),
     ];
+    $customer = Customer::where('email',$request->email)->first();
+    if($customer){
+        // $log_details['customer_id'] = $customer->customer_id;
+        $log_details['customer_name'] = $customer->first_name . ' '.$customer->last_name;
+        $log_details['customer_email'] = $customer->email;
+    }
     update_log_file($log_details);
 
 

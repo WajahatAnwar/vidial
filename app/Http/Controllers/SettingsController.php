@@ -539,10 +539,16 @@ class SettingsController extends Controller
 
       /************* Last 30 days logs ****************/
 
-      public function logs(){
+      public function logs(Request $request){
+        // dd($request->all());
         $now = Carbon::now();
         $logs = Log::where('user_id', Auth::user()->id)
+        ->when($request->q ? true : false, function ($query) use ($request) {
+             $query->where('email_type','like', '%'.$request->q.'%');
+        })
         ->where('created_at', '>=', $now->subDays(30))
+        ->whereNotNull('email_type')
+        ->orderBy('created_at', $request->sort == 'desc' ? 'desc' : 'asc')
         ->get();
         $data['logs'] = $logs;
         return response()->json([

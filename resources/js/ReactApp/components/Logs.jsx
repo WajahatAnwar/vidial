@@ -7,9 +7,10 @@ import {
 } from "@shopify/polaris";
 import React, { useEffect, useState } from 'react';
 export default function Logs() {
-    const [sorting, setSorting] = useState("id desc");
+    const [sorting, setSorting] = useState("desc");
     const [searchQuery, setSearchQuery] = useState(null);
     const [logs, setLogs] = useState([]);
+    const [reload, setReload] = useState(false);
     const [users, setUsers] = useState([{
         date: "July, 5, 2024",
         time: '12:30 pm',
@@ -21,19 +22,28 @@ export default function Logs() {
     }]);
 
     const sortingOptions = [
-        { label: 'User Id (desc)', value: 'id desc' },
-        { label: 'User Id (asc)', value: 'id asc' },
-        { label: 'Install Date (desc)', value: 'created_at desc' },
-        { label: 'Install Date (asc)', value: 'created_at asc' },
+        { label: 'Created At (desc)', value: 'desc' },
+        { label: 'Created At (asc)', value: 'asc' },
         // { label: '50', value: '50' },
         // { label: '100', value: '100' },
     ];
     const handleSearch = (e) => {
         setSearchQuery(e);
+        // setReload(!reload);
     }
+    const handleSortingChange = (e) => {
+        setSorting(e);
+        setReload(!reload); // Toggle reload state to trigger reload
+    };
 
     useEffect(() => {
-        fetch('logs')
+        let url = `logs?sort=${sorting}`;
+        // search
+        if (searchQuery) {
+            url += `&q=${searchQuery}`;
+        }
+        console.log(url);
+        fetch(url)
             .then((response) => response.json())
             .then((data) => {
                 setLogs(data.data.logs)
@@ -41,7 +51,8 @@ export default function Logs() {
             .catch((error) => {
                 console.error('Error fetching data:', error);
             });
-    }, []);
+    }, [reload]);
+    
 
     return (
         <div className='cstm-logs-wrapper'>
@@ -52,6 +63,8 @@ export default function Logs() {
                     labelInline
                     label="Sort By:"
                     options={sortingOptions}
+                    value={sorting}
+                    onChange={(e) => handleSortingChange(e)}
                 />
 
 
@@ -62,14 +75,14 @@ export default function Logs() {
                             label=""
                             onChange={(e) => handleSearch(e)}
                             autoComplete="off"
-                            placeholder="Search by Store Name"
-
+                            placeholder="Search by Event Name"
+                            value={searchQuery}
                         />
                     </div>
                     <div>
 
 
-                        <Button>
+                        <Button onClick={()=>setReload(!reload)}>
                             Search
                         </Button>
                     </div>
@@ -96,7 +109,6 @@ export default function Logs() {
                     'Event Name',
                     'Customer Name',
                     'Customer Email',
-                    'Customer ID',
                     'Description',
 
 
@@ -106,12 +118,17 @@ export default function Logs() {
 
                 rows={logs.map((log) =>
                     [
-                        log.created_at,
-                        <Badge status='success' >{log.created_at}</Badge>,
-                        <div className='cstm-eventname'><div className='cstm-green-dot'></div>{log.event_type}</div>,
+                        log.formatted_date,
+                        <Badge status='success' >{log.formatted_time}</Badge>,
+                        <div className='cstm-eventname'>
+                                <>
+                                    <div className='cstm-green-dot'></div>
+                                {log.email_type ? log.email_type : 'N/A'}
+                                </>
+                        </div>,
                         log.customer_name,
                         log.customer_email,
-                        <Badge status='info' >{log.customerId}</Badge>,
+                        // <Badge status='info' >{log.customerId}</Badge>,
                         <div>{log.description}</div>
 
 
