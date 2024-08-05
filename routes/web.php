@@ -18,7 +18,7 @@ use Osiset\ShopifyApp\Contracts\Queries\Shop;
 use Osiset\ShopifyApp\Messaging\Jobs\WebhookInstaller;
 use Osiset\ShopifyApp\Objects\Values\ShopDomain;
 use Osiset\ShopifyApp\Util;
-
+use App\Jobs\SyncAllCustomers;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -157,33 +157,71 @@ Route::group(['middleware' => 'verify.shopify'], function () {
     Route::get('customer-webhook', [DashboardController::class, 'customerWebhook']);
     Route::post('save-klavio-settings', [SettingsController::class, 'saveKlavioCreds'])->name('connect.klavio');
     Route::get('logs', [SettingsController::class, 'logs'])->name('logs');
-
+    Route::get('shop-id', function() {
+ $users = User::where('role_id','2')->get();
+    foreach($users as $user){
+        // shop api
+        $shop_id = null;
+        $response = $user->api()->rest('GET','/admin/api/2024-07/shop.json');
+        if(isset($response['body']['shop']['id'])){
+            $shop_id = $response['body']['shop']['id'];
+        }
+        if($shop_id){
+            $user->store_id = $shop_id;
+            $user->save();
+        }
+    }
+    dd('done');
+    });
 Route::get('test', function() {
+      $users = User::where('role_id','2')
+      ->whereNotNull('store_id')
+      ->get();
+      
+//    dd($users);
+//     $response = Http::withHeaders([
+//         'Content-Type' => 'application/json',
+//         'X-Mantle-Customer-Api-Token' => 'd8de0340-f3d1-4127-ac60-9d85a34140c6',
+//         'X-Mantle-App-Id' => '58db85bd-50b1-4c84-82cf-8492b91913d4',
+//     ])->post('https://appapi.heymantle.com/v1/usage_events', [
+//         'customerId' => '46c5d728-f011-4f65-86cd-49b70aa562bf',
+//         'eventId' => '1122',
+//         'eventName' => 'vidial_testing_event',
+//     ]);
 
-    $response = Http::withHeaders([
+//     return $response->json();
+     foreach($users as $user){
+ $response = Http::withHeaders([
         'Content-Type' => 'application/json',
-        'X-Mantle-Customer-Api-Token' => 'd8de0340-f3d1-4127-ac60-9d85a34140c6',
+        'X-Mantle-Customer-Api-Token' => $user->mantle_token,
         'X-Mantle-App-Id' => '58db85bd-50b1-4c84-82cf-8492b91913d4',
     ])->post('https://appapi.heymantle.com/v1/usage_events', [
-        'customerId' => '46c5d728-f011-4f65-86cd-49b70aa562bf',
-        'eventId' => '1122',
-        'eventName' => 'vidial_testing_event',
+        'customerId' => '12333',
+        'eventId' => rand(1, 1000),
+        'eventName' => 'testign_event',
     ]);
-    return $response->json();
-    $response = Http::withHeaders([
-        'Content-Type' => 'application/json',
-        'X-Mantle-App-Api-Key' => '9fcb9a7a14d156d024e51b7982b40c1c38ae0b3bdde302f0d0983c836ef7ac48f1e103b52e067198f9c7ac9d44f2cc80ac1f9020c88e19b76f30e1969ab651bc.b1c895eceeb6b4a0',
-        'X-Mantle-App-Id' => '58db85bd-50b1-4c84-82cf-8492b91913d4',
-    ])->post('https://appapi.heymantle.com/v1/identify', [
-        'platform' => 'shopify',
-        'platformId' => '78755725591',
-        'myshopifyDomain' => 'app-testing-enviornment.myshopify.com',
-        'name' => 'app_testing_enviornment',
-        'email' => 'mr.wajahatanwar@gmail.com',
-        'accessToken' => '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',
-        'X-Mantle-Customer-Api-Token' => '9fcb9a7a14d156d024e51b7982b40c1c38ae0b3bdde302f0d0983c836ef7ac48f1e103b52e067198f9c7ac9d44f2cc80ac1f9020c88e19b76f30e1969ab651bc.b1c895eceeb6b4a0',
-        'X-Mantle-App-Id' => '58db85bd-50b1-4c84-82cf-8492b91913d4',
-    ]);
+    dd($response->json());
+        // $response = Http::withHeaders([
+        //     'Content-Type' => 'application/json',
+        //     'X-Mantle-App-Api-Key' => '9fcb9a7a14d156d024e51b7982b40c1c38ae0b3bdde302f0d0983c836ef7ac48f1e103b52e067198f9c7ac9d44f2cc80ac1f9020c88e19b76f30e1969ab651bc.b1c895eceeb6b4a0',
+        //     'X-Mantle-App-Id' => '58db85bd-50b1-4c84-82cf-8492b91913d4',
+        // ])->post('https://appapi.heymantle.com/v1/identify', [
+        //     'platform' => 'shopify',
+        //     'platformId' => $user->store_id,
+        //     'myshopifyDomain' => $user->name,
+        //     'name' => $user->store_name,
+        //     'email' => $user->email,
+        //     'accessToken' => $user->password,
+        // ]);
+
+        // $token = $response->json();
+       
+        // $user->mantle_token = $token['apiToken'];
+        // $user->save();
+      
+
+}
+  dd('token done');
 
     if ($response->status() === 401) {
         return response()->json(['error' => 'Unauthorized'], 401);

@@ -25,6 +25,7 @@ use SebastianBergmann\Template\Template;
 if (!function_exists('update_log_file')) {
     function update_log_file($data)
     {
+        // create log into DB
         Log::create($data);
     }
 }

@@ -14,6 +14,7 @@ use App\Models\Charge;
 use App\Models\Orders;
 use GuzzleHttp\Client;
 use App\Jobs\videoMail;
+use App\Jobs\SendMantleEventJob;
 use App\Models\Setting;
 use App\Models\Discount;
 use App\Jobs\ThanksMailjob;
@@ -223,6 +224,8 @@ public function videoOperation(Request $request){
             'email_type' => config('constants.video_approved'),
             ];
         update_log_file($log_details);
+        SendMantleEventJob::dispatch($user,config('constants.video_approved'),$log_details);
+
        $updateUser= User::find(Auth::user()->id);
        $updateUser->remaining_email=$remaining_email - 1;
        $updateUser->remaining_videos=$remainingVideos - 1;
@@ -324,6 +327,7 @@ public function rejectVideo(Request $request){
                 'email_type' => config('constants.video_reject'),
                 ];
             update_log_file($log_details);
+            SendMantleEventJob::dispatch($user,config('constants.video_reject'),$log_details);
 
         //dispatch(new videoMail($details));
        $updateUser= User::find(Auth::user()->id);

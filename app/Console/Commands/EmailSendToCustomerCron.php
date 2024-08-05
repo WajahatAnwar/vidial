@@ -9,6 +9,7 @@ use App\Models\Orders;
 use App\Models\Setting;
 use App\Mail\orderReviewMail;
 use App\Jobs\EmailTemplateJob;
+use App\Jobs\SendMantleEventJob;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Log;
@@ -181,6 +182,8 @@ class EmailSendToCustomerCron extends Command
                                             'customer_email'=>$Orders_send_mail->email
                                         ];
                                         update_log_file($log_details);
+                                        SendMantleEventJob::dispatch($settings->user,config('constants.reminder_mail'),$log_details);
+
                                         // \Mail::to($Orders_send_mail->email)->send(new orderReviewReminderMail($details));
 
                                         Orders::where('id', $Orders_send_mail->id)->update([
@@ -271,6 +274,7 @@ class EmailSendToCustomerCron extends Command
                                     'customer_email'=>$Orders_send_mail->customer_email
                                 ];
                                 update_log_file($log_details);
+                                SendMantleEventJob::dispatch($settings->user,config('constants.post_purchase'),$log_details);
 
                                 Orders::where('id', $Orders_send_mail->id)->update([
                                     'email_send' => 1,

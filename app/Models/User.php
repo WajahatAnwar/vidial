@@ -31,7 +31,9 @@ class User extends Authenticatable implements IShopModel
         'remaining_videos',
         'store_handle',
         'gd_access_token',
-        'star_credit'
+        'star_credit',
+        'store_id',
+        'mantle_token'
     ];
 
     /**
@@ -40,7 +42,7 @@ class User extends Authenticatable implements IShopModel
      * @var array<int, string>
      */
     protected $hidden = [
-        'password',
+        // 'password',
         'remember_token',
     ];
 
