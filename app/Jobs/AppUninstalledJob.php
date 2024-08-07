@@ -18,6 +18,8 @@ class AppUninstalledJob extends \Osiset\ShopifyApp\Messaging\Jobs\AppUninstalled
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
     public $tries = 2;
     public $timeout = 99999999999999;
+    public $data;
+    public $shopDomain;
     public function __construct($shopDomain, $data)
     {
         $this->shopDomain = $shopDomain;
@@ -34,7 +36,7 @@ class AppUninstalledJob extends \Osiset\ShopifyApp\Messaging\Jobs\AppUninstalled
         $shopId = $shop->getId();
         $shopCommand->softDelete($shopId);
         }else{
-            Log::info('user not found in app uninsall'.json_encode($shop->name));
+            Log::info('user not found in app uninstall'.json_encode($shop->name));
         }
         
     }

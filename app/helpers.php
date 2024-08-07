@@ -25,7 +25,7 @@ use SebastianBergmann\Template\Template;
 if (!function_exists('update_log_file')) {
     function update_log_file($data)
     {
-        // Log::create($data);
+        Log::create($data);
     }
 }
 function vite_assets(): HtmlString
