@@ -193,33 +193,23 @@ Route::get('test', function() {
 
 //     return $response->json();
      foreach($users as $user){
+      
  $response = Http::withHeaders([
-        'Content-Type' => 'application/json',
-        'X-Mantle-Customer-Api-Token' => $user->mantle_token,
-        'X-Mantle-App-Id' => '58db85bd-50b1-4c84-82cf-8492b91913d4',
-    ])->post('https://appapi.heymantle.com/v1/usage_events', [
-        'customerId' => '12333',
-        'eventId' => rand(1, 1000),
-        'eventName' => 'testign_event',
-    ]);
-    dd($response->json());
-        // $response = Http::withHeaders([
-        //     'Content-Type' => 'application/json',
-        //     'X-Mantle-App-Api-Key' => '9fcb9a7a14d156d024e51b7982b40c1c38ae0b3bdde302f0d0983c836ef7ac48f1e103b52e067198f9c7ac9d44f2cc80ac1f9020c88e19b76f30e1969ab651bc.b1c895eceeb6b4a0',
-        //     'X-Mantle-App-Id' => '58db85bd-50b1-4c84-82cf-8492b91913d4',
-        // ])->post('https://appapi.heymantle.com/v1/identify', [
-        //     'platform' => 'shopify',
-        //     'platformId' => $user->store_id,
-        //     'myshopifyDomain' => $user->name,
-        //     'name' => $user->store_name,
-        //     'email' => $user->email,
-        //     'accessToken' => $user->password,
-        // ]);
+            'Content-Type' => 'application/json',
+            'X-Mantle-App-Api-Key' => env('MANTLE_API_KEY'),
+            'X-Mantle-App-Id' => env('MANTLE_AP_ID'),
+        ])->post('https://appapi.heymantle.com/v1/identify', [
+            'platform' => 'shopify',
+            'platformId' => $user->store_id,
+            'myshopifyDomain' => $user->name,
+            'name' => $user->store_name,
+            'email' => $user->email,
+            'accessToken' => $user->password,
+        ]);
 
-        // $token = $response->json();
-       
-        // $user->mantle_token = $token['apiToken'];
-        // $user->save();
+        $response = $response->json();
+        $user->mantle_token = $response['apiToken'];
+        $user->save();
       
 
 }

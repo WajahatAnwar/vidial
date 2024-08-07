@@ -47,11 +47,11 @@ class SendMantleEventJob implements ShouldQueue
             $response = Http::withHeaders([
             'Content-Type' => 'application/json',
             'X-Mantle-Customer-Api-Token' => $token,
-            'X-Mantle-App-Id' => '58db85bd-50b1-4c84-82cf-8492b91913d4',
+            'X-Mantle-App-Id' => env('MANTLE_AP_ID'),
             ])->post('https://appapi.heymantle.com/v1/usage_events', [
                 'customerId' => $cid,
                 'eventId' => rand(1, 1000),
-                'eventName' => $this->event_name,
+                'eventName' => env('APP_ENV') == 'staging' ? 'ST_'.$this->event_name : $this->event_name,
             ]);
         }
     }
