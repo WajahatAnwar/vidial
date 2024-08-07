@@ -55,8 +55,7 @@ class EmailSendToCustomerCron extends Command
         ->where('remaining_mail', '>', 0)
         ->where('replied', '=', 0)
         ->where('email_service', '=', 'mailgun')
-        ->get();
-
+        ->lazy();
         foreach ($order_list as $Orders_send_mail) {
             /******** check user activate email settings *********/
             // if ($Orders_send_mail->marchent->settings->email_status) {

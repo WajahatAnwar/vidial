@@ -43,6 +43,8 @@ Route::get('/jobs',function(Shop $query){
         $shopId = $shop->getId();
         WebhookInstaller::dispatch($shopId, Util::getShopifyConfig('webhooks'));
     }
+
+    dd('webhooks re-installed');
 });
 
 // redirect if authenticated

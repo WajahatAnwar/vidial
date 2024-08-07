@@ -251,7 +251,7 @@ class DashboardController extends Controller
             }
             // $webhook = [
             //     'webhook' => [
-            //         'address' => "https://app.vidial.co/webhook/customers-create",
+            //         'address' => "https://app.goodauthentic.com/webhook/customers-create",
             //         'topic' => "customers/create",
             //         'format' => "json"
             //     ]
