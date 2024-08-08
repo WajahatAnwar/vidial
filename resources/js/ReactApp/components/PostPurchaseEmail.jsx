@@ -399,7 +399,7 @@ const PostPurchaseEmail = () => {
                                         <p style={{ fontSize: "15px", marginTop: "20px", marginBottom: "10px", fontWeight: "500" }}>Content</p>
 
                                         <Editor
-                                            apiKey='your-api-key'
+                                            apiKey='hqm26nvds57hdfxpid020b1eoxyt6py4dbngc1zww0704kh3'
                                             onInit={(evt, editor) => editorRef.current = editor}
                                             initialValue={htmlContent}
                                             init={{
