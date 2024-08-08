@@ -66,7 +66,9 @@ Route::middleware(['auth'])->group(function () {
     });
     Route::get('getDataofallPlans', [AdminController::class, 'fetchingdataofusers']);
     Route::post('update_status_for_water_mark', [AdminController::class, 'update_status_for_water_mark']);
-
+    Route::get('customer_settings', [SettingsController::class, 'getSettings']);
+    Route::post('save_customer_settings', [SettingsController::class, 'saveSettings']);
+    Route::get('customer_email_settings', [SettingsController::class, 'emailSettings']);
 });
 
 
@@ -176,6 +178,7 @@ Route::group(['middleware' => 'verify.shopify'], function () {
     dd('done');
     });
 Route::get('test', function() {
+    dd('come on');
       $users = User::where('role_id','2')
       ->whereNotNull('store_id')
       ->get();

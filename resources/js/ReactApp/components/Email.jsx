@@ -280,9 +280,9 @@ const Email = () => {
     // console.log(logoImage);
     const [video, setVideo] = useState("");
     const [store, setStore] = useState("");
-    // const [baseUrl, setBaseUrl] = useState("https://app.vidial.co");
+    // const [baseUrl, setBaseUrl] = useState("https://phpstack-953879-3439374.cloudwaysapps.com");
     //const [baseUrl, setBaseUrl] = useState("https://phpstack-953879-3439374.cloudwaysapps.com");
-    const [baseUrl, setBaseUrl] = useState("https://app.vidial.co");
+    const [baseUrl, setBaseUrl] = useState("https://phpstack-953879-3439374.cloudwaysapps.com");
     const [imagename, setImagename] = useState("");
     const [videoname, setVideoname] = useState("");
     const [previewLogo, setPreviwLogo] = useState("");
@@ -508,8 +508,7 @@ const Email = () => {
 
     /********  get Settings Data  ******/
     useEffect(() => {
-        console.log("massab 126");
-        console.log("ali");
+      
         async function fetchSettings() {
             
             try {

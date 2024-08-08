@@ -84,10 +84,19 @@ class SettingsController extends Controller
         ]);
     }
         /******* Get settings *****/
-    public function getSettings(){
+    public function getSettings(Request $request){
         
-        $data= Setting::where('user_id',Auth::user()->id)->first();
-        $store = User::where('id', Auth::user()->id)->with('emailCreds', 'googleDriveCreds','klavio')->first();
+        if($request->filled('id')){
+            $user = User::find($request->id);
+            if(!$user){
+               return redirect()->to('admin-dashboard');
+            }
+            
+        }else {
+            $user=Auth::user();
+        }
+        $data= Setting::where('user_id',$user->id)->first();
+        $store = User::where('id', $user->id)->with('emailCreds', 'googleDriveCreds','klavio')->first();
         //$store=User::find(Auth::user()->id)->with('emailCreds');
         $emailCreds = $store->emailCreds;
         if($data){
@@ -116,6 +125,14 @@ class SettingsController extends Controller
     }
     /******* save settings *****/
     public function saveSettings(Request $request){
+        if($request->filled('id')){
+            $user = User::find($request->id);
+            if(!$user){
+               return redirect()->to('admin-dashboard');
+            }
+        }else {
+            $user=Auth::user();
+        }
         $fav_icon = null;
         $video = '';
         $image_mimes='';
@@ -154,7 +171,7 @@ class SettingsController extends Controller
             $fav_icon = time() . '.' . $request->file('fav_icon')->extension();
             $request->file('fav_icon')->move(public_path('fav_icons'), $fav_icon);
         }
-        $currentUser = Auth::user()->id;
+        $currentUser = $user->id;
         $previous_store_credit= '';
         $alreadySavedSettings = Setting::where('user_id', $currentUser)->first();
         if($alreadySavedSettings){
@@ -183,7 +200,7 @@ class SettingsController extends Controller
         $settings['star_credit'] = $request->star_credit;
         
                 
-        $language = Setting::where('user_id', Auth::user()->id)->first();
+        $language = Setting::where('user_id', $user->id)->first();
         if($language->locale == $request->locale){
         }else {
             emailLanguageConverter($request->locale, $currentUser);

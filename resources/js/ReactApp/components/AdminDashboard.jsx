@@ -29,13 +29,14 @@ import {
     faPencil
 } from "@fortawesome/free-solid-svg-icons";
 import Toggle from "./Toggle";
+import { Link } from "react-router-dom";
 
 
 function AdminDashboard(props) {
 
     const navigate = useNavigate();
     const [pagination, setPagination] = useState({
-        path: 'https://app.goodauthentic.com/getDataofallPlans',
+        path: 'https://phpstack-953879-3439374.cloudwaysapps.com/getDataofallPlans',
         next_cursor: null,
         next_page_url: null,
         prev_cursor: null,
@@ -387,6 +388,7 @@ function AdminDashboard(props) {
                                     'Plan',
                                     'Approved Videos',
                                     'Email Sent',
+                                    'Customer Settings',
                                     'Total Customers',
                                     'Store Email',
                                     'Install Date',
@@ -404,6 +406,7 @@ function AdminDashboard(props) {
                                         <Badge>{user.plan ? user.plan.name : null }</Badge>,
                                         user.videos_count,
                                         user.emails_sent_count,
+                                        <Link to={`/customer_settings/${user.id}`}><Button>Settings</Button></Link>,
                                         <div>{user.customers_count}</div>,
                                         <div>{user.email}</div>,
                                         <div>{user.created_at}</div>,

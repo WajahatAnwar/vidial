@@ -9,6 +9,7 @@ use App\Models\Plan;
 use App\Models\User;
 use Mailgun\Mailgun;
 use App\Models\Video;
+use App\Models\Setting;
 use Illuminate\Http\Request;
 use App\Models\EmailTemplate;
 
@@ -94,4 +95,44 @@ class AdminController extends Controller
             return $e->getMessage();
         }
      }
+
+      public function getSettings(Request $request){
+       
+        if($request->filled('id')){
+            $user = User::find($request->id);
+            if(!$user){
+               return redirect()->to('admin-dashboard');
+            }
+        }else {
+            return redirect()->to('admin-dashboard');
+        }
+        $data= Setting::where('user_id',$user->id)->first();
+       
+        $store = User::where('id', $user->id)->with('emailCreds', 'googleDriveCreds','klavio')->first();
+        //$store=User::find(Auth::user()->id)->with('emailCreds');
+        $emailCreds = $store->emailCreds;
+        if($data){
+            $data['instructions'] = json_decode($data['instructions']);
+        
+        }
+             $plan = Plan::
+             where('id', $store->plan_id)
+             ->first();
+        $data['store']=$store->name;
+        $data['email']=$store->email;
+        $data['store_name']=$store->store_name;
+        $data['btn_color']=$data->page_color;
+        $data['storeHandle'] = $store->store_handle ? $store->store_handle : $store->store_name;
+        $data['store_currency']= getCurrencySymbol($store->store_currency);
+        $data['email_creds'] = $emailCreds;
+        $data['gd_creds'] = $store->googleDriveCreds;
+        $data['klavio'] = $store->klavio;
+        $data['plan_id'] = $store->plan_id;
+        $data['plan_name'] = $store->name;
+        return response()->json([
+            'success' => true,
+            'message' => "Settings get Successfully",
+            'data'=>$data
+        ]);
+    }
 }
