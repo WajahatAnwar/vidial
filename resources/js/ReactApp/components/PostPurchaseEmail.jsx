@@ -21,7 +21,7 @@ import {
     Popover,
 } from "@shopify/polaris";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
     DropZone,
     Stack,
@@ -61,6 +61,7 @@ localStorage.setItem('store',storeName);
 */
 
 const PostPurchaseEmail = () => {
+    const {id} = useParams();
     const [activeTootlTip, setActiveTootlTip] = useState(false);
     const [activeToggle, setActiveToggle] = useState(false);
     const toggleActive = useCallback(() => setActiveToggle((activeToggle) => !activeToggle), []);
@@ -171,6 +172,10 @@ const PostPurchaseEmail = () => {
     const [gradientCheck, setGradientCheck] = useState(false);
     console.log(files)
     const handleSaveEmailSettings = () => {
+        let saveUrl = '/save-email-settings';
+        if (id){
+            saveUrl = "/save-user-email-settings?id=" + id;
+        }
          let logo_file;
         setContent(editorRef.current.getContent());
         const formData = new FormData();
@@ -188,7 +193,7 @@ const PostPurchaseEmail = () => {
         formData.append('from', from)
 
 
-            fetch('/save-email-settings',{
+        fetch(saveUrl,{
                 method:"POST",
                 body:formData
             }).
@@ -196,11 +201,14 @@ const PostPurchaseEmail = () => {
             .then((data)=>{
 
                 if(data.success){
-
+                    let redirect = '/settings';
+                    if(id){
+                        redirect = '/user-email-settings/'+ id;
+                    }
                     toggleActive()
                     setTimeout(() => {
-
-                        navigate('/settings')
+                       
+                        navigate(redirect)
                     }, 3000);
 
                     //alert('save settings successfully');
@@ -227,7 +235,11 @@ const PostPurchaseEmail = () => {
 
 
     useEffect(() => {
-        fetch("/fetch-email-settings?type=Post_Purchase", {
+        let url = '/fetch-email-settings?type=Post_Purchase';
+        if (id){
+            url = "/fetch-user-email-settings?type=Post_Purchase&id=" + id;
+        }
+        fetch(url, {
             method: "GET",
         }).then((response) => {
             if (!response.ok) {
@@ -303,7 +315,12 @@ const PostPurchaseEmail = () => {
                             }}
                         >
                             <div onClick={() => {
-                                navigate("/settings");
+                                if(id){
+                                    navigate("/user-email-settings/"+id);
+                                }
+                                else{
+                                   navigate("/email");
+                                }
                             }} style={{ display: "flex", marginLeft: "10px", marginBottom: "10px", cursor: "pointer" }}>
                                 <div><img src={backIcon} style={{ marginTop: "4px", }}></img></div>
                                 <p style={{ fontSize: "16px", fontWeight: "500", marginLeft: "8px", marginBottom: "4px" }}>Settings</p>

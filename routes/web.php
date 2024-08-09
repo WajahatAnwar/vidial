@@ -68,7 +68,10 @@ Route::middleware(['auth'])->group(function () {
     Route::post('update_status_for_water_mark', [AdminController::class, 'update_status_for_water_mark']);
     Route::get('customer_settings', [SettingsController::class, 'getSettings']);
     Route::post('save_customer_settings', [SettingsController::class, 'saveSettings']);
-    Route::get('customer_email_settings', [SettingsController::class, 'emailSettings']);
+    Route::get('customer_email_settings', [SettingsController::class, 'getSettings']);
+    Route::post('save-user-email-tab', [SettingsController::class, 'saveEmailTab']);
+    Route::get('fetch-user-email-settings', [SettingsController::class, 'fetchEmailSettings']);
+    Route::post('save-user-email-settings', [SettingsController::class, 'saveEmailSettings']);
 });
 
 

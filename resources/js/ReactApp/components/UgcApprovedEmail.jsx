@@ -20,7 +20,7 @@ import {
     Popover,
 } from "@shopify/polaris";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
     DropZone,
     Stack,
@@ -60,6 +60,7 @@ localStorage.setItem('store',storeName);
 */
 
 const UgcApprovedEmail = () => {
+    const {id}  = useParams();
     const [activeTootlTip, setActiveTootlTip] = useState(false);
     const [alreadyUploadLogo, setAlreadyUploadedLogo] = useState('');
 
@@ -198,17 +199,24 @@ const UgcApprovedEmail = () => {
             logo_file = alreadyUploadLogo == '' ? 'empty_logo' : 'already_uploaded_logo';
         }
         formData.append('logo', logo_file)
-
-        fetch('/save-email-settings', {
+        let saveUrl = '/save-email-settings';
+        if (id) {
+            saveUrl = "/save-user-email-settings?id=" + id;
+        }
+        fetch(saveUrl, {
             method: "POST",
             body: formData
         }).
             then((response) => response.json())
             .then((data) => {
                 if (data.success) {
+                    let redirect = '/settings';
+                    if (id) {
+                        redirect = '/user-email-settings/' + id;
+                    }
                     toggleActive()
                     setTimeout(() => {
-                        navigate('/settings')
+                        navigate(redirect)
                     }, 3000);
                     //alert('save settings successfully');
                     //successToast();
@@ -218,7 +226,11 @@ const UgcApprovedEmail = () => {
 
     };
     useEffect(() => {
-        fetch("/fetch-email-settings?type=UGC_Approved", {
+        let url = '/fetch-email-settings?type=UGC_Approved';
+        if (id) {
+            url = "/fetch-user-email-settings?type=UGC_Approved&id=" + id;
+        }
+        fetch(url, {
             method: "GET",
         }).then((response) => {
             if (!response.ok) {
@@ -295,7 +307,12 @@ const UgcApprovedEmail = () => {
                             }}
                         >
                             <div onClick={() => {
-                                navigate("/settings");
+                                if (id) {
+                                    navigate("/user-email-settings/" + id);
+                                }
+                                else {
+                                    navigate("/email");
+                                }
                             }} style={{ display: "flex", marginLeft: "10px", marginBottom: "10px", cursor: "pointer" }}>
                                 <div><img src={backIcon} style={{ marginTop: "4px", }}></img></div>
                                 <p style={{ fontSize: "16px", fontWeight: "500", marginLeft: "8px", marginBottom: "4px" }}>Settings</p>

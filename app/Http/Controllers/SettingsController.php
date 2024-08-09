@@ -215,6 +215,15 @@ class SettingsController extends Controller
     }
 
     public function saveEmailTab(Request $request){
+        if($request->filled('id')){
+           $currentUser = User::find($request->id);
+            if(!$currentUser){
+               return redirect()->to('admin-dashboard');
+            }
+        }else {
+            $currentUser=Auth::user();
+        }
+     
         $validatedData = $request->validate([
             'page_display_to_customers' => 'required|numeric|min:1',
             'email_sent_to_customer' => 'required|numeric|min:1',
@@ -224,11 +233,12 @@ class SettingsController extends Controller
         ]);
        
         
-        $currentUser = Auth::user()->id;
+      
        
-        $settings = Setting::where('user_id', $currentUser)->first();
-        
+        $settings = Setting::where('user_id', $currentUser->id)->first();
+  
         if($settings){
+            
             $settings->page_display_to_customers = $request->page_display_to_customers;
             $settings->email_sent_to_customer = $request->email_sent_to_customer;
             $settings->page_link = $request->page_link;
@@ -386,7 +396,14 @@ class SettingsController extends Controller
 
        public function saveEmailSettings(Request $request){
        // $logo_path='';
-       
+       if($request->filled('id')){
+         $user = User::find($request->id);
+            if(!$user){
+                return redirect()->to('admin-dashboard');
+            }
+        }else {
+            $user=Auth::user();
+        }
         if ($request->file('logo')) {
             // saving new logo
             $logo_path = time() . '.' . $request->file('logo')->extension();
@@ -404,10 +421,10 @@ class SettingsController extends Controller
         $data['btn_color'] = $request->buttonColorHex ?? '#000000';
         $data['type'] = $request->type;
         // $data['type'] = $request->type;
-        $data['user_id'] = Auth::user()->id;
-        $data['from'] =$request->from == '' ? auth()->user()->store_name : $request->from;
+        $data['user_id'] = $user->id;
+        $data['from'] =$request->from == '' ? $user->store_name : $request->from;
         EmailTemplate::updateOrCreate(
-            ['user_id' => Auth::user()->id, 'type' => $request->type],
+            ['user_id' => $user->id, 'type' => $request->type],
             $data
         );
         return response()->json([
@@ -423,9 +440,16 @@ class SettingsController extends Controller
         */
 
      public function fetchEmailSettings(Request $request){
-        
+         if($request->filled('id')){
+            $user = User::find($request->id);
+            if(!$user){
+               return redirect()->to('admin-dashboard');
+            }
+        }else {
+            $user=Auth::user();
+        }
         $template = EmailTemplate::where('type',$request->type)
-        ->where('user_id',Auth::user()->id)
+        ->where('user_id',$user->id)
         ->first();
         if($template){
 

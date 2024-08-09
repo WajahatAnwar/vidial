@@ -2402,24 +2402,7 @@ const Settings = () => {
                                 </Card> */}
                               
 
-                                <Card sectioned>
-                                    <div>
-                                        <Text variant="headingLg" as="h5">
-                                            Remove GoodAuthentic Watermark
-                                        </Text>
-                                        <p
-                                            style={{
-                                                marginTop: "15px",
-                                                marginBottom: "15px",
-                                            }}
-                                        >
-                                                Please contact live support to verify your store and remove the "Powered by GoodAuthentic" branding for FREE.
-                                        </p>
-                                        <Button primary onClick={handleChatClick}>
-                                                Remove Watermark
-                                        </Button>
-                                    </div>
-                                </Card>
+                             
 
                                 <Card sectioned>
                                     {

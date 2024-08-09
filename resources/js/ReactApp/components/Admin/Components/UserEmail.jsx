@@ -679,7 +679,7 @@ const UserEmail = () => {
 
         // setError(false);
         // Generating request for sending Data to the server
-        fetch("/save-email-tab", {
+        fetch("/save-user-email-tab?id="+id, {
             method: "post",
             body: formData,
         }).then((response) => response.json())
@@ -1410,7 +1410,12 @@ const UserEmail = () => {
 
                                             }}
                                             onClick={() => {
+                                                console.log('post purchase email' + id);
+                                                if(id){
+                                                    navigate("/post-purchase-email/" + id)
+                                                }else{
                                                 navigate("/post-purchase-email")
+                                                }
 
                                             }}
                                         >
@@ -1448,7 +1453,12 @@ const UserEmail = () => {
 
                                             }}
                                             onClick={() => {
-                                                navigate("/reminder-email")
+                                                console.log('reminder email' + id);
+                                                if (id) {
+                                                    navigate("/reminder-email/" + id)
+                                                } else {
+                                                    navigate("/reminder-email")
+                                                }
 
                                             }}
                                         >
@@ -1486,7 +1496,12 @@ const UserEmail = () => {
 
                                             }}
                                             onClick={() => {
-                                                navigate("/ugc-approved-email")
+                                                if (id) {
+                                                    navigate("/ugc-approved-email/" + id)
+                                                } else {
+                                                    navigate("/ugc-approved-email")
+                                                }
+                                              
 
                                             }}
                                         >
@@ -1524,7 +1539,12 @@ const UserEmail = () => {
 
                                             }}
                                             onClick={() => {
-                                                navigate("/ugc-star-approved")
+                                                if (id) {
+                                                    navigate("/ugc-star-approved/" + id)
+                                                } else {
+                                                    navigate("/ugc-star-approved")
+                                                }
+                                                
 
                                             }}
                                         >
@@ -1562,7 +1582,12 @@ const UserEmail = () => {
 
                                             }}
                                             onClick={() => {
-                                                navigate("/ugc-declined-email");
+                                                if (id) {
+                                                    navigate("/ugc-declined-email/" + id)
+                                                } else {
+                                                    navigate("/ugc-declined-email")
+                                                }
+                                                
 
                                             }}
                                         >
@@ -1703,24 +1728,7 @@ const UserEmail = () => {
                                     </Card>
                                     : null
                                  }
-                                <Card sectioned>
-                                    <div>
-                                        <Text variant="headingLg" as="h5">
-                                            Remove GoodAuthentic Watermark
-                                        </Text>
-                                        <p
-                                            style={{
-                                                marginTop: "15px",
-                                                marginBottom: "15px",
-                                            }}
-                                        >
-                                                Please contact live support to verify your store and remove the "Powered by GoodAuthentic" branding for FREE.
-                                        </p>
-                                        <Button primary onClick={handleChatClick}>
-                                                Remove Watermark
-                                        </Button>
-                                    </div>
-                                </Card>
+                               
                                     { (planName == 'Premium' || planName == 'Enterprise') ?
                                 <Card sectioned>
                                     {

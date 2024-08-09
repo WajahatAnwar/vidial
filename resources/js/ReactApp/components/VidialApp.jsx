@@ -101,13 +101,13 @@ const VidialApp = () => {
                 <Route path="/plans" element={<Plans />} />
                 <Route path="/resources" element={<Resources />} />
                 <Route path="/admin-dashboard" element={<AdminDashboard />} />
-                <Route path="/user-settings/:id" element={<StoreUrlSection />} />
-                <Route path="/user-email-settings/:id" element={<UserEmail />} />
-                <Route path="/post-purchase-email" element={<PostPurchaseEmail />} />
-                <Route path="/reminder-email" element={<ReminderEmail />} />
-                <Route path="/ugc-approved-email" element={<UgcApprovedEmail />} />
-                <Route path="/ugc-declined-email" element={<UgcDeclinedEmail />} />
-                <Route path="/ugc-star-approved" element={<UgcStarApproved/>}/>
+                <Route path="/user-settings/:id?" element={<StoreUrlSection />} />
+                <Route path="/user-email-settings/:id?" element={<UserEmail />} />
+                <Route path="/post-purchase-email/:id?" element={<PostPurchaseEmail />} />
+                <Route path="/reminder-email/:id?" element={<ReminderEmail />} />
+                <Route path="/ugc-approved-email/:id?" element={<UgcApprovedEmail />} />
+                <Route path="/ugc-declined-email/:id?" element={<UgcDeclinedEmail />} />
+                <Route path="/ugc-star-approved/:id?" element={<UgcStarApproved/>}/>
                 <Route path="/logs" element={<Logs />} />
 
                 <Route path="*" element={<Loading />} />
