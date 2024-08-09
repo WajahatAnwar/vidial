@@ -1524,10 +1524,7 @@ const StoreUrlSection = () => {
                                             <p>
                                                 Tip: Be very clear in your instructions. Keep it simple.
                                             </p>
-                                            <p>
-                                                Keep it simple, with minimum
-                                                instructions as possible.
-                                            </p>
+                                          
                                         </div>
                                     </div>
                                     <p>Instructions Steps</p>
