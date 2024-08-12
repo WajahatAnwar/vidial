@@ -116,7 +116,7 @@ class SettingsController extends Controller
         $data['gd_creds'] = $store->googleDriveCreds;
         $data['klavio'] = $store->klavio;
         $data['plan_id'] = $store->plan_id;
-        $data['plan_name'] = $store->name;
+        $data['plan_name'] = $plan->name;
         return response()->json([
             'success' => true,
             'message' => "Settings get Successfully",

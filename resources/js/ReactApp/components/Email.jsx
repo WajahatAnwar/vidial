@@ -48,6 +48,7 @@ import Toggle from "./Toggle";
 import Dropzone from "dropzone";
 import './css/editor.css';
 import EmailCredsToggle from "./EmailCredsToggle";
+import Ticker from "./Ticker";
 /**
 const urlParams = new URLSearchParams(location.search);
 const shopParam = urlParams.get('shop');
@@ -56,6 +57,8 @@ localStorage.setItem('store',storeName);
 */
 
 const Email = () => {
+    const [klavioError, setKlavioError] = useState(false);
+    const [klavioErrorMsg, setKlavioErrorMsg] = useState('');
     const [storeHandle, setStoreHandle] = useState(null);
     const [approvedStoreHandle, setApprovedStoreHandle] = useState(null);
     const [isHandleAvailable, setIsHandleAvailable] = useState(true);
@@ -68,6 +71,8 @@ const Email = () => {
 
 
     const [isEmailActive, setIsEmailActive] = useState(false);
+    const [emailConnected, setEmailConnected] = useState(null);
+    
     const handleIsEmailActive = useCallback(
         (e) => setIsEmailActive(e),
         [],
@@ -132,6 +137,7 @@ const Email = () => {
     const [emailTemplateButton, setEmailTemplateButton] = useState(true);
     const [files, setFiles] = useState([]);
     const [alreadyUploadLogo, setAlreadyUploadedLogo] = useState('');
+    
 
     function handleChange() {
         let isChecked;
@@ -298,12 +304,11 @@ const Email = () => {
     
     const [gdError, setGdError] = useState(false);
     const [gdErrorMsg, setGdErrorMsg] = useState('');
+    const [klavioApi, setKlavioApi] = useState("");
+    const [klavioEmail, setKlavioEmail] = useState("");
+    const [klavioConnected, setKlavioConnected] = useState(true);
+    const handleKlavioEmail = useCallback((newValue) => setKlavioEmail(newValue), []);
 
-    // const successToastVideo = active ? (
-    //     <Toast content="Settings Saved" onDismiss={true} />
-    // ) : null;
-
-    // alert(logoImage);
     const logoHandler = (e) => {
         setImagename(e.target.files[0].name);
         // imagename
@@ -382,6 +387,36 @@ const Email = () => {
 
         return
     }
+    const handleConnectKlavio = () => {
+
+        setKlavioError(false);
+        if (klavioApi.length <= 0) {
+            setKlavioError(true);
+            setKlavioErrorMsg('Api key is required');
+            return;
+        }
+        if (klavioEmail.length <= 0) {
+            setKlavioError(true);
+            setKlavioErrorMsg('Email is required');
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('api_key', klavioApi);
+        formData.append('email', klavioEmail);
+        fetch('save-klavio-settings', {
+            body: formData,
+            method: 'POST'
+        }).then(response => response.json()).then((data) => {
+            console.log(data);
+        })
+    }
+    /******* setter for klavio *********/
+    const setterKlavio = (data) => {
+        setKlavioConnected(true);
+        setKlavioApi(data.data.klavio.api_key);
+        setKlavioEmail(data.data.klavio.email);
+    }
     const handleStoreHandle = useCallback((newValue) => {
         setStoreHandle(newValue);
         setIsHandleAvailable(true);
@@ -453,6 +488,7 @@ const Email = () => {
         setSenderEmail(data.data.email_creds.mail_user_name);
         setMailgunDomain(data.data.email_creds.domain);
         setMailgunEndpoint(data.data.email_creds.endpoint);
+        setEmailConnected(data.data.email_creds);
     }
     const setterGdCreds = (data) => {
         setGDConnected(true);
@@ -505,6 +541,8 @@ const Email = () => {
         &secret_key=${gdSecretKey}&folder_name=${gdFolder}&shop=${store}`
         window.open(url, '_blank');
     }
+    const handleKlavioApi = useCallback((newValue) => setKlavioApi(newValue), []);
+
 
     /********  get Settings Data  ******/
     useEffect(() => {
@@ -532,7 +570,7 @@ const Email = () => {
                         : setByDefaultSettings('btn_txt', data.data.locale)
 
 
-
+                    data.data.klavio ? setterKlavio(data) : setKlavioConnected(false)
                     setToggled(data.data.email_status);
                     setPriceValue(data.data.store_credit);
                     setLandingPage(data.data.page_display_to_customers);
@@ -1110,6 +1148,8 @@ const Email = () => {
                                     xl: 12,
                                 }}
                             >
+                                    <Ticker></Ticker>
+                                    <br></br>
                                 {error && (
                                     <Card sectioned>
                                         <Banner>
@@ -1332,22 +1372,6 @@ const Email = () => {
                                             <Text variant="headingLg" as="h5">
                                                 Email Customization
                                             </Text>
-                                            <p style={{ marginTop: "5px" }}>
-                                                If GoodAuthentic is sending emails, design them here.
-                                            </p>
-
-                                            {
-                                                emailCredsError ? <Banner>
-                                                    <List type="bullet">
-                                                        {
-                                                            <List.Item>{emailCredsMsg}</List.Item>
-
-                                                        }
-
-
-                                                    </List>
-                                                </Banner> : ''
-                                            }
                                         </div>
                                         <div
                                             style={{
@@ -1369,107 +1393,8 @@ const Email = () => {
                                         expandOnPrint
                                     >
                                         <div style={{ marginTop: "20px" }}></div>
-                                        <div style={{ display: "flex", alignItems: "center", marginRight: "5px" }} >
-                                               
-                                            <EmailCredsToggle toggled={emailCredsToggle} onClick={() => {
-                                                setEmailCredsToggle(!emailCredsToggle);
-                                                setEmailCredsError(false);
-                                            }}></EmailCredsToggle>
-
-                                            <p style={{ fontWeight: "bold", marginLeft: "5px" }}>Send with your own email</p>
-
-
-                                        </div>
-                                        {
-                                            emailCredsToggle ?
-                                                <>
-                                                    {/* <Checkbox
-                                            label="Send with your own email"
-                                            checked={isEmailActive}
-                                            onChange={handleIsEmailActive}
-                                        /> */}
-                                                    <div
-                                                        style={{
-                                                            width: "450px",
-                                                            marginTop: "10px",
-                                                        }}
-                                                    >
-
-
-
-                                                        <TextField
-                                                            value={mailgunAPI}
-                                                            onChange={handleMailgunAPI}
-                                                            autoComplete="off"
-                                                            placeholder="Mailgun API Key"
-                                                        />
-                                                        <p style={{ color: "#717171", marginTop: "5px" }}>Paste your <a href="https://www.mailgun.com/blog/product/getting-started-with-mailgun-introduction-to-platform-training/" target="blank" style={{ color: "#008060", textDecoration: "underline" }}>Mailgun</a> API Key here. <a href="https://documentation.mailgun.com/en/latest/index.html" target="blank" style={{ color: "#008060", textDecoration: "underline" }}>See how it works</a></p>
-                                                    </div>
-                                                    <div
-                                                        style={{
-                                                            width: "450px",
-                                                            marginTop: "10px",
-                                                        }}
-                                                    >
-
-
-
-                                                        <TextField
-                                                            value={senderEmail}
-                                                            onChange={handleSenderEmail}
-                                                            autoComplete="off"
-                                                            placeholder="noreply@vidialapp.com"
-                                                        />
-                                                        <p style={{ color: "#717171", marginTop: "5px" }}>Enter the email address that will be used as the sender.</p>
-
-                                                    </div>
-
-                                                    {/* <div
-                                                style={{
-                                                    width: "450px",
-                                                    marginTop: "10px",
-                                                }}
-                                            >
-
-
-                                                <TextField
-                                                    value={mailgunDomain}
-                                                    onChange={handleMailgunDomain}
-                                                    autoComplete="off"
-                                                    placeholder="Mailgun Domain"
-                                                />
-                                                <p style={{ color: "#717171", marginTop: "5px" }}>Enter the Mailgun Domain.</p>
-
-                                            </div>
-
-
-                                            <div
-                                                style={{
-                                                    width: "450px",
-                                                    marginTop: "10px",
-                                                }}
-                                            >
-
-                                                <TextField
-                                                    value={mailgunEndpoint}
-                                                    onChange={handleMailgunEndPoint}
-                                                    autoComplete="off"
-                                                    placeholder="Mailgun Endpoint"
-                                                />
-                                                <p style={{ color: "#717171", marginTop: "5px" }}>Enter the Mailgun endpoint.</p>
-
-                                            </div> */}
-                                                    <div
-                                                        style={{
-                                                            width: "450px",
-                                                            marginTop: "10px",
-                                                        }}
-                                                    >
-                                                        <Button primary onClick={handleSaveEmailCredentials}>Save</Button>
-                                                    </div>
-                                                </>
-                                                : ''
-                                        }
+                                      
+                                     
                                         <div
                                             style={{
                                                 display: "flex",
@@ -1664,71 +1589,152 @@ const Email = () => {
 
 
                                 </Card>
+                                
                                 {
-                                        (planName == 'Premium' || planName == 'Enterprise') ?
+                                  
+                                        (planName == 'Premium' || planName == 'Enterprise' || planName == 'Standard' || planName == 'Free') ?
+                                            <>
+                                    {/********* Klavio  *********/}
                                     <Card sectioned>
-                                        <div style={{ display: "flex", alignItems: "center", marginRight: "5px" }} >
+                                        {
+                                            klavioError ? <Banner>
+                                                <List type="bullet">
+                                                    {
+                                                        <List.Item>{klavioErrorMsg}</List.Item>
+
+                                                    }
+
+
+                                                </List>
+                                            </Banner> : ''
+                                        }
+                                        <div className="googledrivesection">
                                             <div style={{ marginBottom: "15px" }}>
                                                 <Text variant="headingLg" as="h5">
-                                                    Send Using Mailgun
+                                                    Connect Klaviyo
                                                 </Text>
                                             </div>
-                                            <br></br>
-                                            <EmailCredsToggle toggled={emailCredsToggle} onClick={() => {
-                                                setEmailCredsToggle(!emailCredsToggle);
-                                                setEmailCredsError(false);
-                                            }}></EmailCredsToggle>
+                                            {/* <p
+                                            style={{
+                                                marginTop: "15px",
+                                                marginBottom: "15px",
+                                            }}
+                                        >
+                                            Please contact the live support to verify your store and remove our Branding “Powered by Vidial” for FREE.
+                                        </p> */}
+                                            <div style={{ marginTop: "10px", width: "450px" }}>
+                                                <TextField
+                                                    value={klavioApi}
+                                                    onChange={handleKlavioApi}
+                                                    autoComplete="off"
+                                                    placeholder="Set Api Key"
 
-                                            <p style={{ fontWeight: "bold", marginLeft: "5px" }}>Send with your own email</p>
+                                                />
+                                            </div>
+
+                                            <div style={{ marginTop: "10px", width: "450px" }}>
+                                                <TextField
+                                                    value={klavioEmail}
+                                                    onChange={handleKlavioEmail}
+                                                    autoComplete="off"
+                                                    placeholder="Set Email"
+
+                                                />
+                                            </div>
 
 
+
+                                            <div style={{ marginTop: "20px" }}>
+                                                {
+                                                    klavioConnected ?
+
+                                                        <Button info >
+                                                            <div style={{ display: "flex" }} >
+
+                                                                <div>Connected</div>
+                                                                <div>
+                                                                    <Icon
+                                                                        source={TickMinor}
+                                                                        color="base"
+                                                                    />
+                                                                </div>
+                                                            </div>
+                                                        </Button>
+                                                        : <Button primary onClick={handleConnectKlavio}>
+                                                            Connect
+                                                        </Button>
+                                                }
+                                        
+                                            </div>
                                         </div>
+                                    </Card>
 
-                                        {
-                                            emailCredsToggle ?
-                                                <>
-                                                    {/* <Checkbox
-                                            label="Send with your own email"
-                                            checked={isEmailActive}
-                                            onChange={handleIsEmailActive}
-                                        /> */}
-                                                    <div
-                                                        style={{
-                                                            width: "450px",
-                                                            marginTop: "10px",
-                                                        }}
-                                                    >
+                                    <Card sectioned>
+                                        <div className="googledrivesection">
+                                            <div style={{ marginTop: "20px" }}></div>
+                                            <div style={{ display: "flex", alignItems: "center", marginRight: "5px" }} >
+                                                <div style={{ width: "450px" }}>
+                                                    <Text variant="headingLg" as="h5">
+                                                        Connect Mailgun
+                                                    </Text>
 
 
+                                                    {
+                                                        emailCredsError ? <Banner>
+                                                            <List type="bullet">
+                                                                {
+                                                                    <List.Item>{emailCredsMsg}</List.Item>
 
-                                                        <TextField
-                                                            value={mailgunAPI}
-                                                            onChange={handleMailgunAPI}
-                                                            autoComplete="off"
-                                                            placeholder="Mailgun API Key"
-                                                        />
-                                                        <p style={{ color: "#717171", marginTop: "5px" }}>Paste your <a href="https://www.mailgun.com/blog/product/getting-started-with-mailgun-introduction-to-platform-training/" target="blank" style={{ color: "#008060", textDecoration: "underline" }}>Mailgun</a> API Key here. <a href="https://documentation.mailgun.com/en/latest/index.html" target="blank" style={{ color: "#008060", textDecoration: "underline" }}>See how it works</a></p>
-                                                    </div>
-                                                    <div
-                                                        style={{
-                                                            width: "450px",
-                                                            marginTop: "10px",
-                                                        }}
-                                                    >
+                                                                }
 
 
+                                                            </List>
+                                                        </Banner> : ''
+                                                    }
+                                                </div>
+                                             
 
-                                                        <TextField
-                                                            value={senderEmail}
-                                                            onChange={handleSenderEmail}
-                                                            autoComplete="off"
-                                                            placeholder="noreply@vidialapp.com"
-                                                        />
-                                                        <p style={{ color: "#717171", marginTop: "5px" }}>Enter the email address that will be used as the sender.</p>
+                                            </div>
+                                           
+                                                    <>
+                                    
+                                                        <div
+                                                            style={{
+                                                                width: "450px",
+                                                                marginTop: "10px",
+                                                            }}
+                                                        >
 
-                                                    </div>
 
-                                                    {/* <div
+
+                                                            <TextField
+                                                                value={mailgunAPI}
+                                                                onChange={handleMailgunAPI}
+                                                                autoComplete="off"
+                                                                placeholder="Mailgun API Key"
+                                                            />
+                                                            <p style={{ color: "#717171", marginTop: "5px" }}>Paste your <a href="https://www.mailgun.com/blog/product/getting-started-with-mailgun-introduction-to-platform-training/" target="blank" style={{ color: "#008060", textDecoration: "underline" }}>Mailgun</a> API Key here. <a href="https://documentation.mailgun.com/en/latest/index.html" target="blank" style={{ color: "#008060", textDecoration: "underline" }}>See how it works</a></p>
+                                                        </div>
+                                                        <div
+                                                            style={{
+                                                                width: "450px",
+                                                                marginTop: "10px",
+                                                            }}
+                                                        >
+
+
+
+                                                            <TextField
+                                                                value={senderEmail}
+                                                                onChange={handleSenderEmail}
+                                                                autoComplete="off"
+                                                                placeholder="noreply@vidialapp.com"
+                                                            />
+                                                            <p style={{ color: "#717171", marginTop: "5px" }}>Enter the email address that will be used as the sender.</p>
+
+                                                        </div>
+
+                                                        {/* <div
                                                 style={{
                                                     width: "450px",
                                                     marginTop: "10px",
@@ -1763,143 +1769,41 @@ const Email = () => {
                                                 <p style={{ color: "#717171", marginTop: "5px" }}>Enter the Mailgun endpoint.</p>
 
                                             </div> */}
-                                                    <div
-                                                        style={{
-                                                            width: "450px",
-                                                            marginTop: "10px",
-                                                        }}
-                                                    >
-                                                        <Button primary onClick={handleSaveEmailCredentials}>Save</Button>
-                                                    </div>
-                                                </>
-                                                : ''
-                                        }
+                                                        {
+                                                            emailConnected ?
+                                                                <div
+                                                                    style={{
+                                                                        width: "450px",
+                                                                        marginTop: "10px",
+                                                                    }}
+                                                                >
+                                                                    <Button info >
+                                                                        <div style={{ display: "flex" }} >
+
+                                                                            <div>Connected</div>
+                                                                            <div>
+                                                                                <Icon
+                                                                                    source={TickMinor}
+                                                                                    color="base"
+                                                                                />
+                                                                            </div>
+                                                                        </div>
+                                                                    </Button>
+                                                                </div> : <div
+                                                                    style={{
+                                                                        width: "450px",
+                                                                        marginTop: "10px",
+                                                                    }}
+                                                                >
+                                                                    <Button primary onClick={handleSaveEmailCredentials}>Connect</Button>
+                                                                </div>}
+                                                    </>
+                                        </div>
                                     </Card>
-                                    : null
-                                 }
-                                <Card sectioned>
-                                    <div>
-                                        <Text variant="headingLg" as="h5">
-                                            Remove GoodAuthentic Watermark
-                                        </Text>
-                                        <p
-                                            style={{
-                                                marginTop: "15px",
-                                                marginBottom: "15px",
-                                            }}
-                                        >
-                                                Please contact live support to verify your store and remove the "Powered by GoodAuthentic" branding for FREE.
-                                        </p>
-                                        <Button primary onClick={handleChatClick}>
-                                                Remove Watermark
-                                        </Button>
-                                    </div>
-                                </Card>
-                                    { (planName == 'Premium' || planName == 'Enterprise') ?
-                                <Card sectioned>
-                                    {
-                                        gdError ? <Banner>
-                                            <List type="bullet">
-                                                {
-                                                    <List.Item>{gdErrorMsg}</List.Item>
-
-                                                }
-
-
-                                            </List>
-                                        </Banner> : ''
-                                    }
-                                    <div className="googledrivesection">
-                                        <div style={{ marginBottom: "15px" }}>
-                                            <Text variant="headingLg" as="h5">
-                                                Google Drive
-                                            </Text>
-                                        </div>
-                                        {/* <p
-                                            style={{
-                                                marginTop: "15px",
-                                                marginBottom: "15px",
-                                            }}
-                                        >
-                                            Please contact the live support to verify your store and remove our Branding “Powered by Vidial” for FREE.
-                                        </p> */}
-                                        <div style={{ marginTop: "10px", width: "450px" }}>
-                                            <TextField
-                                                value={gdApi}
-                                                onChange={handleSenderApi}
-                                                autoComplete="off"
-                                                placeholder="Set Api Key"
-
-                                            />
-                                        </div>
-
-                                        <div style={{ marginTop: "10px", width: "450px" }}>
-                                            <TextField
-                                                value={gdClientId}
-                                                onChange={handleSenderClientId}
-                                                autoComplete="off"
-                                                placeholder="Set Client Id"
-
-                                            />
-                                        </div>
-
-                                        <div style={{ marginTop: "10px", width: "450px" }}>
-
-                                            <TextField
-                                                value={gdSecretKey}
-                                                onChange={handleSenderSecKey}
-                                                autoComplete="off"
-                                                placeholder="Set Secret Key"
-                                            />
-                                        </div>
-
-                                        <div style={{ marginTop: "10px", width: "450px" }}>
-
-                                            <TextField
-                                                value={gdFolder}
-                                                onChange={handleSenderFolder}
-                                                autoComplete="off"
-                                                placeholder="Folder Name"
-                                            />
-
-                                        </div>
-
-                                        <div style={{ marginTop: "10px", width: "450px" }}>
-
-                                            <TextField
-                                                value={baseUrl + '/google-login'}
-                                                autoComplete="off"
-                                                disabled
-                                                placeholder={baseUrl + '/google-login'}
-                                            />
-
-                                        </div>
-
-                                        <div style={{ marginTop: "20px" }}>
-                                            {
-                                                gDConnected ?
-                                                        
-                                                        <Button info >
-                                                            <div style={{display:"flex"}} >
-                                                            
-                                                                <div>Connected</div>
-                                                                <div>
-                                                                    <Icon
-                                                                        source={TickMinor}
-                                                                        color="base"
-                                                                    />
-                                                                </div>
-                                                            </div>
-                                                    </Button>
-                                                    : <Button primary onClick={handleConnectGD}>
-                                                        Connect
-                                                    </Button>
-                                            }
-                                        </div>
-                                    </div>
-                                </Card>
+                                            </>
                                 : null
-                                }
+                                       
+                                 }
                                 <div
                                     style={{
                                         textAlign: "right",
@@ -1913,7 +1817,7 @@ const Email = () => {
                                         disabled={isLoading}
                                         id="sab_ok_id"
                                     >
-                                            Save Landing Page
+                                            Save Emails
                                     </Button>
                                 </div>
                             </Grid.Cell>

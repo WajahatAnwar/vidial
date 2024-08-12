@@ -32,6 +32,7 @@ import {
 import downloadIcon from "./imges/downloadIcon.png";
 import noVedio from "./imges/film.png";
 import { downloadVideo } from "./utils";
+import Ticker from "./Ticker";
 
 function Dashboard() {
     // const cLocation = useLocation();
@@ -317,10 +318,11 @@ function Dashboard() {
             <Grid>
 
                 <Grid.Cell columnSpan={{ xs: 6, sm: 6, md: 6, lg: 12, xl: 12 }}>
+                    <Ticker></Ticker>
                     <br></br>
-                    <Text variant="headingXl" as="h4">
+                    {/* <Text variant="headingXl" as="h4">
                         Welcome to GoodAuthentic 👋
-                    </Text>
+                    </Text> */}
                 </Grid.Cell>
                 <Grid.Cell columnSpan={{ xs: 6, sm: 6, md: 4, lg: 4, xl: 4 }}>
                     <Card sectioned>

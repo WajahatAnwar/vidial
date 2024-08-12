@@ -58,10 +58,10 @@ function TabsExample() {
             navigate("/settings");
         } else if (selectedTabIndex == 4) {
             setSelected(selectedTabIndex);
-            navigate("/plans" + location.search);
+            navigate("/email" + location.search);
         }else if (selectedTabIndex == 5) {
             setSelected(selectedTabIndex);
-            navigate("/email" + location.search);
+            navigate("/plans" + location.search);
         }
         else if (selectedTabIndex == 6) {
             setSelected(selectedTabIndex);
@@ -124,12 +124,12 @@ function TabsExample() {
             content: "Landing Page",
         },
         {
-            id: "plans-customers-1",
-            content: "Plans",
+            id: "email",
+            content: "Emails"
         },
         {
-            id:"email",
-            content: "Emails"
+            id: "plans-customers-1",
+            content: "Plans",
         },
         {
             id: "logs",

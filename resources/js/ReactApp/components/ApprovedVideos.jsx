@@ -23,6 +23,7 @@ import { CircleCancelMajor, CircleTickMajor } from "@shopify/polaris-icons";
 import downloadIcon from "./imges/downloadIcon.png";
 import { downloadVideo } from "./utils";
 import noVedio from "./imges/film.png"
+import Ticker from "./Ticker";
 function ApprovedVideos() {
     const [numberOfVedios, setNumberOfVedios] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
@@ -53,6 +54,8 @@ function ApprovedVideos() {
         <Page>
             <Grid>
                 <Grid.Cell columnSpan={{ xs: 6, sm: 6, md: 6, lg: 12, xl: 12 }}>
+                    <Ticker></Ticker>
+                    <br></br>
                     <Card>
                         <Card.Section>
                             <div

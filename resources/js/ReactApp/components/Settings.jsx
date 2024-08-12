@@ -48,6 +48,7 @@ import Toggle from "./Toggle";
 import Dropzone from "dropzone";
 import './css/editor.css';
 import EmailCredsToggle from "./EmailCredsToggle";
+import Ticker from "./Ticker";
 /**
 const urlParams = new URLSearchParams(location.search);
 const shopParam = urlParams.get('shop');
@@ -1182,30 +1183,7 @@ const Settings = () => {
                                     xl: 12,
                                 }}
                             >
-                                <div className="setting_banner">
-                                <Banner
-                                        title={`Welcome to GoodAuthentic 👋`}
-
-                                    status="info"
-                                    onDismiss={() => { }}
-                                >
-                                        <p>GoodAuthentic will help you collect videos from and reward your customers.</p>
-                                    <a style={{ textDecoration: "none" }} href="#">
-                                        <button onClick={() => {
-                                            window.open(
-                                                'https://goodauthentic.notion.site/Merchant-Guide-d8e3158efbd64a69a876b89d37d78b62'
-                                            );
-                                        }} style={{
-                                            cursor: 'pointer',
-                                            display: "flex", padding: "7px 10px",
-                                            marginTop: "20px", background: "rgba(255, 255, 255, 0.01)", border: "1px solid #95c9b4", borderRadius: "4px"
-                                        }}>
-                                            <Icon
-                                                source={PlayMinor}
-                                                color="base"
-                                            /><span style={{ marginLeft: "10px" }}>How GoodAuthentic Works</span></button></a>
-                                </Banner>
-                                    </div>
+                              <Ticker></Ticker>
                                 {error && (
                                     <Card sectioned>
                                         <Banner>
@@ -2505,204 +2483,24 @@ const Settings = () => {
                                     </div>
                                 </Card>
 
-                                {/********* Klavio  *********/}
+                          
+
                                     <Card sectioned>
-                                        {
-                                            klavioError ? <Banner>
-                                                <List type="bullet">
-                                                    {
-                                                        <List.Item>{klavioErrorMsg}</List.Item>
-
-                                                    }
-
-
-                                                </List>
-                                            </Banner> : ''
-                                        }
-                                        <div className="googledrivesection">
-                                            <div style={{ marginBottom: "15px" }}>
-                                                <Text variant="headingLg" as="h5">
-                                                    Connect Klaviyo
-                                                </Text>
-                                            </div>
-                                            {/* <p
-                                            style={{
-                                                marginTop: "15px",
-                                                marginBottom: "15px",
-                                            }}
-                                        >
-                                            Please contact the live support to verify your store and remove our Branding “Powered by Vidial” for FREE.
-                                        </p> */}
-                                            <div style={{ marginTop: "10px", width: "450px" }}>
-                                                <TextField
-                                                    value={klavioApi}
-                                                    onChange={handleKlavioApi}
-                                                    autoComplete="off"
-                                                    placeholder="Set Api Key"
-
-                                                />
-                                            </div>
-
-                                            <div style={{ marginTop: "10px", width: "450px" }}>
-                                                <TextField
-                                                    value={klavioEmail}
-                                                    onChange={handleKlavioEmail}
-                                                    autoComplete="off"
-                                                    placeholder="Set Email"
-
-                                                />
-                                            </div>
-
-                                        
-
-                                            <div style={{ marginTop: "20px" }}>
-                                                {
-                                                    klavioConnected ?
-
-                                                        <Button info >
-                                                            <div style={{ display: "flex" }} >
-
-                                                                <div>Connected</div>
-                                                                <div>
-                                                                    <Icon
-                                                                        source={TickMinor}
-                                                                        color="base"
-                                                                    />
-                                                                </div>
-                                                            </div>
-                                                        </Button>
-                                                        : <Button primary onClick={handleConnectKlavio}>
-                                                            Connect
-                                                        </Button>
-                                                }
-                                            </div>
-                                        </div>
-                                    </Card>
-                                    
-                                    <Card sectioned>
-                                        <div className="googledrivesection">
-                                            <div style={{ marginTop: "20px" }}></div>
-                                            <div style={{ display: "flex", alignItems: "center", marginRight: "5px" }} >
-                                                <div style={{ width: "450px" }}>
-                                                    <Text variant="headingLg" as="h5">
-                                                        Email Customization
-                                                    </Text>
-                                                    <p style={{ marginTop: "5px" }}>
-                                                        If GoodAuthentic is sending emails, design them here.
-                                                    </p>
-
-                                                    {
-                                                        emailCredsError ? <Banner>
-                                                            <List type="bullet">
-                                                                {
-                                                                    <List.Item>{emailCredsMsg}</List.Item>
-
-                                                                }
-
-
-                                                            </List>
-                                                        </Banner> : ''
-                                                    }
-                                                </div>
-                                                <EmailCredsToggle toggled={emailCredsToggle} onClick={() => {
-                                                    setEmailCredsToggle(!emailCredsToggle);
-                                                    setEmailCredsError(false);
-                                                }}></EmailCredsToggle>
-
-                                                <p style={{ fontWeight: "bold", marginLeft: "5px" }}>Send with your own email</p>
-
-
-                                            </div>
-                                            {
-                                                emailCredsToggle ?
-                                                    <>
-                                                        {/* <Checkbox
-                                            label="Send with your own email"
-                                            checked={isEmailActive}
-                                            onChange={handleIsEmailActive}
-                                        /> */}
-                                                        <div
-                                                            style={{
-                                                                width: "450px",
-                                                                marginTop: "10px",
-                                                            }}
-                                                        >
-
-
-
-                                                            <TextField
-                                                                value={mailgunAPI}
-                                                                onChange={handleMailgunAPI}
-                                                                autoComplete="off"
-                                                                placeholder="Mailgun API Key"
-                                                            />
-                                                            <p style={{ color: "#717171", marginTop: "5px" }}>Paste your <a href="https://www.mailgun.com/blog/product/getting-started-with-mailgun-introduction-to-platform-training/" target="blank" style={{ color: "#008060", textDecoration: "underline" }}>Mailgun</a> API Key here. <a href="https://documentation.mailgun.com/en/latest/index.html" target="blank" style={{ color: "#008060", textDecoration: "underline" }}>See how it works</a></p>
-                                                        </div>
-                                                        <div
-                                                            style={{
-                                                                width: "450px",
-                                                                marginTop: "10px",
-                                                            }}
-                                                        >
-
-
-
-                                                            <TextField
-                                                                value={senderEmail}
-                                                                onChange={handleSenderEmail}
-                                                                autoComplete="off"
-                                                                placeholder="noreply@vidialapp.com"
-                                                            />
-                                                            <p style={{ color: "#717171", marginTop: "5px" }}>Enter the email address that will be used as the sender.</p>
-
-                                                        </div>
-
-                                                        {/* <div
+                                        <div>
+                                            <Text variant="headingLg" as="h5">
+                                                Remove GoodAuthentic Watermark
+                                            </Text>
+                                            <p
                                                 style={{
-                                                    width: "450px",
-                                                    marginTop: "10px",
+                                                    marginTop: "15px",
+                                                    marginBottom: "15px",
                                                 }}
                                             >
-
-
-                                                <TextField
-                                                    value={mailgunDomain}
-                                                    onChange={handleMailgunDomain}
-                                                    autoComplete="off"
-                                                    placeholder="Mailgun Domain"
-                                                />
-                                                <p style={{ color: "#717171", marginTop: "5px" }}>Enter the Mailgun Domain.</p>
-
-                                            </div>
-
-
-                                            <div
-                                                style={{
-                                                    width: "450px",
-                                                    marginTop: "10px",
-                                                }}
-                                            >
-
-                                                <TextField
-                                                    value={mailgunEndpoint}
-                                                    onChange={handleMailgunEndPoint}
-                                                    autoComplete="off"
-                                                    placeholder="Mailgun Endpoint"
-                                                />
-                                                <p style={{ color: "#717171", marginTop: "5px" }}>Enter the Mailgun endpoint.</p>
-
-                                            </div> */}
-                                                        <div
-                                                            style={{
-                                                                width: "450px",
-                                                                marginTop: "10px",
-                                                            }}
-                                                        >
-                                                            <Button primary onClick={handleSaveEmailCredentials}>Save</Button>
-                                                        </div>
-                                                    </>
-                                                    : ''
-                                            }
+                                                Please contact live support to verify your store and remove the "Powered by GoodAuthentic" branding for FREE.
+                                            </p>
+                                            <Button primary onClick={handleChatClick}>
+                                                Remove Watermark
+                                            </Button>
                                         </div>
                                     </Card>
                                     

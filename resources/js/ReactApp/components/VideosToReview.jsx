@@ -25,6 +25,7 @@ import { CircleCancelMajor, CircleTickMajor } from "@shopify/polaris-icons";
 import downloadIcon from "./imges/downloadIcon.png";
 import noVedio from "./imges/film.png";
 import staricon from "./imges/Staricon.svg";
+import Ticker from "./Ticker";
 
 function WaitingVideos() {
     const { pathname,search } = useLocation();
@@ -288,6 +289,8 @@ function WaitingVideos() {
         <Page>
             <Grid>
                 <Grid.Cell columnSpan={{ xs: 6, sm: 6, md: 6, lg: 12, xl: 12 }}>
+                    <Ticker></Ticker>
+                    <br></br>
                     <Card>
                         <Card.Section>
                             <div
