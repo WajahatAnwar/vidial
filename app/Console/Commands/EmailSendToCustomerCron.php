@@ -41,6 +41,7 @@ class EmailSendToCustomerCron extends Command
      */
     public function handle()
     {
+        Log::info("message from emailtocustomer:cron");
         // $order_list = Orders::with('marchent')
         // ->where('remaining_mail','>',0)
         // ->where('replied', '=', 0)
