@@ -33,10 +33,12 @@ function TabsExample() {
             setSelected(2);
         } else if (location.pathname == "/settings") {
             setSelected(3);
-        } else if (location.pathname == "/plans") {
+        } else if (location.pathname == "/email") {
             setSelected(4);
-        }else if (location.pathname == "/resources") {
+        }else if (location.pathname == "/plans") {
             setSelected(5);
+        } else if (location.pathname == "/logs") {
+            setSelected(6);
         }
 
     }, [location]);

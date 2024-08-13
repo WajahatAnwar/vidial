@@ -1627,7 +1627,7 @@ const Email = () => {
                                                     value={klavioApi}
                                                     onChange={handleKlavioApi}
                                                     autoComplete="off"
-                                                    placeholder="Set Api Key"
+                                                    placeholder="Klaviyo Api Key"
 
                                                 />
                                             </div>
@@ -1728,7 +1728,7 @@ const Email = () => {
                                                                 value={senderEmail}
                                                                 onChange={handleSenderEmail}
                                                                 autoComplete="off"
-                                                                placeholder="noreply@vidialapp.com"
+                                                                placeholder="noreply@goodauthentic.com"
                                                             />
                                                             <p style={{ color: "#717171", marginTop: "5px" }}>Enter the email address that will be used as the sender.</p>
 
