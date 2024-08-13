@@ -1,54 +1,31 @@
-import React, { useEffect } from "react";
 import {
-    Page,
-    hsbToHex,
-    hsbToRgb,
-    hslToRgb,
-    rgbToHsb,
-    Card,
-    Button,
-    Select,
-    Icon,
-    Grid,
-    Modal,
     Banner,
-    RadioButton,
-    TextField,
-    ColorPicker,
-    Spinner,
-    Collapsible,
-    Popover,
+    Button,
     ButtonGroup,
-    Checkbox,
-    Label,
-} from "@shopify/polaris";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import {
+    Card,
+    Collapsible,
     DropZone,
-    Stack,
-    Thumbnail,
-    Text,
     Frame,
-    Toast,
+    Grid,
+    Icon,
     List,
+    Modal,
+    Page,
+    Spinner,
+    Text,
+    TextField,
+    Thumbnail,
+    Toast
 } from "@shopify/polaris";
-import { CircleCancelMinor, NoteMinor, CircleCancelMajor, ChevronUpMinor, PlayMinor, ConnectMinor, TickMinor } from "@shopify/polaris-icons";
-import {
-    DeleteMajor
-} from '@shopify/polaris-icons';
-import { useCallback } from "react";
-import UploadIcon from "./imges/uploadLogo.png";
-import ErrorIcon from "./imges/error.png";
-import DellIcon from "./imges/dellIcon.png";
-import ColorWheel from "./imges/collorWheel.png";
+import { CircleCancelMajor, NoteMinor, TickMinor } from "@shopify/polaris-icons";
+import React, { useCallback, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Ticker from "./Ticker";
+import Toggle from "./Toggle";
+import './css/editor.css';
 import ChevronUp from "./imges/ChevronUpMinor.png";
 import arrowRight from "./imges/arrowRight.png";
-import Toggle from "./Toggle";
-import Dropzone from "dropzone";
-import './css/editor.css';
-import EmailCredsToggle from "./EmailCredsToggle";
-import Ticker from "./Ticker";
+import ColorWheel from "./imges/collorWheel.png";
 /**
 const urlParams = new URLSearchParams(location.search);
 const shopParam = urlParams.get('shop');

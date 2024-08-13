@@ -109,7 +109,7 @@ export default function Logs() {
                     'Event Name',
                     'Customer Name',
                     'Customer Email',
-                    'Description',
+                  
 
 
 
@@ -129,10 +129,6 @@ export default function Logs() {
                         log.customer_name,
                         log.customer_email,
                         // <Badge status='info' >{log.customerId}</Badge>,
-                        <div>{log.description}</div>
-
-
-
                     ]
                 )}
             // rows={[['1','Store1',,1,2, ]]}
