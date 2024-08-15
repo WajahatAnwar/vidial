@@ -12,7 +12,7 @@ use stdClass;
 use Osiset\ShopifyApp\Contracts\Commands\Shop;
 use Osiset\ShopifyApp\Contracts\Queries\Shop as QueriesShop;
 use Osiset\ShopifyApp\Actions\CancelCurrentPlan;
-
+use App\Models\User;
 class AppUninstalledJob extends \Osiset\ShopifyApp\Messaging\Jobs\AppUninstalledJob
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
