@@ -29,6 +29,7 @@ import Email from "./Email";
 import UserSettings from "./Admin/UserSettings";
 import StoreUrlSection from "./Admin/Components/StoreUrlSection";
 import UserEmail from "./Admin/Components/UserEmail";
+import UserLogs from "./Admin/Components/UserLogs";
 
 const VidialApp = () => {
 
@@ -107,7 +108,9 @@ const VidialApp = () => {
                 <Route path="/reminder-email/:id?" element={<ReminderEmail />} />
                 <Route path="/ugc-approved-email/:id?" element={<UgcApprovedEmail />} />
                 <Route path="/ugc-declined-email/:id?" element={<UgcDeclinedEmail />} />
-                <Route path="/ugc-star-approved/:id?" element={<UgcStarApproved/>}/>
+                <Route path="/ugc-star-approved/:id?" element={<UgcStarApproved />} />
+                <Route path="/user-logs/:id" element={<UserLogs />} />
+
                 <Route path="/logs" element={<Logs />} />
 
                 <Route path="*" element={<Loading />} />

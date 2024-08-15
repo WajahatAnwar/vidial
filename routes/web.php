@@ -72,6 +72,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('save-user-email-tab', [SettingsController::class, 'saveEmailTab']);
     Route::get('fetch-user-email-settings', [SettingsController::class, 'fetchEmailSettings']);
     Route::post('save-user-email-settings', [SettingsController::class, 'saveEmailSettings']);
+    Route::get('u-logs', [SettingsController::class, 'logs'])->name('logs');
+
 });
 
 

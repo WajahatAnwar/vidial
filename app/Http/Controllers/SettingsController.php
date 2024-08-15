@@ -590,7 +590,16 @@ class SettingsController extends Controller
       public function logs(Request $request){
         // dd($request->all());
         $now = Carbon::now();
-        $logs = Log::where('user_id', Auth::user()->id)
+         if($request->filled('id')){
+            $user = User::find($request->id);
+            if(!$user){
+               return redirect()->to('admin-dashboard');
+            }
+        }else {
+            $user=Auth::user();
+        }
+      
+        $logs = Log::where('user_id', $user->id)
         ->when($request->q ? true : false, function ($query) use ($request) {
              $query->where('email_type','like', '%'.$request->q.'%');
         })
