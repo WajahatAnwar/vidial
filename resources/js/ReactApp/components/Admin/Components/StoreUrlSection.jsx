@@ -2192,21 +2192,127 @@ const StoreUrlSection = () => {
 
                                
 
-                                <Card sectioned>
-                                    {
-                                        gdError ? <Banner>
-                                            <List type="bullet">
+                                    <Card sectioned>
+                                        {
+                                            gdError ? <Banner>
+                                                <List type="bullet">
+                                                    {
+                                                        <List.Item>{gdErrorMsg}</List.Item>
+
+                                                    }
+
+
+                                                </List>
+                                            </Banner> : ''
+                                        }
+                                        <div className="googledrivesection">
+                                            <div style={{ marginBottom: "15px" }}>
+                                                <Text variant="headingLg" as="h5">
+                                                    Google Drive
+                                                </Text>
+                                            </div>
+                                            {/* <p
+                                            style={{
+                                                marginTop: "15px",
+                                                marginBottom: "15px",
+                                            }}
+                                        >
+                                            Please contact the live support to verify your store and remove our Branding “Powered by Vidial” for FREE.
+                                        </p> */}
+                                            <div style={{ marginTop: "10px", width: "450px" }}>
+                                                <TextField
+                                                    value={gdApi}
+                                                    onChange={handleSenderApi}
+                                                    autoComplete="off"
+                                                    placeholder="Set Api Key"
+
+                                                />
+                                            </div>
+
+                                            <div style={{ marginTop: "10px", width: "450px" }}>
+                                                <TextField
+                                                    value={gdClientId}
+                                                    onChange={handleSenderClientId}
+                                                    autoComplete="off"
+                                                    placeholder="Set Client Id"
+
+                                                />
+                                            </div>
+
+                                            <div style={{ marginTop: "10px", width: "450px" }}>
+
+                                                <TextField
+                                                    value={gdSecretKey}
+                                                    onChange={handleSenderSecKey}
+                                                    autoComplete="off"
+                                                    placeholder="Set Secret Key"
+                                                />
+                                            </div>
+
+                                            <div style={{ marginTop: "10px", width: "450px" }}>
+
+                                                <TextField
+                                                    value={gdFolder}
+                                                    onChange={handleSenderFolder}
+                                                    autoComplete="off"
+                                                    placeholder="Folder Name"
+                                                />
+
+                                            </div>
+
+                                            <div style={{ marginTop: "10px", width: "450px" }}>
+
+                                                <TextField
+                                                    value={baseUrl + '/google-login'}
+                                                    autoComplete="off"
+                                                    disabled
+                                                    placeholder={baseUrl + '/google-login'}
+                                                />
+
+                                            </div>
+
+                                            <div style={{ marginTop: "20px" }}>
                                                 {
-                                                    <List.Item>{gdErrorMsg}</List.Item>
+                                                    gDConnected ?
 
+                                                        <Button info >
+                                                            <div style={{ display: "flex" }} >
+
+                                                                <div>Connected</div>
+                                                                <div>
+                                                                    <Icon
+                                                                        source={TickMinor}
+                                                                        color="base"
+                                                                    />
+                                                                </div>
+                                                            </div>
+                                                        </Button>
+                                                        : <Button primary onClick={handleConnectGD}>
+                                                            Connect
+                                                        </Button>
                                                 }
+                                            </div>
+                                        </div>
+                                    </Card>
 
-
-                                            </List>
-                                        </Banner> : ''
-                                    }
-                                   
-                                </Card>
+                                    <Card sectioned>
+                                        <div>
+                                            <Text variant="headingLg" as="h5">
+                                                Remove GoodAuthentic Watermark
+                                            </Text>
+                                            <p
+                                                style={{
+                                                    marginTop: "15px",
+                                                    marginBottom: "15px",
+                                                }}
+                                            >
+                                                Please contact live support to verify your store and remove the "Powered by GoodAuthentic" branding for FREE.
+                                            </p>
+                                            <Button primary onClick={handleChatClick}>
+                                                Remove Watermark
+                                            </Button>
+                                        </div>
+                                    </Card>
 
                               
 

@@ -545,14 +545,21 @@ class SettingsController extends Controller
        * Save Email Credentials
        */
       public function saveEmailCredentials(Request $request){
-            
-          EmailCredentials::updateOrCreate(['user_id' => Auth::user()->id],[
+             if($request->filled('id')){
+            $user = User::find($request->id);
+            if(!$user){
+               return redirect()->to('admin-dashboard');
+            }
+        }else {
+            $user=Auth::user();
+        }
+          EmailCredentials::updateOrCreate(['user_id' => $user->id],[
             'mail_user_name'=>$request->sender_email,
             'is_active' => $request->is_active ? 1 : 0,
             'api_secret_key' => $request->api_key,
             'endpoint' => $request->endpoint,
             'domain' => $request->domain,
-            'user_id'=>Auth::user()->id
+            'user_id'=>$user->id
         ]);
 
         return response()->json([
