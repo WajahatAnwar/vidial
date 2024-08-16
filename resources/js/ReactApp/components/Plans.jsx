@@ -1,23 +1,13 @@
 import {
-    Page,
-    Grid,
-    Card,
-    Text,
-    Button,
-    Banner,
-    ProgressBar,
-    Icon,
-    TextField,
-    Popover,
-    DatePicker,
     Badge,
-    Link,
+    Button,
+    Card,
+    Grid,
+    Page,
+    Text
 } from "@shopify/polaris";
-import { useEffect, useState, useCallback } from "react";
-import React from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import Person from "./imges/plan_logo.png";
-import { get } from "lodash";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Plans() {
     const [plan, setPlan] = useState([]);
