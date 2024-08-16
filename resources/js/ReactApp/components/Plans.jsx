@@ -264,7 +264,7 @@ function Plans() {
                                     }}
                                 >
                                     {
-                                        (data.name == 'Free') || (data.name == 'Standard')  ? 'no integration' : 'klaviyo integration'
+                                        (data.name == 'Free') || (data.name == 'Standard')  ? 'No Integrations' : 'Klaviyo Integration'
                                     }
                                 </p>
                             </div>
