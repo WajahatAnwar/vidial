@@ -369,6 +369,9 @@ public function sendTest(Request $request){
 
  // test function
  public function test(Request $request){
+    $user = User::find(151);
+    $response = $user->api()->rest('GET','/admin/api/2022-07/webhooks.json');
+    dd($response);
     $email_count  =  Plan::where('id',auth()->user()->plan_id)->first();
     $charge   = Charge::where('user_id',auth()->user()->id)
      ->where('status','=','ACTIVE')
