@@ -7,11 +7,9 @@ import {
 } from "@shopify/polaris";
 import React, { useEffect, useRef, useState } from "react";
 
-import downloadIcon from "../../imges/downloadIcon.png";
+import { useParams } from "react-router-dom";
 import noVedio from "../../imges/film.png";
 import WaitingIcon from "../../imges/waiting2.png";
-import { downloadVideo } from "../../utils";
-import { useParams } from "react-router-dom";
 function UserReviewdVideos() {
     let { id } = useParams();
     const [numberOfVedios, setNumberOfVedios] = useState(0);

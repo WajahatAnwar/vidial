@@ -1,35 +1,26 @@
 import {
-    ChoiceList,
-    TextField,
+    Badge,
+    Button,
     Card,
-    Filters,
     DataTable,
-    Page,
-    Spinner,
-    Toast,
     Frame,
-    TextContainer,
+    Grid,
+    Page,
+    Select,
     SkeletonBodyText,
-    SkeletonPage,
-    Layout,
     SkeletonDisplayText,
-    Pagination,
+    SkeletonPage,
+    Spinner,
+    Tabs,
+    TextContainer,
+    TextField,
+    Toast
 } from "@shopify/polaris";
-import { Grid, Text, Banner, Button, Icon, Select, Checkbox, Tabs, Tooltip, Badge } from '@shopify/polaris';
-import React, { useEffect } from 'react';
-import { useAsyncError, useNavigate } from 'react-router-dom';
-import { useState, useCallback } from 'react';
-import { CollectionsMajor, DuplicateMinor, EditMajor, InfoMinor, LinkMinor, MinusMinor, ProductsMajor, ProductsMinor, SearchMajor, StoreMinor } from '@shopify/polaris-icons';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { library } from "@fortawesome/fontawesome-svg-core";
-import {
-    faEye,
-    faTrash,
-    faPencil
-} from "@fortawesome/free-solid-svg-icons";
-import Toggle from "./Toggle";
 import { Link } from "react-router-dom";
+import Toggle from "./Toggle";
 
 
 function AdminDashboard(props) {

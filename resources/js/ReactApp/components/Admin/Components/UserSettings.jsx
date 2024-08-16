@@ -33,7 +33,7 @@ const storeName = shopParam.split('.')[0];
 localStorage.setItem('store',storeName);
 */
 
-const StoreUrlSection = () => {
+const UserSettings = () => {
     const { id } = useParams();
 
     const [storeHandle, setStoreHandle] = useState(null);
@@ -2360,4 +2360,4 @@ const StoreUrlSection = () => {
     );
 };
 
-export default StoreUrlSection;
+export default UserSettings;

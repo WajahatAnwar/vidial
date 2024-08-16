@@ -26,8 +26,7 @@ import UgcApprovedEmail from "./UgcApprovedEmail"
 import UgcDeclinedEmail from "./UgcDeclinedEmail"
 import UgcStarApproved from "./UgcStarApproved";
 import Email from "./Email";
-import UserSettings from "./Admin/UserSettings";
-import StoreUrlSection from "./Admin/Components/StoreUrlSection";
+import UserSettings from "./Admin/Components/UserSettings";
 import UserEmail from "./Admin/Components/UserEmail";
 import UserLogs from "./Admin/Components/UserLogs";
 import UserApprovedVideos from "./Admin/Components/UserApprovedVideos";
@@ -104,7 +103,7 @@ const VidialApp = () => {
                 <Route path="/plans" element={<Plans />} />
                 <Route path="/resources" element={<Resources />} />
                 <Route path="/admin-dashboard" element={<AdminDashboard />} />
-                <Route path="/user-settings/:id?" element={<StoreUrlSection />} />
+                <Route path="/user-settings/:id?" element={<UserSettings />} />
                 <Route path="/user-email-settings/:id?" element={<UserEmail />} />
                 <Route path="/post-purchase-email/:id?" element={<PostPurchaseEmail />} />
                 <Route path="/reminder-email/:id?" element={<ReminderEmail />} />
