@@ -128,13 +128,22 @@ return response()->json([
 /****** get pending videos  ********/
 
 public function getPendingVideos(Request $request){
+    if($request->filled('id')){
+           $user = User::find($request->id);
+            if(!$user){
+               return redirect()->to('admin-dashboard');
+            }
+        }else {
+            $user=Auth::user();
+        }
+    
     $videosPerPage = 4;
     $limit = $request->page * $videosPerPage;
-    $totalVideos = video::where('user_id',Auth::user()->id)
+    $totalVideos = video::where('user_id',$user->id)
         ->where('status','=',config('constants.video_pending'))
         ->count();
     $totalPages = ceil($totalVideos / $videosPerPage);
-    $videos = video::where('user_id',Auth::user()->id)
+    $videos = video::where('user_id',$user->id)
     ->where('status','=',config('constants.video_pending'))->orderBy('id','DESC')
     ->get()->take($limit);
     return response()->json([
@@ -350,13 +359,22 @@ public function rejectVideo(Request $request){
 }
 /****** get Approved videos  ********/
 public function getApprovedVideos(Request $request){
+    if($request->filled('id')){
+           $user = User::find($request->id);
+            if(!$user){
+               return redirect()->to('admin-dashboard');
+            }
+        }else {
+            $user=Auth::user();
+        }
+    
     $videosPerPage = 4;
     $limit = $request->page * $videosPerPage;
-    $totalVideos = video::where('user_id',Auth::user()->id)
+    $totalVideos = video::where('user_id',$user->id)
         ->where('status','=',config('constants.video_approved'))
         ->count();
     $totalPages = ceil($totalVideos / $videosPerPage);
-    $videos = video::where('user_id',Auth::user()->id)
+    $videos = video::where('user_id',$user->id)
     ->where('status','=',config('constants.video_approved'))->orderBy('id','DESC')
     ->get()->take($limit);
     return response()->json([

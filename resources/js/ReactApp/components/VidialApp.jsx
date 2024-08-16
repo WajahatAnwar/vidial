@@ -30,6 +30,8 @@ import UserSettings from "./Admin/UserSettings";
 import StoreUrlSection from "./Admin/Components/StoreUrlSection";
 import UserEmail from "./Admin/Components/UserEmail";
 import UserLogs from "./Admin/Components/UserLogs";
+import UserApprovedVideos from "./Admin/Components/UserApprovedVideos";
+import UserReviewdVideos from "./Admin/Components/UserReviewdVideos";
 
 const VidialApp = () => {
 
@@ -110,7 +112,8 @@ const VidialApp = () => {
                 <Route path="/ugc-declined-email/:id?" element={<UgcDeclinedEmail />} />
                 <Route path="/ugc-star-approved/:id?" element={<UgcStarApproved />} />
                 <Route path="/user-logs/:id" element={<UserLogs />} />
-
+                <Route path="/user-approved-videos/:id" element={<UserApprovedVideos />} />
+                <Route path="/user-reviewd-videos/:id" element={<UserReviewdVideos />} />
                 <Route path="/logs" element={<Logs />} />
 
                 <Route path="*" element={<Loading />} />

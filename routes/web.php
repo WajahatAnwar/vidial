@@ -74,6 +74,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('fetch-user-email-settings', [SettingsController::class, 'fetchEmailSettings']);
     Route::post('save-user-email-settings', [SettingsController::class, 'saveEmailSettings']);
     Route::get('u-logs', [SettingsController::class, 'logs'])->name('logs');
+    Route::get('getUserApprovedVideos', [VideoController::class, 'getApprovedVideos']);
+    Route::get('getUserPendingVideos', [VideoController::class, 'getPendingVideos']);
+
 
 });
 
