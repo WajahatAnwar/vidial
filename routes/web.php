@@ -37,6 +37,7 @@ Route::get(
 
 Route::get('/jobs',function(Shop $query){
     $users = User::whereNotNull('password')->where('role_id',2)->get();
+    // $users = User::where('id',151)->get();
     foreach($users as $user) {
         $shopName = ShopDomain::fromNative($user->name);
         $shop = $query->getByDomain($shopName);
