@@ -218,31 +218,38 @@ function Plans() {
                                         </a>
                                     )}
                                 </div>
-                                <p
-                                    style={{
-                                        marginBottom: "8px",
-                                        textAlign: "center",
-                                        fontSize: "14px",
-                                        padding: "5px 0",
-                                    }}
-                                >
+                                <p 
+                                        style={{
+                                            marginBottom: "8px",
+                                            textAlign: "center",
+                                            fontSize: "14px",
+                                            padding: "5px 0",
+                                        }}
+                                    >
                                     {data.name == 'Free' ? '' : data.name == 'Standard' ? 'Everything in Standard' : data.name == 'Premium' ? 'Everything in Premium' : 'Premium Support'}
+                                
                                 </p>
                                 <p
-                                    style={{
-                                        marginBottom: "8px",
-                                        textAlign: "center",
-                                        fontSize: "14px",
-                                        background: "#F9F9F9B2",
+                                 style={{
+                                            marginBottom: "8px",
+                                            textAlign: "center",
+                                            fontSize: "14px",
                                         padding: "5px 0",
-                                    }}
-                                >
-                                        {
+                                        }}
+                                        >
+                                    <div
+                                        style={{ 
+                                            lineHeight: '2.4em',
+                                            background: "#F9F9F9B2",
+                                        }}
+                                    >   {
                                         // data.ugc_video_count == 500000 ? 'Unlimited monthly UGC videos' : `${data.ugc_video_count} monthly UGC videos`
                                         data.name == 'Free' ? '' : 'Unlimited Emails'
                                         }
+                                </div>
                                 </p>
-                                <p
+                                <p>
+                                <div
                                     style={{
                                         marginBottom: "8px",
                                         textAlign: "center",
@@ -253,19 +260,27 @@ function Plans() {
                                         {
                                         data.name == 'Free' ? '1 UGC video monthly' : 'Unlimited Videos'
                                         }
+                                    </div>
                                 </p>
                                 <p
                                     style={{
                                         marginBottom: "30px",
                                         textAlign: "center",
                                         fontSize: "14px",
-                                        background: "#F9F9F9B2",
+
                                         padding: "5px 0",
+                                    }}
+                                >
+                                    <div
+                                    style={{
+                                            background: "#F9F9F9B2",
+                                            lineHeight:'2.4em'
                                     }}
                                 >
                                     {
                                         (data.name == 'Free') || (data.name == 'Standard')  ? 'No Integrations' : 'Klaviyo Integration'
                                     }
+                                    </div>
                                 </p>
                             </div>
                         </Grid.Cell>
