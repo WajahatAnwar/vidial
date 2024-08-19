@@ -21,9 +21,9 @@ class AdminController extends Controller
     public function fetchingdataofusers(Request $request)
     {
         
-
+   
         $user_info = User::with(['plan'])
-        ->with(['videos_count', 'emailsSent','customers'])
+        ->withCount(['videos_count', 'emailsSent','customers'])
             ->where('role_id', config('constants.user'))
             ->when($request->s !='',function($query){
                 $query->where('name','like','%'.request()->s.'%')
