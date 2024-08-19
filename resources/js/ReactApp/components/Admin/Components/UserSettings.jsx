@@ -157,7 +157,7 @@ const UserSettings = () => {
     ];
 
     const [priceValue, setPriceValue] = useState("50");
-    const [starStoreCredit, setStarStoreCredit] = useState("50");
+    const [starStoreCredit, setStarStoreCredit] = useState("75");
 
     const priceValueHandler = useCallback((value) => setPriceValue(value), []);
     const priceStarValueHandler = useCallback((value) => setStarStoreCredit(value), []);
@@ -2295,24 +2295,7 @@ const UserSettings = () => {
                                         </div>
                                     </Card>
 
-                                    <Card sectioned>
-                                        <div>
-                                            <Text variant="headingLg" as="h5">
-                                                Remove GoodAuthentic Watermark
-                                            </Text>
-                                            <p
-                                                style={{
-                                                    marginTop: "15px",
-                                                    marginBottom: "15px",
-                                                }}
-                                            >
-                                                Please contact live support to verify your store and remove the "Powered by GoodAuthentic" branding for FREE.
-                                            </p>
-                                            <Button primary onClick={handleChatClick}>
-                                                Remove Watermark
-                                            </Button>
-                                        </div>
-                                    </Card>
+                                 
 
                               
 

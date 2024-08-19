@@ -210,7 +210,7 @@ const UgcStarApproved = () => {
             then((response) => response.json())
             .then((data) => {
                 if (data.success) {
-                    let redirect = '/settings';
+                    let redirect = '/email';
                     if (id) {
                         redirect = '/user-email-settings/' + id;
                     }
