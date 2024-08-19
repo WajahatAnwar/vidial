@@ -2,6 +2,6 @@
                  <h5>Powered by </h5>
                  <div style="margin-left: 10px;" >
                     {{-- <img style="width: 65px;" src="{{asset('images/vidialLogoPower.png')}}"> --}}
-                    <img style="width: 130px;" src="{{asset('images/landing_footer.png')}}">
+                    <img style="width: 90px;" src="{{asset('images/landing_footer.png')}}">
                 </div>
               </div>
