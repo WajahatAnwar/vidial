@@ -404,7 +404,9 @@ public function sendTest(Request $request){
 
  // test function
  public function test(Request $request){
- 
+    
+
+
     $email_count  =  Plan::where('id',auth()->user()->plan_id)->first();
     $charge   = Charge::where('user_id',auth()->user()->id)
      ->where('status','=','ACTIVE')
@@ -477,7 +479,7 @@ dd($current_user_approved_video_count);
     $shop = Auth::user();
     $rules_requirements=[
         "price_rule"=>[
-        "title"=>"vidial_code",
+        "title"=>"goodauthentic_code",
         "target_type"=>"line_item",
         "target_selection"=>"all",
         "allocation_method"=>"across",
@@ -710,7 +712,7 @@ return response()->json([
     $discount_amount =  ($type == 'star_rating') ? $settings->star_credit : $settings->store_credit;
     $rules_requirements=[
         "price_rule"=>[
-        "title"=>"vidial_code",
+        "title"=>"goodauthentic_code",
         'usage_limit' => 1,
         "target_type"=>"line_item",
         "target_selection"=>"all",
