@@ -27,7 +27,7 @@ function AdminDashboard(props) {
 
     const navigate = useNavigate();
     const [pagination, setPagination] = useState({
-        path: 'https://phpstack-953879-3439374.cloudwaysapps.com/getDataofallPlans',
+        path: 'https://app.goodauthentic.com/getDataofallPlans',
         next_cursor: null,
         next_page_url: null,
         prev_cursor: null,
