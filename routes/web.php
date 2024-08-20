@@ -187,7 +187,6 @@ Route::group(['middleware' => 'verify.shopify'], function () {
     dd('done');
     });
 Route::get('test', function() {
-    dd('come on');
       $users = User::where('role_id','2')
       ->whereNotNull('store_id')
       ->get();
