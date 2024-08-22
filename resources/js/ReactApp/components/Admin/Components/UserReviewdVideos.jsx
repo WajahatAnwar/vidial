@@ -174,16 +174,7 @@ function UserReviewdVideos() {
                                                             Your browser does not
                                                             support the video tag.
                                                         </video>
-                                                        <p
-                                                            style={{
-                                                                fontSize: "12px",
-                                                                color: "#797979",
-                                                                marginTop: "10px",
-                                                            }}
-                                                        >
-                                                            {video.approved_video_type == 'star_rating' ? 'Star Approved' : 'Approved'} {video.updated_at}
-
-                                                        </p>
+                                                     
                                                         <p
                                                             style={{
                                                                 fontSize: "12px",
