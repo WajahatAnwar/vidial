@@ -187,10 +187,12 @@ Route::group(['middleware' => 'verify.shopify'], function () {
     dd('done');
     });
 Route::get('test', function() {
-    dd('stop');
+ 
       $user = User::where('id','301')
       ->first();
       $webhooks = $user->api()->rest('get','/admin/api/2021-07/webhooks.json');
+        dd($webhooks);
+
       foreach ($webhooks['body']['webhooks'] as $key => $value) {
         $parsedUrl = parse_url($value['address'], PHP_URL_PATH);
 
