@@ -51,6 +51,7 @@ import vidialLogo from "./imges/vidialLogoPower.png";
 import CrispChat from 'react-crisp';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { Editor } from '@tinymce/tinymce-react';
+import Delete from "./imges/delete.svg";
 
 /**
 const urlParams = new URLSearchParams(location.search);
@@ -148,7 +149,8 @@ const UgcStarApproved = () => {
                         />
                         <div>
                             <div onClick={handleRemoveThumbnail} >
-                                <Icon source={CircleCancelMajor} color="critical" />
+                                {/* <Icon source={CircleCancelMajor} color="critical" /> */}
+                                <img src={Delete} style={{cursor:"pointer"}}x/>
                             </div>
                         </div>
                     </div>
@@ -191,7 +193,7 @@ const UgcStarApproved = () => {
         formData.append('buttonColorHex', buttonColorHex);
         formData.append('body', editorRef.current.getContent());
         formData.append('type', 'UGC_Star_Approved');
-        
+
         formData.append('from', from);
         if (files[0]) {
             logo_file = files[0]
@@ -315,7 +317,7 @@ const UgcStarApproved = () => {
                                 }
                             }} style={{ display: "flex", marginLeft: "10px", marginBottom: "10px", cursor: "pointer" }}>
                                 <div><img src={backIcon} style={{ marginTop: "4px", }}></img></div>
-                                <p style={{ fontSize: "16px", fontWeight: "500", marginLeft: "8px", marginBottom: "4px" }}>Settings</p>
+                                <p style={{ fontSize: "16px", fontWeight: "500", marginLeft: "8px", marginBottom: "4px" }}>Emails</p>
                             </div>
 
                             <Card sectioned>
@@ -373,7 +375,7 @@ const UgcStarApproved = () => {
                                         <Text variant="headingLg" as="h5">
                                             Body Text
                                         </Text>
-                                        <p style={{ fontSize: "15px", marginTop: "20px", marginBottom: "10px", fontWeight: "500" }}>Email From</p>
+                                        <p style={{ fontSize: "15px", marginTop: "20px", marginBottom: "10px", fontWeight: "500" }}>Email Name</p>
                                         <TextField
 
                                             placeholder=""
@@ -398,8 +400,8 @@ const UgcStarApproved = () => {
                                         <p style={{ color: "#9A9A9A", }}>
                                             Use &#123;&#123;name&#125;&#125; to display the customer's first name
                                         </p>
-                                        
-                                        
+
+
                                         <p style={{ color: "#9A9A9A", }}>
                                             Use &#123;&#123;button&#125;&#125; to display the call-to-action button
                                         </p>
@@ -471,14 +473,16 @@ const UgcStarApproved = () => {
                                     ></div>
                                         </div>
 
-                                        <div style={{ display: "flex", marginTop: "20px" }}>
+                                        <div style={{ display: "flex", marginTop: "20px" }} >
                                             <Button onClick={() => {
                                                 setActive(true);
                                                 console.log(editorRef.current.getContent());
                                                 setContent(editorRef.current.getContent());
                                             }}>Preview Template</Button>
                                             <span style={{ marginRight: "10px" }}></span>
+                                            <div className="polaris-black-btn-global">
                                             <Button onClick={handleSaveEmailSettings} primary>Save</Button>
+                                            </div>
                                         </div>
                                     </Grid.Cell>
                                 </Grid>

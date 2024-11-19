@@ -49,7 +49,7 @@ const Email = () => {
 
     const [isEmailActive, setIsEmailActive] = useState(false);
     const [emailConnected, setEmailConnected] = useState(null);
-    
+
     const handleIsEmailActive = useCallback(
         (e) => setIsEmailActive(e),
         [],
@@ -114,7 +114,7 @@ const Email = () => {
     const [emailTemplateButton, setEmailTemplateButton] = useState(true);
     const [files, setFiles] = useState([]);
     const [alreadyUploadLogo, setAlreadyUploadedLogo] = useState('');
-    
+
 
     function handleChange() {
         let isChecked;
@@ -278,7 +278,7 @@ const Email = () => {
     const [favIcon, setFavIcon] = useState(null);
     const [planName,setPlanName] = useState(null);
     const [favIconPreview, setFavIconPreview] = useState(null);
-    
+
     const [gdError, setGdError] = useState(false);
     const [gdErrorMsg, setGdErrorMsg] = useState('');
     const [klavioApi, setKlavioApi] = useState("");
@@ -523,9 +523,9 @@ const Email = () => {
 
     /********  get Settings Data  ******/
     useEffect(() => {
-      
+
         async function fetchSettings() {
-            
+
             try {
                 const response = await fetch("/get_settings");
                 if (!response.ok) {
@@ -836,7 +836,7 @@ const Email = () => {
             window.$crisp.push(['do', 'chat:toggle']);
         } else {
             console.warn('Crisp chat script not loaded yet!');
-            
+
         }
     };
     // popover code start
@@ -1131,7 +1131,7 @@ const Email = () => {
                                     <Card sectioned>
                                         <Banner>
                                             <List type="bullet">
-                                               
+
 
                                                 {errorMessages.page_display_to_customers &&
                                                     errorMessages.page_display_to_customers.map(
@@ -1163,7 +1163,7 @@ const Email = () => {
                                                             );
                                                         }
                                                     )}
-                                               
+
                                                 {errorMessages.email_sent_to_customer &&
                                                     errorMessages.email_sent_to_customer.map(
                                                         (error) => {
@@ -1174,8 +1174,8 @@ const Email = () => {
                                                             );
                                                         }
                                                     )}
-                                                
-                                               
+
+
                                             </List>
                                         </Banner>
                                     </Card>
@@ -1183,7 +1183,7 @@ const Email = () => {
 
                                 {toastMarkup}
                                 <div style={{ marginTop: "20px" }}></div>
-                             
+
 
 
 
@@ -1229,7 +1229,7 @@ const Email = () => {
                                         <div style={{ width: "550px" }}>
                                             <Text variant="headingLg" as="h5">
                                                 Post Purchase Emails
-                            
+
                                             </Text>
                                             <p style={{ marginTop: "5px" }}>
                                                     This is the timing of the first email sent to your customer.
@@ -1370,8 +1370,8 @@ const Email = () => {
                                         expandOnPrint
                                     >
                                         <div style={{ marginTop: "20px" }}></div>
-                                      
-                                     
+
+
                                         <div
                                             style={{
                                                 display: "flex",
@@ -1566,9 +1566,9 @@ const Email = () => {
 
 
                                 </Card>
-                                
+
                                 {
-                                  
+
                                         (planName == 'Premium' || planName == 'Enterprise' || planName == 'Standard' || planName == 'Free') ?
                                             <>
                                     {/********* Klavio  *********/}
@@ -1621,7 +1621,7 @@ const Email = () => {
 
 
 
-                                            <div style={{ marginTop: "20px" }}>
+                                            <div style={{ marginTop: "20px" }} className="polaris-black-btn-global">
                                                 {
                                                     klavioConnected ?
 
@@ -1641,12 +1641,12 @@ const Email = () => {
                                                             Connect
                                                         </Button>
                                                 }
-                                        
+
                                             </div>
                                         </div>
                                     </Card>
 
-                                    <Card sectioned>
+                                    {/* <Card sectioned>
                                         <div className="googledrivesection">
                                             <div style={{ marginTop: "20px" }}></div>
                                             <div style={{ display: "flex", alignItems: "center", marginRight: "5px" }} >
@@ -1669,12 +1669,12 @@ const Email = () => {
                                                         </Banner> : ''
                                                     }
                                                 </div>
-                                             
+
 
                                             </div>
-                                           
+
                                                     <>
-                                    
+
                                                         <div
                                                             style={{
                                                                 width: "450px",
@@ -1711,7 +1711,7 @@ const Email = () => {
 
                                                         </div>
 
-                                                        {/* <div
+                                                        <div
                                                 style={{
                                                     width: "450px",
                                                     marginTop: "10px",
@@ -1745,7 +1745,7 @@ const Email = () => {
                                                 />
                                                 <p style={{ color: "#717171", marginTop: "5px" }}>Enter the Mailgun endpoint.</p>
 
-                                            </div> */}
+                                            </div>
                                                         {
                                                             emailConnected ?
                                                                 <div
@@ -1753,6 +1753,7 @@ const Email = () => {
                                                                         width: "450px",
                                                                         marginTop: "10px",
                                                                     }}
+                                                                    className="polaris-black-btn-global"
                                                                 >
                                                                     <Button info >
                                                                         <div style={{ display: "flex" }} >
@@ -1776,10 +1777,10 @@ const Email = () => {
                                                                 </div>}
                                                     </>
                                         </div>
-                                    </Card>
+                                    </Card> */}
                                             </>
                                 : null
-                                       
+
                                  }
                                 <div
                                     style={{
@@ -1787,6 +1788,7 @@ const Email = () => {
                                         marginTop: "20px",
                                         marginBottom: "100px",
                                     }}
+                                    className="polaris-black-btn-global"
                                 >
                                     <Button
                                         primary

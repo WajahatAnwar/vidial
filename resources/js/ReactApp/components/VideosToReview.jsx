@@ -26,6 +26,7 @@ import downloadIcon from "./imges/downloadIcon.png";
 import noVedio from "./imges/film.png";
 import staricon from "./imges/Staricon.svg";
 import Ticker from "./Ticker";
+import checkmark from "./imges/checkmark.svg";
 
 function WaitingVideos() {
     const { pathname,search } = useLocation();
@@ -216,7 +217,7 @@ function WaitingVideos() {
         var formData = new FormData();
         formData.append("video_id", approvedUserVideoId);
         formData.append("type", approvedVideoType);
-        
+
 
         if (approvedUserVideoId) {
             if (approvedVideoType == 'star_rating') {
@@ -309,7 +310,7 @@ function WaitingVideos() {
                                     }}
                                 >
                                     <img
-                                        src={WaitingIcon}
+                                        src={checkmark}
                                         width="20px"
                                         height="20px"
                                         style={{ marginRight: "10px" }}

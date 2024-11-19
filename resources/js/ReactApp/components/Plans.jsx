@@ -22,7 +22,7 @@ function Plans() {
             })
             .then((data) => {
                 if (data.success) {
-                   
+
                     // console.log(data.users);
                     setPlan(data.data);
                     setUser(data.users);
@@ -70,9 +70,9 @@ function Plans() {
 
                 <div style={{marginTop:"10px"}}></div>
 
-                <Text variant="headingXs" as="h6">
+                {/* <Text variant="headingXs" as="h6">
                     Integrations and more service available
-                </Text>
+                </Text> */}
 
 
             </div>
@@ -133,12 +133,12 @@ function Plans() {
                     {plan.map((data) => (
 
 
-                        
 
-                        
+
+
                         <Grid.Cell
                             columnSpan={{ xs: 6, sm: 6, md: 6, lg: 3, xl: 3 }}
-                            
+
                         >
                             <div
                                 style={{
@@ -176,11 +176,11 @@ function Plans() {
                                     }}
                                         >
                                             {data.description}
-                                        </p> 
+                                        </p>
                                 <Text
                                     variant="headingXl"
                                     as="h4"
-                                    color="success"
+                                    color=""
                                 >
                                     ${Math.floor(data.price)}
                                 </Text>
@@ -195,20 +195,25 @@ function Plans() {
                                 >
                                     {data.id == users.plan_id ? (
                                         <Button disabled fullWidth>
-                                            Your Current Plan
+                                             Current Plan
                                         </Button>
                                     ) : (
+                                        <span className="polaris-black-btn-global">
                                         <a
                                             href={`/billing/${data.id}${location.search}`}
                                             style={{ textDecoration: "none" }}
+                                            className=""
                                         >
-                                            <Button fullWidth primary>
+                                            <Button fullWidth>
+
+
                                                 Select plan
                                             </Button>
                                         </a>
+                                            </span>
                                     )}
                                 </div>
-                                <p 
+                                <p
                                         style={{
                                             marginBottom: "8px",
                                             textAlign: "center",
@@ -216,8 +221,8 @@ function Plans() {
                                             padding: "5px 0",
                                         }}
                                     >
-                                    {data.name == 'Free' ? '' : data.name == 'Standard' ? 'Everything in Standard' : data.name == 'Premium' ? 'Everything in Premium' : 'Premium Support'}
-                                
+                                    {data.name == 'Free' ? '' : data.name == 'Standard' ? 'Everything in Free' : data.name == 'Premium' ? 'Everything in Standard' : 'Everything in Premium'}
+
                                 </p>
                                 <p
                                  style={{
@@ -228,7 +233,7 @@ function Plans() {
                                         }}
                                         >
                                     <div
-                                        style={{ 
+                                        style={{
                                             lineHeight: '2.4em',
                                             background: "#F9F9F9B2",
                                         }}
@@ -248,7 +253,7 @@ function Plans() {
                                     }}
                                 >
                                         {
-                                        data.name == 'Free' ? '1 UGC video monthly' : 'Unlimited Videos'
+                                        data.name == 'Free' ? '1  video monthly' : 'Unlimited Videos'
                                         }
                                     </div>
                                 </p>
@@ -268,7 +273,7 @@ function Plans() {
                                     }}
                                 >
                                     {
-                                        (data.name == 'Free') || (data.name == 'Standard')  ? 'No Integrations' : 'Klaviyo Integration'
+                                        (data.name == 'Free') || (data.name == 'Standard')  ? '' : 'Klaviyo Integration'
                                     }
                                     </div>
                                 </p>

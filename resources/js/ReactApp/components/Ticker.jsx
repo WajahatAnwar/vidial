@@ -1,6 +1,7 @@
 import { Banner, Icon } from '@shopify/polaris';
 import { PlayMinor } from '@shopify/polaris-icons';
 import React from 'react'
+import linksvgrepo from "./imges/link-svgrepo.svg";
 
 export default function Ticker() {
   return (
@@ -22,10 +23,12 @@ export default function Ticker() {
                       display: "flex", padding: "7px 10px",
                       marginTop: "20px", background: "rgba(255, 255, 255, 0.01)", border: "1px solid #95c9b4", borderRadius: "4px"
                   }}>
-                      <Icon
+                      {/* <Icon
                           source={PlayMinor}
                           color="base"
-                      /><span style={{ marginLeft: "10px" }}>How GoodAuthentic Works</span></button></a>
+                      /> */}
+                      <img src={linksvgrepo} style={{width:"20px",height:"20px"}}/>
+                      <span style={{ marginLeft: "10px" }}>How GoodAuthentic Works</span></button></a>
           </Banner>
       </div>
   )

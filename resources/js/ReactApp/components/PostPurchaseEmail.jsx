@@ -51,6 +51,7 @@ import CrispChat from 'react-crisp';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { Editor } from '@tinymce/tinymce-react';
 import vidialLogo from "./imges/vidialLogoPower.png";
+import Delete from "./imges/delete.svg";
 
 
 /**
@@ -152,7 +153,8 @@ const PostPurchaseEmail = () => {
                         />
                         <div>
                             <div onClick={handleRemoveThumbnail} >
-                          <Icon source={CircleCancelMajor}  color="critical" />
+                          {/* <Icon source={CircleCancelMajor}  color="critical" /> */}
+                            <img src={Delete} style={{cursor:"pointer"}}/>
                         </div>
                         </div>
                     </div>
@@ -207,7 +209,7 @@ const PostPurchaseEmail = () => {
                     }
                     toggleActive()
                     setTimeout(() => {
-                       
+
                         navigate(redirect)
                     }, 3000);
 
@@ -323,7 +325,7 @@ const PostPurchaseEmail = () => {
                                 }
                             }} style={{ display: "flex", marginLeft: "10px", marginBottom: "10px", cursor: "pointer" }}>
                                 <div><img src={backIcon} style={{ marginTop: "4px", }}></img></div>
-                                <p style={{ fontSize: "16px", fontWeight: "500", marginLeft: "8px", marginBottom: "4px" }}>Settings</p>
+                                <p style={{ fontSize: "16px", fontWeight: "500", marginLeft: "8px", marginBottom: "4px" }}>Emails</p>
                             </div>
                             <Card sectioned>
                                 <Grid>
@@ -356,7 +358,7 @@ const PostPurchaseEmail = () => {
                                             </p>
                                             {uploadedFilesPreview}
                                             {(!files.length && alreadyUploadLogo) &&
-                                            
+
                                                 <div style={{ padding: '0' }}>
                                                     <div style={{ width: "60px", marginBottom: "10px" }} >
                                                         <Thumbnail
@@ -380,7 +382,7 @@ const PostPurchaseEmail = () => {
                                         <Text variant="headingLg" as="h5">
                                             Body Text
                                         </Text>
-                                        <p style={{ fontSize: "15px", marginTop: "20px", marginBottom: "10px", fontWeight: "500" }}>Email From</p>
+                                        <p style={{ fontSize: "15px", marginTop: "20px", marginBottom: "10px", fontWeight: "500" }}>Email Name</p>
                                         <TextField
 
                                             placeholder=""
@@ -404,7 +406,7 @@ const PostPurchaseEmail = () => {
                                         <p style={{ color: "#9A9A9A", }}>
                                             Use &#123;&#123;name&#125;&#125; to display the customer's first name
                                         </p>
-                                        
+
                                         <p style={{ color: "#9A9A9A",  }}>
                                             Use &#123;&#123;button&#125;&#125; to display the call-to-action button
                                         </p>
@@ -429,7 +431,7 @@ const PostPurchaseEmail = () => {
                                                 content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
                                             }}
                                         />
-                                        <p style={{ fontSize: "15px", marginTop: "20px", marginBottom: "10px", fontWeight: "500" }}>Button Text( Linked to Landing Page)</p>
+                                        <p style={{ fontSize: "15px", marginTop: "20px", marginBottom: "10px", fontWeight: "500" }}>Button Text(Linked to Landing Page)</p>
                                         <TextField
 
                                             placeholder="Record Video"
@@ -479,7 +481,10 @@ const PostPurchaseEmail = () => {
                                                 setContent(editorRef.current.getContent());
                                             }}>Preview Template</Button>
                                             <span style={{ marginRight: "10px" }}></span>
+                                            <div className="polaris-black-btn-global">
+
                                             <Button onClick={handleSaveEmailSettings} primary>Save</Button>
+                                            </div>
                                         </div>
                                     </Grid.Cell>
                                 </Grid>

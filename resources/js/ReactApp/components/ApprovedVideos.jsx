@@ -24,6 +24,7 @@ import downloadIcon from "./imges/downloadIcon.png";
 import { downloadVideo } from "./utils";
 import noVedio from "./imges/film.png"
 import Ticker from "./Ticker";
+import checkmark from "./imges/checkmark.svg";
 function ApprovedVideos() {
     const [numberOfVedios, setNumberOfVedios] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
@@ -74,7 +75,7 @@ function ApprovedVideos() {
                                     }}
                                 >
                                     <img
-                                        src={WaitingIcon}
+                                        src={checkmark}
                                         width="20px"
                                         height="20px"
                                         style={{ marginRight: "10px" }}
