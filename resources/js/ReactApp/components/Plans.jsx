@@ -145,6 +145,8 @@ function Plans() {
                                     border: "1px solid #C9CCCF",
                                     padding: "10px",
                                     borderRadius: "10px",
+                                    height:"520px",
+                                    minHeight:"520px"
                                 }}
                             >
                                 {/* @if($data.name == "Premium") */}

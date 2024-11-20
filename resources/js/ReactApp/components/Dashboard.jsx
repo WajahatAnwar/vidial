@@ -78,7 +78,7 @@ function Dashboard() {
         " Congratulations, you just approved the video."
     );
     const [videoFeedbackPopupTitle, setVideoFeedbackPopupTitle] = useState(
-        "Confirmation for approving video"
+        "Please Confirm"
     );
     const [rejectVideoFeedback, setRejectVideoFeedback] = useState(
         "Are you sure you want to Reject?"
@@ -245,7 +245,7 @@ function Dashboard() {
                 setVideoFeedback("Congratulations, you just approved the video.");
 
             }
-            setVideoFeedbackPopupTitle("Confirmation for Approving Video");
+            setVideoFeedbackPopupTitle("Please Confirm");
             fetch("/videoOperation", {
                 method: "post",
                 body: formData,
@@ -830,7 +830,7 @@ function Dashboard() {
                 <Modal.Section>
                     <div style={{ textAlign: "center" }}>
                         <Text variant="headingMd" as="h6">
-                            Are you sure you want to Approve?
+                            Are you sure you want to Star Approve?
                         </Text>
                         <div
                             style={{
@@ -838,6 +838,7 @@ function Dashboard() {
                                 justifyContent: "center",
                                 marginTop: "20px",
                             }}
+
                         >
                             <ButtonGroup>
                                 <Button
@@ -846,13 +847,20 @@ function Dashboard() {
                                 >
                                     Cancel
                                 </Button>
+
+
+                                <div className="polaris-black-btn-global">
+
+
+
                                 <Button
                                     disabled={isClicked}
                                     primary
                                     onClick={handleApprovedUserVideo}
                                 >
-                                    Sure
+                                    Confirm
                                 </Button>
+                                </div>
                             </ButtonGroup>
                         </div>
                     </div>

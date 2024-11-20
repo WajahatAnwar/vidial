@@ -35,7 +35,7 @@ function WaitingVideos() {
     );
 
     const [videoFeedbackPopupTitle, setVideoFeedbackPopupTitle] = useState(
-        "Confirmation for approving video"
+        "Please Confirm"
     );
     const [rejectVideoFeedback, setRejectVideoFeedback] = useState(
         "Are you sure you want to Reject?"
@@ -226,7 +226,7 @@ function WaitingVideos() {
                 setVideoFeedback("Congratulations, you just approved the video.");
 
             }
-            setVideoFeedbackPopupTitle("Confirmation for Approving Video");
+            setVideoFeedbackPopupTitle("Please Confirm");
             fetch("/videoOperation", {
                 method: "post",
                 body: formData,
@@ -404,6 +404,7 @@ function WaitingVideos() {
                                                             }}
                                                         >
                                                             {video.created_at}
+
                                                         </p>
                                                         <div
                                                             style={{
@@ -589,6 +590,7 @@ function WaitingVideos() {
                                 justifyContent: "center",
                                 marginTop: "20px",
                             }}
+
                         >
                             <ButtonGroup>
                                 <Button
@@ -596,13 +598,16 @@ function WaitingVideos() {
                                 >
                                     Cancel
                                 </Button>
+
+                                <div className="polaris-black-btn-global">
                                 <Button
                                     disabled={isClicked}
                                     primary
                                     onClick={handleApprovedUserVideo}
                                 >
-                                    Sure
+                                    Confirm
                                 </Button>
+                                </div>
                             </ButtonGroup>
                         </div>
                     </div>

@@ -293,7 +293,7 @@ const Settings = () => {
     const [store, setStore] = useState("");
     // const [baseUrl, setBaseUrl] = useState("https://phpstack-953879-3439374.cloudwaysapps.com");
     //const [baseUrl, setBaseUrl] = useState("https://phpstack-953879-3439374.cloudwaysapps.com");
-    const [baseUrl, setBaseUrl] = useState("https://app.goodauthentic.com");
+    const [baseUrl, setBaseUrl] = useState("https://f7ad-110-39-0-50.ngrok-free.app");
     const [imagename, setImagename] = useState("");
     const [videoname, setVideoname] = useState("");
     const [previewLogo, setPreviwLogo] = useState("");
@@ -1647,7 +1647,7 @@ const Settings = () => {
                                     }
                                     <div>
                                         <p style={{ marginTop: "5px", marginBottom: "5px" }}>
-                                            Choose Favicon
+                                            Choose Favicon with ali
                                         </p>
 
                                     </div>
