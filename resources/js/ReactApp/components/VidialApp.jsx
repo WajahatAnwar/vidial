@@ -31,6 +31,7 @@ import UserEmail from "./Admin/Components/UserEmail";
 import UserLogs from "./Admin/Components/UserLogs";
 import UserApprovedVideos from "./Admin/Components/UserApprovedVideos";
 import UserReviewdVideos from "./Admin/Components/UserReviewdVideos";
+import GetStarted from "./GetStarted";
 
 const VidialApp = () => {
 
@@ -113,6 +114,7 @@ const VidialApp = () => {
                 <Route path="/user-logs/:id" element={<UserLogs />} />
                 <Route path="/user-approved-videos/:id" element={<UserApprovedVideos />} />
                 <Route path="/user-reviewd-videos/:id" element={<UserReviewdVideos />} />
+                <Route path="/get-started" element={<GetStarted />} />
                 <Route path="/logs" element={<Logs />} />
 
                 <Route path="*" element={<Loading />} />

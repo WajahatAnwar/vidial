@@ -39,6 +39,10 @@ function TabsExample() {
             setSelected(5);
         } else if (location.pathname == "/logs") {
             setSelected(6);
+
+        } else if (location.pathname == "/get-started") {
+            setSelected(7);
+
         }
 
     }, [location]);
@@ -68,6 +72,10 @@ function TabsExample() {
         else if (selectedTabIndex == 6) {
             setSelected(selectedTabIndex);
             navigate("/logs" + location.search);
+        }
+        else if (selectedTabIndex == 7) {
+            setSelected(selectedTabIndex);
+            navigate("/get-started" + location.search);
         }
         // else if (selectedTabIndex == 7) {
         //     navigate("/admin-dashboard");
@@ -136,6 +144,10 @@ function TabsExample() {
         {
             id: "logs",
             content: "Logs"
+        },
+        {
+            id: "get-started",
+            content: "Get Started"
         }
         // {
         //     id: "Resources",
