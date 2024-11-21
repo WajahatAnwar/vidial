@@ -45,7 +45,7 @@ function TabsExample() {
     const [selected, setSelected] = useState(0);
     const handleTabChange = useCallback((selectedTabIndex) => {
 
-   
+
         if (selectedTabIndex == 0) {
             setSelected(selectedTabIndex);
             navigate(`/dashboard${search}`);
@@ -88,8 +88,8 @@ function TabsExample() {
                     Videos To Review
                     <sup
                         style={{
-                            color:"white",
-                            background: "#D82C0D",
+                            color:"black",
+                            background: "#e3e3e3",
                             padding: "3px 4px",
                             borderRadius: "50%",
                             marginLeft: "5px",
@@ -102,8 +102,8 @@ function TabsExample() {
                     Videos To Review
                     <sup
                         style={{
-                            color:"white",
-                            background: "#D82C0D",
+                            color:"black",
+                            background: "#e3e3e3",
                             padding: "2px 7px",
                             borderRadius: "50%",
                             marginLeft: "5px",

@@ -131,8 +131,8 @@ const UserSettings = () => {
 
     // remove inpirational video
 
-  
- 
+
+
 
     // Choose selected color
 
@@ -1118,7 +1118,7 @@ const UserSettings = () => {
                                     xl: 12,
                                 }}
                             >
-                               
+
                                 {error && (
                                     <Card sectioned>
                                         <Banner>
@@ -1211,7 +1211,7 @@ const UserSettings = () => {
 
                                 {toastMarkup}
                                 <div style={{ marginTop: "20px" }}></div>
-                               
+
                                 <Card sectioned>
                                     <Text variant="headingLg" as="h5">
                                         Landing Page URL
@@ -1524,7 +1524,7 @@ const UserSettings = () => {
                                             <p>
                                                 Tip: Be very clear in your instructions. Keep it simple.
                                             </p>
-                                          
+
                                         </div>
                                     </div>
                                     <p>Instructions Steps</p>
@@ -2084,7 +2084,7 @@ const UserSettings = () => {
                                         <div style={{ width: "550px" }}>
                                             <Text variant="headingLg" as="h5">
                                                 Post Purchase Emails
-                            
+
                                             </Text>
                                             <p style={{ marginTop: "5px" }}>
                                                     This is the timing of the first email sent to your customer.
@@ -2190,7 +2190,7 @@ const UserSettings = () => {
                                 </Card> */}
 
 
-                               
+
 
                                     <Card sectioned>
                                         {
@@ -2295,9 +2295,9 @@ const UserSettings = () => {
                                         </div>
                                     </Card>
 
-                                 
 
-                              
+
+
 
                                 <div
                                     style={{

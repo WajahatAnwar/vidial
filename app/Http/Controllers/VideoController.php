@@ -137,7 +137,7 @@ public function getPendingVideos(Request $request){
         }else {
             $user=Auth::user();
         }
-    
+
     $videosPerPage = 4;
     $limit = $request->page * $videosPerPage;
     $totalVideos = video::where('user_id',$user->id)
@@ -224,7 +224,7 @@ public function videoOperation(Request $request){
              $klavio = KlavioCredential::where('user_id', $user->id)->first();
              $klavio ? dispatch(new KlavioEmailJob($klavio->api_key,$klavio->email,null,$temlateDetails,$videos->id)) :
             dispatch(new EmailTemplateJob($temlateDetails));
-             
+
         $log_details = [
             'type' => "EMAIL",
             'send_to' => $videos->email,
@@ -319,14 +319,14 @@ public function rejectVideo(Request $request){
             $temlateDetails['storename'] = auth()->user()->store_name;
             $temlateDetails['amount'] = Auth::user()->settings->store_credit;
             $temlateDetails['url'] = env('APP_URL')."/landingPage"."/". Auth::user()->settings->locale ."?store=".Auth::user()->name;
-            
+
             //$temlateDetails['name'] = $videos->email;
             $temlateDetails['discount_code'] = '';
             $temlateDetails['reason_decline'] = $request->reason;
             $klavio = KlavioCredential::where('user_id', $user->id)->first();
             $klavio ? dispatch(new KlavioEmailJob($klavio->api_key, $klavio->email, null, $temlateDetails, $videos->id)) :
                 dispatch(new EmailTemplateJob($temlateDetails));
-            
+
 
             $log_details = [
                 'type' => "EMAIL",
@@ -368,7 +368,7 @@ public function getApprovedVideos(Request $request){
         }else {
             $user=Auth::user();
         }
-    
+
     $videosPerPage = 4;
     $limit = $request->page * $videosPerPage;
     $totalVideos = video::where('user_id',$user->id)
@@ -404,7 +404,7 @@ public function sendTest(Request $request){
 
  // test function
  public function test(Request $request){
-    
+
 
 
     $email_count  =  Plan::where('id',auth()->user()->plan_id)->first();
@@ -604,7 +604,7 @@ return response()->json([
 
 // save User Uploaded data into database
   public function saveVideo(Request $request){
-   
+
       /****** check link expiration ******/
 
       $order = null;
@@ -706,7 +706,7 @@ return response()->json([
   // create discount code
 
   public function createDiscountCode($type){
-        
+
     $shop = Auth::user();
     $settings=Setting::where('user_id',Auth::user()->id)->first();
     $discount_amount =  ($type == 'star_rating') ? $settings->star_credit : $settings->store_credit;

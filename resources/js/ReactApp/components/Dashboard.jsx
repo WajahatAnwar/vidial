@@ -22,6 +22,11 @@ import ApprovedLogo from "./imges/ApprovedLogo.png";
 import WaitingIcon from "./imges/waiting2.png";
 import VideoTumbnail from "./imges/bureau 11.png";
 import staricon from "./imges/Staricon.svg";
+import timericon from "./imges/timericon.svg";
+import checkmark from "./imges/checkmark.svg";
+import hourglass from "./imges/Hourglass-background.svg";
+import checkbackground from "./imges/check-background.svg";
+import boxkbackground from "./imges/box-background.svg";
 
 import {
     CircleCancelMajor,
@@ -73,7 +78,7 @@ function Dashboard() {
         " Congratulations, you just approved the video."
     );
     const [videoFeedbackPopupTitle, setVideoFeedbackPopupTitle] = useState(
-        "Confirmation for approving video"
+        "Please Confirm"
     );
     const [rejectVideoFeedback, setRejectVideoFeedback] = useState(
         "Are you sure you want to Reject?"
@@ -209,7 +214,7 @@ function Dashboard() {
 
     /**** Reject video ***/
     const rejectVideo = (id) => {
-      
+
         var formData = new FormData();
         setRejectVideoId(id);
         setActiveRejectionConfirmModel(true);
@@ -240,7 +245,7 @@ function Dashboard() {
                 setVideoFeedback("Congratulations, you just approved the video.");
 
             }
-            setVideoFeedbackPopupTitle("Confirmation for Approving Video");
+            setVideoFeedbackPopupTitle("Please Confirm");
             fetch("/videoOperation", {
                 method: "post",
                 body: formData,
@@ -327,7 +332,7 @@ function Dashboard() {
                 <Grid.Cell columnSpan={{ xs: 6, sm: 6, md: 4, lg: 4, xl: 4 }}>
                     <Card sectioned>
                         <div style={{ display: "flex" }}>
-                            <img src={EmailLogo}></img>
+                            <img src={boxkbackground}></img>
                             <div style={{ marginLeft: "10px" }}>
                                 <Text variant="headingXl" as="h4">
                                     {userEmail}
@@ -340,13 +345,13 @@ function Dashboard() {
                 <Grid.Cell columnSpan={{ xs: 6, sm: 6, md: 4, lg: 4, xl: 4 }}>
                     <Card sectioned>
                         <div style={{ display: "flex" }}>
-                            <img src={WaitingLogo}></img>
+                            <img src={hourglass}></img>
                             <div style={{ marginLeft: "10px" }}>
                                 <Text variant="headingXl" as="h4">
                                     {pendingVideosCount}
                                 </Text>
                                 <p style={{ fontWeight: "600" }}>
-                                    Waiting Videos
+                                    Videos to Review
                                 </p>
                             </div>
                         </div>
@@ -355,7 +360,7 @@ function Dashboard() {
                 <Grid.Cell columnSpan={{ xs: 6, sm: 6, md: 4, lg: 4, xl: 4 }}>
                     <Card sectioned>
                         <div style={{ display: "flex" }}>
-                            <img src={ApprovedLogo}></img>
+                            <img src={checkbackground}></img>
                             <div style={{ marginLeft: "10px" }}>
                                 <Text variant="headingXl" as="h4">
                                     {approvedVideosCount}
@@ -386,7 +391,7 @@ function Dashboard() {
                                     }}
                                 >
                                     <img
-                                        src={WaitingIcon}
+                                        src={timericon}
                                         width="20px"
                                         height="20px"
                                         style={{ marginRight: "10px" }}
@@ -516,7 +521,7 @@ function Dashboard() {
                                                                     onClick={() => {
                                                                         approvedUserVideo(
                                                                             video.id,
-                                                                          
+
                                                                         );
                                                                     }}
                                                                 >
@@ -597,7 +602,7 @@ function Dashboard() {
                                     }}
                                 >
                                     <img
-                                        src={WaitingIcon}
+                                        src={checkmark}
                                         width="20px"
                                         height="20px"
                                         style={{ marginRight: "10px" }}
@@ -825,7 +830,7 @@ function Dashboard() {
                 <Modal.Section>
                     <div style={{ textAlign: "center" }}>
                         <Text variant="headingMd" as="h6">
-                            Are you sure you want to Approve?
+                            Are you sure you want to Star Approve?
                         </Text>
                         <div
                             style={{
@@ -833,6 +838,7 @@ function Dashboard() {
                                 justifyContent: "center",
                                 marginTop: "20px",
                             }}
+
                         >
                             <ButtonGroup>
                                 <Button
@@ -841,13 +847,20 @@ function Dashboard() {
                                 >
                                     Cancel
                                 </Button>
+
+
+                                <div className="polaris-black-btn-global">
+
+
+
                                 <Button
                                     disabled={isClicked}
                                     primary
                                     onClick={handleApprovedUserVideo}
                                 >
-                                    Sure
+                                    Confirm
                                 </Button>
+                                </div>
                             </ButtonGroup>
                         </div>
                     </div>

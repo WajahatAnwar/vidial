@@ -26,6 +26,7 @@ import downloadIcon from "./imges/downloadIcon.png";
 import noVedio from "./imges/film.png";
 import staricon from "./imges/Staricon.svg";
 import Ticker from "./Ticker";
+import checkmark from "./imges/checkmark.svg";
 
 function WaitingVideos() {
     const { pathname,search } = useLocation();
@@ -34,7 +35,7 @@ function WaitingVideos() {
     );
 
     const [videoFeedbackPopupTitle, setVideoFeedbackPopupTitle] = useState(
-        "Confirmation for approving video"
+        "Please Confirm"
     );
     const [rejectVideoFeedback, setRejectVideoFeedback] = useState(
         "Are you sure you want to Reject?"
@@ -216,7 +217,7 @@ function WaitingVideos() {
         var formData = new FormData();
         formData.append("video_id", approvedUserVideoId);
         formData.append("type", approvedVideoType);
-        
+
 
         if (approvedUserVideoId) {
             if (approvedVideoType == 'star_rating') {
@@ -225,7 +226,7 @@ function WaitingVideos() {
                 setVideoFeedback("Congratulations, you just approved the video.");
 
             }
-            setVideoFeedbackPopupTitle("Confirmation for Approving Video");
+            setVideoFeedbackPopupTitle("Please Confirm");
             fetch("/videoOperation", {
                 method: "post",
                 body: formData,
@@ -309,7 +310,7 @@ function WaitingVideos() {
                                     }}
                                 >
                                     <img
-                                        src={WaitingIcon}
+                                        src={checkmark}
                                         width="20px"
                                         height="20px"
                                         style={{ marginRight: "10px" }}
@@ -403,6 +404,7 @@ function WaitingVideos() {
                                                             }}
                                                         >
                                                             {video.created_at}
+
                                                         </p>
                                                         <div
                                                             style={{
@@ -588,6 +590,7 @@ function WaitingVideos() {
                                 justifyContent: "center",
                                 marginTop: "20px",
                             }}
+
                         >
                             <ButtonGroup>
                                 <Button
@@ -595,13 +598,16 @@ function WaitingVideos() {
                                 >
                                     Cancel
                                 </Button>
+
+                                <div className="polaris-black-btn-global">
                                 <Button
                                     disabled={isClicked}
                                     primary
                                     onClick={handleApprovedUserVideo}
                                 >
-                                    Sure
+                                    Confirm
                                 </Button>
+                                </div>
                             </ButtonGroup>
                         </div>
                     </div>

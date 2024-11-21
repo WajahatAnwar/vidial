@@ -49,6 +49,10 @@ import Dropzone from "dropzone";
 import './css/editor.css';
 import EmailCredsToggle from "./EmailCredsToggle";
 import Ticker from "./Ticker";
+// import { DeleteIcon } from '@shopify/polaris-icons';
+// import {DeleteIcon} from '@shopify/polaris-icons';
+
+import Delete from "./imges/delete.svg";
 /**
 const urlParams = new URLSearchParams(location.search);
 const shopParam = urlParams.get('shop');
@@ -289,7 +293,7 @@ const Settings = () => {
     const [store, setStore] = useState("");
     // const [baseUrl, setBaseUrl] = useState("https://phpstack-953879-3439374.cloudwaysapps.com");
     //const [baseUrl, setBaseUrl] = useState("https://phpstack-953879-3439374.cloudwaysapps.com");
-    const [baseUrl, setBaseUrl] = useState("https://app.goodauthentic.com");
+    const [baseUrl, setBaseUrl] = useState("https://f7ad-110-39-0-50.ngrok-free.app");
     const [imagename, setImagename] = useState("");
     const [videoname, setVideoname] = useState("");
     const [previewLogo, setPreviwLogo] = useState("");
@@ -301,7 +305,7 @@ const Settings = () => {
     const [successToastVideo, setSuccessToastVideo] = useState("");
     const [favIcon, setFavIcon] = useState(null);
     const [favIconPreview, setFavIconPreview] = useState(null);
-    
+
     const [gdError, setGdError] = useState(false);
     const [klavioError, setKlavioError] = useState(false);
     const [gdErrorMsg, setGdErrorMsg] = useState('');
@@ -523,7 +527,7 @@ const Settings = () => {
 
     /************** handle Connect to Klavio **************/
     const handleConnectKlavio = () => {
-       
+
         setKlavioError(false);
         if (klavioApi.length <= 0) {
             setKlavioError(true);
@@ -539,11 +543,11 @@ const Settings = () => {
         const formData = new FormData();
         formData.append('api_key', klavioApi);
         formData.append('email', klavioEmail);
-        fetch('save-klavio-settings',{
-            body:formData,
-            method:'POST'
-        }).then(response=>response.json()).then((data)=>{
-             console.log(data);
+        fetch('save-klavio-settings', {
+            body: formData,
+            method: 'POST'
+        }).then(response => response.json()).then((data) => {
+            console.log(data);
         })
     }
 
@@ -552,7 +556,7 @@ const Settings = () => {
         console.log("massab 126");
         console.log("ali");
         async function fetchSettings() {
-            
+
             try {
                 const response = await fetch("/get_settings");
                 if (!response.ok) {
@@ -894,7 +898,7 @@ const Settings = () => {
             window.$crisp.push(['do', 'chat:toggle']);
         } else {
             console.warn('Crisp chat script not loaded yet!');
-            
+
         }
     };
     // popover code start
@@ -996,7 +1000,8 @@ const Settings = () => {
                         />
                         <div>
                             <div onClick={handleRemoveLogoThumbnail} >
-                                <Icon source={CircleCancelMajor} color="critical" />
+                                {/* <Icon source={CircleCancelMajor} color="critical" /> */}
+                                <img src={Delete}/>
                             </div>
                         </div>
                     </div>
@@ -1104,7 +1109,8 @@ const Settings = () => {
                         ></video>
                         <div>
                             <div onClick={handleRemoveThumbnailVideo} >
-                                <Icon source={CircleCancelMajor} color="critical" />
+                                {/* <Icon source={CircleCancelMajor} color="critical" /> */}
+                                <img src={Delete}/>
                             </div>
                         </div>
                     </div>
@@ -1183,7 +1189,7 @@ const Settings = () => {
                                     xl: 12,
                                 }}
                             >
-                              <Ticker></Ticker>
+                                <Ticker></Ticker>
                                 {error && (
                                     <Card sectioned>
                                         <Banner>
@@ -1279,7 +1285,7 @@ const Settings = () => {
                                 <Card sectioned>
                                     <div>
                                         <Text variant="headingLg" as="h5">
-                                                Landing Page Settings
+                                            Landing Page Settings
                                         </Text>
                                         {/* <p
                                             style={{
@@ -1299,6 +1305,7 @@ const Settings = () => {
                                             alignItems: "center",
                                             justifyContent: "space-between",
                                         }}
+                                        className="polaris-black-btn-global"
                                     >
                                         <div>
                                             <Text variant="headingLg" as="h5">
@@ -1318,6 +1325,7 @@ const Settings = () => {
                                                 width: "200px",
                                                 textAlign: "end",
                                             }}
+                                            className="polaris-black-btn-global"
                                         >
                                             <Button
                                                 primary
@@ -1346,7 +1354,7 @@ const Settings = () => {
                                                     marginBottom: "10px",
                                                 }}
                                             >
-                                                    Copy the landing page link to send to your customers
+                                                Copy the landing page link to send to your customers
                                             </p>
                                         </div>
                                         <div
@@ -1354,6 +1362,7 @@ const Settings = () => {
                                                 width: "200px",
                                                 textAlign: "end",
                                             }}
+                                            className="polaris-black-btn-global"
                                         >
                                             <Button
                                                 primary
@@ -1375,7 +1384,7 @@ const Settings = () => {
                                     >
                                         <div>
                                             <Text variant="headingLg" as="h5">
-                                                    Send Test Email
+                                                Send Test Email
                                             </Text>
                                             <p
                                                 style={{
@@ -1390,6 +1399,7 @@ const Settings = () => {
                                                 width: "200px",
                                                 textAlign: "end",
                                             }}
+                                            className="polaris-black-btn-global"
                                         >
                                             <Button
                                                 primary
@@ -1399,6 +1409,7 @@ const Settings = () => {
                                             </Button>
                                         </div>
                                     </div>
+
                                 </Card>
                                 <Card sectioned>
                                     <Text variant="headingLg" as="h5">
@@ -1423,7 +1434,7 @@ const Settings = () => {
                                             />
 
                                         </div>
-                                        <div style={{ marginLeft: "13px", }}>
+                                        <div style={{ marginLeft: "13px", }} className="polaris-black-btn-global">
                                             {
                                                 storeHandleState ? <Spinner accessibilityLabel="Spinner example" size="large" />
                                                     : <Button primary disabled={isHandleAvailable} onClick={handleSaveStoreHandle}>Save</Button>
@@ -1445,11 +1456,11 @@ const Settings = () => {
                                     >
                                         <div style={{}}>
                                             <Text variant="headingLg" as="h5">
-                                                    Choose discount code amount for Standard approved videos
+                                                Choose discount code amount for Standard approved videos
                                             </Text>
                                             <p style={{ marginTop: "15px" }}>
-                                               
-                                                    We recommend offering a minimum of {storeCurrency}50 to improve response rates. This can be adjusted and there is no minimum.
+
+                                                We recommend offering a minimum of {storeCurrency}50 to improve response rates. This can be adjusted and there is no minimum.
                                             </p>
                                         </div>
                                         <div
@@ -1483,10 +1494,10 @@ const Settings = () => {
                                     >
                                         <div style={{}}>
                                             <Text variant="headingLg" as="h5">
-                                                    Choose discount code amount for Star approved videos
+                                                Choose discount code amount for Star approved videos
                                             </Text>
                                             <p style={{ marginTop: "15px" }}>
-                                                    We recommend a minimum of {storeCurrency}75 to improve response rates and effort. This can be adjusted and there is no minimum.
+                                                We recommend a minimum of {storeCurrency}75 to improve response rates and effort. This can be adjusted and there is no minimum.
                                             </p>
                                         </div>
                                         <div
@@ -1622,9 +1633,12 @@ const Settings = () => {
                                                 <div onClick={handleRemoveAlreadyUploadedLogo} >
                                                     {
                                                         activeTootlTip ? <Tooltip content="">
-                                                            <Icon source={CircleCancelMajor} color="critical" />
+                                                            {/* <Icon source={CircleCancelMajor} color="critical" /> */}
+                                                            {/* <Icon source={DeleteIcon}  tone="base"/> */}
+                                                            {/* <Icon source={DeleteMajor} color="critical" /> */}
+                                                            <img src={Delete}/>
 
-                                                        </Tooltip> : <Icon source={CircleCancelMajor} color="critical" />
+                                                        </Tooltip> :  <img src={Delete}/>
                                                     }
 
                                                 </div>
@@ -1633,22 +1647,22 @@ const Settings = () => {
                                     }
                                     <div>
                                         <p style={{ marginTop: "5px", marginBottom: "5px" }}>
-                                            Choose Favicon
+                                            Choose Favicon with ali
                                         </p>
-                                            
+
                                     </div>
                                     <div>
                                         <input type="file" name="fav_icon" onChange={handleFavIcon}></input>
                                     </div>
-                                    <div style={{marginTop:"10px"}}>
-                                            {
-                                                favIconPreview ? <Thumbnail
-                                                    size="medium"
-                                                    alt="img"
-                                                    source={favIconPreview}
-                                                />
-                                                    : ''
-                                            }
+                                    <div style={{ marginTop: "10px" }}>
+                                        {
+                                            favIconPreview ? <Thumbnail
+                                                size="medium"
+                                                alt="img"
+                                                source={favIconPreview}
+                                            />
+                                                : ''
+                                        }
                                     </div>
                                     <div
                                         style={{
@@ -1692,7 +1706,7 @@ const Settings = () => {
                                             marginBottom: "5px",
                                         }}
                                     >
-                                            Adjust these instructions based on what kind of videos you want.
+                                        Adjust these instructions based on what kind of videos you want.
                                     </p>
                                     <div
                                         style={{
@@ -1707,12 +1721,12 @@ const Settings = () => {
                                             style={{ marginRight: "12px" }}
                                         ></img> */}
 
-                                            <span style={{ fontSize:'30px' }} >💡</span>
+                                        <span style={{ fontSize: '30px' }} >💡</span>
                                         <div>
                                             <p>
                                                 Tip: Be very clear in your instructions. Keep it simple.
                                             </p>
-                                           
+
                                         </div>
                                     </div>
                                     <p>Instructions Steps</p>
@@ -1745,21 +1759,31 @@ const Settings = () => {
                                                 >
                                                     <div>
                                                         <img
-                                                            style={{ cursor: "pointer" }}
-                                                            src={DellIcon}
+                                                            style={{ cursor: "pointer",width:'20px',height:'20px' ,marginTop:'8px'}}
+                                                            src={Delete}
                                                             onClick={() =>
                                                                 handleRemoveRow(
                                                                     row.id
                                                                 )
                                                             }
                                                         ></img>
+
+                                                        {/* <Icon
+                                                            source={DeleteIcon}
+                                                            tone="base"
+                                                            onClick={() =>
+                                                                handleRemoveRow(
+                                                                    row.id
+                                                                )
+                                                            }
+                                                        /> */}
                                                     </div>
                                                 </div>
                                             </div>
                                         ))}
-                                    <div style={{ marginTop: "20px" }}>
+                                    <div style={{ marginTop: "20px" }} className="polaris-black-btn-global">
                                         <Button primary onClick={handleAddRow}>
-                                            Add another step
+                                            Add Step
                                         </Button>
                                     </div>
 
@@ -1798,7 +1822,7 @@ const Settings = () => {
 
                                             </div>
                                             <p style={{ marginTop: "5px", marginBottom: "5px" }}>
-                                                    Add an example video for your customers.
+                                                Add an example video for your customers.
                                             </p>
                                         </div>
 
@@ -1827,9 +1851,10 @@ const Settings = () => {
                                                 <div onClick={handleRemoveAlreadyUploadedVideo} >
                                                     {
                                                         activeTootlTip ? <Tooltip content="This is default setting. You can not change it.">
-                                                            <Icon source={CircleCancelMajor} color="critical" />
+                                                            {/* <Icon source={CircleCancelMajor} color="critical" /> */}
+                                                            <img src={Delete}/>
 
-                                                        </Tooltip> : <Icon source={CircleCancelMajor} color="critical" />
+                                                        </Tooltip> :  <img src={Delete}/>
                                                     }
 
                                                 </div>
@@ -2272,7 +2297,7 @@ const Settings = () => {
                                         <div style={{ width: "550px" }}>
                                             <Text variant="headingLg" as="h5">
                                                 Post Purchase Emails
-                            
+
                                             </Text>
                                             <p style={{ marginTop: "5px" }}>
                                                     This is the timing of the first email sent to your customer.
@@ -2376,11 +2401,11 @@ const Settings = () => {
                                         </div>
                                     </div>
                                 </Card> */}
-                              
 
-                             
 
-                                <Card sectioned>
+
+
+                                {/* <Card sectioned>
                                     {
                                         gdError ? <Banner>
                                             <List type="bullet">
@@ -2399,14 +2424,14 @@ const Settings = () => {
                                                 Google Drive
                                             </Text>
                                         </div>
-                                        {/* <p
+                                        <p
                                             style={{
                                                 marginTop: "15px",
                                                 marginBottom: "15px",
                                             }}
                                         >
                                             Please contact the live support to verify your store and remove our Branding “Powered by Vidial” for FREE.
-                                        </p> */}
+                                        </p>
                                         <div style={{ marginTop: "10px", width: "450px" }}>
                                             <TextField
                                                 value={gdApi}
@@ -2459,21 +2484,21 @@ const Settings = () => {
 
                                         </div>
 
-                                        <div style={{ marginTop: "20px" }}>
+                                        <div style={{ marginTop: "20px" }} className="polaris-black-btn-global">
                                             {
                                                 gDConnected ?
-                                                        
-                                                        <Button info >
-                                                            <div style={{display:"flex"}} >
-                                                            
-                                                                <div>Connected</div>
-                                                                <div>
-                                                                    <Icon
-                                                                        source={TickMinor}
-                                                                        color="base"
-                                                                    />
-                                                                </div>
+
+                                                    <Button info >
+                                                        <div style={{ display: "flex" }} >
+
+                                                            <div>Connected</div>
+                                                            <div>
+                                                                <Icon
+                                                                    source={TickMinor}
+                                                                    color="base"
+                                                                />
                                                             </div>
+                                                        </div>
                                                     </Button>
                                                     : <Button primary onClick={handleConnectGD}>
                                                         Connect
@@ -2481,29 +2506,29 @@ const Settings = () => {
                                             }
                                         </div>
                                     </div>
-                                </Card>
+                                </Card> */}
 
-                          
 
-                                    <Card sectioned>
-                                        <div>
-                                            <Text variant="headingLg" as="h5">
-                                                Remove GoodAuthentic Watermark
-                                            </Text>
-                                            <p
-                                                style={{
-                                                    marginTop: "15px",
-                                                    marginBottom: "15px",
-                                                }}
-                                            >
-                                                Please contact live support to verify your store and remove the "Powered by GoodAuthentic" branding for FREE.
-                                            </p>
-                                            <Button primary onClick={handleChatClick}>
-                                                Remove Watermark
-                                            </Button>
-                                        </div>
-                                    </Card>
-                                    
+
+                                {/* <Card sectioned>
+                                    <div className="polaris-black-btn-global">
+                                        <Text variant="headingLg" as="h5">
+                                            Remove GoodAuthentic Watermark
+                                        </Text>
+                                        <p
+                                            style={{
+                                                marginTop: "15px",
+                                                marginBottom: "15px",
+                                            }}
+                                        >
+                                            Please contact live support to verify your store and remove the "Powered by GoodAuthentic" branding for FREE.
+                                        </p>
+                                        <Button primary onClick={handleChatClick}>
+                                            Remove Watermark
+                                        </Button>
+                                    </div>
+                                </Card> */}
+
 
                                 <div
                                     style={{
@@ -2511,6 +2536,7 @@ const Settings = () => {
                                         marginTop: "20px",
                                         marginBottom: "100px",
                                     }}
+                                    className="polaris-black-btn-global"
                                 >
                                     <Button
                                         primary
@@ -2518,7 +2544,7 @@ const Settings = () => {
                                         disabled={isLoading}
                                         id="sab_ok_id"
                                     >
-                                            Save Landing Page
+                                        Save Landing Page
                                     </Button>
                                 </div>
                             </Grid.Cell>

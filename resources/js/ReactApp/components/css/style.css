@@ -1,3 +1,23 @@
+.polaris-black-btn-global button.Polaris-Button{
+    background: #353535;
+    color: #fff !important;
+}
+
+.polaris-black-btn-global button.Polaris-Button:hover{
+    background: black;
+    color: #fff !important;
+}
+.polaris-black-btn-global button.Polaris-Button span{
+    color: #fff !important;
+}
+
+
+
+.setting_banner .Polaris-Icon--applyColor  {
+    display: none !important;
+}
+
+
 .storeGrid {
     display: flex;
     justify-content: space-between;

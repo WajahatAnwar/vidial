@@ -35,7 +35,7 @@ import UserReviewdVideos from "./Admin/Components/UserReviewdVideos";
 const VidialApp = () => {
 
     let location = useLocation();
-    
+
     const [topBarCheck, setTopBarCheck] = useState(false);
     const [currentUser, setCurrentUser] = useState(false);
 
@@ -119,10 +119,12 @@ const VidialApp = () => {
             </Routes>
             {
             location.search ? <div className="updateButton">
+                <div className="polaris-black-btn-global">
                 <Button onClick={handleUpdateApp} success primary>Update App</Button>
+                </div>
             </div> : ''
             }
-           
+
         </AppProvider>
     );
 };

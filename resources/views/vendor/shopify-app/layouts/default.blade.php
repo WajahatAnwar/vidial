@@ -37,6 +37,86 @@
             });
             let shopNm = "{{ $shopDomain ?? Auth::user()->name }}";
 
+
+            const history = actions.History.create(app);
+
+                // const dashboardLink = actions.AppLink.create(app, {
+                // label: 'Dashboard',
+                // destination: '/',
+                // });
+                const dashboardBlock = actions.AppLink.create(app, {
+                label: 'Dashboard',
+                destination: '/dashboard${search}',
+                });
+                const videostoreviewblock = actions.AppLink.create(app, {
+                label: 'Videos to Review',
+                destination: '/videos-to-review${search}',
+                });
+                const approvedvideosblock = actions.AppLink.create(app, {
+                label: 'Approved Videos',
+                destination: '/approved-videos',
+                });
+                const landingpageblock = actions.AppLink.create(app, {
+                label: 'Landing Page',
+                destination: '/settings',
+                });
+                const emails = actions.AppLink.create(app, {
+                label: 'Emails',
+                destination: '/email" + location.search',
+                });
+                const plans = actions.AppLink.create(app, {
+                label: 'Plans',
+                destination: '/plans" + location.search',
+                });
+                const logs = actions.AppLink.create(app, {
+                label: 'logs',
+                destination: '/logs" + location.search',
+                });
+
+
+
+
+
+                // create NavigationMenu with no active links
+                const navigationMenu = actions.NavigationMenu.create(app, {
+                items: [dashboardBlock,videostoreviewblock, approvedvideosblock,landingpageblock, emails,plans,logs, ], });
+
+
+
+
+        // if (selectedTabIndex == 0) {
+        //     setSelected(selectedTabIndex);
+        //     navigate(`/dashboard${search}`);
+        // } else if (selectedTabIndex == 1) {
+        //     setSelected(selectedTabIndex);
+        //     navigate(`/videos-to-review${search}`);
+        // } else if (selectedTabIndex == 2) {
+        //     setSelected(selectedTabIndex);
+        //     navigate("/approved-videos");
+        // } else if (selectedTabIndex == 3) {
+        //     setSelected(selectedTabIndex);
+        //     navigate("/settings");
+        // } else if (selectedTabIndex == 4) {
+        //     setSelected(selectedTabIndex);
+        //     navigate("/email" + location.search);
+        // }else if (selectedTabIndex == 5) {
+        //     setSelected(selectedTabIndex);
+        //     navigate("/plans" + location.search);
+        // }
+        // else if (selectedTabIndex == 6) {
+        //     setSelected(selectedTabIndex);
+        //     navigate("/logs" + location.search);
+        // }
+
+
+
+
+
+
+
+
+
+
             const {
                 fetch: originalFetch
             } = window;
