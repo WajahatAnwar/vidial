@@ -51,7 +51,7 @@ import CrispChat from 'react-crisp';
 import vidialLogo from "./imges/vidialLogoPower.png";
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { Editor } from '@tinymce/tinymce-react';
-import Delete from "./imges/delete.svg";
+import Delete from "./imges/Delete.svg";
 // import './css/editor.css'
 /**
 const urlParams = new URLSearchParams(location.search);

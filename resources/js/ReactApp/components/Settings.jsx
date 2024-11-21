@@ -52,7 +52,7 @@ import Ticker from "./Ticker";
 // import { DeleteIcon } from '@shopify/polaris-icons';
 // import {DeleteIcon} from '@shopify/polaris-icons';
 
-import Delete from "./imges/delete.svg";
+import Delete from "./imges/Delete.svg";
 /**
 const urlParams = new URLSearchParams(location.search);
 const shopParam = urlParams.get('shop');
