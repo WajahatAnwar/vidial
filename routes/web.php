@@ -155,7 +155,7 @@ Route::group(['middleware' => 'verify.shopify'], function () {
     Route::get('getApprovedVideos', [VideoController::class, 'getApprovedVideos']);
     Route::get('getPendingVideoCount', [DashboardController::class, 'getPendingVideoCount']);
     Route::post('downloadVideo', [VideoController::class, 'downloadVideo']);
-    Route::get('test', [VideoController::class, 'test']);
+    Route::get('test1', [VideoController::class, 'test']);
     Route::post('removeInspirationalVideo', [SettingsController::class, 'removeInspirationalVideo']);
     Route::post('removeLogo', [SettingsController::class, 'removeLogo']);
     Route::post('fetchCurrentUser', [SettingsController::class, 'fetchCurrentUser']);
@@ -187,10 +187,35 @@ Route::group(['middleware' => 'verify.shopify'], function () {
     dd('done');
     });
 Route::get('test', function() {
-    dd('come on');
-      $users = User::where('role_id','2')
-      ->whereNotNull('store_id')
-      ->get();
+ 
+      $user = User::where('id','301')
+      ->first();
+      $webhooks = $user->api()->rest('get','/admin/api/2021-07/webhooks.json');
+        dd($webhooks);
+
+      foreach ($webhooks['body']['webhooks'] as $key => $value) {
+        $parsedUrl = parse_url($value['address'], PHP_URL_PATH);
+
+        // Split the path by "/"
+        $pathParts = explode('/', $parsedUrl);
+
+        // Get the value after 'webhook'
+        $valueAfterWebhook = end($pathParts);
+            $webhookPayload = [
+          'webhook' => [
+              'topic' => $value['topic'],
+              'address' => url('webhook/'.$valueAfterWebhook),
+              'format' => 'json'
+            ]
+        ];
+        $response = $user->api()->rest('put','/admin/api/2024-04/webhooks/'.$value['id'].'.json',$webhookPayload);
+    
+      }
+      $webhooks = $user->api()->rest('get','/admin/api/2021-07/webhooks.json');
+
+      dd($webhooks);
+      
+      // update webhook
       
 //    dd($users);
 //     $response = Http::withHeaders([
