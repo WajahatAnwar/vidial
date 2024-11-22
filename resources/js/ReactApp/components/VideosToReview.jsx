@@ -266,7 +266,16 @@ function WaitingVideos() {
         }
     };
     useEffect(() => {
-        fetch("/getPendingVideos?page=" + currentPage)
+        const params = new URLSearchParams(search);
+
+        // Add or update the 'page' parameter
+        params.set('page', '10');
+
+        // Construct the new URL
+        const updatedSearch = params.toString();
+        const apiUrl = `/getPendingVideos?${updatedSearch}`;
+        console.log(apiUrl);
+        fetch(apiUrl)
             .then((response) => {
                 if (!response.ok) {
                     throw new Error("Something went wrong");

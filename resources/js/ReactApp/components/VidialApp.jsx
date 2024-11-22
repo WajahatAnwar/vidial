@@ -67,11 +67,12 @@ const VidialApp = () => {
                     setTopBarCheck(true);
                 }
 
-                else if (location.pathname != '/forget-password' && location.pathname != '/reset-password') {
-                    if (location.pathname != "/login") {
-                        navigate("/login");
-                    }
-                }
+                // else if (location.pathname != '/forget-password' && location.pathname != '/reset-password') {
+                //     if (location.pathname != "/login") {
+                //         alert('Please login to continue');
+                //         navigate("/login");
+                //     }
+                // }
 
             } else {
 
@@ -89,14 +90,14 @@ const VidialApp = () => {
 
     return (
         <AppProvider i18n={en}>
-            {topBarCheck && <CustomBar />}
+            {/* {topBarCheck && <CustomBar />} */}
             <Routes>
                 <Route path="/login" element={<Login />} />
                 <Route path="/forget-password" element={<ForgetPassword />} />
                 <Route path="/reset-password" element={<ResetPassword />} />
 
-                <Route path="/dashboard" element={<Dashboard />} />
-                <Route path="/settings" element={<Settings />} />
+                <Route path={`dashboard`} element={<Dashboard />} />
+                <Route path="/settings" element={<Settings search1={location.search}/>} />
                 <Route path="/videos-to-review" element={<VideosToReview />} />
                 <Route path="/approved-videos" element={<ApprovedVideos />} />
                 <Route path="/email" element={<Email />} />
@@ -124,6 +125,8 @@ const VidialApp = () => {
                 </div>
             </div> : ''
             }
+
+            {console.log('location 1', location.search)}
 
         </AppProvider>
     );

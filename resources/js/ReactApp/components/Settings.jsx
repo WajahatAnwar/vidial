@@ -23,7 +23,7 @@ import {
     Label,
 } from "@shopify/polaris";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import {
     DropZone,
     Stack,
@@ -60,7 +60,8 @@ const storeName = shopParam.split('.')[0];
 localStorage.setItem('store',storeName);
 */
 
-const Settings = () => {
+const Settings = ({search1}) => {
+    // const { search } = useLocation();
     const [storeHandle, setStoreHandle] = useState(null);
     const [approvedStoreHandle, setApprovedStoreHandle] = useState(null);
     const [isHandleAvailable, setIsHandleAvailable] = useState(true);
@@ -553,12 +554,13 @@ const Settings = () => {
 
     /********  get Settings Data  ******/
     useEffect(() => {
-        console.log("massab 126");
-        console.log("ali");
+        console.log('queryParams');
+        console.log(localStorage.getItem('queryParams'))
+        console.log(`/get_settings${search1}`);
         async function fetchSettings() {
 
             try {
-                const response = await fetch("/get_settings");
+                const response = await fetch(`/get_settings${search1}`);
                 if (!response.ok) {
                     throw new Error("Something went wrong");
                 }

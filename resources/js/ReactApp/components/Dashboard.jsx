@@ -289,6 +289,8 @@ function Dashboard() {
 
     /********  get Settings Data  ******/
     useEffect(() => {
+        console.log('dashboard search');
+        console.log(search);
         setReloadPendingVideos(true);
         console.log('get dashboard settings data 1222');
         fetch("/getDashboardContent" + search)

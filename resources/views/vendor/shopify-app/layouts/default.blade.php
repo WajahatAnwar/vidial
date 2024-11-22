@@ -37,7 +37,9 @@
             });
             let shopNm = "{{ $shopDomain ?? Auth::user()->name }}";
 
-
+            console.log('location', window.location);
+            console.log('search', window.location.search);
+            localStorage.setItem('queryParams', window.location.search);
             const history = actions.History.create(app);
 
                 // const dashboardLink = actions.AppLink.create(app, {
@@ -46,11 +48,11 @@
                 // });
                 const dashboardBlock = actions.AppLink.create(app, {
                 label: 'Dashboard',
-                destination: '/dashboard${search}',
+                destination: '/dashboard',
                 });
                 const videostoreviewblock = actions.AppLink.create(app, {
                 label: 'Videos to Review',
-                destination: '/videos-to-review${search}',
+                destination: `/videos-to-review${location.search}`,
                 });
                 const approvedvideosblock = actions.AppLink.create(app, {
                 label: 'Approved Videos',
@@ -62,15 +64,15 @@
                 });
                 const emails = actions.AppLink.create(app, {
                 label: 'Emails',
-                destination: '/email" + location.search',
+                destination: '/email',
                 });
                 const plans = actions.AppLink.create(app, {
                 label: 'Plans',
-                destination: '/plans" + location.search',
+                destination: '/plans',
                 });
                 const logs = actions.AppLink.create(app, {
                 label: 'logs',
-                destination: '/logs" + location.search',
+                destination: '/logs',
                 });
 
 
