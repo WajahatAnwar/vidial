@@ -45,6 +45,13 @@
                 // label: 'Dashboard',
                 // destination: '/',
                 // });
+
+
+                const getstartedBlock = actions.AppLink.create(app, {
+                label: 'Get Started',
+                destination: '/get-started',
+                });
+
                 const dashboardBlock = actions.AppLink.create(app, {
                 label: 'Dashboard',
                 destination: '/dashboard',
@@ -80,7 +87,7 @@
 
                 // create NavigationMenu with no active links
                 const navigationMenu = actions.NavigationMenu.create(app, {
-                items: [dashboardBlock,videostoreviewblock, approvedvideosblock,landingpageblock, emails,plans,logs, ], });
+                items: [getstartedBlock,dashboardBlock,videostoreviewblock, approvedvideosblock,landingpageblock, emails,plans,logs, ], });
 
 
 

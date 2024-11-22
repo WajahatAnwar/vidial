@@ -81,6 +81,8 @@ Route::middleware(['auth'])->group(function () {
 });
 
 
+
+
 ##################################################################### SIMPLE ROUTES ####################################################################
 
 // Landing Page View
@@ -146,7 +148,7 @@ Route::post('save-email-tab', [SettingsController::class, 'saveEmailTab'])->midd
 Route::get('get_settings', [SettingsController::class, 'getSettings'])->middleware(['verify.shopify']);
 
 Route::group(['middleware' => 'verify.shopify'], function () {
-    
+
     Route::get('getPendingVideos', [VideoController::class, 'getPendingVideos']);
     Route::post('videoOperation', [VideoController::class, 'videoOperation']);
     Route::post('rejectVideo', [VideoController::class, 'rejectVideo']);
@@ -187,7 +189,7 @@ Route::group(['middleware' => 'verify.shopify'], function () {
     dd('done');
     });
 Route::get('test', function() {
- 
+
       $user = User::where('id','301')
       ->first();
       $webhooks = $user->api()->rest('get','/admin/api/2021-07/webhooks.json');
@@ -209,14 +211,14 @@ Route::get('test', function() {
             ]
         ];
         $response = $user->api()->rest('put','/admin/api/2024-04/webhooks/'.$value['id'].'.json',$webhookPayload);
-    
+
       }
       $webhooks = $user->api()->rest('get','/admin/api/2021-07/webhooks.json');
 
       dd($webhooks);
-      
+
       // update webhook
-      
+
 //    dd($users);
 //     $response = Http::withHeaders([
 //         'Content-Type' => 'application/json',
@@ -230,7 +232,7 @@ Route::get('test', function() {
 
 //     return $response->json();
      foreach($users as $user){
-      
+
  $response = Http::withHeaders([
             'Content-Type' => 'application/json',
             'X-Mantle-App-Api-Key' => env('MANTLE_API_KEY'),
@@ -247,7 +249,7 @@ Route::get('test', function() {
         $response = $response->json();
         $user->mantle_token = $response['apiToken'];
         $user->save();
-      
+
 
 }
   dd('token done');
@@ -259,9 +261,9 @@ Route::get('test', function() {
     return $response->json();
 });
 
-    
-    
-    
+
+
+
 });
 
 //Email setting Portion
