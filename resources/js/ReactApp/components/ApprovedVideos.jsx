@@ -32,7 +32,10 @@ function ApprovedVideos() {
     /******** Fetching Videos  ******/
     const [videos, setVideos] = useState([]);
     useEffect(() => {
-        fetch("/getApprovedVideos?page=" + currentPage)
+        let params = new URLSearchParams(query)
+        params.set('page', currentPage);
+        let apiUrl =`/getApprovedVideos?${params.toString()}`
+        fetch(apiUrl)
             .then((response) => {
                 if (!response.ok) {
                     throw new Error("Something went wrong");

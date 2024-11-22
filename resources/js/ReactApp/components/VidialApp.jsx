@@ -35,6 +35,7 @@ import UserReviewdVideos from "./Admin/Components/UserReviewdVideos";
 const VidialApp = () => {
 
     let location = useLocation();
+    let query = localStorage.getItem('queryParams');
 
     const [topBarCheck, setTopBarCheck] = useState(false);
     const [currentUser, setCurrentUser] = useState(false);
@@ -92,29 +93,29 @@ const VidialApp = () => {
         <AppProvider i18n={en}>
             {/* {topBarCheck && <CustomBar />} */}
             <Routes>
-                <Route path="/login" element={<Login />} />
-                <Route path="/forget-password" element={<ForgetPassword />} />
-                <Route path="/reset-password" element={<ResetPassword />} />
+                <Route path="/login" element={<Login query={query}/>} />
+                <Route path="/forget-password" element={<ForgetPassword query={query}/>} />
+                <Route path="/reset-password" element={<ResetPassword query={query}/>} />
 
-                <Route path={`dashboard`} element={<Dashboard />} />
-                <Route path="/settings" element={<Settings search1={location.search}/>} />
-                <Route path="/videos-to-review" element={<VideosToReview />} />
-                <Route path="/approved-videos" element={<ApprovedVideos />} />
-                <Route path="/email" element={<Email />} />
-                <Route path="/plans" element={<Plans />} />
-                <Route path="/resources" element={<Resources />} />
-                <Route path="/admin-dashboard" element={<AdminDashboard />} />
-                <Route path="/user-settings/:id?" element={<UserSettings />} />
-                <Route path="/user-email-settings/:id?" element={<UserEmail />} />
-                <Route path="/post-purchase-email/:id?" element={<PostPurchaseEmail />} />
-                <Route path="/reminder-email/:id?" element={<ReminderEmail />} />
-                <Route path="/ugc-approved-email/:id?" element={<UgcApprovedEmail />} />
-                <Route path="/ugc-declined-email/:id?" element={<UgcDeclinedEmail />} />
-                <Route path="/ugc-star-approved/:id?" element={<UgcStarApproved />} />
+                <Route path={`dashboard`} element={<Dashboard query={query}/>} />
+                <Route path="/settings" element={<Settings query={query}/>} />
+                <Route path="/videos-to-review" element={<VideosToReview query={query}/>} />
+                <Route path="/approved-videos" element={<ApprovedVideos query={query}/>} />
+                <Route path="/email" element={<Email query={query}/>} />
+                <Route path="/plans" element={<Plans query={query}/>} />
+                <Route path="/resources" element={<Resources query={query}/>} />
+                <Route path="/admin-dashboard" element={<AdminDashboard query={query}/>} />
+                <Route path="/user-settings/:id?" element={<UserSettings query={query}/>} />
+                <Route path="/user-email-settings/:id?" element={<UserEmail query={query}/>} />
+                <Route path="/post-purchase-email/:id?" element={<PostPurchaseEmail query={query}/>} />
+                <Route path="/reminder-email/:id?" element={<ReminderEmail query={query}/>} />
+                <Route path="/ugc-approved-email/:id?" element={<UgcApprovedEmail query={query}/>} />
+                <Route path="/ugc-declined-email/:id?" element={<UgcDeclinedEmail query={query}/>} />
+                <Route path="/ugc-star-approved/:id?" element={<UgcStarApproved query={query}/>} />
                 <Route path="/user-logs/:id" element={<UserLogs />} />
-                <Route path="/user-approved-videos/:id" element={<UserApprovedVideos />} />
-                <Route path="/user-reviewd-videos/:id" element={<UserReviewdVideos />} />
-                <Route path="/logs" element={<Logs />} />
+                <Route path="/user-approved-videos/:id" element={<UserApprovedVideos query={query}/>} />
+                <Route path="/user-reviewd-videos/:id" element={<UserReviewdVideos query={query}/>} />
+                <Route path="/logs" element={<Logs query={query}/>} />
 
                 <Route path="*" element={<Loading />} />
             </Routes>
@@ -125,8 +126,6 @@ const VidialApp = () => {
                 </div>
             </div> : ''
             }
-
-            {console.log('location 1', location.search)}
 
         </AppProvider>
     );

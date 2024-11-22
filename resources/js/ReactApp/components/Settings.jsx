@@ -60,7 +60,7 @@ const storeName = shopParam.split('.')[0];
 localStorage.setItem('store',storeName);
 */
 
-const Settings = ({search1}) => {
+const Settings = ({query}) => {
     // const { search } = useLocation();
     const [storeHandle, setStoreHandle] = useState(null);
     const [approvedStoreHandle, setApprovedStoreHandle] = useState(null);
@@ -159,7 +159,7 @@ const Settings = ({search1}) => {
 
     const removeInspirationalVideo = () => {
         var formData = {};
-        fetch("/removeInspirationalVideo", {
+        fetch("/removeInspirationalVideo"+query, {
             method: "post",
 
             body: formData,
@@ -181,7 +181,7 @@ const Settings = ({search1}) => {
 
     const removeLogo = () => {
         var formData = {};
-        fetch("/removeLogo", {
+        fetch("/removeLogo"+query, {
             method: "post",
 
             body: formData,
@@ -402,7 +402,7 @@ const Settings = ({search1}) => {
         setStoreHandleResponse(null);
         const formData = new FormData();
         formData.append('store_handle', newValue);
-        fetch('/check-handle', {
+        fetch('/check-handle'+query, {
             method: "POST",
             body: formData
         })
@@ -447,7 +447,7 @@ const Settings = ({search1}) => {
         formData.append('endpoint', 'https://api.mailgun.net/v3/' + domain + '/messages');
         // formData.append('endpoint', mailgunEndpoint);
         formData.append('domain', domain);
-        fetch('/save-email-creds', {
+        fetch('/save-email-creds'+query, {
             method: "POST",
             body: formData
         })
@@ -544,7 +544,7 @@ const Settings = ({search1}) => {
         const formData = new FormData();
         formData.append('api_key', klavioApi);
         formData.append('email', klavioEmail);
-        fetch('save-klavio-settings', {
+        fetch('save-klavio-settings'+query, {
             body: formData,
             method: 'POST'
         }).then(response => response.json()).then((data) => {
@@ -555,12 +555,11 @@ const Settings = ({search1}) => {
     /********  get Settings Data  ******/
     useEffect(() => {
         console.log('queryParams');
-        console.log(localStorage.getItem('queryParams'))
-        console.log(`/get_settings${search1}`);
+        console.log(`/get_settings${query}`);
         async function fetchSettings() {
 
             try {
-                const response = await fetch(`/get_settings${search1}`);
+                const response = await fetch(`/get_settings${query}`);
                 if (!response.ok) {
                     throw new Error("Something went wrong");
                 }
@@ -831,7 +830,7 @@ const Settings = ({search1}) => {
         } else {
             setError(false);
             // Generating request for sending Data to the server
-            fetch("/save_settings", {
+            fetch("/save_settings"+query, {
                 method: "post",
                 body: formData,
             }).then((response) => response.json())
@@ -856,7 +855,7 @@ const Settings = ({search1}) => {
     };
 
     function handletestemail() {
-        fetch("/send_test_email", {
+        fetch("/send_test_email"+query, {
             method: "GET",
         })
             .then((response) => {
@@ -1044,7 +1043,7 @@ const Settings = ({search1}) => {
         const formData = new FormData();
         if (!isHandleAvailable) {
             formData.append('store_handle', storeHandle);
-            fetch('store_handle', {
+            fetch('store_handle'+query, {
                 method: "POST",
                 body: formData
             }).then((response) => response.json()).then((data) => {

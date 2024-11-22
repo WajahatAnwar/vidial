@@ -39,7 +39,7 @@ import noVedio from "./imges/film.png";
 import { downloadVideo } from "./utils";
 import Ticker from "./Ticker";
 
-function Dashboard() {
+function Dashboard({query}) {
     // const cLocation = useLocation();
     const { pathname, search } = useLocation();
     const [activeRejectionModel, setActiveRejectionModel] = useState(false);
@@ -70,7 +70,7 @@ function Dashboard() {
         setActiveRejectionSuccessModel(!activeRejectionSuccessModel),
             [activeRejectionSuccessModel];
         setRejectionReason("");
-        navigate("/dashboard");
+        navigate("/dashboard"+query);
         setReload(new Date().getSeconds());
     });
 
@@ -104,7 +104,7 @@ function Dashboard() {
     const handleChangeApprovedSuccessModel = useCallback(() => {
         setActiveApprovedSuccessModel(!activeApprovedSuccessModel),
             [activeApprovedSuccessModel];
-        navigate("/dashboard");
+        navigate("/dashboard"+query);
         setReload(new Date().getSeconds());
     });
 
@@ -130,7 +130,7 @@ function Dashboard() {
         var formData = new FormData();
         formData.append("video_id", id);
         if (confirmed) {
-            fetch("/videoOperation", {
+            fetch("/videoOperation"+query, {
                 method: "post",
                 body: formData,
             })
@@ -161,7 +161,7 @@ function Dashboard() {
     /******** move to plan page *****/
 
     const upgradePlan = () => {
-        navigate('/plans' + search);
+        navigate('/plans' + query);
     };
     /******** Rejection popup   ******/
 
@@ -180,7 +180,7 @@ function Dashboard() {
             var formData = new FormData();
             formData.append("reason", rejectionReason);
             formData.append("video_id", rejectVideoId);
-            fetch("/rejectVideo", {
+            fetch("/rejectVideo"+query, {
                 method: "post",
                 body: formData,
             })
@@ -205,7 +205,7 @@ function Dashboard() {
                 })
                 .catch((error) => {
                     console.log(error);
-                    navigate("/dashboard");
+                    navigate("/dashboard"+query);
                 });
         } else {
             console.log("reason box empty");
@@ -246,7 +246,7 @@ function Dashboard() {
 
             }
             setVideoFeedbackPopupTitle("Please Confirm");
-            fetch("/videoOperation", {
+            fetch("/videoOperation"+query, {
                 method: "post",
                 body: formData,
             })
@@ -289,11 +289,9 @@ function Dashboard() {
 
     /********  get Settings Data  ******/
     useEffect(() => {
-        console.log('dashboard search');
-        console.log(search);
         setReloadPendingVideos(true);
         console.log('get dashboard settings data 1222');
-        fetch("/getDashboardContent" + search)
+        fetch("/getDashboardContent" + query)
             .then((response) => {
                 if (!response.ok) {
                     throw new Error("Something went wrong");
@@ -408,7 +406,7 @@ function Dashboard() {
                                     <Button
                                         size="slim"
                                         onClick={() => {
-                                            navigate("/videos-to-review");
+                                            navigate("/videos-to-review"+query);
                                         }}
                                     >
                                         See All
@@ -527,7 +525,7 @@ function Dashboard() {
                                                                         );
                                                                     }}
                                                                 >
-                                                                    <Link to={`${pathname}/${search}`}>
+                                                                    <Link to={`${pathname}/${query}`}>
                                                                         <Icon
                                                                             source={
                                                                                 CircleTickMajor
@@ -541,7 +539,7 @@ function Dashboard() {
                                                                             "20px",
                                                                     }}>
                                                                     <Link
-                                                                        to={`${pathname}/${search}`}
+                                                                        to={`${pathname}/${query}`}
                                                                         onClick={() => {
                                                                             rejectVideo(
                                                                                 video.id
@@ -619,7 +617,7 @@ function Dashboard() {
                                     <Button
                                         size="slim"
                                         onClick={() => {
-                                            navigate("/approved-videos");
+                                            navigate("/approved-videos"+query);
                                         }}
                                     >
                                         See All

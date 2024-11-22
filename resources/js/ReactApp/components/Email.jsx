@@ -33,7 +33,7 @@ const storeName = shopParam.split('.')[0];
 localStorage.setItem('store',storeName);
 */
 
-const Email = () => {
+const Email = ({query}) => {
     const [klavioError, setKlavioError] = useState(false);
     const [klavioErrorMsg, setKlavioErrorMsg] = useState('');
     const [storeHandle, setStoreHandle] = useState(null);
@@ -130,7 +130,7 @@ const Email = () => {
 
     const removeInspirationalVideo = () => {
         var formData = {};
-        fetch("/removeInspirationalVideo", {
+        fetch("/removeInspirationalVideo"+query, {
             method: "post",
 
             body: formData,
@@ -152,7 +152,7 @@ const Email = () => {
 
     const removeLogo = () => {
         var formData = {};
-        fetch("/removeLogo", {
+        fetch("/removeLogo"+query, {
             method: "post",
 
             body: formData,
@@ -381,7 +381,7 @@ const Email = () => {
         const formData = new FormData();
         formData.append('api_key', klavioApi);
         formData.append('email', klavioEmail);
-        fetch('save-klavio-settings', {
+        fetch('save-klavio-settings'+query, {
             body: formData,
             method: 'POST'
         }).then(response => response.json()).then((data) => {
@@ -401,7 +401,7 @@ const Email = () => {
         setStoreHandleResponse(null);
         const formData = new FormData();
         formData.append('store_handle', newValue);
-        fetch('/check-handle', {
+        fetch('/check-handle'+query, {
             method: "POST",
             body: formData
         })
@@ -446,7 +446,7 @@ const Email = () => {
         formData.append('endpoint', 'https://api.mailgun.net/v3/' + domain + '/messages');
         // formData.append('endpoint', mailgunEndpoint);
         formData.append('domain', domain);
-        fetch('/save-email-creds', {
+        fetch('/save-email-creds'+query, {
             method: "POST",
             body: formData
         })

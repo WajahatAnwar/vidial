@@ -36,9 +36,8 @@
                 forceRedirect: true,
             });
             let shopNm = "{{ $shopDomain ?? Auth::user()->name }}";
-
-            console.log('location', window.location);
-            console.log('search', window.location.search);
+            
+            /**** saving query params for fetch calls *****/
             localStorage.setItem('queryParams', window.location.search);
             const history = actions.History.create(app);
 
