@@ -5,7 +5,7 @@ import "@shopify/polaris/build/esm/styles.css";
 import '@/ReactJs/AllInOne/Assets/css/style.css';
 import { useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setToastActive } from '@/ReactJs/reducers/ClubColorSlice';
+import { setToastActive } from '@/ReactJs/reducers/TestSlice';
 
 export default function AppLayout({ auth, children }) {
 

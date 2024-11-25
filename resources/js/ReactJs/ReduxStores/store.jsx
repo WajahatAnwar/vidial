@@ -1,15 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit'
-import ClubColorReducer from '@/ReactJs/reducers/ClubColorSlice';
-import AccountsReducer from '@/ReactJs/reducers/InConnect/AccountsSlice';
-import DecoratorReducer from '@/ReactJs/reducers/InConnect/DecoratorSlice';
-import DeveloperReducer from '@/ReactJs/reducers/Punchout/DeveloperSlice';
+import TestReducer from '@/ReactJs/reducers/TestSlice';
 
 export const store = configureStore({
     reducer: {
-        clubColor: ClubColorReducer,
-        inConnectAccounts: AccountsReducer,
-        inConnectDecorator: DecoratorReducer,
-        punchoutDeveloper: DeveloperReducer,
+        test: TestReducer,
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware({
         serializableCheck: false
