@@ -16,6 +16,6 @@ export const TestSlice = createSlice({
 
 export const {
     setTestProperty
-} = ClubColorSlice.actions
+} = TestSlice.actions
 
-export default ClubColorSlice.reducer
+export default TestSlice.reducer
