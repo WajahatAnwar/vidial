@@ -1,8 +1,8 @@
 import { AppProvider, Banner, Frame, Page, Toast } from '@shopify/polaris';
 import en from "@shopify/polaris/locales/en.json";
-import CustomBar from '@/ReactJs/AllInOne/CustomBar';
+import CustomBar from '@/ReactJs/MyApplication/CustomBar';
 import "@shopify/polaris/build/esm/styles.css";
-import '@/ReactJs/AllInOne/Assets/css/style.css';
+import '@/ReactJs/MyApplication/Assets/css/style.css';
 import { useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setToastActive } from '@/ReactJs/reducers/TestSlice';

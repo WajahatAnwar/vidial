@@ -3,14 +3,14 @@
 namespace App\Jobs;
 
 use stdClass;
-use App\Models\AllInOne\User;
-use App\Models\AllInOne\Product;
+use App\Models\User;
+use App\Models\Product;
 use Illuminate\Bus\Queueable;
-use App\Models\AllInOne\Order;
+use App\Models\Order;
 use App\Traits\Racoon\RestrictionTrait;
 use App\Traits\GeneralTrait;
 use Illuminate\Support\Facades\Log;
-use App\Models\AllInOne\OrderLineItem;
+use App\Models\OrderLineItem;
 use App\Jobs\InConnect\OrderCreateJob;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;

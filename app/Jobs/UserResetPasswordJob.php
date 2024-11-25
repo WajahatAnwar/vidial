@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Jobs\AllInOne;
+namespace App\Jobs;
 
 use App\Mail\UserResetPassword;
 use Illuminate\Bus\Queueable;

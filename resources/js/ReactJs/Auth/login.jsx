@@ -4,7 +4,7 @@ import { Container, Grid, Typography, useMediaQuery, useTheme } from '@mui/mater
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { InputAdornment, IconButton } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-import '@/ReactJs/AllInOne/Assets/css/styleTwo.css';
+import '@/ReactJs/MyApplication/Assets/css/styleTwo.css';
 import ToggleLogin from '@/ReactJs/Components/ToggleLogin';
 import { router } from '@inertiajs/react';
 import React, { useState } from 'react';

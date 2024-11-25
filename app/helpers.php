@@ -1,13 +1,13 @@
 <?php
 
 use App\Jobs\InConnect\IntacctProductCreateJob;
-use App\Models\AllInOne\Collection;
-use App\Models\AllInOne\CollectionProduct;
+use App\Models\Collection;
+use App\Models\CollectionProduct;
 use App\Models\VirtualOptions\Color;
-use App\Models\AllInOne\Product;
-use App\Models\AllInOne\ProductVariant;
-use App\Models\AllInOne\ProductImage;
-use App\Models\AllInOne\User;
+use App\Models\Product;
+use App\Models\ProductVariant;
+use App\Models\ProductImage;
+use App\Models\User;
 use App\Models\Analytics\ALReportLog;
 use App\Models\InConnect\ShopifySize;
 use App\Models\InConnect\ProductType;

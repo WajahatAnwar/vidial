@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::connection('all_in_one_conn')->create('order_line_items', function (Blueprint $table) {
+        Schema::create('order_line_items', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger("local_order_id");
@@ -35,6 +35,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::connection('all_in_one_conn')->dropIfExists('order_line_items');
+        Schema::dropIfExists('order_line_items');
     }
 };

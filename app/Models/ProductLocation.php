@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\AllInOne;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -9,7 +9,7 @@ class ProductLocation extends Model
 {
     use HasFactory;
 
-    protected $connection = 'all_in_one_conn';
+
 
     protected $fillable = [
         'product_handle', 'external_location_id'

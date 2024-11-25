@@ -3,10 +3,10 @@
 namespace App\Jobs;
 
 use stdClass;
-use App\Models\AllInOne\Order;
-use App\Models\AllInOne\OrderLineItem;
-use App\Models\AllInOne\Refund;
-use App\Models\AllInOne\User;
+use App\Models\Order;
+use App\Models\OrderLineItem;
+use App\Models\Refund;
+use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Queue\SerializesModels;

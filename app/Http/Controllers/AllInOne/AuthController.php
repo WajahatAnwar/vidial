@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\AllInOne;
+namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 
-use App\Jobs\AllInOne\UserResetPasswordJob;
-use App\Models\AllInOne\PasswordReset;
-use App\Models\AllInOne\User;
+use App\Jobs\UserResetPasswordJob;
+use App\Models\PasswordReset;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;

@@ -1,6 +1,6 @@
 <?php namespace App\Jobs;
 
-use App\Models\AllInOne\Order;
+use App\Models\Order;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;

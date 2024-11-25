@@ -14,7 +14,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::connection('all_in_one_conn')->create('collections', function (Blueprint $table) {
+        Schema::create('collections', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('collection_id')->unique();
             $table->unsignedBigInteger('user_id');
@@ -34,6 +34,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::connection('all_in_one_conn')->dropIfExists('collections');
+        Schema::dropIfExists('collections');
     }
 };

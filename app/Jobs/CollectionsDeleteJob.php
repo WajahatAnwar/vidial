@@ -2,8 +2,8 @@
 
 namespace App\Jobs;
 
-use App\Models\AllInOne\Collection;
-use App\Models\AllInOne\CollectionProduct;
+use App\Models\Collection;
+use App\Models\CollectionProduct;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;

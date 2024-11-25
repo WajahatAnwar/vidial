@@ -2,10 +2,10 @@
 
 namespace App\Jobs;
 
-use App\Models\AllInOne\ProductImage;
-use App\Models\AllInOne\CollectionProduct;
-use App\Models\AllInOne\Product;
-use App\Models\AllInOne\ProductVariant;
+use App\Models\ProductImage;
+use App\Models\CollectionProduct;
+use App\Models\Product;
+use App\Models\ProductVariant;
 use App\Models\VirtualOptions\DropdownChargesProduct;
 use App\Models\VirtualOptions\InputFieldsProduct;
 use App\Models\VirtualOptions\LogoChargesProduct;

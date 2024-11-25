@@ -1,8 +1,8 @@
 <?php
 
-use App\Http\Controllers\AllInOne\AuthController;
-use App\Http\Controllers\AllInOne\DashboardController;
-use App\Models\AllInOne\User;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DashboardController;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -10,7 +10,7 @@ use Inertia\Inertia;
 Route::group(['middleware' => ['auth']], function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-    Route::inertia('/dashboard', 'AllInOne/Dashboard/Dashboard')->name('index');
+    Route::inertia('/dashboard', 'MyApplication/Dashboard/Dashboard')->name('index');
 });
 
 Route::group(['middleware' => ['guest']], function () {
@@ -45,7 +45,7 @@ Route::group(['middleware' => ['verify.embedded', 'verify.shopify']], function (
             }
         }
 
-        return Inertia::render('AllInOne/EmbeddedApp/EmbeddedApp');
+        return Inertia::render('MyApplication/EmbeddedApp/EmbeddedApp');
     })->name('home');
 
     Route::get('/get_shop_real', function () {

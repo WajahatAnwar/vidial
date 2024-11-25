@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Jobs\AllInOne;
+namespace App\Jobs;
 
-use App\Models\AllInOne\User;
+use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -31,7 +31,7 @@ class SyncProductsJob implements ShouldQueue
         $this->user = $user;
         $this->intacctSync = $intacctSync;
 
-        // if(!$this->intacctSync) 
+        // if(!$this->intacctSync)
         $this->onQueue('que_collections');
     }
 

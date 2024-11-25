@@ -3,7 +3,7 @@
 namespace App\Services\Punchout;
 
 
-use App\Models\AllInOne\User;
+use App\Models\User;
 use App\Models\Punchout\AccountFile;
 use App\Models\Punchout\ShopifyAppToken;
 use Carbon\Carbon;
@@ -48,7 +48,7 @@ class CustomQuoteProductCreationRoutine
     private function buildProductData()
     {
         $user = Auth::user();
-       
+
         $productData = [
             'title' => $this->quote->sku,
             'tags' => $this->quote->search_tag,

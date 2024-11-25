@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Models\AllInOne;
+namespace App\Models;
 
-use App\Models\AllInOne\OrderLineItem;
+use App\Models\OrderLineItem;
 use App\Models\VirtualOptions\OptionSet;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -11,7 +11,7 @@ class Product extends Model
 {
     use HasFactory;
 
-    protected $connection = 'all_in_one_conn';
+
 
     protected $fillable = [
         // 'user_id', 'product_id', 'product_handle', 'product_variant_id', 'product_title', 'description', 'product_tags', 'product_image', 'product_vendor', 'option_set_id', 'status', 'product_created_at', 'variants_json', 'product_tracked', 'total_inventory', 'published_at'

@@ -14,7 +14,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::connection('all_in_one_conn')->create('collection_products', function (Blueprint $table) {
+        Schema::create('collection_products', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->string('collection_id')->index();
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::connection('all_in_one_conn')->dropIfExists('collection_products');
+        Schema::dropIfExists('collection_products');
     }
 };

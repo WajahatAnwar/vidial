@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\AllInOne;
+namespace App\Models;
 
 use AjCastro\EagerLoadPivotRelations\EagerLoadPivotTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -10,7 +10,7 @@ class Application extends Model
 {
     use HasFactory, EagerLoadPivotTrait;
 
-    protected $connection = 'all_in_one_conn';
+
 
     public function users()
     {

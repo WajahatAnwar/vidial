@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Jobs\AllInOne;
+namespace App\Jobs;
 
-use App\Models\AllInOne\Order;
-use App\Models\AllInOne\OrderLineItem;
-use App\Models\AllInOne\Refund;
+use App\Models\Order;
+use App\Models\OrderLineItem;
+use App\Models\Refund;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;

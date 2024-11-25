@@ -1,5 +1,5 @@
-import AppLayout from '@/ReactJs/AllInOne/AppLayout';
-import '@/ReactJs/AllInOne/Assets/css/style.css';
+import AppLayout from '@/ReactJs/MyApplication/AppLayout';
+import '@/ReactJs/MyApplication/Assets/css/style.css';
 import { usePage } from '@inertiajs/react';
 import {
     Button,

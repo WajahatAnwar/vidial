@@ -15,7 +15,7 @@ class RoleSeeder extends Seeder
      */
     public function run()
     {
-        DB::connection('all_in_one_conn')->table('roles')->insert([
+        DB::table('roles')->insert([
             ['id' => 1,'title' => "Admin",'type' => "admin"],
             ['id' => 2,'title' => "Shop",'type' => "shop"],
         ]);

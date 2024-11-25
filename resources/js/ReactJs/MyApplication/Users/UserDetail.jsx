@@ -1,5 +1,5 @@
-import AppLayout from '@/ReactJs/AllInOne/AppLayout';
-import '@/ReactJs/AllInOne/Users/user.css';
+import AppLayout from '@/ReactJs/MyApplication/AppLayout';
+import '@/ReactJs/MyApplication/Users/user.css';
 import { router, usePage } from '@inertiajs/react';
 import { Box } from '@mui/material';
 import Tab from '@mui/material/Tab';

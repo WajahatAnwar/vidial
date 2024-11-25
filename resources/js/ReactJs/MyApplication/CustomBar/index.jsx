@@ -1,8 +1,8 @@
 import { router, usePage } from "@inertiajs/react";
 import { Button, Card, Tabs } from "@shopify/polaris";
 import React from "react";
-import "@/ReactJs/AllInOne/Assets/css/style.css";
-import Logo from '@/ReactJs/AllInOne/Assets/images/club_color_logo.png';
+import "@/ReactJs/MyApplication/Assets/css/style.css";
+import Logo from '@/ReactJs/MyApplication/Assets/images/club_color_logo.png';
 import { useEffect } from "react";
 import { useState } from "react";
 import { useCallback } from "react";

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\AllInOne;
+namespace App\Models;
 
 use App\Models\Filter\FilterSet;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -10,7 +10,7 @@ class Collection extends Model
 {
     use HasFactory;
 
-    protected $connection = 'all_in_one_conn';
+
 
     protected $fillable = [
         'user_id', 'collection_id', 'collection_title', 'collection_handle', 'collection_image', 'collection_created_at', 'published_at'

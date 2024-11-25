@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\AllInOne;
+namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
@@ -23,17 +23,6 @@ use Osiset\ShopifyApp\Traits\ShopModel;
 class User extends Authenticatable implements IShopModel
 {
     use HasApiTokens, HasFactory, Notifiable, ShopModel;
-
-    protected $connection = 'all_in_one_conn';
-
-    protected $table;
-
-    public function __construct(array $attributes = [])
-    {
-        parent::__construct($attributes);
-
-        $this->table = DB::connection('all_in_one_conn')->getDatabaseName() . '.users';
-    }
 
     /**
      * The attributes that are mass assignable.

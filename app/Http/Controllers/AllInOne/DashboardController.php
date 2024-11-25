@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\AllInOne;
+namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Jobs\AllInOne\SyncOrdersJob;
-use App\Jobs\AllInOne\SyncProductsJob;
-use App\Models\AllInOne\Application;
-use App\Models\AllInOne\ApplicationStatus;
-use App\Models\AllInOne\User;
+use App\Jobs\SyncOrdersJob;
+use App\Jobs\SyncProductsJob;
+use App\Models\Application;
+use App\Models\ApplicationStatus;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;

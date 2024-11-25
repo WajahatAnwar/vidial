@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Models\AllInOne;
+namespace App\Models;
 
-use App\Models\AllInOne\User;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -10,7 +10,7 @@ class Order extends Model
 {
     use HasFactory;
 
-    protected $connection = 'all_in_one_conn';
+
 
     protected $fillable = [
         'user_id',

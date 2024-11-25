@@ -2,14 +2,14 @@
 
 namespace App\Jobs;
 
-use App\Models\AllInOne\Collection;
-use App\Models\AllInOne\CollectionProduct;
+use App\Models\Collection;
+use App\Models\CollectionProduct;
 use App\Models\VirtualOptions\InputFieldsProduct;
 use App\Models\VirtualOptions\LogoChargesProduct;
-use App\Models\AllInOne\Product;
-use App\Models\AllInOne\ProductImage;
-use App\Models\AllInOne\ProductVariant;
-use App\Models\AllInOne\User;
+use App\Models\Product;
+use App\Models\ProductImage;
+use App\Models\ProductVariant;
+use App\Models\User;
 use App\Models\VirtualOptions\DropdownChargesProduct;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\AllInOne;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\Pivot;
@@ -9,7 +9,7 @@ class ApplicationStatus extends Pivot
 {
     use HasFactory;
 
-    protected $connection = 'all_in_one_conn';
+
 
     public $table = 'application_statuses';
 

@@ -1,5 +1,5 @@
 
-import '@/ReactJs/AllInOne/Assets/css/style.css';
+import '@/ReactJs/MyApplication/Assets/css/style.css';
 import { usePage } from '@inertiajs/react';
 import { AppProvider, Button, Grid, Icon, Page } from '@shopify/polaris';
 import { ArrowLeftIcon } from '@shopify/polaris-icons';

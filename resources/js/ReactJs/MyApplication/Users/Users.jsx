@@ -1,4 +1,4 @@
-import AppLayout from '@/ReactJs/AllInOne/AppLayout';
+import AppLayout from '@/ReactJs/MyApplication/AppLayout';
 import MessagesBanner from '@/ReactJs/Components/MessagesBanner';
 import ToggleSmall from '@/ReactJs/Components/ToggleSmall';
 import { router, usePage } from '@inertiajs/react';
