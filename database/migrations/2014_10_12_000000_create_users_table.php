@@ -23,16 +23,9 @@ return new class extends Migration
             $table->rememberToken();
             $table->unsignedBigInteger('role_id')->default(2);
             $table->string('store_name')->nullable();
-            //PO
-            $table->boolean('direct_approve')->default(false);
-            $table->boolean('show_discount_field')->default(false);
-            $table->json('icons_color')->nullable();
-            $table->longText('store_emails')->nullable();
-            $table->unsignedBigInteger('p_o_shipping_rule_id')->nullable();
             //AIO
             $table->string('order_sync')->nullable();
             $table->string('product_sync')->nullable();
-            $table->string('user_picture')->default(env('APP_URL') . '/images/ph_front.jpg');
             $table->timestamps();
         });
     }

@@ -1,21 +1,14 @@
 <?php
 
-use App\Jobs\InConnect\IntacctProductCreateJob;
 use App\Models\Collection;
 use App\Models\CollectionProduct;
-use App\Models\VirtualOptions\Color;
 use App\Models\Product;
 use App\Models\ProductVariant;
 use App\Models\ProductImage;
 use App\Models\User;
-use App\Models\Analytics\ALReportLog;
-use App\Models\InConnect\ShopifySize;
-use App\Models\InConnect\ProductType;
-use App\Models\VirtualOptions\UserColor;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use App\Models\InConnect\GooselyRule;
 use GuzzleHttp\Exception\ConnectException;
 
 if (!function_exists('simpleValidate')) {
@@ -249,45 +242,6 @@ if (!function_exists('syncProductsV2')) {
                         'published_at' => $product['node']['publishedAt']
                     ];
 
-                    if($intacctSync) {
-                        ProductType::updateOrCreate([
-                            'name' => $product['node']['productType'],
-                        ]);
-
-                        $color_position = "";
-                        $size_position = "";
-
-                        foreach ($product['node']['options'] as $key1 => $option) {
-                            if ($option['name'] == "color" || $option['name'] == "Color") {
-                                foreach ($option['values'] as $key2 => $color) {
-                                    $color_inside = Color::updateOrCreate([
-                                        'color' => $color,
-                                    ]);
-                                    UserColor::updateOrCreate([
-                                        'user_id' => $user->id,
-                                        'color_id' => $color_inside->id
-                                    ]);
-                                }
-                            }
-
-                            if ($option['name'] == "size" || $option['name'] == "Size") {
-                                foreach ($option['values'] as $key2 => $size) {
-                                    ShopifySize::updateOrCreate([
-                                        'name' => $size,
-                                    ]);
-                                }
-                            }
-
-                            if ($option['name'] == "Color" || $option['name'] == "color") {
-                                $color_position = $option['position'];
-                            }
-
-                            if ($option['name'] == "Size" || $option['name'] == "size") {
-                                $size_position = $option['position'];
-                            }
-                        }
-                    }
-
                     // $current_product->images()->delete();
                     $fetchedImages = [];
                     foreach ($product['node']['images']['edges'] as $key1 => $image) {
@@ -332,39 +286,6 @@ if (!function_exists('syncProductsV2')) {
                                 'sku' => $variant['node']['sku'],
                                 'compare_at_price'=> $variant['node']['compareAtPrice']
                             ];
-
-                            if($intacctSync) {
-                                // THIS DATABASE INTERACTION IN FOREACH SLOWING PROCESS OF SAVING A LITTLE BIT
-                                $need_to_create_on_intacct = ProductVariant::where('variant_id', $variant['node']['legacyResourceId'])->first();
-
-                                if(!$need_to_create_on_intacct || ($variant['node']['sku'] && $need_to_create_on_intacct && !$need_to_create_on_intacct->intacct_item_id)) {
-                                    $intacctPayload = [
-                                        'vendor_name' => $product['node']['vendor'],
-                                        'title' => $product['node']['title'],
-                                        'item_id' => $variant['node']['sku'],
-                                        'price' => $variant['node']['price'],
-                                        'shipping_weight' => 0.00,
-                                        'brand' => '',
-                                        'subbrand' => '',
-                                        'category' => '',
-                                        'subcategory' => '',
-                                        'size1' => $size_position == 1 ? @$variant['node']['selectedOptions'][0]['value'] : @$variant['node']['selectedOptions'][1]['value'],
-                                        'style' => '',
-                                        'color' => $color_position == 1 ? substr(@$variant['node']['selectedOptions'][0]['value'], 0, 30) : substr(@$variant['node']['selectedOptions'][1]['value'], 0, 30),
-                                    ];
-
-                                    $gooselyRule = GooselyRule::with('product_type')->where(function ($q) use ($product) {
-                                        $q->whereHas('product_type', function ($q) use ($product) {
-                                            $q->where('name', $product['node']['productType']);
-                                        });
-                                    })->first();
-
-                                    if ($user->inconnect_account && !(isset($gooselyRule['intacctOrder']) && $gooselyRule['intacctOrder'])) {
-                                        // logger("ITEM TO CREATE: " . $variant['node']['sku'] . " " . $variant['node']['legacyResourceId']);
-                                        IntacctProductCreateJob::dispatch($intacctPayload, $variant['node']['legacyResourceId']);
-                                    }
-                                }
-                            }
                         }
 
                         ProductVariant::upsert($variantsData, ['variant_id'], [
@@ -396,18 +317,6 @@ if (!function_exists('syncProductsV2')) {
                     do {
                         $collectionsData = [];
                         foreach ($collections['edges'] as $collection) {
-
-                            // $converted = $collection['node']['resourcePublicationsV2']->toArray();
-                            // $publications = removeNodesAndEdges($converted);
-                            // $publicationsRefined = collect($publications)->map(function ($item) {
-                            //     return [
-                            //         'name' => $item['publication']['name'],
-                            //         'publishDate' => $item['publishDate']
-                            //     ];
-                            // });
-                            // $status = $publicationsRefined->where("name","Online Store")->first();
-                            // logger(json_encode($publicationsRefined));
-                            // logger("COLLECTION STATUS: " . json_encode($status));
 
                             $collectionsData[] = [
                                 'collection_id' => $collection['node']['legacyResourceId'],
@@ -623,14 +532,6 @@ if (!function_exists('sync_orders')) {
             DB::commit();
             return true;
         }
-    }
-}
-
-if (!function_exists('reportLog')) {
-    function reportLog($type)
-    {
-        ALReportLog::updateOrCreate(['report_type' => $type], ['report_type' => $type, 'last_viewed' => Carbon::now()]);
-        return;
     }
 }
 
