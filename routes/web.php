@@ -1,12 +1,20 @@
 <?php
 
-use App\Http\Controllers\AuthController;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\SettingsController;
+use App\Http\Controllers\VideoController;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 use App\Jobs\SyncProductsJob;
 use App\Models\User;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+
+use Osiset\ShopifyApp\Util;
+use Osiset\ShopifyApp\Contracts\Queries\Shop;
+use Osiset\ShopifyApp\Objects\Values\ShopDomain;
+use Osiset\ShopifyApp\Messaging\Jobs\WebhookInstaller;
 
 //PUBLIC
 Route::group(['middleware' => ['guest']], function () {
@@ -30,16 +38,41 @@ Route::get('/sync-collections', function () {
     return responseJson(true, 'Collections Synced Queued In Database');
 });
 
+Route::get('/jobs',function(Shop $query){
+    $users = User::whereNotNull('password')->where('role_id',2)->get();
+    // $users = User::where('id',151)->get();
+    foreach($users as $user) {
+        $shopName = ShopDomain::fromNative($user->name);
+        $shop = $query->getByDomain($shopName);
+        $shopId = $shop->getId();
+        WebhookInstaller::dispatch($shopId, Util::getShopifyConfig('webhooks'));
+    }
+});
+
 //PUBLIC END ############################################################################################
 
 //NON EMBEDDED
 Route::group(['middleware' => ['auth']], function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+    // Route::inertia('/dashboard', 'MyApplication/Dashboard/Dashboard')->name('index');
+    // Route::get('/all_in_one/get_dashboard', [DashboardController::class, 'get_dashboard'])->name('all_in_one_dash');
+    // Route::post('/all_in_one/change_status', [DashboardController::class, 'change_status']);
+    // Route::post('/all_in_one/sync_store_products', [DashboardController::class, 'sync_store_products']);
+    // Route::post('/all_in_one/sync_store_orders', [DashboardController::class, 'sync_store_orders']);
+
     Route::inertia('/dashboard', 'MyApplication/Dashboard/Dashboard')->name('index');
-    Route::get('/all_in_one/get_dashboard', [DashboardController::class, 'get_dashboard'])->name('all_in_one_dash');
-    Route::post('/all_in_one/change_status', [DashboardController::class, 'change_status']);
-    Route::post('/all_in_one/sync_store_products', [DashboardController::class, 'sync_store_products']);
-    Route::post('/all_in_one/sync_store_orders', [DashboardController::class, 'sync_store_orders']);
+
+    Route::get('getDataofallPlans', [AdminController::class, 'fetchingdataofusers']);
+    Route::post('update_status_for_water_mark', [AdminController::class, 'update_status_for_water_mark']);
+    Route::get('customer_settings', [SettingsController::class, 'getSettings']);
+    Route::post('save_customer_settings', [SettingsController::class, 'saveSettings']);
+    Route::get('customer_email_settings', [SettingsController::class, 'getSettings']);
+    Route::post('save-user-email-tab', [SettingsController::class, 'saveEmailTab']);
+    Route::get('fetch-user-email-settings', [SettingsController::class, 'fetchEmailSettings']);
+    Route::post('save-user-email-settings', [SettingsController::class, 'saveEmailSettings']);
+    Route::get('u-logs', [SettingsController::class, 'logs'])->name('logs');
+    Route::get('getUserApprovedVideos', [VideoController::class, 'getApprovedVideos']);
+    Route::get('getUserPendingVideos', [VideoController::class, 'getPendingVideos']);
 });
 
 //NON EMBEDDED END ######################################################################################
