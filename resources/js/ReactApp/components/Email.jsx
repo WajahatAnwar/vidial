@@ -527,7 +527,7 @@ const Email = ({query}) => {
         async function fetchSettings() {
 
             try {
-                const response = await fetch("/get_settings");
+                const response = await fetch("/get_settings"+query);
                 if (!response.ok) {
                     throw new Error("Something went wrong");
                 }
@@ -768,7 +768,7 @@ const Email = ({query}) => {
 
         // setError(false);
         // Generating request for sending Data to the server
-        fetch("/save-email-tab", {
+        fetch("/save-email-tab"+query, {
             method: "post",
             body: formData,
         }).then((response) => response.json())
@@ -792,7 +792,7 @@ const Email = ({query}) => {
     };
 
     function handletestemail() {
-        fetch("/send_test_email", {
+        fetch("/send_test_email"+query, {
             method: "GET",
         })
             .then((response) => {
@@ -979,7 +979,7 @@ const Email = ({query}) => {
         const formData = new FormData();
         if (!isHandleAvailable) {
             formData.append('store_handle', storeHandle);
-            fetch('store_handle', {
+            fetch('store_handle'+query, {
                 method: "POST",
                 body: formData
             }).then((response) => response.json()).then((data) => {
@@ -1386,7 +1386,7 @@ const Email = ({query}) => {
 
                                             }}
                                             onClick={() => {
-                                                navigate("/post-purchase-email")
+                                                navigate("/post-purchase-email"+query)
 
                                             }}
                                         >
@@ -1424,7 +1424,7 @@ const Email = ({query}) => {
 
                                             }}
                                             onClick={() => {
-                                                navigate("/reminder-email")
+                                                navigate("/reminder-email"+query)
 
                                             }}
                                         >
@@ -1462,7 +1462,7 @@ const Email = ({query}) => {
 
                                             }}
                                             onClick={() => {
-                                                navigate("/ugc-approved-email")
+                                                navigate("/ugc-approved-email"+query)
 
                                             }}
                                         >
@@ -1500,7 +1500,7 @@ const Email = ({query}) => {
 
                                             }}
                                             onClick={() => {
-                                                navigate("/ugc-star-approved")
+                                                navigate("/ugc-star-approved"+query)
 
                                             }}
                                         >
@@ -1538,7 +1538,7 @@ const Email = ({query}) => {
 
                                             }}
                                             onClick={() => {
-                                                navigate("/ugc-declined-email");
+                                                navigate("/ugc-declined-email"+query);
 
                                             }}
                                         >

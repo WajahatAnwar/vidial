@@ -58,7 +58,7 @@
                 });
                 const videostoreviewblock = actions.AppLink.create(app, {
                 label: 'Videos to Review',
-                destination: `/videos-to-review${location.search}`,
+                destination: `/videos-to-review`,
                 });
                 const approvedvideosblock = actions.AppLink.create(app, {
                 label: 'Approved Videos',

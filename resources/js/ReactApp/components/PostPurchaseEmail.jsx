@@ -234,10 +234,20 @@ const PostPurchaseEmail = () => {
         setContent(content);
     };
 
+    const createUrl = (url, paramsObj) => {
+        const params = new URLSearchParams(window.location.search);
+        for (const [key, value] of Object.entries(paramsObj)) {
+            params.set(key, value);
+        }
+        return `${url}?${params.toString()}`;
+    };
 
 
     useEffect(() => {
-        let url = '/fetch-email-settings?type=Post_Purchase';
+        let extraParams = {
+            type: 'Post_Purchase',
+        };
+        let url = createUrl('/fetch-email-settings', extraParams);
         if (id){
             url = "/fetch-user-email-settings?type=Post_Purchase&id=" + id;
         }

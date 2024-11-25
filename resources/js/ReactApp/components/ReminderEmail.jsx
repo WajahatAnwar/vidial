@@ -61,7 +61,7 @@ const storeName = shopParam.split('.')[0];
 localStorage.setItem('store',storeName);
 */
 
-const ReminderEmail = () => {
+const ReminderEmail = ({query}) => {
     const {id} = useParams();
     const [activeTootlTip, setActiveTootlTip] = useState(false);
     const [activeToggle, setActiveToggle] = useState(false);
@@ -186,7 +186,7 @@ const ReminderEmail = () => {
         setContent(content);
     };
     const handleSaveEmailSettings = () => {
-        let saveUrl = '/save-email-settings';
+        let saveUrl = '/save-email-settings'+query;
         if (id) {
             saveUrl = "/save-user-email-settings?id=" + id;
         }
@@ -232,8 +232,20 @@ const ReminderEmail = () => {
 
     };
 
+    const createUrl = (url, paramsObj) => {
+        const params = new URLSearchParams(window.location.search);
+        for (const [key, value] of Object.entries(paramsObj)) {
+            params.set(key, value);
+        }
+        return `${url}?${params.toString()}`;
+    };
+
     useEffect(() => {
-        let url = '/fetch-email-settings?type=Reminder';
+        let extraParams = {
+            type: 'Reminder'
+        };
+        
+        let url = createUrl('/fetch-email-settings', extraParams);
         if (id) {
             url = "/fetch-user-email-settings?type=Reminder&id=" + id;
         }

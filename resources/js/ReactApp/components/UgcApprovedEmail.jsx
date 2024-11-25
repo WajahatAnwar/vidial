@@ -60,7 +60,7 @@ const storeName = shopParam.split('.')[0];
 localStorage.setItem('store',storeName);
 */
 
-const UgcApprovedEmail = () => {
+const UgcApprovedEmail = ({query}) => {
     const {id}  = useParams();
     const [activeTootlTip, setActiveTootlTip] = useState(false);
     const [alreadyUploadLogo, setAlreadyUploadedLogo] = useState('');
@@ -201,7 +201,7 @@ const UgcApprovedEmail = () => {
             logo_file = alreadyUploadLogo == '' ? 'empty_logo' : 'already_uploaded_logo';
         }
         formData.append('logo', logo_file)
-        let saveUrl = '/save-email-settings';
+        let saveUrl = '/save-email-settings'+query;
         if (id) {
             saveUrl = "/save-user-email-settings?id=" + id;
         }
@@ -227,8 +227,18 @@ const UgcApprovedEmail = () => {
 
 
     };
+    const createUrl = (url, paramsObj) => {
+        const params = new URLSearchParams(window.location.search);
+        for (const [key, value] of Object.entries(paramsObj)) {
+            params.set(key, value);
+        }
+        return `${url}?${params.toString()}`;
+    };
     useEffect(() => {
-        let url = '/fetch-email-settings?type=UGC_Approved';
+        let extraParams = {
+            type: 'UGC_Approved'
+        };   
+        let url = createUrl('/fetch-email-settings', extraParams);
         if (id) {
             url = "/fetch-user-email-settings?type=UGC_Approved&id=" + id;
         }

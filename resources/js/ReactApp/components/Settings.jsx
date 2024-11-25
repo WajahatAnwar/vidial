@@ -294,7 +294,7 @@ const Settings = ({query}) => {
     const [store, setStore] = useState("");
     // const [baseUrl, setBaseUrl] = useState("https://phpstack-953879-3439374.cloudwaysapps.com");
     //const [baseUrl, setBaseUrl] = useState("https://phpstack-953879-3439374.cloudwaysapps.com");
-    const [baseUrl, setBaseUrl] = useState("https://f7ad-110-39-0-50.ngrok-free.app");
+    const [baseUrl, setBaseUrl] = useState("https://72f0-2404-3100-1899-4634-49e4-7efd-6282-6cff.ngrok-free.app");
     const [imagename, setImagename] = useState("");
     const [videoname, setVideoname] = useState("");
     const [previewLogo, setPreviwLogo] = useState("");

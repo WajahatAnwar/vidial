@@ -28,7 +28,7 @@ import staricon from "./imges/Staricon.svg";
 import Ticker from "./Ticker";
 import checkmark from "./imges/checkmark.svg";
 
-function WaitingVideos() {
+function WaitingVideos({query}) {
     const { pathname,search } = useLocation();
     const [videoFeedback, setVideoFeedback] = useState(
         " Congratulations, you just approved the video."
@@ -115,7 +115,7 @@ function WaitingVideos() {
         var formData = new FormData();
         formData.append("video_id", id);
         if (confirmed) {
-            fetch("/videoOperation", {
+            fetch("/videoOperation"+query, {
                 method: "post",
                 body: formData,
             })
@@ -164,7 +164,7 @@ function WaitingVideos() {
             var formData = new FormData();
             formData.append("reason", rejectionReason);
             formData.append("video_id", rejectVideoId);
-            fetch("/rejectVideo", {
+            fetch("/rejectVideo"+query, {
                 method: "post",
                 body: formData,
             })
@@ -227,7 +227,7 @@ function WaitingVideos() {
 
             }
             setVideoFeedbackPopupTitle("Please Confirm");
-            fetch("/videoOperation", {
+            fetch("/videoOperation"+query, {
                 method: "post",
                 body: formData,
             })
@@ -266,14 +266,7 @@ function WaitingVideos() {
         }
     };
     useEffect(() => {
-        const params = new URLSearchParams(search);
-
-        // Add or update the 'page' parameter
-        params.set('page', '10');
-
-        // Construct the new URL
-        const updatedSearch = params.toString();
-        const apiUrl = `/getPendingVideos?${updatedSearch}`;
+        const apiUrl = `/getPendingVideos${query}`;
         console.log(apiUrl);
         fetch(apiUrl)
             .then((response) => {

@@ -36,6 +36,8 @@ import GetStarted from "./GetStarted";
 const VidialApp = () => {
 
     let location = useLocation();
+    console.log("location");
+    console.log(location);
     let query = localStorage.getItem('queryParams');
 
     const [topBarCheck, setTopBarCheck] = useState(false);
@@ -82,6 +84,7 @@ const VidialApp = () => {
 
                 if (location.pathname == '/forget-password' || location.pathname == '/reset-password' || location.pathname == '/login') {
                     if (location.pathname != "/") {
+                        console.log('here i');
                         navigate("/");
                     }
                 }
