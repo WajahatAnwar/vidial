@@ -1,0 +1,52 @@
+.user_parent_class .MuiTabs-flexContainer {
+    flex-direction: column !important;
+}
+
+.css-1aquho2-MuiTabs-indicator {
+    display: none !important;
+}
+
+.css-1gsv261 {
+    border: none !important;
+}
+
+.userCards :where(.Polaris-Box) {
+    padding: 0 !important;
+}
+
+
+.dashboard-eye-icon {
+    cursor: pointer !important;
+}
+
+.Basic-Info-field {
+    padding-right: 40px;
+    width: 100%;
+    border: 1px solid #898f94;
+    border-radius: 5px;
+}
+
+
+.basic-icons {
+    position: absolute;
+    z-index: 1;
+
+    top: 12px;
+    right: 10px;
+}
+
+.VerticalTabCust :where(.MuiTab-root) {
+    display: flex !important;
+    align-items: flex-start !important;
+    -webkit-align-items: flex-start !important;
+    text-transform: capitalize !important;
+}
+
+.VerticalTabCust :where(.Mui-selected) {
+    color: #676767 !important;
+    background-color: #f4f4f4 !important;
+}
+
+.input-cust :where([type='text']:focus, [type='email']:focus, [type='url']:focus, [type='password']:focus, [type='number']:focus, [type='date']:focus, [type='datetime-local']:focus, [type='month']:focus, [type='search']:focus, [type='tel']:focus, [type='time']:focus, [type='week']:focus, [multiple]:focus, textarea:focus, select:focus) {
+    border: 1px solid #000 !important;
+}

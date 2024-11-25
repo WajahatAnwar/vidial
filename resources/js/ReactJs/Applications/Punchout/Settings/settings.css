@@ -1,0 +1,9 @@
+.cstm-aesterik label::after{
+content:"*";
+color: red;
+font-size: 14px;
+}
+.tools-upload-file :where(.Polaris-Button--variantSecondary)
+{
+    --pc-button-box-shadow: none !important;
+}

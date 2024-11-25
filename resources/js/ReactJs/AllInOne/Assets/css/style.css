@@ -1,0 +1,285 @@
+/* @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100&display=swap');
+
+* {
+    font-family: 'Poppins', sans-serif;
+} */
+
+.Dashboard-Index {
+    margin: auto;
+    color: #ccc;
+    position: relative;
+    z-index: 1;
+    background: none;
+}
+
+.bg-gradient {
+    height: 415px;
+    width: 100%;
+    position: absolute;
+    z-index: 0;
+    background: url(https://lh3.googleusercontent.com/fife/APg5EOblNl4M1XLJy-6ptv85QeOW2Jbis9jC7phngi7cnbSh4NF6a1K7x9dPXGBgP11nYnojEMSsj72fEOPQ_Q7D_3mWt__mP-nmk1PESjpKO3roGKByfd2eWDGYLc_RARvbMPpwfPyMlXEpzgfAoxOuo4chVfrVF3DwPFdEuv4jmxzmuLFuong9uUSnfkkCknn7fCh3pfiOAG7oSm6my9u8cmmglWESEtFKd0AmIaAQpongxU4dCUx2w0iWbmGhFaa9qgLk5CI6thXLhU0Cg4DjOHkLCqjc6gtxGOtOhxLp_D2y7ndxRvS_WhuF49tfgvHq6IIQEiN0M-BgvEHVpOCJ1ChlbbosFkFTQKMNfcDB33eShFHeDfD0TYm5FsT1MJWgMNUNGFUS4PZmabIOp-zgJuLzL--z3DrHYKSiwEdfCW_myCmL_0J9AoeKtGCLYEJDfhutkEzN-e5DrhzHiWf49w3NTqpq2xfjA4RGLeexwbjI4BouYrTiTUZL2YNLno5EEeMVyFsRBaQUexRMnxMYSyS1u_h-_HGozxYUusDTJw10WTY9JRFLj1AP60uKpCX60Nc3JrplAS8kKs4EVVZBE9-d2eyGPyl9YNR0vGb9jcNnDUFFb8o579kd07zP8g0VhwOMg4qOL4rRgol1zw1kgMJX3iLkmhvh5lz6Jh3NuvUfxfaPWzZPfeWEudqhccLv-lYzfN82nTiSa4Vx9KUKscwJIryK3E8xxjJD5WqaKNOkNWiswDE2BiiToLi25BQrxSFDZCyAWp15_Xf0wnLgXkcY5WG__tmgTHX1DQBwj9R80C6-sJ901UQyTMaHR1MW1EyZzH6C7qGBikOshrBOY1caImPClJj1L7ab5DTJRYrt3CR4xozJtfdLYB5-OwyhNTsXBZxhWQwfnUkRyHI7RiecHfa2a2NEu62fyYtzVIbPyjuOBjNnAbb9UXnaQsau0y7YJPuaKY46=w1920-h969);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.Hedingcolorh1 h1 {
+    color: #ffffff;
+    margin-bottom: 40px;
+}
+
+.cardTitle {
+    display: table;
+    float: none;
+    text-align: center;
+    position: relative;
+    width: 100%;
+}
+
+.card-text-dashboard {
+    margin-top: 10px;
+}
+
+.cardTitle span.cardShortName {
+    width: 50%;
+    float: left;
+}
+
+.btnExploreApp .Polaris-ButtonGroup {
+    float: right;
+}
+
+.cardTitle span.cardShortName p {
+    width: 40px;
+    height: 40px;
+    background: #FFC96B;
+    border-radius: 50%;
+    padding: 11px 7px 7px 5px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #000000;
+}
+
+.card-text-dashboard h3 {
+    color: #202223;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.cardTitle span.btnExploreApp {
+    width: 50%;
+    float: none;
+    text-align: center;
+    display: inline-block;
+}
+
+.button_main {
+    background: #008060;
+    border-radius: 3px;
+}
+
+.buttonText {
+    font-size: 12px;
+    color: white;
+}
+
+.button-icon {
+    width: 20%;
+    margin-top: 4.5px;
+    margin-left: 5px;
+    margin-right: -6px;
+}
+
+.button-icon svg {
+    color: #ffffff;
+    fill: #ffffff !important;
+}
+
+.btnExploreApp button.Polaris-Button {
+    background: #008060;
+    color: #ffffff;
+}
+
+
+.slider.round {
+    border-radius: 34px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+.indexTable-onoff {
+    margin-top: 20px;
+}
+
+#customToggle label {
+    position: relative;
+    display: inline-block;
+    width: 45px;
+    height: 21px;
+}
+
+#customToggle span:before {
+    position: absolute;
+    content: "";
+    height: 15px;
+    width: 15px;
+    left: 2px;
+    bottom: 2.6px;
+    background-color: #EBEBEB;
+    border-radius: 50%;
+    transition: 0.3s;
+}
+
+.dashboard-body-list {
+    padding: 2px 15px;
+    width: 80%;
+    margin: auto;
+}
+
+@media screen and (max-width: 1440px) {
+    .dashboard-body-list {
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 1280px) {
+    .dashboard-body-list {
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .dashboard-body-list {
+        padding: 2px 15px;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.navTabs .Polaris-Tabs {
+    justify-content: center !important;
+}
+
+.navTabs .Polaris-Tabs__Tab {
+    background: transparent !important;
+    color: white !important;
+    width: 100px;
+}
+
+.navTabs .Polaris-Tabs__Tab--active:not([aria-disabled="true"]):hover,
+.navTabs .Polaris-Tabs__Tab--active:not([aria-disabled="true"]):focus {
+    background: transparent !important;
+    color: white !important;
+}
+
+
+.navTabs .Polaris-Tabs__Tab:not([aria-disabled="true"]):hover,
+.navTabs .Polaris-Tabs__Tab:not([aria-disabled="true"]):focus {
+    background: transparent !important;
+    color: white !important;
+}
+
+.navTabs .Polaris-Tabs__Tab--active {
+    background: transparent !important;
+    color: white !important;
+    border-bottom: 3px solid;
+    border-bottom-right-radius: 2px;
+    border-bottom-left-radius: 2px;
+}
+
+.navTabs .Polaris-Text--root {
+    font-size: 16px;
+}
+
+[type='text']:focus,
+[type='email']:focus,
+[type='url']:focus,
+[type='password']:focus,
+[type='number']:focus,
+[type='date']:focus,
+[type='datetime-local']:focus,
+[type='month']:focus,
+[type='search']:focus,
+[type='tel']:focus,
+[type='time']:focus,
+[type='week']:focus,
+[multiple]:focus,
+textarea:focus,
+select:focus {
+    box-shadow: none !important;
+    border: none;
+}
+
+.custom_style button.Polaris-Link {
+    text-decoration: none !important;
+    color: rgb(65, 65, 65);
+}
+
+.fontBigger {
+    font-size: 18px !important;
+}
+
+.style_yes {
+    width: 30%;
+}
+
+.custom_link:hover {
+    text-decoration: underline;
+}
+
+.custom_link {
+    color: #2f72db;
+}
+
+.Polaris-Frame__Content {
+    height: 0px;
+}
+
+.fontBigger {
+    font-size: 18px !important;
+}
+
+
+.logout_btn {
+    float: right;
+    margin-right: 14px;
+    color: #FB6340;
+    font-size: 16px;
+    font-weight: 600;
+    background: #F6F6F7;
+    padding: 9px 16px 12px 16px;
+    border-radius: 5px;
+}
+
+.my_custom_svg_color .Polaris-Icon svg {
+    fill: #ffffff;
+}
+
+.highcharts-credits {
+    display: none;
+}
+
+.custom_column_styles {
+    text-align: center !important;
+}
+
+input {
+    outline: none !important;
+    outline-offset: none !important;
+    box-shadow: none !important;
+}

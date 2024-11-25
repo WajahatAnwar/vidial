@@ -1,0 +1,724 @@
+.badge-cstm-green span.Polaris-Badge {
+    background: #cdfee1 !important;
+    color: #246748;
+    font-weight: 600;
+}
+
+.hashtags {
+    background: #f2f2f2;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+.hashtags button {
+    background: #e3e3e3;
+    margin: 5px;
+    border-radius: 5px;
+    padding: 2px 5px;
+}
+
+.errortooltip {
+    background: red !important;
+}
+
+.tooltip {
+    position: absolute;
+    bottom: 20px;
+    left: -60px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 10px;
+    z-index: 999;
+    width: 200px;
+    border-radius: 15px;
+}
+
+
+.steps-button {
+    background-color: #ece8e8;
+    padding: 7px;
+    border-radius: 3px;
+    margin-top: 10px;
+    position: relative;
+    left: 50%;
+}
+
+.decorator-heading {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+
+
+}
+
+.tooltiplisting {
+    padding: 0px;
+    margin: 10px 0 0 0;
+}
+
+.tooltiplisting li {
+    width: 100%;
+    display: inline-block;
+    padding: 5px 0px;
+}
+
+.tooltiplisting img {
+    float: left;
+    margin-right: 5px;
+    width: 20px;
+}
+
+.print-circle-steps.errortooltip::before {
+    content: 'X';
+    display: inline-block;
+    color: #ffffff;
+    font-size: 16px;
+    /* Adjust the font size as needed */
+    visibility: visible;
+    /* Make sure it is visible */
+    margin-left: 5px;
+}
+
+.print-circle-steps::before {
+    content: '✔';
+    display: inline-block;
+    color: #ffffff;
+    font-size: 16px;
+    /* Adjust the font size as needed */
+    visibility: visible;
+    /* Make sure it is visible */
+    margin-left: 3px;
+}
+
+
+
+.navTabs .Polaris-Tabs {
+    justify-content: center !important;
+}
+
+.navTabs .Polaris-Tabs__Tab {
+    background: transparent !important;
+    color: white !important;
+    /* width: 100px; */
+}
+
+.navTabs .Polaris-Tabs__Tab--active:not([aria-disabled="true"]):hover,
+.navTabs .Polaris-Tabs__Tab--active:not([aria-disabled="true"]):focus {
+    background: transparent !important;
+    color: white !important;
+}
+
+.navTabs .Polaris-Tabs__Tab:not([aria-disabled="true"]):hover,
+.navTabs .Polaris-Tabs__Tab:not([aria-disabled="true"]):focus {
+    background: transparent !important;
+    color: white !important;
+}
+
+.navTabs .Polaris-Tabs__Tab--active {
+    background: transparent !important;
+    color: white !important;
+    border-bottom: 3px solid;
+    border-bottom-right-radius: 2px;
+    border-bottom-left-radius: 2px;
+}
+
+.navTabs .Polaris-Text--root {
+    font-size: 16px;
+}
+
+[type='text']:focus,
+[type='email']:focus,
+[type='url']:focus,
+[type='password']:focus,
+[type='number']:focus,
+[type='date']:focus,
+[type='datetime-local']:focus,
+[type='month']:focus,
+[type='search']:focus,
+[type='tel']:focus,
+[type='time']:focus,
+[type='week']:focus,
+[multiple]:focus,
+textarea:focus,
+select:focus {
+    box-shadow: none !important;
+    border: none;
+}
+
+.custom_style button.Polaris-Link {
+    text-decoration: none !important;
+    color: rgb(65, 65, 65);
+}
+
+.fontBigger {
+    font-size: 18px !important;
+}
+
+.style_yes {
+    width: 30%;
+}
+
+.custom_link:hover {
+    text-decoration: underline;
+}
+
+.custom_link {
+    color: #2f72db;
+}
+
+.Polaris-Frame__Content {
+    height: 0px;
+}
+
+.fontBigger {
+    font-size: 18px !important;
+}
+
+.logout_btn {
+    float: right;
+    margin-right: 14px;
+    color: #FB6340;
+    font-size: 16px;
+    font-weight: 600;
+    background: #F6F6F7;
+    padding: 9px 16px 12px 16px;
+    border-radius: 5px;
+}
+
+.my_custom_svg_color .Polaris-Icon svg {
+    fill: #ffffff;
+}
+
+.highcharts-credits {
+    display: none;
+}
+
+.more_styles {
+    white-space: normal;
+    max-width: 180px;
+}
+
+.custom_width {
+    width: 105px
+}
+
+/* datePicker css start */
+/* .datePickerPopover .selectDate span.Polaris-Button__Icon {
+    display: none;
+}
+.datePickerPopover .datepickerDropdownFields {
+    display: grid;
+    grid-template-columns: 1fr .2fr 1fr;
+    grid-template-rows: 1fr;
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+    margin-bottom: 10px;
+}
+.datePickerPopover .iconDateDropdown {
+    margin-top: 9px;
+}
+.datePickerPopover .Polaris-Popover__Content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    border-radius: var(--p-border-radius-1);
+    max-width: none;
+    max-height: none;
+    width: 550px !important;
+}
+.datePickerPopover .fontBigger {
+    font-size: 18px !important;
+}
+.ql-snow {
+    position: relative !important;
+}
+.datepickerDropdownFields {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+.Polaris-Popover__Content {
+    height: 440px !important;
+    max-width: 600px !important;
+}
+.Polaris-Popover__Pane.Polaris-Scrollable.Polaris-Scrollable--vertical.Polaris-Scrollable--horizontal.Polaris-Scrollable--hasBottomShadow {
+    overflow: hidden !important;
+}
+input {
+    outline: none !important;
+    outline-offset: none !important;
+    box-shadow: none !important;
+} */
+/* datePicker css end */
+
+/* Custom code by Umair Start */
+/* .decorator-wrapper{
+    margin-top: 107px !important;
+  } */
+.generalsetting-wrapper {
+    margin-top: 56px !important;
+}
+
+.personalization-textfield {
+    align-items: center;
+}
+
+.personalization-textfield h6 {
+    margin-top: 10px;
+}
+
+.orders-cc-in-printsave span.Polaris-Button__Text span.Polaris-Icon {
+    padding-right: 3px;
+    padding-top: 2px;
+}
+
+.cc-inconnect-body-wraper .Polaris-Page {
+    padding: 0px;
+}
+
+.cc-inconnect-body-wraper .Polaris-Page .Polaris-Page__Content {
+    padding: 0px;
+}
+
+.addnewvendors button.Polaris-Button {
+    background: #40fbf0;
+    border: 1px solid #40fbf0;
+    box-shadow: 0px 0px;
+}
+
+.addnewvendors button.Polaris-Button:hover {
+    background: #40fbeee7;
+}
+
+.addnewdecorator button.Polaris-Button {
+    background: #40fbf0;
+    border: 1px solid #40fbf0;
+    box-shadow: 0px 0px;
+}
+
+.addnewdecorator button.Polaris-Button:hover {
+    background: #40fbeee7;
+}
+
+.cc-in-vendors-wrapper .css-13cymwt-control {
+    border-color: #8a8a8a !important;
+}
+
+.cc-inconnect-body-wraper {
+    margin-top: 20px;
+    display: block;
+}
+
+.c-i-menu-heading {
+    color: #a1a1a1;
+    font-size: 14px;
+}
+
+.leftmenu-ic-shopifyaccounts {
+    padding: 0px;
+    position: relative;
+    display: block;
+    width: 100%;
+    clear: both;
+}
+
+.leftmenu-ic-shopifyaccounts li {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.leftmenu-ic-shopifyaccounts a {
+    font-size: 14px;
+    min-width: 180px;
+    display: block;
+    cursor: pointer;
+}
+
+.cc-in-active {
+    background: #EBEBEB;
+    border-radius: 5px;
+    padding: 3px;
+}
+
+.vendors-cc-in-formbtns {
+    margin-top: 25px;
+}
+
+.vendors-cc-in-formbtns .Polaris-ButtonGroup {
+    justify-content: end;
+}
+
+.orders-cc-in-search1 {
+    width: 450px;
+    margin-right: 15px;
+}
+
+.orders-cc-in-printsave span.Polaris-Button__Text {
+    display: flex;
+    align-items: center;
+    padding-right: 3px;
+}
+
+.order-table-code-cc-inco {
+    display: flex;
+}
+
+.order-table-code-cc-inco a {
+    color: #0342E3;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.order-table-code-cc-inco img {
+    margin-right: 3px;
+}
+
+.orders-tick-cc-inco span.Polaris-Icon {
+    background: green;
+    border-radius: 50px;
+    color: #ffffff;
+    fill: #ffffff;
+}
+
+.orders-tick-cc-inco-print {
+    display: flex;
+    justify-content: center;
+    float: left;
+}
+
+.orders-tick-cc-inco-print span.Polaris-Icon {
+    background: green;
+    border-radius: 50px;
+    color: #ffffff;
+    fill: #ffffff;
+    padding-right: 0px !important;
+    margin-right: 10px;
+}
+
+.orders-tick-cc-inco-print-notmapped {
+    display: flex;
+    justify-content: center;
+    float: left;
+}
+
+.orders-tick-cc-inco-print-notmapped span.Polaris-Icon {
+    background: #CC0E0E;
+    border-radius: 50px;
+    color: #ffffff;
+    fill: #ffffff;
+    padding-right: 0px !important;
+    margin-right: 10px;
+}
+
+.Polaris-DataTable__Cell--numeric {
+    text-align: left !important;
+}
+
+.orders-cc-inco-tags {
+    width: 200px;
+    display: block;
+}
+
+.orders-cc-inco-tags button {
+    float: left;
+    margin: 1px !important;
+    display: inline-block;
+}
+
+.css-1nmdiq5-menu {
+    z-index: 99999% !important;
+    position: relative !important;
+}
+
+.orders-print-table-steps {
+    /* width: 80%; */
+    margin: auto 100px;
+    margin-top: 30px;
+    display: block;
+    /* padding: 4% 10% 6%; */
+    padding: 5% 0%;
+    border: 1px solid #E9E7E7;
+    background: #F9F9F9;
+    border-radius: 6px;
+    margin-bottom: 30px;
+}
+
+.cstm-success .Mui-completed svg,
+.cstm-success svg {
+    color: green !important;
+}
+
+.cstm-initiated svg {
+    color: orange !important;
+}
+
+.cstm-failed svg {
+    color: red !important;
+}
+
+.cstm-pending svg {
+    color: grey !important;
+}
+
+.cc-onco-dashed-order {
+    width: 100%;
+    display: block;
+    margin: 35px 0px;
+}
+
+/* Print Media Query start */
+/* General styling for printing */
+@media print {
+    body * {
+        visibility: hidden;
+    }
+
+    #modalContent,
+    #modalContent * {
+        visibility: visible;
+    }
+
+    #modalContent {
+        position: absolute;
+        left: 0;
+        top: 0;
+    }
+}
+
+/* Styling for your modal content */
+#modalContent {
+    width: 100%;
+    padding: 25px;
+    margin-top: 50px;
+}
+
+#modalContent table {
+    width: 100%;
+    border: 0;
+}
+
+#modalContent td {
+    vertical-align: top;
+}
+
+#modalContent img {
+    width: 40px;
+    float: left;
+}
+
+#modalContent span {
+    font-weight: bold;
+    margin-left: 10px;
+}
+
+#modalContent p {
+    margin: 0;
+}
+
+#modalContent .orders-print-table-steps {
+    margin-top: 50px;
+}
+
+#modalContent .cc-onco-dashed-order {
+    margin-top: 20px;
+}
+
+/* Styling for ShopifyOrderTable component */
+.orders-tick-cc-inco-print,
+.orders-tick-cc-inco-print-notmapped {
+    display: flex;
+    align-items: center;
+}
+
+.orders-tick-cc-inco-print span,
+.orders-tick-cc-inco-print-notmapped span {
+    margin-left: 5px;
+}
+
+.orders-tick-cc-inco-print-notmapped {
+    color: red;
+    /* Adjust the color as needed */
+}
+
+/* Styling for MultiStepForm component */
+/* Add your styles for the step indicators here */
+/* Print Media Query Ends */
+/* Custom code by Umair Ends */
+.main-box-text {
+    /* height: 95px; */
+    padding: 10px;
+    box-shadow: 0px 0.92283px 0px 0px rgba(26, 26, 26, 0.07), 0px 0.92283px 0px 0px rgba(204, 204, 204, 0.50) inset, 0px -0.92283px 0px 0px rgba(0, 0, 0, 0.17) inset, -0.92283px 0px 0px 0px rgba(0, 0, 0, 0.13) inset, 0.92283px 0px 0px 0px rgba(0, 0, 0, 0.13) inset;
+    border-radius: 11.074px;
+    border: 1px solid rgba(204, 204, 204, 0.50);
+}
+
+.dashboard-box-field {
+    width: 125.552px;
+    height: 42.059px;
+    border-radius: 5.305px;
+    background: #E3F5FF;
+    border: none !important;
+    font-weight: bold;
+    padding: 10px 16px;
+    color: #6b7280;
+    cursor: pointer;
+}
+
+.dashboard-box-field-total {
+    width: 100% !important;
+    height: 42.059px;
+    border-radius: 5.305px;
+    background: #E3F5FF;
+    border: none !important;
+    padding: 10px 16px;
+    color: #6b7280;
+    cursor: pointer;
+}
+
+.dashboard-eye-icon {
+    cursor: pointer !important;
+}
+
+.Polaris-Modal-Dialog__Modal {
+    /* max-width: 84rem !important; */
+}
+
+.btn-sizemodal {
+    background: #3f3f3f !important;
+    color: white;
+    padding: 5px;
+    border-radius: 7px;
+    width: 300px !important;
+
+    height: 35px !important;
+}
+
+.btn-sizemodal:hover {
+    background: #000000 !important;
+    color: white;
+    padding: 5px;
+    border-radius: 7px;
+}
+
+.sizemodal-dropdown svg {
+    fill: #4A4A4A;
+}
+
+div.order-table-code-cc-inco>label.Polaris-Choice {
+    margin-right: 15px;
+}
+
+div.order-table-code-cc-inco span.Polaris-Icon {
+    background: green;
+    border-radius: 0px;
+    color: #ffffff;
+    fill: #ffffff;
+}
+
+.css-13cymwt-control {
+    border-color: #abb1ba !important;
+}
+
+@media only screen and (max-width: 2000px) {
+    .cc-inconnect-wrapper>.Polaris-Page {
+        width: 78% !important;
+        margin: auto;
+        max-width: 78% !important;
+    }
+}
+
+@media only screen and (max-width: 1600px) {
+    .cc-inconnect-wrapper>.Polaris-Page {
+        width: 98% !important;
+        margin: auto;
+        max-width: 98% !important;
+    }
+}
+
+@media only screen and (max-width: 1280px) {
+    .cc-inconnect-wrapper>.Polaris-Page {
+        width: 100% !important;
+        margin: auto;
+        max-width: 100% !important;
+    }
+
+    .orders-cc-in-printsave {
+        min-width: 250px;
+        float: right;
+        text-align: right;
+        margin-left: 15px;
+    }
+}
+
+.sizemodal-dropdown .css-b62m3t-container,
+.sizemodal-dropdown {
+    width: 100% !important;
+}
+
+.Polaris-HorizontalStack :where(.Polaris-Modal-CloseButton) {
+    margin-right: 21px !important;
+}
+
+.badgeError span.Polaris-Badge {
+    color: #8e1f0b !important;
+    background: #fedad9 !important;
+}
+
+.sucessBadgeCust span.Polaris-Badge {
+    color: #0c5132 !important;
+    background: #cdfee1 !important;
+}
+
+.badgeWarning span.Polaris-Badge {
+    background-color: #fff3cd !important;
+    color: #5e4200 !important;
+}
+
+.badgeSuccess span.Polaris-Badge {
+    background-color: #cdfee1 !important;
+    color: #0c5132 !important;
+}
+
+.infoBadgeCust span.Polaris-Badge {
+    color: #00527c !important;
+    background: #e0f0ff !important;
+}
+
+.tagsAccCust span.Polaris-Tag {
+    background-color: #fff3cd !important;
+    color: #5e4200 !important;
+}
+
+.tagsOrderCust span.Polaris-Tag {
+    background-color: #ffd6a4 !important;
+    color: #5e4200 !important;
+}
+
+.tagsVendorCust span.Polaris-Tag {
+    background-color: #e0f0ff !important;
+    color: #00527c !important;
+}
+
+.tagsDecoratorCust span.Polaris-Tag {
+    background-color: #cdfee1 !important;
+    color: #0c5132 !important;
+}
+
+.cust-staric::after {
+    content: " *";
+    color: red;
+}
+
+.cust-staric2 :where(label)::after {
+    content: " *";
+    color: red;
+}
+
+.Goosly_btns button{
+   /* margin: 7px; */
+}
+.Goosly_btns p {
+    font-size: 11px;
+}

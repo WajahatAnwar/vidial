@@ -1,0 +1,780 @@
+.custom_style button.Polaris-Link {
+    text-decoration: none !important;
+    color: rgb(65, 65, 65);
+}
+
+
+
+
+.cstm-toast-wrapper .Polaris-Frame__Main
+{
+    background: #fff;
+}
+
+
+
+/* Order Spliter */
+.gradient-2-OS {
+    background: url(http://[::1]:5173/public/images/gradient2.png);
+    height: 50px;
+    width: 50px;
+    background-repeat: no-repeat;
+    background-position: center center;
+    position: relative;
+    z-index: 99;
+    display: block;
+    overflow: visible;
+}
+
+.gradient-3-OS {
+    background: url(http://[::1]:5173/public/images/gradient3.png);
+    height: 50px;
+    width: 50px;
+    background-repeat: no-repeat;
+    background-position: center center;
+    position: relative;
+    z-index: 99;
+    display: block;
+    overflow: visible;
+}
+
+.gradient-4-OS {
+    background: url(http://[::1]:5173/public/images/gradient4.png);
+    height: 50px;
+    width: 50px;
+    background-repeat: no-repeat;
+    background-position: center center;
+    position: relative;
+    z-index: 99;
+    display: block;
+    overflow: visible;
+}
+
+.gradient-5-OS {
+    background: url(http://[::1]:5173/public/images/gradient5.png);
+    height: 50px;
+    width: 50px;
+    background-repeat: no-repeat;
+    background-position: center center;
+    position: relative;
+    z-index: 99;
+    display: block;
+    overflow: visible;
+}
+
+.box-icons-wrape {
+    position: absolute;
+    z-index: 999;
+    height: 50px;
+    width: 50px;
+
+}
+
+.box-icons-wrape span.Polaris-Thumbnail.Polaris-Thumbnail--sizeMedium {
+    background: none;
+    border: none;
+}
+
+.gradient-2-OS img,
+.gradient-3-OS img,
+.gradient-4-OS img,
+.gradient-5-OS img {
+    margin-top: 24px;
+}
+
+/* Order Spliter */
+/* Dashboard Analytics */
+.addrmvInputs {
+    width: 33.33%;
+}
+
+.addrmvInputs>div {
+    width: 96%;
+}
+
+.date-picker-wraper {
+    position: relative;
+}
+
+
+button.AddMoreFields {
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    padding: 0px 15px 5px 15px;
+    font-size: 28px;
+    line-height: 1em;
+    transition: 0.2s;
+    margin-top: 15px;
+}
+
+button.AddMoreFields:hover {
+    background-color: #f1f1f1;
+    transition: 0.2s;
+}
+
+.RemoveMoreFields {
+    border: 1px solid #c00000;
+    background: #c00000;
+    color: #ffffff;
+    border-radius: 5px;
+    padding: 4px 15px 5px 15px;
+    font-size: 28px;
+    line-height: 1em;
+    transition: 0.2s;
+    height: 36px;
+    width: 60px;
+    margin-top: 23px;
+}
+
+.RemoveMoreFields svg {
+    fill: #ffffff !important;
+}
+
+.addremovewrape {
+    margin-top: 15px;
+}
+
+button.RemoveMoreFields:hover {
+    background-color: #eb0000;
+    transition: 0.2s;
+}
+
+.gradient-TotalStores img {
+    border: 0px !important;
+    width: 90%;
+    padding: 2px;
+}
+
+.Polaris-Text--subdued {
+    color: #000000;
+}
+
+.gradient-TotalStores span.Polaris-Thumbnail.Polaris-Thumbnail--sizeMedium {
+    border: 0;
+}
+
+span.table-custom-edit {
+    margin-top: 8px;
+    display: inline-block;
+}
+
+.table-custom-edit svg.Polaris-Icon__Svg {
+    fill: #008060;
+    display: block;
+    margin-right: 5px;
+}
+
+.table-custom-delete svg.Polaris-Icon__Svg {
+    fill: #af0000;
+    display: block;
+    margin-left: 5px;
+}
+
+.table-custom-delete span.Polaris-Icon.Polaris-Icon--colorBase.Polaris-Icon--applyColor {
+    width: 26px;
+    height: 26px;
+}
+
+#customToggle label {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 26px;
+}
+
+#customToggle input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+#customToggle span {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #B0BEC5;
+    transition: 0.3s;
+    border-radius: 30px;
+}
+
+#customToggle span:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 3px;
+    bottom: 2.6px;
+    background-color: #EBEBEB;
+    border-radius: 50%;
+    transition: 0.3s;
+}
+
+#customToggle input:checked+span {
+    background-color: #008060;
+}
+
+#customToggle input:checked+span:before {
+    transform: translateX(24px);
+}
+
+#customToggle strong {
+    position: absolute;
+    left: 100%;
+    width: max-content;
+    line-height: 30px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.Polaris-DataTable__Navigation {
+    display: none !important;
+}
+
+/* Dashboard Analytics */
+.navTabs .Polaris-Tabs {
+    justify-content: center !important;
+}
+
+.navTabs .Polaris-Tabs__Tab {
+    background: transparent !important;
+    color: white !important;
+    width: 100px;
+}
+
+.navTabs .Polaris-Tabs__Tab--active:not([aria-disabled="true"]):hover,
+.navTabs .Polaris-Tabs__Tab--active:not([aria-disabled="true"]):focus {
+    background: transparent !important;
+    color: white !important;
+}
+
+
+.navTabs .Polaris-Tabs__Tab:not([aria-disabled="true"]):hover,
+.navTabs .Polaris-Tabs__Tab:not([aria-disabled="true"]):focus {
+    background: transparent !important;
+    color: white !important;
+}
+
+.navTabs .Polaris-Tabs__Tab--active {
+    background: transparent !important;
+    color: white !important;
+    border-bottom: 3px solid;
+    border-bottom-right-radius: 2px;
+    border-bottom-left-radius: 2px;
+}
+
+.navTabs .Polaris-Text--root {
+    font-size: 16px;
+}
+
+[type='text']:focus,
+[type='email']:focus,
+[type='url']:focus,
+[type='password']:focus,
+[type='number']:focus,
+[type='date']:focus,
+[type='datetime-local']:focus,
+[type='month']:focus,
+[type='search']:focus,
+[type='tel']:focus,
+[type='time']:focus,
+[type='week']:focus,
+[multiple]:focus,
+textarea:focus,
+select:focus {
+    box-shadow: none !important;
+    border: none;
+}
+
+.custom_style button.Polaris-Link {
+    text-decoration: none !important;
+    color: rgb(65, 65, 65);
+}
+
+.fontBigger {
+    font-size: 18px !important;
+}
+
+.style_yes {
+    width: 30%;
+}
+
+.custom_link:hover {
+    text-decoration: underline;
+}
+
+.custom_link {
+    color: #2f72db;
+}
+
+.Polaris-Frame__Content {
+    height: 0px;
+}
+
+.fontBigger {
+    font-size: 18px !important;
+}
+
+
+.logout_btn {
+    float: right;
+    margin-right: 14px;
+    font-size: 16px;
+    font-weight: 600;
+    background: #F6F6F7;
+    padding: 9px 16px 12px 16px;
+    border-radius: 5px;
+}
+
+.my_custom_svg_color .Polaris-Icon svg {
+    fill: #ffffff;
+}
+
+.highcharts-credits {
+    display: none;
+}
+
+
+/* Punchout start */
+.main-cstm-logo-PO {
+    margin: auto;
+    width: 150px;
+}
+
+.main-left-menu-PO {
+    padding: 0px 35px !important;
+}
+
+.pop-top-logout {
+    position: absolute;
+    right: 50px;
+    top: 70px;
+    display: flex;
+    align-items: center;
+    background: #ffffff;
+    padding: 2px 8px 2px 5px;
+    border-radius: 8px;
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.pop-top-logout button {
+    box-shadow: none !important;
+    background: none !important;
+}
+
+.top-logout-cstm-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-width: 190px;
+}
+
+.top-alert-cstm-PO {
+    position: relative;
+}
+
+.alert-dot-active {
+    background: #EC5252;
+    width: 8px;
+    height: 8px;
+    border-radius: 50px;
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    border: 1px solid #fff;
+}
+
+.top-logout-cstm-bar img {
+    margin-right: 8px;
+}
+
+.navTabs .main-left-menu-PO li.Mui-selected,
+.navTabs .main-left-menu-PO li:hover {
+    background: #F4F4F4 !important;
+    border-radius: 12px !important;
+}
+
+.main-left-menu-PO li.MuiButtonBase-root {
+    margin: 18px 0px;
+}
+
+.dashboard-calender-tabs-PO {
+    margin-top: 10%;
+}
+
+.dashboard-PO-card-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 25px;
+}
+
+.dashboard-PO-card-txt {
+    color: #9C9C9C;
+    display: flex;
+    min-width: 40%;
+    justify-content: space-between;
+}
+
+.dashboard-boxes-wrapper-PO {
+    margin-top: 30px;
+}
+.dashboard-boxes-wrapper-PO .Polaris-Box {
+    padding: 20px 15px;
+}
+.Gateway-Activity-boxes-wrapper-PO
+{
+    margin-top: 15%;
+}
+.cstm-green
+{
+    color: #45BD4A;
+}
+.cstm-cstm-blue
+{
+    color: #2E93C8;
+}
+.cstm-red, .cstm-red svg path
+{
+    color: #FF3E84;
+}
+
+
+.gateway-activity-tabs-wrapper .gateway-activity-tabs-inner ul.Polaris-Tabs li button div.Polaris-InlineStack span.Polaris-Text--medium {
+    color: #fff;
+}
+.gateway-activity-tabs-wrapper .gateway-activity-tabs-inner .Polaris-Tabs__Tab.Polaris-Tabs__Tab--active
+{
+    border:2px solid #FF7777;
+}
+.gateway-activity-tabs-inner  ul li button {
+    padding: 20px 25px !important;
+    border:2px solid rgba(0, 0, 0, 0);
+}
+.gateway-activity-tabs-inner ul li button span,
+.gateway-activity-tabs-wrapper table
+ {
+    font-size: 14px !important;
+}
+
+.gateway-activity-tabs-inner .Polaris-Tabs__Tab:not([aria-disabled='true']):active {
+    background-color: rgba(0, 0, 0, 0) !important;
+}
+
+.tables-wrapper-PO
+{
+    margin-top: 35px;
+    display: block;
+}
+.tables-wrapper-PO-heading
+{
+    padding: 15px 0px;
+}
+
+
+.gateway-activity-tabs-inner-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+.gateway-activity-tabs-inner-wrapper button span.Polaris-Text--root{
+    color: #FF3E84;
+}
+
+.gateway-activity-tabs-inner-wrapper button{
+    padding: 0px 25px !important;
+}
+
+.Clientinformationheadings {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 50px;
+}
+
+.StartPunchout-modal
+{
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+}
+
+.StartPunchout-modal .multi-color-btn
+{
+width: 35%;
+}
+.StartPunchout-modal-select
+{
+    width: 60%;
+}
+.StartPunchout-modal-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 80%;
+    margin: 30px auto !important;
+}
+.StartPunchout-modal-card-inner
+{
+    width: 100%;
+}
+
+/* .tables-wrapper-PO thead th, .tables-wrapper-PO tbody td {
+    text-align: center;
+} */
+
+.tools-modal
+{
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+}
+.tools-upload-file {
+    /* width: 48%; */
+    /* height: 35px; */
+}
+.tools-modal .StartPunchout-modal-select {
+    /* width: 48%; */
+}
+.tools-upload-file .Polaris-DropZone.Polaris-DropZone--hasOutline {
+    min-height: 33px !important;
+    max-height: 33px !important;
+    padding: 0px !important;
+    margin: 0px !important;
+    overflow: hidden;
+}
+.tools-upload-file .Polaris-DropZone.Polaris-DropZone--hasOutline .Polaris-LegacyStack {
+    height: 33px !important;
+    align-items: center;
+}
+
+.tools-upload-file .Polaris-DropZone-FileUpload {
+    align-items: flex-end;
+}
+
+
+.tools-modal-import-btn
+{
+    text-align: right;
+}
+
+.menu-tabs-top-popup-PO
+{
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 10px;
+    display: block;
+    margin-bottom: 10px;
+}
+.PO-modal-table-cstm-list li
+{
+    padding: 8px 0px;
+}
+.PO-modal-table-cstm-wrapper .Polaris-LegacyCard__Header.Polaris-LegacyCard__FirstSectionPadding {
+    background: #F4F4F4;
+    padding-bottom: 10px;
+}
+
+.PO-modal-table-cstm-inner
+{
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    font-size: 16px !important;
+}
+.PO-modal-table-cstm-inner .PO-modal-content-cstm{
+    width: 50%;
+}
+.PO-modal-content-cstm.PO-modal-table-cstm-one {
+    font-weight: 600;
+}
+.PO-modal-content-cstm.PO-modal-table-cstm-two {
+    color: #949494;
+}
+.PO-modal-table-cstm-wrapper h2 {
+    font-size: 20px;
+}
+.menu-tabs-top-popup-PO .Polaris-Tabs__Tab.Polaris-Tabs__Tab--active {
+    background: #FF3E84 !important;
+    color: #ffffff;
+}
+.menu-tabs-top-popup-PO .Polaris-Tabs__Tab.Polaris-Tabs__Tab--active span{
+    color: #ffffff;
+    opacity: 1 !important;
+}
+
+.modal-pop-up-multi-btn
+{
+    display: flex;
+}
+.modal-pop-up-multi-btn button{
+    margin: 0 10px;
+}
+
+.PreparePunchout-modal-wrapper
+{
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    margin-top: 20px;
+    margin-bottom: 40px;
+}
+.PreparePunchout-modal-inner
+{
+    width: 60%;
+}
+/* Punchout end */
+
+/* Date Picker Global */
+.DatePickerGlobalwrapper {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    margin-top: 50px;
+    margin-bottom: 20px;
+}
+
+.multi-color-btn button,.multi-color-btn button:hover
+{
+    color: #fff;
+    background: rgb(197,31,90);
+background: -moz-radial-gradient(circle, rgba(197,31,90,1) 0%, rgba(19,54,102,1) 100%);
+background: -webkit-radial-gradient(circle, rgba(197,31,90,1) 0%, rgba(19,54,102,1) 100%);
+background: radial-gradient(circle, rgba(197,31,90,1) 0%, rgba(19,54,102,1) 100%);
+filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#c51f5a",endColorstr="#133666",GradientType=1);
+padding: 10px 55px;
+box-shadow: none !important;
+}
+.Clientinformationbuttons .multi-clor-btn button
+{
+    color: #fff;
+    background: rgb(197,31,90);
+background: -moz-radial-gradient(circle, rgba(197,31,90,1) 0%, rgba(19,54,102,1) 100%);
+background: -webkit-radial-gradient(circle, rgba(197,31,90,1) 0%, rgba(19,54,102,1) 100%);
+background: radial-gradient(circle, rgba(197,31,90,1) 0%, rgba(19,54,102,1) 100%);
+filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#c51f5a",endColorstr="#133666",GradientType=1);
+padding: 10px 55px;
+box-shadow: none !important;
+}
+.pink-clor-btn button
+{
+    border: 1px solid  #FF3E84;
+    color:  #FF3E84;
+    padding: 10px 25px;
+box-shadow: none !important;
+}
+
+.modal-wrapper-PO-btn {
+    display: block;
+    text-align: right;
+}
+.modal-wrapper-PO-btn button,.modal-wrapper-PO-btn button:hover
+{
+    color: #fff;
+    background: rgb(197,31,90);
+background: -moz-radial-gradient(circle, rgba(197,31,90,1) 0%, rgba(19,54,102,1) 100%);
+background: -webkit-radial-gradient(circle, rgba(197,31,90,1) 0%, rgba(19,54,102,1) 100%);
+background: radial-gradient(circle, rgba(197,31,90,1) 0%, rgba(19,54,102,1) 100%);
+filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#c51f5a",endColorstr="#133666",GradientType=1);
+padding: 10px 55px;
+box-shadow: none !important;
+}
+.DatePickerGlobalwrapper-inner
+{
+    width: 100%;
+}
+.DatePickerGlobalwrapper .selectDate {
+    width: 95%;
+}
+.DatePickerGlobalwrapper .selectDate button {
+    padding: 10px 10px;
+}
+
+/* Date Picker Global */
+
+/* datePicker css start */
+
+/* .datePickerPopover .selectDate span.Polaris-Button__Icon {
+    display: none;
+}
+
+.datePickerPopover .datepickerDropdownFields {
+    display: grid;
+    grid-template-columns: 1fr .2fr 1fr;
+    grid-template-rows: 1fr;
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+    margin-bottom: 10px;
+}
+
+.datePickerPopover .iconDateDropdown {
+    margin-top: 9px;
+}
+
+.datePickerPopover .Polaris-Popover__Content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    border-radius: var(--p-border-radius-1);
+    max-width: none;
+    max-height: none;
+    width: 550px !important;
+
+}
+
+.datePickerPopover .fontBigger {
+    font-size: 18px !important;
+}
+
+.ql-snow {
+    position: relative !important;
+}
+
+
+.datepickerDropdownFields {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.Polaris-Popover__Content {
+
+    height: 440px !important;
+    max-width: 600px !important;
+}
+
+
+.Polaris-Popover__Pane.Polaris-Scrollable.Polaris-Scrollable--vertical.Polaris-Scrollable--horizontal.Polaris-Scrollable--hasBottomShadow {
+    overflow: hidden !important;
+}
+
+input {
+    outline: none !important;
+    outline-offset: none !important;
+    box-shadow: none !important;
+} */
+
+/* datePicker css end */
+@media screen and (max-width: 1024px) {
+    .date-picker-wraper {
+        position: relative;
+        min-width: 250px;
+        margin-right: 20px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .main-wraper {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .date-picker-wraper {
+        position: relative;
+        min-width: 250px;
+        margin-right: 20px;
+    }
+}

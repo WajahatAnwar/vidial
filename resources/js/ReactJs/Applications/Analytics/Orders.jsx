@@ -1,0 +1,631 @@
+import AppLayout from '@/ReactJs/Applications/Analytics/AppLayout';
+import { router, usePage } from '@inertiajs/react';
+import {
+    Badge,
+    Card,
+    ChoiceList,
+    Grid, Icon,
+    IndexFilters,
+    IndexTable,
+    Page,
+    Pagination,
+    Select,
+    TextField,
+    useIndexResourceState,
+    useSetIndexFiltersMode
+} from '@shopify/polaris';
+import { ArrowLeftIcon } from "@shopify/polaris-icons";
+import { useCallback, useEffect, useState } from 'react';
+
+function Orders() {
+
+    const page = usePage().props;
+    const { query } = page.ziggy;
+
+    let timeout = null;
+
+    const resourceName = {
+        singular: 'order',
+        plural: 'orders',
+    };
+
+    const [tableRows, setTableRows] = useState([]);
+
+    const pageOptions = [
+        { label: '5', value: '5' },
+        { label: '10', value: '10' },
+        { label: '20', value: '20' },
+        { label: '50', value: '50' },
+        { label: '100', value: '100' },
+    ];
+    const [pageCount, setPageCount] = useState("10");
+    const handlePageCount = useCallback((value) => { setPageCount(value); setReload(!reload); }, [tableRows]);
+
+    const [selected, setSelected] = useState(0);
+    const [itemStrings, setItemStrings] = useState([
+        'All',
+        'Paid',
+        'Partially Paid'
+    ]);
+    const tabs = itemStrings.map((item, index) => ({
+        content: item,
+        index,
+        onAction: () => { },
+        id: `${item}-${index}`,
+        isLocked: index === 0,
+        actions: []
+    }));
+
+    const sortOptions = [
+        { label: 'Id', value: 'id asc', directionLabel: 'Ascending' },
+        { label: 'Id', value: 'id desc', directionLabel: 'Descending' },
+        { label: 'Order Id', value: 'order asc', directionLabel: 'Ascending' },
+        { label: 'Order Id', value: 'order desc', directionLabel: 'Descending' },
+        { label: 'Total', value: 'total asc', directionLabel: 'Ascending' },
+        { label: 'Total', value: 'total desc', directionLabel: 'Descending' },
+        { label: 'Date', value: 'date asc', directionLabel: 'Ascending' },
+        { label: 'Date', value: 'date desc', directionLabel: 'Descending' },
+    ];
+    const [sortSelected, setSortSelected] = useState(['id asc']);
+
+    const { mode, setMode } = useSetIndexFiltersMode();
+    const onHandleCancel = () => { };
+
+    const [taggedWith, setTaggedWith] = useState('');
+    const [queryValue, setQueryValue] = useState('');
+
+    const [shopOptions, setShopOptions] = useState([]);
+    // const [shopCollections, setShopCollections] = useState([]);
+    // const [shopVendors, setShopVendors] = useState([]);
+
+    const [searchShop, setSearchShop] = useState("");
+    // const [searchCollection, setSearchCollection] = useState([]);
+    // const [searchVendor, setSearchVendor] = useState([]);
+
+    const [pagination, setPagination] = useState({
+        path: route("orders.list"),
+        next_cursor: null,
+        next_page_url: null,
+        prev_cursor: null,
+        prev_page_url: null,
+    });
+    const [currentCursor, setCurrentCursor] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [myUrl, setMyUrl] = useState("");
+    const [firstTimeCheck, setFirstTimeCheck] = useState(true);
+    const [reload, setReload] = useState(false);
+
+    const { selectedResources, allResourcesSelected, handleSelectionChange } = useIndexResourceState(tableRows);
+
+    useEffect(() => {
+
+        let url = new URL(pagination.path);
+
+        if (pageCount) {
+            url.searchParams.set('page_count', pageCount);
+        }
+
+        if (currentCursor) {
+            url.searchParams.set('cursor', currentCursor);
+        }
+
+        if (selected == 0) {
+            url.searchParams.delete('status')
+        }
+        else if (selected == 1) {
+            url.searchParams.set('status', 1)
+        }
+        else if (selected == 2) {
+            url.searchParams.set('status', 0)
+        }
+
+        if (queryValue != '') {
+            url.searchParams.set('q', queryValue);
+        } else {
+            url.searchParams.delete('q');
+        }
+
+        if (searchShop.length != 0) {
+            url.searchParams.set('q3', JSON.stringify(searchShop));
+        } else {
+            url.searchParams.delete('q3');
+        }
+
+        if (taggedWith != "") {
+            url.searchParams.set('q4', taggedWith);
+        } else {
+            url.searchParams.delete('q4');
+        }
+
+        if (sortSelected != "") {
+            url.searchParams.set('q5', sortSelected[0]);
+        } else {
+            url.searchParams.delete('q5');
+        }
+
+        // if (searchCollection.length != 0) {
+        //     url.searchParams.set('q4', JSON.stringify(searchCollection));
+        // } else {
+        //     url.searchParams.delete('q4');
+        // }
+
+        // if (searchVendor.length != 0) {
+        //     url.searchParams.set('q5', JSON.stringify(searchVendor));
+        // } else {
+        //     url.searchParams.delete('q5');
+        // }
+
+        setMyUrl(url);
+        url = url.toString();
+        setLoading(true)
+        fetch(url)
+            .then((response) => response.json())
+            .then((result) => {
+                if (result.success == true) {
+                    // console.log(result);
+                    const my_rows = [];
+
+                    result.data.data.forEach((order, productIndex) => {
+                        my_rows.push({
+                            id: order.id,
+                            order: order.order_id,
+                            store: order.user.store_name ?? "N/A",
+                            customer: order.customer_name ?? "N/A",
+                            date: order.order_created_at,
+                            total: order.final_total,
+                            payment_status: order.payment_status == "paid" ? (
+                                <Badge progress="complete" tone='success'>
+                                    {order.payment_status}
+                                </Badge>
+                            ) : (
+                                <Badge progress="incomplete" >
+                                    {order.payment_status}
+                                </Badge>
+                            ),
+                            fulfilment_status: order.fulfillment_status == "fulfilled" ? (
+                                <Badge progress="complete" tone='success'>
+                                    fulfilled
+                                </Badge>
+                            ) : (
+                                <Badge progress="incomplete" tone='attention'>
+                                    unfulfilled
+                                </Badge>
+                            ),
+                        });
+                    });
+
+                    setTableRows(my_rows);
+                    setPagination({
+                        path: result.data.path,
+                        next_cursor: result.data.next_cursor,
+                        next_page_url: result.data.next_page_url,
+                        prev_cursor: result.data.prev_cursor,
+                        prev_page_url: result.data.prev_page_url,
+                    });
+                }
+                setLoading(false);
+            })
+            .catch((err) => {
+                console.log(err);
+                setLoading(false);
+            });
+
+        fetch(`/analytics/fetch-all-filters?user_id=${searchShop}`)
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data);
+
+                let temp = [];
+                data.data.users.forEach((element, index) => {
+                    if (index == 0 && firstTimeCheck == true) {
+                        setFirstTimeCheck(false);
+                    };
+                    temp.push({
+                        value: element.id,
+                        label: element.name
+                    });
+                });
+                setShopOptions(temp);
+
+                // temp = [];
+                // data.data.collections.forEach((element, index) => {
+                //     temp.push({
+                //         value: element.collection_id,
+                //         label: element.collection_title
+                //     });
+                // });
+                // setShopCollections(temp);
+
+                // temp = [];
+                // data.data.vendors.forEach((element, index) => {
+                //     temp.push({
+                //         value: element.product_vendor,
+                //         label: element.product_vendor
+                //     });
+                // });
+                // setShopVendors(temp);
+            });
+
+    }, [reload])
+
+    useEffect(() => {
+        setReload(!reload);
+    }, [selected]);
+
+    useEffect(() => {
+        setReload(!reload);
+    }, [sortSelected]);
+
+    const handleTaggedWithChange = useCallback(
+        (value) => {
+            setTaggedWith(value)
+            clearTimeout(timeout)
+            timeout = setTimeout(() => {
+                setCurrentCursor(null);
+                setReload(!reload);
+            }, 500);
+        },
+        [tableRows],
+    );
+
+    const handleFiltersQueryChange = useCallback(
+        (value) => {
+            setQueryValue(value)
+            clearTimeout(timeout)
+            timeout = setTimeout(() => {
+                setCurrentCursor(null);
+                setReload(!reload);
+            }, 500);
+        },
+        [tableRows]
+    );
+
+    // const handleSearchCollectionChange = useCallback(
+    //     (value) => {
+    //         setSearchCollection(value);
+    //         clearTimeout(timeout)
+    //         timeout = setTimeout(() => {
+    //             setCurrentCursor(null);
+    //             setReload(!reload);
+    //         }, 500);
+    //     },
+    //     [tableRows]
+    // );
+
+    // const handleSearchVendorChange = useCallback(
+    //     (value) => {
+    //         setSearchVendor(value);
+    //         clearTimeout(timeout)
+    //         timeout = setTimeout(() => {
+    //             setCurrentCursor(null);
+    //             setReload(!reload);
+    //         }, 500);
+    //     },
+    //     [tableRows]
+    // );
+
+    const handleSearchShopChange = useCallback(
+        (value) => {
+            setSearchShop(value);
+            clearTimeout(timeout)
+            timeout = setTimeout(() => {
+                setCurrentCursor(null);
+                setReload(!reload);
+            }, 500);
+        },
+        [tableRows]
+    );
+
+    const promotedBulkActions = [
+        {
+            content: 'Export CSV',
+            onAction: () => {
+                ExportOrders();
+            },
+        },
+    ];
+
+    const handleSearchShopRemove = useCallback(() => { setSearchShop([]); setCurrentCursor(null); setReload(!reload); }, [tableRows]);
+    // const handleSearchCollectionRemove = useCallback(() => { setSearchCollection([]); setCurrentCursor(null); setReload(!reload); }, [tableRows]);
+    // const handleSearchVendorRemove = useCallback(() => { setSearchVendor([]); setCurrentCursor(null); setReload(!reload); }, [tableRows]);
+    const handleQueryValueRemove = useCallback(() => { setQueryValue(""); setCurrentCursor(null); setReload(!reload); }, [tableRows]);
+    const handleTaggedWithRemove = useCallback(() => { setTaggedWith(''); setCurrentCursor(null); setReload(!reload); }, [tableRows]);
+
+    const handleFiltersClearAll = useCallback(() => {
+        handleTaggedWithRemove();
+        handleQueryValueRemove();
+        // handleSearchCollectionRemove();
+        // handleSearchVendorRemove();
+        handleSearchShopRemove();
+    }, [
+        handleQueryValueRemove,
+        handleTaggedWithRemove,
+        handleSearchShopRemove,
+        // handleSearchVendorRemove,
+        // handleSearchCollectionRemove
+    ]);
+
+    const filters = [
+        {
+            key: "filterbyshop",
+            label: "Filter by Shop",
+            filter: (
+                <ChoiceList
+                    title="Shop"
+                    titleHidden
+                    choices={shopOptions}
+                    selected={searchShop || []}
+                    onChange={handleSearchShopChange}
+                    allowMultiple
+                />
+            ),
+            shortcut: true,
+        },
+        // {
+        //     key: "filterbycollection",
+        //     label: "Filter by Collection",
+        //     filter: (
+        //         <ChoiceList
+        //             title="Collection Type"
+        //             titleHidden
+        //             choices={shopCollections}
+        //             selected={searchCollection || []}
+        //             onChange={handleSearchCollectionChange}
+        //             allowMultiple
+        //         />
+        //     ),
+        //     // shortcut: true,
+        // },
+        // {
+        //     key: "filterbyvendor",
+        //     label: "Filter by Vendor",
+        //     filter: (
+        //         <ChoiceList
+        //             title="Vendor Type"
+        //             titleHidden
+        //             choices={shopVendors}
+        //             selected={searchVendor || []}
+        //             onChange={handleSearchVendorChange}
+        //             allowMultiple
+        //         />
+        //     ),
+        //     // shortcut: true,
+        // },
+        {
+            key: 'taggedWith',
+            label: 'Tagged with',
+            filter: (
+                <TextField
+                    label="Tagged with"
+                    value={taggedWith}
+                    onChange={handleTaggedWithChange}
+                    autoComplete="off"
+                    labelHidden
+                />
+            ),
+            shortcut: true,
+        },
+    ];
+
+    const appliedFilters = [];
+
+    if (!isEmpty(searchShop)) {
+        const key = "filterbyshop";
+        appliedFilters.push({
+            key,
+            label: disambiguateLabel(key, searchShop),
+            onRemove: handleSearchShopRemove,
+        });
+    }
+
+    // if (!isEmpty(searchCollection)) {
+    //     const key = "filterbycollection";
+    //     appliedFilters.push({
+    //         key,
+    //         label: disambiguateLabel(key, searchCollection),
+    //         onRemove: handleSearchCollectionRemove,
+    //     });
+    // }
+
+    // if (!isEmpty(searchVendor)) {
+    //     const key = "filterbyvendor";
+    //     appliedFilters.push({
+    //         key,
+    //         label: disambiguateLabel(key, searchVendor),
+    //         onRemove: handleSearchVendorRemove,
+    //     });
+    // }
+
+    if (!isEmpty(taggedWith)) {
+        const key = 'taggedWith';
+        appliedFilters.push({
+            key,
+            label: disambiguateLabel(key, taggedWith),
+            onRemove: handleTaggedWithRemove,
+        });
+    }
+
+    const rowMarkup = tableRows.map(
+        ({ id, order, store, date, customer, total, payment_status, fulfilment_status }, index) => (
+            <IndexTable.Row
+                id={id}
+                key={id}
+                selected={selectedResources.includes(id)}
+                position={index}
+            >
+                <IndexTable.Cell>
+                    {id}
+                </IndexTable.Cell>
+                <IndexTable.Cell>
+                    {order}
+                </IndexTable.Cell>
+                <IndexTable.Cell>
+                    {store}
+                </IndexTable.Cell>
+                <IndexTable.Cell>
+
+                    {date}
+
+                </IndexTable.Cell>
+                <IndexTable.Cell>
+                    {customer}
+                </IndexTable.Cell>
+                <IndexTable.Cell>
+                    {total}
+                </IndexTable.Cell>
+
+                <IndexTable.Cell>
+                    {payment_status}
+                </IndexTable.Cell>
+                <IndexTable.Cell>
+                    {fulfilment_status}
+                </IndexTable.Cell>
+            </IndexTable.Row>
+        ),
+    );
+
+    const ExportOrders = () => {
+
+        const formData = new FormData();
+        formData.append('orders_ids', JSON.stringify(selectedResources));
+        formData.append('all_check', allResourcesSelected);
+        formData.append('search_query', JSON.stringify(myUrl.search));
+
+        fetch('/analytics/export-orders-refine', {
+            method: 'POST',
+            body: formData,
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data);
+                if (data.success == true) {
+                    window.location.href = '/analytics/export-orders?order_ids=' + data.data;
+                    handleSelectionChange('all', false)
+                }
+            })
+            .catch((error) => {
+
+                console.error(error);
+            });
+    }
+
+    return (
+        <div style={{ background: `url('${window.appURL}/images/background.png')`, backgroundSize: "cover", marginTop: "-55px", paddingTop: "55px", height: "300px", }}>
+            <Page>
+                <Grid>
+                    <Grid.Cell columnSpan={{ xs: 12, sm: 12, md: 12, lg: 12, xl: 12 }}>
+                        <div style={{ display: "flex", justifyContent: 'space-between' }}>
+                            <div style={{ display: "flex" }}>
+                                <div onClick={() => router.get(route('reports', query))} style={{ border: "1px solid white", cursor: "pointer", borderRadius: "4px", width: "35px", height: "35px", paddingTop: "6px", marginRight: "15px" }}> <span className="my_custom_svg_color"><Icon color='base' style={{ color: "white" }} source={ArrowLeftIcon} /></span> </div>
+                                <div className='fontBigger' style={{ fontWeight: "600", marginTop: "6px", color: "white" }}> Orders List</div>
+                            </div>
+                            <Select
+                                labelInline
+                                label="Rows:"
+                                options={pageOptions}
+                                value={pageCount}
+                                onChange={handlePageCount}
+                            />
+                        </div>
+                    </Grid.Cell>
+
+                    <Grid.Cell columnSpan={{ xs: 12, sm: 12, md: 12, lg: 12, xl: 12 }}>
+                        <Card>
+                            <IndexFilters
+                                sortOptions={sortOptions}
+                                sortSelected={sortSelected}
+                                queryValue={queryValue}
+                                queryPlaceholder="Searching in all"
+                                onQueryChange={handleFiltersQueryChange}
+                                onQueryClear={handleQueryValueRemove}
+                                onSort={setSortSelected}
+                                cancelAction={{
+                                    onAction: onHandleCancel,
+                                    disabled: false,
+                                    loading: false,
+                                }}
+                                tabs={tabs}
+                                selected={selected}
+                                onSelect={setSelected}
+                                canCreateNewView={false}
+                                filters={filters}
+                                appliedFilters={appliedFilters}
+                                onClearAll={handleFiltersClearAll}
+                                mode={mode}
+                                setMode={setMode}
+                                loading={loading}
+                            />
+                            <IndexTable
+                                resourceName={resourceName}
+                                itemCount={tableRows.length}
+                                selectedItemsCount={
+                                    allResourcesSelected ? 'All' : selectedResources.length
+                                }
+                                onSelectionChange={handleSelectionChange}
+                                headings={[
+                                    { title: "Id" },
+                                    { title: "Order Id" },
+                                    { title: "Store" },
+                                    { title: "Date" },
+                                    { title: "Customer" },
+                                    { title: "Total" },
+                                    { title: "Payment Status" },
+                                    { title: "Fulfilment Status" },
+                                ]}
+                                promotedBulkActions={promotedBulkActions}
+                                hasMoreItems
+                            >
+                                {rowMarkup}
+                            </IndexTable>
+                        </Card>
+                        <hr></hr>
+                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', paddingTop: '22px', paddingBottom: '22px' }}>
+                            <Pagination hasNext={pagination.next_cursor ? true : false} hasPrevious={pagination.prev_cursor ? true : false} onNext={() => {
+                                setPagination({
+                                    ...pagination,
+                                    path: pagination.next_page_url
+                                })
+                                setCurrentCursor(pagination.next_cursor);
+                                setReload(!reload);
+                            }} onPrevious={() => {
+                                setPagination({
+                                    ...pagination,
+                                    path: pagination.prev_page_url
+                                })
+                                setCurrentCursor(pagination.prev_cursor);
+                                setReload(!reload);
+                            }} />
+                        </div>
+                    </Grid.Cell>
+                </Grid>
+            </Page>
+        </div>
+    );
+
+    function disambiguateLabel(key, value) {
+        switch (key) {
+            case 'taggedWith':
+                return `Tagged with ${value}`;
+            case "filterbyshop":
+                return `Filtered by Shop: ${value.map((val) => val).join(", ")}`;
+            // case "filterbycollection":
+            //     return `Filtered by Collection: ${value.map((val) => val).join(", ")}`;
+            // case "filterbyvendor":
+            //     return `Filtered by Vendor: ${value.map((val) => val).join(", ")}`;
+            default:
+                return value;
+        }
+    }
+
+    function isEmpty(value) {
+        if (Array.isArray(value)) {
+            return value.length === 0;
+        } else {
+            return value === '' || value == null;
+        }
+    }
+}
+
+Orders.layout = (page) => <AppLayout children={page} auth={page.props.auth} />
+export default Orders;
+

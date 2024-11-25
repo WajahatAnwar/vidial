@@ -1,0 +1,105 @@
+/* .cstm-card :where(.Polaris-Box){
+        padding: 0px !important;
+} */
+.step-form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.step-indicator>div {
+    position: relative;
+}
+
+.connection-toggle{
+    display: flex;
+    justify-content: space-around;
+}
+
+.step-name {
+    position: absolute;
+    margin-top: -21px;
+}
+
+.step-name.default {
+    min-width: 148px;
+}
+
+.step-name.vendor {
+    min-width: 86px;
+}
+
+.step-name.deco {
+    min-width: 116px;
+}
+
+.step-indicator {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width: 71%;
+}
+
+.step-circle {
+    width: 30px;
+    height: 30px;
+    border: 2px solid #ccc;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 0px;
+    font-weight: bold;
+}
+
+.step-line {
+    height: 2px;
+    width: 100%;
+    background: #ccc;
+    margin-top: 3px;
+}
+
+.step-circle.completed {
+    border-color: #29845A;
+    /* Green color for completed step */
+    background: #29845A;
+    /* Background color for completed step */
+    color: #fff;
+    /* Text color for completed step */
+}
+
+.step-line.completed {
+    background: #29845A;
+    /* Green color for completed line */
+}
+
+/* .step-content {
+  margin-left: 20px;
+} */
+
+.editTemplate :where(.Polaris-Button) {
+    border-radius: 4.014px !important;
+    background: #E9FFFE !important;
+    box-shadow: 0px -1.00353px 0px 0px rgba(0, 0, 0, 0.20) inset, 0px 1.00353px 0px 0px rgba(0, 0, 0, 0.08) !important;
+}
+
+.btn-deco-minus {
+    position: relative;
+    background: black;
+    width: 20px;
+    height: 20px;
+    color: white;
+    border-radius: 10px;
+    left: 95%;
+    top: 52px !important;
+    z-index: 11111;
+
+}
+
+.cstm-banner>div {
+    background-color: #CDFEE1 !important;
+}
+
+.cstm-banner :where(.Polaris-Banner) {
+    color: #0C5132 !important;
+}

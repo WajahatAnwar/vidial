@@ -1,0 +1,34 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::connection('in_connect_conn')->create('inconnect_intact_fields', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('inconnect_account_id');
+            $table->unsignedBigInteger('shopify_order_field_id');
+            $table->string('intact_field_name');
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::connection('in_connect_conn')->dropIfExists('inconnect_intact_fields');
+    }
+};
