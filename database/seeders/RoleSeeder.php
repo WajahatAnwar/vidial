@@ -18,8 +18,6 @@ class RoleSeeder extends Seeder
         DB::connection('all_in_one_conn')->table('roles')->insert([
             ['id' => 1,'title' => "Admin",'type' => "admin"],
             ['id' => 2,'title' => "Shop",'type' => "shop"],
-            ['id' => 3,'title' => "Manager",'type' => "manager"],
-            ['id' => 4,'title' => "Punchout User",'type' => "punchout"],
         ]);
     }
 }

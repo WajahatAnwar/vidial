@@ -16,15 +16,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             RoleSeeder::class,
-            AdminSeeder::class,
-            // OptionTypeSeeder::class,
-            // SCSettingSeeder::class,
-            // POStateSeeder::class,
-            // ExternalLocationSeeder::class,
-            // PORuleTypeSeeder::class,
-            ApplicationsSeeder::class,
-            InConnectSeeder::class,
-            FilterSeeder::class
+            AdminSeeder::class
         ]);
     }
 }
