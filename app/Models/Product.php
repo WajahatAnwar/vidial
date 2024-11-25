@@ -11,21 +11,28 @@ class Product extends Model
 {
     use HasFactory;
 
-
-
     protected $fillable = [
-        // 'user_id', 'product_id', 'product_handle', 'product_variant_id', 'product_title', 'description', 'product_tags', 'product_image', 'product_vendor', 'option_set_id', 'status', 'product_created_at', 'variants_json', 'product_tracked', 'total_inventory', 'published_at'
-        'user_id', 'product_id', 'product_handle', 'product_variant_id', 'product_title', 'description', 'product_tags', 'product_image', 'product_vendor', 'product_type', 'option_set_id', 'status', 'product_created_at', 'product_tracked', 'total_inventory', 'published_at'
+        'user_id',
+        'product_id',
+        'product_handle',
+        'product_variant_id',
+        'product_title',
+        'description',
+        'product_tags',
+        'product_image',
+        'product_vendor',
+        'product_type',
+        'option_set_id',
+        'status',
+        'product_created_at',
+        'product_tracked',
+        'total_inventory',
+        'published_at'
     ];
 
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
-    }
-
-    public function option_set()
-    {
-        return $this->belongsTo(OptionSet::class, 'option_set_id', 'id');
     }
 
     public function collections()

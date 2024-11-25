@@ -10,8 +10,6 @@ class Collection extends Model
 {
     use HasFactory;
 
-
-
     protected $fillable = [
         'user_id', 'collection_id', 'collection_title', 'collection_handle', 'collection_image', 'collection_created_at', 'published_at'
     ];
@@ -24,10 +22,5 @@ class Collection extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
-    }
-
-    public function filter_set()
-    {
-        return $this->belongsTo(FilterSet::class, 'filter_set_id', 'id');
     }
 }

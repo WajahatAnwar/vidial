@@ -9,8 +9,6 @@ class CollectionProduct extends Pivot
 {
     use HasFactory;
 
-
-
     public $table = 'collection_products';
 
     protected $fillable = [

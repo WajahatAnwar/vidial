@@ -3,19 +3,9 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-
-use App\Models\Racoon\Restriction;
-use App\Models\InConnect\InconnectAccount;
-use App\Models\InConnect\InconnectLog;
-use App\Models\Punchout\PomwGatewayClient;
-use App\Models\PurchaseOrder\POSetting;
-use App\Models\Filter\FilterSet;
-use App\Models\PurchaseOrder\POShippingRule;
-use App\Models\PurchaseOrder\POStoreRule;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\DB;
 use Laravel\Sanctum\HasApiTokens;
 use Osiset\ShopifyApp\Contracts\ShopModel as IShopModel;
 use Osiset\ShopifyApp\Traits\ShopModel;
@@ -32,50 +22,17 @@ class User extends Authenticatable implements IShopModel
     protected $fillable = [
         'name',
         'email',
-        'email_verified_at',
         'password',
-        'remember_token',
-        'role_id',
-        'store_name',
-        'direct_approve',
-        'show_discount_field',
-        'icons_color',
-        'store_emails',
-        'p_o_shipping_rule_id',
-        'order_sync',
-        'product_sync',
-        'collection_sync',
-        'user_picture',
-        'access_token',
-        'created_at',
-        'updated_at',
-        'shopify_grandfathered',
-        'shopify_namespace',
-        'shopify_freemium',
-        'plan_id',
-        'password_updated_at',
-        'old_user_id',
-        'access_level_id',
-        'account_id',
-        'status_id',
-        'lastname',
-        'username',
-        'quick_login_code',
-        'hash',
-        'last_login',
-        'last_known_ip',
-        'auto_login_token',
-        'password_recovery_token',
-        'uuid',
-        'hashid',
-        'phone',
-        'hr_parent_id',
-        'hr_parent_index',
-        'hr_department_id',
-        'hr_area_id',
-        'hr_status',
-        'hr_all_access',
-        'is_terminated',
+        'ugc_video_count',
+        'ugc_email_count',
+        'init_flag',
+        'remaining_email',
+        'remaining_videos',
+        'store_handle',
+        'gd_access_token',
+        'star_credit',
+        'store_id',
+        'mantle_token'
     ];
 
     /**
@@ -84,7 +41,7 @@ class User extends Authenticatable implements IShopModel
      * @var array<int, string>
      */
     protected $hidden = [
-        'password',
+        // 'password',
         'remember_token',
     ];
 
@@ -97,48 +54,7 @@ class User extends Authenticatable implements IShopModel
         'email_verified_at' => 'datetime',
     ];
 
-    public function al_orders()
-    {
-        return $this->hasMany(Order::class, 'user_id', 'id');
-    }
-
-    public function applications()
-    {
-        return $this->belongsToMany(Application::class, 'application_statuses', 'user_id', 'application_id')->using(ApplicationStatus::class)->withPivot(['id', 'status', 'read_access', 'write_access'])->withTimestamps();
-    }
-
-    // REAL PIVOT TABLE
-    // public function colors()
-    // {
-    //     return $this->belongsToMany(Color::class, 'user_colors', 'user_id', 'color_id')->using(UserColor::class)->withTimestamps();
-    // }
-
-    public function store_rule()
-    {
-        return $this->hasOne(POStoreRule::class, 'user_id', 'id');
-    }
-
-    public function button_setting()
-    {
-        return $this->hasOne(POSetting::class, 'user_id', 'id');
-    }
-
-    public function rule_rel()
-    {
-        return $this->belongsTo(POShippingRule::class, 'p_o_shipping_rule_id');
-    }
-
-    public function inconnect_account()
-    {
-        return $this->hasOne(InconnectAccount::class, 'user_id', 'id');
-    }
-
-    public function inconnect_logs()
-    {
-        return $this->hasMany(InconnectLog::class, 'user_id', 'id');
-    }
-
-    public function orders()
+    public function prev_orders()
     {
         return $this->hasMany(Order::class, 'user_id', 'id');
     }
@@ -153,33 +69,56 @@ class User extends Authenticatable implements IShopModel
         return $this->hasMany(Collection::class, 'user_id', 'id');
     }
 
-    public function restrictions()
+    /*** Vidial Relationships  ***/
+    public function settings()
     {
-        return $this->hasMany(Restriction::class, 'user_id', 'id');
+        return $this->hasOne(Setting::class);
     }
 
-    public function getFirstNameAttribute()
+    public function orders()
     {
-        return @explode(' ', $this->name)[0];
+        return $this->hasMany(Orders::class);
     }
 
-    public function getLastNameAttribute()
+    public function videos()
     {
-        return @explode(' ', $this->name)[1];
+        return $this->hasMany(Video::class);
     }
 
-    public function pomw_gateway_clients()
+    public function videos_count()
     {
-        return $this->hasMany(PomwGatewayClient::class, 'uuid', 'uuid');
+        return $this->hasMany(Video::class)->where('status', 'Approved');
     }
 
-    public function filter_set()
+    public function emailsSent()
     {
-        return $this->belongsTo(FilterSet::class, 'default_filter_set_id', 'id');
+        return $this->hasMany(Log::class)->where('type', 'EMAIL');
     }
 
-    public function access_level()
+    public function emailCreds()
     {
-        return $this->belongsTo(AccessLevel::class, 'access_level_id', 'id');
+        return $this->hasOne(EmailCredentials::class);
+    }
+
+    public function googleDriveCreds()
+    {
+        return $this->hasOne(GoogleDriveCred::class);
+    }
+
+    public function klavio()
+    {
+        return $this->hasOne(KlavioCredential::class);
+    }
+
+    /**** Accessors ***/
+
+    public function getFormattedCreatedAtAttribute()
+    {
+        return $this->created_at->format(config('constants.date_format')); // Customize the format as needed
+    }
+
+    public function customers()
+    {
+        return $this->hasMany(Customer::class);
     }
 }

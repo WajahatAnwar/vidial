@@ -2,6 +2,8 @@
 
 use App\Models\Collection;
 use App\Models\CollectionProduct;
+use App\Models\EmailCredentials;
+use App\Models\Orders;
 use App\Models\Product;
 use App\Models\ProductVariant;
 use App\Models\ProductImage;
@@ -673,7 +675,6 @@ if (!function_exists('checkLinkExpiration')) {
             try {
                 $order_id = Crypt::decryptString($request->order_id);
                 $order = Orders::find($order_id);
-
 
                 // check order existance
                 if (!$order) {

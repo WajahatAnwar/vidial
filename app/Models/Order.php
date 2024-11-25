@@ -10,8 +10,6 @@ class Order extends Model
 {
     use HasFactory;
 
-
-
     protected $fillable = [
         'user_id',
         'order_name',
@@ -41,11 +39,6 @@ class Order extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
-    }
-
-    public function refunds()
-    {
-        return $this->hasMany(Refund::class, 'local_order_id', 'id');
     }
 
     public function line_items()

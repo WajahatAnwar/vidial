@@ -8,18 +8,19 @@
         "php": "^8.0.2",
         "ajcastro/eager-load-pivot-relations": "^0.3.0",
         "biiiiiigmonster/hasin": "2.0",
-        "campo/laravel-shipstation": "^5.0",
         "doctrine/dbal": "3.0",
         "guzzlehttp/guzzle": "^7.2",
         "inertiajs/inertia-laravel": "^0.6.3",
-        "kunalvarma05/dropbox-php-sdk": "^0.5.0",
         "kyon147/laravel-shopify": "^17.3",
         "laravel/framework": "^9.19",
         "laravel/sanctum": "^3.2",
         "laravel/tinker": "^2.7",
         "maatwebsite/excel": "^3.1",
         "predis/predis": "^2.2",
-        "tightenco/ziggy": "^1.0"
+        "tightenco/ziggy": "^1.0",
+        "dcblogdev/laravel-dropbox": "^3.0",
+        "google/apiclient": "^2.14",
+        "mailgun/mailgun-php": "^3.5"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
@@ -71,7 +72,8 @@
         "preferred-install": "dist",
         "sort-packages": true,
         "allow-plugins": {
-            "pestphp/pest-plugin": true
+            "pestphp/pest-plugin": true,
+            "php-http/discovery": true
         }
     },
     "minimum-stability": "dev",
