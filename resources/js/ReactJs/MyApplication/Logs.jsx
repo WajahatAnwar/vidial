@@ -42,10 +42,10 @@ export default function Logs() {
     };
 
     useEffect(() => {
-        let url = route('logs', { sort: sorting, ...query });
+        let url = route('logs-content', { sort: sorting, ...query });
         // search
         if (searchQuery) {
-            let url = route('logs', { sort: sorting, q: searchQuery, ...query });
+            let url = route('logs-content', { sort: sorting, q: searchQuery, ...query });
         }
         fetch(url)
             .then((response) => response.json())
