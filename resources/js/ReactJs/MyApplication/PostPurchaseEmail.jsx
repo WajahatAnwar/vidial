@@ -176,9 +176,9 @@ const PostPurchaseEmail = () => {
             .then((data) => {
 
                 if (data.success) {
-                    let redirect = route('/email', query);
+                    let redirect = route('email', query);
                     if (id) {
-                        redirect = route('/user-email-settings/' + id, query);
+                        redirect = route('user-email-settings' + id, query);
                     }
                     toggleActive()
                     setTimeout(() => {
@@ -301,10 +301,10 @@ const PostPurchaseEmail = () => {
                         >
                             <div onClick={() => {
                                 if (id) {
-                                    router.get(route('/user-email-settings/' + id, query));
+                                    router.get(route('user-email-settings' + id, query));
                                 }
                                 else {
-                                    router.get(route('/email', query));
+                                    router.get(route('email', query));
                                 }
                             }} style={{ display: "flex", marginLeft: "10px", marginBottom: "10px", cursor: "pointer" }}>
                                 <div><img src={backIcon} style={{ marginTop: "4px", }}></img></div>

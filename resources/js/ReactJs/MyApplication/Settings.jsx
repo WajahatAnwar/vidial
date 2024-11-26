@@ -805,7 +805,7 @@ const Settings = () => {
         } else {
             setError(false);
             // Generating request for sending Data to the server
-            fetch(route("/save_settings", query), {
+            fetch(route("save_settings", query), {
                 method: "post",
                 body: formData,
             }).then((response) => response.json())

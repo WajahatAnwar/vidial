@@ -186,10 +186,10 @@ const UgcApprovedEmail = () => {
             then((response) => response.json())
             .then((data) => {
                 if (data.success) {
-                    let redirect = route('/email', query);
+                    let redirect = route('email', query);
 
                     if (id) {
-                        redirect = route('/user-email-settings/:id', { id: id, ...query });
+                        redirect = route('user-email-settings/:id', { id: id, ...query });
                     }
                     toggleActive()
                     setTimeout(() => {
