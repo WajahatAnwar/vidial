@@ -38,10 +38,13 @@ import downloadIcon from "./imges/downloadIcon.png";
 import noVedio from "./imges/film.png";
 import { downloadVideo } from "./utils";
 import Ticker from "./Ticker";
+import { router, usePage } from "@inertiajs/react";
 
-function Dashboard({query}) {
-    // const cLocation = useLocation();
-    const { pathname, search } = useLocation();
+function Dashboard() {
+
+    const page = usePage().props;
+    const query = page.ziggy.query;
+
     const [activeRejectionModel, setActiveRejectionModel] = useState(false);
     const handleChangeRejectionModel = useCallback(
         () => setActiveRejectionModel(!activeRejectionModel),
@@ -70,7 +73,7 @@ function Dashboard({query}) {
         setActiveRejectionSuccessModel(!activeRejectionSuccessModel),
             [activeRejectionSuccessModel];
         setRejectionReason("");
-        navigate("/dashboard"+query);
+        router.get(route('home', query));
         setReload(new Date().getSeconds());
     });
 
@@ -104,7 +107,7 @@ function Dashboard({query}) {
     const handleChangeApprovedSuccessModel = useCallback(() => {
         setActiveApprovedSuccessModel(!activeApprovedSuccessModel),
             [activeApprovedSuccessModel];
-        navigate("/dashboard"+query);
+        router.get(route('home', query));
         setReload(new Date().getSeconds());
     });
 
@@ -130,7 +133,7 @@ function Dashboard({query}) {
         var formData = new FormData();
         formData.append("video_id", id);
         if (confirmed) {
-            fetch("/videoOperation"+query, {
+            fetch(route('videoOperation', query), {
                 method: "post",
                 body: formData,
             })
@@ -161,7 +164,7 @@ function Dashboard({query}) {
     /******** move to plan page *****/
 
     const upgradePlan = () => {
-        navigate('/plans' + query);
+        router.get(route('plans', query));
     };
     /******** Rejection popup   ******/
 
@@ -180,7 +183,7 @@ function Dashboard({query}) {
             var formData = new FormData();
             formData.append("reason", rejectionReason);
             formData.append("video_id", rejectVideoId);
-            fetch("/rejectVideo"+query, {
+            fetch(route('rejectVideo', query), {
                 method: "post",
                 body: formData,
             })
@@ -205,7 +208,7 @@ function Dashboard({query}) {
                 })
                 .catch((error) => {
                     console.log(error);
-                    navigate("/dashboard"+query);
+                    router.get(route('home', query));
                 });
         } else {
             console.log("reason box empty");
@@ -223,7 +226,7 @@ function Dashboard({query}) {
 
     /**** approved video ***/
 
-    const approvedUserVideo = (id,type=null) => {
+    const approvedUserVideo = (id, type = null) => {
         setapprovedUserVideoId(id);
         setApprovedVideoType(type);
 
@@ -239,14 +242,14 @@ function Dashboard({query}) {
         formData.append("video_id", approvedUserVideoId);
         formData.append("type", approvedVideoType);
         if (approvedUserVideoId) {
-            if (approvedVideoType=='star_rating'){
+            if (approvedVideoType == 'star_rating') {
                 setVideoFeedback("Congratulations, you just approved the star rating video.");
-            }else{
+            } else {
                 setVideoFeedback("Congratulations, you just approved the video.");
 
             }
             setVideoFeedbackPopupTitle("Please Confirm");
-            fetch("/videoOperation"+query, {
+            fetch(route('videoOperation', query), {
                 method: "post",
                 body: formData,
             })
@@ -290,8 +293,7 @@ function Dashboard({query}) {
     /********  get Settings Data  ******/
     useEffect(() => {
         setReloadPendingVideos(true);
-        console.log('get dashboard settings data 1222');
-        fetch("/getDashboardContent" + query)
+        fetch(route('getDashboardContent', query))
             .then((response) => {
                 if (!response.ok) {
                     throw new Error("Something went wrong");
@@ -315,8 +317,6 @@ function Dashboard({query}) {
                 console.log(error);
             });
     }, [reload]);
-
-    const navigate = useNavigate();
 
     return (
         <Page>
@@ -406,7 +406,7 @@ function Dashboard({query}) {
                                     <Button
                                         size="slim"
                                         onClick={() => {
-                                            navigate("/videos-to-review"+query);
+                                            router.get(route('videos-to-review', query));
                                         }}
                                     >
                                         See All
@@ -525,52 +525,43 @@ function Dashboard({query}) {
                                                                         );
                                                                     }}
                                                                 >
-                                                                    <Link to={`${pathname}/${query}`}>
+                                                                    <a href={`${pathname}/${query}`}>
                                                                         <Icon
                                                                             source={
                                                                                 CircleTickMajor
                                                                             }
                                                                             color="primary"
                                                                         />
-                                                                    </Link>
+                                                                    </a>
                                                                 </div>
                                                                 <div style={{
-                                                                        marginRight:
-                                                                            "20px",
-                                                                    }}>
-                                                                    <Link
-                                                                        to={`${pathname}/${query}`}
+                                                                    marginRight:
+                                                                        "20px",
+                                                                }}>
+                                                                    <a
+                                                                        href={`${pathname}/${query}`}
                                                                         onClick={() => {
                                                                             rejectVideo(
                                                                                 video.id
                                                                             );
-                                                                        }}
-                                                                    >
+                                                                        }}>
                                                                         <Icon
                                                                             source={
                                                                                 CircleCancelMajor
                                                                             }
                                                                             color="critical"
                                                                         />
-                                                                    </Link>
+                                                                    </a>
                                                                 </div>
-                                                                {/* <div>
-                                                                    <Link>
-                                                                        <Icon
-                                                                            source={FavoriteMajor}
-                                                                            color="warning"
-                                                                        />
-                                                                    </Link>
-                                                                </div> */}
                                                                 <div style={{
-                                                                    cursor:'pointer'
+                                                                    cursor: 'pointer'
                                                                 }} onClick={() => {
                                                                     approvedUserVideo(
                                                                         video.id,
                                                                         'star_rating'
                                                                     );
                                                                 }}>
-                                                                    <img src={staricon} alt="" style={{width:"20px"}} />
+                                                                    <img src={staricon} alt="" style={{ width: "20px" }} />
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -617,7 +608,7 @@ function Dashboard({query}) {
                                     <Button
                                         size="slim"
                                         onClick={() => {
-                                            navigate("/approved-videos"+query);
+                                            router.get(route('approved-videos'), query)
                                         }}
                                     >
                                         See All
@@ -853,13 +844,13 @@ function Dashboard({query}) {
 
 
 
-                                <Button
-                                    disabled={isClicked}
-                                    primary
-                                    onClick={handleApprovedUserVideo}
-                                >
-                                    Confirm
-                                </Button>
+                                    <Button
+                                        disabled={isClicked}
+                                        primary
+                                        onClick={handleApprovedUserVideo}
+                                    >
+                                        Confirm
+                                    </Button>
                                 </div>
                             </ButtonGroup>
                         </div>

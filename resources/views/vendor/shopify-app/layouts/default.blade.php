@@ -38,6 +38,59 @@
 
             var shop = "{{ $shopDomain ?? Auth::user()->name }}";
 
+            const history = actions.History.create(app);
+
+            // const dashboardLink = actions.AppLink.create(app, {
+            // label: 'Dashboard',
+            // destination: '/',
+            // });
+
+            const getstartedBlock = actions.AppLink.create(app, {
+                label: 'Get Started',
+                destination: '/get-started',
+            });
+
+            const dashboardBlock = actions.AppLink.create(app, {
+                label: 'Dashboard',
+                destination: '/',
+            });
+            const videostoreviewblock = actions.AppLink.create(app, {
+                label: 'Videos to Review',
+                destination: `/videos-to-review`,
+            });
+            const approvedvideosblock = actions.AppLink.create(app, {
+                label: 'Approved Videos',
+                destination: '/approved-videos',
+            });
+            const landingpageblock = actions.AppLink.create(app, {
+                label: 'Landing Page',
+                destination: '/settings',
+            });
+            const emails = actions.AppLink.create(app, {
+                label: 'Emails',
+                destination: '/email',
+            });
+            const plans = actions.AppLink.create(app, {
+                label: 'Plans',
+                destination: '/plans',
+            });
+            const logs = actions.AppLink.create(app, {
+                label: 'logs',
+                destination: '/logs',
+            });
+
+
+
+
+
+            // create NavigationMenu with no active links
+            const navigationMenu = actions.NavigationMenu.create(app, {
+                items: [getstartedBlock, dashboardBlock, videostoreviewblock, approvedvideosblock, landingpageblock,
+                    emails, plans, logs,
+                ],
+            });
+
+
             const {
                 fetch: originalFetch
             } = window;

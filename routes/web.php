@@ -184,10 +184,10 @@ Route::group(['middleware' => ['verify.embedded', 'verify.shopify', 'billable', 
     Route::post('save-email-tab', [SettingsController::class, 'saveEmailTab']);
     Route::get('get_settings', [SettingsController::class, 'getSettings']);
     Route::get('getPendingVideos', [VideoController::class, 'getPendingVideos']);
-    Route::post('videoOperation', [VideoController::class, 'videoOperation']);
-    Route::post('rejectVideo', [VideoController::class, 'rejectVideo']);
+    Route::post('videoOperation', [VideoController::class, 'videoOperation'])->name('videoOperation');
+    Route::post('rejectVideo', [VideoController::class, 'rejectVideo'])->name('rejectVideo');
     Route::post('saveLocale', [SettingsController::class, 'saveLocale']);
-    Route::get('getDashboardContent', [DashboardController::class, 'getDashboardContent']);
+    Route::get('getDashboardContent', [DashboardController::class, 'getDashboardContent'])->name('getDashboardContent');
     Route::get('getApprovedVideos', [VideoController::class, 'getApprovedVideos']);
     Route::get('getPendingVideoCount', [DashboardController::class, 'getPendingVideoCount']);
     Route::post('downloadVideo', [VideoController::class, 'downloadVideo']);
