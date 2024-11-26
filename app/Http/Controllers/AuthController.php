@@ -267,7 +267,7 @@ class AuthController extends Controller
         curl_close($curl);
         // dd($response);
 
-        return Inertia::render('MyApplication/EmbeddedApp/EmbeddedApp');
+        return Inertia::render('MyApplication/Dashboard');
     }
 
     /******************* on App Install Email Settings ***********************/

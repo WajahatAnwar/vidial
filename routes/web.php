@@ -143,6 +143,43 @@ Route::group(['middleware' => ['verify.embedded', 'verify.shopify', 'billable', 
 
     //VIDIAL ROUTES
 
+    Route::inertia('/settings', 'MyApplication/Settings')->name('settings');
+
+    // Video-related routes
+    Route::inertia('/videos-to-review', 'MyApplication/VideosToReview')->name('videos-to-review');
+    Route::inertia('/approved-videos', 'MyApplication/ApprovedVideos')->name('approved-videos');
+
+    // Email-related routes
+    Route::inertia('/email', 'MyApplication/Email')->name('email');
+    Route::inertia('/plans', 'MyApplication/Plans')->name('plans');
+    Route::inertia('/resources', 'MyApplication/Resources')->name('resources');
+
+    // Admin dashboard
+    Route::inertia('/admin-dashboard', 'MyApplication/AdminDashboard')->name('admin-dashboard');
+
+    // User settings with optional parameters
+    Route::inertia('/user-settings/{id?}', 'MyApplication/UserSettings')->name('user-settings');
+    Route::inertia('/user-email-settings/{id?}', 'MyApplication/UserEmail')->name('user-email-settings');
+
+    // Post-purchase emails
+    Route::inertia('/post-purchase-email/{id?}', 'MyApplication/PostPurchaseEmail')->name('post-purchase-email');
+    Route::inertia('/reminder-email/{id?}', 'MyApplication/ReminderEmail')->name('reminder-email');
+
+    // UGC email routes
+    Route::inertia('/ugc-approved-email/{id?}', 'MyApplication/UgcApprovedEmail')->name('ugc-approved-email');
+    Route::inertia('/ugc-declined-email/{id?}', 'MyApplication/UgcDeclinedEmail')->name('ugc-declined-email');
+    Route::inertia('/ugc-star-approved/{id?}', 'MyApplication/UgcStarApproved')->name('ugc-star-approved');
+
+    // User logs and video routes
+    Route::inertia('/user-logs/{id}', 'MyApplication/UserLogs')->name('user-logs');
+    Route::inertia('/user-approved-videos/{id}', 'MyApplication/UserApprovedVideos')->name('user-approved-videos');
+    Route::inertia('/user-reviewed-videos/{id}', 'MyApplication/UserReviewdVideos')->name('user-reviewed-videos');
+
+    // Logs and onboarding
+    Route::inertia('/logs', 'MyApplication/Logs')->name('logs');
+    Route::inertia('/get-started', 'MyApplication/GetStarted')->name('get-started');
+
+    // OTHER SHOPIFY ROUTES
     Route::post('save_settings', [SettingsController::class, 'saveSettings']);
     Route::post('save-email-tab', [SettingsController::class, 'saveEmailTab']);
     Route::get('get_settings', [SettingsController::class, 'getSettings']);
