@@ -319,6 +319,7 @@ function WaitingVideos() {
                                     borderRadius: "6px",
                                     textAlign: "center",
                                     paddingTop: "125px",
+                                    justifyItems: "center",
                                 }}
                             >
                                 <img

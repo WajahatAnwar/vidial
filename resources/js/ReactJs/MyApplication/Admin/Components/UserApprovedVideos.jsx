@@ -131,7 +131,7 @@ function UserApprovedVideos() {
                                 </div>
                             </Card.Section>
                             {numberOfVedios <= 0 ? (
-                                <div style={{ height: "400px", background: "#f9f9f9", borderRadius: "6px", textAlign: "center", paddingTop: "125px" }}>
+                                <div style={{ height: "400px", background: "#f9f9f9", borderRadius: "6px", textAlign: "center", paddingTop: "125px", justifyItems: "center", }}>
                                     <img style={{ height: "102px", opacity: ".5" }} src={noVedio}></img>
 
                                     <p style={{ color: "#d3c9c9", fontSize: "17px" }}>No Approved Videos</p>

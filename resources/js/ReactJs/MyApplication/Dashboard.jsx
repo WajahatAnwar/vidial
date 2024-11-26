@@ -409,6 +409,7 @@ function Dashboard() {
                                     borderRadius: "6px",
                                     textAlign: "center",
                                     paddingTop: "125px",
+                                    justifyItems: "center",
                                 }}
                             >
                                 <img
@@ -611,6 +612,7 @@ function Dashboard() {
                                     borderRadius: "6px",
                                     textAlign: "center",
                                     paddingTop: "125px",
+                                    justifyItems: "center",
                                 }}
                             >
                                 <img
