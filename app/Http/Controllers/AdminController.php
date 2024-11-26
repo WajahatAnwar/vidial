@@ -15,7 +15,6 @@ use App\Models\EmailTemplate;
 
 class AdminController extends Controller
 {
-    public function showadminlogin() {}
     public function fetchingdataofusers(Request $request)
     {
         $user_info = User::with(['plan'])

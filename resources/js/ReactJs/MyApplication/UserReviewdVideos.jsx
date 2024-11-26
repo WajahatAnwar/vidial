@@ -10,8 +10,11 @@ import React, { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import noVedio from "../../imges/film.png";
 import WaitingIcon from "../../imges/waiting2.png";
-function UserApprovedVideos() {
-    let { id } = useParams();
+import { usePage } from "@inertiajs/react";
+function UserReviewdVideos() {
+    const page = usePage().props;
+    const query = page.ziggy.query;
+    const id = page.ziggy.query.id
     const [numberOfVedios, setNumberOfVedios] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
@@ -70,11 +73,11 @@ function UserApprovedVideos() {
 
         window.addEventListener('keydown', handleKeyDown);
 
+
         /************* End --- disabled right inspect element ***************/
-        let saveUrl = route('getApprovedVideos', { currentPage: currentPage, ...query });
-        if (id) {
-            saveUrl = route('getUserApprovedVideos', { id: id, currentPage: currentPage, ...query });
-        }
+
+        let url = "/getUserPendingVideos?page=" + currentPage + "&id=" + id;
+
         fetch(url)
             .then((response) => {
                 if (!response.ok) {
@@ -86,7 +89,7 @@ function UserApprovedVideos() {
                 if (data.success) {
                     setVideos(data.data);
                     setTotalPages(data.totalPages);
-                    setNumberOfVedios(data.videosCount);
+                    setNumberOfVedios(data.videoCount);
                 }
             })
             .catch((error) => {
@@ -125,17 +128,15 @@ function UserApprovedVideos() {
                                             style={{ marginRight: "10px" }}
                                         ></img>
                                         <Text variant="headingLg" as="h5">
-                                            Approved Videos
+                                            Review Videos
                                         </Text>
                                     </div>
                                 </div>
                             </Card.Section>
                             {numberOfVedios <= 0 ? (
-                                <div style={{ height: "400px", background: "#f9f9f9", borderRadius: "6px", textAlign: "center", paddingTop: "125px", justifyItems: "center", }}>
+                                <div style={{ height: "400px", background: "#f9f9f9", borderRadius: "6px", textAlign: "center", paddingTop: "125px", }}>
                                     <img style={{ height: "102px", opacity: ".5" }} src={noVedio}></img>
-
                                     <p style={{ color: "#d3c9c9", fontSize: "17px" }}>No Approved Videos</p>
-
                                 </div>
                             ) :
                                 <Card.Section>
@@ -174,16 +175,7 @@ function UserApprovedVideos() {
                                                                 Your browser does not
                                                                 support the video tag.
                                                             </video>
-                                                            <p
-                                                                style={{
-                                                                    fontSize: "12px",
-                                                                    color: "#797979",
-                                                                    marginTop: "10px",
-                                                                }}
-                                                            >
-                                                                {video.approved_video_type == 'star_rating' ? 'Star Approved' : 'Approved'} {video.updated_at}
 
-                                                            </p>
                                                             <p
                                                                 style={{
                                                                     fontSize: "12px",
@@ -239,4 +231,4 @@ function UserApprovedVideos() {
     );
 }
 
-export default UserApprovedVideos;
+export default UserReviewdVideos;

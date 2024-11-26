@@ -106,25 +106,25 @@ Route::get('gd-success', [GoogleDriveController::class, 'gdSuccess'])->name('goo
 //NON EMBEDDED
 Route::group(['middleware' => ['auth']], function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-    // Route::inertia('/dashboard', 'MyApplication/Dashboard/Dashboard')->name('index');
-    // Route::get('/all_in_one/get_dashboard', [DashboardController::class, 'get_dashboard'])->name('all_in_one_dash');
-    // Route::post('/all_in_one/change_status', [DashboardController::class, 'change_status']);
-    // Route::post('/all_in_one/sync_store_products', [DashboardController::class, 'sync_store_products']);
-    // Route::post('/all_in_one/sync_store_orders', [DashboardController::class, 'sync_store_orders']);
+    Route::inertia('/dashboard', 'MyApplication/AdminDashboard')->name('index');
+    Route::get('getDataofallPlans', [AdminController::class, 'fetchingdataofusers'])->name('getDataofallPlans');
+    Route::post('update_status_for_water_mark', [AdminController::class, 'update_status_for_water_mark'])->name('update_status_for_water_mark');
+    Route::get('customer_settings', [SettingsController::class, 'getSettings'])->name('customer_settings');
+    Route::post('save_customer_settings', [SettingsController::class, 'saveSettings'])->name('save_customer_settings');
+    Route::get('customer_email_settings', [SettingsController::class, 'getSettings'])->name('customer_email_settings');
+    Route::post('save-user-email-tab', [SettingsController::class, 'saveEmailTab'])->name('save-user-email-tab');
+    Route::get('fetch-user-email-settings', [SettingsController::class, 'fetchEmailSettings'])->name('fetch-user-email-settings');
+    Route::post('save-user-email-settings', [SettingsController::class, 'saveEmailSettings'])->name('save-user-email-settings');
+    Route::get('u-logs', [SettingsController::class, 'logs'])->name('logs')->name('u-logs');
+    Route::get('getUserApprovedVideos', [VideoController::class, 'getApprovedVideos'])->name('getUserApprovedVideos');
+    Route::get('getUserPendingVideos', [VideoController::class, 'getPendingVideos'])->name('getUserPendingVideos');
+    Route::inertia('/single-user-settings', 'MyApplication/UserSettings')->name('single-user-settings');
+    Route::inertia('/single-user-email-settings', 'MyApplication/UserEmail')->name('single-user-email-settings');
+    Route::inertia('/single-user-logs', 'MyApplication/UserLogs')->name('single-user-logs');
+    Route::inertia('/single-user-approved-videos', 'MyApplication/UserApprovedVideos')->name('single-user-approved-videos');
+    Route::inertia('/single-user-reviewed-videos', 'MyApplication/UserReviewdVideos')->name('single-user-reviewed-videos');
 
-    Route::inertia('/dashboard', 'MyApplication/Dashboard/Dashboard')->name('index');
 
-    Route::get('getDataofallPlans', [AdminController::class, 'fetchingdataofusers']);
-    Route::post('update_status_for_water_mark', [AdminController::class, 'update_status_for_water_mark']);
-    Route::get('customer_settings', [SettingsController::class, 'getSettings']);
-    Route::post('save_customer_settings', [SettingsController::class, 'saveSettings']);
-    Route::get('customer_email_settings', [SettingsController::class, 'getSettings']);
-    Route::post('save-user-email-tab', [SettingsController::class, 'saveEmailTab']);
-    Route::get('fetch-user-email-settings', [SettingsController::class, 'fetchEmailSettings']);
-    Route::post('save-user-email-settings', [SettingsController::class, 'saveEmailSettings']);
-    Route::get('u-logs', [SettingsController::class, 'logs'])->name('logs');
-    Route::get('getUserApprovedVideos', [VideoController::class, 'getApprovedVideos']);
-    Route::get('getUserPendingVideos', [VideoController::class, 'getPendingVideos']);
 });
 
 //NON EMBEDDED END ######################################################################################

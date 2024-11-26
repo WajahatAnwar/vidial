@@ -24,8 +24,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        if (app()->environment(['production']) || str_contains(url()->current(), 'localto.net')) {
+        // if (app()->environment(['production']) || str_contains(url()->current(), 'localto.net')) {
             URL::forceScheme('https');
-        }
+        // }
     }
 }

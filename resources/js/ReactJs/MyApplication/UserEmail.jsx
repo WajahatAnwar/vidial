@@ -20,12 +20,11 @@ import {
 } from "@shopify/polaris";
 import { CircleCancelMajor, NoteMinor, TickMinor } from "@shopify/polaris-icons";
 import { useCallback, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import Toggle from "../../Toggle";
-import '../../css/editor.css';
-import ChevronUp from "../../imges/ChevronUpMinor.png";
-import arrowRight from "../../imges/arrowRight.png";
-import ColorWheel from "../../imges/collorWheel.png";
+import Toggle from "@/ReactJs/MyApplication/Toggle";
+import '@/ReactJs/MyApplication/css/editor.css';
+import ChevronUp from "@/ReactJs/MyApplication/imges/ChevronUpMinor.png";
+import arrowRight from "@/ReactJs/MyApplication/imges/arrowRight.png";
+import ColorWheel from "@/ReactJs/MyApplication/imges/collorWheel.png";
 /**
 const urlParams = new URLSearchParams(location.search);
 const shopParam = urlParams.get('shop');
@@ -36,7 +35,7 @@ localStorage.setItem('store',storeName);
 const UserEmail = () => {
     const page = usePage().props;
     const query = page.ziggy.query;
-    const { id } = useParams();
+    const id = page.ziggy.query.id;
     const [klavioError, setKlavioError] = useState(false);
     const [klavioErrorMsg, setKlavioErrorMsg] = useState('');
     const [storeHandle, setStoreHandle] = useState(null);
@@ -213,9 +212,9 @@ const UserEmail = () => {
     // console.log(logoImage);
     const [video, setVideo] = useState("");
     const [store, setStore] = useState("");
-    // const [baseUrl, setBaseUrl] = useState("https://8737-72-255-40-111.ngrok-free.app");
-    //const [baseUrl, setBaseUrl] = useState("https://8737-72-255-40-111.ngrok-free.app");
-    const [baseUrl, setBaseUrl] = useState("https://8737-72-255-40-111.ngrok-free.app");
+    // const [baseUrl, setBaseUrl] = useState("https://031b-72-255-40-111.ngrok-free.app");
+    //const [baseUrl, setBaseUrl] = useState("https://031b-72-255-40-111.ngrok-free.app");
+    const [baseUrl, setBaseUrl] = useState("https://031b-72-255-40-111.ngrok-free.app");
     const [imagename, setImagename] = useState("");
     const [videoname, setVideoname] = useState("");
     const [previewLogo, setPreviwLogo] = useState("");

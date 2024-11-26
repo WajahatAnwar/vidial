@@ -23,10 +23,9 @@ import {
 } from "@shopify/polaris";
 import { CircleCancelMajor, NoteMinor, TickMinor } from "@shopify/polaris-icons";
 import { useCallback, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import '../../css/editor.css';
-import ColorWheel from "../../imges/collorWheel.png";
-import DellIcon from "../../imges/dellIcon.png";
+import '@/ReactJs/MyApplication/css/editor.css';
+import ColorWheel from "@/ReactJs/MyApplication/imges/collorWheel.png";
+import DellIcon from "@/ReactJs/MyApplication/imges/dellIcon.png";
 /**
 const urlParams = new URLSearchParams(location.search);
 const shopParam = urlParams.get('shop');
@@ -37,7 +36,7 @@ localStorage.setItem('store',storeName);
 const UserSettings = () => {
     const page = usePage().props;
     const query = page.ziggy.query;
-    const { id } = useParams();
+    const id = page.ziggy.query.id
 
     const [storeHandle, setStoreHandle] = useState(null);
     const [approvedStoreHandle, setApprovedStoreHandle] = useState(null);
@@ -489,6 +488,7 @@ const UserSettings = () => {
 
     /********  get Settings Data  ******/
     useEffect(() => {
+        console.log('here is my code',id)
         async function fetchSettings() {
 
             try {

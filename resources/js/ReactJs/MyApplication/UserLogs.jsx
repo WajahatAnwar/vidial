@@ -1,3 +1,4 @@
+import { usePage } from "@inertiajs/react";
 import {
     Badge,
     Button,
@@ -6,9 +7,10 @@ import {
     TextField
 } from "@shopify/polaris";
 import React, { useEffect, useState } from 'react';
-import { useParams } from "react-router-dom";
 export default function UserLogs() {
-    const { id } = useParams();
+    const page = usePage().props;
+    const query = page.ziggy.query;
+    const id = page.ziggy.query.id
 
     const [sorting, setSorting] = useState("desc");
     const [searchQuery, setSearchQuery] = useState(null);
