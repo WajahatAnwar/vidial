@@ -27,7 +27,7 @@ import Ticker from "./Ticker";
 // import { DeleteIcon } from '@shopify/polaris-icons';
 // import {DeleteIcon} from '@shopify/polaris-icons';
 
-import { router } from "@inertiajs/react";
+import { router, usePage } from "@inertiajs/react";
 import Delete from "./imges/Delete.svg";
 /**
 const urlParams = new URLSearchParams(location.search);
@@ -36,7 +36,9 @@ const storeName = shopParam.split('.')[0];
 localStorage.setItem('store',storeName);
 */
 
-const Settings = ({ query }) => {
+const Settings = () => {
+    const page = usePage().props;
+    const query = page.ziggy.query;
     const [storeHandle, setStoreHandle] = useState(null);
     const [approvedStoreHandle, setApprovedStoreHandle] = useState(null);
     const [isHandleAvailable, setIsHandleAvailable] = useState(true);
@@ -133,7 +135,7 @@ const Settings = ({ query }) => {
 
     const removeInspirationalVideo = () => {
         var formData = {};
-        fetch("/removeInspirationalVideo" + query, {
+        fetch(route('removeInspirationalVideo',query), {
             method: "post",
 
             body: formData,
@@ -155,7 +157,7 @@ const Settings = ({ query }) => {
 
     const removeLogo = () => {
         var formData = {};
-        fetch("/removeLogo" + query, {
+        fetch(route("removeLogo",query), {
             method: "post",
 
             body: formData,
@@ -376,7 +378,7 @@ const Settings = ({ query }) => {
         setStoreHandleResponse(null);
         const formData = new FormData();
         formData.append('store_handle', newValue);
-        fetch('/check-handle' + query, {
+        fetch(route("check-handle",query), {
             method: "POST",
             body: formData
         })
@@ -421,7 +423,7 @@ const Settings = ({ query }) => {
         formData.append('endpoint', 'https://api.mailgun.net/v3/' + domain + '/messages');
         // formData.append('endpoint', mailgunEndpoint);
         formData.append('domain', domain);
-        fetch('/save-email-creds' + query, {
+        fetch(route('save-email-creds',query), {
             method: "POST",
             body: formData
         })
@@ -518,7 +520,7 @@ const Settings = ({ query }) => {
         const formData = new FormData();
         formData.append('api_key', klavioApi);
         formData.append('email', klavioEmail);
-        fetch('save-klavio-settings' + query, {
+        fetch(fetch('save-klavio-settings',query), {
             body: formData,
             method: 'POST'
         }).then(response => response.json()).then((data) => {
@@ -528,12 +530,11 @@ const Settings = ({ query }) => {
 
     /********  get Settings Data  ******/
     useEffect(() => {
-        console.log('queryParams');
-        console.log(`/get_settings${query}`);
+
         async function fetchSettings() {
 
             try {
-                const response = await fetch(`/get_settings${query}`);
+                const response = await fetch(route(`get_settings`,query));
                 if (!response.ok) {
                     throw new Error("Something went wrong");
                 }
@@ -804,7 +805,7 @@ const Settings = ({ query }) => {
         } else {
             setError(false);
             // Generating request for sending Data to the server
-            fetch("/save_settings" + query, {
+            fetch(route("/save_settings",query), {
                 method: "post",
                 body: formData,
             }).then((response) => response.json())
@@ -829,7 +830,7 @@ const Settings = ({ query }) => {
     };
 
     function handletestemail() {
-        fetch("/send_test_email" + query, {
+        fetch(route("send_test_email",query), {
             method: "GET",
         })
             .then((response) => {
@@ -1017,7 +1018,7 @@ const Settings = ({ query }) => {
         const formData = new FormData();
         if (!isHandleAvailable) {
             formData.append('store_handle', storeHandle);
-            fetch('store_handle' + query, {
+            fetch(route('store_handle',query), {
                 method: "POST",
                 body: formData
             }).then((response) => response.json()).then((data) => {
