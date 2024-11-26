@@ -171,9 +171,9 @@ const UgcDeclinedEmail = () => {
             logo_file = alreadyUploadLogo == '' ? 'empty_logo' : 'already_uploaded_logo';
         }
         formData.append('logo', logo_file)
-        let saveUrl = route('/save-email-settings', query);
+        let saveUrl = route('save-email-settings', query);
         if (id) {
-            saveUrl = route('/save-email-settings', { id: id, ...query });
+            saveUrl = route('save-email-settings', { id: id, ...query });
         }
         fetch(saveUrl, {
             method: "POST",

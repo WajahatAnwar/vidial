@@ -147,9 +147,9 @@ const PostPurchaseEmail = () => {
     const [gradientCheck, setGradientCheck] = useState(false);
     console.log(files)
     const handleSaveEmailSettings = () => {
-        let saveUrl = route('/save-email-settings', query);
+        let saveUrl = route('save-email-settings', query);
         if (id) {
-            saveUrl = route('/save-email-settings', { id: id, ...query });
+            saveUrl = route('save-email-settings', { id: id, ...query });
         }
         let logo_file;
         setContent(editorRef.current.getContent());
