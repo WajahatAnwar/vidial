@@ -1,14 +1,19 @@
 <?php
 
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\EmailController;
+use App\Http\Controllers\GoogleDriveController;
+use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\VideoController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Jobs\SyncProductsJob;
 use App\Models\User;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Http;
 use Inertia\Inertia;
 
 use Osiset\ShopifyApp\Util;
@@ -38,16 +43,61 @@ Route::get('/sync-collections', function () {
     return responseJson(true, 'Collections Synced Queued In Database');
 });
 
-Route::get('/jobs',function(Shop $query){
-    $users = User::whereNotNull('password')->where('role_id',2)->get();
+Route::get('/jobs', function (Shop $query) {
+    $users = User::whereNotNull('password')->where('role_id', 2)->get();
     // $users = User::where('id',151)->get();
-    foreach($users as $user) {
+    foreach ($users as $user) {
         $shopName = ShopDomain::fromNative($user->name);
         $shop = $query->getByDomain($shopName);
         $shopId = $shop->getId();
         WebhookInstaller::dispatch($shopId, Util::getShopifyConfig('webhooks'));
     }
 });
+
+// Landing Page View
+Route::get('landingPage/{locale}', [SettingsController::class, 'landingPage']);
+
+// Landing Page
+Route::get('uploadVideo/{locale}/{order_id?}', [SettingsController::class, 'uploadVideo'])->name('uploadVideo');
+// upload video on Dropbox
+Route::post('uploadVideo', [VideoController::class, 'uploadDropboxVideo']);
+
+Route::get('congratulations/{locale}', [VideoController::class, 'congratulations']);
+
+Route::get('terms_and_conditions', [VideoController::class, 'termsAndConditions']);
+
+Route::post('saveVideo', [VideoController::class, 'saveVideo']);
+
+Route::get('redirect_back', function () {
+    return redirect()->back();
+});
+
+Route::get('/test-email', [EmailController::class, 'email']);
+
+
+Route::get('/cron', function () {
+    Artisan::call('schedule:run');
+});
+
+//Email setting Portion
+Route::get('fatch_orders', [OrdersController::class, 'fetch_orders'])->middleware(['verify.shopify']);
+
+Route::get('send_test_email', [OrdersController::class, 'sendtest_email'])->middleware(['verify.shopify']);
+
+Route::get('send_customers', [OrdersController::class, 'customers_send_email'])->middleware(['verify.shopify']);
+
+Route::get('review_updated/{id}', [OrdersController::class, 'review_updated'])->name('review_updated');
+
+Route::get('get_plans', [OrdersController::class, 'get_plans'])->name('get_plans')->middleware(['verify.shopify']);
+Route::get('testEmail', [AdminController::class, 'testEmail']);
+
+Route::get('s/{handle}', [SettingsController::class, 'landingPage2']);
+
+Route::get('connect-gd', [GoogleDriveController::class, 'connectDrive'])->name('google.connect');
+
+Route::get('google-login', [GoogleDriveController::class, 'googleLogin'])->name('google.login');
+
+Route::get('gd-success', [GoogleDriveController::class, 'gdSuccess'])->name('google.success');
 
 //PUBLIC END ############################################################################################
 
@@ -114,6 +164,119 @@ Route::group(['middleware' => ['verify.embedded', 'verify.shopify', 'billable', 
         $response = $user->api()->rest('GET', 'admin/api/2024-01/webhooks.json');
         return responseJson(true, 'Shop Name Retrieved', Auth::user()->name, $response);
     })->name('get_shop_real.get');
+
+    //VIDIAL ROUTES
+
+    Route::post('save_settings', [SettingsController::class, 'saveSettings']);
+    Route::post('save-email-tab', [SettingsController::class, 'saveEmailTab']);
+    Route::get('get_settings', [SettingsController::class, 'getSettings']);
+    Route::get('getPendingVideos', [VideoController::class, 'getPendingVideos']);
+    Route::post('videoOperation', [VideoController::class, 'videoOperation']);
+    Route::post('rejectVideo', [VideoController::class, 'rejectVideo']);
+    Route::post('saveLocale', [SettingsController::class, 'saveLocale']);
+    Route::get('getDashboardContent', [DashboardController::class, 'getDashboardContent']);
+    Route::get('getApprovedVideos', [VideoController::class, 'getApprovedVideos']);
+    Route::get('getPendingVideoCount', [DashboardController::class, 'getPendingVideoCount']);
+    Route::post('downloadVideo', [VideoController::class, 'downloadVideo']);
+    Route::get('test1', [VideoController::class, 'test']);
+    Route::post('removeInspirationalVideo', [SettingsController::class, 'removeInspirationalVideo']);
+    Route::post('removeLogo', [SettingsController::class, 'removeLogo']);
+    Route::post('fetchCurrentUser', [SettingsController::class, 'fetchCurrentUser']);
+    Route::post('save-email-settings', [SettingsController::class, 'saveEmailSettings']);
+    Route::get('fetch-email-settings', [SettingsController::class, 'fetchEmailSettings']);
+    Route::post('checkuploadedlogo', [SettingsController::class, 'checkuploadedlogo']);
+    Route::post('check-handle', [SettingsController::class, 'checkHandle']);
+    Route::post('store_handle', [SettingsController::class, 'saveHandle']);
+    Route::post('save-email-creds', [SettingsController::class, 'saveEmailCredentials']);
+    Route::get('update-app', [DashboardController::class, 'updateApp']);
+    Route::get('sync-customers', [DashboardController::class, 'syncCustomers']);
+    Route::get('customer-webhook', [DashboardController::class, 'customerWebhook']);
+    Route::post('save-klavio-settings', [SettingsController::class, 'saveKlavioCreds'])->name('connect.klavio');
+    Route::get('logs', [SettingsController::class, 'logs'])->name('logs');
+    Route::get('shop-id', function () {
+        $users = User::where('role_id', '2')->get();
+        foreach ($users as $user) {
+            // shop api
+            $shop_id = null;
+            $response = $user->api()->rest('GET', '/admin/api/2024-07/shop.json');
+            if (isset($response['body']['shop']['id'])) {
+                $shop_id = $response['body']['shop']['id'];
+            }
+            if ($shop_id) {
+                $user->store_id = $shop_id;
+                $user->save();
+            }
+        }
+        dd('done');
+    });
+
+    Route::get('test', function () {
+
+        $user = User::where('id', '301')->first();
+
+        $webhooks = $user->api()->rest('get', '/admin/api/2021-07/webhooks.json');
+        dd($webhooks);
+
+        foreach ($webhooks['body']['webhooks'] as $key => $value) {
+            $parsedUrl = parse_url($value['address'], PHP_URL_PATH);
+
+            // Split the path by "/"
+            $pathParts = explode('/', $parsedUrl);
+
+            // Get the value after 'webhook'
+            $valueAfterWebhook = end($pathParts);
+            $webhookPayload = [
+                'webhook' => [
+                    'topic' => $value['topic'],
+                    'address' => url('webhook/' . $valueAfterWebhook),
+                    'format' => 'json'
+                ]
+            ];
+            $response = $user->api()->rest('put', '/admin/api/2024-04/webhooks/' . $value['id'] . '.json', $webhookPayload);
+        }
+
+        $webhooks = $user->api()->rest('get', '/admin/api/2021-07/webhooks.json');
+        dd($webhooks);
+
+        // update webhook
+        //    dd($users);
+        //     $response = Http::withHeaders([
+        //         'Content-Type' => 'application/json',
+        //         'X-Mantle-Customer-Api-Token' => 'd8de0340-f3d1-4127-ac60-9d85a34140c6',
+        //         'X-Mantle-App-Id' => '58db85bd-50b1-4c84-82cf-8492b91913d4',
+        //     ])->post('https://appapi.heymantle.com/v1/usage_events', [
+        //         'customerId' => '46c5d728-f011-4f65-86cd-49b70aa562bf',
+        //         'eventId' => '1122',
+        //         'eventName' => 'vidial_testing_event',
+        //     ]);
+        //     return $response->json();
+
+        foreach ($users as $user) {
+
+            $response = Http::withHeaders([
+                'Content-Type' => 'application/json',
+                'X-Mantle-App-Api-Key' => env('MANTLE_API_KEY'),
+                'X-Mantle-App-Id' => env('MANTLE_AP_ID'),
+            ])->post('https://appapi.heymantle.com/v1/identify', [
+                'platform' => 'shopify',
+                'platformId' => $user->store_id,
+                'myshopifyDomain' => $user->name,
+                'name' => $user->store_name,
+                'email' => $user->email,
+                'accessToken' => $user->password,
+            ]);
+
+            $response = $response->json();
+            $user->mantle_token = $response['apiToken'];
+            $user->save();
+        }
+
+        if ($response->status() === 401) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+
+        return $response->json();
+    });
 });
 
 //SHOPIFY ROUTES END ######################################################################################

@@ -2,6 +2,7 @@
 
 use App\Models\Collection;
 use App\Models\CollectionProduct;
+use App\Models\Customer;
 use App\Models\EmailCredentials;
 use App\Models\Orders;
 use App\Models\Product;
@@ -10,11 +11,12 @@ use App\Models\ProductImage;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use GuzzleHttp\Exception\ConnectException;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Http;
+use Mailgun\Mailgun;
+use Illuminate\Support\Facades\Log;
 
 if (!function_exists('simpleValidate')) {
     function simpleValidate($validator)
@@ -751,7 +753,7 @@ if (!function_exists('sendMail')) {
             return true;
         } catch (\Exception $e) {
             // Log the error
-            CustomLog::info('Error sending email: ' . $e->getMessage());
+            Log::info('Error sending email: ' . $e->getMessage());
 
             // Return false to indicate failure
             return false;
@@ -1388,8 +1390,8 @@ if (!function_exists('syncCustomers')) {
 
         $perPage = 250;
         $customersCount = $user->api()->rest('GET', '/admin/api/2023-10/customers/count.json')['body']['count'];
-        CustomLog::info($customersCount);
-        CustomLog::info("cusotmer count");
+        Log::info($customersCount);
+        Log::info("cusotmer count");
 
         $iterations = ceil($customersCount / $perPage);
 
@@ -1405,7 +1407,7 @@ if (!function_exists('syncCustomers')) {
                     'page_info' => $next,
                 ]);
                 foreach ($response['body']['customers'] as $customer) {
-                    CustomLog::info('eeewwwmy customers create eewww');
+                    Log::info('eeewwwmy customers create eewww');
 
 
                     Customer::updateOrCreate(
@@ -1439,7 +1441,7 @@ if (!function_exists('syncCustomers')) {
             ]);
         } catch (Exception $e) {
             // DB::rollBack();
-            CustomLog::info($e);
+            Log::info($e);
             return $e->getMessage();
         }
     }

@@ -2,21 +2,12 @@
 
 namespace App\Jobs;
 
-use App\Models\Collection;
-use App\Models\CollectionProduct;
-use App\Models\VirtualOptions\InputFieldsProduct;
-use App\Models\VirtualOptions\LogoChargesProduct;
-use App\Models\Product;
-use App\Models\ProductImage;
-use App\Models\ProductVariant;
+use App\Models\Log;
 use App\Models\User;
-use App\Models\VirtualOptions\DropdownChargesProduct;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Log;
 use Osiset\ShopifyApp\Objects\Values\ShopDomain;
 use stdClass;
 use Osiset\ShopifyApp\Contracts\Commands\Shop;
@@ -72,21 +63,11 @@ class AppUninstalledJob extends \Osiset\ShopifyApp\Messaging\Jobs\AppUninstalled
 
         $user = User::where('name', $shop->name)->first();
 
-        if (!empty($user)) {
-
+        if ($user) {
             $shopId = $shop->getId();
-
-            Collection::where('user_id', $user->id)->delete();
-            CollectionProduct::where('user_id', $user->id)->delete();
-            Collection::where('user_id', $user->id)->delete();
-            InputFieldsProduct::where('user_id', $user->id)->delete();
-            LogoChargesProduct::where('user_id', $user->id)->delete();
-            DropdownChargesProduct::where('user_id', $user->id)->delete();
-            Product::where('user_id', $user->id)->delete();
-            ProductImage::where('user_id', $user->id)->delete();
-            ProductVariant::where('user_id', $user->id)->delete();
-            //DELETING COMMANDS
             $shopCommand->softDelete($shopId);
+        } else {
+            Log::info('user not found in app uninstall' . json_encode($shop->name));
         }
 
         return true;

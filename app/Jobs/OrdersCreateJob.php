@@ -4,14 +4,11 @@ namespace App\Jobs;
 
 use stdClass;
 use App\Models\User;
-use App\Models\Product;
 use Illuminate\Bus\Queueable;
-use App\Models\Order;
-use App\Traits\Racoon\RestrictionTrait;
-use App\Traits\GeneralTrait;
 use Illuminate\Support\Facades\Log;
-use App\Models\OrderLineItem;
-use App\Jobs\InConnect\OrderCreateJob;
+use App\Models\KlavioCredential;
+use App\Models\Orders;
+use Carbon\Carbon;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -21,7 +18,7 @@ use Osiset\ShopifyApp\Contracts\Queries\Shop as IShopQuery;
 
 class OrdersCreateJob implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, RestrictionTrait, GeneralTrait;
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     /**
      * Shop's myshopify domain
@@ -65,98 +62,47 @@ class OrdersCreateJob implements ShouldQueue
         $this->shopDomain = ShopDomain::fromNative($this->shopDomain);
         $shop = $shopQuery->getByDomain($this->shopDomain);
         $payload = $this->data;
+        $order_id = $payload->id;
 
         Log::info("order create job" . $payload->name);
 
         $user = User::with('applications')->where('name', $shop->name)->first();
 
-        $this->updateOrderEntry($payload->name, $user->id, 'ordersCreateJob');
+        $shop_settings =  $shop ? $shop->settings : null;
+        if ($shop_settings) {
 
-        $order = Order::updateOrCreate(
-            [
-                'order_id' => $payload->id,
-            ],
-            [
-                'order_name' => $payload->name,
-                'customer_id' => isset($payload->customer) ? $payload->customer->id : NULL,
-                'user_id' => $user->id,
-                'email' => $payload->email,
-                'contact_email' => $payload->contact_email,
-                'phone_no' => $payload->phone,
+            // Log::info('order create job run successfully');
+            $customer_details = $payload->customer;
+            if ($payload->contact_email == null || $payload->contact_email == "") {
+                return true;
+            }
+            /********* payload for order ********/
+            $order_payload = [
+                'user_id' =>  $shop->id,
+                'order_id' => $order_id,
+                'email' =>  $payload->email ?? $payload->contact_email,
+                'contect_email' =>  $payload->contact_email,
+                'phone_no' => isset($customer_details->phone) ? $customer_details->phone : '00',
+                'confirmed' =>  "",
                 'order_created_at' => $payload->created_at,
-                'customer_name' => isset($payload->customer) ? $payload->customer->first_name . " " . $payload->customer->last_name : NULL,
-                'total' => $payload->subtotal_price,
-                'final_total' => $payload->total_price,
-                'payment_status' => $payload->financial_status,
-                'fulfillment_status' => $payload->fulfillment_status,
-                'payload' => $payload
-            ]
-        );
+                'remaining_mail' => $shop_settings->page_display_to_customers,
+                'email_send_at' => Carbon::parse($payload->created_at)->addDays($shop->settings->page_link),
+                'reminder_mail' => Carbon::parse($payload->created_at)->addWeek($shop->settings->email_sent_to_customer),
+                'email_status' => $shop_settings->email_status,
+                'customer_name' => $payload->billing_address->first_name ?? ($payload->billing_address->last_name ?? 'Customer'),
+                'email_service' => 'mailgun',
+            ];
 
-        if (isset($payload->line_items)) {
-            foreach ($payload->line_items as $key9 => $line_item) {
-
-                $productManipulate = Product::where('product_id', $line_item->product_id)->first();
-                if($productManipulate) {
-                    $productManipulate->total_inventory = $productManipulate->total_inventory - $line_item->quantity;
-                    $productManipulate->save();
-                }
-
-                OrderLineItem::updateOrCreate(
-                    [
-                        'line_item_id' => $line_item->id,
-                    ],
-                    [
-                        'user_id' => $user->id,
-                        'local_order_id' => $order->id,
-                        'order_id' => $payload->id,
-                        'product_id' => $line_item->product_id,
-                        'name' => $line_item->name,
-                        'price' => $line_item->price,
-                        'quantity' => $line_item->quantity,
-                        'weight' => $line_item->grams,
-                    ]
-                );
+            /*********** klavio settings **************/
+            $klavio = KlavioCredential::where('user_id', $shop->id)->first();
+            if ($klavio) {
+                $order_payload['email_service'] = 'klavio';
+                /********* sent event to klavio *********/
+                KlavioEmailJob::dispatch($klavio->api_key, $klavio->email, $order_payload);
             }
+            $order = Orders::updateOrCreate(['order_id' => $order_id], $order_payload);
+            return true;
         }
-
-        $filteredObjects = $user->applications->where('id', 8);
-        $filteredObjects = $filteredObjects->first();
-        // Log::info("RACOON WORKING AND STATUS IS " . json_encode($filteredObjects->pivot->status) . " FOR SHOP: " . $user->name);
-        if ($filteredObjects->pivot->status) {
-            if ($user->restrictions()->exists()) {
-                if ($this->checkIfFraud($user, $payload, $order)) {
-                    $this->updateOrderEntry($payload->name, $user->id, 'fraudOrder');
-                    return true;
-                }
-            }
-        }
-
-        if ($user->inconnect_account) {
-            $filteredObjects = $user->applications->where('id', 6);
-            $filteredObjects = $filteredObjects->first();
-            // Log::info("GOOSELY WORKING AND STATUS IS " . json_encode($filteredObjects->pivot->status) . " FOR SHOP: " . $user->name);
-            if ($filteredObjects->pivot->status) {
-                $this->updateOrderEntry($payload->name, $user->id, 'gooselyStatus');
-                if($user->inconnect_account->intact_sync)
-                    $this->updateOrderEntry($payload->name, $user->id, 'intacctStatus');
-                if($user->inconnect_account->vendor_sync)
-                    $this->updateOrderEntry($payload->name, $user->id, 'vendorStatus');
-                if($user->inconnect_account->decorator_sync)
-                    $this->updateOrderEntry($payload->name, $user->id, 'decoratorStatus');
-                OrderCreateJob::dispatch($user, $payload);
-            }
-        } else {
-            // Log::info('Goosely Account not found for Shop: ' . $user->name);
-        }
-
-        $this->updateOrderEntry($payload->name, $user->id, 'realOrdersCreateJob');
-
-        // ORDER SPLITTER SECTION
-        $order_splitter = orderSplitterJob($user, $payload);
-        // ORDER SPLITTER SECTION
-
-        // Log::info(json_encode($order));
 
         return true;
     }

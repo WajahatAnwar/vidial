@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Auth;
-use Dropbox;
 use DateTime;
 use DateTimeZone;
 use Carbon\Carbon;
@@ -13,7 +11,6 @@ use App\Models\Video;
 use App\Models\Charge;
 use App\Models\Orders;
 use GuzzleHttp\Client;
-use App\Jobs\videoMail;
 use App\Jobs\SendMantleEventJob;
 use App\Models\Setting;
 use App\Models\Discount;
@@ -21,14 +18,12 @@ use App\Jobs\ThanksMailjob;
 use Illuminate\Http\Request;
 use App\Jobs\EmailTemplateJob;
 use App\Jobs\KlavioEmailJob;
-use App\Jobs\NotApprovedMailjob;
 use App\Models\KlavioCredential;
 use Illuminate\Support\Facades\Log;
 use App\Jobs\UploadVideoGoogleDrive;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Crypt;
 use App\Models\Customer;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class VideoController extends Controller
 {
@@ -638,7 +633,7 @@ class VideoController extends Controller
             } catch (\Illuminate\Contracts\Encryption\DecryptException $e) {
                 return response()->json([
                     'success' => false,
-                    'message' => $e->message(),
+                    'message' => $e->getMessage(),
                 ], 500);
             }
         }
@@ -715,6 +710,7 @@ class VideoController extends Controller
     {
 
         $shop = Auth::user();
+        $shop = User::find($shop->id);
         $settings = Setting::where('user_id', Auth::user()->id)->first();
         $discount_amount =  ($type == 'star_rating') ? $settings->star_credit : $settings->store_credit;
         $rules_requirements = [
