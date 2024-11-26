@@ -1,7 +1,7 @@
-import React, { useCallback, useState } from 'react'
+import { useCallback, useState } from 'react';
 // import { router, usePage } from '@inertiajs/react';
-import { Button, Card, Collapsible, Divider, Icon, Page, ResourceItem, ResourceList, Text } from '@shopify/polaris';
-import DownIcon from '../components/imges/downIcon.svg';
+import { Button, Card, Collapsible, Divider, Page, Text } from '@shopify/polaris';
+// import DownIcon from '../components/imges/downIcon.svg';
 
 
 
@@ -118,7 +118,7 @@ function GetStarted() {
                     <div style={{padding:"15px"}}>
                     <div className='flex gap-4' style={{display:"flex", gap:"10px"}}>
                         <div>
-                            <img style={{width:"10px"}} src={DownIcon}/>
+                            {/* <img style={{width:"10px"}} src={DownIcon}/> */}
 
 
                         </div>

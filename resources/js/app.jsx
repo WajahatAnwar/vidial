@@ -19,7 +19,7 @@ createInertiaApp({
             <Provider store={store}>
                 <App {...props} />
             </Provider>,
-        document.getElementById('root')    
+        document.getElementById('root')
         );
     },
     progress: {
