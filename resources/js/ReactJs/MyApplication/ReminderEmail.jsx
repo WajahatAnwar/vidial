@@ -33,7 +33,7 @@ const storeName = shopParam.split('.')[0];
 localStorage.setItem('store',storeName);
 */
 
-const ReminderEmail = ({ query }) => {
+const ReminderEmail = () => {
     const page = usePage().props;
     const query = page.ziggy.query;
     const { id } = useParams();
