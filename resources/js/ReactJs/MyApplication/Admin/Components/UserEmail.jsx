@@ -21,7 +21,6 @@ import {
 import { CircleCancelMajor, NoteMinor, TickMinor } from "@shopify/polaris-icons";
 import { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import route from "vendor/tightenco/ziggy/src/js";
 import Toggle from "../../Toggle";
 import '../../css/editor.css';
 import ChevronUp from "../../imges/ChevronUpMinor.png";
