@@ -1,57 +1,33 @@
-import React, { useEffect } from "react";
 import {
-    Page,
-    hsbToHex,
-    hsbToRgb,
-    hslToRgb,
-    rgbToHsb,
-    Card,
-    Button,
-    Select,
-    Icon,
-    Grid,
-    Modal,
     Banner,
-    RadioButton,
-    TextField,
-    ColorPicker,
-    Spinner,
-    Collapsible,
-    Popover,
+    Button,
     ButtonGroup,
-    Checkbox,
-    Label,
-} from "@shopify/polaris";
-import { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import {
+    Card,
+    ColorPicker,
     DropZone,
-    Stack,
-    Thumbnail,
-    Text,
     Frame,
-    Toast,
+    Grid,
     List,
+    Modal,
+    Page,
+    Popover,
+    Select,
+    Spinner,
+    Text,
+    TextField,
+    Thumbnail,
+    Toast,
+    hsbToHex
 } from "@shopify/polaris";
-import { CircleCancelMinor, NoteMinor, CircleCancelMajor, ChevronUpMinor, PlayMinor, ConnectMinor, TickMinor } from "@shopify/polaris-icons";
-import {
-    DeleteMajor
-} from '@shopify/polaris-icons';
-import { useCallback } from "react";
-import UploadIcon from "./imges/uploadLogo.png";
-import ErrorIcon from "./imges/error.png";
-import DellIcon from "./imges/dellIcon.png";
-import ColorWheel from "./imges/collorWheel.png";
-import ChevronUp from "./imges/ChevronUpMinor.png";
-import arrowRight from "./imges/arrowRight.png";
-import Toggle from "./Toggle";
-import Dropzone from "dropzone";
+import { NoteMinor } from "@shopify/polaris-icons";
+import { useCallback, useEffect, useState } from "react";
 import './css/editor.css';
-import EmailCredsToggle from "./EmailCredsToggle";
+import ColorWheel from "./imges/collorWheel.png";
 import Ticker from "./Ticker";
 // import { DeleteIcon } from '@shopify/polaris-icons';
 // import {DeleteIcon} from '@shopify/polaris-icons';
 
+import { router } from "@inertiajs/react";
 import Delete from "./imges/Delete.svg";
 /**
 const urlParams = new URLSearchParams(location.search);
@@ -60,8 +36,7 @@ const storeName = shopParam.split('.')[0];
 localStorage.setItem('store',storeName);
 */
 
-const Settings = ({query}) => {
-    // const { search } = useLocation();
+const Settings = ({ query }) => {
     const [storeHandle, setStoreHandle] = useState(null);
     const [approvedStoreHandle, setApprovedStoreHandle] = useState(null);
     const [isHandleAvailable, setIsHandleAvailable] = useState(true);
@@ -87,7 +62,6 @@ const Settings = ({query}) => {
         [activeRejectionConfirmModel]
     );
 
-    const navigate = useNavigate();
     const [open, setOpen] = useState(true);
     const [successMsg, setSuccessMsg] = useState('');
     const handleToggle = useCallback(() => setOpen((open) => !open), []);
@@ -159,7 +133,7 @@ const Settings = ({query}) => {
 
     const removeInspirationalVideo = () => {
         var formData = {};
-        fetch("/removeInspirationalVideo"+query, {
+        fetch("/removeInspirationalVideo" + query, {
             method: "post",
 
             body: formData,
@@ -181,7 +155,7 @@ const Settings = ({query}) => {
 
     const removeLogo = () => {
         var formData = {};
-        fetch("/removeLogo"+query, {
+        fetch("/removeLogo" + query, {
             method: "post",
 
             body: formData,
@@ -402,7 +376,7 @@ const Settings = ({query}) => {
         setStoreHandleResponse(null);
         const formData = new FormData();
         formData.append('store_handle', newValue);
-        fetch('/check-handle'+query, {
+        fetch('/check-handle' + query, {
             method: "POST",
             body: formData
         })
@@ -447,7 +421,7 @@ const Settings = ({query}) => {
         formData.append('endpoint', 'https://api.mailgun.net/v3/' + domain + '/messages');
         // formData.append('endpoint', mailgunEndpoint);
         formData.append('domain', domain);
-        fetch('/save-email-creds'+query, {
+        fetch('/save-email-creds' + query, {
             method: "POST",
             body: formData
         })
@@ -544,7 +518,7 @@ const Settings = ({query}) => {
         const formData = new FormData();
         formData.append('api_key', klavioApi);
         formData.append('email', klavioEmail);
-        fetch('save-klavio-settings'+query, {
+        fetch('save-klavio-settings' + query, {
             body: formData,
             method: 'POST'
         }).then(response => response.json()).then((data) => {
@@ -830,7 +804,7 @@ const Settings = ({query}) => {
         } else {
             setError(false);
             // Generating request for sending Data to the server
-            fetch("/save_settings"+query, {
+            fetch("/save_settings" + query, {
                 method: "post",
                 body: formData,
             }).then((response) => response.json())
@@ -855,7 +829,7 @@ const Settings = ({query}) => {
     };
 
     function handletestemail() {
-        fetch("/send_test_email"+query, {
+        fetch("/send_test_email" + query, {
             method: "GET",
         })
             .then((response) => {
@@ -1002,7 +976,7 @@ const Settings = ({query}) => {
                         <div>
                             <div onClick={handleRemoveLogoThumbnail} >
                                 {/* <Icon source={CircleCancelMajor} color="critical" /> */}
-                                <img src={Delete}/>
+                                <img src={Delete} />
                             </div>
                         </div>
                     </div>
@@ -1043,7 +1017,7 @@ const Settings = ({query}) => {
         const formData = new FormData();
         if (!isHandleAvailable) {
             formData.append('store_handle', storeHandle);
-            fetch('store_handle'+query, {
+            fetch('store_handle' + query, {
                 method: "POST",
                 body: formData
             }).then((response) => response.json()).then((data) => {
@@ -1111,7 +1085,7 @@ const Settings = ({query}) => {
                         <div>
                             <div onClick={handleRemoveThumbnailVideo} >
                                 {/* <Icon source={CircleCancelMajor} color="critical" /> */}
-                                <img src={Delete}/>
+                                <img src={Delete} />
                             </div>
                         </div>
                     </div>
@@ -1143,8 +1117,8 @@ const Settings = ({query}) => {
                         >
                             <ButtonGroup>
                                 <Button
-                                    onClick={() => {
-                                        navigate(pageLink);
+                                    onClick={() => {F
+                                        router.get(route(pageLink, query));
                                         setActiveRejectionConfirmModel(false);
                                         setEmailTemplateButton(true);
                                     }}
@@ -1154,11 +1128,13 @@ const Settings = ({query}) => {
                                 <Button primary onClick={() => {
                                     document.getElementById('sab_ok_id').click();
                                     setTimeout(() => {
-                                        navigate(pageLink)
+                                        router.get(route(pageLink, query));
+
                                     }, 5000);
 
                                     setActiveRejectionConfirmModel(false);
-                                    navigate(pageLink);
+                                    router.get(route(pageLink, query));
+
                                     setEmailTemplateButton(true);
                                 }}
                                 >
@@ -1637,9 +1613,9 @@ const Settings = ({query}) => {
                                                             {/* <Icon source={CircleCancelMajor} color="critical" /> */}
                                                             {/* <Icon source={DeleteIcon}  tone="base"/> */}
                                                             {/* <Icon source={DeleteMajor} color="critical" /> */}
-                                                            <img src={Delete}/>
+                                                            <img src={Delete} />
 
-                                                        </Tooltip> :  <img src={Delete}/>
+                                                        </Tooltip> : <img src={Delete} />
                                                     }
 
                                                 </div>
@@ -1760,7 +1736,7 @@ const Settings = ({query}) => {
                                                 >
                                                     <div>
                                                         <img
-                                                            style={{ cursor: "pointer",width:'20px',height:'20px' ,marginTop:'8px'}}
+                                                            style={{ cursor: "pointer", width: '20px', height: '20px', marginTop: '8px' }}
                                                             src={Delete}
                                                             onClick={() =>
                                                                 handleRemoveRow(
@@ -1853,9 +1829,9 @@ const Settings = ({query}) => {
                                                     {
                                                         activeTootlTip ? <Tooltip content="This is default setting. You can not change it.">
                                                             {/* <Icon source={CircleCancelMajor} color="critical" /> */}
-                                                            <img src={Delete}/>
+                                                            <img src={Delete} />
 
-                                                        </Tooltip> :  <img src={Delete}/>
+                                                        </Tooltip> : <img src={Delete} />
                                                     }
 
                                                 </div>

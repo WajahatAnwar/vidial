@@ -1,3 +1,4 @@
+import { router, usePage } from "@inertiajs/react";
 import {
     Banner,
     Button,
@@ -20,9 +21,9 @@ import {
     Toast,
     hsbToHex
 } from "@shopify/polaris";
-import { CircleCancelMajor, NoteMinor, PlayMinor, TickMinor } from "@shopify/polaris-icons";
-import React, { useCallback, useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { CircleCancelMajor, NoteMinor, TickMinor } from "@shopify/polaris-icons";
+import { useCallback, useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import '../../css/editor.css';
 import ColorWheel from "../../imges/collorWheel.png";
 import DellIcon from "../../imges/dellIcon.png";
@@ -34,6 +35,8 @@ localStorage.setItem('store',storeName);
 */
 
 const UserSettings = () => {
+    const page = usePage().props;
+    const query = page.ziggy.query;
     const { id } = useParams();
 
     const [storeHandle, setStoreHandle] = useState(null);
@@ -61,7 +64,6 @@ const UserSettings = () => {
         [activeRejectionConfirmModel]
     );
 
-    const navigate = useNavigate();
     const [open, setOpen] = useState(true);
     const [successMsg, setSuccessMsg] = useState('');
     const handleToggle = useCallback(() => setOpen((open) => !open), []);
@@ -760,7 +762,7 @@ const UserSettings = () => {
         } else {
             setError(false);
             // Generating request for sending Data to the server
-            fetch("/save_customer_settings?id="+id, {
+            fetch("/save_customer_settings?id=" + id, {
                 method: "post",
                 body: formData,
             }).then((response) => response.json())
@@ -1072,7 +1074,8 @@ const UserSettings = () => {
                             <ButtonGroup>
                                 <Button
                                     onClick={() => {
-                                        navigate(pageLink);
+                                        router.get(route(pageLink, query))
+
                                         setActiveRejectionConfirmModel(false);
                                         setEmailTemplateButton(true);
                                     }}
@@ -1082,11 +1085,13 @@ const UserSettings = () => {
                                 <Button primary onClick={() => {
                                     document.getElementById('sab_ok_id').click();
                                     setTimeout(() => {
-                                        navigate(pageLink)
+                                        router.get(route(pageLink, query))
+
                                     }, 5000);
 
                                     setActiveRejectionConfirmModel(false);
-                                    navigate(pageLink);
+                                    router.get(route(pageLink, query))
+
                                     setEmailTemplateButton(true);
                                 }}
                                 >
@@ -2192,26 +2197,26 @@ const UserSettings = () => {
 
 
 
-                                    <Card sectioned>
-                                        {
-                                            gdError ? <Banner>
-                                                <List type="bullet">
-                                                    {
-                                                        <List.Item>{gdErrorMsg}</List.Item>
+                                <Card sectioned>
+                                    {
+                                        gdError ? <Banner>
+                                            <List type="bullet">
+                                                {
+                                                    <List.Item>{gdErrorMsg}</List.Item>
 
-                                                    }
+                                                }
 
 
-                                                </List>
-                                            </Banner> : ''
-                                        }
-                                        <div className="googledrivesection">
-                                            <div style={{ marginBottom: "15px" }}>
-                                                <Text variant="headingLg" as="h5">
-                                                    Google Drive
-                                                </Text>
-                                            </div>
-                                            {/* <p
+                                            </List>
+                                        </Banner> : ''
+                                    }
+                                    <div className="googledrivesection">
+                                        <div style={{ marginBottom: "15px" }}>
+                                            <Text variant="headingLg" as="h5">
+                                                Google Drive
+                                            </Text>
+                                        </div>
+                                        {/* <p
                                             style={{
                                                 marginTop: "15px",
                                                 marginBottom: "15px",
@@ -2219,81 +2224,81 @@ const UserSettings = () => {
                                         >
                                             Please contact the live support to verify your store and remove our Branding “Powered by Vidial” for FREE.
                                         </p> */}
-                                            <div style={{ marginTop: "10px", width: "450px" }}>
-                                                <TextField
-                                                    value={gdApi}
-                                                    onChange={handleSenderApi}
-                                                    autoComplete="off"
-                                                    placeholder="Set Api Key"
+                                        <div style={{ marginTop: "10px", width: "450px" }}>
+                                            <TextField
+                                                value={gdApi}
+                                                onChange={handleSenderApi}
+                                                autoComplete="off"
+                                                placeholder="Set Api Key"
 
-                                                />
-                                            </div>
-
-                                            <div style={{ marginTop: "10px", width: "450px" }}>
-                                                <TextField
-                                                    value={gdClientId}
-                                                    onChange={handleSenderClientId}
-                                                    autoComplete="off"
-                                                    placeholder="Set Client Id"
-
-                                                />
-                                            </div>
-
-                                            <div style={{ marginTop: "10px", width: "450px" }}>
-
-                                                <TextField
-                                                    value={gdSecretKey}
-                                                    onChange={handleSenderSecKey}
-                                                    autoComplete="off"
-                                                    placeholder="Set Secret Key"
-                                                />
-                                            </div>
-
-                                            <div style={{ marginTop: "10px", width: "450px" }}>
-
-                                                <TextField
-                                                    value={gdFolder}
-                                                    onChange={handleSenderFolder}
-                                                    autoComplete="off"
-                                                    placeholder="Folder Name"
-                                                />
-
-                                            </div>
-
-                                            <div style={{ marginTop: "10px", width: "450px" }}>
-
-                                                <TextField
-                                                    value={baseUrl + '/google-login'}
-                                                    autoComplete="off"
-                                                    disabled
-                                                    placeholder={baseUrl + '/google-login'}
-                                                />
-
-                                            </div>
-
-                                            <div style={{ marginTop: "20px" }}>
-                                                {
-                                                    gDConnected ?
-
-                                                        <Button info >
-                                                            <div style={{ display: "flex" }} >
-
-                                                                <div>Connected</div>
-                                                                <div>
-                                                                    <Icon
-                                                                        source={TickMinor}
-                                                                        color="base"
-                                                                    />
-                                                                </div>
-                                                            </div>
-                                                        </Button>
-                                                        : <Button primary onClick={handleConnectGD}>
-                                                            Connect
-                                                        </Button>
-                                                }
-                                            </div>
+                                            />
                                         </div>
-                                    </Card>
+
+                                        <div style={{ marginTop: "10px", width: "450px" }}>
+                                            <TextField
+                                                value={gdClientId}
+                                                onChange={handleSenderClientId}
+                                                autoComplete="off"
+                                                placeholder="Set Client Id"
+
+                                            />
+                                        </div>
+
+                                        <div style={{ marginTop: "10px", width: "450px" }}>
+
+                                            <TextField
+                                                value={gdSecretKey}
+                                                onChange={handleSenderSecKey}
+                                                autoComplete="off"
+                                                placeholder="Set Secret Key"
+                                            />
+                                        </div>
+
+                                        <div style={{ marginTop: "10px", width: "450px" }}>
+
+                                            <TextField
+                                                value={gdFolder}
+                                                onChange={handleSenderFolder}
+                                                autoComplete="off"
+                                                placeholder="Folder Name"
+                                            />
+
+                                        </div>
+
+                                        <div style={{ marginTop: "10px", width: "450px" }}>
+
+                                            <TextField
+                                                value={baseUrl + '/google-login'}
+                                                autoComplete="off"
+                                                disabled
+                                                placeholder={baseUrl + '/google-login'}
+                                            />
+
+                                        </div>
+
+                                        <div style={{ marginTop: "20px" }}>
+                                            {
+                                                gDConnected ?
+
+                                                    <Button info >
+                                                        <div style={{ display: "flex" }} >
+
+                                                            <div>Connected</div>
+                                                            <div>
+                                                                <Icon
+                                                                    source={TickMinor}
+                                                                    color="base"
+                                                                />
+                                                            </div>
+                                                        </div>
+                                                    </Button>
+                                                    : <Button primary onClick={handleConnectGD}>
+                                                        Connect
+                                                    </Button>
+                                            }
+                                        </div>
+                                    </div>
+                                </Card>
 
 
 

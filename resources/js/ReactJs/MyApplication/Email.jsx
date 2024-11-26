@@ -1,3 +1,4 @@
+import { router, usePage } from "@inertiajs/react";
 import {
     Banner,
     Button,
@@ -18,22 +19,19 @@ import {
     Toast
 } from "@shopify/polaris";
 import { CircleCancelMajor, NoteMinor, TickMinor } from "@shopify/polaris-icons";
-import React, { useCallback, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useCallback, useEffect, useState } from "react";
 import Ticker from "./Ticker";
 import Toggle from "./Toggle";
 import './css/editor.css';
 import ChevronUp from "./imges/ChevronUpMinor.png";
 import arrowRight from "./imges/arrowRight.png";
 import ColorWheel from "./imges/collorWheel.png";
-/**
-const urlParams = new URLSearchParams(location.search);
-const shopParam = urlParams.get('shop');
-const storeName = shopParam.split('.')[0];
-localStorage.setItem('store',storeName);
-*/
 
-const Email = ({query}) => {
+const Email = () => {
+
+    const page = usePage().props;
+    const query = page.ziggy.query;
+
     const [klavioError, setKlavioError] = useState(false);
     const [klavioErrorMsg, setKlavioErrorMsg] = useState('');
     const [storeHandle, setStoreHandle] = useState(null);
@@ -62,7 +60,6 @@ const Email = ({query}) => {
         [activeRejectionConfirmModel]
     );
 
-    const navigate = useNavigate();
     const [open, setOpen] = useState(true);
     const [successMsg, setSuccessMsg] = useState('');
     const handleToggle = useCallback(() => setOpen((open) => !open), []);
@@ -130,7 +127,7 @@ const Email = ({query}) => {
 
     const removeInspirationalVideo = () => {
         var formData = {};
-        fetch("/removeInspirationalVideo"+query, {
+        fetch(route('removeInspirationalVideo', query), {
             method: "post",
 
             body: formData,
@@ -152,7 +149,7 @@ const Email = ({query}) => {
 
     const removeLogo = () => {
         var formData = {};
-        fetch("/removeLogo"+query, {
+        fetch(route('removeLogo', query), {
             method: "post",
 
             body: formData,
@@ -276,7 +273,7 @@ const Email = ({query}) => {
     const [storeName, setstoreName] = useState("");
     const [successToastVideo, setSuccessToastVideo] = useState("");
     const [favIcon, setFavIcon] = useState(null);
-    const [planName,setPlanName] = useState(null);
+    const [planName, setPlanName] = useState(null);
     const [favIconPreview, setFavIconPreview] = useState(null);
 
     const [gdError, setGdError] = useState(false);
@@ -381,7 +378,7 @@ const Email = ({query}) => {
         const formData = new FormData();
         formData.append('api_key', klavioApi);
         formData.append('email', klavioEmail);
-        fetch('save-klavio-settings'+query, {
+        fetch(route('connect.klavio', query), {
             body: formData,
             method: 'POST'
         }).then(response => response.json()).then((data) => {
@@ -401,7 +398,7 @@ const Email = ({query}) => {
         setStoreHandleResponse(null);
         const formData = new FormData();
         formData.append('store_handle', newValue);
-        fetch('/check-handle'+query, {
+        fetch(route('check-handle', query), {
             method: "POST",
             body: formData
         })
@@ -446,7 +443,7 @@ const Email = ({query}) => {
         formData.append('endpoint', 'https://api.mailgun.net/v3/' + domain + '/messages');
         // formData.append('endpoint', mailgunEndpoint);
         formData.append('domain', domain);
-        fetch('/save-email-creds'+query, {
+        fetch(route('save-email-creds', query), {
             method: "POST",
             body: formData
         })
@@ -527,7 +524,7 @@ const Email = ({query}) => {
         async function fetchSettings() {
 
             try {
-                const response = await fetch("/get_settings"+query);
+                const response = await fetch(route('get_settings', query))
                 if (!response.ok) {
                     throw new Error("Something went wrong");
                 }
@@ -768,7 +765,7 @@ const Email = ({query}) => {
 
         // setError(false);
         // Generating request for sending Data to the server
-        fetch("/save-email-tab"+query, {
+        fetch(route('save-email-tab', query), {
             method: "post",
             body: formData,
         }).then((response) => response.json())
@@ -792,7 +789,7 @@ const Email = ({query}) => {
     };
 
     function handletestemail() {
-        fetch("/send_test_email"+query, {
+        fetch(route('send_test_email', query), {
             method: "GET",
         })
             .then((response) => {
@@ -979,7 +976,7 @@ const Email = ({query}) => {
         const formData = new FormData();
         if (!isHandleAvailable) {
             formData.append('store_handle', storeHandle);
-            fetch('store_handle'+query, {
+            fetch(route('store_handle', query), {
                 method: "POST",
                 body: formData
             }).then((response) => response.json()).then((data) => {
@@ -1079,7 +1076,8 @@ const Email = ({query}) => {
                             <ButtonGroup>
                                 <Button
                                     onClick={() => {
-                                        navigate(pageLink);
+
+                                        router.get(route(pageLink, query));
                                         setActiveRejectionConfirmModel(false);
                                         setEmailTemplateButton(true);
                                     }}
@@ -1089,11 +1087,11 @@ const Email = ({query}) => {
                                 <Button primary onClick={() => {
                                     document.getElementById('sab_ok_id').click();
                                     setTimeout(() => {
-                                        navigate(pageLink)
+                                        router.get(route(pageLink, query));
                                     }, 5000);
 
                                     setActiveRejectionConfirmModel(false);
-                                    navigate(pageLink);
+                                    router.get(route(pageLink, query));
                                     setEmailTemplateButton(true);
                                 }}
                                 >
@@ -1125,8 +1123,8 @@ const Email = ({query}) => {
                                     xl: 12,
                                 }}
                             >
-                                    <Ticker></Ticker>
-                                    <br></br>
+                                <Ticker></Ticker>
+                                <br></br>
                                 {error && (
                                     <Card sectioned>
                                         <Banner>
@@ -1198,10 +1196,10 @@ const Email = ({query}) => {
                                     >
                                         <div style={{ width: "450px" }}>
                                             <Text variant="headingLg" as="h5">
-                                                    Send Emails from GoodAuthentic
+                                                Send Emails from GoodAuthentic
                                             </Text>
                                             <p style={{ marginTop: "5px" }}>
-                                                    If you want this app to send your emails, toggle this on. Turn off if you are sending your own.
+                                                If you want this app to send your emails, toggle this on. Turn off if you are sending your own.
                                             </p>
                                         </div>
                                         <div
@@ -1232,7 +1230,7 @@ const Email = ({query}) => {
 
                                             </Text>
                                             <p style={{ marginTop: "5px" }}>
-                                                    This is the timing of the first email sent to your customer.
+                                                This is the timing of the first email sent to your customer.
                                             </p>
                                         </div>
                                         <div
@@ -1269,10 +1267,10 @@ const Email = ({query}) => {
                                     >
                                         <div style={{ width: "550px" }}>
                                             <Text variant="headingLg" as="h5">
-                                                    Reminder Email Cadence
+                                                Reminder Email Cadence
                                             </Text>
                                             <p style={{ marginTop: "5px" }}>
-                                                    Design the reminder emails sent by GoodAuthentic
+                                                Design the reminder emails sent by GoodAuthentic
                                             </p>
                                         </div>
                                         <div
@@ -1306,7 +1304,7 @@ const Email = ({query}) => {
                                     >
                                         <div style={{ width: "550px" }}>
                                             <Text variant="headingLg" as="h5">
-                                                    Number of Emails to Send
+                                                Number of Emails to Send
                                             </Text>
                                             <p style={{ marginTop: "5px" }}>
                                                 GoodAuthentic will stop sending emails after this many to each customer.
@@ -1386,8 +1384,7 @@ const Email = ({query}) => {
 
                                             }}
                                             onClick={() => {
-                                                navigate("/post-purchase-email"+query)
-
+                                                router.get(route('post-purchase-email', query));
                                             }}
                                         >
                                             <div style={{ width: "550px" }}>
@@ -1395,7 +1392,7 @@ const Email = ({query}) => {
                                                     Post Purchase
                                                 </Text>
                                                 <p style={{ marginTop: "5px" }}>
-                                                        Design the post purchase emails sent by GoodAuthentic
+                                                    Design the post purchase emails sent by GoodAuthentic
                                                 </p>
                                             </div>
                                             <div
@@ -1424,7 +1421,7 @@ const Email = ({query}) => {
 
                                             }}
                                             onClick={() => {
-                                                navigate("/reminder-email"+query)
+                                                router.get(route('reminder-email', query));
 
                                             }}
                                         >
@@ -1433,7 +1430,7 @@ const Email = ({query}) => {
                                                     Reminder
                                                 </Text>
                                                 <p style={{ marginTop: "5px" }}>
-                                                        Design the reminder emails sent by GoodAuthentic
+                                                    Design the reminder emails sent by GoodAuthentic
                                                 </p>
                                             </div>
                                             <div
@@ -1462,16 +1459,16 @@ const Email = ({query}) => {
 
                                             }}
                                             onClick={() => {
-                                                navigate("/ugc-approved-email"+query)
+                                                router.get(route('ugc-approved-email', query));
 
                                             }}
                                         >
                                             <div style={{ width: "550px" }}>
                                                 <Text variant="headingLg" as="h5">
-                                                        Standard Approval
+                                                    Standard Approval
                                                 </Text>
                                                 <p style={{ marginTop: "5px" }}>
-                                                        Design the standard approval emails sent by GoodAuthentic
+                                                    Design the standard approval emails sent by GoodAuthentic
                                                 </p>
                                             </div>
                                             <div
@@ -1500,8 +1497,7 @@ const Email = ({query}) => {
 
                                             }}
                                             onClick={() => {
-                                                navigate("/ugc-star-approved"+query)
-
+                                                router.get(route('ugc-star-approved', query));
                                             }}
                                         >
                                             <div style={{ width: "550px" }}>
@@ -1509,7 +1505,7 @@ const Email = ({query}) => {
                                                     Star Approval
                                                 </Text>
                                                 <p style={{ marginTop: "5px" }}>
-                                                        Design the star approval emails sent by GoodAuthentic
+                                                    Design the star approval emails sent by GoodAuthentic
                                                 </p>
                                             </div>
                                             <div
@@ -1538,8 +1534,7 @@ const Email = ({query}) => {
 
                                             }}
                                             onClick={() => {
-                                                navigate("/ugc-declined-email"+query);
-
+                                                router.get(route('ugc-declined-email', query));
                                             }}
                                         >
                                             <div style={{ width: "550px" }}>
@@ -1547,7 +1542,7 @@ const Email = ({query}) => {
                                                     UGC Declined
                                                 </Text>
                                                 <p style={{ marginTop: "5px" }}>
-                                                        Design the declined emails sent by GoodAuthentic
+                                                    Design the declined emails sent by GoodAuthentic
                                                 </p>
                                             </div>
                                             <div
@@ -1569,29 +1564,29 @@ const Email = ({query}) => {
 
                                 {
 
-                                        (planName == 'Premium' || planName == 'Enterprise' || planName == 'Standard' || planName == 'Free') ?
-                                            <>
-                                    {/********* Klavio  *********/}
-                                    <Card sectioned>
-                                        {
-                                            klavioError ? <Banner>
-                                                <List type="bullet">
-                                                    {
-                                                        <List.Item>{klavioErrorMsg}</List.Item>
+                                    (planName == 'Premium' || planName == 'Enterprise' || planName == 'Standard' || planName == 'Free') ?
+                                        <>
+                                            {/********* Klavio  *********/}
+                                            <Card sectioned>
+                                                {
+                                                    klavioError ? <Banner>
+                                                        <List type="bullet">
+                                                            {
+                                                                <List.Item>{klavioErrorMsg}</List.Item>
 
-                                                    }
+                                                            }
 
 
-                                                </List>
-                                            </Banner> : ''
-                                        }
-                                        <div className="googledrivesection">
-                                            <div style={{ marginBottom: "15px" }}>
-                                                <Text variant="headingLg" as="h5">
-                                                    Connect Klaviyo
-                                                </Text>
-                                            </div>
-                                            {/* <p
+                                                        </List>
+                                                    </Banner> : ''
+                                                }
+                                                <div className="googledrivesection">
+                                                    <div style={{ marginBottom: "15px" }}>
+                                                        <Text variant="headingLg" as="h5">
+                                                            Connect Klaviyo
+                                                        </Text>
+                                                    </div>
+                                                    {/* <p
                                             style={{
                                                 marginTop: "15px",
                                                 marginBottom: "15px",
@@ -1599,54 +1594,54 @@ const Email = ({query}) => {
                                         >
                                             Please contact the live support to verify your store and remove our Branding “Powered by Vidial” for FREE.
                                         </p> */}
-                                            <div style={{ marginTop: "10px", width: "450px" }}>
-                                                <TextField
-                                                    value={klavioApi}
-                                                    onChange={handleKlavioApi}
-                                                    autoComplete="off"
-                                                    placeholder="Klaviyo Api Key"
+                                                    <div style={{ marginTop: "10px", width: "450px" }}>
+                                                        <TextField
+                                                            value={klavioApi}
+                                                            onChange={handleKlavioApi}
+                                                            autoComplete="off"
+                                                            placeholder="Klaviyo Api Key"
 
-                                                />
-                                            </div>
+                                                        />
+                                                    </div>
 
-                                            <div style={{ marginTop: "10px", width: "450px" }}>
-                                                <TextField
-                                                    value={klavioEmail}
-                                                    onChange={handleKlavioEmail}
-                                                    autoComplete="off"
-                                                    placeholder="Set Email"
+                                                    <div style={{ marginTop: "10px", width: "450px" }}>
+                                                        <TextField
+                                                            value={klavioEmail}
+                                                            onChange={handleKlavioEmail}
+                                                            autoComplete="off"
+                                                            placeholder="Set Email"
 
-                                                />
-                                            </div>
+                                                        />
+                                                    </div>
 
 
 
-                                            <div style={{ marginTop: "20px" }} className="polaris-black-btn-global">
-                                                {
-                                                    klavioConnected ?
+                                                    <div style={{ marginTop: "20px" }} className="polaris-black-btn-global">
+                                                        {
+                                                            klavioConnected ?
 
-                                                        <Button info >
-                                                            <div style={{ display: "flex" }} >
+                                                                <Button info >
+                                                                    <div style={{ display: "flex" }} >
 
-                                                                <div>Connected</div>
-                                                                <div>
-                                                                    <Icon
-                                                                        source={TickMinor}
-                                                                        color="base"
-                                                                    />
-                                                                </div>
-                                                            </div>
-                                                        </Button>
-                                                        : <Button primary onClick={handleConnectKlavio}>
-                                                            Connect
-                                                        </Button>
-                                                }
+                                                                        <div>Connected</div>
+                                                                        <div>
+                                                                            <Icon
+                                                                                source={TickMinor}
+                                                                                color="base"
+                                                                            />
+                                                                        </div>
+                                                                    </div>
+                                                                </Button>
+                                                                : <Button primary onClick={handleConnectKlavio}>
+                                                                    Connect
+                                                                </Button>
+                                                        }
 
-                                            </div>
-                                        </div>
-                                    </Card>
+                                                    </div>
+                                                </div>
+                                            </Card>
 
-                                    {/* <Card sectioned>
+                                            {/* <Card sectioned>
                                         <div className="googledrivesection">
                                             <div style={{ marginTop: "20px" }}></div>
                                             <div style={{ display: "flex", alignItems: "center", marginRight: "5px" }} >
@@ -1778,10 +1773,10 @@ const Email = ({query}) => {
                                                     </>
                                         </div>
                                     </Card> */}
-                                            </>
-                                : null
+                                        </>
+                                        : null
 
-                                 }
+                                }
                                 <div
                                     style={{
                                         textAlign: "right",
@@ -1796,7 +1791,7 @@ const Email = ({query}) => {
                                         disabled={isLoading}
                                         id="sab_ok_id"
                                     >
-                                            Save Emails
+                                        Save Emails
                                     </Button>
                                 </div>
                             </Grid.Cell>

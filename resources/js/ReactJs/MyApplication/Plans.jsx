@@ -6,8 +6,7 @@ import {
     Page,
     Text
 } from "@shopify/polaris";
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 function Plans() {
     const [plan, setPlan] = useState([]);
@@ -41,8 +40,6 @@ function Plans() {
             });
     }, []);
 
-    const navigate = useNavigate();
-
     function handlechangeplan(name, plan_id) {
         fetch()
             .then((response) => {
@@ -68,7 +65,7 @@ function Plans() {
                     Choose the perfect plan
                 </Text>
 
-                <div style={{marginTop:"10px"}}></div>
+                <div style={{ marginTop: "10px" }}></div>
 
                 {/* <Text variant="headingXs" as="h6">
                     Integrations and more service available
@@ -145,8 +142,8 @@ function Plans() {
                                     border: "1px solid #C9CCCF",
                                     padding: "10px",
                                     borderRadius: "10px",
-                                    height:"520px",
-                                    minHeight:"520px"
+                                    height: "520px",
+                                    minHeight: "520px"
                                 }}
                             >
                                 {/* @if($data.name == "Premium") */}
@@ -170,15 +167,15 @@ function Plans() {
                                 <Text variant="headingLg" as="h5">
                                     {data.name}
                                 </Text>
-                                 <p
+                                <p
                                     style={{
                                         marginBottom: "30px",
                                         marginTop: "10px",
                                         height: "100px",
                                     }}
-                                        >
-                                            {data.description}
-                                        </p>
+                                >
+                                    {data.description}
+                                </p>
                                 <Text
                                     variant="headingXl"
                                     as="h4"
@@ -197,56 +194,25 @@ function Plans() {
                                 >
                                     {data.id == users.plan_id ? (
                                         <Button disabled fullWidth>
-                                             Current Plan
+                                            Current Plan
                                         </Button>
                                     ) : (
                                         <span className="polaris-black-btn-global">
-                                        <a
-                                            href={`/billing/${data.id}${location.search}`}
-                                            style={{ textDecoration: "none" }}
-                                            className=""
-                                        >
-                                            <Button fullWidth>
+                                            <a
+                                                href={`/billing/${data.id}${location.search}`}
+                                                style={{ textDecoration: "none" }}
+                                                className=""
+                                            >
+                                                <Button fullWidth>
 
 
-                                                Select plan
-                                            </Button>
-                                        </a>
-                                            </span>
+                                                    Select plan
+                                                </Button>
+                                            </a>
+                                        </span>
                                     )}
                                 </div>
                                 <p
-                                        style={{
-                                            marginBottom: "8px",
-                                            textAlign: "center",
-                                            fontSize: "14px",
-                                            padding: "5px 0",
-                                        }}
-                                    >
-                                    {data.name == 'Free' ? '' : data.name == 'Standard' ? 'Everything in Free' : data.name == 'Premium' ? 'Everything in Standard' : 'Everything in Premium'}
-
-                                </p>
-                                <p
-                                 style={{
-                                            marginBottom: "8px",
-                                            textAlign: "center",
-                                            fontSize: "14px",
-                                        padding: "5px 0",
-                                        }}
-                                        >
-                                    <div
-                                        style={{
-                                            lineHeight: '2.4em',
-                                            background: "#F9F9F9B2",
-                                        }}
-                                    >   {
-                                        // data.ugc_video_count == 500000 ? 'Unlimited monthly UGC videos' : `${data.ugc_video_count} monthly UGC videos`
-                                        data.name == 'Free' ? '' : 'Unlimited Emails'
-                                        }
-                                </div>
-                                </p>
-                                <p>
-                                <div
                                     style={{
                                         marginBottom: "8px",
                                         textAlign: "center",
@@ -254,8 +220,39 @@ function Plans() {
                                         padding: "5px 0",
                                     }}
                                 >
+                                    {data.name == 'Free' ? '' : data.name == 'Standard' ? 'Everything in Free' : data.name == 'Premium' ? 'Everything in Standard' : 'Everything in Premium'}
+
+                                </p>
+                                <p
+                                    style={{
+                                        marginBottom: "8px",
+                                        textAlign: "center",
+                                        fontSize: "14px",
+                                        padding: "5px 0",
+                                    }}
+                                >
+                                    <div
+                                        style={{
+                                            lineHeight: '2.4em',
+                                            background: "#F9F9F9B2",
+                                        }}
+                                    >   {
+                                            // data.ugc_video_count == 500000 ? 'Unlimited monthly UGC videos' : `${data.ugc_video_count} monthly UGC videos`
+                                            data.name == 'Free' ? '' : 'Unlimited Emails'
+                                        }
+                                    </div>
+                                </p>
+                                <p>
+                                    <div
+                                        style={{
+                                            marginBottom: "8px",
+                                            textAlign: "center",
+                                            fontSize: "14px",
+                                            padding: "5px 0",
+                                        }}
+                                    >
                                         {
-                                        data.name == 'Free' ? '1  video monthly' : 'Unlimited Videos'
+                                            data.name == 'Free' ? '1  video monthly' : 'Unlimited Videos'
                                         }
                                     </div>
                                 </p>
@@ -269,14 +266,14 @@ function Plans() {
                                     }}
                                 >
                                     <div
-                                    style={{
+                                        style={{
                                             background: "#F9F9F9B2",
-                                            lineHeight:'2.4em'
-                                    }}
-                                >
-                                    {
-                                        (data.name == 'Free') || (data.name == 'Standard')  ? '' : 'Klaviyo Integration'
-                                    }
+                                            lineHeight: '2.4em'
+                                        }}
+                                    >
+                                        {
+                                            (data.name == 'Free') || (data.name == 'Standard') ? '' : 'Klaviyo Integration'
+                                        }
                                     </div>
                                 </p>
                             </div>

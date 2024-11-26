@@ -1,56 +1,28 @@
-import React, { useEffect, useRef } from "react";
+import { router, usePage } from "@inertiajs/react";
 import {
-    hsbToHex,
-    hsbToRgb,
-    hslToRgb,
-    rgbToHsb,
-    Page,
-    Card,
     Button,
-    Select,
-    Icon,
-    Grid,
-    Modal,
-    Banner,
-    RadioButton,
-    TextField,
+    Card,
     ColorPicker,
-    Spinner,
-    Collapsible,
-    Tooltip,
-    Popover,
-} from "@shopify/polaris";
-import { useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import {
     DropZone,
-    Stack,
-    Thumbnail,
-    Text,
     Frame,
+    Grid,
+    hsbToHex,
+    Icon,
+    Modal,
+    Page,
+    Popover,
+    Text,
+    TextField,
+    Thumbnail,
     Toast,
-    List,
+    Tooltip
 } from "@shopify/polaris";
-import { CircleCancelMinor, NoteMinor, CircleCancelMajor, ChevronUpMinor, ChevronLeftMinor } from "@shopify/polaris-icons";
-import {
-    DeleteMajor
-} from '@shopify/polaris-icons';
-import { useCallback } from "react";
-import UploadIcon from "./imges/uploadLogo.png";
-import ErrorIcon from "./imges/error.png";
-import DellIcon from "./imges/dellIcon.png";
-import ColorWheel from "./imges/collorWheel.png";
-import ChevronUp from "./imges/ChevronUpMinor.png";
-import logo from "./imges/vidialLogoPower.png";
-import arrowRight from "./imges/arrowRight.png";
-import backIcon from "./imges/backIcon.png";
-import Bureaue from "./imges/bureau 11.png";
-import Toggle from "./Toggle";
-import { showStoreName } from "./utils";
-import CrispChat from 'react-crisp';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { CircleCancelMajor, NoteMinor } from "@shopify/polaris-icons";
 import { Editor } from '@tinymce/tinymce-react';
-import vidialLogo from "./imges/vidialLogoPower.png";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { useParams } from "react-router-dom";
+import backIcon from "./imges/backIcon.png";
+import ColorWheel from "./imges/collorWheel.png";
 import Delete from "./imges/Delete.svg";
 
 
@@ -62,14 +34,15 @@ localStorage.setItem('store',storeName);
 */
 
 const PostPurchaseEmail = () => {
-    const {id} = useParams();
+    const page = usePage().props;
+    const query = page.ziggy.query;
+    const { id } = useParams();
     const [activeTootlTip, setActiveTootlTip] = useState(false);
     const [activeToggle, setActiveToggle] = useState(false);
     const toggleActive = useCallback(() => setActiveToggle((activeToggle) => !activeToggle), []);
     const toastMarkup = activeToggle ? (
         <Toast content="Template Saved" onDismiss={toggleActive} />
     ) : null;
-    const navigate = useNavigate();
     const [active, setActive] = useState(false);
     const handleChange = useCallback(() => setActive(!active), [active]);
     const [content, setContent] = useState('');
@@ -102,7 +75,7 @@ const PostPurchaseEmail = () => {
         <Toast content="Settings Saved" onDismiss={true} />
     ) : null;
 
-    const handleRemoveAlreadyUploadedLogo = ()=>{
+    const handleRemoveAlreadyUploadedLogo = () => {
         setActiveTootlTip(true);
         setAlreadyUploadedLogo('');
 
@@ -139,7 +112,7 @@ const PostPurchaseEmail = () => {
     );
     const uploadedFilesPreview = files.length > 0 && (
         <div style={{ padding: '0' }}>
-            <div style={{width:"60px",marginBottom:"10px"}} >
+            <div style={{ width: "60px", marginBottom: "10px" }} >
                 {files.map((file, index) => (
                     <div key={index}>
                         <Thumbnail
@@ -153,9 +126,9 @@ const PostPurchaseEmail = () => {
                         />
                         <div>
                             <div onClick={handleRemoveThumbnail} >
-                          {/* <Icon source={CircleCancelMajor}  color="critical" /> */}
-                            <img src={Delete} style={{cursor:"pointer"}}/>
-                        </div>
+                                {/* <Icon source={CircleCancelMajor}  color="critical" /> */}
+                                <img src={Delete} style={{ cursor: "pointer" }} />
+                            </div>
                         </div>
                     </div>
                 ))}
@@ -175,42 +148,42 @@ const PostPurchaseEmail = () => {
     console.log(files)
     const handleSaveEmailSettings = () => {
         let saveUrl = '/save-email-settings';
-        if (id){
+        if (id) {
             saveUrl = "/save-user-email-settings?id=" + id;
         }
-         let logo_file;
+        let logo_file;
         setContent(editorRef.current.getContent());
         const formData = new FormData();
-        formData.append('subject',subject);
+        formData.append('subject', subject);
         formData.append('buttonText', buttonText);
         formData.append('buttonColorHex', buttonColorHex);
-        formData.append('body',editorRef.current.getContent());
+        formData.append('body', editorRef.current.getContent());
         formData.append('type', 'Post_purchase')
-        if (files[0]){
+        if (files[0]) {
             logo_file = files[0]
-        }else{
+        } else {
             logo_file = alreadyUploadLogo == '' ? 'empty_logo' : 'already_uploaded_logo';
         }
         formData.append('logo', logo_file)
         formData.append('from', from)
 
 
-        fetch(saveUrl,{
-                method:"POST",
-                body:formData
-            }).
-            then((response)=>response.json())
-            .then((data)=>{
+        fetch(saveUrl, {
+            method: "POST",
+            body: formData
+        }).
+            then((response) => response.json())
+            .then((data) => {
 
-                if(data.success){
-                    let redirect = '/email';
-                    if(id){
-                        redirect = '/user-email-settings/'+ id;
+                if (data.success) {
+                    let redirect = route('/email', query);
+                    if (id) {
+                        redirect = route('/user-email-settings/' + id, query);
                     }
                     toggleActive()
                     setTimeout(() => {
 
-                        navigate(redirect)
+                        router.get(redirect);
                     }, 3000);
 
                     //alert('save settings successfully');
@@ -248,7 +221,7 @@ const PostPurchaseEmail = () => {
             type: 'Post_Purchase',
         };
         let url = createUrl('/fetch-email-settings', extraParams);
-        if (id){
+        if (id) {
             url = "/fetch-user-email-settings?type=Post_Purchase&id=" + id;
         }
         fetch(url, {
@@ -259,15 +232,15 @@ const PostPurchaseEmail = () => {
             }
             return response.json();
         }).then((data) => {
-            if (data.success){
-            setSubject(data.data.template.subject);
-            setButtonText(data.data.template.btn_text);
-            setButtonColorHex(data.data.template.btn_color);
-            setHtmlContent(data.data.template.body);
-            setAlreadyUploadedLogo(data.data.template.logo);
-            setFrom(data.data.template.from);
-            //setFiles([data.data.template.logo])
-            //setAlreadyUploadedLogo(data.data.template.logo);
+            if (data.success) {
+                setSubject(data.data.template.subject);
+                setButtonText(data.data.template.btn_text);
+                setButtonColorHex(data.data.template.btn_color);
+                setHtmlContent(data.data.template.body);
+                setAlreadyUploadedLogo(data.data.template.logo);
+                setFrom(data.data.template.from);
+                //setFiles([data.data.template.logo])
+                //setAlreadyUploadedLogo(data.data.template.logo);
 
                 console.table(data.data.template.logo);
             }
@@ -284,33 +257,33 @@ const PostPurchaseEmail = () => {
     const buttonHtml = `<button style="font-size: 15px;background: ${buttonColorHex};color: rgb(255, 255, 255);border: none;border-radius: 4px;display: block;margin: 0px auto ;padding: 16px 30px;border-radius: 25px;" >${buttonText}</button>`;
     const processedContent = content.replace('{{button}}', buttonHtml);
     // popover code start
-   const [popoverActive, setPopoverActive] = useState(false);
+    const [popoverActive, setPopoverActive] = useState(false);
 
-   const togglePopoverActive = useCallback(
-       () => setPopoverActive((popoverActive) => !popoverActive),
-       [],
-   );
+    const togglePopoverActive = useCallback(
+        () => setPopoverActive((popoverActive) => !popoverActive),
+        [],
+    );
 
-   const activator = (
-       <button
-                                           style={{
-                                               marginRight: "10px",
-                                               background: "none",
-                                               border: "none",
-                                           }}
-                                           onClick={togglePopoverActive}
-                                       >
-                                           <img
-                                               className="colorWheel"
-                                               src={ColorWheel}
-                                               style={{
-                                                   marginTop: "3px",
-                                                   marginLeft: "4px",
-                                               }}
-                                           ></img>
-                                       </button>
-   );
-   // popover code end
+    const activator = (
+        <button
+            style={{
+                marginRight: "10px",
+                background: "none",
+                border: "none",
+            }}
+            onClick={togglePopoverActive}
+        >
+            <img
+                className="colorWheel"
+                src={ColorWheel}
+                style={{
+                    marginTop: "3px",
+                    marginLeft: "4px",
+                }}
+            ></img>
+        </button>
+    );
+    // popover code end
     return (
         <div >
 
@@ -327,11 +300,11 @@ const PostPurchaseEmail = () => {
                             }}
                         >
                             <div onClick={() => {
-                                if(id){
-                                    navigate("/user-email-settings/"+id);
+                                if (id) {
+                                    router.get(route('/user-email-settings/' + id, query));
                                 }
-                                else{
-                                   navigate("/email");
+                                else {
+                                    router.get(route('/email', query));
                                 }
                             }} style={{ display: "flex", marginLeft: "10px", marginBottom: "10px", cursor: "pointer" }}>
                                 <div><img src={backIcon} style={{ marginTop: "4px", }}></img></div>
@@ -417,7 +390,7 @@ const PostPurchaseEmail = () => {
                                             Use &#123;&#123;name&#125;&#125; to display the customer's first name
                                         </p>
 
-                                        <p style={{ color: "#9A9A9A",  }}>
+                                        <p style={{ color: "#9A9A9A", }}>
                                             Use &#123;&#123;button&#125;&#125; to display the call-to-action button
                                         </p>
                                         <p style={{ fontSize: "15px", marginTop: "20px", marginBottom: "10px", fontWeight: "500" }}>Content</p>
@@ -450,38 +423,38 @@ const PostPurchaseEmail = () => {
 
                                         />
                                         <p style={{ fontSize: "15px", marginTop: "20px", marginBottom: "10px", fontWeight: "500" }}>Button Color</p>
-                                        <div style={{display:"flex",alignItems:"center"}}>
-                                        <Popover
-                                            active={popoverActive}
-                                            activator={activator}
-                                            autofocusTarget="first-node"
-                                            onClose={togglePopoverActive}
-                                        >
-                                            <div style={{ padding: "20px" }}>
-                                                <ColorPicker
-                                                    onChange={(e) => {
-                                                        // console.log(hsbToRgb(e));
-                                                        setButtonColor(e);
-                                                        setButtonColorHex(
-                                                            hsbToHex(e)
-                                                        );
-                                                        setGradientCheck(false);
-                                                    }}
-                                                    color={buttonColor}
-                                                />
-                                                <div style={{ marginTop: "20px" }}></div>
-                                                <TextField
-                                                    value={buttonColorHex}
-                                                    onChange={handleInputColorChange}
-                                                />
-                                            </div>
-                                        </Popover>
-                                        <div
-                                        style={{
-                                            background: `${buttonColorHex}`,
-                                        }}
-                                        className="colorOptions"
-                                    ></div>
+                                        <div style={{ display: "flex", alignItems: "center" }}>
+                                            <Popover
+                                                active={popoverActive}
+                                                activator={activator}
+                                                autofocusTarget="first-node"
+                                                onClose={togglePopoverActive}
+                                            >
+                                                <div style={{ padding: "20px" }}>
+                                                    <ColorPicker
+                                                        onChange={(e) => {
+                                                            // console.log(hsbToRgb(e));
+                                                            setButtonColor(e);
+                                                            setButtonColorHex(
+                                                                hsbToHex(e)
+                                                            );
+                                                            setGradientCheck(false);
+                                                        }}
+                                                        color={buttonColor}
+                                                    />
+                                                    <div style={{ marginTop: "20px" }}></div>
+                                                    <TextField
+                                                        value={buttonColorHex}
+                                                        onChange={handleInputColorChange}
+                                                    />
+                                                </div>
+                                            </Popover>
+                                            <div
+                                                style={{
+                                                    background: `${buttonColorHex}`,
+                                                }}
+                                                className="colorOptions"
+                                            ></div>
                                         </div>
 
                                         <div style={{ display: "flex", marginTop: "20px" }}>
@@ -493,13 +466,13 @@ const PostPurchaseEmail = () => {
                                             <span style={{ marginRight: "10px" }}></span>
                                             <div className="polaris-black-btn-global">
 
-                                            <Button onClick={handleSaveEmailSettings} primary>Save</Button>
+                                                <Button onClick={handleSaveEmailSettings} primary>Save</Button>
                                             </div>
                                         </div>
                                     </Grid.Cell>
                                 </Grid>
                             </Card>
-                            <div style={{marginBottom:"200px"}}></div>
+                            <div style={{ marginBottom: "200px" }}></div>
                         </Grid.Cell>
                     </Grid>
                     <Modal
@@ -509,43 +482,43 @@ const PostPurchaseEmail = () => {
 
                     >
                         <Modal.Section>
-                        <div className="previewModel">
-                            <div style={{background:"#fff",borderRadius:"15px",paddingTop:"20px"}}>
-                                {/* <img style={{ display: "block", margin: "auto", marginTop: "20px", marginBottom: "20px" }} src={logo}></img> */}
-                                {files.map((file, index) => (
-                                    <div key={index}>
-                                        <img
-                                            style={{ display: "block", margin: "auto", marginTop: "20px", marginBottom: "20px",maxWidth:"250px" }}
-                                            alt={file.name}
-                                            src={
-                                                validImageTypes.includes(file.type)
-                                                    ? window.URL.createObjectURL(file)
-                                                    : NoteMinor
-                                            }
-                                        />
-                                    </div>
-                                ))}
+                            <div className="previewModel">
+                                <div style={{ background: "#fff", borderRadius: "15px", paddingTop: "20px" }}>
+                                    {/* <img style={{ display: "block", margin: "auto", marginTop: "20px", marginBottom: "20px" }} src={logo}></img> */}
+                                    {files.map((file, index) => (
+                                        <div key={index}>
+                                            <img
+                                                style={{ display: "block", margin: "auto", marginTop: "20px", marginBottom: "20px", maxWidth: "250px" }}
+                                                alt={file.name}
+                                                src={
+                                                    validImageTypes.includes(file.type)
+                                                        ? window.URL.createObjectURL(file)
+                                                        : NoteMinor
+                                                }
+                                            />
+                                        </div>
+                                    ))}
 
                                     {files.length <= 0 && <img
                                         style={{ display: "block", margin: "auto", marginTop: "20px", marginBottom: "20px", maxWidth: "250px", }}
 
                                         src={alreadyUploadLogo} />}
-                                <div className="previewEditor">
-                                    <Editor
-                                        apiKey='your-api-key'
-                                        value={processedContent}
-                                        onEditorChange={handleEditorChange}
-                                        init={{
-                                            readonly: true,
-                                            height: 500,
-                                            menubar: false,
-                                            toolbar: false
-                                        }}
-                                    />
-                                </div>
+                                    <div className="previewEditor">
+                                        <Editor
+                                            apiKey='your-api-key'
+                                            value={processedContent}
+                                            onEditorChange={handleEditorChange}
+                                            init={{
+                                                readonly: true,
+                                                height: 500,
+                                                menubar: false,
+                                                toolbar: false
+                                            }}
+                                        />
+                                    </div>
 
+                                </div>
                             </div>
-                        </div>
                         </Modal.Section>
                     </Modal>
                     {toastMarkup && toastMarkup}

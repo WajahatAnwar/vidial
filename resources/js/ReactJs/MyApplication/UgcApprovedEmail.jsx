@@ -1,56 +1,29 @@
-import React, { useEffect, useRef } from "react";
+import { router, usePage } from "@inertiajs/react";
 import {
-    hsbToHex,
-    hsbToRgb,
-    hslToRgb,
-    rgbToHsb,
-    Page,
-    Card,
     Button,
-    Select,
-    Icon,
-    Grid,
-    Modal,
-    Banner,
-    RadioButton,
-    TextField,
+    Card,
     ColorPicker,
-    Spinner,
-    Collapsible,
-    Popover,
-} from "@shopify/polaris";
-import { useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import {
     DropZone,
-    Stack,
-    Thumbnail,
-    Text,
     Frame,
+    Grid,
+    hsbToHex,
+    Icon,
+    Modal,
+    Page,
+    Popover,
+    Text,
+    TextField,
+    Thumbnail,
     Toast,
-    List,
     Tooltip
 } from "@shopify/polaris";
-import { CircleCancelMinor, NoteMinor, CircleCancelMajor, ChevronUpMinor, ChevronLeftMinor } from "@shopify/polaris-icons";
-import {
-    DeleteMajor
-} from '@shopify/polaris-icons';
-import { useCallback } from "react";
-import UploadIcon from "./imges/uploadLogo.png";
-import ErrorIcon from "./imges/error.png";
-import DellIcon from "./imges/dellIcon.png";
-import ColorWheel from "./imges/collorWheel.png";
-import ChevronUp from "./imges/ChevronUpMinor.png";
-import logo from "./imges/vidialLogoPower.png";
-import arrowRight from "./imges/arrowRight.png";
-import backIcon from "./imges/backIcon.png";
-import Toggle from "./Toggle";
-import { showStoreName } from "./utils";
-import Bureaue from "./imges/bureau 11.png";
-import vidialLogo from "./imges/vidialLogoPower.png";
-import CrispChat from 'react-crisp';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { CircleCancelMajor, NoteMinor } from "@shopify/polaris-icons";
 import { Editor } from '@tinymce/tinymce-react';
+import { useCallback, useEffect, useRef, useState } from "react";
+import { useParams } from "react-router-dom";
+import route from "vendor/tightenco/ziggy/src/js";
+import backIcon from "./imges/backIcon.png";
+import ColorWheel from "./imges/collorWheel.png";
 import Delete from "./imges/Delete.svg";
 
 /**
@@ -60,8 +33,10 @@ const storeName = shopParam.split('.')[0];
 localStorage.setItem('store',storeName);
 */
 
-const UgcApprovedEmail = ({query}) => {
-    const {id}  = useParams();
+const UgcApprovedEmail = ({ query }) => {
+    const page = usePage().props;
+    const query = page.ziggy.query;
+    const { id } = useParams();
     const [activeTootlTip, setActiveTootlTip] = useState(false);
     const [alreadyUploadLogo, setAlreadyUploadedLogo] = useState('');
 
@@ -80,7 +55,6 @@ const UgcApprovedEmail = ({query}) => {
     const handleRemoveThumbnail = () => {
         setFiles([]);
     };
-    const navigate = useNavigate();
     const [active, setActive] = useState(false);
 
     const [activeToggle, setActiveToggle] = useState(false);
@@ -135,7 +109,7 @@ const UgcApprovedEmail = ({query}) => {
     );
     const uploadedFilesPreview = files.length > 0 && (
         <div style={{ padding: '0' }}>
-            <div style={{width:"60px",marginBottom:"10px"}} >
+            <div style={{ width: "60px", marginBottom: "10px" }} >
                 {files.map((file, index) => (
                     <div key={index}>
                         <Thumbnail
@@ -150,7 +124,7 @@ const UgcApprovedEmail = ({query}) => {
                         <div>
                             <div onClick={handleRemoveThumbnail} >
                                 {/* <Icon source={CircleCancelMajor} color="critical" /> */}
-                                <img src={Delete} style={{cursor:"pointer"}}/>
+                                <img src={Delete} style={{ cursor: "pointer" }} />
                             </div>
                         </div>
                     </div>
@@ -201,7 +175,7 @@ const UgcApprovedEmail = ({query}) => {
             logo_file = alreadyUploadLogo == '' ? 'empty_logo' : 'already_uploaded_logo';
         }
         formData.append('logo', logo_file)
-        let saveUrl = '/save-email-settings'+query;
+        let saveUrl = '/save-email-settings' + query;
         if (id) {
             saveUrl = "/save-user-email-settings?id=" + id;
         }
@@ -212,13 +186,14 @@ const UgcApprovedEmail = ({query}) => {
             then((response) => response.json())
             .then((data) => {
                 if (data.success) {
-                    let redirect = '/email';
+                    let redirect = route('/email', query);
+
                     if (id) {
-                        redirect = '/user-email-settings/' + id;
+                        redirect = route('/user-email-settings/:id', { id: id, ...query });
                     }
                     toggleActive()
                     setTimeout(() => {
-                        navigate(redirect)
+                        router.get(redirect)
                     }, 3000);
                     //alert('save settings successfully');
                     //successToast();
@@ -237,7 +212,7 @@ const UgcApprovedEmail = ({query}) => {
     useEffect(() => {
         let extraParams = {
             type: 'UGC_Approved'
-        };   
+        };
         let url = createUrl('/fetch-email-settings', extraParams);
         if (id) {
             url = "/fetch-user-email-settings?type=UGC_Approved&id=" + id;
@@ -273,34 +248,34 @@ const UgcApprovedEmail = ({query}) => {
     }, []);
     const buttonHtml = `<button style="font-size: 15px;background: ${buttonColorHex};color: rgb(255, 255, 255);border: none;border-radius: 4px;display: block;margin: 0px auto;padding: 16px 30px; border-radius: 25px;" >${buttonText}</button>`;
     const processedContent = content.replace('{{button}}', buttonHtml);
-     // popover code start
-   const [popoverActive, setPopoverActive] = useState(false);
+    // popover code start
+    const [popoverActive, setPopoverActive] = useState(false);
 
-   const togglePopoverActive = useCallback(
-       () => setPopoverActive((popoverActive) => !popoverActive),
-       [],
-   );
+    const togglePopoverActive = useCallback(
+        () => setPopoverActive((popoverActive) => !popoverActive),
+        [],
+    );
 
-   const activator = (
-       <button
-                                           style={{
-                                               marginRight: "10px",
-                                               background: "none",
-                                               border: "none",
-                                           }}
-                                           onClick={togglePopoverActive}
-                                       >
-                                           <img
-                                               className="colorWheel"
-                                               src={ColorWheel}
-                                               style={{
-                                                   marginTop: "3px",
-                                                   marginLeft: "4px",
-                                               }}
-                                           ></img>
-                                       </button>
-   );
-   // popover code end
+    const activator = (
+        <button
+            style={{
+                marginRight: "10px",
+                background: "none",
+                border: "none",
+            }}
+            onClick={togglePopoverActive}
+        >
+            <img
+                className="colorWheel"
+                src={ColorWheel}
+                style={{
+                    marginTop: "3px",
+                    marginLeft: "4px",
+                }}
+            ></img>
+        </button>
+    );
+    // popover code end
     return (
         <div>
 
@@ -320,10 +295,10 @@ const UgcApprovedEmail = ({query}) => {
                         >
                             <div onClick={() => {
                                 if (id) {
-                                    navigate("/user-email-settings/" + id);
+                                    router.get(route('user-email-settings', { id: id, ...query }));
                                 }
                                 else {
-                                    navigate("/email");
+                                    router.get(route('email', query));
                                 }
                             }} style={{ display: "flex", marginLeft: "10px", marginBottom: "10px", cursor: "pointer" }}>
                                 <div><img src={backIcon} style={{ marginTop: "4px", }}></img></div>
@@ -342,7 +317,7 @@ const UgcApprovedEmail = ({query}) => {
                                         }}
                                     >
                                         <Text variant="headingLg" as="h5">
-                                        Video Approved
+                                            Video Approved
                                         </Text>
                                         <p style={{ marginTop: "5px" }}>
                                             Design the standard approval emails sent by GoodAuthentic
@@ -448,38 +423,38 @@ const UgcApprovedEmail = ({query}) => {
 
                                         />
                                         <p style={{ fontSize: "15px", marginTop: "20px", marginBottom: "10px", fontWeight: "500" }}>Button Color</p>
-                                        <div style={{display:"flex",alignItems:"center"}}>
-                                        <Popover
-                                            active={popoverActive}
-                                            activator={activator}
-                                            autofocusTarget="first-node"
-                                            onClose={togglePopoverActive}
-                                        >
-                                            <div style={{ padding: "20px" }}>
-                                               <ColorPicker
-                                                    onChange={(e) => {
-                                                        // console.log(hsbToRgb(e));
-                                                        setButtonColor(e);
-                                                        setButtonColorHex(
-                                                            hsbToHex(e)
-                                                        );
-                                                        setGradientCheck(false);
-                                                    }}
-                                                    color={buttonColor}
-                                                />
-                                                <div style={{ marginTop: "20px" }}></div>
-                                                <TextField
-                                                    value={buttonColorHex}
-                                                    onChange={handleInputColorChange}
-                                                />
-                                            </div>
-                                        </Popover>
-                                        <div
-                                        style={{
-                                            background: `${buttonColorHex}`,
-                                        }}
-                                        className="colorOptions"
-                                    ></div>
+                                        <div style={{ display: "flex", alignItems: "center" }}>
+                                            <Popover
+                                                active={popoverActive}
+                                                activator={activator}
+                                                autofocusTarget="first-node"
+                                                onClose={togglePopoverActive}
+                                            >
+                                                <div style={{ padding: "20px" }}>
+                                                    <ColorPicker
+                                                        onChange={(e) => {
+                                                            // console.log(hsbToRgb(e));
+                                                            setButtonColor(e);
+                                                            setButtonColorHex(
+                                                                hsbToHex(e)
+                                                            );
+                                                            setGradientCheck(false);
+                                                        }}
+                                                        color={buttonColor}
+                                                    />
+                                                    <div style={{ marginTop: "20px" }}></div>
+                                                    <TextField
+                                                        value={buttonColorHex}
+                                                        onChange={handleInputColorChange}
+                                                    />
+                                                </div>
+                                            </Popover>
+                                            <div
+                                                style={{
+                                                    background: `${buttonColorHex}`,
+                                                }}
+                                                className="colorOptions"
+                                            ></div>
                                         </div>
 
                                         <div style={{ display: "flex", marginTop: "20px" }} >
@@ -490,13 +465,13 @@ const UgcApprovedEmail = ({query}) => {
                                             }}>Preview Template</Button>
                                             <span style={{ marginRight: "10px" }}></span>
                                             <div className="polaris-black-btn-global">
-                                            <Button onClick={handleSaveEmailSettings} primary>Save</Button>
+                                                <Button onClick={handleSaveEmailSettings} primary>Save</Button>
                                             </div>
                                         </div>
                                     </Grid.Cell>
                                 </Grid>
                             </Card>
-                            <div style={{marginBottom:"200px"}}></div>
+                            <div style={{ marginBottom: "200px" }}></div>
                         </Grid.Cell>
                     </Grid>
                     <Modal
@@ -506,12 +481,12 @@ const UgcApprovedEmail = ({query}) => {
 
                     >
                         <div className="previewModel">
-                            <div style={{background:"#fff",borderRadius:"15px",paddingTop:"20px"}}>
+                            <div style={{ background: "#fff", borderRadius: "15px", paddingTop: "20px" }}>
                                 {/* <img style={{ display: "block", margin: "auto", marginTop: "20px", marginBottom: "20px" }} src={logo}></img> */}
                                 {files.map((file, index) => (
                                     <div key={index}>
                                         <img
-                                            style={{ display: "block", margin: "auto", marginTop: "20px", marginBottom: "20px",maxWidth:"250px" }}
+                                            style={{ display: "block", margin: "auto", marginTop: "20px", marginBottom: "20px", maxWidth: "250px" }}
                                             alt={file.name}
                                             src={
                                                 validImageTypes.includes(file.type)
@@ -521,8 +496,8 @@ const UgcApprovedEmail = ({query}) => {
                                         />
                                     </div>
                                 ))}
-                                {files.length <= 0  && <img
-                                    style={{ display: "block", margin: "auto", marginTop: "20px", marginBottom: "20px", maxWidth: "250px"}}
+                                {files.length <= 0 && <img
+                                    style={{ display: "block", margin: "auto", marginTop: "20px", marginBottom: "20px", maxWidth: "250px" }}
 
                                     src={alreadyUploadLogo} />}
                                 <div className="previewEditor">

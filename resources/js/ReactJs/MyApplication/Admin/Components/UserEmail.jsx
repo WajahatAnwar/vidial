@@ -1,3 +1,4 @@
+import { router, usePage } from "@inertiajs/react";
 import {
     Banner,
     Button,
@@ -18,9 +19,9 @@ import {
     Toast
 } from "@shopify/polaris";
 import { CircleCancelMajor, NoteMinor, TickMinor } from "@shopify/polaris-icons";
-import React, { useCallback, useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import EmailCredsToggle from "../../EmailCredsToggle";
+import { useCallback, useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import route from "vendor/tightenco/ziggy/src/js";
 import Toggle from "../../Toggle";
 import '../../css/editor.css';
 import ChevronUp from "../../imges/ChevronUpMinor.png";
@@ -34,7 +35,9 @@ localStorage.setItem('store',storeName);
 */
 
 const UserEmail = () => {
-   const {id} =  useParams();
+    const page = usePage().props;
+    const query = page.ziggy.query;
+    const { id } = useParams();
     const [klavioError, setKlavioError] = useState(false);
     const [klavioErrorMsg, setKlavioErrorMsg] = useState('');
     const [storeHandle, setStoreHandle] = useState(null);
@@ -62,7 +65,6 @@ const UserEmail = () => {
         [activeRejectionConfirmModel]
     );
 
-    const navigate = useNavigate();
     const [open, setOpen] = useState(true);
     const [successMsg, setSuccessMsg] = useState('');
     const handleToggle = useCallback(() => setOpen((open) => !open), []);
@@ -225,7 +227,7 @@ const UserEmail = () => {
     const [storeName, setstoreName] = useState("");
     const [successToastVideo, setSuccessToastVideo] = useState("");
     const [favIcon, setFavIcon] = useState(null);
-    const [planName,setPlanName] = useState(null);
+    const [planName, setPlanName] = useState(null);
     const [favIconPreview, setFavIconPreview] = useState(null);
 
     const [gdError, setGdError] = useState(false);
@@ -718,7 +720,7 @@ const UserEmail = () => {
 
         // setError(false);
         // Generating request for sending Data to the server
-        fetch("/save-user-email-tab?id="+id, {
+        fetch("/save-user-email-tab?id=" + id, {
             method: "post",
             body: formData,
         }).then((response) => response.json())
@@ -1029,7 +1031,7 @@ const UserEmail = () => {
                             <ButtonGroup>
                                 <Button
                                     onClick={() => {
-                                        navigate(pageLink);
+                                        router.get(route(pageLink, query));
                                         setActiveRejectionConfirmModel(false);
                                         setEmailTemplateButton(true);
                                     }}
@@ -1039,11 +1041,12 @@ const UserEmail = () => {
                                 <Button primary onClick={() => {
                                     document.getElementById('sab_ok_id').click();
                                     setTimeout(() => {
-                                        navigate(pageLink)
+                                        router.get(route(pageLink, query));
                                     }, 5000);
 
                                     setActiveRejectionConfirmModel(false);
-                                    navigate(pageLink);
+                                    router.get(route(pageLink, query));
+
                                     setEmailTemplateButton(true);
                                 }}
                                 >
@@ -1146,10 +1149,10 @@ const UserEmail = () => {
                                     >
                                         <div style={{ width: "450px" }}>
                                             <Text variant="headingLg" as="h5">
-                                                    Send Emails from GoodAuthentic
+                                                Send Emails from GoodAuthentic
                                             </Text>
                                             <p style={{ marginTop: "5px" }}>
-                                                    If you want this app to send your emails, toggle this on. Turn off if you are sending your own.
+                                                If you want this app to send your emails, toggle this on. Turn off if you are sending your own.
                                             </p>
                                         </div>
                                         <div
@@ -1180,7 +1183,7 @@ const UserEmail = () => {
 
                                             </Text>
                                             <p style={{ marginTop: "5px" }}>
-                                                    This is the timing of the first email sent to your customer.
+                                                This is the timing of the first email sent to your customer.
                                             </p>
                                         </div>
                                         <div
@@ -1217,10 +1220,10 @@ const UserEmail = () => {
                                     >
                                         <div style={{ width: "550px" }}>
                                             <Text variant="headingLg" as="h5">
-                                                    Reminder Email Cadence
+                                                Reminder Email Cadence
                                             </Text>
                                             <p style={{ marginTop: "5px" }}>
-                                                    Design the reminder emails sent by GoodAuthentic
+                                                Design the reminder emails sent by GoodAuthentic
                                             </p>
                                         </div>
                                         <div
@@ -1254,7 +1257,7 @@ const UserEmail = () => {
                                     >
                                         <div style={{ width: "550px" }}>
                                             <Text variant="headingLg" as="h5">
-                                                    Number of Emails to Send
+                                                Number of Emails to Send
                                             </Text>
                                             <p style={{ marginTop: "5px" }}>
                                                 GoodAuthentic will stop sending emails after this many to each customer.
@@ -1334,11 +1337,11 @@ const UserEmail = () => {
 
                                             }}
                                             onClick={() => {
-                                                console.log('post purchase email' + id);
-                                                if(id){
-                                                    navigate("/post-purchase-email/" + id)
-                                                }else{
-                                                navigate("/post-purchase-email")
+
+                                                if (id) {
+                                                    router.get(route('post-purchase-email', { id: id, ...query }));
+                                                } else {
+                                                    router.get(route('post-purchase-email', query));
                                                 }
 
                                             }}
@@ -1348,7 +1351,7 @@ const UserEmail = () => {
                                                     Post Purchase
                                                 </Text>
                                                 <p style={{ marginTop: "5px" }}>
-                                                        Design the post purchase emails sent by GoodAuthentic
+                                                    Design the post purchase emails sent by GoodAuthentic
                                                 </p>
                                             </div>
                                             <div
@@ -1379,9 +1382,9 @@ const UserEmail = () => {
                                             onClick={() => {
                                                 console.log('reminder email' + id);
                                                 if (id) {
-                                                    navigate("/reminder-email/" + id)
+                                                    router.get(route('reminder-email', { id: id, ...query }));
                                                 } else {
-                                                    navigate("/reminder-email")
+                                                    router.get(route('reminder-email', query));
                                                 }
 
                                             }}
@@ -1391,7 +1394,7 @@ const UserEmail = () => {
                                                     Reminder
                                                 </Text>
                                                 <p style={{ marginTop: "5px" }}>
-                                                        Design the reminder emails sent by GoodAuthentic
+                                                    Design the reminder emails sent by GoodAuthentic
                                                 </p>
                                             </div>
                                             <div
@@ -1421,9 +1424,9 @@ const UserEmail = () => {
                                             }}
                                             onClick={() => {
                                                 if (id) {
-                                                    navigate("/ugc-approved-email/" + id)
+                                                    router.get(route('ugc-approved-email', { id: id, ...query }));
                                                 } else {
-                                                    navigate("/ugc-approved-email")
+                                                    router.get(route('ugc-approved-email', query));
                                                 }
 
 
@@ -1431,10 +1434,10 @@ const UserEmail = () => {
                                         >
                                             <div style={{ width: "550px" }}>
                                                 <Text variant="headingLg" as="h5">
-                                                        Standard Approval
+                                                    Standard Approval
                                                 </Text>
                                                 <p style={{ marginTop: "5px" }}>
-                                                        Design the standard approval emails sent by GoodAuthentic
+                                                    Design the standard approval emails sent by GoodAuthentic
                                                 </p>
                                             </div>
                                             <div
@@ -1464,9 +1467,9 @@ const UserEmail = () => {
                                             }}
                                             onClick={() => {
                                                 if (id) {
-                                                    navigate("/ugc-star-approved/" + id)
+                                                    router.get(route('ugc-declined-email', { id: id, ...query }));
                                                 } else {
-                                                    navigate("/ugc-star-approved")
+                                                    router.get(route('ugc-star-approved', query));
                                                 }
 
 
@@ -1477,7 +1480,7 @@ const UserEmail = () => {
                                                     Star Approval
                                                 </Text>
                                                 <p style={{ marginTop: "5px" }}>
-                                                        Design the star approval emails sent by GoodAuthentic
+                                                    Design the star approval emails sent by GoodAuthentic
                                                 </p>
                                             </div>
                                             <div
@@ -1507,9 +1510,9 @@ const UserEmail = () => {
                                             }}
                                             onClick={() => {
                                                 if (id) {
-                                                    navigate("/ugc-declined-email/" + id)
+                                                    router.get(route('ugc-declined-email', { id: id, ...query }));
                                                 } else {
-                                                    navigate("/ugc-declined-email")
+                                                    router.get(route('ugc-declined-email', query));
                                                 }
 
 
@@ -1520,7 +1523,7 @@ const UserEmail = () => {
                                                     UGC Declined
                                                 </Text>
                                                 <p style={{ marginTop: "5px" }}>
-                                                        Design the declined emails sent by GoodAuthentic
+                                                    Design the declined emails sent by GoodAuthentic
                                                 </p>
                                             </div>
                                             <div
@@ -1623,17 +1626,17 @@ const UserEmail = () => {
                                             {
                                                 gDConnected ?
 
-                                                        <Button info >
-                                                            <div style={{display:"flex"}} >
+                                                    <Button info >
+                                                        <div style={{ display: "flex" }} >
 
-                                                                <div>Connected</div>
-                                                                <div>
-                                                                    <Icon
-                                                                        source={TickMinor}
-                                                                        color="base"
-                                                                    />
-                                                                </div>
+                                                            <div>Connected</div>
+                                                            <div>
+                                                                <Icon
+                                                                    source={TickMinor}
+                                                                    color="base"
+                                                                />
                                                             </div>
+                                                        </div>
                                                     </Button>
                                                     : <Button primary onClick={handleConnectGD}>
                                                         Connect
@@ -1643,27 +1646,27 @@ const UserEmail = () => {
                                     </div>
                                 </Card>
 
-                                    {/********* Klavio  *********/}
-                                    <Card sectioned>
-                                        {
-                                            klavioError ? <Banner>
-                                                <List type="bullet">
-                                                    {
-                                                        <List.Item>{klavioErrorMsg}</List.Item>
+                                {/********* Klavio  *********/}
+                                <Card sectioned>
+                                    {
+                                        klavioError ? <Banner>
+                                            <List type="bullet">
+                                                {
+                                                    <List.Item>{klavioErrorMsg}</List.Item>
 
-                                                    }
+                                                }
 
 
-                                                </List>
-                                            </Banner> : ''
-                                        }
-                                        <div className="googledrivesection">
-                                            <div style={{ marginBottom: "15px" }}>
-                                                <Text variant="headingLg" as="h5">
-                                                    Connect Klaviyo
-                                                </Text>
-                                            </div>
-                                            {/* <p
+                                            </List>
+                                        </Banner> : ''
+                                    }
+                                    <div className="googledrivesection">
+                                        <div style={{ marginBottom: "15px" }}>
+                                            <Text variant="headingLg" as="h5">
+                                                Connect Klaviyo
+                                            </Text>
+                                        </div>
+                                        {/* <p
                                             style={{
                                                 marginTop: "15px",
                                                 marginBottom: "15px",
@@ -1671,119 +1674,119 @@ const UserEmail = () => {
                                         >
                                             Please contact the live support to verify your store and remove our Branding “Powered by Vidial” for FREE.
                                         </p> */}
-                                            <div style={{ marginTop: "10px", width: "450px" }}>
-                                                <TextField
-                                                    value={klavioApi}
-                                                    onChange={handleKlavioApi}
-                                                    autoComplete="off"
-                                                    placeholder="Klaviyo Api Key"
+                                        <div style={{ marginTop: "10px", width: "450px" }}>
+                                            <TextField
+                                                value={klavioApi}
+                                                onChange={handleKlavioApi}
+                                                autoComplete="off"
+                                                placeholder="Klaviyo Api Key"
 
-                                                />
-                                            </div>
-
-                                            <div style={{ marginTop: "10px", width: "450px" }}>
-                                                <TextField
-                                                    value={klavioEmail}
-                                                    onChange={handleKlavioEmail}
-                                                    autoComplete="off"
-                                                    placeholder="Set Email"
-
-                                                />
-                                            </div>
-
-
-
-                                            <div style={{ marginTop: "20px" }}>
-                                                {
-                                                    klavioConnected ?
-
-                                                        <Button info >
-                                                            <div style={{ display: "flex" }} >
-
-                                                                <div>Connected</div>
-                                                                <div>
-                                                                    <Icon
-                                                                        source={TickMinor}
-                                                                        color="base"
-                                                                    />
-                                                                </div>
-                                                            </div>
-                                                        </Button>
-                                                        : <Button primary onClick={handleConnectKlavio}>
-                                                            Connect
-                                                        </Button>
-                                                }
-
-                                            </div>
+                                            />
                                         </div>
-                                    </Card>
 
-                                    <Card sectioned>
-                                        <div className="googledrivesection">
-                                            <div style={{ marginTop: "20px" }}></div>
-                                            <div style={{ display: "flex", alignItems: "center", marginRight: "5px" }} >
-                                                <div style={{ width: "450px" }}>
-                                                    <Text variant="headingLg" as="h5">
-                                                        Connect Mailgun
-                                                    </Text>
+                                        <div style={{ marginTop: "10px", width: "450px" }}>
+                                            <TextField
+                                                value={klavioEmail}
+                                                onChange={handleKlavioEmail}
+                                                autoComplete="off"
+                                                placeholder="Set Email"
 
-
-                                                    {
-                                                        emailCredsError ? <Banner>
-                                                            <List type="bullet">
-                                                                {
-                                                                    <List.Item>{emailCredsMsg}</List.Item>
-
-                                                                }
+                                            />
+                                        </div>
 
 
-                                                            </List>
-                                                        </Banner> : ''
-                                                    }
-                                                </div>
 
+                                        <div style={{ marginTop: "20px" }}>
+                                            {
+                                                klavioConnected ?
+
+                                                    <Button info >
+                                                        <div style={{ display: "flex" }} >
+
+                                                            <div>Connected</div>
+                                                            <div>
+                                                                <Icon
+                                                                    source={TickMinor}
+                                                                    color="base"
+                                                                />
+                                                            </div>
+                                                        </div>
+                                                    </Button>
+                                                    : <Button primary onClick={handleConnectKlavio}>
+                                                        Connect
+                                                    </Button>
+                                            }
+
+                                        </div>
+                                    </div>
+                                </Card>
+
+                                <Card sectioned>
+                                    <div className="googledrivesection">
+                                        <div style={{ marginTop: "20px" }}></div>
+                                        <div style={{ display: "flex", alignItems: "center", marginRight: "5px" }} >
+                                            <div style={{ width: "450px" }}>
+                                                <Text variant="headingLg" as="h5">
+                                                    Connect Mailgun
+                                                </Text>
+
+
+                                                {
+                                                    emailCredsError ? <Banner>
+                                                        <List type="bullet">
+                                                            {
+                                                                <List.Item>{emailCredsMsg}</List.Item>
+
+                                                            }
+
+
+                                                        </List>
+                                                    </Banner> : ''
+                                                }
+                                            </div>
+
+
+                                        </div>
+
+                                        <>
+
+                                            <div
+                                                style={{
+                                                    width: "450px",
+                                                    marginTop: "10px",
+                                                }}
+                                            >
+
+
+
+                                                <TextField
+                                                    value={mailgunAPI}
+                                                    onChange={handleMailgunAPI}
+                                                    autoComplete="off"
+                                                    placeholder="Mailgun API Key"
+                                                />
+                                                <p style={{ color: "#717171", marginTop: "5px" }}>Paste your <a href="https://www.mailgun.com/blog/product/getting-started-with-mailgun-introduction-to-platform-training/" target="blank" style={{ color: "#008060", textDecoration: "underline" }}>Mailgun</a> API Key here. <a href="https://documentation.mailgun.com/en/latest/index.html" target="blank" style={{ color: "#008060", textDecoration: "underline" }}>See how it works</a></p>
+                                            </div>
+                                            <div
+                                                style={{
+                                                    width: "450px",
+                                                    marginTop: "10px",
+                                                }}
+                                            >
+
+
+
+                                                <TextField
+                                                    value={senderEmail}
+                                                    onChange={handleSenderEmail}
+                                                    autoComplete="off"
+                                                    placeholder="noreply@goodauthentic.com"
+                                                />
+                                                <p style={{ color: "#717171", marginTop: "5px" }}>Enter the email address that will be used as the sender.</p>
 
                                             </div>
 
-                                            <>
-
-                                                <div
-                                                    style={{
-                                                        width: "450px",
-                                                        marginTop: "10px",
-                                                    }}
-                                                >
-
-
-
-                                                    <TextField
-                                                        value={mailgunAPI}
-                                                        onChange={handleMailgunAPI}
-                                                        autoComplete="off"
-                                                        placeholder="Mailgun API Key"
-                                                    />
-                                                    <p style={{ color: "#717171", marginTop: "5px" }}>Paste your <a href="https://www.mailgun.com/blog/product/getting-started-with-mailgun-introduction-to-platform-training/" target="blank" style={{ color: "#008060", textDecoration: "underline" }}>Mailgun</a> API Key here. <a href="https://documentation.mailgun.com/en/latest/index.html" target="blank" style={{ color: "#008060", textDecoration: "underline" }}>See how it works</a></p>
-                                                </div>
-                                                <div
-                                                    style={{
-                                                        width: "450px",
-                                                        marginTop: "10px",
-                                                    }}
-                                                >
-
-
-
-                                                    <TextField
-                                                        value={senderEmail}
-                                                        onChange={handleSenderEmail}
-                                                        autoComplete="off"
-                                                        placeholder="noreply@goodauthentic.com"
-                                                    />
-                                                    <p style={{ color: "#717171", marginTop: "5px" }}>Enter the email address that will be used as the sender.</p>
-
-                                                </div>
-
-                                                {/* <div
+                                            {/* <div
                                                 style={{
                                                     width: "450px",
                                                     marginTop: "10px",
@@ -1818,37 +1821,37 @@ const UserEmail = () => {
                                                 <p style={{ color: "#717171", marginTop: "5px" }}>Enter the Mailgun endpoint.</p>
 
                                             </div> */}
-                                                {
-                                                    emailConnected ?
-                                                        <div
-                                                            style={{
-                                                                width: "450px",
-                                                                marginTop: "10px",
-                                                            }}
-                                                        >
-                                                            <Button info >
-                                                                <div style={{ display: "flex" }} >
+                                            {
+                                                emailConnected ?
+                                                    <div
+                                                        style={{
+                                                            width: "450px",
+                                                            marginTop: "10px",
+                                                        }}
+                                                    >
+                                                        <Button info >
+                                                            <div style={{ display: "flex" }} >
 
-                                                                    <div>Connected</div>
-                                                                    <div>
-                                                                        <Icon
-                                                                            source={TickMinor}
-                                                                            color="base"
-                                                                        />
-                                                                    </div>
+                                                                <div>Connected</div>
+                                                                <div>
+                                                                    <Icon
+                                                                        source={TickMinor}
+                                                                        color="base"
+                                                                    />
                                                                 </div>
-                                                            </Button>
-                                                        </div> : <div
-                                                            style={{
-                                                                width: "450px",
-                                                                marginTop: "10px",
-                                                            }}
-                                                        >
-                                                            <Button primary onClick={handleSaveEmailCredentials}>Connect</Button>
-                                                        </div>}
-                                            </>
-                                        </div>
-                                    </Card>
+                                                            </div>
+                                                        </Button>
+                                                    </div> : <div
+                                                        style={{
+                                                            width: "450px",
+                                                            marginTop: "10px",
+                                                        }}
+                                                    >
+                                                        <Button primary onClick={handleSaveEmailCredentials}>Connect</Button>
+                                                    </div>}
+                                        </>
+                                    </div>
+                                </Card>
 
                                 <div
                                     style={{
@@ -1863,7 +1866,7 @@ const UserEmail = () => {
                                         disabled={isLoading}
                                         id="sab_ok_id"
                                     >
-                                            Save Email
+                                        Save Email
                                     </Button>
                                 </div>
                             </Grid.Cell>

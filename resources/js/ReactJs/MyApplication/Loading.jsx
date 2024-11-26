@@ -1,12 +1,11 @@
-import { useEffect, useState } from "react";
-import { Navigate, useNavigate, useLocation } from "react-router-dom";
+import { usePage } from "@inertiajs/react";
 import { Frame, Loading as ShopLoading } from '@shopify/polaris';
-import React from "react";
+import { useEffect, useState } from "react";
 const Loading = () => {
 
-    const { search } = useLocation();
     const [currentUser, setCurrentUser] = useState();
-    const navigate = useNavigate();
+    const page = usePage().props;
+    const query = page.ziggy.query;
 
     useEffect(() => {
 
@@ -15,11 +14,12 @@ const Loading = () => {
             const data = await fetch('/getSession');
             const response = await data.json();
             setCurrentUser(response.data);
-            
 
-            if (response.success && response.data.role_id==1) {
-                
-                navigate("/admin-dashboard");
+
+            if (response.success && response.data.role_id == 1) {
+
+                router.get(route('admin-dashboard', query));
+
 
             } else {
 
@@ -36,9 +36,9 @@ const Loading = () => {
                     .then((data) => {
                         if (data.success) {
                             if (data.data.user.is_install) {
-                                navigate(`/dashboard${search}`);
+                                router.get(route('/', query));
                             } else {
-                                navigate("/settings");
+                                router.get(route('/settings', query));
                             }
 
                         }

@@ -1,57 +1,30 @@
-import React, { useEffect, useRef } from "react";
+import { router, usePage } from "@inertiajs/react";
 import {
-    hsbToHex,
-    hsbToRgb,
-    hslToRgb,
-    rgbToHsb,
-    Page,
-    Card,
     Button,
-    Select,
-    Icon,
-    Grid,
-    Modal,
-    Banner,
-    RadioButton,
-    TextField,
+    Card,
     ColorPicker,
-    Spinner,
-    Collapsible,
-    Tooltip,
-    Popover
-} from "@shopify/polaris";
-import { useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import {
     DropZone,
-    Stack,
-    Thumbnail,
-    Text,
     Frame,
+    Grid,
+    hsbToHex,
+    Icon,
+    Modal,
+    Page,
+    Popover,
+    Text,
+    TextField,
+    Thumbnail,
     Toast,
-    List,
+    Tooltip
 } from "@shopify/polaris";
-import { CircleCancelMinor, NoteMinor, CircleCancelMajor, ChevronUpMinor, ChevronLeftMinor } from "@shopify/polaris-icons";
-import {
-    DeleteMajor
-} from '@shopify/polaris-icons';
-import { useCallback } from "react";
-import UploadIcon from "./imges/uploadLogo.png";
-import ErrorIcon from "./imges/error.png";
-import DellIcon from "./imges/dellIcon.png";
-import ColorWheel from "./imges/collorWheel.png";
-import ChevronUp from "./imges/ChevronUpMinor.png";
-import logo from "./imges/vidialLogoPower.png";
-import arrowRight from "./imges/arrowRight.png";
-import backIcon from "./imges/backIcon.png";
-import Toggle from "./Toggle";
-import Bureaue from "./imges/bureau 11.png";
-import { showStoreName } from "./utils";
-import CrispChat from 'react-crisp';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { CircleCancelMajor, NoteMinor } from "@shopify/polaris-icons";
 import { Editor } from '@tinymce/tinymce-react';
+import { useCallback, useEffect, useRef, useState } from "react";
+import { useParams } from "react-router-dom";
+import route from "vendor/tightenco/ziggy/src/js";
 import "./css/style.css";
-import vidialLogo from "./imges/vidialLogoPower.png";
+import backIcon from "./imges/backIcon.png";
+import ColorWheel from "./imges/collorWheel.png";
 import Delete from "./imges/Delete.svg";
 
 /**
@@ -61,8 +34,10 @@ const storeName = shopParam.split('.')[0];
 localStorage.setItem('store',storeName);
 */
 
-const ReminderEmail = ({query}) => {
-    const {id} = useParams();
+const ReminderEmail = ({ query }) => {
+    const page = usePage().props;
+    const query = page.ziggy.query;
+    const { id } = useParams();
     const [activeTootlTip, setActiveTootlTip] = useState(false);
     const [activeToggle, setActiveToggle] = useState(false);
     const toggleActive = useCallback(() => setActiveToggle((activeToggle) => !activeToggle), []);
@@ -87,7 +62,6 @@ const ReminderEmail = ({query}) => {
         setAlreadyUploadedLogo('');
 
     }
-    const navigate = useNavigate();
     const [active, setActive] = useState(false);
     const handleChange = useCallback(() => setActive(!active), [active]);
     const [content, setContent] = useState('');
@@ -129,7 +103,7 @@ const ReminderEmail = ({query}) => {
                     </div>
                 ))}
 
-                {files.length <= 0  && <img
+                {files.length <= 0 && <img
                     style={{ display: "block", margin: "auto", marginTop: "20px", marginBottom: "20px", width: "100px", height: "100px" }}
 
                     src={alreadyUploadLogo} />}
@@ -138,7 +112,7 @@ const ReminderEmail = ({query}) => {
     );
     const uploadedFilesPreview = files.length > 0 && (
         <div style={{ padding: '0' }}>
-            <div style={{width:"60px",marginBottom:"10px"}} >
+            <div style={{ width: "60px", marginBottom: "10px" }} >
                 {files.map((file, index) => (
                     <div key={index}>
                         <Thumbnail
@@ -153,7 +127,7 @@ const ReminderEmail = ({query}) => {
                         <div>
                             <div onClick={handleRemoveThumbnail} >
                                 {/* <Icon source={CircleCancelMajor} color="critical" /> */}
-                                <img src={Delete} style={{cursor:"pointer"}}/>
+                                <img src={Delete} style={{ cursor: "pointer" }} />
                             </div>
                         </div>
                     </div>
@@ -186,9 +160,9 @@ const ReminderEmail = ({query}) => {
         setContent(content);
     };
     const handleSaveEmailSettings = () => {
-        let saveUrl = '/save-email-settings'+query;
+        let saveUrl = route('save-email-settings', query);
         if (id) {
-            saveUrl = "/save-user-email-settings?id=" + id;
+            saveUrl = route("/save-user-email-settings", { id: id, ...query });
         }
         let logo_file;
         setContent(editorRef.current.getContent());
@@ -215,14 +189,14 @@ const ReminderEmail = ({query}) => {
             then((response) => response.json())
             .then((data) => {
                 if (data.success) {
-                    let redirect = '/email';
+                    let redirect = route('/email', query);
                     if (id) {
-                        redirect = '/user-email-settings/' + id;
+                        redirect = route('/user-email-settings', { id: id, ...query });
                     }
                     toggleActive()
                     setTimeout(() => {
 
-                        navigate(redirect)
+                        router.get(redirect);
                     }, 3000);
                     //alert('save settings successfully');
                     //successToast();
@@ -244,7 +218,7 @@ const ReminderEmail = ({query}) => {
         let extraParams = {
             type: 'Reminder'
         };
-        
+
         let url = createUrl('/fetch-email-settings', extraParams);
         if (id) {
             url = "/fetch-user-email-settings?type=Reminder&id=" + id;
@@ -282,34 +256,34 @@ const ReminderEmail = ({query}) => {
 
     const buttonHtml = `<button style="font-size: 15px;background: ${buttonColorHex};color: rgb(255, 255, 255);border: none;border-radius: 4px;display: block;margin: 0px auto;padding: 16px 30px;border-radius: 25px;" >${buttonText}</button>`;
     const processedContent = content.replace('{{button}}', buttonHtml);
- // popover code start
- const [popoverActive, setPopoverActive] = useState(false);
+    // popover code start
+    const [popoverActive, setPopoverActive] = useState(false);
 
- const togglePopoverActive = useCallback(
-     () => setPopoverActive((popoverActive) => !popoverActive),
-     [],
- );
+    const togglePopoverActive = useCallback(
+        () => setPopoverActive((popoverActive) => !popoverActive),
+        [],
+    );
 
- const activator = (
-     <button
-                                         style={{
-                                             marginRight: "10px",
-                                             background: "none",
-                                             border: "none",
-                                         }}
-                                         onClick={togglePopoverActive}
-                                     >
-                                         <img
-                                             className="colorWheel"
-                                             src={ColorWheel}
-                                             style={{
-                                                 marginTop: "3px",
-                                                 marginLeft: "4px",
-                                             }}
-                                         ></img>
-                                     </button>
- );
- // popover code end
+    const activator = (
+        <button
+            style={{
+                marginRight: "10px",
+                background: "none",
+                border: "none",
+            }}
+            onClick={togglePopoverActive}
+        >
+            <img
+                className="colorWheel"
+                src={ColorWheel}
+                style={{
+                    marginTop: "3px",
+                    marginLeft: "4px",
+                }}
+            ></img>
+        </button>
+    );
+    // popover code end
     return (
         <div>
 
@@ -327,10 +301,10 @@ const ReminderEmail = ({query}) => {
                         >
                             <div onClick={() => {
                                 if (id) {
-                                    navigate("/user-email-settings/" + id);
+                                    router.get(route('/user-email-settings/' + id, query));
                                 }
                                 else {
-                                    navigate("/email");
+                                    router.get(route('/email', query));
                                 }
                             }} style={{ display: "flex", marginLeft: "10px", marginBottom: "10px", cursor: "pointer" }}>
                                 <div><img src={backIcon} style={{ marginTop: "4px", }}></img></div>
@@ -451,39 +425,39 @@ const ReminderEmail = ({query}) => {
 
                                         />
                                         <p style={{ fontSize: "15px", marginTop: "20px", marginBottom: "10px", fontWeight: "500" }}>Button Color</p>
-                                        <div style={{display:"flex",alignItems:"center"}}>
+                                        <div style={{ display: "flex", alignItems: "center" }}>
 
-                                        <Popover
-                                            active={popoverActive}
-                                            activator={activator}
-                                            autofocusTarget="first-node"
-                                            onClose={togglePopoverActive}
-                                        >
-                                            <div style={{ padding: "20px" }}>
-                                               <ColorPicker
-                                                    onChange={(e) => {
-                                                        // console.log(hsbToRgb(e));
-                                                        setButtonColor(e);
-                                                        setButtonColorHex(
-                                                            hsbToHex(e)
-                                                        );
-                                                        setGradientCheck(false);
-                                                    }}
-                                                    color={buttonColor}
-                                                />
-                                                <div style={{ marginTop: "20px" }}></div>
-                                                <TextField
-                                                    value={buttonColorHex}
-                                                    onChange={handleInputColorChange}
-                                                />
-                                            </div>
-                                        </Popover>
-                                        <div
-                                        style={{
-                                            background: `${buttonColorHex}`,
-                                        }}
-                                        className="colorOptions"
-                                    ></div>
+                                            <Popover
+                                                active={popoverActive}
+                                                activator={activator}
+                                                autofocusTarget="first-node"
+                                                onClose={togglePopoverActive}
+                                            >
+                                                <div style={{ padding: "20px" }}>
+                                                    <ColorPicker
+                                                        onChange={(e) => {
+                                                            // console.log(hsbToRgb(e));
+                                                            setButtonColor(e);
+                                                            setButtonColorHex(
+                                                                hsbToHex(e)
+                                                            );
+                                                            setGradientCheck(false);
+                                                        }}
+                                                        color={buttonColor}
+                                                    />
+                                                    <div style={{ marginTop: "20px" }}></div>
+                                                    <TextField
+                                                        value={buttonColorHex}
+                                                        onChange={handleInputColorChange}
+                                                    />
+                                                </div>
+                                            </Popover>
+                                            <div
+                                                style={{
+                                                    background: `${buttonColorHex}`,
+                                                }}
+                                                className="colorOptions"
+                                            ></div>
                                         </div>
 
                                         <div style={{ display: "flex", marginTop: "20px" }}>
@@ -494,13 +468,13 @@ const ReminderEmail = ({query}) => {
                                             }}>Preview Template</Button>
                                             <span style={{ marginRight: "10px" }}></span>
                                             <div className="polaris-black-btn-global">
-                                            <Button onClick={handleSaveEmailSettings} primary>Save</Button>
+                                                <Button onClick={handleSaveEmailSettings} primary>Save</Button>
                                             </div>
                                         </div>
                                     </Grid.Cell>
                                 </Grid>
                             </Card>
-                            <div style={{marginBottom:"200px"}}></div>
+                            <div style={{ marginBottom: "200px" }}></div>
                         </Grid.Cell>
                     </Grid>
                     <Modal
@@ -511,12 +485,12 @@ const ReminderEmail = ({query}) => {
                     >
 
                         <div className="previewModel">
-                            <div style={{background:"#fff",borderRadius:"15px",paddingTop:"20px"}}>
+                            <div style={{ background: "#fff", borderRadius: "15px", paddingTop: "20px" }}>
                                 {/* <img style={{ display: "block", margin: "auto", marginTop: "20px", marginBottom: "20px" }} src={logo}></img> */}
                                 {files.map((file, index) => (
                                     <div key={index}>
                                         <img
-                                            style={{ display: "block", margin: "auto", marginTop: "20px",maxWidth:"250px" }}
+                                            style={{ display: "block", margin: "auto", marginTop: "20px", maxWidth: "250px" }}
                                             alt={file.name}
                                             src={
                                                 validImageTypes.includes(file.type)

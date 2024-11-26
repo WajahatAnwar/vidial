@@ -1,56 +1,28 @@
-import React, { useEffect, useRef } from "react";
+import { router, usePage } from "@inertiajs/react";
 import {
-    hsbToHex,
-    hsbToRgb,
-    hslToRgb,
-    rgbToHsb,
-    Page,
-    Card,
     Button,
-    Select,
-    Icon,
-    Grid,
-    Modal,
-    Banner,
-    RadioButton,
-    TextField,
+    Card,
     ColorPicker,
-    Spinner,
-    Collapsible,
-    Tooltip,
-    Popover
-} from "@shopify/polaris";
-import { useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import {
     DropZone,
-    Stack,
-    Thumbnail,
-    Text,
     Frame,
+    Grid,
+    hsbToHex,
+    Icon,
+    Modal,
+    Page,
+    Popover,
+    Text,
+    TextField,
+    Thumbnail,
     Toast,
-    List,
+    Tooltip
 } from "@shopify/polaris";
-import { CircleCancelMinor, NoteMinor, CircleCancelMajor, ChevronUpMinor, ChevronLeftMinor } from "@shopify/polaris-icons";
-import {
-    DeleteMajor
-} from '@shopify/polaris-icons';
-import { useCallback } from "react";
-import UploadIcon from "./imges/uploadLogo.png";
-import ErrorIcon from "./imges/error.png";
-import DellIcon from "./imges/dellIcon.png";
-import ColorWheel from "./imges/collorWheel.png";
-import ChevronUp from "./imges/ChevronUpMinor.png";
-import logo from "./imges/vidialLogoPower.png";
-import arrowRight from "./imges/arrowRight.png";
-import backIcon from "./imges/backIcon.png";
-import Bureaue from "./imges/bureau 11.png";
-import Toggle from "./Toggle";
-import { showStoreName } from "./utils";
-import CrispChat from 'react-crisp';
-import vidialLogo from "./imges/vidialLogoPower.png";
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { CircleCancelMajor, NoteMinor } from "@shopify/polaris-icons";
 import { Editor } from '@tinymce/tinymce-react';
+import { useCallback, useEffect, useRef, useState } from "react";
+import { useParams } from "react-router-dom";
+import backIcon from "./imges/backIcon.png";
+import ColorWheel from "./imges/collorWheel.png";
 import Delete from "./imges/Delete.svg";
 // import './css/editor.css'
 /**
@@ -60,7 +32,9 @@ const storeName = shopParam.split('.')[0];
 localStorage.setItem('store',storeName);
 */
 
-const UgcDeclinedEmail = ({query}) => {
+const UgcDeclinedEmail = () => {
+    const page = usePage().props;
+    const query = page.ziggy.query;
     const {id} = useParams();
     const [activeTootlTip, setActiveTootlTip] = useState(false);
     const [activeToggle, setActiveToggle] = useState(false);
@@ -84,7 +58,6 @@ const UgcDeclinedEmail = ({query}) => {
     const handleRemoveThumbnail = () => {
         setFiles([]);
     };
-    const navigate = useNavigate();
     const [active, setActive] = useState(false);
     const handleChange = useCallback(() => setActive(!active), [active]);
     const [content, setContent] = useState('');
@@ -209,13 +182,13 @@ const UgcDeclinedEmail = ({query}) => {
             then((response) => response.json())
             .then((data) => {
                 if (data.success) {
-                    let redirect = '/email';
+                    let redirect = route('email',query);
                     if (id) {
-                        redirect = '/user-email-settings/' + id;
+                        redirect = route('user-email-settings', { id: id,...query });
                     }
                     toggleActive()
                     setTimeout(() => {
-                        navigate(redirect)
+                        router.get(redirect);
                     }, 3000);
                     //alert('save settings successfully');
                     //successToast();
@@ -318,10 +291,10 @@ const UgcDeclinedEmail = ({query}) => {
                         >
                             <div onClick={() => {
                                 if (id) {
-                                    navigate("/user-email-settings/" + id);
+                                    router.get(route('user-email-settings', { id: id,...query }));
                                 }
                                 else {
-                                    navigate("/email");
+                                    router.get(route('email',query));
                                 }
                             }} style={{ display: "flex", marginLeft: "10px", marginBottom: "10px", cursor: "pointer" }}>
                                 <div><img src={backIcon} style={{ marginTop: "4px", }}></img></div>

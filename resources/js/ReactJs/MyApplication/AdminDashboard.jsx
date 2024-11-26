@@ -16,16 +16,18 @@ import {
     TextField,
     Toast
 } from "@shopify/polaris";
-import React, { useCallback, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useCallback, useEffect, useState } from 'react';
 
+import { router, usePage } from "@inertiajs/react";
 import { Link } from "react-router-dom";
 import Toggle from "./Toggle";
 
 
 function AdminDashboard(props) {
 
-    const navigate = useNavigate();
+    const page = usePage().props;
+    const query = page.ziggy.query;
+
     const [pagination, setPagination] = useState({
         path: 'https://app.goodauthentic.com/getDataofallPlans',
         next_cursor: null,
@@ -42,7 +44,7 @@ function AdminDashboard(props) {
     const [tableRows, setTableRows] = useState([]);
     const [responseState, setResponseState] = useState(null);
     const [searchQuery, setSearchQuery] = useState(null);
-    
+
     const logState = state => {
         console.log("Toggled:", state)
     }
@@ -129,11 +131,11 @@ function AdminDashboard(props) {
     const [sorting, setSorting] = useState("id desc");
     const handlePageCount = useCallback((value) => { setPageCount(value); setReload(!reload); setCurrentCursor(null) }, [tableRows]);
     const handleSorting = useCallback((value) => { setSorting(value); setReload(!reload); setCurrentCursor(null) }, [tableRows]);
-    const handleSearch = (e)=>{
+    const handleSearch = (e) => {
         setSearchQuery(e);
     }
 
-    const handleApplySearch = ()=>{
+    const handleApplySearch = () => {
         setReload(!reload);
     }
 
@@ -197,7 +199,7 @@ function AdminDashboard(props) {
         realRows = realRows.filter((value) => value[1].toLowerCase().includes(queryValue.toLowerCase()))
         setTableRows(realRows);
 
-      
+
 
         if (availability.length == 1)
             realRows = realRows.filter((value) => value[2].props.value == availability[0])
@@ -210,7 +212,7 @@ function AdminDashboard(props) {
 
         setTableRows(realRows);
 
-        
+
 
     }, [reload]);
 
@@ -259,7 +261,7 @@ function AdminDashboard(props) {
         })
             .then((response) => response.json())
             .then((data) => {
-                navigate("/login");
+                router.get(route('login', query));
             })
     }
 
@@ -269,59 +271,59 @@ function AdminDashboard(props) {
                 responseState == 'pending' ? <div className="" >
                     <SkeletonPage primaryAction>
                         <div className="loadingStateCustom">
+                            <SkeletonBodyText />
+                            <Card>
+                                <TextContainer>
+                                    <SkeletonDisplayText size="small" />
                                     <SkeletonBodyText />
-                               <Card>
-                                    <TextContainer>
-                                        <SkeletonDisplayText size="small" />
-                                        <SkeletonBodyText />
-                                    </TextContainer>
-                               </Card>
-                                   <Card>
-                                    <TextContainer>
-                                        <SkeletonDisplayText size="small" />
-                                        <SkeletonBodyText />
-                                    </TextContainer>
-                                    </Card>
-                              
-                            
-                                    <Card>
-                                        <TextContainer>
-                                            <SkeletonDisplayText size="small" />
-                                            <SkeletonBodyText lines={2} />
-                                        </TextContainer>
-                                    </Card>
-                                    <Card>
-                                        <SkeletonBodyText lines={1} />
-                                    </Card>
+                                </TextContainer>
+                            </Card>
+                            <Card>
+                                <TextContainer>
+                                    <SkeletonDisplayText size="small" />
+                                    <SkeletonBodyText />
+                                </TextContainer>
+                            </Card>
 
-                                    <Card>
-                                        <TextContainer>
-                                            <SkeletonDisplayText size="small" />
-                                            <SkeletonBodyText lines={2} />
-                                        </TextContainer>
-                                    </Card>
-                                    <Card>
-                                        <SkeletonBodyText lines={2} />
-                                    </Card>
+
+                            <Card>
+                                <TextContainer>
+                                    <SkeletonDisplayText size="small" />
+                                    <SkeletonBodyText lines={2} />
+                                </TextContainer>
+                            </Card>
+                            <Card>
+                                <SkeletonBodyText lines={1} />
+                            </Card>
+
+                            <Card>
+                                <TextContainer>
+                                    <SkeletonDisplayText size="small" />
+                                    <SkeletonBodyText lines={2} />
+                                </TextContainer>
+                            </Card>
+                            <Card>
+                                <SkeletonBodyText lines={2} />
+                            </Card>
                         </div>
                     </SkeletonPage>
-                </div>  : 
-            <Grid>
-                <Grid.Cell columnSpan={{ xs: 6, sm: 6, md: 12, lg: 12, xl: 12 }}>
-                    <div style={{ height: "0px" }}>
-                        
-                        <Frame>
-                            {toastMarkup}
-                        </Frame>
-                    </div>
-                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                        <h1 className="Polaris-Header-Title" style={{ paddingBottom: "10px", paddingTop: "10px" }}>Stores List</h1>
-                        <div style={{ marginBottom: "10px" }}><Button outline onClick={logoutHandler}>Log Out</Button></div>
-                    </div>
+                </div> :
+                    <Grid>
+                        <Grid.Cell columnSpan={{ xs: 6, sm: 6, md: 12, lg: 12, xl: 12 }}>
+                            <div style={{ height: "0px" }}>
 
-                            <div style={{ display: "flex",justifyContent:"flex-end" }}>
-                    <div>
-                                {/* <Select
+                                <Frame>
+                                    {toastMarkup}
+                                </Frame>
+                            </div>
+                            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                                <h1 className="Polaris-Header-Title" style={{ paddingBottom: "10px", paddingTop: "10px" }}>Stores List</h1>
+                                <div style={{ marginBottom: "10px" }}><Button outline onClick={logoutHandler}>Log Out</Button></div>
+                            </div>
+
+                            <div style={{ display: "flex", justifyContent: "flex-end" }}>
+                                <div>
+                                    {/* <Select
                                     labelInline
                                     label="Rows:"
                                     options={pageOptions}
@@ -335,7 +337,7 @@ function AdminDashboard(props) {
                                         value={sorting}
                                         onChange={handleSorting}
                                     />
-                    </div>
+                                </div>
                                 <div style={{ margin: "0px 10px" }}>
                                     <TextField
                                         label=""
@@ -343,80 +345,80 @@ function AdminDashboard(props) {
                                         onChange={(e) => handleSearch(e)}
                                         autoComplete="off"
                                         placeholder="Search by Store Name"
-                                       
+
                                     />
-                    </div>
-                    <div>
-                                <Button onClick={handleApplySearch}>
-                                  Search
-                                </Button>
-                    </div>
-                    </div>
-                    <div style={{ height: "568px" }}>
-                        <Card>
-                            <Tabs tabs={tabs} selected={selectedTab} onSelect={handleTabChange}>
-                            </Tabs>
-                            {loading ? <div style={{ boxShadow: "0 1px 4px -2px grey", display: "flex", backgroundColor: "#ebf9fc", padding: "7px", paddingBottom: "3px", margin: "0px 21px", marginBottom: "3px", borderRadius: "3px", marginTop: "-20px" }}>
-                                <Spinner accessibilityLabel="Small spinner example" size="small" />
-                                <div style={{ fontSize: "14.5px", marginLeft: "10px" }}> Loading campaigns... </div>
-                            </div> : null}
-                            <DataTable
-                                columnContentTypes={[
-                                    'text',
-                                    'text',
-                                    'text',
-                                    'text',
-                                    'text',
-                                    'text',
-                                    'text',
-                                    'text',
-                                    'text',
-                                    'text',
-                                ]}
-                                headings={[
-                                    'Id',
-                                    'Store Name',
-                                    'Plan',
-                                    'Approved Videos',
-                                    'Email Sent',
-                                    'Landing Page Settings',
-                                    'Email Settings',
-                                    'Logs',
-                                    'Approved Videos',
-                                    'Review Videos',
-                                    
-                                    'Total Customers',
-                                    'Store Email',
-                                    'Install Date',
-                                    'Install Status',
-                                    'Remove Watermark',
+                                </div>
+                                <div>
+                                    <Button onClick={handleApplySearch}>
+                                        Search
+                                    </Button>
+                                </div>
+                            </div>
+                            <div style={{ height: "568px" }}>
+                                <Card>
+                                    <Tabs tabs={tabs} selected={selectedTab} onSelect={handleTabChange}>
+                                    </Tabs>
+                                    {loading ? <div style={{ boxShadow: "0 1px 4px -2px grey", display: "flex", backgroundColor: "#ebf9fc", padding: "7px", paddingBottom: "3px", margin: "0px 21px", marginBottom: "3px", borderRadius: "3px", marginTop: "-20px" }}>
+                                        <Spinner accessibilityLabel="Small spinner example" size="small" />
+                                        <div style={{ fontSize: "14.5px", marginLeft: "10px" }}> Loading campaigns... </div>
+                                    </div> : null}
+                                    <DataTable
+                                        columnContentTypes={[
+                                            'text',
+                                            'text',
+                                            'text',
+                                            'text',
+                                            'text',
+                                            'text',
+                                            'text',
+                                            'text',
+                                            'text',
+                                            'text',
+                                        ]}
+                                        headings={[
+                                            'Id',
+                                            'Store Name',
+                                            'Plan',
+                                            'Approved Videos',
+                                            'Email Sent',
+                                            'Landing Page Settings',
+                                            'Email Settings',
+                                            'Logs',
+                                            'Approved Videos',
+                                            'Review Videos',
 
-                                    
-                                ]}
-                                // rows={tableRows && tableRows}
+                                            'Total Customers',
+                                            'Store Email',
+                                            'Install Date',
+                                            'Install Status',
+                                            'Remove Watermark',
 
-                                rows={users.map((user) =>
-                                    [
-                                        user.id,
-                                        user.name,
-                                        <Badge>{user.plan ? user.plan.name : null }</Badge>,
-                                        user.videos_count ? user.videos_count.length : 0,
-                                        user.emails_sent ? user.emails_sent.length : 0,
-                                        <Link to={`/user-settings/${user.id}`} target={'_blank'}><Button>Landing Page</Button></Link>,
-                                        <Link to={`/user-email-settings/${user.id}`} target={'_blank'}><Button>Email</Button></Link>,
-                                        <Link to={`/user-logs/${user.id}`} target={'_blank'}><Button>Logs</Button></Link>,
-                                        <Link to={`/user-approved-videos/${user.id}`} target={'_blank'}><Button>Approved Videos</Button></Link>,
-                                        <Link to={`/user-reviewd-videos/${user.id}`} target={'_blank'}><Button>Review Videos</Button></Link>,
-                                        <div>{user.customers ? user.customers.length : 0}</div>,
-                                        <div>{user.email}</div>,
-                                        <div>{user.created_at}</div>,
-                                        <div>{!user.deleted_at ? <Badge status="success">Installed</Badge> : <Badge status="critical">Un Installed</Badge> }</div>,
-                                        <Toggle toggled={user.water_mark} onClick={() => handlewatermark(user.id, !user.water_mark)} />,
-                                        
-                                    ]
-                                )}
-                            // rows={[['1','Store1',,1,2, ]]}
-                            />
+
+                                        ]}
+                                        // rows={tableRows && tableRows}
+
+                                        rows={users.map((user) =>
+                                            [
+                                                user.id,
+                                                user.name,
+                                                <Badge>{user.plan ? user.plan.name : null}</Badge>,
+                                                user.videos_count ? user.videos_count.length : 0,
+                                                user.emails_sent ? user.emails_sent.length : 0,
+                                                <Link to={`/user-settings/${user.id}`} target={'_blank'}><Button>Landing Page</Button></Link>,
+                                                <Link to={`/user-email-settings/${user.id}`} target={'_blank'}><Button>Email</Button></Link>,
+                                                <Link to={`/user-logs/${user.id}`} target={'_blank'}><Button>Logs</Button></Link>,
+                                                <Link to={`/user-approved-videos/${user.id}`} target={'_blank'}><Button>Approved Videos</Button></Link>,
+                                                <Link to={`/user-reviewd-videos/${user.id}`} target={'_blank'}><Button>Review Videos</Button></Link>,
+                                                <div>{user.customers ? user.customers.length : 0}</div>,
+                                                <div>{user.email}</div>,
+                                                <div>{user.created_at}</div>,
+                                                <div>{!user.deleted_at ? <Badge status="success">Installed</Badge> : <Badge status="critical">Un Installed</Badge>}</div>,
+                                                <Toggle toggled={user.water_mark} onClick={() => handlewatermark(user.id, !user.water_mark)} />,
+
+                                            ]
+                                        )}
+                                    // rows={[['1','Store1',,1,2, ]]}
+                                    />
                                     {/* <hr></hr>
                                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', paddingTop: '22px', paddingBottom: '22px' }}>
                                         <Pagination hasNext={pagination.next_cursor ? true : false} hasPrevious={pagination.prev_cursor ? true : false} onNext={() => {
@@ -435,10 +437,10 @@ function AdminDashboard(props) {
                                             setReload(!reload);
                                         }} />
                                     </div> */}
-                        </Card>
-                    </div>
-                </Grid.Cell>
-            </Grid>
+                                </Card>
+                            </div>
+                        </Grid.Cell>
+                    </Grid>
             }
         </Page>
     );

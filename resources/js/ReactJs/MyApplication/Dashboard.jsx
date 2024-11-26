@@ -1,44 +1,31 @@
 import {
-    Page,
-    Grid,
-    Card,
-    Text,
     Button,
-    Banner,
-    ProgressBar,
-    Icon,
-    TextField,
-    Popover,
-    DatePicker,
-    Modal,
     ButtonGroup,
+    Card,
+    Grid,
+    Icon,
+    Modal,
+    Page,
+    Text,
+    TextField
 } from "@shopify/polaris";
-import { useEffect, useState, useCallback } from "react";
-import React from "react";
-import { useNavigate, useParams, Link, useLocation } from "react-router-dom";
-import EmailLogo from "./imges/emailLogo.png";
-import WaitingLogo from "./imges/WaitingLogo.png";
-import ApprovedLogo from "./imges/ApprovedLogo.png";
-import WaitingIcon from "./imges/waiting2.png";
-import VideoTumbnail from "./imges/bureau 11.png";
-import staricon from "./imges/Staricon.svg";
-import timericon from "./imges/timericon.svg";
+import { useCallback, useEffect, useState } from "react";
+import boxkbackground from "./imges/box-background.svg";
+import checkbackground from "./imges/check-background.svg";
 import checkmark from "./imges/checkmark.svg";
 import hourglass from "./imges/Hourglass-background.svg";
-import checkbackground from "./imges/check-background.svg";
-import boxkbackground from "./imges/box-background.svg";
+import staricon from "./imges/Staricon.svg";
+import timericon from "./imges/timericon.svg";
 
+import { router, usePage } from "@inertiajs/react";
 import {
     CircleCancelMajor,
-    CircleTickMajor,
-    FavoriteMajor,
-    PlayCircleMajor,
+    CircleTickMajor
 } from "@shopify/polaris-icons";
 import downloadIcon from "./imges/downloadIcon.png";
 import noVedio from "./imges/film.png";
-import { downloadVideo } from "./utils";
 import Ticker from "./Ticker";
-import { router, usePage } from "@inertiajs/react";
+import { downloadVideo } from "./utils";
 
 function Dashboard() {
 

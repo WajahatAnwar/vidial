@@ -1,21 +1,8 @@
 import {
-    Page,
     Grid,
-    Card,
-    Text,
-    Button,
-    Banner,
-    ProgressBar,
-    Icon,
-    TextField,
-    Popover,
-    DatePicker,
-    Modal,
-    ButtonGroup,
+    Page,
+    Text
 } from "@shopify/polaris";
-import { useEffect, useState, useCallback } from "react";
-import React from "react";
-import { useNavigate, useParams, Link, useLocation } from "react-router-dom";
 
 
 function Resources() {

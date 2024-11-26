@@ -1,35 +1,27 @@
 import {
-    Page,
-    Grid,
-    Card,
-    Text,
     Button,
-    Banner,
-    ProgressBar,
-    Icon,
-    TextField,
-    Popover,
-    DatePicker,
-    Modal,
     ButtonGroup,
+    Card,
+    Grid,
+    Icon,
+    Modal,
+    Page,
+    Text,
+    TextField
 } from "@shopify/polaris";
-import { useEffect, useState, useCallback, useRef } from "react";
-import React from "react";
-import { useNavigate, useParams, Link, useLocation } from "react-router-dom";
-import EmailLogo from "./imges/emailLogo.png";
-import WaitingLogo from "./imges/WaitingLogo.png";
-import ApprovedLogo from "./imges/ApprovedLogo.png";
-import WaitingIcon from "./imges/waiting2.png";
-import VideoTumbnail from "./imges/bureau 11.png";
 import { CircleCancelMajor, CircleTickMajor } from "@shopify/polaris-icons";
-import downloadIcon from "./imges/downloadIcon.png";
+import { useCallback, useEffect, useState } from "react";
+import checkmark from "./imges/checkmark.svg";
 import noVedio from "./imges/film.png";
 import staricon from "./imges/Staricon.svg";
 import Ticker from "./Ticker";
-import checkmark from "./imges/checkmark.svg";
+import { router, usePage } from "@inertiajs/react";
 
-function WaitingVideos({query}) {
-    const { pathname,search } = useLocation();
+function WaitingVideos() {
+
+    const page = usePage().props;
+    const query = page.ziggy.query;
+
     const [videoFeedback, setVideoFeedback] = useState(
         " Congratulations, you just approved the video."
     );
@@ -92,7 +84,6 @@ function WaitingVideos({query}) {
         setActiveApprovedSuccessModel(!activeApprovedSuccessModel),
             [activeApprovedSuccessModel];
 
-        // navigate(`/videos-to-review${search}`);
         setReload(new Date().getSeconds());
     });
     // const activatorApprovedSuccessModel = <Button onClick={handleChangeApprovedSuccessModel}>Open</Button>;
@@ -115,7 +106,7 @@ function WaitingVideos({query}) {
         var formData = new FormData();
         formData.append("video_id", id);
         if (confirmed) {
-            fetch("/videoOperation"+query, {
+            fetch("/videoOperation" + query, {
                 method: "post",
                 body: formData,
             })
@@ -129,7 +120,7 @@ function WaitingVideos({query}) {
                     if (data.success) {
                         alert(
                             "Congratulation video has been approved code :" +
-                                data.data.code
+                            data.data.code
                         );
                     } else {
                         alert(data.message);
@@ -146,7 +137,7 @@ function WaitingVideos({query}) {
     /******** move to plan page *****/
 
     const upgradePlan = () => {
-        navigate('/plans'+search);
+        router.get(route('plans', query));
     };
 
     /******** Rejection popup   ******/
@@ -164,7 +155,7 @@ function WaitingVideos({query}) {
             var formData = new FormData();
             formData.append("reason", rejectionReason);
             formData.append("video_id", rejectVideoId);
-            fetch("/rejectVideo"+query, {
+            fetch("/rejectVideo" + query, {
                 method: "post",
                 body: formData,
             })
@@ -227,7 +218,7 @@ function WaitingVideos({query}) {
 
             }
             setVideoFeedbackPopupTitle("Please Confirm");
-            fetch("/videoOperation"+query, {
+            fetch("/videoOperation" + query, {
                 method: "post",
                 body: formData,
             })
@@ -286,7 +277,6 @@ function WaitingVideos({query}) {
                 console.log(error);
             });
     }, [currentPage, reload]);
-    const navigate = useNavigate();
 
     return (
         <Page>
@@ -438,34 +428,33 @@ function WaitingVideos({query}) {
                                                                         );
                                                                     }}
                                                                 >
-                                                                    <Link to={`${pathname}/${search}`}>
+                                                                    <a href={`${pathname}/${query}`}>
                                                                         <Icon
                                                                             source={
                                                                                 CircleTickMajor
                                                                             }
                                                                             color="primary"
                                                                         />
-                                                                    </Link>
+                                                                    </a>
                                                                 </div>
                                                                 <div style={{
                                                                     marginRight:
                                                                         "20px",
                                                                 }}>
-                                                                    <Link
-                                                                        to={`${pathname}/${search}`}
+                                                                    <a
+                                                                        href={`${pathname}/${query}`}
                                                                         onClick={() => {
                                                                             rejectVideo(
                                                                                 video.id
                                                                             );
-                                                                        }}
-                                                                    >
+                                                                        }}>
                                                                         <Icon
                                                                             source={
                                                                                 CircleCancelMajor
                                                                             }
                                                                             color="critical"
                                                                         />
-                                                                    </Link>
+                                                                    </a>
                                                                 </div>
                                                                 <div style={{
                                                                     cursor: 'pointer'
@@ -602,13 +591,13 @@ function WaitingVideos({query}) {
                                 </Button>
 
                                 <div className="polaris-black-btn-global">
-                                <Button
-                                    disabled={isClicked}
-                                    primary
-                                    onClick={handleApprovedUserVideo}
-                                >
-                                    Confirm
-                                </Button>
+                                    <Button
+                                        disabled={isClicked}
+                                        primary
+                                        onClick={handleApprovedUserVideo}
+                                    >
+                                        Confirm
+                                    </Button>
                                 </div>
                             </ButtonGroup>
                         </div>
