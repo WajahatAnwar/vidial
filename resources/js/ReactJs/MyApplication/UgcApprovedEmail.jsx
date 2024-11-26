@@ -32,7 +32,7 @@ const storeName = shopParam.split('.')[0];
 localStorage.setItem('store',storeName);
 */
 
-const UgcApprovedEmail = ({ query }) => {
+const UgcApprovedEmail = () => {
     const page = usePage().props;
     const query = page.ziggy.query;
     const { id } = useParams();
