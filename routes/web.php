@@ -11,6 +11,8 @@ use App\Http\Controllers\VideoController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Jobs\SyncProductsJob;
+use App\Models\Setting;
+use Illuminate\Support\Str;
 use App\Models\User;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Http;
@@ -129,34 +131,8 @@ Route::group(['middleware' => ['auth']], function () {
 
 //SHOPIFY ROUTES
 Route::group(['middleware' => ['verify.embedded', 'verify.shopify', 'billable', 'update.plan']], function () {
-    Route::get('/', function () {
 
-        // $user = Auth::user();
-        // return $response = $user->api()->rest('get', '/admin/api/2023-04/webhooks.json', []);
-
-        $user = Auth::user();
-        $user = User::find($user->id);
-        // $check = Product::where('user_id', $user->id)->first();
-        // if (empty($check)) {
-        //     SyncProductsJob::dispatch($user, true);
-        //     SyncOrdersJob::dispatch($user);
-        // }
-
-        if (!isset($user->store_name)) {
-            $response = $user->api()->rest('GET', '/admin/api/2023-04/shop.json');
-
-            if ($response['errors'] == false) {
-                $shopName = $response['body']['shop']['name'];
-                $shop = User::find($user->id);
-                $shop->store_name = $shopName;
-                $shop->save();
-            } else {
-                sendApiLog(false, 'API RESPONSE', $response);
-            }
-        }
-
-        return Inertia::render('MyApplication/EmbeddedApp/EmbeddedApp');
-    })->name('home');
+    Route::get('/', [AuthController::class, 'index'])->name('home');
 
     Route::get('/get_shop_real', function () {
         $user = Auth::user();
