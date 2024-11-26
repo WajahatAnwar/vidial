@@ -7,7 +7,6 @@ import {
     TextField
 } from "@shopify/polaris";
 import React, { useEffect, useState } from 'react';
-import route from "vendor/tightenco/ziggy/src/js";
 export default function Logs() {
 
     const page = usePage().props;
