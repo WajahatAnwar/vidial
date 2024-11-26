@@ -1,3 +1,4 @@
+import { usePage } from "@inertiajs/react";
 import {
     Badge,
     Button,
@@ -6,7 +7,12 @@ import {
     TextField
 } from "@shopify/polaris";
 import React, { useEffect, useState } from 'react';
+import route from "vendor/tightenco/ziggy/src/js";
 export default function Logs() {
+
+    const page = usePage().props;
+    const query = page.ziggy.query;
+
     const [sorting, setSorting] = useState("desc");
     const [searchQuery, setSearchQuery] = useState(null);
     const [logs, setLogs] = useState([]);
@@ -37,12 +43,11 @@ export default function Logs() {
     };
 
     useEffect(() => {
-        let url = `logs?sort=${sorting}`;
+        let url = route('logs', { sort: sorting, ...query });
         // search
         if (searchQuery) {
-            url += `&q=${searchQuery}`;
+            let url = route('logs', { sort: sorting, q: searchQuery, ...query });
         }
-        console.log(url);
         fetch(url)
             .then((response) => response.json())
             .then((data) => {
@@ -52,7 +57,7 @@ export default function Logs() {
                 console.error('Error fetching data:', error);
             });
     }, [reload]);
-    
+
 
     return (
         <div className='cstm-logs-wrapper'>
@@ -82,7 +87,7 @@ export default function Logs() {
                     <div>
 
 
-                        <Button onClick={()=>setReload(!reload)}>
+                        <Button onClick={() => setReload(!reload)}>
                             Search
                         </Button>
                     </div>
@@ -109,7 +114,7 @@ export default function Logs() {
                     'Event Name',
                     'Customer Name',
                     'Customer Email',
-                  
+
 
 
 
@@ -121,10 +126,10 @@ export default function Logs() {
                         log.formatted_date,
                         <Badge status='success' >{log.formatted_time}</Badge>,
                         <div className='cstm-eventname'>
-                                <>
-                                    <div className='cstm-green-dot'></div>
+                            <>
+                                <div className='cstm-green-dot'></div>
                                 {log.email_type ? log.email_type : 'N/A'}
-                                </>
+                            </>
                         </div>,
                         log.customer_name,
                         log.customer_email,

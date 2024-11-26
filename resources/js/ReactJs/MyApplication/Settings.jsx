@@ -135,7 +135,7 @@ const Settings = () => {
 
     const removeInspirationalVideo = () => {
         var formData = {};
-        fetch(route('removeInspirationalVideo',query), {
+        fetch(route('removeInspirationalVideo', query), {
             method: "post",
 
             body: formData,
@@ -157,7 +157,7 @@ const Settings = () => {
 
     const removeLogo = () => {
         var formData = {};
-        fetch(route("removeLogo",query), {
+        fetch(route("removeLogo", query), {
             method: "post",
 
             body: formData,
@@ -378,7 +378,7 @@ const Settings = () => {
         setStoreHandleResponse(null);
         const formData = new FormData();
         formData.append('store_handle', newValue);
-        fetch(route("check-handle",query), {
+        fetch(route("check-handle", query), {
             method: "POST",
             body: formData
         })
@@ -423,7 +423,7 @@ const Settings = () => {
         formData.append('endpoint', 'https://api.mailgun.net/v3/' + domain + '/messages');
         // formData.append('endpoint', mailgunEndpoint);
         formData.append('domain', domain);
-        fetch(route('save-email-creds',query), {
+        fetch(route('save-email-creds', query), {
             method: "POST",
             body: formData
         })
@@ -520,7 +520,7 @@ const Settings = () => {
         const formData = new FormData();
         formData.append('api_key', klavioApi);
         formData.append('email', klavioEmail);
-        fetch(fetch('save-klavio-settings',query), {
+        fetch(route('save-klavio-settings', query), {
             body: formData,
             method: 'POST'
         }).then(response => response.json()).then((data) => {
@@ -534,7 +534,7 @@ const Settings = () => {
         async function fetchSettings() {
 
             try {
-                const response = await fetch(route(`get_settings`,query));
+                const response = await fetch(route(`get_settings`, query));
                 if (!response.ok) {
                     throw new Error("Something went wrong");
                 }
@@ -805,7 +805,7 @@ const Settings = () => {
         } else {
             setError(false);
             // Generating request for sending Data to the server
-            fetch(route("/save_settings",query), {
+            fetch(route("/save_settings", query), {
                 method: "post",
                 body: formData,
             }).then((response) => response.json())
@@ -830,7 +830,7 @@ const Settings = () => {
     };
 
     function handletestemail() {
-        fetch(route("send_test_email",query), {
+        fetch(route("send_test_email", query), {
             method: "GET",
         })
             .then((response) => {
@@ -1018,7 +1018,7 @@ const Settings = () => {
         const formData = new FormData();
         if (!isHandleAvailable) {
             formData.append('store_handle', storeHandle);
-            fetch(route('store_handle',query), {
+            fetch(route('store_handle', query), {
                 method: "POST",
                 body: formData
             }).then((response) => response.json()).then((data) => {
@@ -1118,7 +1118,8 @@ const Settings = () => {
                         >
                             <ButtonGroup>
                                 <Button
-                                    onClick={() => {F
+                                    onClick={() => {
+                                        F
                                         router.get(route(pageLink, query));
                                         setActiveRejectionConfirmModel(false);
                                         setEmailTemplateButton(true);

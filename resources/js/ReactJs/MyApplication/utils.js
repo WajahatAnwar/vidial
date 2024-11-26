@@ -1,10 +1,15 @@
+import { usePage } from "@inertiajs/react";
 import { useState } from "react";
 
 export const downloadVideo = (video_path) => {
+
+    const page = usePage().props;
+    const query = page.ziggy.query;
+
     if (video_path) {
         var formData = new FormData();
-    formData.append("video_path", video_path);
-        fetch("/downloadVideo", {
+        formData.append("video_path", video_path);
+        fetch(route('downloadVideo', query), {
             method: "post",
             body: formData,
         })
@@ -28,10 +33,10 @@ export const downloadVideo = (video_path) => {
             .catch((error) => {
                 console.log(error);
             });
-    }else{
+    } else {
         alert('something went wrong');
     }
-  
+
 };
 /******** Operation on Videos  ******/
 export const videoOperation = (id, type) => {
@@ -41,7 +46,7 @@ export const videoOperation = (id, type) => {
     formData.append("video_id", id);
     formData.append("type", type);
     if (confirmed) {
-        fetch("/videoOperation", {
+        fetch(route('videoOperation', query), {
             method: "post",
             body: formData,
         })
@@ -55,7 +60,7 @@ export const videoOperation = (id, type) => {
                 if (data.success) {
                     alert(
                         "Congratulation video has been approved code :" +
-                            data.data.code
+                        data.data.code
                     );
 
                 } else {
@@ -73,6 +78,6 @@ export const videoOperation = (id, type) => {
 
 /****** store name  *******/
 
-export const showStoreName = ()=>{
+export const showStoreName = () => {
     return localStorage.getItem('store')
 }

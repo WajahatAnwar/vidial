@@ -1,3 +1,4 @@
+import { usePage } from "@inertiajs/react";
 import {
     Badge,
     Button,
@@ -9,10 +10,14 @@ import {
 import { useEffect, useState } from "react";
 
 function Plans() {
+
+    const page = usePage().props;
+    const query = page.ziggy.query;
+
     const [plan, setPlan] = useState([]);
     const [users, setUser] = useState([]);
     useEffect(() => {
-        fetch("/get_plans")
+        fetch(route('get_plans', query))
             .then((response) => {
                 if (!response.ok) {
                     throw new Error("Something went wrong");

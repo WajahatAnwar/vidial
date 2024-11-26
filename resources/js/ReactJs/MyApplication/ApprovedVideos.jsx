@@ -25,10 +25,7 @@ function ApprovedVideos() {
 
     useEffect(() => {
 
-        let params = new URLSearchParams(query)
-        params.set('page', currentPage);
-        let apiUrl = `/getApprovedVideos?${params.toString()}`
-        fetch(apiUrl)
+        fetch(route('getApprovedVideos', { page: currentPage, ...query }))
             .then((response) => {
                 if (!response.ok) {
                     throw new Error("Something went wrong");

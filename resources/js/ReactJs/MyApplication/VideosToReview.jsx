@@ -106,7 +106,7 @@ function WaitingVideos() {
         var formData = new FormData();
         formData.append("video_id", id);
         if (confirmed) {
-            fetch("/videoOperation" + query, {
+            fetch(route('videoOperation', query), {
                 method: "post",
                 body: formData,
             })
@@ -155,7 +155,7 @@ function WaitingVideos() {
             var formData = new FormData();
             formData.append("reason", rejectionReason);
             formData.append("video_id", rejectVideoId);
-            fetch("/rejectVideo" + query, {
+            fetch(route('rejectVideo', query), {
                 method: "post",
                 body: formData,
             })
@@ -218,7 +218,7 @@ function WaitingVideos() {
 
             }
             setVideoFeedbackPopupTitle("Please Confirm");
-            fetch("/videoOperation" + query, {
+            fetch(route('videoOperation', query), {
                 method: "post",
                 body: formData,
             })
@@ -257,9 +257,7 @@ function WaitingVideos() {
         }
     };
     useEffect(() => {
-        const apiUrl = `/getPendingVideos${query}`;
-        console.log(apiUrl);
-        fetch(apiUrl)
+        fetch(route('getPendingVideos', query))
             .then((response) => {
                 if (!response.ok) {
                     throw new Error("Something went wrong");

@@ -35,7 +35,7 @@ localStorage.setItem('store',storeName);
 const UgcDeclinedEmail = () => {
     const page = usePage().props;
     const query = page.ziggy.query;
-    const {id} = useParams();
+    const { id } = useParams();
     const [activeTootlTip, setActiveTootlTip] = useState(false);
     const [activeToggle, setActiveToggle] = useState(false);
     const toggleActive = useCallback(() => setActiveToggle((activeToggle) => !activeToggle), []);
@@ -119,7 +119,7 @@ const UgcDeclinedEmail = () => {
                         <div>
                             <div onClick={handleRemoveThumbnail} >
                                 {/* <Icon source={CircleCancelMajor} color="critical" /> */}
-                                <img src={Delete} style={{cursor:"pointer"}}/>
+                                <img src={Delete} style={{ cursor: "pointer" }} />
                             </div>
                         </div>
                     </div>
@@ -171,9 +171,9 @@ const UgcDeclinedEmail = () => {
             logo_file = alreadyUploadLogo == '' ? 'empty_logo' : 'already_uploaded_logo';
         }
         formData.append('logo', logo_file)
-        let saveUrl = '/save-email-settings'+query;
+        let saveUrl = route('/save-email-settings', query);
         if (id) {
-            saveUrl = "/save-user-email-settings?id=" + id;
+            saveUrl = route('/save-email-settings', { id: id, ...query });
         }
         fetch(saveUrl, {
             method: "POST",
@@ -182,9 +182,9 @@ const UgcDeclinedEmail = () => {
             then((response) => response.json())
             .then((data) => {
                 if (data.success) {
-                    let redirect = route('email',query);
+                    let redirect = route('email', query);
                     if (id) {
-                        redirect = route('user-email-settings', { id: id,...query });
+                        redirect = route('user-email-settings', { id: id, ...query });
                     }
                     toggleActive()
                     setTimeout(() => {
@@ -247,33 +247,33 @@ const UgcDeclinedEmail = () => {
     const buttonHtml = `<button style="font-size: 18px;background: ${buttonColorHex};color: rgb(255, 255, 255);border: none;border-radius: 4px;display: block;margin: 0px auto;padding: 16px 30px;border-radius: 25px;" >${buttonText}</button>`;
     const processedContent = content.replace('{{button}}', buttonHtml);
     // popover code start
- const [popoverActive, setPopoverActive] = useState(false);
+    const [popoverActive, setPopoverActive] = useState(false);
 
- const togglePopoverActive = useCallback(
-     () => setPopoverActive((popoverActive) => !popoverActive),
-     [],
- );
+    const togglePopoverActive = useCallback(
+        () => setPopoverActive((popoverActive) => !popoverActive),
+        [],
+    );
 
- const activator = (
-     <button
-                                         style={{
-                                             marginRight: "10px",
-                                             background: "none",
-                                             border: "none",
-                                         }}
-                                         onClick={togglePopoverActive}
-                                     >
-                                         <img
-                                             className="colorWheel"
-                                             src={ColorWheel}
-                                             style={{
-                                                 marginTop: "3px",
-                                                 marginLeft: "4px",
-                                             }}
-                                         ></img>
-                                     </button>
- );
- // popover code end
+    const activator = (
+        <button
+            style={{
+                marginRight: "10px",
+                background: "none",
+                border: "none",
+            }}
+            onClick={togglePopoverActive}
+        >
+            <img
+                className="colorWheel"
+                src={ColorWheel}
+                style={{
+                    marginTop: "3px",
+                    marginLeft: "4px",
+                }}
+            ></img>
+        </button>
+    );
+    // popover code end
     return (
         <div>
 
@@ -291,10 +291,10 @@ const UgcDeclinedEmail = () => {
                         >
                             <div onClick={() => {
                                 if (id) {
-                                    router.get(route('user-email-settings', { id: id,...query }));
+                                    router.get(route('user-email-settings', { id: id, ...query }));
                                 }
                                 else {
-                                    router.get(route('email',query));
+                                    router.get(route('email', query));
                                 }
                             }} style={{ display: "flex", marginLeft: "10px", marginBottom: "10px", cursor: "pointer" }}>
                                 <div><img src={backIcon} style={{ marginTop: "4px", }}></img></div>
@@ -421,31 +421,31 @@ const UgcDeclinedEmail = () => {
                                         />
                                         <p style={{ fontSize: "15px", marginTop: "20px", marginBottom: "10px", fontWeight: "500" }}>Button Color</p>
                                         <div style={{ display: "flex", alignItems: "center" }}>
-                                        <Popover
-                                            active={popoverActive}
-                                            activator={activator}
-                                            autofocusTarget="first-node"
-                                            onClose={togglePopoverActive}
-                                        >
-                                            <div style={{ padding: "20px" }}>
-                                               <ColorPicker
-                                                    onChange={(e) => {
-                                                        // console.log(hsbToRgb(e));
-                                                        setButtonColor(e);
-                                                        setButtonColorHex(
-                                                            hsbToHex(e)
-                                                        );
-                                                        setGradientCheck(false);
-                                                    }}
-                                                    color={buttonColor}
-                                                />
-                                                <div style={{ marginTop: "20px" }}></div>
-                                                <TextField
-                                                    value={buttonColorHex}
-                                                    onChange={handleInputColorChange}
-                                                />
-                                            </div>
-                                        </Popover>
+                                            <Popover
+                                                active={popoverActive}
+                                                activator={activator}
+                                                autofocusTarget="first-node"
+                                                onClose={togglePopoverActive}
+                                            >
+                                                <div style={{ padding: "20px" }}>
+                                                    <ColorPicker
+                                                        onChange={(e) => {
+                                                            // console.log(hsbToRgb(e));
+                                                            setButtonColor(e);
+                                                            setButtonColorHex(
+                                                                hsbToHex(e)
+                                                            );
+                                                            setGradientCheck(false);
+                                                        }}
+                                                        color={buttonColor}
+                                                    />
+                                                    <div style={{ marginTop: "20px" }}></div>
+                                                    <TextField
+                                                        value={buttonColorHex}
+                                                        onChange={handleInputColorChange}
+                                                    />
+                                                </div>
+                                            </Popover>
                                             <div
                                                 style={{
                                                     background: `${buttonColorHex}`,
@@ -462,13 +462,13 @@ const UgcDeclinedEmail = () => {
                                             }}>Preview Template</Button>
                                             <span style={{ marginRight: "10px" }}></span>
                                             <div className="polaris-black-btn-global">
-                                            <Button onClick={handleSaveEmailSettings} primary>Save</Button>
+                                                <Button onClick={handleSaveEmailSettings} primary>Save</Button>
                                             </div>
                                         </div>
                                     </Grid.Cell>
                                 </Grid>
                             </Card>
-                            <div style={{marginBottom:"200px"}}></div>
+                            <div style={{ marginBottom: "200px" }}></div>
                         </Grid.Cell>
                     </Grid>
                     <Modal
@@ -477,13 +477,13 @@ const UgcDeclinedEmail = () => {
                         title="Sample email"
 
                     >
-                       <div className="previewModel">
-                            <div style={{background:"#fff",borderRadius:"15px",paddingTop:"20px"}}>
+                        <div className="previewModel">
+                            <div style={{ background: "#fff", borderRadius: "15px", paddingTop: "20px" }}>
                                 {/* <img style={{ display: "block", margin: "auto", marginTop: "20px", marginBottom: "20px" }} src={logo}></img> */}
                                 {files.map((file, index) => (
                                     <div key={index}>
                                         <img
-                                            style={{ display: "block", margin: "auto", marginTop: "20px", marginBottom: "20px",maxWidth:"250px" }}
+                                            style={{ display: "block", margin: "auto", marginTop: "20px", marginBottom: "20px", maxWidth: "250px" }}
                                             alt={file.name}
                                             src={
                                                 validImageTypes.includes(file.type)
@@ -493,7 +493,7 @@ const UgcDeclinedEmail = () => {
                                         />
                                     </div>
                                 ))}
-                                {files.length <= 0  && <img
+                                {files.length <= 0 && <img
                                     style={{ display: "block", margin: "auto", marginTop: "20px", marginBottom: "20px", maxWidth: "250px" }}
 
                                     src={alreadyUploadLogo} />}
