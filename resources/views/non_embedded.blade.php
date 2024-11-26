@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="shortcut icon" href="/favicon.ico" type="image/ico">
     <link rel="icon" href="/favicon.ico" type="image/ico">
-    <title>Club Colors</title>
+    <title>Good Authentic</title>
     @routes
     @viteReactRefresh
     @vite(['resources/js/app.jsx'])

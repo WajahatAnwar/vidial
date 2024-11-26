@@ -718,7 +718,7 @@ if (!function_exists('getCurrencySymbol')) {
 /****** sending mail ******/
 
 if (!function_exists('sendMail')) {
-    function sendMail($to, $subject, $view, $data = [], $from = 'Vidial', $user_id)
+    function sendMail($to, $subject, $view, $data = [], $from = 'Good Authentic', $user_id)
     {
         try {
             $api_secret_key = env('MAILGUN_SECRET');

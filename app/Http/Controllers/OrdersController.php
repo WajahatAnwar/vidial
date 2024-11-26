@@ -97,23 +97,23 @@ class OrdersController extends Controller
                 env('MAILGUN_ENDPOINT')
            );
            $domain = env('MAILGUN_DOMAIN');
-           $subject = "Test Email from Vidial";
+           $subject = "Test Email from Good Authentic";
            if($settings->locale == "en"){
-            $subject = "Test Email from Vidial";
+            $subject = "Test Email from Good Authentic";
            }else if($settings->locale == "fr"){
-            $subject = "Test Email de Vidial";
+            $subject = "Test Email de Good Authentic";
            }else if($settings->locale == "de"){
-            $subject = "Test Email von Vidial";
+            $subject = "Test Email von Good Authentic";
            }else if($settings->locale == "es"){
-            $subject = "Test Email de Vidial";
+            $subject = "Test Email de Good Authentic";
            }else if($settings->locale == "it"){
-            $subject = "Test Email da Vidial";
+            $subject = "Test Email da Good Authentic";
            }else if($settings->locale == "pt"){
-            $subject = " Test Email da Vidial";
+            $subject = " Test Email da Good Authentic";
            }
 
            $params = array(
-            'from' => "Vidial < ".env('MAIL_USERNAME')." >",
+            'from' => "Good Authentic < ".env('MAIL_USERNAME')." >",
             'to' => auth()->user()->email,
             'subject' => $subject,
             'template' => auth()->user()->settings->locale=='en' ? "test_mail_for_merchant" : "test_mail_for_merchant_".auth()->user()->settings->locale,

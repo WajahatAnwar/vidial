@@ -54,7 +54,7 @@ class CustomQuoteProductCreationRoutine
             'tags' => $this->quote->search_tag,
             'sku' => $this->quote->sku,
             'body_html' => $this->getProductBodyHtml(),
-            'vendor' => 'Club Colors',
+            'vendor' => 'Good Authentic',
             'status' => 'active',
             'published' => true,
             'published_scope' => 'global',

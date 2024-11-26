@@ -73,7 +73,7 @@ function CustomBar(props) {
             <div style={{ marginTop: "-35px", display: "flex", justifyContent: "space-between" }}>
                 <div style={{ display: "flex", marginLeft: "10px", cursor: "pointer" }} onClick={() => router.get(route('index'))}>
                     <img src={Logo} width="72px"></img>
-                    <p style={{ margin: "10px 0px 9px 10px", color: "#FFFFFF", fontSize: "16px", fontWeight: "600" }}>Club Colors</p>
+                    <p style={{ margin: "10px 0px 9px 10px", color: "#FFFFFF", fontSize: "16px", fontWeight: "600" }}>Good Authentic</p>
                 </div>
                 <button type="button" onClick={logOutHandler} className="logout_btn" style={{ color: "rgb(16, 13, 98)" }}>Log Out</button>
             </div>

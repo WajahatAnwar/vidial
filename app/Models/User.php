@@ -69,7 +69,7 @@ class User extends Authenticatable implements IShopModel
         return $this->hasMany(Collection::class, 'user_id', 'id');
     }
 
-    /*** Vidial Relationships  ***/
+    /*** Good Authentic Relationships  ***/
     public function settings()
     {
         return $this->hasOne(Setting::class);
