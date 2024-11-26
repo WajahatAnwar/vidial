@@ -18,16 +18,17 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id')->nullable();
             $table->string('order_id')->nullable();
             $table->string('email')->nullable();
-            $table->string('contact_email')->nullable();
+            $table->string('contect_email')->nullable();
             $table->string('phone_no')->nullable();
+            $table->string('confirmed')->nullable();
             $table->string('order_created_at')->nullable();
-            $table->string('customer_name')->nullable();
-            $table->decimal('total', 8, 2);
-            $table->decimal('final_total', 8, 2);
-            $table->string('payment_status')->nullable();
-            $table->string('fulfillment_status')->nullable();
-            $table->string('order_name')->nullable();
-            $table->string('customer_id')->nullable();
+            // $table->string('remaining_emails')->nullable();
+            $table->string('email_send')->nullable()->default('0');
+            $table->string('email_send_at')->nullable();
+            $table->string('remaining_mail')->nullable();
+            $table->string('replied')->nullable()->default('0');
+            $table->string('reminder_mail')->nullable();
+            $table->string('email_status')->nullable()->default('0');
             $table->timestamps();
         });
     }

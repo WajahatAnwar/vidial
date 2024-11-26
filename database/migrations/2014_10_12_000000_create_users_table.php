@@ -22,7 +22,6 @@ return new class extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->unsignedBigInteger('role_id')->default(2);
-            $table->string('store_name')->nullable();
             //AIO
             $table->string('order_sync')->nullable();
             $table->string('product_sync')->nullable();

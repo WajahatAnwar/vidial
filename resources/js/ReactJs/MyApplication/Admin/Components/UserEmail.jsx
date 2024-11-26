@@ -212,9 +212,9 @@ const UserEmail = () => {
     // console.log(logoImage);
     const [video, setVideo] = useState("");
     const [store, setStore] = useState("");
-    // const [baseUrl, setBaseUrl] = useState("https://phpstack-953879-3439374.cloudwaysapps.com");
-    //const [baseUrl, setBaseUrl] = useState("https://phpstack-953879-3439374.cloudwaysapps.com");
-    const [baseUrl, setBaseUrl] = useState("https://phpstack-953879-3439374.cloudwaysapps.com");
+    // const [baseUrl, setBaseUrl] = useState("https://8737-72-255-40-111.ngrok-free.app");
+    //const [baseUrl, setBaseUrl] = useState("https://8737-72-255-40-111.ngrok-free.app");
+    const [baseUrl, setBaseUrl] = useState("https://8737-72-255-40-111.ngrok-free.app");
     const [imagename, setImagename] = useState("");
     const [videoname, setVideoname] = useState("");
     const [previewLogo, setPreviwLogo] = useState("");
@@ -227,7 +227,7 @@ const UserEmail = () => {
     const [favIcon, setFavIcon] = useState(null);
     const [planName,setPlanName] = useState(null);
     const [favIconPreview, setFavIconPreview] = useState(null);
-    
+
     const [gdError, setGdError] = useState(false);
     const [gdErrorMsg, setGdErrorMsg] = useState('');
 
@@ -467,14 +467,14 @@ const UserEmail = () => {
             console.log(data);
         })
     }
-  
+
     const handleKlavioApi = useCallback((newValue) => setKlavioApi(newValue), []);
 
     /********  get Settings Data  ******/
     useEffect(() => {
-      
+
         async function fetchSettings() {
-            
+
             try {
                 const response = await fetch("/customer_email_settings?id=" + id);
                 if (!response.ok) {
@@ -786,7 +786,7 @@ const UserEmail = () => {
             window.$crisp.push(['do', 'chat:toggle']);
         } else {
             console.warn('Crisp chat script not loaded yet!');
-            
+
         }
     };
     // popover code start
@@ -1079,7 +1079,7 @@ const UserEmail = () => {
                                     <Card sectioned>
                                         <Banner>
                                             <List type="bullet">
-                                               
+
 
                                                 {errorMessages.page_display_to_customers &&
                                                     errorMessages.page_display_to_customers.map(
@@ -1111,7 +1111,7 @@ const UserEmail = () => {
                                                             );
                                                         }
                                                     )}
-                                               
+
                                                 {errorMessages.email_sent_to_customer &&
                                                     errorMessages.email_sent_to_customer.map(
                                                         (error) => {
@@ -1122,8 +1122,8 @@ const UserEmail = () => {
                                                             );
                                                         }
                                                     )}
-                                                
-                                               
+
+
                                             </List>
                                         </Banner>
                                     </Card>
@@ -1131,7 +1131,7 @@ const UserEmail = () => {
 
                                 {toastMarkup}
                                 <div style={{ marginTop: "20px" }}></div>
-                             
+
 
 
 
@@ -1177,7 +1177,7 @@ const UserEmail = () => {
                                         <div style={{ width: "550px" }}>
                                             <Text variant="headingLg" as="h5">
                                                 Post Purchase Emails
-                            
+
                                             </Text>
                                             <p style={{ marginTop: "5px" }}>
                                                     This is the timing of the first email sent to your customer.
@@ -1297,7 +1297,7 @@ const UserEmail = () => {
                                             <Text variant="headingLg" as="h5">
                                                 Email Customization
                                             </Text>
-                                           
+
                                         </div>
                                         <div
                                             style={{
@@ -1319,7 +1319,7 @@ const UserEmail = () => {
                                         expandOnPrint
                                     >
                                         <div style={{ marginTop: "20px" }}></div>
-                                     
+
                                         <div
                                             style={{
                                                 display: "flex",
@@ -1425,7 +1425,7 @@ const UserEmail = () => {
                                                 } else {
                                                     navigate("/ugc-approved-email")
                                                 }
-                                              
+
 
                                             }}
                                         >
@@ -1468,7 +1468,7 @@ const UserEmail = () => {
                                                 } else {
                                                     navigate("/ugc-star-approved")
                                                 }
-                                                
+
 
                                             }}
                                         >
@@ -1511,7 +1511,7 @@ const UserEmail = () => {
                                                 } else {
                                                     navigate("/ugc-declined-email")
                                                 }
-                                                
+
 
                                             }}
                                         >
@@ -1539,7 +1539,7 @@ const UserEmail = () => {
 
 
                                 </Card>
-                               
+
                                 <Card sectioned>
                                     {
                                         gdError ? <Banner>
@@ -1622,10 +1622,10 @@ const UserEmail = () => {
                                         <div style={{ marginTop: "20px" }}>
                                             {
                                                 gDConnected ?
-                                                        
+
                                                         <Button info >
                                                             <div style={{display:"flex"}} >
-                                                            
+
                                                                 <div>Connected</div>
                                                                 <div>
                                                                     <Icon
@@ -1849,7 +1849,7 @@ const UserEmail = () => {
                                             </>
                                         </div>
                                     </Card>
-                                
+
                                 <div
                                     style={{
                                         textAlign: "right",
