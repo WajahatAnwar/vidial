@@ -180,18 +180,18 @@ Route::group(['middleware' => ['verify.embedded', 'verify.shopify', 'billable', 
     Route::inertia('/get-started', 'MyApplication/GetStarted')->name('get-started');
 
     // OTHER SHOPIFY ROUTES
-    Route::post('save_settings', [SettingsController::class, 'saveSettings']);
-    Route::post('save-email-tab', [SettingsController::class, 'saveEmailTab']);
-    Route::get('get_settings', [SettingsController::class, 'getSettings']);
-    Route::get('getPendingVideos', [VideoController::class, 'getPendingVideos']);
+    Route::post('save_settings', [SettingsController::class, 'saveSettings'])->name('save_settings');
+    Route::post('save-email-tab', [SettingsController::class, 'saveEmailTab'])->name('save-email-tab');
+    Route::get('get_settings', [SettingsController::class, 'getSettings'])->name('get_settings');
+    Route::get('getPendingVideos', [VideoController::class, 'getPendingVideos'])->name('getPendingVideos');
     Route::post('videoOperation', [VideoController::class, 'videoOperation'])->name('videoOperation');
     Route::post('rejectVideo', [VideoController::class, 'rejectVideo'])->name('rejectVideo');
-    Route::post('saveLocale', [SettingsController::class, 'saveLocale']);
+    Route::post('saveLocale', [SettingsController::class, 'saveLocale'])->name('saveLocale');
     Route::get('getDashboardContent', [DashboardController::class, 'getDashboardContent'])->name('getDashboardContent');
-    Route::get('getApprovedVideos', [VideoController::class, 'getApprovedVideos']);
+    Route::get('getApprovedVideos', [VideoController::class, 'getApprovedVideos'])->name('getApprovedVideos');
     Route::get('getPendingVideoCount', [DashboardController::class, 'getPendingVideoCount']);
-    Route::post('downloadVideo', [VideoController::class, 'downloadVideo']);
-    Route::get('test1', [VideoController::class, 'test']);
+    Route::post('downloadVideo', [VideoController::class, 'downloadVideo'])->name('downloadVideo');
+    Route::get('test1', [VideoController::class, 'test'])->name('test1');
     Route::post('removeInspirationalVideo', [SettingsController::class, 'removeInspirationalVideo'])->name('removeInspirationalVideo');
     Route::post('removeLogo', [SettingsController::class, 'removeLogo'])->name('removeLogo');
     Route::post('fetchCurrentUser', [SettingsController::class, 'fetchCurrentUser'])->name('fetchCurrentUser');
