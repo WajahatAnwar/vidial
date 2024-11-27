@@ -20,7 +20,6 @@ import {
 import { CircleCancelMajor, NoteMinor } from "@shopify/polaris-icons";
 import { Editor } from '@tinymce/tinymce-react';
 import { useCallback, useEffect, useRef, useState } from "react";
-import { useParams } from "react-router-dom";
 import backIcon from "./imges/backIcon.png";
 import ColorWheel from "./imges/collorWheel.png";
 import Delete from "./imges/Delete.svg";
@@ -36,7 +35,7 @@ localStorage.setItem('store',storeName);
 const PostPurchaseEmail = () => {
     const page = usePage().props;
     const query = page.ziggy.query;
-    const { id } = useParams();
+    const id = page.ziggy.id;
     const [activeTootlTip, setActiveTootlTip] = useState(false);
     const [activeToggle, setActiveToggle] = useState(false);
     const toggleActive = useCallback(() => setActiveToggle((activeToggle) => !activeToggle), []);
