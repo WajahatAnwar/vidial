@@ -177,7 +177,7 @@ const PostPurchaseEmail = () => {
                 if (data.success) {
                     let redirect = route('email', query);
                     if (id) {
-                        redirect = route('user-email-settings', { id: id, ...query });
+                        redirect = route('single-user-email-settings', { id: id });
                     }
                     toggleActive()
                     setTimeout(() => {
@@ -299,7 +299,7 @@ const PostPurchaseEmail = () => {
                         >
                             <div onClick={() => {
                                 if (id) {
-                                    router.get(route('user-email-settings',{id:id, ...query}));
+                                    router.get(route('single-user-email-settings',{id:id}));
                                 }
                                 else {
                                     router.get(route('email', query));
