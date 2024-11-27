@@ -161,7 +161,7 @@ const ReminderEmail = () => {
     const handleSaveEmailSettings = () => {
         let saveUrl = route('save-email-settings', query);
         if (id) {
-            saveUrl = route("single-save-user-email-settings", { id: id, ...query });
+            saveUrl = route("single-save-email-settings", { id: id, ...query });
         }
         let logo_file;
         setContent(editorRef.current.getContent());
