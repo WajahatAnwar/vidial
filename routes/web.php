@@ -84,7 +84,7 @@ Route::get('/cron', function () {
 //Email setting Portion
 Route::get('fatch_orders', [OrdersController::class, 'fetch_orders'])->middleware(['verify.shopify']);
 
-Route::get('send_test_email', [OrdersController::class, 'sendtest_email'])->middleware(['verify.shopify']);
+Route::get('send_test_email', [OrdersController::class, 'sendtest_email'])->name('send_test_email')->middleware(['verify.shopify']);
 
 Route::get('send_customers', [OrdersController::class, 'customers_send_email'])->middleware(['verify.shopify']);
 
