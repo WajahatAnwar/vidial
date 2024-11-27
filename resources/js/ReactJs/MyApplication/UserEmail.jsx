@@ -1337,7 +1337,7 @@ const UserEmail = () => {
                                             onClick={() => {
 
                                                 if (id) {
-                                                    router.get(route('post-purchase-email', { id: id, ...query }));
+                                                    router.get(route('single-post-purchase-email', { id: id, ...query }));
                                                 } else {
                                                     router.get(route('post-purchase-email', query));
                                                 }
@@ -1380,7 +1380,7 @@ const UserEmail = () => {
                                             onClick={() => {
                                                 console.log('reminder email' + id);
                                                 if (id) {
-                                                    router.get(route('reminder-email', { id: id, ...query }));
+                                                    router.get(route('single-reminder-email', { id: id, ...query }));
                                                 } else {
                                                     router.get(route('reminder-email', query));
                                                 }
@@ -1422,7 +1422,7 @@ const UserEmail = () => {
                                             }}
                                             onClick={() => {
                                                 if (id) {
-                                                    router.get(route('ugc-approved-email', { id: id, ...query }));
+                                                    router.get(route('single-ugc-approved-email', { id: id, ...query }));
                                                 } else {
                                                     router.get(route('ugc-approved-email', query));
                                                 }
@@ -1465,7 +1465,7 @@ const UserEmail = () => {
                                             }}
                                             onClick={() => {
                                                 if (id) {
-                                                    router.get(route('ugc-declined-email', { id: id, ...query }));
+                                                    router.get(route('single-ugc-declined-email', { id: id, ...query }));
                                                 } else {
                                                     router.get(route('ugc-star-approved', query));
                                                 }
@@ -1508,7 +1508,7 @@ const UserEmail = () => {
                                             }}
                                             onClick={() => {
                                                 if (id) {
-                                                    router.get(route('ugc-declined-email', { id: id, ...query }));
+                                                    router.get(route('single-ugc-declined-email', { id: id, ...query }));
                                                 } else {
                                                     router.get(route('ugc-declined-email', query));
                                                 }
