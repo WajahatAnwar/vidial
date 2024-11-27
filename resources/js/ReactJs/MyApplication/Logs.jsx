@@ -45,7 +45,7 @@ export default function Logs() {
         let url = route('logs-content', { sort: sorting, ...query });
         // search
         if (searchQuery) {
-            let url = route('logs-content', { sort: sorting, q: searchQuery, ...query });
+             url = route('logs-content', { sort: sorting, q: searchQuery, ...query });
         }
         fetch(url)
             .then((response) => response.json())
