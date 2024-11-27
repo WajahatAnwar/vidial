@@ -66,7 +66,7 @@ function GetStarted() {
 
                                     <div className='polaris-black-btn-global' style={{marginTop:"10px"}}>
 
-                                    <Button primary onClick={()=>router.get(route('home',query))}>Configure Landing Page</Button>
+                                        <Button primary onClick={() => router.get(route('settings',query))}>Configure Landing Page</Button>
                                     </div>
 
 
