@@ -1,6 +1,7 @@
 import { useCallback, useState } from 'react';
 // import { router, usePage } from '@inertiajs/react';
 import { Button, Card, Collapsible, Divider, Page, Text } from '@shopify/polaris';
+import { router, usePage } from '@inertiajs/react';
 // import DownIcon from '../components/imges/downIcon.svg';
 
 
@@ -8,7 +9,8 @@ import { Button, Card, Collapsible, Divider, Page, Text } from '@shopify/polaris
 
 
 function GetStarted() {
-
+    const page = usePage().props;
+    const query = page.ziggy.query;
     // const page = usePage().props;
     // const query = page.ziggy.query;
     const [open, setOpen] = useState(true);
@@ -64,7 +66,7 @@ function GetStarted() {
 
                                     <div className='polaris-black-btn-global' style={{marginTop:"10px"}}>
 
-                                    <Button primary>Add New Pixel</Button>
+                                    <Button primary onClick={()=>router.get(route('home',query))}>Configure Landing Page</Button>
                                     </div>
 
 
