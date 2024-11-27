@@ -11,9 +11,9 @@ import {
 } from "@shopify/polaris";
 import { CircleCancelMajor, CircleTickMajor } from "@shopify/polaris-icons";
 import { useCallback, useEffect, useState } from "react";
-import checkmark from "./imges/checkmark.svg";
-import noVedio from "./imges/film.png";
-import staricon from "./imges/Staricon.svg";
+import checkmark from "@/ReactJs/MyApplication/imges/checkmark.svg";
+import noVedio from "@/ReactJs/MyApplication/imges/film.png";
+import staricon from "@/ReactJs/MyApplication/imges/Staricon.svg";
 import Ticker from "./Ticker";
 import { router, usePage } from "@inertiajs/react";
 
@@ -21,7 +21,7 @@ function WaitingVideos() {
 
     const page = usePage().props;
     const query = page.ziggy.query;
-
+    const id = page.ziggy.query.id;
     const [videoFeedback, setVideoFeedback] = useState(
         " Congratulations, you just approved the video."
     );
