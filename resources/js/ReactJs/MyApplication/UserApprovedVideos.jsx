@@ -7,9 +7,8 @@ import {
 } from "@shopify/polaris";
 import React, { useEffect, useRef, useState } from "react";
 
-import { useParams } from "react-router-dom";
-import noVedio from "../../imges/film.png";
-import WaitingIcon from "../../imges/waiting2.png";
+import noVedio from "@/ReactJs/MyApplication/imges/film.png";
+import WaitingIcon from "@/ReactJs/MyApplication/imges/waiting2.png";
 import { usePage } from "@inertiajs/react";
 function UserApprovedVideos() {
     const page = usePage().props;
