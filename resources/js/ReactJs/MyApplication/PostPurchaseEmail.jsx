@@ -20,9 +20,9 @@ import {
 import { CircleCancelMajor, NoteMinor } from "@shopify/polaris-icons";
 import { Editor } from '@tinymce/tinymce-react';
 import { useCallback, useEffect, useRef, useState } from "react";
-import backIcon from "./imges/backIcon.png";
-import ColorWheel from "./imges/collorWheel.png";
-import Delete from "./imges/Delete.svg";
+import backIcon from "@/ReactJs/MyApplication/imges/backIcon.png";
+import ColorWheel from "@/ReactJs/MyApplication/imges/collorWheel.png";
+import Delete from "@/ReactJs/MyApplication/imges/Delete.svg";
 
 
 /**
