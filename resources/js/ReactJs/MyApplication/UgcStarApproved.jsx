@@ -176,7 +176,7 @@ const UgcStarApproved = () => {
         formData.append('logo', logo_file)
         let saveUrl = route('save-email-settings', query);
         if (id) {
-            saveUrl = route('save-user-email-settings', { id: id, ...query });
+            saveUrl = route('single-save-user-email-settings', { id: id, ...query });
         }
         fetch(saveUrl, {
             method: "POST",

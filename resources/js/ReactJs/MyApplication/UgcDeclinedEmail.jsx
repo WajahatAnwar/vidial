@@ -172,7 +172,7 @@ const UgcDeclinedEmail = () => {
         formData.append('logo', logo_file)
         let saveUrl = route('save-email-settings', query);
         if (id) {
-            saveUrl = route('save-email-settings', { id: id, ...query });
+            saveUrl = route('single-save-email-settings', { id: id, ...query });
         }
         fetch(saveUrl, {
             method: "POST",

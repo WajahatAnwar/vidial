@@ -148,7 +148,7 @@ const PostPurchaseEmail = () => {
     const handleSaveEmailSettings = () => {
         let saveUrl = route('save-email-settings', query);
         if (id) {
-            saveUrl = route('save-email-settings', { id: id, ...query });
+            saveUrl = route('single-save-email-settings', { id: id, ...query });
         }
         let logo_file;
         setContent(editorRef.current.getContent());

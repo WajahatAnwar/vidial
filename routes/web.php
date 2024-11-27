@@ -134,6 +134,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::inertia('/ugc-star-approved', 'MyApplication/UgcStarApproved')->name('single-ugc-star-approved');
 
     Route::get('single-fetch-email-settings', [SettingsController::class, 'fetchEmailSettings'])->name('single-fetch-email-settings');
+    Route::post('single-save-email-settings', [SettingsController::class, 'saveEmailSettings'])->name('single-save-email-settings');
+
 
 
 
