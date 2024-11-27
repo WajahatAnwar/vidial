@@ -10,7 +10,7 @@ import {
     TextField
 } from "@shopify/polaris";
 import { useCallback, useEffect, useState } from "react";
-import boxkbackground from "./imges/box-background.svg";
+import boxkbackground from "@/ReactJs/MyApplication/imges/box-background.svg";
 import checkbackground from "./imges/check-background.svg";
 import checkmark from "./imges/checkmark.svg";
 import hourglass from "./imges/Hourglass-background.svg";
