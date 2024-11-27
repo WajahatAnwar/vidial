@@ -405,7 +405,7 @@ function AdminDashboard(props) {
                                                 <Badge>{user.plan ? user.plan.name : null}</Badge>,
                                                 user.videos_count ? user.videos_count.length : 0,
                                                 user.emails_sent ? user.emails_sent.length : 0,
-                                                <div ><Button onClick={() => router.get(route(`single-user-settings`, { id: user.id }))}>Landing Page {user.id}</Button></div>,
+                                                <div ><Button onClick={() => router.get(route(`single-user-settings`, { id: user.id }))}>Landing Page</Button></div>,
                                                 <div><Button onClick={() => router.get(route(`single-user-email-settings`, { id: user.id }))}>Email</Button></div>,
                                                 <div><Button onClick={() => router.get(route(`single-user-logs`, { id: user.id }))}>Logs</Button></div>,
                                                 <div><Button onClick={() => router.get(route(`single-user-approved-videos`, { id: user.id }))}>Approved Videos</Button></div>,
