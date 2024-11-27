@@ -124,6 +124,15 @@ Route::group(['middleware' => ['auth']], function () {
     Route::inertia('/single-user-approved-videos', 'MyApplication/UserApprovedVideos')->name('single-user-approved-videos');
     Route::inertia('/single-user-reviewed-videos', 'MyApplication/UserReviewdVideos')->name('single-user-reviewed-videos');
 
+    // Post-purchase emails
+    Route::inertia('/single-post-purchase-email', 'MyApplication/PostPurchaseEmail')->name('single-post-purchase-email');
+    Route::inertia('/single-reminder-email', 'MyApplication/ReminderEmail')->name('single-reminder-email');
+
+    // UGC email routes
+    Route::inertia('/ugc-approved-email', 'MyApplication/UgcApprovedEmail')->name('single-ugc-approved-email');
+    Route::inertia('/ugc-declined-email', 'MyApplication/UgcDeclinedEmail')->name('single-ugc-declined-email');
+    Route::inertia('/ugc-star-approved', 'MyApplication/UgcStarApproved')->name('single-ugc-star-approved');
+
 
 });
 
