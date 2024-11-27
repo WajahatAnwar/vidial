@@ -270,7 +270,7 @@ const Settings = () => {
     const [store, setStore] = useState("");
     // const [baseUrl, setBaseUrl] = useState("https://031b-72-255-40-111.ngrok-free.app");
     //const [baseUrl, setBaseUrl] = useState("https://031b-72-255-40-111.ngrok-free.app");
-    const [baseUrl, setBaseUrl] = useState("https://031b-72-255-40-111.ngrok-free.app");
+    const [baseUrl, setBaseUrl] = useState("https://phpstack-953879-3439374.cloudwaysapps.com");
     const [imagename, setImagename] = useState("");
     const [videoname, setVideoname] = useState("");
     const [previewLogo, setPreviwLogo] = useState("");
