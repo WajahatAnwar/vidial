@@ -220,7 +220,7 @@ const PostPurchaseEmail = () => {
         if (id) {
             url = route('single-fetch-email-settings', { id: id, type: 'Post_Purchase' });
         }else{
-             url = route('fetch-email-settings', query);
+            url = route('fetch-email-settings', { type: 'Post_Purchase', ...query });
         }
         fetch(url, {
             method: "GET",

@@ -219,7 +219,7 @@ const ReminderEmail = () => {
             url = route('single-fetch-email-settings', { id: id,type:'Reminder' });
         }else
         {
-         url = route('fetch-email-settings', query);
+            url = route('fetch-email-settings', { type: 'Reminder', ...query });
         }
         fetch(url, {
             method: "GET",

@@ -208,7 +208,7 @@ const UgcDeclinedEmail = () => {
         if (id) {
             url = route('single-fetch-email-settings', { id: id, type: 'UGC_Declined' });
         }else{
-            url = route('fetch-email-settings', query);
+            url = route('fetch-email-settings', { type: 'UGC_Declined', ...query });
 
         }
         fetch(url, {
