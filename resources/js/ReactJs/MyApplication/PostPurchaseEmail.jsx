@@ -217,12 +217,12 @@ const PostPurchaseEmail = () => {
 
 
     useEffect(() => {
-        let extraParams = {
-            type: 'Post_Purchase',
-        };
-        let url = createUrl('/fetch-email-settings', extraParams);
+        console.log('useEffect post purchase email');
+        let url = ''
         if (id) {
-            url = "/single-fetch-user-email-settings?type=Post_Purchase&id=" + id;
+             url = route('single-fetch-user-email-settings', { id: id, type: 'Post_Purchase', ...query });
+        }else{
+             url = route('fetch-email-settings', query);
         }
         fetch(url, {
             method: "GET",
