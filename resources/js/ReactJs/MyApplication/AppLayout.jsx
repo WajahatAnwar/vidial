@@ -1,4 +1,4 @@
-import '@/ReactJs/MyApplication/Assets/css/style.css';
+import '@/ReactJs/MyApplication/css/style.css';
 import CustomBar from '@/ReactJs/MyApplication/CustomBar';
 import { AppProvider } from '@shopify/polaris';
 import "@shopify/polaris/build/esm/styles.css";
