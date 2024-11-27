@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Log;
 use Carbon\Carbon;
 use App\Models\User;
 use Mailgun\Mailgun;
@@ -14,7 +15,7 @@ use App\Models\EmailCredentials;
 use App\Models\CollectionProduct;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Log as CustomLog;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Crypt;
 use GuzzleHttp\Exception\ConnectException;
@@ -60,7 +61,7 @@ if (!function_exists('sendResponse')) {
 if (!function_exists('sendApiLog')) {
     function sendApiLog($success, $message = '', $data = null, $code = 200)
     {
-        Log::info($message . json_encode($data));
+        CustomLog::info($message . json_encode($data));
     }
 }
 
@@ -254,7 +255,7 @@ if (!function_exists('syncProductsV2')) {
                     $fetchedImages = [];
                     foreach ($product['node']['images']['edges'] as $key1 => $image) {
 
-                        // Log::info("IMAGE CREATING: " . $image['node']['id']);
+                        // CustomLog::info("IMAGE CREATING: " . $image['node']['id']);
 
                         ProductImage::updateOrCreate(
                             [
@@ -484,24 +485,24 @@ if (!function_exists('sync_orders')) {
         DB::beginTransaction();
 
         $user = User::where('name', $request->name)->first();
-        // Log::info(json_encode($user));
+        // CustomLog::info(json_encode($user));
 
         $perPage = 250;
         $response6 = $user->api()->rest('GET', '/admin/api/2023-04/orders/count.json', [
             'status' => 'any'
         ]);
 
-        // Log::info(json_encode($response6));
+        // CustomLog::info(json_encode($response6));
 
         if ($response6['errors'] == false) {
 
-            // Log::info(json_encode("ORDER COUNT" . $response6['body']['count']));
+            // CustomLog::info(json_encode("ORDER COUNT" . $response6['body']['count']));
 
             // $productCount = $response6['body']['count'];
 
             // $iterations = ceil($productCount / $perPage);
 
-            // Log::info($iterations);
+            // CustomLog::info($iterations);
 
             // $next = null;
 
@@ -520,21 +521,21 @@ if (!function_exists('sync_orders')) {
             //         ]);
             //     }
 
-            //     // Log::info(json_encode($response7));
+            //     // CustomLog::info(json_encode($response7));
 
             //     if ($response7['errors'] == false) {
 
-            //         Log::info(json_encode("ORDER" . $response7['errors']));
+            //         CustomLog::info(json_encode("ORDER" . $response7['errors']));
 
             //         foreach ($response7['body']['orders'] as $order) {
             //             OrderSeparatedJob::dispatch($order, $user);
             //         }
 
-            //         Log::info("THIS IS MY LINK");
-            //         Log::info(json_encode($response7['link']));
+            //         CustomLog::info("THIS IS MY LINK");
+            //         CustomLog::info(json_encode($response7['link']));
 
             //         if (!$response7['link']) {
-            //             // Log::info("HERE IS THE BREAK 2 INSIDE");
+            //             // CustomLog::info("HERE IS THE BREAK 2 INSIDE");
             //             break;
             //         }
 
@@ -754,7 +755,7 @@ if (!function_exists('sendMail')) {
             return true;
         } catch (\Exception $e) {
             // Log the error
-            Log::info('Error sending email: ' . $e->getMessage());
+            CustomLog::info('Error sending email: ' . $e->getMessage());
 
             // Return false to indicate failure
             return false;
@@ -1378,7 +1379,7 @@ if (!function_exists('customerCreateUpdate')) {
             ]);
         } catch (Exception $e) {
 
-            // Log::info($e);
+            // CustomLog::info($e);
             return $e->getMessage();
         }
     }
@@ -1391,8 +1392,8 @@ if (!function_exists('syncCustomers')) {
 
         $perPage = 250;
         $customersCount = $user->api()->rest('GET', '/admin/api/2023-10/customers/count.json')['body']['count'];
-        Log::info($customersCount);
-        Log::info("cusotmer count");
+        CustomLog::info($customersCount);
+        CustomLog::info("cusotmer count");
 
         $iterations = ceil($customersCount / $perPage);
 
@@ -1408,7 +1409,7 @@ if (!function_exists('syncCustomers')) {
                     'page_info' => $next,
                 ]);
                 foreach ($response['body']['customers'] as $customer) {
-                    Log::info('eeewwwmy customers create eewww');
+                    CustomLog::info('eeewwwmy customers create eewww');
 
 
                     Customer::updateOrCreate(
@@ -1442,7 +1443,7 @@ if (!function_exists('syncCustomers')) {
             ]);
         } catch (Exception $e) {
             // DB::rollBack();
-            Log::info($e);
+            CustomLog::info($e);
             return $e->getMessage();
         }
     }
