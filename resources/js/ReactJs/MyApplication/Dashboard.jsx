@@ -28,7 +28,7 @@ import Ticker from "./Ticker";
 import { downloadVideo } from "./utils";
 
 function Dashboard() {
-
+    const pathname = '/videos-to-review';
     const page = usePage().props;
     const query = page.ziggy.query;
 

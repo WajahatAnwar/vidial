@@ -18,7 +18,7 @@ import Ticker from "./Ticker";
 import { router, usePage } from "@inertiajs/react";
 
 function WaitingVideos() {
-
+    const pathname = '/videos-to-review';
     const page = usePage().props;
     const query = page.ziggy.query;
     const id = page.ziggy.query.id;
