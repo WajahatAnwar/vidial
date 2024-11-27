@@ -270,6 +270,7 @@ function WaitingVideos() {
                     setTotalPages(data.totalPages);
                     setNumberOfVedios(data.videoCount);
                 }
+                console.log('count :'+data.videoCount);
             })
             .catch((error) => {
                 console.log(error);
