@@ -204,12 +204,12 @@ const UgcDeclinedEmail = () => {
         return `${url}?${params.toString()}`;
     };
     useEffect(() => {
-        let extraParams = {
-            type: 'UGC_Declined'
-        };
-        let url = createUrl('/fetch-email-settings', extraParams);
+        let url = ''
         if (id) {
-            url = "/fetch-user-email-settings?type=UGC_Declined&id=" + id;
+            url = route('single-fetch-email-settings', { id: id, type: 'UGC_Declined' });
+        }else{
+            url = route('fetch-email-settings', query);
+
         }
         fetch(url, {
             method: "GET",

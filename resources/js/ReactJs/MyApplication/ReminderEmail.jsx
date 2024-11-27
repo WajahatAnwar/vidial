@@ -36,7 +36,7 @@ localStorage.setItem('store',storeName);
 const ReminderEmail = () => {
     const page = usePage().props;
     const query = page.ziggy.query;
-    const { id } = useParams();
+    const id = page.ziggy.query.id;
     const [activeTootlTip, setActiveTootlTip] = useState(false);
     const [activeToggle, setActiveToggle] = useState(false);
     const toggleActive = useCallback(() => setActiveToggle((activeToggle) => !activeToggle), []);
@@ -214,13 +214,12 @@ const ReminderEmail = () => {
     };
 
     useEffect(() => {
-        let extraParams = {
-            type: 'Reminder'
-        };
-
-        let url = createUrl('/fetch-email-settings', extraParams);
+        let url = ''
         if (id) {
-            url = "/fetch-user-email-settings?type=Reminder&id=" + id;
+            url = route('single-fetch-email-settings', { id: id,type:'Reminder' });
+        }else
+        {
+         url = route('fetch-email-settings', query);
         }
         fetch(url, {
             method: "GET",

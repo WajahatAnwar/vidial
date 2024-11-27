@@ -35,7 +35,7 @@ localStorage.setItem('store',storeName);
 const UgcStarApproved = () => {
     const page = usePage().props;
     const query = page.ziggy.query;
-    const { id } = useParams();
+    const id = page.ziggy.id;
     const [activeTootlTip, setActiveTootlTip] = useState(false);
     const [alreadyUploadLogo, setAlreadyUploadedLogo] = useState('');
 
@@ -208,12 +208,11 @@ const UgcStarApproved = () => {
         return `${url}?${params.toString()}`;
     };
     useEffect(() => {
-        let extraParams = {
-            type: 'UGC_Star_Approved'
-        };
-        let url = createUrl('/fetch-email-settings', extraParams);
+        let url = ''
         if (id) {
-            url = "/fetch-user-email-settings?type=UGC_Star_Approved&id=" + id;
+            url = route('single-fetch-email-settings', { id: id, type: 'UGC_Star_Approved' });
+        }else{
+            url = route('fetch-email-settings', query);
         }
         fetch(url, {
             method: "GET",

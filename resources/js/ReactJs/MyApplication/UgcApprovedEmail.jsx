@@ -209,12 +209,11 @@ const UgcApprovedEmail = () => {
         return `${url}?${params.toString()}`;
     };
     useEffect(() => {
-        let extraParams = {
-            type: 'UGC_Approved'
-        };
-        let url = createUrl('/fetch-email-settings', extraParams);
+        let url = ''
         if (id) {
-            url = "/fetch-user-email-settings?type=UGC_Approved&id=" + id;
+            url = route('single-fetch-email-settings', { id: id, type: 'UGC_Approved' });
+        }else{
+            url = route('fetch-email-settings', ...query);
         }
         fetch(url, {
             method: "GET",
