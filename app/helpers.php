@@ -1,22 +1,23 @@
 <?php
 
-use App\Models\Collection;
-use App\Models\CollectionProduct;
-use App\Models\Customer;
-use App\Models\EmailCredentials;
+use Carbon\Carbon;
+use App\Models\User;
+use Mailgun\Mailgun;
 use App\Models\Orders;
 use App\Models\Product;
-use App\Models\ProductVariant;
+use App\Models\Customer;
+use App\Models\Collection;
 use App\Models\ProductImage;
-use App\Models\User;
-use Carbon\Carbon;
+use App\Models\EmailTemplate;
+use App\Models\ProductVariant;
+use App\Models\EmailCredentials;
+use App\Models\CollectionProduct;
 use Illuminate\Support\Facades\DB;
-use GuzzleHttp\Exception\ConnectException;
 use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Crypt;
-use Illuminate\Support\Facades\Http;
-use Mailgun\Mailgun;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Crypt;
+use GuzzleHttp\Exception\ConnectException;
 
 if (!function_exists('simpleValidate')) {
     function simpleValidate($validator)
