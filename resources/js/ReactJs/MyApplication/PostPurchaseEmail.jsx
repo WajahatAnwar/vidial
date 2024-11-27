@@ -35,7 +35,7 @@ localStorage.setItem('store',storeName);
 const PostPurchaseEmail = () => {
     const page = usePage().props;
     const query = page.ziggy.query;
-    const id = page.ziggy.id;
+    const id = page.ziggy.query.id;
     const [activeTootlTip, setActiveTootlTip] = useState(false);
     const [activeToggle, setActiveToggle] = useState(false);
     const toggleActive = useCallback(() => setActiveToggle((activeToggle) => !activeToggle), []);
