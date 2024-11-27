@@ -707,6 +707,9 @@ function Dashboard() {
                                                                 marginTop:
                                                                     "10px",
                                                                 cursor: "pointer",
+                                                                display:"flex",
+                                                                alignItems:"center",
+                                                                gap:"5px"
                                                             }}
                                                         >
                                                             <img
