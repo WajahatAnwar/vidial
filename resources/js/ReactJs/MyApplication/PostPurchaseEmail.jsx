@@ -222,7 +222,7 @@ const PostPurchaseEmail = () => {
         };
         let url = createUrl('/fetch-email-settings', extraParams);
         if (id) {
-            url = "/fetch-user-email-settings?type=Post_Purchase&id=" + id;
+            url = "/single-fetch-user-email-settings?type=Post_Purchase&id=" + id;
         }
         fetch(url, {
             method: "GET",

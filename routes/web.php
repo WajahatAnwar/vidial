@@ -133,6 +133,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::inertia('/ugc-declined-email', 'MyApplication/UgcDeclinedEmail')->name('single-ugc-declined-email');
     Route::inertia('/ugc-star-approved', 'MyApplication/UgcStarApproved')->name('single-ugc-star-approved');
 
+    Route::get('single-fetch-email-settings', [SettingsController::class, 'fetchEmailSettings'])->name('single-fetch-email-settings');
+
+
 
 });
 
