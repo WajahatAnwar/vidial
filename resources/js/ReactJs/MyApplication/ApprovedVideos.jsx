@@ -134,6 +134,8 @@ function ApprovedVideos() {
 
                                                         </p>
                                                         <p
+                                                        className="sent-video-email-wrapper"
+                                                        title={video.email}
                                                             style={{
                                                                 fontSize: "12px",
                                                                 color: "#797979",
