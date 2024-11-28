@@ -213,7 +213,7 @@ const UgcApprovedEmail = () => {
         if (id) {
             url = route('single-fetch-email-settings', { id: id, type: 'UGC_Approved' });
         }else{
-            url = route('fetch-email-settings', ...query);
+            url = route('fetch-email-settings', { type: 'UGC_Approved', ...query } );
         }
         fetch(url, {
             method: "GET",
