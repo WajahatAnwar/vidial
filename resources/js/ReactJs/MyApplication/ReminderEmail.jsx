@@ -396,7 +396,7 @@ const ReminderEmail = () => {
                                         <p style={{ fontSize: "15px", marginTop: "20px", marginBottom: "10px", fontWeight: "500" }}>Content</p>
 
                                         <Editor
-                                            apiKey='56v4up7ui10gxxmlar74323csz4le1w22v06j5l8erek0zmk'
+                                            apiKey='hqm26nvds57hdfxpid020b1eoxyt6py4dbngc1zww0704kh3'
                                             onInit={(evt, editor) => editorRef.current = editor}
                                             initialValue={htmlContent}
                                             init={{
@@ -504,7 +504,7 @@ const ReminderEmail = () => {
                                     src={alreadyUploadLogo} />}
                                 <div className="previewEditor">
                                     <Editor
-                                        apiKey='your-api-key'
+                                        apiKey='hqm26nvds57hdfxpid020b1eoxyt6py4dbngc1zww0704kh3'
                                         value={processedContent}
                                         onEditorChange={handleEditorChange}
                                         init={{

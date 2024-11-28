@@ -20,7 +20,7 @@ function GetStarted() {
     const [blockConversion, setBlockConversion] = useState(false);
 
 
-    const handleToggle = useCallback(() => setOpen((open) => !open), []);
+    const handleToggle = useCallback(() => router.get(route('videos-to-review',query)), []);
     const handleFAQOneToggle = useCallback(() => setFaqOne((faqOne) => !faqOne), []);
     const handleFAQTwoToggle = useCallback(() => setFaqTwo((faqTwo) => !faqTwo), []);
     return (

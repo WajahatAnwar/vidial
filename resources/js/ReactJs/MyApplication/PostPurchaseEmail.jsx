@@ -503,7 +503,7 @@ const PostPurchaseEmail = () => {
                                         src={alreadyUploadLogo} />}
                                     <div className="previewEditor">
                                         <Editor
-                                            apiKey='your-api-key'
+                                            apiKey="hqm26nvds57hdfxpid020b1eoxyt6py4dbngc1zww0704kh3"
                                             value={processedContent}
                                             onEditorChange={handleEditorChange}
                                             init={{

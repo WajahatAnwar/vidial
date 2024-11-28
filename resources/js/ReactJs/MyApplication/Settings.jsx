@@ -7,6 +7,7 @@ import {
     DropZone,
     Frame,
     Grid,
+    Icon,
     List,
     Modal,
     Page,
@@ -19,7 +20,7 @@ import {
     Toast,
     hsbToHex
 } from "@shopify/polaris";
-import { NoteMinor } from "@shopify/polaris-icons";
+import { CircleCancelMajor, NoteMinor } from "@shopify/polaris-icons";
 import { useCallback, useEffect, useState } from "react";
 import './css/editor.css';
 import ColorWheel from "./imges/collorWheel.png";
@@ -281,6 +282,7 @@ const Settings = () => {
     const [storeName, setstoreName] = useState("");
     const [successToastVideo, setSuccessToastVideo] = useState("");
     const [favIcon, setFavIcon] = useState(null);
+    const [finalFavIcon, setFinalFavIcon] = useState(null);
     const [favIconPreview, setFavIconPreview] = useState(null);
 
     const [gdError, setGdError] = useState(false);
@@ -472,6 +474,11 @@ const Settings = () => {
     const handleFavIcon = (e) => {
         setFavIcon(e.target.files[0]);
 
+    }
+
+    const handleRemoveFavIcon = () => {
+        setFavIcon(null);
+        setFavIconPreview(null);
     }
 
     /************** handle Connect to Google Drive **************/
@@ -1634,16 +1641,23 @@ const Settings = () => {
                                     <div>
                                         <input type="file" name="fav_icon" onChange={handleFavIcon}></input>
                                     </div>
-                                    <div style={{ marginTop: "10px" }}>
+                                        <div style={{ width: "60px" }} className="delete-btn-icons">
+                                        <div style={{ marginTop: "10px" }}>
                                         {
-                                            favIconPreview ? <Thumbnail
+                                            favIconPreview ? <><Thumbnail
                                                 size="medium"
                                                 alt="img"
                                                 source={favIconPreview}
                                             />
+                                            <div onClick={()=>handleRemoveFavIcon()}>
+                                            <Icon source={CircleCancelMajor} color="critical" />
+                                            </div>
+                                                    </>
                                                 : ''
                                         }
                                     </div>
+
+                                        </div>
                                     <div
                                         style={{
                                             width: "450px",
