@@ -1554,7 +1554,7 @@ const UserEmail = () => {
                                             </List>
                                         </Banner> : ''
                                     }
-                                    <div className="googledrivesection">
+                                    {/* <div className="googledrivesection"> */}
                                         {/* <div style={{ marginBottom: "15px" }}>
                                             <Text variant="headingLg" as="h5">
                                                 Google Drive
@@ -1634,7 +1634,7 @@ const UserEmail = () => {
                                                     </Button>
                                             }
                                         </div> */}
-                                    </div>
+                                    {/* </div> */}
                                 </Card>
 
                                 {/********* Klavio  *********/}
@@ -1712,7 +1712,7 @@ const UserEmail = () => {
                                     </div>
                                 </Card>
 
-                                <Card sectioned>
+                                {/* <Card sectioned>
                                     <div className="googledrivesection">
                                         <div style={{ marginTop: "20px" }}></div>
                                         <div style={{ display: "flex", alignItems: "center", marginRight: "5px" }} >
@@ -1777,41 +1777,6 @@ const UserEmail = () => {
 
                                             </div>
 
-                                            {/* <div
-                                                style={{
-                                                    width: "450px",
-                                                    marginTop: "10px",
-                                                }}
-                                            >
-
-
-                                                <TextField
-                                                    value={mailgunDomain}
-                                                    onChange={handleMailgunDomain}
-                                                    autoComplete="off"
-                                                    placeholder="Mailgun Domain"
-                                                />
-                                                <p style={{ color: "#717171", marginTop: "5px" }}>Enter the Mailgun Domain.</p>
-
-                                            </div>
-
-
-                                            <div
-                                                style={{
-                                                    width: "450px",
-                                                    marginTop: "10px",
-                                                }}
-                                            >
-
-                                                <TextField
-                                                    value={mailgunEndpoint}
-                                                    onChange={handleMailgunEndPoint}
-                                                    autoComplete="off"
-                                                    placeholder="Mailgun Endpoint"
-                                                />
-                                                <p style={{ color: "#717171", marginTop: "5px" }}>Enter the Mailgun endpoint.</p>
-
-                                            </div> */}
                                             {
                                                 emailConnected ?
                                                     <div
@@ -1842,7 +1807,7 @@ const UserEmail = () => {
                                                     </div>}
                                         </>
                                     </div>
-                                </Card>
+                                </Card> */}
 
                                 <div
                                     style={{
