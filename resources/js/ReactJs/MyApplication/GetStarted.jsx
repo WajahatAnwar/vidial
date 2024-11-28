@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 // import { router, usePage } from '@inertiajs/react';
 import { Button, Card, Collapsible, Divider, Page, Text } from '@shopify/polaris';
 import { router, usePage } from '@inertiajs/react';
@@ -11,18 +11,36 @@ import { router, usePage } from '@inertiajs/react';
 function GetStarted() {
     const page = usePage().props;
     const query = page.ziggy.query;
-    // const page = usePage().props;
-    // const query = page.ziggy.query;
+
     const [open, setOpen] = useState(true);
     const [faqOne, setFaqOne] = useState(true);
     const [faqTwo, setFaqTwo] = useState(true);
     const [blockCheckbox, setBlockCheckbox] = useState(false);
     const [blockConversion, setBlockConversion] = useState(false);
 
-
-    const handleToggle = useCallback(() => router.get(route('videos-to-review',query)), []);
+    const handleToggle = useCallback(() => handleLanidngPage(), []);
     const handleFAQOneToggle = useCallback(() => setFaqOne((faqOne) => !faqOne), []);
     const handleFAQTwoToggle = useCallback(() => setFaqTwo((faqTwo) => !faqTwo), []);
+
+    const handleLandingPage = (path) => {
+        if(!blockCheckbox){
+            fetch(route('visitLandingPage', query)).then((response) => response.json()).then((data) => {
+                setBlockCheckbox(true);
+                setBlockConversion(true);
+            });
+        }
+        window.open(path);
+
+
+
+    }
+
+    useEffect(() => {
+        fetch(route('currentUser',query)).then((response) => response.json()).then((data) => {
+            setBlockCheckbox(data.data.user.landing_page_visited);
+            setBlockConversion(data.data.user.landing_page_visited);
+        });
+    });
     return (
         <div>
 
@@ -46,7 +64,7 @@ function GetStarted() {
                                 }
                             </div>
                             <div >
-                                <div role='button' type="button" onClick={handleToggle} ariaExpanded={open}
+                                <div role='button' type="button" onClick={() => handleLandingPage(route('video-to-review',query))} ariaExpanded={open}
                                     ariaControls="basic-collapsible">
                                     <Text variant='bodyMd' as='h4' fontWeight='bold'>Setup your UGC collection</Text>
 
@@ -66,7 +84,12 @@ function GetStarted() {
 
                                     <div className='polaris-black-btn-global' style={{marginTop:"10px"}}>
 
-                                        <Button primary onClick={() => router.get(route('settings',query))}>Configure Landing Page</Button>
+                                        <Button
+                                            primary
+                                            onClick={() => handleLandingPage(route('settings', query))}
+                                        >
+                                            Configure Landing Page
+                                        </Button>
                                     </div>
 
 
@@ -84,7 +107,7 @@ function GetStarted() {
                                 }
                             </div>
                             <div >
-                                <div role='button' type="button" onClick={handleToggle} ariaExpanded={open}
+                                <div role='button' type="button" ariaExpanded={open}
                                     ariaControls="basic-collapsible">
                                       <Text variant='bodyMd' as='h4' fontWeight='bold'>Approve or deny your videos.</Text>
 

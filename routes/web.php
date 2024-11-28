@@ -210,6 +210,9 @@ Route::group(['middleware' => ['verify.embedded', 'verify.shopify', 'billable', 
     Route::post('removeInspirationalVideo', [SettingsController::class, 'removeInspirationalVideo'])->name('removeInspirationalVideo');
     Route::post('removeLogo', [SettingsController::class, 'removeLogo'])->name('removeLogo');
     Route::post('fetchCurrentUser', [SettingsController::class, 'fetchCurrentUser'])->name('fetchCurrentUser');
+    Route::get('curent-user', [SettingsController::class, 'currentUser'])->name('currentUser');
+    Route::get('visit-landing', [SettingsController::class, 'visitLandingPage'])->name('visitLandingPage');
+
     Route::post('save-email-settings', [SettingsController::class, 'saveEmailSettings'])->name('save-email-settings');
     Route::get('fetch-email-settings', [SettingsController::class, 'fetchEmailSettings'])->name('fetch-email-settings');
     Route::post('checkuploadedlogo', [SettingsController::class, 'checkuploadedlogo'])->name('checkuploadedlogo');
