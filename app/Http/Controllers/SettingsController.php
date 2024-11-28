@@ -390,6 +390,17 @@ class SettingsController extends Controller
         ]);
     }
 
+    public function currentUser(Request $request)
+    {
+        $currentUser = Auth::user();
+        $data['user'] = $currentUser;
+        return response()->json([
+            'success' => true,
+            'message' => "Fetch data successfully",
+            'data' => $data
+        ]);
+    }
+
     /**
      * create Email Template for a Merchant
      * @param Request $request
@@ -615,6 +626,17 @@ class SettingsController extends Controller
             'success' => true,
             'message' => "Logs fetched",
             'data' => $data
+        ]);
+    }
+
+    public function visitLandingPage(){
+        $user = User::find(Auth::user()->id);
+        $user->landing_page_visited = 1;
+        $user->save();
+        return response()->json([
+            'success' => true,
+            'message' => "Landing Page Visited",
+            'data' => null
         ]);
     }
 }

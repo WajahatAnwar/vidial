@@ -111,6 +111,7 @@ function Dashboard() {
     const [approvedUserVideoId, setapprovedUserVideoId] = useState(false);
     const [approvedVideoType, setApprovedVideoType] = useState(null);
     const [isClicked, setisClicked] = useState(false);
+    const [modalType,setModalType] = useState(null);
 
 
     /******** Operation on Videos  ******/
@@ -229,6 +230,7 @@ function Dashboard() {
         formData.append("video_id", approvedUserVideoId);
         formData.append("type", approvedVideoType);
         if (approvedUserVideoId) {
+
             if (approvedVideoType == 'star_rating') {
                 setVideoFeedback("Congratulations, you just approved the star rating video.");
             } else {
@@ -510,6 +512,7 @@ function Dashboard() {
                                                                     onClick={() => {
                                                                         approvedUserVideo(
                                                                             video.id,
+
 
                                                                         );
                                                                     }}
@@ -819,7 +822,7 @@ function Dashboard() {
                 <Modal.Section>
                     <div style={{ textAlign: "center" }}>
                         <Text variant="headingMd" as="h6">
-                            Are you sure you want to Star Approve?
+                            {`Are you sure you want to ${approvedVideoType ? 'Star Approved' : 'Approved'}?`}
                         </Text>
                         <div
                             style={{
