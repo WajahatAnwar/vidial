@@ -576,7 +576,8 @@ function WaitingVideos() {
                 <Modal.Section>
                     <div style={{ textAlign: "center" }}>
                         <Text variant="headingMd" as="h6">
-                            Are you sure you want to Approve?
+                            {`Are you sure you want to ${approvedVideoType ? 'Star Approved' : 'Approved'}?`}
+
                         </Text>
                         <div
                             style={{
