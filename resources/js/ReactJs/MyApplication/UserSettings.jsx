@@ -1349,12 +1349,14 @@ const UserSettings = () => {
                                             value={selected}
                                         />
                                         &nbsp;
+                                        <span className="black-global-btn">
                                         <Button primary onClick={() => {
                                             //setPageLink("/post-purchase-email")
                                             document.getElementById('sab_ok_id').click();
                                             setEmailTemplateButton(true);
                                             //setActiveRejectionConfirmModel(true);
                                         }} disabled={emailTemplateButton}>Save</Button>
+                                        </span>
                                     </div>
                                 </Card>
 

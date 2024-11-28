@@ -264,14 +264,33 @@ function Plans() {
                                 <p>
                                     <div
                                         style={{
-                                            marginBottom: "8px",
+                                            marginBottom: "0px",
                                             textAlign: "center",
                                             fontSize: "14px",
                                             padding: "5px 0",
                                         }}
                                     >
                                         {
-                                            data.name == 'Free' ? 'Full Access' : 'Unlimited Videos'
+                                            data.name == 'Free' ? 'Full Access' : ''
+                                        }
+                                    </div>
+                                </p>
+                                <p
+                                    style={{
+                                        marginBottom: "8px",
+                                        textAlign: "center",
+                                        fontSize: "14px",
+
+                                        padding: "0px 5px",
+                                    }}
+                                >
+                                    <div
+                                        style={{
+                                            background: "#F9F9F9B2", 
+                                        }}
+                                    >
+                                        {
+                                            (data.name == 'Free') || (data.name == 'Standard') ? '' : 'Klaviyo Integration'
                                         }
                                     </div>
                                 </p>
@@ -281,20 +300,20 @@ function Plans() {
                                         textAlign: "center",
                                         fontSize: "14px",
 
-                                        padding: "0px 5px",
+                                        padding: "5px 0px",
                                     }}
                                 >
                                     <div
                                         style={{
-                                            background: "#F9F9F9B2",
-                                            lineHeight: '2.4em'
+                                            background: "#F9F9F9B2", 
                                         }}
                                     >
                                         {
-                                            (data.name == 'Free') || (data.name == 'Standard') ? '' : 'Klaviyo Integration'
+                                            (data.name == 'Free') || (data.name == 'Standard')  || (data.name == 'Premium') ? '' : 'Managed Services'
                                         }
                                     </div>
                                 </p>
+                                
                             </div>
                         </Grid.Cell>
 

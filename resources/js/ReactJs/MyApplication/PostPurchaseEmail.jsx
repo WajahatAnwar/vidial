@@ -363,7 +363,7 @@ const PostPurchaseEmail = () => {
                                         <Text variant="headingLg" as="h5">
                                             Body Text
                                         </Text>
-                                        <p style={{ fontSize: "15px", marginTop: "20px", marginBottom: "10px", fontWeight: "500" }}>Email Name</p>
+                                        <p style={{ fontSize: "15px", marginTop: "20px", marginBottom: "10px", fontWeight: "500" }}>Email From Name</p>
                                         <TextField
 
                                             placeholder=""
@@ -412,7 +412,7 @@ const PostPurchaseEmail = () => {
                                                 content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
                                             }}
                                         />
-                                        <p style={{ fontSize: "15px", marginTop: "20px", marginBottom: "10px", fontWeight: "500" }}>Button Text(Linked to Landing Page)</p>
+                                        <p style={{ fontSize: "15px", marginTop: "20px", marginBottom: "10px", fontWeight: "500" }}>Button Text (Linked to Landing Page)</p>
                                         <TextField
 
                                             placeholder="Record Video"
