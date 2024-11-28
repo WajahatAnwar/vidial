@@ -7,7 +7,13 @@
     background-color: #353535 !important;
     color: #ffffff;
 }
-
+.sent-video-email-wrapper
+{
+    white-space: nowrap; 
+    width: 180px; 
+    overflow: hidden;
+    text-overflow: ellipsis; 
+}
 .video-wrapper-cstm video {
     min-height: 200px !important;
     max-height: 200px !important;
