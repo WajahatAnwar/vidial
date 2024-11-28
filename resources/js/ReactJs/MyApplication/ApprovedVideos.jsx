@@ -102,6 +102,7 @@ function ApprovedVideos() {
                                                     }}
                                                 >
                                                     <div
+                                                    className="video-wrapper-cstm"
                                                         style={{
                                                             display: "flex",
                                                             flexDirection: "column",

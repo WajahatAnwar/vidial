@@ -71,10 +71,10 @@ function Dashboard() {
         "Please Confirm"
     );
     const [rejectVideoFeedback, setRejectVideoFeedback] = useState(
-        "Are you sure you want to Reject?"
+        "Are you sure you want to Deny?"
     );
     const [rejectVideoFeedbackTitlePopup, setrejectVideoFeedbackTitlePopup] =
-        useState("Confirmation for reject video");
+        useState("Please confirm");
     const [rejectVideoBodyText, setrejectVideoBodyText] = useState(
         "Video Rejected Successfully"
     );
@@ -442,6 +442,7 @@ function Dashboard() {
                                                     }}
                                                 >
                                                     <div
+                                                    className="video-wrapper-cstm"
                                                         style={{
                                                             textAlign: "center",
                                                         }}
@@ -645,6 +646,7 @@ function Dashboard() {
                                                     }}
                                                 >
                                                     <div
+                                                    className="video-wrapper-cstm"
                                                         style={{
                                                             display: "flex",
                                                             flexDirection: "column",
@@ -779,9 +781,11 @@ function Dashboard() {
                                 >
                                     Cancel
                                 </Button>
+                                <span className="black-global-btn">
                                 <Button primary onClick={handleRejectionPopup}>
-                                    Sure
+                                Confirm
                                 </Button>
+                                </span>
                             </ButtonGroup>
                         </div>
                     </div>

@@ -893,6 +893,7 @@ const Settings = () => {
                 marginRight: "10px",
                 background: "none",
                 border: "none",
+                marginLeft: "6px",
             }}
             onClick={togglePopoverActive}
         >

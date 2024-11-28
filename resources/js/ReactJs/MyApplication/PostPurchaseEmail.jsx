@@ -111,7 +111,7 @@ const PostPurchaseEmail = () => {
     );
     const uploadedFilesPreview = files.length > 0 && (
         <div style={{ padding: '0' }}>
-            <div style={{ width: "60px", marginBottom: "10px" }} >
+            <div className="delete-btn-icons"  style={{ width: "60px", marginBottom: "10px" }} >
                 {files.map((file, index) => (
                     <div key={index}>
                         <Thumbnail
@@ -341,7 +341,7 @@ const PostPurchaseEmail = () => {
                                             {(!files.length && alreadyUploadLogo) &&
 
                                                 <div style={{ padding: '0' }}>
-                                                    <div style={{ width: "60px", marginBottom: "10px" }} >
+                                                    <div className="delete-btn-icons"  style={{ width: "60px", marginBottom: "10px" }} >
                                                         <Thumbnail
                                                             size="medium"
                                                             alt="img"
