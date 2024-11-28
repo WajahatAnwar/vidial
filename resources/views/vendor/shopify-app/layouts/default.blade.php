@@ -46,11 +46,11 @@
             // });
             const dashboardBlock = actions.AppLink.create(app, {
                 label: 'Dashboard',
-                destination: '/',
+                destination: '/app-dashboard',
             });
             const getstartedBlock = actions.AppLink.create(app, {
                 label: 'Get Started',
-                destination: '/get-started',
+                destination: '/',
             });
             const videostoreviewblock = actions.AppLink.create(app, {
                 label: 'Videos to Review',

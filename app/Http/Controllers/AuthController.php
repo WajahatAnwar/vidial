@@ -267,7 +267,7 @@ class AuthController extends Controller
         curl_close($curl);
         // dd($response);
 
-        return Inertia::render('MyApplication/Dashboard');
+        return Inertia::render('MyApplication/GetStarted');
     }
 
     /******************* on App Install Email Settings ***********************/
@@ -378,5 +378,10 @@ class AuthController extends Controller
             ['user_id' => $user_id, 'type' => 'Reminder'],
             $emailTemplate
         );
+    }
+
+    public function appDashboard()
+    {
+        return Inertia::render('MyApplication/Dashboard');
     }
 }
