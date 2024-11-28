@@ -513,7 +513,7 @@ function Dashboard() {
                                                                         );
                                                                     }}
                                                                 >
-                                                                    <a href={`${pathname}/${query}`}>
+                                                                    <a href={`#`}>
                                                                         <Icon
                                                                             source={
                                                                                 CircleTickMajor
@@ -527,7 +527,7 @@ function Dashboard() {
                                                                         "20px",
                                                                 }}>
                                                                     <a
-                                                                        href={`${pathname}/${query}`}
+                                                                        href={'#'}
                                                                         onClick={() => {
                                                                             rejectVideo(
                                                                                 video.id
