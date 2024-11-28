@@ -111,7 +111,7 @@ const PostPurchaseEmail = () => {
     );
     const uploadedFilesPreview = files.length > 0 && (
         <div style={{ padding: '0' }}>
-            <div style={{ width: "60px", marginBottom: "10px" }} >
+            <div className="delete-btn-icons"  style={{ width: "60px", marginBottom: "10px" }} >
                 {files.map((file, index) => (
                     <div key={index}>
                         <Thumbnail
@@ -341,7 +341,7 @@ const PostPurchaseEmail = () => {
                                             {(!files.length && alreadyUploadLogo) &&
 
                                                 <div style={{ padding: '0' }}>
-                                                    <div style={{ width: "60px", marginBottom: "10px" }} >
+                                                    <div className="delete-btn-icons"  style={{ width: "60px", marginBottom: "10px" }} >
                                                         <Thumbnail
                                                             size="medium"
                                                             alt="img"
@@ -503,7 +503,7 @@ const PostPurchaseEmail = () => {
                                         src={alreadyUploadLogo} />}
                                     <div className="previewEditor">
                                         <Editor
-                                            apiKey='your-api-key'
+                                            apiKey="hqm26nvds57hdfxpid020b1eoxyt6py4dbngc1zww0704kh3"
                                             value={processedContent}
                                             onEditorChange={handleEditorChange}
                                             init={{

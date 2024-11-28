@@ -188,7 +188,7 @@ function Plans() {
                                 >
                                     ${Math.floor(data.price)}
                                 </Text>
-                                <Text variant="bodySm" as="p" color="subdued">
+                                <Text variant="bodySm" as="p">
                                     per month
                                 </Text>
                                 <div
@@ -222,7 +222,7 @@ function Plans() {
                                         marginBottom: "8px",
                                         textAlign: "center",
                                         fontSize: "14px",
-                                        padding: "5px 0",
+                                        padding: "0px 5px",
                                     }}
                                 >
                                     {data.name == 'Free' ? '' : data.name == 'Standard' ? 'Everything in Free' : data.name == 'Premium' ? 'Everything in Standard' : 'Everything in Premium'}
@@ -233,7 +233,7 @@ function Plans() {
                                         marginBottom: "8px",
                                         textAlign: "center",
                                         fontSize: "14px",
-                                        padding: "5px 0",
+                                        padding: "0px 5px",
                                     }}
                                 >
                                     <div
@@ -253,11 +253,25 @@ function Plans() {
                                             marginBottom: "8px",
                                             textAlign: "center",
                                             fontSize: "14px",
-                                            padding: "5px 0",
+                                            padding: "0px 5px",
                                         }}
                                     >
                                         {
                                             data.name == 'Free' ? '1  video monthly' : 'Unlimited Videos'
+                                        }
+                                    </div>
+                                </p>
+                                <p>
+                                    <div
+                                        style={{
+                                            marginBottom: "8px",
+                                            textAlign: "center",
+                                            fontSize: "14px",
+                                            padding: "5px 0",
+                                        }}
+                                    >
+                                        {
+                                            data.name == 'Free' ? 'Full Access' : 'Unlimited Videos'
                                         }
                                     </div>
                                 </p>
@@ -267,7 +281,7 @@ function Plans() {
                                         textAlign: "center",
                                         fontSize: "14px",
 
-                                        padding: "5px 0",
+                                        padding: "0px 5px",
                                     }}
                                 >
                                     <div

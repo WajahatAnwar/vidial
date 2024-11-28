@@ -33,7 +33,7 @@ function WaitingVideos() {
         "Are you sure you want to Reject?"
     );
     const [rejectVideoFeedbackTitlePopup, setrejectVideoFeedbackTitlePopup] =
-        useState("Confirmation for reject video");
+        useState("Please confirm");
     const [rejectVideoBodyText, setrejectVideoBodyText] = useState(
         "Video Rejected Successfully"
     );
@@ -353,6 +353,7 @@ function WaitingVideos() {
                                                     }}
                                                 >
                                                     <div
+                                                    className="video-wrapper-cstm"
                                                         style={{
                                                             textAlign: "center",
                                                         }}
@@ -537,9 +538,11 @@ function WaitingVideos() {
                                 >
                                     Cancel
                                 </Button>
+                                <span className="black-global-btn">
                                 <Button primary onClick={handleRejectionPopup}>
-                                    Sure
+                                    Confirm
                                 </Button>
+                                </span>
                             </ButtonGroup>
                         </div>
                     </div>

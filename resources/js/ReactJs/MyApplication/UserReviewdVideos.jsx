@@ -153,6 +153,7 @@ function UserReviewdVideos() {
                                                         }}
                                                     >
                                                         <div
+                                                        className="video-wrapper-cstm"
                                                             style={{
                                                                 textAlign: "center",
                                                             }}

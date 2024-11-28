@@ -20,7 +20,7 @@ import {
 import { CircleCancelMajor, NoteMinor } from "@shopify/polaris-icons";
 import { Editor } from '@tinymce/tinymce-react';
 import { useCallback, useEffect, useRef, useState } from "react";
-// import backIcon from "@/ReactJs/MyApplication/imges/backIcon.svg";
+import backIcon from "@/ReactJs/MyApplication/imges/backIcon.png";
 import ColorWheel from "@/ReactJs/MyApplication/imges/collorWheel.png";
 import Delete from "@/ReactJs/MyApplication/imges/Delete.svg";
 
@@ -107,7 +107,7 @@ const UgcApprovedEmail = () => {
     );
     const uploadedFilesPreview = files.length > 0 && (
         <div style={{ padding: '0' }}>
-            <div style={{ width: "60px", marginBottom: "10px" }} >
+            <div className="delete-btn-icons"  style={{ width: "60px", marginBottom: "10px" }} >
                 {files.map((file, index) => (
                     <div key={index}>
                         <Thumbnail
@@ -299,7 +299,7 @@ const UgcApprovedEmail = () => {
                                     router.get(route('email', query));
                                 }
                             }} style={{ display: "flex", marginLeft: "10px", marginBottom: "10px", cursor: "pointer" }}>
-                                {/* <div><img src={backIcon} style={{ marginTop: "4px", }}></img></div> */}
+                                <div><img src={backIcon} style={{ marginTop: "4px", }}></img></div>
                                 <p style={{ fontSize: "16px", fontWeight: "500", marginLeft: "8px", marginBottom: "4px" }}>Emails</p>
                             </div>
 
@@ -334,7 +334,7 @@ const UgcApprovedEmail = () => {
                                             {uploadedFilesPreview}
                                             {(!files.length && alreadyUploadLogo) &&
                                                 <div style={{ padding: '0' }}>
-                                                    <div style={{ width: "60px", marginBottom: "10px" }} >
+                                                    <div className="delete-btn-icons"  style={{ width: "60px", marginBottom: "10px" }} >
                                                         <Thumbnail
                                                             size="medium"
                                                             alt="img"
@@ -393,7 +393,8 @@ const UgcApprovedEmail = () => {
                                         <p style={{ fontSize: "15px", marginTop: "20px", marginBottom: "10px", fontWeight: "500" }}>Content</p>
 
                                         <Editor
-                                            apiKey='your-api-key'
+                                            apiKey='hqm26nvds57hdfxpid020b1eoxyt6py4dbngc1zww0704kh3'
+
                                             onInit={(evt, editor) => editorRef.current = editor}
                                             onEditorChange={handleEditorChange}
                                             initialValue={htmlContent}
@@ -500,7 +501,7 @@ const UgcApprovedEmail = () => {
                                     src={alreadyUploadLogo} />}
                                 <div className="previewEditor">
                                     <Editor
-                                        apiKey='your-api-key'
+                                        apiKey="hqm26nvds57hdfxpid020b1eoxyt6py4dbngc1zww0704kh3"
                                         value={processedContent}
                                         onEditorChange={handleEditorChange}
                                         init={{

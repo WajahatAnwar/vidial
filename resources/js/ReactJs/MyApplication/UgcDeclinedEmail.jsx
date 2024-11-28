@@ -103,7 +103,7 @@ const UgcDeclinedEmail = () => {
     );
     const uploadedFilesPreview = files.length > 0 && (
         <div style={{ padding: '0' }}>
-            <div style={{ width: "60px", marginBottom: "10px" }} >
+            <div className="delete-btn-icons"  style={{ width: "60px", marginBottom: "10px" }} >
                 {files.map((file, index) => (
                     <div key={index}>
                         <Thumbnail
@@ -330,7 +330,7 @@ const UgcDeclinedEmail = () => {
                                             {uploadedFilesPreview}
                                             {(!files.length && alreadyUploadLogo) &&
                                                 <div style={{ padding: '0' }}>
-                                                    <div style={{ width: "60px", marginBottom: "10px" }} >
+                                                    <div className="delete-btn-icons"  style={{ width: "60px", marginBottom: "10px" }} >
                                                         <Thumbnail
                                                             size="medium"
                                                             alt="img"
@@ -391,7 +391,7 @@ const UgcDeclinedEmail = () => {
                                         <p style={{ fontSize: "15px", marginTop: "20px", marginBottom: "10px", fontWeight: "500" }}>Content</p>
 
                                         <Editor
-                                            apiKey='your-api-key'
+                                            apiKey="hqm26nvds57hdfxpid020b1eoxyt6py4dbngc1zww0704kh3"
                                             onInit={(evt, editor) => editorRef.current = editor}
                                             onEditorChange={handleEditorChange}
                                             initialValue={htmlContent}
@@ -498,7 +498,7 @@ const UgcDeclinedEmail = () => {
                                     src={alreadyUploadLogo} />}
                                 <div className="previewEditor">
                                     <Editor
-                                        apiKey='your-api-key'
+                                        apiKey="hqm26nvds57hdfxpid020b1eoxyt6py4dbngc1zww0704kh3"
                                         value={processedContent}
                                         onEditorChange={handleEditorChange}
                                         init={{
