@@ -420,7 +420,6 @@ const ReminderEmail = () => {
                                             placeholder="Record Video"
                                             value={buttonText}
                                             onChange={(e) => setButtonText(e)}
-
                                         />
                                         <p style={{ fontSize: "15px", marginTop: "20px", marginBottom: "10px", fontWeight: "500" }}>Button Color</p>
                                         <div style={{ display: "flex", alignItems: "center" }}>

@@ -480,7 +480,7 @@ function WaitingVideos() {
                 </Grid.Cell>
             </Grid>
             {currentPage >= totalPages ? null : (
-                <div className="button_center">
+                <div className="button_center black-global-btn">
                     <Button
                         onClick={() => {
                             setCurrentPage((prevPage) => prevPage + 1);
