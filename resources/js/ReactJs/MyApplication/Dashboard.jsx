@@ -646,7 +646,9 @@ function Dashboard() {
                                                 >
                                                     <div
                                                         style={{
-                                                            textAlign: "center",
+                                                            display: "flex",
+                                                            flexDirection: "column",
+                                                            alignItems: "center",
                                                         }}
                                                     >
                                                         <video
