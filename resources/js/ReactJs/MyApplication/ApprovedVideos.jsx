@@ -154,6 +154,9 @@ function ApprovedVideos() {
                                                                 fontSize: "15px",
                                                                 marginTop: "10px",
                                                                 cursor: "pointer",
+                                                                display: "flex",
+                                                                alignItems: "center",
+                                                                gap: "5px"
                                                             }}
                                                         >
                                                             <img
