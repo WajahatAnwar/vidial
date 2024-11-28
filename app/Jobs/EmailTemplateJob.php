@@ -54,7 +54,7 @@ class EmailTemplateJob implements ShouldQueue
             $body['body'] = str_replace('{{button}}', $button, $body['body']);
             $body['body'] = str_replace('{{reason_decline}}', $this->details['reason_decline'], $body['body']);
             $body['body'] = str_replace('<br>', "", $body['body']);
-           
+
             $body['btn_text'] =  $user_template['btn_text'];
             $body['btn_color'] =  $user_template['btn_color'];
             $body['url'] =  $this->details['url'];
@@ -62,7 +62,7 @@ class EmailTemplateJob implements ShouldQueue
             $user_template['subject'] =str_replace('{{amount}}', $symbol.$this->details['amount'], $user_template['subject']);
             $user_template['subject'] = str_replace('{{storename}}',$this->details['storename'], $user_template['subject']);
             $from = str_replace('{{storename}}',$this->details['storename'], $user_template->from);
-            sendMail($this->details['mail'], $user_template['subject'], $this->details['view'], ['body' => $body], $from, $this->details['user_id']);
+            sendMail($this->details['mail'], $user_template['subject'], $this->details['view'], $this->details['user_id'],['body' => $body], $from);
             //dd('sent');
         }
     }

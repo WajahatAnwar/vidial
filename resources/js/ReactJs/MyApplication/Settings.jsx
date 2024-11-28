@@ -1627,7 +1627,7 @@ const Settings = () => {
                                     }
                                     <div>
                                         <p style={{ marginTop: "5px", marginBottom: "5px" }}>
-                                            Choose Favicon with ali
+                                            Choose Favicon
                                         </p>
 
                                     </div>
