@@ -129,9 +129,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::inertia('/single-reminder-email', 'MyApplication/ReminderEmail')->name('single-reminder-email');
 
     // UGC email routes
-    Route::inertia('/ugc-approved-email', 'MyApplication/UgcApprovedEmail')->name('single-ugc-approved-email');
-    Route::inertia('/ugc-declined-email', 'MyApplication/UgcDeclinedEmail')->name('single-ugc-declined-email');
-    Route::inertia('/ugc-star-approved', 'MyApplication/UgcStarApproved')->name('single-ugc-star-approved');
+    Route::inertia('/single-ugc-approved-email', 'MyApplication/UgcApprovedEmail')->name('single-ugc-approved-email');
+    Route::inertia('/single-ugc-declined-email', 'MyApplication/UgcDeclinedEmail')->name('single-ugc-declined-email');
+    Route::inertia('/single-ugc-star-approved', 'MyApplication/UgcStarApproved')->name('single-ugc-star-approved');
 
     Route::get('single-fetch-email-settings', [SettingsController::class, 'fetchEmailSettings'])->name('single-fetch-email-settings');
     Route::post('single-save-email-settings', [SettingsController::class, 'saveEmailSettings'])->name('single-save-email-settings');
