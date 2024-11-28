@@ -1541,7 +1541,7 @@ const UserEmail = () => {
 
                                 </Card>
 
-                                <Card sectioned>
+                                {/* <Card sectioned>
                                     {
                                         gdError ? <Banner>
                                             <List type="bullet">
@@ -1553,7 +1553,7 @@ const UserEmail = () => {
 
                                             </List>
                                         </Banner> : ''
-                                    }
+                                    } */}
                                     {/* <div className="googledrivesection"> */}
                                         {/* <div style={{ marginBottom: "15px" }}>
                                             <Text variant="headingLg" as="h5">
@@ -1635,7 +1635,7 @@ const UserEmail = () => {
                                             }
                                         </div> */}
                                     {/* </div> */}
-                                </Card>
+                                {/* </Card> */}
 
                                 {/********* Klavio  *********/}
                                 <Card sectioned>
