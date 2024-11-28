@@ -1555,19 +1555,12 @@ const UserEmail = () => {
                                         </Banner> : ''
                                     }
                                     <div className="googledrivesection">
-                                        <div style={{ marginBottom: "15px" }}>
+                                        {/* <div style={{ marginBottom: "15px" }}>
                                             <Text variant="headingLg" as="h5">
                                                 Google Drive
                                             </Text>
                                         </div>
-                                        {/* <p
-                                            style={{
-                                                marginTop: "15px",
-                                                marginBottom: "15px",
-                                            }}
-                                        >
-                                            Please contact the live support to verify your store and remove our Branding “Powered by Vidial” for FREE.
-                                        </p> */}
+
                                         <div style={{ marginTop: "10px", width: "450px" }}>
                                             <TextField
                                                 value={gdApi}
@@ -1640,7 +1633,7 @@ const UserEmail = () => {
                                                         Connect
                                                     </Button>
                                             }
-                                        </div>
+                                        </div> */}
                                     </div>
                                 </Card>
 
