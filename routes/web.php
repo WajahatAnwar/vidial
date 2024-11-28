@@ -147,6 +147,7 @@ Route::group(['middleware' => ['auth']], function () {
 Route::group(['middleware' => ['verify.embedded', 'verify.shopify', 'billable', 'update.plan']], function () {
 
     Route::get('/', [AuthController::class, 'index'])->name('home');
+    Route::get('/app-dashboard', [AuthController::class, 'appDashboard'])->name('app.dashboard');
 
     Route::get('/get_shop_real', function () {
         $user = Auth::user();
