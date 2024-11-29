@@ -42,7 +42,7 @@ function GetStarted() {
         fetch(route('currentUser',query)).then((response) => response.json()).then((data) => {
             setBlockCheckbox(data.data.user.landing_page_visited);
             setBlockConversion(data.data.user.landing_page_visited);
-            setUser(data.data.user.store_name);
+            setUser(data.data.user);
         });
     });
     return (
