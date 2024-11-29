@@ -111,7 +111,7 @@ function GetStarted() {
                                 }
                             </div>
                             <div >
-                                <div role='button' type="button" ariaExpanded={open}
+                                <div role='button' type="button" onClick={() => handleLandingPage('video-to-review')}  ariaExpanded={open}
                                     ariaControls="basic-collapsible">
                                       <Text variant='bodyMd' as='h4' fontWeight='bold'>Approve or deny your videos.</Text>
 
