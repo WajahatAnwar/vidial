@@ -17,6 +17,7 @@ function GetStarted() {
     const [faqTwo, setFaqTwo] = useState(true);
     const [blockCheckbox, setBlockCheckbox] = useState(false);
     const [blockConversion, setBlockConversion] = useState(false);
+    const [user,setUser] = useState(null);
 
     const handleToggle = useCallback(() => handleLanidngPage(), []);
     const handleFAQOneToggle = useCallback(() => setFaqOne((faqOne) => !faqOne), []);
@@ -29,7 +30,8 @@ function GetStarted() {
                 setBlockConversion(true);
             });
         }
-        window.open(path);
+        let redirect = `https://admin.shopify.com/store/${user?.store_name}/apps/vidial-stagging-garner/${path}`; 
+        window.open(redirect);
 
 
 
@@ -39,6 +41,7 @@ function GetStarted() {
         fetch(route('currentUser',query)).then((response) => response.json()).then((data) => {
             setBlockCheckbox(data.data.user.landing_page_visited);
             setBlockConversion(data.data.user.landing_page_visited);
+            setUser(data.data.user.store_name);
         });
     });
     return (
@@ -64,7 +67,7 @@ function GetStarted() {
                                 }
                             </div>
                             <div >
-                                <div role='button' type="button" onClick={() => handleLandingPage(route('video-to-review'))} ariaExpanded={open}
+                                <div role='button' type="button" onClick={() => handleLandingPage('video-to-review')} ariaExpanded={open}
                                     ariaControls="basic-collapsible">
                                     <Text variant='bodyMd' as='h4' fontWeight='bold'>Setup your UGC collection</Text>
 
@@ -86,7 +89,7 @@ function GetStarted() {
 
                                         <Button
                                             primary
-                                            onClick={() => handleLandingPage(route('settings'))}
+                                            onClick={() => handleLandingPage('settings')}
                                         >
                                             Configure Landing Page
                                         </Button>
