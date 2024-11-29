@@ -64,7 +64,7 @@ function GetStarted() {
                                 }
                             </div>
                             <div >
-                                <div role='button' type="button" onClick={() => handleLandingPage(route('video-to-review',query))} ariaExpanded={open}
+                                <div role='button' type="button" onClick={() => handleLandingPage(route('video-to-review'))} ariaExpanded={open}
                                     ariaControls="basic-collapsible">
                                     <Text variant='bodyMd' as='h4' fontWeight='bold'>Setup your UGC collection</Text>
 
@@ -86,7 +86,7 @@ function GetStarted() {
 
                                         <Button
                                             primary
-                                            onClick={() => handleLandingPage(route('settings', query))}
+                                            onClick={() => handleLandingPage(route('settings'))}
                                         >
                                             Configure Landing Page
                                         </Button>
