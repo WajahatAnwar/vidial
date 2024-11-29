@@ -30,7 +30,7 @@ function GetStarted() {
                 setBlockConversion(true);
             });
         }
-        let redirect = `https://admin.shopify.com/store/${user?.store_name}/apps/vidial-stagging-garner/${path}`; 
+        let redirect = `https://admin.shopify.com/store/${user?.store_name}/apps/vidial-staging-1/${path}`; 
         window.open(redirect);
 
 
