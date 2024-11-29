@@ -68,7 +68,7 @@ function GetStarted() {
                                 }
                             </div>
                             <div >
-                                <div role='button' type="button" onClick={() => handleLandingPage('video-to-review')} ariaExpanded={open}
+                                <div role='button' type="button" onClick={() => handleLandingPage('videos-to-review')} ariaExpanded={open}
                                     ariaControls="basic-collapsible">
                                     <Text variant='bodyMd' as='h4' fontWeight='bold'>Setup your UGC collection</Text>
 
