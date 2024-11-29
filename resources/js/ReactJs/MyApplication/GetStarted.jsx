@@ -30,9 +30,11 @@ function GetStarted() {
                 setBlockConversion(true);
             });
         }
-        const name = store_name.split(".myshopify.com")[0];
-        let redirect = `https://admin.shopify.com/store/${user?.store_name}/apps/vidial-staging-1/${path}`; 
-        window.open(redirect);
+        if (store_name){
+            const name = store_name.split(".myshopify.com")[0];
+            let redirect = `https://admin.shopify.com/store/${user?.store_name}/apps/vidial-staging-1/${path}`; 
+            window.open(redirect);
+        }
     }
 
     useEffect(() => {
