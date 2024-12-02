@@ -73,7 +73,7 @@
                 destination: '/plans',
             });
             const logs = actions.AppLink.create(app, {
-                label: 'logs',
+                label: 'Logs',
                 destination: '/logs',
             });
 
