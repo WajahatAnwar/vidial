@@ -8,7 +8,7 @@
 
 
             <p  class="text-center mb-2" style="color: {{$settings->page_color}};font-size: 20px;font-weight: 500;">
-            {{$settings->instruction_subtitle ? $settings->instruction_subtitle : 'Instructions'}}
+            {{$settings->instruction_subtitle ? $settings->instruction_subtitle : 'Please follow the instructions below:'}}
             </p>
             <div style="">
 

@@ -74,7 +74,7 @@ const Settings = () => {
         [activeRejectionModel]
     );
     const [videoTitle, setVideoTitle] = useState("");
-    const [instructionSubTitle, setInstructionSubTitle] = useState("Instructions");
+    const [instructionSubTitle, setInstructionSubTitle] = useState("Please follow the instructions below:");
     const handleDropzoneText = useCallback((newValue) => setVideoTitle(newValue), []);
     const [senderEmail, setSenderEmail] = useState("");
     const [gdApi, setGdApi] = useState("");
@@ -570,7 +570,7 @@ const Settings = () => {
                     setLandingPage(data.data.page_display_to_customers);
                     setEmailSentToValue(data.data.email_sent_to_customer);
                     setLandingPageDisplayedValue(data.data.page_link);
-                    setInstructionSubTitle(data.data.instruction_subtitle ?? 'Instructions');
+                    setInstructionSubTitle(data.data.instruction_subtitle ?? 'Please follow the instructions below:');
                     setLogoImage(data.data.logo);
                     //setVideoTitle(data.data.dropzone_text)
                     setAlreadyUploadedLogo(data.data.logo)
@@ -1675,7 +1675,7 @@ const Settings = () => {
                                                 marginBottom: "5px",
                                             }}
                                         >
-                                            Please follow the instructions below:
+                                            Instructions Title
                                         </p>
                                         <TextField
                                             value={title}
