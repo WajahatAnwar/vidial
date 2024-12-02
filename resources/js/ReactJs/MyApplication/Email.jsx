@@ -107,7 +107,7 @@ const Email = () => {
     const [storeCurrency, setStoreCurrency] = useState("");
     const [errorMessages, setErorrMessages] = useState([]);
     const [currentLang, setCurrentLang] = useState("en");
-    const [isSettingSave, setIsSettingSave] = useState("");
+    const [isSettingSave, setIsSettingSave] = useState(false);
     const [emailTemplateButton, setEmailTemplateButton] = useState(true);
     const [files, setFiles] = useState([]);
     const [alreadyUploadLogo, setAlreadyUploadedLogo] = useState('');
@@ -137,7 +137,7 @@ const Email = () => {
                 if (data.success) {
                     setPreviewVedio("")
                     setPreviewVedioHide(false);
-                    setIsSettingSave(new Date().getSeconds());
+                    setIsSettingSave(!isSettingSave);
                 } else {
                 }
             })
@@ -160,7 +160,7 @@ const Email = () => {
                     //setPreviewVedio("")
                     setPreviewLogoHide(false);
                     setPreviwLogo("");
-                    setIsSettingSave(new Date().getSeconds());
+                    setIsSettingSave(!isSettingSave);
                 } else {
                 }
             })
@@ -382,7 +382,8 @@ const Email = () => {
             body: formData,
             method: 'POST'
         }).then(response => response.json()).then((data) => {
-            console.log(data);
+            setSuccessMsg("Connected Successfully");
+            toggleActive();
         })
     }
     /******* setter for klavio *********/
@@ -451,7 +452,7 @@ const Email = () => {
                 if (data.success) {
                     setSuccessMsg("Settings Added Successfully");
                     toggleActive();
-                    setIsSettingSave(new Date().getSeconds());
+                    setIsSettingSave(!isSettingSave);
                 }
             })
     }
@@ -774,7 +775,7 @@ const Email = () => {
                     setIsLoading(false);
                     setSuccessMsg("Settings Added Successfully");
                     toggleActive();
-                    setIsSettingSave(new Date().getSeconds());
+                    setIsSettingSave(!isSettingSave);
                 } else {
                     setIsLoading(false);
                     setError(true);
@@ -983,7 +984,7 @@ const Email = () => {
                 if (data.success) {
                     setSuccessMsg('save store handle');
                     toggleActive();
-                    setIsSettingSave(new Date().getSeconds());
+                    setIsSettingSave(!isSettingSave);
                 }
             })
         }
