@@ -578,7 +578,7 @@ const UserEmail = () => {
                     value: "Describe the main benefits of the product",
                 },
             ]);
-            setTitle(`Send us a video to receive a ${storeCurrency}${priceValue} discount code`);
+            setTitle(`Send us a video to receive a discount of up to ${storeCurrency}${priceValue} discount code`);
             setVideoTitle("Here's an example of a great video");
             setButtonText('Upload Your Video');
 
@@ -1670,7 +1670,7 @@ const UserEmail = () => {
                                                 value={klavioApi}
                                                 onChange={handleKlavioApi}
                                                 autoComplete="off"
-                                                placeholder="Klaviyo API Key"
+                                                placeholder="Set Klaviyo API Key"
 
                                             />
                                         </div>
