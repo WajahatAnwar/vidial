@@ -1123,7 +1123,7 @@ const Email = () => {
                                     xl: 12,
                                 }}
                             >
-                                <Ticker></Ticker>
+                                {/* <Ticker></Ticker> */}
                                 <br></br>
                                 {error && (
                                     <Card sectioned>
@@ -1599,7 +1599,7 @@ const Email = () => {
                                                             value={klavioApi}
                                                             onChange={handleKlavioApi}
                                                             autoComplete="off"
-                                                            placeholder="Klaviyo Api Key"
+                                                            placeholder="Klaviyo API Key"
 
                                                         />
                                                     </div>
