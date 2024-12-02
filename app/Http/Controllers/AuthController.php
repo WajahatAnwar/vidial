@@ -218,7 +218,7 @@ class AuthController extends Controller
             'store_credit' => 50,
             'logo' => '',
             'instructions' => $inst,
-            'instruction_title' => 'Send us a video to receive a discount of up to' . getCurrencySymbol($shop->store_currency) . '75 discount code',
+            'instruction_title' => 'Send us a video to receive a discount of up to ' . getCurrencySymbol($shop->store_currency) . '75 discount code',
             'video' => '',
             'page_color' => '#28282B',
             'page_display_to_customers' => 3,
