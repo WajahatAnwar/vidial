@@ -551,7 +551,7 @@ const Email = () => {
                     setLandingPage(data.data.page_display_to_customers);
                     setEmailSentToValue(data.data.email_sent_to_customer);
                     setLandingPageDisplayedValue(data.data.page_link);
-                    setInstructionSubTitle(data.data.instruction_subtitle ?? 'Instructions');
+                    setInstructionSubTitle(data.data.instruction_subtitle ?? 'Please follow the instructions below:');
                     setLogoImage(data.data.logo);
                     //setVideoTitle(data.data.dropzone_text)
                     setAlreadyUploadedLogo(data.data.logo)
