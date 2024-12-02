@@ -59,10 +59,10 @@ function GetStarted() {
     });
     return (
         <div>
-            <div className='px-[350px] pt-5'>
+            <Page >
                 <Ticker></Ticker>
 
-            </div>
+            </Page>
             <Page title="Get Started" subtitle='Get started by following the instructions below'>
                 <Card>
                     <div style={{ padding: "15px" }}>

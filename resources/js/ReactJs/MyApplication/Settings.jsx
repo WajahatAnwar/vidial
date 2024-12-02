@@ -201,7 +201,7 @@ const Settings = () => {
     ];
 
     const [priceValue, setPriceValue] = useState("50");
-    const [starStoreCredit, setStarStoreCredit] = useState("50");
+    const [starStoreCredit, setStarStoreCredit] = useState("75");
 
     const priceValueHandler = useCallback((value) => setPriceValue(value), []);
     const priceStarValueHandler = useCallback((value) => setStarStoreCredit(value), []);
@@ -1675,7 +1675,7 @@ const Settings = () => {
                                                 marginBottom: "5px",
                                             }}
                                         >
-                                            Instructions Title
+                                            Please follow the instructions below:
                                         </p>
                                         <TextField
                                             value={title}

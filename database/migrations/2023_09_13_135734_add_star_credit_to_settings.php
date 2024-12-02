@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('settings', function (Blueprint $table) {
-            $table->string('star_credit')->default(50)->after('store_credit');
+            $table->string('star_credit')->default(75)->after('store_credit');
         });
     }
 
