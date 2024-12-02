@@ -196,7 +196,7 @@ function GetStarted() {
                             <div>
                                 <div onClick={handleFAQTwoToggle}>
                                     <Text variant='bodyMd' as='h4' fontWeight='bold'>
-                                        Why is GoodAuthentic?
+                                        What is GoodAuthentic?
                                     </Text>
 
                                 </div>
