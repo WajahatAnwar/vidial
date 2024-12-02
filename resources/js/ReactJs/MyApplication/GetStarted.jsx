@@ -1,14 +1,11 @@
 import { useCallback, useEffect, useState } from 'react';
-// import { router, usePage } from '@inertiajs/react';
 import { Button, Card, Collapsible, Divider, Page, Text } from '@shopify/polaris';
-import { router, usePage } from '@inertiajs/react';
+import { usePage } from '@inertiajs/react';
 // import DownIcon from '../components/imges/downIcon.svg';
-
-
-
-
-
 function GetStarted() {
+    const actions = window['app-bridge'].actions;
+    const Redirect = actions.Redirect;
+    const app = window.app;
     const page = usePage().props;
     const query = page.ziggy.query;
 
@@ -33,10 +30,22 @@ function GetStarted() {
         if (user && user.name){
             let name = user.name;
             name = name.split(".myshopify.com")[0];
-            let redirect = `https://admin.shopify.com/store/${name}/apps/vidial-staging-1/${path}`; 
+            let redirect = `https://admin.shopify.com/store/${name}/apps/vidial-staging-1/${path}`;
             window.open(redirect);
         }
     }
+
+    const handleRedirect = (path) => {
+        if (!blockCheckbox) {
+            fetch(route('visitLandingPage', query)).then((response) => response.json()).then((data) => {
+                setBlockCheckbox(true);
+                setBlockConversion(true);
+            });
+        }
+        console.log('path', path);
+        const redirect = Redirect.create(app);
+        redirect.dispatch(Redirect.Action.APP, path);
+    };
 
     useEffect(() => {
         fetch(route('currentUser',query)).then((response) => response.json()).then((data) => {
@@ -68,7 +77,7 @@ function GetStarted() {
                                 }
                             </div>
                             <div >
-                                <div role='button' type="button" onClick={() => handleLandingPage('videos-to-review')} ariaExpanded={open}
+                                <div role='button' type="button" onClick={() => handleRedirect('/videos-to-review')} ariaExpanded={open}
                                     ariaControls="basic-collapsible">
                                     <Text variant='bodyMd' as='h4' fontWeight='bold'>Setup your UGC collection</Text>
 
@@ -90,7 +99,7 @@ function GetStarted() {
 
                                         <Button
                                             primary
-                                            onClick={() => handleLandingPage('settings')}
+                                            onClick={() => handleRedirect('/settings')}
                                         >
                                             Configure Landing Page
                                         </Button>
@@ -110,8 +119,8 @@ function GetStarted() {
 
                                 }
                             </div>
-                            <div >
-                                <div role='button' type="button" onClick={() => handleLandingPage('video-to-review')}  ariaExpanded={open}
+                            <div>
+                                <div role='button' type="button" onClick={() => handleRedirect('/videos-to-review')}  ariaExpanded={open}
                                     ariaControls="basic-collapsible">
                                       <Text variant='bodyMd' as='h4' fontWeight='bold'>Approve or deny your videos.</Text>
 
