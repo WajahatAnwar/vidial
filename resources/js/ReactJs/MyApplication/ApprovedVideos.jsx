@@ -48,7 +48,7 @@ function ApprovedVideos() {
         <Page>
             <Grid>
                 <Grid.Cell columnSpan={{ xs: 6, sm: 6, md: 6, lg: 12, xl: 12 }}>
-                    <Ticker></Ticker>
+                    {/* <Ticker></Ticker> */}
                     <br></br>
                     <Card>
                         <Card.Section>

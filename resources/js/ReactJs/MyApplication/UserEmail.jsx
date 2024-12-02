@@ -1670,7 +1670,7 @@ const UserEmail = () => {
                                                 value={klavioApi}
                                                 onChange={handleKlavioApi}
                                                 autoComplete="off"
-                                                placeholder="Klaviyo Api Key"
+                                                placeholder="Klaviyo API Key"
 
                                             />
                                         </div>

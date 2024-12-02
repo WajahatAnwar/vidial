@@ -201,7 +201,7 @@ const Settings = () => {
     ];
 
     const [priceValue, setPriceValue] = useState("50");
-    const [starStoreCredit, setStarStoreCredit] = useState("50");
+    const [starStoreCredit, setStarStoreCredit] = useState("75");
 
     const priceValueHandler = useCallback((value) => setPriceValue(value), []);
     const priceStarValueHandler = useCallback((value) => setStarStoreCredit(value), []);
@@ -1176,7 +1176,7 @@ const Settings = () => {
                                     xl: 12,
                                 }}
                             >
-                                <Ticker></Ticker>
+                                {/* <Ticker></Ticker> */}
                                 {error && (
                                     <Card sectioned>
                                         <Banner>
@@ -1408,7 +1408,7 @@ const Settings = () => {
                                             marginBottom: "20px",
                                         }}
                                     >
-                                        This will be the URL of the Landing Page your customers will land on.
+                                        Update the URL of your landing page.
                                     </p>
 
                                     <div style={{ display: 'flex', alignItems: "center" }} className="storeHandleParent">
@@ -1675,7 +1675,7 @@ const Settings = () => {
                                                 marginBottom: "5px",
                                             }}
                                         >
-                                            Instructions Title
+                                            Please follow the instructions below:
                                         </p>
                                         <TextField
                                             value={title}
