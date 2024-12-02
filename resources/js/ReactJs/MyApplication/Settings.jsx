@@ -1176,7 +1176,7 @@ const Settings = () => {
                                     xl: 12,
                                 }}
                             >
-                                <Ticker></Ticker>
+                                {/* <Ticker></Ticker> */}
                                 {error && (
                                     <Card sectioned>
                                         <Banner>
@@ -1408,7 +1408,7 @@ const Settings = () => {
                                             marginBottom: "20px",
                                         }}
                                     >
-                                        This will be the URL of the Landing Page your customers will land on.
+                                        Update the URL of your landing page.
                                     </p>
 
                                     <div style={{ display: 'flex', alignItems: "center" }} className="storeHandleParent">

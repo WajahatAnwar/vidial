@@ -319,7 +319,7 @@ function Dashboard() {
             <Grid>
 
                 <Grid.Cell columnSpan={{ xs: 6, sm: 6, md: 6, lg: 12, xl: 12 }}>
-                    <Ticker></Ticker>
+                    {/* <Ticker></Ticker> */}
                     <br></br>
                     {/* <Text variant="headingXl" as="h4">
                         Welcome to GoodAuthentic 👋
