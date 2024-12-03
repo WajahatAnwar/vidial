@@ -41,7 +41,7 @@ export const downloadVideo = (video_path) => {
 /******** Operation on Videos  ******/
 export const videoOperation = (id, type) => {
     const status = type ? "Approved" : "Reject";
-    const confirmed = confirm(`Are you sure you want to ${status}?`);
+    const confirmed = confirm(`Are you sure you want to mark this ${status}?`);
     var formData = new FormData();
     formData.append("video_id", id);
     formData.append("type", type);
