@@ -242,7 +242,8 @@ Route::group(['middleware' => ['verify.embedded', 'verify.shopify', 'billable', 
     });
 
     Route::get('test', function () {
-
+        dispatch(new \App\Jobs\TestJob());
+        dd('done');
         $user = User::where('id', '301')->first();
 
         $webhooks = $user->api()->rest('get', '/admin/api/2021-07/webhooks.json');
