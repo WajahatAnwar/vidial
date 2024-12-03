@@ -41,7 +41,7 @@ class KlavioEmailJob implements ShouldQueue
     public function handle()
     {
         $client = new \GuzzleHttp\Client();
-        $this->eventName = $this->order ? 'Post Purchase '.$this->order['order_id'] : $this->video['type']. $this->video_id;
+        $this->eventName = $this->order ? 'Post Purchase '.$this->order['order_id'] : $this->video['type'].'_GoodAuthentic';
         $data = [
             "data" => [
                 "type" => "event",
@@ -61,7 +61,7 @@ class KlavioEmailJob implements ShouldQueue
                         "data" => [
                             "type" => "profile",
                             "attributes" => [
-                                "email" => $this->email, 
+                                "email" => $this->email,
                                 "properties" => [
                                     "newKey" => "New Value"
                                 ]
