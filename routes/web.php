@@ -136,7 +136,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('single-fetch-email-settings', [SettingsController::class, 'fetchEmailSettings'])->name('single-fetch-email-settings');
     Route::post('single-save-email-settings', [SettingsController::class, 'saveEmailSettings'])->name('single-save-email-settings');
 
-
+    Route::post('user-check-handle', [SettingsController::class, 'checkHandle'])->name('user_check_handle');
+    Route::post('user-store-handle', [SettingsController::class, 'saveHandle'])->name('user_store_handle');
 
 
 });

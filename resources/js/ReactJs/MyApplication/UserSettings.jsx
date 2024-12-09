@@ -228,7 +228,7 @@ const UserSettings = () => {
     const [store, setStore] = useState("");
     // const [baseUrl, setBaseUrl] = useState("https://8737-72-255-40-111.ngrok-free.app");
     //const [baseUrl, setBaseUrl] = useState("https://8737-72-255-40-111.ngrok-free.app");
-    const [baseUrl, setBaseUrl] = useState("https://8737-72-255-40-111.ngrok-free.app");
+    const [baseUrl, setBaseUrl] = useState("https://app.goodauthentic.com");
     const [imagename, setImagename] = useState("");
     const [videoname, setVideoname] = useState("");
     const [previewLogo, setPreviwLogo] = useState("");
@@ -336,7 +336,7 @@ const UserSettings = () => {
         setStoreHandleResponse(null);
         const formData = new FormData();
         formData.append('store_handle', newValue);
-        fetch('/check-handle', {
+        fetch('/user-check-handle', {
             method: "POST",
             body: formData
         })
@@ -974,7 +974,7 @@ const UserSettings = () => {
         const formData = new FormData();
         if (!isHandleAvailable) {
             formData.append('store_handle', storeHandle);
-            fetch('store_handle', {
+            fetch('user-store-handle?id='+id, {
                 method: "POST",
                 body: formData
             }).then((response) => response.json()).then((data) => {
@@ -1648,7 +1648,7 @@ const UserSettings = () => {
                                                         activeTootlTip ? <Tooltip content="This is default setting. You can not change it.">
                                                             <Icon source={CircleCancelMajor} color="critical" />
 
-                                                        </Tooltip> : <Icon source={CircleCancelMajor} color="critical" />
+                                                            </Tooltip> : <Icon source={CircleCancelMajor} color="critical" className="del-main-icon" />
                                                     }
 
                                                 </div>
@@ -2199,108 +2199,7 @@ const UserSettings = () => {
 
 
 
-                                <Card sectioned>
-                                    {
-                                        gdError ? <Banner>
-                                            <List type="bullet">
-                                                {
-                                                    <List.Item>{gdErrorMsg}</List.Item>
-
-                                                }
-
-
-                                            </List>
-                                        </Banner> : ''
-                                    }
-                                    <div className="googledrivesection">
-                                        <div style={{ marginBottom: "15px" }}>
-                                            <Text variant="headingLg" as="h5">
-                                                Google Drive
-                                            </Text>
-                                        </div>
-                                        {/* <p
-                                            style={{
-                                                marginTop: "15px",
-                                                marginBottom: "15px",
-                                            }}
-                                        >
-                                            Please contact the live support to verify your store and remove our Branding “Powered by Vidial” for FREE.
-                                        </p> */}
-                                        <div style={{ marginTop: "10px", width: "450px" }}>
-                                            <TextField
-                                                value={gdApi}
-                                                onChange={handleSenderApi}
-                                                autoComplete="off"
-                                                placeholder="Set Api Key"
-
-                                            />
-                                        </div>
-
-                                        <div style={{ marginTop: "10px", width: "450px" }}>
-                                            <TextField
-                                                value={gdClientId}
-                                                onChange={handleSenderClientId}
-                                                autoComplete="off"
-                                                placeholder="Set Client Id"
-
-                                            />
-                                        </div>
-
-                                        <div style={{ marginTop: "10px", width: "450px" }}>
-
-                                            <TextField
-                                                value={gdSecretKey}
-                                                onChange={handleSenderSecKey}
-                                                autoComplete="off"
-                                                placeholder="Set Secret Key"
-                                            />
-                                        </div>
-
-                                        <div style={{ marginTop: "10px", width: "450px" }}>
-
-                                            <TextField
-                                                value={gdFolder}
-                                                onChange={handleSenderFolder}
-                                                autoComplete="off"
-                                                placeholder="Folder Name"
-                                            />
-
-                                        </div>
-
-                                        <div style={{ marginTop: "10px", width: "450px" }}>
-
-                                            <TextField
-                                                value={baseUrl + '/google-login'}
-                                                autoComplete="off"
-                                                disabled
-                                                placeholder={baseUrl + '/google-login'}
-                                            />
-
-                                        </div>
-
-                                        <div style={{ marginTop: "20px" }}>
-                                            {
-                                                gDConnected ?
-
-                                                    <Button info >
-                                                        <div style={{ display: "flex" }} >
-
-                                                            <div>Connected</div>
-                                                            <div>
-                                                                <Icon
-                                                                    source={TickMinor}
-                                                                    color="base"
-                                                                />
-                                                            </div>
-                                                        </div>
-                                                    </Button>
-                                                    : <Button primary onClick={handleConnectGD}>
-                                                        Connect
-                                                    </Button>
-                                            }
-                                        </div>
-                                    </div>
-                                </Card>
+                               
 
 
 
