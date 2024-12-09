@@ -47,7 +47,7 @@ class CollectionsDeleteJob implements ShouldQueue
      */
     public function __construct($domain, $data)
     {
-        config()->set('shopify-app.job_queues.webhooks', 'que_cp');
+        // config()->set('shopify-app.job_queues.webhooks', 'que_cp');
 
         $this->domain = $domain;
         $this->data = $data;
