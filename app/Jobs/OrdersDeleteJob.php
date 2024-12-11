@@ -40,7 +40,7 @@ class OrdersDeleteJob implements ShouldQueue
      */
     public function __construct($shopDomain, $data)
     {
-        config()->set('shopify-app.job_queues.webhooks', 'que_orders');
+        // config()->set('shopify-app.job_queues.webhooks', 'que_orders');
 
         $this->shopDomain = $shopDomain;
         $this->data = $data;

@@ -1,3 +1,12 @@
+/*live del icon code  */
+
+.del-main-icon{
+    display:grid !important;
+    place-items: center !important;
+}
+
+
+
 .delete-btn-icons img {
     margin: auto;
     text-align: center;

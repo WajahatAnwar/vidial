@@ -271,7 +271,7 @@ const Settings = () => {
     const [store, setStore] = useState("");
     // const [baseUrl, setBaseUrl] = useState("https://031b-72-255-40-111.ngrok-free.app");
     //const [baseUrl, setBaseUrl] = useState("https://031b-72-255-40-111.ngrok-free.app");
-    const [baseUrl, setBaseUrl] = useState("https://phpstack-953879-3439374.cloudwaysapps.com");
+    const [baseUrl, setBaseUrl] = useState("https://app.goodauthentic.com");
     const [imagename, setImagename] = useState("");
     const [videoname, setVideoname] = useState("");
     const [previewLogo, setPreviwLogo] = useState("");
@@ -1619,7 +1619,7 @@ const Settings = () => {
                                                     alt="img"
                                                     source={baseUrl + '/logo/' + alreadyUploadLogo}
                                                 />
-                                                <div onClick={handleRemoveAlreadyUploadedLogo} >
+                                                    <div onClick={handleRemoveAlreadyUploadedLogo} className="del-main-icon" >
                                                     {
                                                         activeTootlTip ? <Tooltip content="">
                                                             {/* <Icon source={CircleCancelMajor} color="critical" /> */}
@@ -1627,7 +1627,7 @@ const Settings = () => {
                                                             {/* <Icon source={DeleteMajor} color="critical" /> */}
                                                             <img src={Delete} />
 
-                                                        </Tooltip> : <img src={Delete} />
+                                                        </Tooltip> : <img  src={Delete} className="del-main-icon" />
                                                     }
 
                                                 </div>
@@ -1844,7 +1844,7 @@ const Settings = () => {
                                                     autoPlay
                                                     loop
                                                 ></video>
-                                                <div onClick={handleRemoveAlreadyUploadedVideo} >
+                                                    <div onClick={handleRemoveAlreadyUploadedVideo} className="del-main-icon" >
                                                     {
                                                         activeTootlTip ? <Tooltip content="This is default setting. You can not change it.">
                                                             {/* <Icon source={CircleCancelMajor} color="critical" /> */}

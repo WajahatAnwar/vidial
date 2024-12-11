@@ -22,6 +22,7 @@ use Osiset\ShopifyApp\Util;
 use Osiset\ShopifyApp\Contracts\Queries\Shop;
 use Osiset\ShopifyApp\Objects\Values\ShopDomain;
 use Osiset\ShopifyApp\Messaging\Jobs\WebhookInstaller;
+use Osiset\ShopifyApp\Http\Middleware\IframeProtection;
 
 //PUBLIC
 Route::group(['middleware' => ['guest']], function () {
@@ -93,7 +94,7 @@ Route::get('review_updated/{id}', [OrdersController::class, 'review_updated'])->
 Route::get('get_plans', [OrdersController::class, 'get_plans'])->name('get_plans')->middleware(['verify.shopify']);
 Route::get('testEmail', [AdminController::class, 'testEmail']);
 
-Route::get('s/{handle}', [SettingsController::class, 'landingPage2']);
+Route::get('s/{handle}', [SettingsController::class, 'landingPage2'])->withoutMiddleware([IframeProtection::class]);
 
 Route::get('connect-gd', [GoogleDriveController::class, 'connectDrive'])->name('google.connect');
 
@@ -136,7 +137,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('single-fetch-email-settings', [SettingsController::class, 'fetchEmailSettings'])->name('single-fetch-email-settings');
     Route::post('single-save-email-settings', [SettingsController::class, 'saveEmailSettings'])->name('single-save-email-settings');
 
-
+    Route::post('user-check-handle', [SettingsController::class, 'checkHandle'])->name('user_check_handle');
+    Route::post('user-store-handle', [SettingsController::class, 'saveHandle'])->name('user_store_handle');
 
 
 });

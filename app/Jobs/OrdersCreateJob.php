@@ -46,7 +46,7 @@ class OrdersCreateJob implements ShouldQueue
      */
     public function __construct($shopDomain, $data)
     {
-        config()->set('shopify-app.job_queues.webhooks', 'que_orders');
+        // config()->set('shopify-app.job_queues.webhooks', 'que_orders');
 
         $this->shopDomain = $shopDomain;
         $this->data = $data;
@@ -66,7 +66,7 @@ class OrdersCreateJob implements ShouldQueue
 
         Log::info("order create job" . $payload->name);
 
-        $user = User::with('applications')->where('name', $shop->name)->first();
+        // $user = User::with('applications')->where('name', $shop->name)->first();
 
         $shop_settings =  $shop ? $shop->settings : null;
         if ($shop_settings) {

@@ -86,9 +86,10 @@ class SettingsController extends Controller
     /******* Get settings *****/
     public function getSettings(Request $request)
     {
-
         if ($request->filled('id')) {
+            
             $user = User::find($request->id);
+
             if (!$user) {
                 return redirect()->to('admin-dashboard');
             }
@@ -504,6 +505,14 @@ class SettingsController extends Controller
      */
     public function checkHandle(Request $request)
     {
+        if ($request->filled('id')) {
+            $user = User::find($request->id);
+            if (!$user) {
+                return redirect()->to('admin-dashboard');
+            }
+        } else {
+            $user = Auth::user();
+        }
         $validator = Validator::make($request->all(), [
             'store_handle' => 'required',
         ], []);
@@ -518,7 +527,7 @@ class SettingsController extends Controller
         $handleExistance = User::where(function ($query) use ($request) {
             $query->where('store_handle', str_replace(' ', '_', $request->store_handle))
                 ->orWhere('store_name', $request->store_handle);
-        })->where('id', '!=', Auth::user()->id)->first();
+        })->where('id', '!=', $user->id)->first();
         //dd(Auth::user()->id);
         if ($handleExistance) {
             return response()->json([
@@ -537,13 +546,22 @@ class SettingsController extends Controller
 
     public function saveHandle(Request $request)
     {
+        if ($request->filled('id')) {
+            $user = User::find($request->id);
+            if (!$user) {
+                return redirect()->to('admin-dashboard');
+            }
+        } else {
+            $user = Auth::user();
+        }
         if ($request->filled('store_handle')) {
-            User::find(Auth::user()->id)->update(['store_handle' => str_replace(' ', '_', $request->store_handle)]);
-
+            $user = User::find($user->id);
+            $user->store_handle = str_replace(' ', '_', $request->store_handle);
+            $user->save();
             return response()->json([
                 'success' => true,
                 'message' => "Store save",
-                'data' => null
+                'data' => str_replace(' ', '_', $request->store_handle)
             ]);
         }
 
