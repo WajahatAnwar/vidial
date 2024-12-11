@@ -24,10 +24,14 @@
         "@devexpress/dx-react-chart": "^3.0.5",
         "@devexpress/dx-react-chart-material-ui": "^3.0.5",
         "@devexpress/dx-react-core": "^3.0.5",
+        "@emotion/react": "^11.14.0",
+        "@emotion/styled": "^11.14.0",
         "@faker-js/faker": "^7.6.0",
         "@fortawesome/fontawesome-svg-core": "^6.2.0",
         "@fortawesome/free-solid-svg-icons": "^6.2.0",
         "@fortawesome/react-fontawesome": "^0.2.0",
+        "@mui/icons-material": "^6.1.10",
+        "@mui/material": "^6.1.10",
         "@reduxjs/toolkit": "^1.8.6",
         "@shopify/polaris": "^10.1.1",
         "@shopify/polaris-icons": "^6.4.0",
@@ -42,7 +46,8 @@
         "react-dom": "^18.2.0",
         "react-redux": "^8.0.4",
         "react-router-dom": "^6.4.2",
+        "react-select": "^5.8.0",
         "sweetalert2": "^11.7.18",
-        "react-select": "^5.8.0"
+        "webfontloader": "^1.6.28"
     }
 }
