@@ -28,7 +28,7 @@ function AdminDashboard(props) {
     const query = page.ziggy.query;
 
     const [pagination, setPagination] = useState({
-        // path: 'https://app.goodauthentic.com/getDataofallPlans',
+        // path: 'https://phpstack-953879-3439374.cloudwaysapps.com/getDataofallPlans',
         path: route('getDataofallPlans', query),
         next_cursor: null,
         next_page_url: null,

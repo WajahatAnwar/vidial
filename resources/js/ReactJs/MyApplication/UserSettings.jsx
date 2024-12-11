@@ -228,7 +228,7 @@ const UserSettings = () => {
     const [store, setStore] = useState("");
     // const [baseUrl, setBaseUrl] = useState("https://8737-72-255-40-111.ngrok-free.app");
     //const [baseUrl, setBaseUrl] = useState("https://8737-72-255-40-111.ngrok-free.app");
-    const [baseUrl, setBaseUrl] = useState("https://app.goodauthentic.com");
+    const [baseUrl, setBaseUrl] = useState("https://phpstack-953879-3439374.cloudwaysapps.com");
     const [imagename, setImagename] = useState("");
     const [videoname, setVideoname] = useState("");
     const [previewLogo, setPreviwLogo] = useState("");
