@@ -1,3 +1,20 @@
 #tinymce  p{
    font-weight: 500;
 }
+
+.MuiTextField-root > div > input{
+     height:4px !important;
+}
+.css-w76bbz-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input{
+padding: 6.5px 14px !important;
+}
+.Polaris-Choice{
+    align-items: center !important;
+}
+.Polaris-RadioButton__Backdrop::before {
+background-color: black !important;
+}
+.Polaris-RadioButton__Input:checked + .Polaris-RadioButton__Backdrop
+{
+    border-color: rgb(130, 130, 130);
+}

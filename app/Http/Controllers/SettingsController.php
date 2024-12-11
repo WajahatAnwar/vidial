@@ -87,7 +87,7 @@ class SettingsController extends Controller
     public function getSettings(Request $request)
     {
         if ($request->filled('id')) {
-            
+
             $user = User::find($request->id);
 
             if (!$user) {
@@ -191,6 +191,9 @@ class SettingsController extends Controller
         $Instruction_field = $request->instruction_title ? str_replace($previous_store_credit, $request->store_credit, $request->instruction_title) : 'Instruction';
 
         $settings['instruction_title'] = $Instruction_field;
+        $settings['instruction_title_font'] = $request->instruction_title_font;
+        $settings['instruction_count'] = $request->instruction_count;
+        $settings['instruction_button_style'] = $request->instruction_button_style;
         $settings['locale'] = $request->locale ?? 'en';
         //$settings['dropzone_text'] = $request->dropzone_text;
         $settings['inspirational_video_title'] = $request->video_title;
@@ -276,8 +279,7 @@ class SettingsController extends Controller
     /****** Landing Page2 *******/
     public static function landingPage2(Request $request, $locale)
     {
-        $requestSegments = request()->segments(0);
-
+        $requestSegments = request()->segments();
         if ($requestSegments[1]) {
             $user = User::with('settings')->where('store_handle', $requestSegments[1])->orWhere('store_name', $requestSegments[1])->first();
 
