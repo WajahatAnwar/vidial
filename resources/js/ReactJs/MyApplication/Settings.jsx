@@ -89,7 +89,10 @@ const Settings = () => {
     const handleMailgunDomain = useCallback((newValue) => setMailgunDomain(newValue), []);
     const handleMailgunEndPoint = useCallback((newValue) => setMailgunEndpoint(newValue), []);
     const [title, setTitle] = useState("");
-    const handleTitle = useCallback((newValue) => setTitle(newValue), []);
+    const handleTitle = (event) => {
+        console.log(event.target.value)
+        setTitle(event.target.value);
+    }
 
     const handleInstruction = useCallback((newValue) => setInstructionSubTitle(newValue), []);
     const [buttonText, setButtonText] = useState(null);
@@ -192,6 +195,7 @@ const Settings = () => {
     useEffect(() => {
         const fetchGoogleFonts = async () => {
             try {
+                setIsLoading(true)
                 const response = await axios.get(
                     `https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyBWdgWr0bOPpqBlROejxCqeiaGnXd35ACM `
                 );
@@ -204,8 +208,10 @@ const Settings = () => {
                     return font.family
                 });
                 setFontOptions(fonts);
+                setIsLoading(false)
             } catch (error) {
                 console.error("Error fetching Google Fonts:", error);
+                setIsLoading(false)
             }
         };
 
