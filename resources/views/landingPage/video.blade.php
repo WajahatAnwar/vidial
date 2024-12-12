@@ -79,8 +79,12 @@ $rgbColor = sprintf('rgba(%d, %d, %d,%f)', $red, $green, $blue,0.1);
                   </div>
                   <input type="hidden" id="lang" name="lang" value="{{Lang::locale()}}">
               </div>
+              @if ($settings->instruction_button_style === 'squaree')
+                <button class="btn btn-primary mt-4" onclick="saveVideo()" type="button" id="saveBTN" style="margin-bottom: 50px;    width: 100%;font-size: 20px;font-weight: 600;background: {{$settings->page_color}};border: none;">{{ __('uploadVideo.button_text') }}</button>
+            @else
+                <button class="btn btn-primary mt-4" onclick="saveVideo()" type="button" id="saveBTN" style="margin-bottom: 50px;    width: 100%;font-size: 20px;font-weight: 600;background: {{$settings->page_color}};border: none;border-radius:50px">{{ __('uploadVideo.button_text') }}</button>
+            @endif
 
-              <button class="btn btn-primary mt-4" onclick="saveVideo()" type="button" id="saveBTN" style="margin-bottom: 50px;    width: 100%;font-size: 20px;font-weight: 600;background: {{$settings->page_color}};border: none;">{{ __('uploadVideo.button_text') }}</button>
               <!-- Modal -->
   <div class="modal fade" id="success_popup" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
