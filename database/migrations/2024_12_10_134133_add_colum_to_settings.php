@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('settings', function (Blueprint $table) {
-            $table->string('instruction_title_font')->default('Arial')->after('instructions');
+            $table->string('instruction_title_font')->default('Noto Sans Armenian')->after('instructions');
             $table->string('instruction_count')->default('circle')->after('instructions');
             $table->string('instruction_button_style')->default('squaree')->after('instructions');
         });

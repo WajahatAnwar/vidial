@@ -358,7 +358,7 @@ const Settings = () => {
                 outline: none !important; /* Disable focus outline */
                 box-shadow: none !important; /* Disable shadow */
                 overflow: hidden; /* Ensure no scrollbars */
-                height: 255vh;
+                height: 160vh;
             }
             </style>
             <iframe src="${iframeSrc}" frameborder="0" scrolling="no">
