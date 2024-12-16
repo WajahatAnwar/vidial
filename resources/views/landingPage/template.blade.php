@@ -12,7 +12,7 @@
                 {{ $settings->instruction_title }}</h3>
 
 
-            <p class="text-center mb-2" style="color: {{ $settings->page_color }};font-size: 20px;font-weight: 500;">
+            <p class="text-center mb-2" style="color: {{ $settings->page_color }};font-size: 20px;font-weight: 500; font-family:{{ $settings->instruction_title_font }}">
                 {{ $settings->instruction_subtitle ? $settings->instruction_subtitle : 'Please follow the instructions below:' }}
             </p>
             <div style="">
@@ -26,14 +26,14 @@
                         <div style="display: flex;align-items: center;margin-bottom: 15px;">
                             @if ($settings->instruction_count === 'circle')
                                 <div
-                                    style="background: #E5E7EB;padding: 8px 16px;border-radius: 50%;margin-right: 15px;color: #6B7280; {{ $loop->index == 0 ? 'padding: 8px 18px;' : '' }} ">
+                                    style="font-family:{{ $settings->instruction_title_font }}; background: #E5E7EB;padding: 8px 16px;border-radius: 50%;margin-right: 15px;color: #6B7280; {{ $loop->index == 0 ? 'padding: 8px 18px;' : '' }} ">
                                     {{ $loop->index + 1 }}</div>
                             @else
                                 <div
-                                    style="background: #E5E7EB;padding: 8px 16px;border-radius: 2%;margin-right: 15px;color: #6B7280; {{ $loop->index == 0 ? 'padding: 8px 18px;' : '' }} ">
+                                    style="font-family:{{ $settings->instruction_title_font }}; background: #E5E7EB;padding: 8px 16px;border-radius: 2%;margin-right: 15px;color: #6B7280; {{ $loop->index == 0 ? 'padding: 8px 18px;' : '' }} ">
                                     {{ $loop->index + 1 }}</div>
                             @endif
-                            <p style="margin-bottom: 0;font-weight: 500;">{{ $list['value'] }}</p>
+                            <p style="margin-bottom: 0;font-weight: 500; font-family:{{ $settings->instruction_title_font }}">{{ $list['value'] }}</p>
                         </div>
                     @endforeach
                 </div>
@@ -42,19 +42,19 @@
             @if ($settings->instruction_button_style === 'squaree')
                 <button type="button" class="btn btn-primary savevedio_redirect" id="redirect"
                     store="{{ $user->name }}" locale= "{{ $settings->locale }}" value=""
-                    style="width: 100%;font-size: 20px;font-weight: 700;background: {{ $settings->page_color }};height: 60px;border: none;">
+                    style="width: 100%;font-size: 20px;font-weight: 700;background: {{ $settings->page_color }};height: 60px;border: none; font-family:{{ $settings->instruction_title_font }}">
                     {{ $settings->video_btn_text ? $settings->video_btn_text : __('landingPage.button_text') }}
                 </button>
             @else
                 <button type="button" class="btn btn-primary savevedio_redirect" id="redirect"
                     store="{{ $user->name }}" locale= "{{ $settings->locale }}" value=""
-                    style="width: 100%;font-size: 20px;font-weight: 700;background: {{ $settings->page_color }};height: 60px;border: none; border-radius:50px">
+                    style="width: 100%;font-size: 20px;font-weight: 700;background: {{ $settings->page_color }};height: 60px;border: none; border-radius:50px; font-family:{{ $settings->instruction_title_font }}">
                     {{ $settings->video_btn_text ? $settings->video_btn_text : __('landingPage.button_text') }}
                 </button>
             @endif
             @if ($settings->video == 'undefined' || $settings->video == '')
             @else
-                <h5 class="text-center mb-3 mt-4">
+                <h5 class="text-center mb-3 mt-4" style="font-family:{{ $settings->instruction_title_font }}">
                     {{ $settings->inspirational_video_title ? $settings->inspirational_video_title : __('landingPage.footer_instruction_text') }}
                 </h5>
 
