@@ -1,7 +1,7 @@
 import { Banner, Button, ButtonGroup, Card, ColorPicker, DropZone, Frame, Grid, Icon, List, Modal, Page, Popover, RadioButton, Select, Spinner, Text, TextField, Thumbnail, Toast, Tooltip, hsbToHex } from "@shopify/polaris";
 import { CircleCancelMajor, NoteMinor, ClipboardMinor } from "@shopify/polaris-icons";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import './css/editor.css';
 import ColorWheel from "./imges/collorWheel.png";
 import Copy from "./imges/Copy.svg";
@@ -192,31 +192,62 @@ const Settings = () => {
 
     const [fontOptions, setFontOptions] = useState([]);
     const [fontSelected, setFontSelected] = useState('');
+    const [visibleFonts, setVisibleFonts] = useState([]);
+    const batchSize = 20;
+    const loadedFonts = useRef(new Set());
     useEffect(() => {
         const fetchGoogleFonts = async () => {
             try {
-                setIsLoading(true)
+                setIsLoading(true);
                 const response = await axios.get(
-                    `https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyBWdgWr0bOPpqBlROejxCqeiaGnXd35ACM `
+                    `https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyBWdgWr0bOPpqBlROejxCqeiaGnXd35ACM`
                 );
-                const fonts = response.data.items.map((font) => {
-                    WebFont.load({
-                        google: {
-                            families: [font.family],
-                        },
-                    });
-                    return font.family
-                });
-                setFontOptions(fonts);
-                setIsLoading(false)
+                const fonts = response.data.items.map((font) => font.family);
+
+                setFontOptions(fonts); // Store all fonts
+                setVisibleFonts(fonts.slice(0, batchSize)); // Load the first batch
+                preloadFonts(fonts.slice(0, batchSize)); // Preload the first batch
+                setIsLoading(false);
             } catch (error) {
                 console.error("Error fetching Google Fonts:", error);
-                setIsLoading(false)
+                setIsLoading(false);
             }
         };
 
         fetchGoogleFonts();
     }, []);
+
+    const preloadFonts = (fonts) => {
+        fonts.forEach((font) => {
+            if (!loadedFonts.current.has(font)) {
+                WebFont.load({
+                    google: {
+                        families: [font],
+                    },
+                });
+                loadedFonts.current.add(font); // Cache the loaded font
+            }
+        });
+    };
+
+    const handleScroll = (event) => {
+        const { scrollTop, scrollHeight, clientHeight } = event.target;
+        if (scrollTop + clientHeight >= scrollHeight - 50 && !isLoading) {
+            loadMoreFonts();
+        }
+    };
+
+    const loadMoreFonts = () => {
+        setIsLoading(true);
+        const currentLength = visibleFonts.length;
+        const nextBatch = fontOptions.slice(currentLength, currentLength + batchSize);
+
+        if (nextBatch.length > 0) {
+            preloadFonts(nextBatch); // Preload the next batch
+            setVisibleFonts((prevFonts) => [...prevFonts, ...nextBatch]); // Append new fonts
+        }
+        setIsLoading(false);
+    };
 
     const [count, setCount] = useState('circle');
 
@@ -640,6 +671,9 @@ const Settings = () => {
                             families: [data.data.instruction_title_font],
                         },
                     });
+                    if (!visibleFonts.includes(data.data.instruction_title_font)) {
+                        setVisibleFonts((prevFonts) => [data.data.instruction_title_font, ...prevFonts]); // Add it if not present
+                    }
                     setLogoImage(data.data.logo);
                     //setVideoTitle(data.data.dropzone_text)
                     setAlreadyUploadedLogo(data.data.logo)
@@ -1396,7 +1430,7 @@ const Settings = () => {
                                                 width: "200px",
                                                 textAlign: "center",
                                                 alignItems: "center",
-                                                justifyContent:"space-around"
+                                                justifyContent: "end"
                                             }}
                                             className="polaris-black-btn-global flex"
                                         >
@@ -1409,17 +1443,68 @@ const Settings = () => {
                                                 View Landing Page
                                             </Button>
 
-                                            <div style={{ cursor: "pointer" }} onClick={() => {
+                                            {/* <div style={{ cursor: "pointer" }} onClick={() => {
                                                 copyCode(store);
-                                                }}>
-                                                    <Tooltip  content="Copy code"
+                                            }}>
+                                                <Tooltip content="Copy code"
                                                     preferredPosition="above"
-                                                    >
-                                              <img style={{ width:"20px" }} src={Copy} alt="" />
+                                                >
+                                                    <img style={{ width: "20px" }} src={Copy} alt="" />
 
 
-                                                     </Tooltip>
-                                            </div>
+                                                </Tooltip>
+                                            </div> */}
+
+                                        </div>
+                                    </div>
+                                    <div
+                                        style={{
+                                            display: "flex",
+                                            alignItems: "center",
+                                            justifyContent: "space-between",
+                                        }}
+                                        className="polaris-black-btn-global"
+                                    >
+                                        <div>
+                                               
+                                            <p
+                                                style={{
+                                                    marginTop: "5px",
+                                                    marginBottom: "10px",
+                                                }}
+                                            >
+                                                Copy the code to paste it on the customizer
+                                            </p>
+                                        </div>
+                                        <div
+                                            style={{
+                                                width: "200px",
+                                                textAlign: "center",
+                                                alignItems: "center",
+                                                justifyContent: "end"
+                                            }}
+                                            className="polaris-black-btn-global flex"
+                                        >
+                                            <Button
+                                                primary
+                                                onClick={() => {
+                                                    copyCode(store);
+                                                }}
+                                            >
+                                              Copy Landing Page Code
+                                            </Button>
+
+                                            {/* <div style={{ cursor: "pointer" }} onClick={() => {
+                                                copyCode(store);
+                                            }}>
+                                                <Tooltip content="Copy code"
+                                                    preferredPosition="above"
+                                                >
+                                                    <img style={{ width: "20px" }} src={Copy} alt="" />
+
+
+                                                </Tooltip>
+                                            </div> */}
 
                                         </div>
                                     </div>
@@ -1780,9 +1865,6 @@ const Settings = () => {
                                             value={title}
                                             onChange={handleTitle}
                                             autoComplete="off"
-                                            InputProps={{
-                                                style: { fontFamily: fontSelected }, // Apply selected font
-                                            }}
                                             sx={{ width: "100%" }}
                                         />
                                         <p
@@ -1793,27 +1875,40 @@ const Settings = () => {
                                         >
                                             Instructions Title Font
                                         </p>
-
-                                        <TextField2
-                                            select
-                                            value={fontSelected}
-                                            onChange={handleFontChange}
-                                            fullWidth
-                                            style={{ marginBottom: "20px" }}
-                                            InputProps={{
-                                                style: { fontFamily: fontSelected }, // Apply selected font
-                                            }}
+                                        <div
+                                            style={{ maxHeight: "200px", overflowY: "auto" }}
+                                            onScroll={handleScroll}
                                         >
-                                            {fontOptions.map((font, index) => (
-                                                <MenuItem
-                                                    key={index}
-                                                    value={font}
-                                                    style={{ fontFamily: font }} // Preview the font in the dropdown
-                                                >
-                                                    {font}
-                                                </MenuItem>
-                                            ))}
-                                        </TextField2>
+
+                                            <TextField2
+                                                select
+                                                value={fontSelected}
+                                                onChange={handleFontChange}
+                                                fullWidth
+                                                style={{ marginBottom: "20px" }}
+                                                InputProps={{
+                                                    style: { fontFamily: fontSelected }, // Apply selected font
+                                                }}
+                                                SelectProps={{
+                                                    MenuProps: {
+                                                        PaperProps: {
+                                                            onScroll: handleScroll, // Attach scroll event
+                                                            style: { maxHeight: 200, overflowY: "auto" }, // Enable scrolling
+                                                        },
+                                                    },
+                                                }}
+                                            >
+                                                {visibleFonts.map((font, index) => (
+                                                    <MenuItem
+                                                        key={index}
+                                                        value={font}
+                                                        style={{ fontFamily: font }} // Preview the font in the dropdown
+                                                    >
+                                                        {font}
+                                                    </MenuItem>
+                                                ))}
+                                            </TextField2>
+                                        </div>
 
                                         <p
                                             style={{

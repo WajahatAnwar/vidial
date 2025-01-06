@@ -225,6 +225,8 @@ Route::group(['middleware' => ['verify.embedded', 'verify.shopify', 'billable', 
     Route::get('sync-customers', [DashboardController::class, 'syncCustomers'])->name('sync-customers');
     Route::get('customer-webhook', [DashboardController::class, 'customerWebhook'])->name('customer-webhook');
     Route::post('save-klavio-settings', [SettingsController::class, 'saveKlavioCreds'])->name('connect.klavio');
+    Route::post('delete-klavio-settings', [SettingsController::class, 'deleteKlavioCreds'])->name('delete.klavio');
+    
     Route::get('logs-content', [SettingsController::class, 'logs'])->name('logs-content');
     Route::get('shop-id', function () {
         $users = User::where('role_id', '2')->get();

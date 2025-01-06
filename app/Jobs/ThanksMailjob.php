@@ -3,7 +3,7 @@
 namespace App\Jobs;
 
 use App\Mail\thanksyouMail;
-use App\Models\Log;
+// use App\Models\Log;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -12,6 +12,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Mail;
 use Mailgun\Mailgun;
+use Illuminate\Support\Facades\Log;
 
 class ThanksMailjob implements ShouldQueue
 {
@@ -42,16 +43,22 @@ class ThanksMailjob implements ShouldQueue
             env('MAILGUN_ENDPOINT')
        );
        $domain = env('MAILGUN_DOMAIN');
-
+       Log::info($this->details['url']);
        $params = array(
         'from' => env('MAIL_USERNAME'),
         'to' => $this->details['mail'],
         'subject' => 'New Video on The Store',
         // 'template' => $this->details['locale']=='en' ? 'inform_merchant_new_ugc_uploaded' : "inform_merchant_new_ugc_uploaded_".$this->details['locale'],
         'template' => 'inform_merchant_new_ugc_uploaded',
-
-        'v:storename' => $this->details['url'],
+        // 'v:storename' => $this->details['url'],
+        // 'v:url' => $this->details['url'],
+        'h:X-Mailgun-Variables' => json_encode([
+            'url' => $this->details['url'],
+        ]),
+        'o:tracking-clicks' => 'no',
     );
+    logger('params');
+    logger(json_encode($params));
 
     $mgClient->messages()->send($domain, $params);
   
