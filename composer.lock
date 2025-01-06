@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e700daa28dacd09e592d14a21bdd4402",
+    "content-hash": "b04cbd3c363620ea92db7d07826c33b2",
     "packages": [
         {
             "name": "ajcastro/eager-load-pivot-relations",
@@ -1669,6 +1669,62 @@
             "time": "2020-12-18T17:34:13+00:00"
         },
         {
+            "name": "gnikyt/basic-shopify-api",
+            "version": "v11.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/gnikyt/Basic-Shopify-API.git",
+                "reference": "acbdcab0a962313acccbefd97615270d784822c5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/gnikyt/Basic-Shopify-API/zipball/acbdcab0a962313acccbefd97615270d784822c5",
+                "reference": "acbdcab0a962313acccbefd97615270d784822c5",
+                "shasum": ""
+            },
+            "require": {
+                "caseyamcl/guzzle_retry_middleware": "^2.3",
+                "ext-json": "*",
+                "guzzlehttp/guzzle": "^6.5 || ^7.0",
+                "php": ">=7.3.0"
+            },
+            "require-dev": {
+                "ergebnis/composer-normalize": "^2.8",
+                "friendsofphp/php-cs-fixer": "^3.0",
+                "phpstan/phpstan": "^0.12",
+                "phpunit/phpunit": "^6.2 || ^9.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Gnikyt\\BasicShopifyAPI\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Tyler King",
+                    "email": "tyler.n.king@gmail.com"
+                }
+            ],
+            "description": "A basic Shopify API wrapper with REST and GraphQL support, powered by Guzzle.",
+            "keywords": [
+                "api",
+                "graphql",
+                "rest",
+                "shopify",
+                "wrapper"
+            ],
+            "support": {
+                "issues": "https://github.com/gnikyt/basic-shopify-api/issues",
+                "source": "https://github.com/gnikyt/basic-shopify-api"
+            },
+            "time": "2022-11-30T20:09:04+00:00"
+        },
+        {
             "name": "google/apiclient",
             "version": "v2.18.1",
             "source": {
@@ -2523,25 +2579,25 @@
         },
         {
             "name": "kyon147/laravel-shopify",
-            "version": "v17.5.0",
+            "version": "v22.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Kyon147/laravel-shopify.git",
-                "reference": "b4e1290698900f7bd0e9e8cc9150f683c8eab30a"
+                "reference": "cc05cb0fd256b58c192914eafa058f69ee72e8c9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Kyon147/laravel-shopify/zipball/b4e1290698900f7bd0e9e8cc9150f683c8eab30a",
-                "reference": "b4e1290698900f7bd0e9e8cc9150f683c8eab30a",
+                "url": "https://api.github.com/repos/Kyon147/laravel-shopify/zipball/cc05cb0fd256b58c192914eafa058f69ee72e8c9",
+                "reference": "cc05cb0fd256b58c192914eafa058f69ee72e8c9",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
                 "funeralzone/valueobjects": "^0.5",
+                "gnikyt/basic-shopify-api": "^9.0 || ^10.0 || ^11.0",
                 "jenssegers/agent": "^2.6",
-                "laravel/framework": "^7.0 || ^8.0 || ^9.0",
-                "osiset/basic-shopify-api": "^9.0 || <=10.0.5",
-                "php": "^7.3 || ^8.0 || 8.1"
+                "laravel/framework": "^8.0 || ^9.0 || ^10.0 || ^11.0",
+                "php": "^8.0 || 8.1"
             },
             "require-dev": {
                 "ergebnis/composer-normalize": "^2.8",
@@ -2549,9 +2605,9 @@
                 "laravel/legacy-factories": "^v1.3.0",
                 "mockery/mockery": "^1.0",
                 "orchestra/database": "~3.8 || ~4.0 || ~5.0 || ~6.0 || ~7.0",
-                "orchestra/testbench": "~3.8 || ~4.0 || ~5.0 || ~6.0 || ~7.0",
+                "orchestra/testbench": "~3.8 || ~4.0 || ~5.0 || ~6.0 || ~7.0 || ~8.0",
                 "phpstan/phpstan": "^0.12",
-                "phpunit/phpunit": "~8.0 || ^9.0"
+                "phpunit/phpunit": "~8.0 || ^9.0 || ^10.0"
             },
             "type": "library",
             "extra": {
@@ -2593,10 +2649,10 @@
                 "webhook"
             ],
             "support": {
-                "forum": "https://github.com/osiset/laravel-shopify/discussions",
-                "issues": "https://github.com/osiset/laravel-shopify/issues",
-                "source": "https://github.com/osiset/laravel-shopify",
-                "wiki": "https://github.com/osiset/laravel-shopify/wiki"
+                "forum": "https://github.com/Kyon147/laravel-shopify/discussions",
+                "issues": "https://github.com/Kyon147/laravel-shopify/issues",
+                "source": "https://github.com/Kyon147/laravel-shopify",
+                "wiki": "https://github.com/Kyon147/laravel-shopify/wiki"
             },
             "funding": [
                 {
@@ -2612,7 +2668,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2023-03-11T09:08:56+00:00"
+            "time": "2024-11-18T10:03:27+00:00"
         },
         {
             "name": "laravel/framework",
@@ -4268,63 +4324,6 @@
                 }
             ],
             "time": "2024-11-21T10:36:35+00:00"
-        },
-        {
-            "name": "osiset/basic-shopify-api",
-            "version": "v10.0.5",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/osiset/Basic-Shopify-API.git",
-                "reference": "7354807d689dc6a6e0b4ea0c9b7daf8d896d85c7"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/osiset/Basic-Shopify-API/zipball/7354807d689dc6a6e0b4ea0c9b7daf8d896d85c7",
-                "reference": "7354807d689dc6a6e0b4ea0c9b7daf8d896d85c7",
-                "shasum": ""
-            },
-            "require": {
-                "caseyamcl/guzzle_retry_middleware": "^2.3",
-                "ext-json": "*",
-                "guzzlehttp/guzzle": "^6.5 || ^7.0",
-                "php": ">=7.3.0"
-            },
-            "require-dev": {
-                "ergebnis/composer-normalize": "^2.8",
-                "friendsofphp/php-cs-fixer": "^3.0",
-                "phpstan/phpstan": "^0.12",
-                "phpunit/phpunit": "^6.2 || ^9.3"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Osiset\\BasicShopifyAPI\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Tyler King",
-                    "email": "tyler@osiset.com"
-                }
-            ],
-            "description": "A basic Shopify API wrapper with REST and GraphQL support, powered by Guzzle.",
-            "keywords": [
-                "api",
-                "graphql",
-                "rest",
-                "shopify",
-                "wrapper"
-            ],
-            "support": {
-                "issues": "https://github.com/osiset/basic-shopify-api/issues",
-                "source": "https://github.com/osiset/basic-shopify-api"
-            },
-            "abandoned": "https://github.com/gnikyt/Basic-Shopify-API",
-            "time": "2021-09-08T15:12:46+00:00"
         },
         {
             "name": "paragonie/constant_time_encoding",
@@ -11113,12 +11112,12 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {},
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
         "php": "^8.0.2"
     },
-    "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "platform-dev": {},
+    "plugin-api-version": "2.6.0"
 }
