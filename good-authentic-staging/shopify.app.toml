@@ -1,0 +1,25 @@
+# Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
+
+client_id = "324ec3b690cfc841455fa0bff3b9d050"
+name = "Good Authentic (Staging)"
+handle = "vidial-staging-1"
+application_url = "https://phpstack-953879-3439374.cloudwaysapps.com/"
+embedded = true
+
+[build]
+include_config_on_deploy = true
+
+[auth]
+redirect_urls = [
+  "https://phpstack-953879-3439374.cloudwaysapps.com/authenticate"
+]
+
+[webhooks]
+api_version = "2023-07"
+
+  [[webhooks.subscriptions]]
+  topics = [ "app/uninstalled" ]
+  uri = "/webhooks/app/uninstalled"
+
+[pos]
+embedded = false
