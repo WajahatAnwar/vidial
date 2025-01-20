@@ -64,6 +64,9 @@ class AppUninstalledJob extends \Osiset\ShopifyApp\Messaging\Jobs\AppUninstalled
         $user = User::where('name', $shop->name)->first();
 
         if ($user) {
+            $user->plan_id = NULL;
+            $user->save();
+            
             $shopId = $shop->getId();
             $shopCommand->softDelete($shopId);
         } else {

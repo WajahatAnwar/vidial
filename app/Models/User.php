@@ -32,7 +32,9 @@ class User extends Authenticatable implements IShopModel
         'gd_access_token',
         'star_credit',
         'store_id',
-        'mantle_token'
+        'mantle_token',
+        'customer_api_token',
+        'uuid'
     ];
 
     /**
