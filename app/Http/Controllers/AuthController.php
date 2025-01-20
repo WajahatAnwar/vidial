@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-
+use App\Jobs\SaveMentalTokenJob;
 use App\Jobs\UserResetPasswordJob;
 use App\Models\EmailTemplate;
 use App\Models\PasswordReset;
@@ -11,6 +11,7 @@ use App\Models\Setting;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
@@ -150,9 +151,16 @@ class AuthController extends Controller
         // if(auth()->user()->init_flag == 0){
         // Auth::user()->update(['init_flag' => 1,'ugc_email_count' =>$email_count->ugc_email_count, 'ugc_video_count' =>$email_count->ugc_video_count,'remaining_email' => $email_count->ugc_email_count]);
         // }
+        // dd("resquest->all()");
 
         $shop = Auth::user();
         $shop = User::find($shop->id);
+        Log::info('Shop identified and updated successfully'.$shop->customer_api_token);
+
+        if(empty($shop->customer_api_token)){
+            Log::info('Shop identified and updated successfully');
+            SaveMentalTokenJob::dispatch($shop);
+        }
 
         $x_forwarded_for = $_SERVER["HTTP_X_FORWARDED_FOR"];
 
@@ -384,4 +392,11 @@ class AuthController extends Controller
     {
         return Inertia::render('MyApplication/Dashboard');
     }
+
+    public function  getuserSettings()
+    {
+        $user = Auth::user();
+        return responseJson(true, 'Settings fetched successfully', $user);
+    }
+
 }
