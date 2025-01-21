@@ -9,85 +9,29 @@ import {
     Text,
     TextField
 } from "@shopify/polaris";
-import { CircleCancelMajor, CircleTickMajor } from "@shopify/polaris-icons";
-import { useCallback, useEffect, useState } from "react";
+
 import checkmark from "@/ReactJs/MyApplication/imges/checkmark.svg";
 import noVedio from "@/ReactJs/MyApplication/imges/film.png";
 import staricon from "@/ReactJs/MyApplication/imges/Staricon.svg";
-import Ticker from "./Ticker";
 import { router, usePage } from "@inertiajs/react";
+import { CircleCancelMajor, CircleTickMajor } from "@shopify/polaris-icons";
+import { useCallback, useEffect, useState } from "react";
 
 function WaitingVideos() {
-    const pathname = '/videos-to-review';
     const page = usePage().props;
     const query = page.ziggy.query;
-    const id = page.ziggy.query.id;
-    const [videoFeedback, setVideoFeedback] = useState(
-        " Congratulations, you just approved the video."
-    );
 
-    const [videoFeedbackPopupTitle, setVideoFeedbackPopupTitle] = useState(
-        "Please Confirm"
-    );
-    const [rejectVideoFeedback, setRejectVideoFeedback] = useState(
-        "Are you sure you want to Reject?"
-    );
-    const [rejectVideoFeedbackTitlePopup, setrejectVideoFeedbackTitlePopup] =
-        useState("Please confirm");
-    const [rejectVideoBodyText, setrejectVideoBodyText] = useState(
-        "Video Rejected Successfully"
-    );
-
+    const [videoFeedback, setVideoFeedback] = useState(" Congratulations, you just approved the video.");
+    const [videoFeedbackPopupTitle, setVideoFeedbackPopupTitle] = useState("Please Confirm");
+    const [rejectVideoFeedback, setRejectVideoFeedback] = useState("Are you sure you want to Reject?");
+    const [rejectVideoFeedbackTitlePopup, setrejectVideoFeedbackTitlePopup] = useState("Please confirm");
+    const [rejectVideoBodyText, setrejectVideoBodyText] = useState("Video Rejected Successfully");
     const [activeRejectionModel, setActiveRejectionModel] = useState(false);
-    const handleChangeRejectionModel = useCallback(
-        () => setActiveRejectionModel(!activeRejectionModel),
-        [activeRejectionModel]
-    );
-    // const activatorRejectionModel = <Button onClick={handleChangeRejectionModel}>Open</Button>;
-
     const [rejectionReason, setRejectionReason] = useState("");
-    const handleRejectionReason = useCallback(
-        (newValue) => setRejectionReason(newValue),
-        []
-    );
-
-    const [activeRejectionConfirmModel, setActiveRejectionConfirmModel] =
-        useState(false);
-    const handleChangeRejectionConfirmModel = useCallback(
-        () => setActiveRejectionConfirmModel(!activeRejectionConfirmModel),
-        [activeRejectionConfirmModel]
-    );
-    // const activatorRejectionConfirmModel = <Button onClick={handleChangeRejectionConfirmModel}>Open</Button>;
-
-    const [activeRejectionSuccessModel, setActiveRejectionSuccessModel] =
-        useState(false);
-    const handleChangeRejectionSuccessModel = useCallback(() => {
-        setActiveRejectionSuccessModel(!activeRejectionSuccessModel),
-            [activeRejectionSuccessModel];
-        setRejectionReason("");
-        setReload(!reload);
-    });
+    const [activeRejectionConfirmModel, setActiveRejectionConfirmModel] = useState(false);
+    const [activeRejectionSuccessModel, setActiveRejectionSuccessModel] = useState(false);
     const [upgradeButton, setupgradeButton] = useState(false);
-    // const activatorRejectionSuccessModel = <Button onClick={handleChangeRejectionSuccessModel}>Open</Button>;
-
-    const [activeApprovedConfirmModel, setActiveApprovedConfirmModel] =
-        useState(false);
-    const handleChangeApprovedConfirmModel = useCallback(
-        () => setActiveApprovedConfirmModel(!activeApprovedConfirmModel),
-        [activeApprovedConfirmModel]
-    );
-    // const activatorApprovedConfirmModel = <Button onClick={handleChangeApprovedConfirmModel}>Open</Button>;
-
-    const [activeApprovedSuccessModel, setActiveApprovedSuccessModel] =
-        useState(false);
-    const handleChangeApprovedSuccessModel = useCallback(() => {
-        setActiveApprovedSuccessModel(!activeApprovedSuccessModel),
-            [activeApprovedSuccessModel];
-
-        setReload(new Date().getSeconds());
-    });
-    // const activatorApprovedSuccessModel = <Button onClick={handleChangeApprovedSuccessModel}>Open</Button>;
-
+    const [activeApprovedConfirmModel, setActiveApprovedConfirmModel] = useState(false);
     const [numberOfVedios, setNumberOfVedios] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
@@ -96,45 +40,38 @@ function WaitingVideos() {
     const [rejectVideoId, setRejectVideoId] = useState(false);
     const [approvedUserVideoId, setapprovedUserVideoId] = useState(false);
     const [approvedVideoType, setApprovedVideoType] = useState(null);
-
     const [isClicked, setisClicked] = useState(false);
+    const [activeApprovedSuccessModel, setActiveApprovedSuccessModel] = useState(false);
 
-    /******** Operation on Videos  ******/
-    const videoOperation = (id) => {
-        const status = "Approved";
-        const confirmed = confirm(`Are you sure you want to ${status}?`);
-        var formData = new FormData();
-        formData.append("video_id", id);
-        if (confirmed) {
-            fetch(route('videoOperation', query), {
-                method: "post",
-                body: formData,
-            })
-                .then((response) => {
-                    if (!response.ok) {
-                        throw new Error("Something went wrong");
-                    }
-                    return response.json();
-                })
-                .then((data) => {
-                    if (data.success) {
-                        alert(
-                            "Congratulation video has been approved code :" +
-                            data.data.code
-                        );
-                    } else {
-                        alert(data.message);
-                    }
-                    setReload(true);
-                    return;
-                })
-                .catch((error) => {
-                    console.log(error);
-                });
-        }
-    };
+    const handleRejectionReason = useCallback(
+        (newValue) => setRejectionReason(newValue),
+        []
+    );
+    const handleChangeRejectionModel = useCallback(
+        () => setActiveRejectionModel(!activeRejectionModel),
+        [activeRejectionModel]
+    );
+    const handleChangeRejectionConfirmModel = useCallback(
+        () => setActiveRejectionConfirmModel(!activeRejectionConfirmModel),
+        [activeRejectionConfirmModel]
+    );
 
-    /******** move to plan page *****/
+    const handleChangeRejectionSuccessModel = useCallback(() => {
+        setActiveRejectionSuccessModel(!activeRejectionSuccessModel);
+        setRejectionReason("");
+        setReload(!reload);
+    }, [activeRejectionSuccessModel]);
+
+    const handleChangeApprovedConfirmModel = useCallback(
+        () => setActiveApprovedConfirmModel(!activeApprovedConfirmModel),
+        [activeApprovedConfirmModel]
+    );
+
+    const handleChangeApprovedSuccessModel = useCallback(() => {
+        setActiveApprovedSuccessModel(!activeApprovedSuccessModel);
+
+        setReload(new Date().getSeconds());
+    }, [activeApprovedSuccessModel]);
 
     const upgradePlan = () => {
         router.get(route('plans', query));
@@ -147,6 +84,7 @@ function WaitingVideos() {
         setActiveRejectionModel(true);
         return;
     };
+
     /******** Reject Video Handle   ******/
     const handleRejectVideo = () => {
         if (rejectionReason && rejectVideoId) {
@@ -256,8 +194,16 @@ function WaitingVideos() {
                 });
         }
     };
+
     useEffect(() => {
-        fetch(route('getPendingVideos', {page:currentPage,...query}))
+
+        console.log("Hiiiiiiiii");
+
+    }, []);
+
+    useEffect(() => {
+        console.log('counter :');
+        fetch('getPendingVideos', { page: currentPage, ...query })
             .then((response) => {
                 if (!response.ok) {
                     throw new Error("Something went wrong");
@@ -270,7 +216,7 @@ function WaitingVideos() {
                     setTotalPages(data.totalPages);
                     setNumberOfVedios(data.videoCount);
                 }
-                console.log('count :'+data.videoCount);
+                console.log('count :' + data.videoCount);
             })
             .catch((error) => {
                 console.log(error);
@@ -281,7 +227,6 @@ function WaitingVideos() {
         <Page>
             <Grid>
                 <Grid.Cell columnSpan={{ xs: 6, sm: 6, md: 6, lg: 12, xl: 12 }}>
-                    {/* <Ticker></Ticker> */}
                     <br></br>
                     <Card>
                         <Card.Section>
@@ -312,6 +257,7 @@ function WaitingVideos() {
                                 </div>
                             </div>
                         </Card.Section>
+
                         {numberOfVedios <= 0 ? (
                             <div
                                 style={{
@@ -353,7 +299,7 @@ function WaitingVideos() {
                                                     }}
                                                 >
                                                     <div
-                                                    className="video-wrapper-cstm"
+                                                        className="video-wrapper-cstm"
                                                         style={{
                                                             textAlign: "center",
                                                         }}
@@ -479,6 +425,7 @@ function WaitingVideos() {
                     </Card>
                 </Grid.Cell>
             </Grid>
+
             {currentPage >= totalPages ? null : (
                 <div className="button_center black-global-btn">
                     <Button
@@ -539,9 +486,9 @@ function WaitingVideos() {
                                     Cancel
                                 </Button>
                                 <span className="black-global-btn">
-                                <Button primary onClick={handleRejectionPopup}>
-                                    Confirm
-                                </Button>
+                                    <Button primary onClick={handleRejectionPopup}>
+                                        Confirm
+                                    </Button>
                                 </span>
                             </ButtonGroup>
                         </div>
@@ -637,6 +584,7 @@ function WaitingVideos() {
                     </div>
                 </Modal.Section>
             </Modal>
+
         </Page>
     );
 }

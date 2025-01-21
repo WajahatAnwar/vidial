@@ -65,6 +65,8 @@ class AppUninstalledJob extends \Osiset\ShopifyApp\Messaging\Jobs\AppUninstalled
 
         if ($user) {
             $user->plan_id = NULL;
+            logger()->info("customer_api_token");
+            logger()->info($user);
             $user->save();
             
             $shopId = $shop->getId();

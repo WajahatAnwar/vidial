@@ -8,18 +8,31 @@ import AppLayout from '../MyApplication/AppLayout';
 
  function Plans() {
   const { customer, plans, subscribe } = useMantle();
-  console.log("plansd lisrubg khhkadkj",plans);
-
   const handleSelectPlan = async ({ plan, discount }) => {
-    const subscription = await subscribe({
-      planId: plan.id,
-      discountId: discount?.id,
-      returnUrl: "/pricing",
-      billingProvider: "test"
-    });
-    console.log("spacific plan",plan);
-    const url = subscription.confirmationUrl;
-    open(url, "_top");
+
+    try {
+      const data = {
+        planId: plan?.id,
+        discountId: discount?.id,
+        returnUrl: "/pricing",
+        ...(plan?.customFields?.test && { billingProvider: "test" }),
+      };
+  
+      console.log(data);
+      
+  
+      const subscription = await subscribe(data);
+      const url = subscription.confirmationUrl;
+      open(url, "_top");
+    
+      if (subscription.confirmationUrl) {
+        console.log(subscription.confirmationUrl);
+      } else {
+        console.error("Confirmation URL is not available.");
+      }
+    } catch (error) {
+      console.error("Error during subscription:", error);
+    }
   };
 
   return (

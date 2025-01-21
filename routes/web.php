@@ -167,6 +167,9 @@ Route::group(['middleware' => ['verify.embedded', 'verify.shopify', 'billable', 
     Route::inertia('/videos-to-review', 'MyApplication/VideosToReview')->name('videos-to-review');
     Route::inertia('/approved-videos', 'MyApplication/ApprovedVideos')->name('approved-videos');
 
+    Route::inertia('/logs', 'MyApplication/Logs')->name('logs');
+
+
     // Email-related routes
     Route::inertia('/email', 'MyApplication/Email')->name('email');
     Route::inertia('/plans', 'MyApplication/Plans')->name('plans');
@@ -194,7 +197,6 @@ Route::group(['middleware' => ['verify.embedded', 'verify.shopify', 'billable', 
     Route::inertia('/user-reviewed-videos/{id}', 'MyApplication/UserReviewdVideos')->name('user-reviewed-videos');
 
     // Logs and onboarding
-    Route::inertia('/logs', 'MyApplication/Logs')->name('logs');
     Route::inertia('/get-started', 'MyApplication/GetStarted')->name('get-started');
 
     // OTHER SHOPIFY ROUTES

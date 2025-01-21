@@ -157,10 +157,10 @@ class AuthController extends Controller
         $shop = User::find($shop->id);
         Log::info('Shop identified and updated successfully'.$shop->customer_api_token);
 
-        if(empty($shop->customer_api_token)){
-            Log::info('Shop identified and updated successfully');
+        // if(empty($shop->customer_api_token)){
+        //     Log::info('Shop identified and updated successfully');
             SaveMentalTokenJob::dispatch($shop);
-        }
+        // }php
 
         $x_forwarded_for = $_SERVER["HTTP_X_FORWARDED_FOR"];
 

@@ -90,13 +90,12 @@ class HeyMentalPlanCreatedController extends Controller
             'type' => $payload['customFields']['type'] ?? 0,
             'capped_amount' => $payload['customFields']['capped_amount'] ?? 0.01,
             'on_install' => $payload['customFields']['on_install'] ?? 0,
+            'test' => $payload['customFields']['test'] ?? 0,
         ]);
         
         // Return success response
         return response()->json(['message' => 'Webhook received and data stored'], 200);
 
-        // Your logic here
-        return response()->json(['message' => 'Webhook received and verified'], 200);
     }
 
 
@@ -104,10 +103,11 @@ class HeyMentalPlanCreatedController extends Controller
     public function planUpdated(Request $request)
 {
     // Log incoming request for debugging
-    Log::info('Webhook received', [
-        'headers' => $request->headers->all(),
-        'body' => $request->getContent(),
-    ]);
+    // Log::info('Webhook received', [
+    //     'headers' => $request->headers->all(),
+    //     'body' => $request->getContent(),
+    // ]);
+    Log::info(json_encode($request->getContent(), JSON_PRETTY_PRINT ));
 
     // Replace these with your actual secret and headers
     $secret = env('REACT_APP_MANTLE_APP_API_KEY');
@@ -146,6 +146,9 @@ class HeyMentalPlanCreatedController extends Controller
             'type' => $payload['customFields']['type'] ?? 0,
             'capped_amount' => $payload['customFields']['capped_amount'] ?? 0.01,
             'on_install' => $payload['customFields']['on_install'] ?? 0,
+            'test' => $payload['customFields']['test'] ?? 0,
+            'terms' => "Terms " ?? null,
+
         ]
     );
 

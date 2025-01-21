@@ -27,6 +27,7 @@ export default function AppLayout({ auth, children }) {
                       let customerApiToken = data.data.customer_api_token;
     
                         if (customerApiToken) {
+                            console.log( 'custommer token' , customerApiToken);
                             setCustomerToken(customerApiToken);
                         } else {
                             console.error("API Token not found in parsed object!");
