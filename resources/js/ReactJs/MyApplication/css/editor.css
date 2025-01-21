@@ -18,3 +18,15 @@ background-color: black !important;
 {
     border-color: rgb(130, 130, 130);
 }
+.green-button {
+    background-color: green !important;
+    color: white !important;
+    border: 1px solid green !important;
+  }
+  
+  .green-button:hover {
+    background-color: darkgreen !important;
+    border-color: darkgreen !important;
+  }
+
+

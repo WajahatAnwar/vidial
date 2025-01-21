@@ -4,9 +4,9 @@ import { usePage } from '@inertiajs/react';
 import Ticker from './Ticker';
 // import DownIcon from '../components/imges/downIcon.svg';
 function GetStarted() {
-    const actions = window['app-bridge'].actions;
-    const Redirect = actions.Redirect;
-    const app = window.app;
+    // const actions = window['app-bridge'].actions;
+    // const Redirect = actions.Redirect;
+    // const app = window.app;
     const page = usePage().props;
     const query = page.ziggy.query;
 
@@ -46,8 +46,10 @@ function GetStarted() {
             });
         }
         console.log('path', path);
-        const redirect = Redirect.create(app);
-        redirect.dispatch(Redirect.Action.APP, path);
+
+        // const redirect = Redirect.create(app);
+        // redirect.dispatch(Redirect.Action.APP, path);
+        window.open(route(path, query), '_self');
     };
 
     useEffect(() => {
@@ -82,7 +84,7 @@ function GetStarted() {
                                 }
                             </div>
                             <div >
-                                <div role='button' type="button" onClick={() => handleRedirect('/videos-to-review')} ariaExpanded={open}
+                                <div role='button' type="button" onClick={() => handleRedirect('videos-to-review')} ariaExpanded={open}
                                     ariaControls="basic-collapsible">
                                     <Text variant='bodyMd' as='h4' fontWeight='bold'>Setup your UGC collection</Text>
 
@@ -104,7 +106,7 @@ function GetStarted() {
 
                                         <Button
                                             primary
-                                            onClick={() => handleRedirect('/settings')}
+                                            onClick={() => handleRedirect('settings')}
                                         >
                                             Configure Landing Page
                                         </Button>
@@ -125,7 +127,7 @@ function GetStarted() {
                                 }
                             </div>
                             <div>
-                                <div role='button' type="button" onClick={() => handleRedirect('/videos-to-review')}  ariaExpanded={open}
+                                <div role='button' type="button" onClick={() => handleRedirect('videos-to-review')}  ariaExpanded={open}
                                     ariaControls="basic-collapsible">
                                     <Text variant='bodyMd' as='h4' fontWeight='bold'>Approve or deny your videos.</Text>
 

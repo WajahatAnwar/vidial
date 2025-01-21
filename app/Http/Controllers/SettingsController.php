@@ -45,7 +45,7 @@ class SettingsController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' =>  "Current Settings Displayed",
+            'message' => "Current Settings Displayed",
             'data' => $current_settings,
         ]);
     }
@@ -618,6 +618,31 @@ class SettingsController extends Controller
         ]);
     }
 
+
+     /************* Delete klavio credentials ****************/
+     public function deleteKlavioCreds(Request $request)
+     {
+        $credential = KlavioCredential::where('user_id', Auth::user()->id)->first();
+
+        if ($credential) {
+            // Delete the credential
+            $credential->delete();
+    
+            return response()->json([
+                'success' => true,
+                'message' => "Settings Deleted",
+                'data' => null
+            ]);
+        }
+    
+        // Return a failure response if no credential is found
+        return response()->json([
+            'success' => false,
+            'message' => "No settings found to delete",
+            'data' => null
+        ]);
+     }
+
     /************* Last 30 days logs ****************/
 
     public function logs(Request $request)
@@ -649,7 +674,8 @@ class SettingsController extends Controller
         ]);
     }
 
-    public function visitLandingPage(){
+    public function visitLandingPage()
+    {
         $user = User::find(Auth::user()->id);
         $user->landing_page_visited = 1;
         $user->save();
@@ -659,4 +685,14 @@ class SettingsController extends Controller
             'data' => null
         ]);
     }
+
+    public function getSrc($shop_name)
+    {
+        $user = User::where('name', $shop_name)->first();
+        if (!$user) {
+            return response()->json(['success' => false, 'message' => 'User not found'], 404);
+        }
+        return response()->json(['success' => true, 'data' => $user->store_handle]);
+    }
+
 }

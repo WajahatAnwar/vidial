@@ -8,7 +8,7 @@
 
         <!-- Fonts -->
         <link rel="stylesheet" href="https://fonts.bunny.net/css2?family=Nunito:wght@400;600;700&display=swap">
-
+        <script src="https://cdn.heymantle.com/mantle_apptrack.js?appToken=47d2c6ef55518af760503c87715caf78"> </script>
         <!-- Scripts -->
         @routes
         @viteReactRefresh

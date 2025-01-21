@@ -4,9 +4,16 @@
     display:grid !important;
     place-items: center !important;
 }
-
-
-
+.button-tick {
+    margin-left: 10px;
+}
+.button-tick span {
+    background: #16C60C;
+    border-radius: 4px;
+}
+.button-tick svg.Polaris-Icon__Svg {
+    fill: #fff;
+}
 .delete-btn-icons img {
     margin: auto;
     text-align: center;
@@ -96,6 +103,14 @@
 }
 .setting_banner .Polaris-Button--plain.Polaris-Button--iconOnly svg{
     display: none;
+}
+#greenDisButton.green-disconnect-button button.Polaris-Button {
+    background: #007f5f !important;
+    border: none !important;
+}
+#greenDisButton.green-disconnect-button button.Polaris-Button:hover {
+    background: #007f5f !important;
+    border: none !important;
 }
 @media (max-width: 784.98px) {
     /* .Polaris-Frame__Content {
