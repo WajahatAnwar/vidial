@@ -18,7 +18,7 @@ import {
     Thumbnail,
     Toast
 } from "@shopify/polaris";
-import { CircleCancelMajor, NoteMinor, TickMinor } from "@shopify/polaris-icons";
+import { CircleCancelMajor, NoteMinor, TickMinor,ViewMinor, HideMinor,CancelMinor,DeleteMajor} from "@shopify/polaris-icons";
 import { useCallback, useEffect, useState } from "react";
 import Ticker from "./Ticker";
 import Toggle from "./Toggle";
@@ -26,6 +26,7 @@ import './css/editor.css';
 import ChevronUp from "./imges/ChevronUpMinor.png";
 import arrowRight from "./imges/arrowRight.png";
 import ColorWheel from "./imges/collorWheel.png";
+import { green } from "@mui/material/colors";
 
 const Email = () => {
 
@@ -111,7 +112,7 @@ const Email = () => {
     const [emailTemplateButton, setEmailTemplateButton] = useState(true);
     const [files, setFiles] = useState([]);
     const [alreadyUploadLogo, setAlreadyUploadedLogo] = useState('');
-
+    const [showApiKey, setShowApiKey] = useState(true);
 
     function handleChange() {
         let isChecked;
@@ -383,9 +384,32 @@ const Email = () => {
             method: 'POST'
         }).then(response => response.json()).then((data) => {
             setSuccessMsg("Connected Successfully");
+            setIsSettingSave(!isSettingSave);
+
             toggleActive();
         })
     }
+
+    const handleDeleteKlavio = () => {
+
+        setKlavioError(false);
+        
+
+        const formData = new FormData();
+    
+        fetch(route('delete.klavio', query), {
+            body: formData,
+            method: 'POST'
+        }).then(response => response.json()).then((data) => {
+            setSuccessMsg("Deleted Klaviyo Credentials Successfully");
+            setIsSettingSave(!isSettingSave);
+            setKlavioApi('');
+            setKlavioEmail('');
+            toggleActive();
+        })
+    }
+
+
     /******* setter for klavio *********/
     const setterKlavio = (data) => {
         setKlavioConnected(true);
@@ -1569,78 +1593,133 @@ const Email = () => {
                                         <>
                                             {/********* Klavio  *********/}
                                             <Card sectioned>
+  {klavioError ? (
+    <Banner>
+      <List type="bullet">
+        <List.Item>{klavioErrorMsg}</List.Item>
+      </List>
+    </Banner>
+  ) : (
+    ''
+  )}
+  <div className="googledrivesection">
+    <div style={{ marginBottom: '15px' }}>
+      <Text variant="headingLg" as="h5">
+        Connect Klaviyo
+      </Text>
+    </div>
+
+
+
+    <div style={{ marginTop: '10px', width: '450px', position: 'relative' }}>
+  {console.log("data", klavioApi)}
+  <TextField
+    value={klavioApi}
+    onChange={handleKlavioApi}
+    autoComplete="off"
+    placeholder="Set Klaviyo API Key"
+    type={showApiKey ? 'password' :'text'  }
+  />
+  {klavioApi && (
+    <div
+      style={{
+        position: 'absolute',
+        top: '8px',
+        right: '10px',
+        zIndex: '9999999',
+        cursor: 'pointer',
+      }}
+      onClick={() => setShowApiKey(!showApiKey)}
+    >
+      <Icon
+        source={showApiKey ? HideMinor : ViewMinor}
+        color={error ? "critical" : "success"}
+      />
+    </div>
+  )}
+</div>
+
+
+
+
+    <div style={{ marginTop: '10px', width: '450px' }}>
+      <TextField
+        value={klavioEmail}
+        onChange={handleKlavioEmail}
+        autoComplete="off"
+        placeholder="Set Email"
+      />
+    </div>
+
+    <div style={{ marginTop: '20px' }} className="polaris-black-btn-global">
+      {/* {klavioConnected ? (
+        // <Button info>
+        //   <div style={{ display: 'flex' }}>
+        //     <div>Connected</div>
+        //     <div>
+        //       <Icon source={TickMinor} color="base" />
+        //     </div>
+        //   </div>
+        // </Button>
+        <Button primary onClick={handleConnectKlavio}>
+        Connect
+      </Button>  
+
+
+      ) : ( */}
+
+
+<div style={{ display: "flex", alignItems: "center", }}>
+ 
+
                                                 {
-                                                    klavioError ? <Banner>
-                                                        <List type="bullet">
-                                                            {
-                                                                <List.Item>{klavioErrorMsg}</List.Item>
-
-                                                            }
-
-
-                                                        </List>
-                                                    </Banner> : ''
-                                                }
-                                                <div className="googledrivesection">
-                                                    <div style={{ marginBottom: "15px" }}>
-                                                        <Text variant="headingLg" as="h5">
-                                                            Connect Klaviyo
-                                                        </Text>
-                                                    </div>
-                                                    {/* <p
-                                            style={{
-                                                marginTop: "15px",
-                                                marginBottom: "15px",
-                                            }}
-                                        >
-                                            Please contact the live support to verify your store and remove our Branding “Powered by Vidial” for FREE.
-                                        </p> */}
-                                                    <div style={{ marginTop: "10px", width: "450px" }}>
-                                                        <TextField
-                                                            value={klavioApi}
-                                                            onChange={handleKlavioApi}
-                                                            autoComplete="off"
-                                                            placeholder="Set Klaviyo API Key"
-
-                                                        />
-                                                    </div>
-
-                                                    <div style={{ marginTop: "10px", width: "450px" }}>
-                                                        <TextField
-                                                            value={klavioEmail}
-                                                            onChange={handleKlavioEmail}
-                                                            autoComplete="off"
-                                                            placeholder="Set Email"
-
-                                                        />
-                                                    </div>
-
-
-
-                                                    <div style={{ marginTop: "20px" }} className="polaris-black-btn-global">
-                                                        {
                                                             klavioConnected ?
+                                                            <div id="greenDisButton" className="green-disconnect-button">    
+                                                            <Button  onClick={handleDeleteKlavio}
+  
+  style={{ marginRight: "10px" }}
+>
+  {/* <div style={{ display: "flex" }}>
+    <div> */}
+        Disconnect 
+        {/* </div> */}
+</Button>
+  </div>
 
-                                                                <Button info >
-                                                                    <div style={{ display: "flex" }} >
-
-                                                                        <div>Connected</div>
-                                                                        <div>
-                                                                            <Icon
-                                                                                source={TickMinor}
-                                                                                color="base"
-                                                                            />
-                                                                        </div>
-                                                                    </div>
-                                                                </Button>
-                                                                : <Button primary onClick={handleConnectKlavio}>
+                                                          
+                                                                : <Button primary onClick={handleConnectKlavio} style={{marginRight: "10px" }} >
                                                                     Connect
                                                                 </Button>
-                                                        }
+                                                        } 
+                                                        {/* <Button style={{marginLeft: "10px" }} primary onClick={handleDeleteKlavio}>
+                                                                    Delete Credientials
+                                                                </Button> */}
 
-                                                    </div>
-                                                </div>
-                                            </Card>
+{/* {klavioConnected ?
+                                                                <div style={{marginLeft:"20px",cursor: 'pointer'}} onClick={handleDeleteKlavio}   > */}
+    {/* <Icon 
+    source={DeleteMajor} 
+    color="critical" // Red color for a delete action
+    accessibilityLabel="Delete Credentials"
+    
+    style={{ cursor: 'pointer', marginLeft: '10px' }}
+/> */}
+{/* <Button primary  style={{marginRight: "10px" }} >
+                                                                    Disconnet
+                                                                </Button> */}
+
+{/* </div> : ""
+} */}
+
+  
+</div>
+
+
+      {/* )} */}
+    </div>
+  </div>
+</Card>
+
 
                                             {/* <Card sectioned>
                                         <div className="googledrivesection">

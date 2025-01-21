@@ -608,7 +608,6 @@ class VideoController extends Controller
     {
 
         /****** check link expiration ******/
-
         $order = null;
         $order_id = null;
         if ($request->filled('order_id')) {
@@ -650,7 +649,7 @@ class VideoController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Store not found',
-            ]);
+            ]);    
         }
         $video['user_id'] = $user->id;
         if (Video::create($video)) {
@@ -662,9 +661,12 @@ class VideoController extends Controller
             $details = [
                 'mail' => $user->email,
                 'locale' => $user->settings->locale,
-                'url' => "https://" . $user->name . "/" . "admin"
+                // 'url' => "https://" . $user->name . "/" . "admin",
+                'url' => "https://admin.shopify.com/store/" . trim(str_replace('.myshopify.com', '', $user->name)) . "/apps/" . trim($_ENV['SHOPIFY_APP_NAME']) . "/videos-to-review"
+
             ];
             dispatch(new ThanksMailjob($details));
+            // dd('hello');
 
             $log_details = [
                 'type' => "EMAIL",

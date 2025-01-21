@@ -1,35 +1,20 @@
-import {
-    Banner,
-    Button,
-    ButtonGroup,
-    Card,
-    ColorPicker,
-    DropZone,
-    Frame,
-    Grid,
-    Icon,
-    List,
-    Modal,
-    Page,
-    Popover,
-    Select,
-    Spinner,
-    Text,
-    TextField,
-    Thumbnail,
-    Toast,
-    hsbToHex
-} from "@shopify/polaris";
-import { CircleCancelMajor, NoteMinor } from "@shopify/polaris-icons";
-import { useCallback, useEffect, useState } from "react";
+import { Banner, Button, ButtonGroup, Card, ColorPicker, DropZone, Frame, Grid, Icon, List, Modal, Page, Popover, RadioButton, Select, Spinner, Text, TextField, Thumbnail, Toast, Tooltip, hsbToHex } from "@shopify/polaris";
+import { CircleCancelMajor, NoteMinor, ClipboardMinor } from "@shopify/polaris-icons";
+
+import { useCallback, useEffect, useRef, useState } from "react";
 import './css/editor.css';
 import ColorWheel from "./imges/collorWheel.png";
+import Copy from "./imges/Copy.svg";
 import Ticker from "./Ticker";
 // import { DeleteIcon } from '@shopify/polaris-icons';
 // import {DeleteIcon} from '@shopify/polaris-icons';
 
 import { router, usePage } from "@inertiajs/react";
 import Delete from "./imges/Delete.svg";
+import { TextField as TextField2, MenuItem, Typography } from "@mui/material";
+import WebFont from "webfontloader";
+
+
 /**
 const urlParams = new URLSearchParams(location.search);
 const shopParam = urlParams.get('shop');
@@ -104,7 +89,10 @@ const Settings = () => {
     const handleMailgunDomain = useCallback((newValue) => setMailgunDomain(newValue), []);
     const handleMailgunEndPoint = useCallback((newValue) => setMailgunEndpoint(newValue), []);
     const [title, setTitle] = useState("");
-    const handleTitle = useCallback((newValue) => setTitle(newValue), []);
+    const handleTitle = (event) => {
+        console.log(event.target.value)
+        setTitle(event.target.value);
+    }
 
     const handleInstruction = useCallback((newValue) => setInstructionSubTitle(newValue), []);
     const [buttonText, setButtonText] = useState(null);
@@ -121,6 +109,8 @@ const Settings = () => {
     const [emailTemplateButton, setEmailTemplateButton] = useState(true);
     const [files, setFiles] = useState([]);
     const [alreadyUploadLogo, setAlreadyUploadedLogo] = useState('');
+
+
 
     function handleChange() {
         let isChecked;
@@ -199,6 +189,76 @@ const Settings = () => {
         { label: "Italian", value: "it" },
         { label: "German", value: "de" },
     ];
+
+    const [fontOptions, setFontOptions] = useState([]);
+    const [fontSelected, setFontSelected] = useState('');
+    const [visibleFonts, setVisibleFonts] = useState([]);
+    const batchSize = 20;
+    const loadedFonts = useRef(new Set());
+    useEffect(() => {
+        const fetchGoogleFonts = async () => {
+            try {
+                setIsLoading(true);
+                const response = await axios.get(
+                    `https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyBWdgWr0bOPpqBlROejxCqeiaGnXd35ACM`
+                );
+                const fonts = response.data.items.map((font) => font.family);
+
+                setFontOptions(fonts); // Store all fonts
+                setVisibleFonts(fonts.slice(0, batchSize)); // Load the first batch
+                preloadFonts(fonts.slice(0, batchSize)); // Preload the first batch
+                setIsLoading(false);
+            } catch (error) {
+                console.error("Error fetching Google Fonts:", error);
+                setIsLoading(false);
+            }
+        };
+
+        fetchGoogleFonts();
+    }, []);
+
+    const preloadFonts = (fonts) => {
+        fonts.forEach((font) => {
+            if (!loadedFonts.current.has(font)) {
+                WebFont.load({
+                    google: {
+                        families: [font],
+                    },
+                });
+                loadedFonts.current.add(font); // Cache the loaded font
+            }
+        });
+    };
+
+    const handleScroll = (event) => {
+        const { scrollTop, scrollHeight, clientHeight } = event.target;
+        if (scrollTop + clientHeight >= scrollHeight - 50 && !isLoading) {
+            loadMoreFonts();
+        }
+    };
+
+    const loadMoreFonts = () => {
+        setIsLoading(true);
+        const currentLength = visibleFonts.length;
+        const nextBatch = fontOptions.slice(currentLength, currentLength + batchSize);
+
+        if (nextBatch.length > 0) {
+            preloadFonts(nextBatch); // Preload the next batch
+            setVisibleFonts((prevFonts) => [...prevFonts, ...nextBatch]); // Append new fonts
+        }
+        setIsLoading(false);
+    };
+
+    const [count, setCount] = useState('circle');
+
+    const handleCountChange = (bol, value) => {
+        setCount(value);
+    }
+    const [btnStyle, setBtnStyle] = useState('squaree');
+
+    const handleBtnStyleChange = (bol, value) => {
+        setBtnStyle(value);
+    }
 
     const [priceValue, setPriceValue] = useState("50");
     const [starStoreCredit, setStarStoreCredit] = useState("75");
@@ -316,10 +376,42 @@ const Settings = () => {
         //     baseUrl + "/landingPage/" + currentLang + "?store=" + store
         // );
         window.open(
-            baseUrl + "/s/" + approvedStoreHandle
+            "/s/" + approvedStoreHandle
         );
     };
-
+    const copyCode = (store) => {
+        const baseUrl = window.location.origin;
+        const iframeSrc = `${baseUrl}/s/${approvedStoreHandle}`;
+        const codeToCopy = `<style>
+            iframe {
+                width: 100%;
+                border: none; /* Disable border */
+                outline: none !important; /* Disable focus outline */
+                box-shadow: none !important; /* Disable shadow */
+                overflow: hidden; /* Ensure no scrollbars */
+                height: 160vh;
+            }
+            </style>
+            <iframe src="${iframeSrc}" frameborder="0" scrolling="no">
+            </iframe>`;
+        navigator.clipboard.writeText(codeToCopy)
+            .then(() => {
+                setSuccessMsg("Code Copied Successfully");
+                toggleActive();
+            })
+            .catch(err => {
+                console.error('Failed to copy code:', err);
+            });
+    };
+    const handleFontChange = (event) => {
+        const selectedFont = event.target.value;
+        setFontSelected(selectedFont);
+        WebFont.load({
+            google: {
+                families: [selectedFont],
+            },
+        });
+    };
     const setByDefaultSettings = ($columnType, $locale) => {
 
         if ($locale == 'en') {
@@ -571,6 +663,17 @@ const Settings = () => {
                     setEmailSentToValue(data.data.email_sent_to_customer);
                     setLandingPageDisplayedValue(data.data.page_link);
                     setInstructionSubTitle(data.data.instruction_subtitle ?? 'Please follow the instructions below:');
+                    setFontSelected(data.data.instruction_title_font);
+                    setCount(data.data.instruction_count);
+                    setBtnStyle(data.data.instruction_button_style);
+                    WebFont.load({
+                        google: {
+                            families: [data.data.instruction_title_font],
+                        },
+                    });
+                    if (!visibleFonts.includes(data.data.instruction_title_font)) {
+                        setVisibleFonts((prevFonts) => [data.data.instruction_title_font, ...prevFonts]); // Add it if not present
+                    }
                     setLogoImage(data.data.logo);
                     //setVideoTitle(data.data.dropzone_text)
                     setAlreadyUploadedLogo(data.data.logo)
@@ -768,6 +871,17 @@ const Settings = () => {
         setSelected(value);
         languageConvert(value)
     };
+    const customStyles = {
+        option: (provided, state) => ({
+            ...provided,
+            fontFamily: state.data.value, // Apply the font dynamically
+        }),
+        singleValue: (provided, state) => ({
+            ...provided,
+            fontFamily: state.data.value, // Show selected font in preview
+        }),
+    };
+
 
     /******** save settings into DB ******/
     const saveSettings = (e) => {
@@ -794,6 +908,9 @@ const Settings = () => {
         formData.append("video_btn_text", buttonText);
         formData.append('fav_icon', favIcon);
         formData.append('star_credit', starStoreCredit);
+        formData.append('instruction_title_font', fontSelected);
+        formData.append('instruction_count', count);
+        formData.append('instruction_button_style', btnStyle);
         // if (!isHandleAvailable){
         //     formData.append("store_handle", storeHandle);
         // }
@@ -809,6 +926,7 @@ const Settings = () => {
             )
         ) {
             setError(true);
+            setIsLoading(false);
         } else {
             setError(false);
             // Generating request for sending Data to the server
@@ -1310,9 +1428,11 @@ const Settings = () => {
                                         <div
                                             style={{
                                                 width: "200px",
-                                                textAlign: "end",
+                                                textAlign: "center",
+                                                alignItems: "center",
+                                                justifyContent: "end"
                                             }}
-                                            className="polaris-black-btn-global"
+                                            className="polaris-black-btn-global flex"
                                         >
                                             <Button
                                                 primary
@@ -1322,6 +1442,70 @@ const Settings = () => {
                                             >
                                                 View Landing Page
                                             </Button>
+
+                                            {/* <div style={{ cursor: "pointer" }} onClick={() => {
+                                                copyCode(store);
+                                            }}>
+                                                <Tooltip content="Copy code"
+                                                    preferredPosition="above"
+                                                >
+                                                    <img style={{ width: "20px" }} src={Copy} alt="" />
+
+
+                                                </Tooltip>
+                                            </div> */}
+
+                                        </div>
+                                    </div>
+                                    <div
+                                        style={{
+                                            display: "flex",
+                                            alignItems: "center",
+                                            justifyContent: "space-between",
+                                        }}
+                                        className="polaris-black-btn-global"
+                                    >
+                                        <div>
+                                               
+                                            <p
+                                                style={{
+                                                    marginTop: "5px",
+                                                    marginBottom: "10px",
+                                                }}
+                                            >
+                                                Copy the code to paste it on the customizer
+                                            </p>
+                                        </div>
+                                        <div
+                                            style={{
+                                                width: "200px",
+                                                textAlign: "center",
+                                                alignItems: "center",
+                                                justifyContent: "end"
+                                            }}
+                                            className="polaris-black-btn-global flex"
+                                        >
+                                            <Button
+                                                primary
+                                                onClick={() => {
+                                                    copyCode(store);
+                                                }}
+                                            >
+                                              Copy Landing Page Code
+                                            </Button>
+
+                                            {/* <div style={{ cursor: "pointer" }} onClick={() => {
+                                                copyCode(store);
+                                            }}>
+                                                <Tooltip content="Copy code"
+                                                    preferredPosition="above"
+                                                >
+                                                    <img style={{ width: "20px" }} src={Copy} alt="" />
+
+
+                                                </Tooltip>
+                                            </div> */}
+
                                         </div>
                                     </div>
                                     <div
@@ -1531,12 +1715,12 @@ const Settings = () => {
                                         />
                                         &nbsp;
                                         <span className="black-global-btn">
-                                        <Button primary onClick={() => {
-                                            //setPageLink("/post-purchase-email")
-                                            document.getElementById('sab_ok_id').click();
-                                            setEmailTemplateButton(true);
-                                            //setActiveRejectionConfirmModel(true);
-                                        }} disabled={emailTemplateButton}>Save</Button>
+                                            <Button primary onClick={() => {
+                                                //setPageLink("/post-purchase-email")
+                                                document.getElementById('sab_ok_id').click();
+                                                setEmailTemplateButton(true);
+                                                //setActiveRejectionConfirmModel(true);
+                                            }} disabled={emailTemplateButton}>Save</Button>
                                         </span>
                                     </div>
                                 </Card>
@@ -1619,7 +1803,7 @@ const Settings = () => {
                                                     alt="img"
                                                     source={baseUrl + '/logo/' + alreadyUploadLogo}
                                                 />
-                                                    <div onClick={handleRemoveAlreadyUploadedLogo} className="del-main-icon" >
+                                                <div onClick={handleRemoveAlreadyUploadedLogo} className="del-main-icon" >
                                                     {
                                                         activeTootlTip ? <Tooltip content="">
                                                             {/* <Icon source={CircleCancelMajor} color="critical" /> */}
@@ -1627,7 +1811,7 @@ const Settings = () => {
                                                             {/* <Icon source={DeleteMajor} color="critical" /> */}
                                                             <img src={Delete} />
 
-                                                        </Tooltip> : <img  src={Delete} className="del-main-icon" />
+                                                        </Tooltip> : <img src={Delete} className="del-main-icon" />
                                                     }
 
                                                 </div>
@@ -1643,23 +1827,23 @@ const Settings = () => {
                                     <div>
                                         <input type="file" name="fav_icon" onChange={handleFavIcon}></input>
                                     </div>
-                                        <div style={{ width: "60px" }} className="delete-btn-icons">
+                                    <div style={{ width: "60px" }} className="delete-btn-icons">
                                         <div style={{ marginTop: "10px" }}>
-                                        {
-                                            favIconPreview ? <><Thumbnail
-                                                size="medium"
-                                                alt="img"
-                                                source={favIconPreview}
-                                            />
-                                            <div onClick={()=>handleRemoveFavIcon()}>
-                                            <Icon source={CircleCancelMajor} color="critical" />
-                                            </div>
-                                                    </>
-                                                : ''
-                                        }
-                                    </div>
-
+                                            {
+                                                favIconPreview ? <><Thumbnail
+                                                    size="medium"
+                                                    alt="img"
+                                                    source={favIconPreview}
+                                                />
+                                                    <div onClick={() => handleRemoveFavIcon()}>
+                                                        <Icon source={CircleCancelMajor} color="critical" />
+                                                    </div>
+                                                </>
+                                                    : ''
+                                            }
                                         </div>
+
+                                    </div>
                                     <div
                                         style={{
                                             width: "450px",
@@ -1677,11 +1861,55 @@ const Settings = () => {
                                         >
                                             Instructions Title
                                         </p>
-                                        <TextField
+                                        <TextField2
                                             value={title}
                                             onChange={handleTitle}
                                             autoComplete="off"
+                                            sx={{ width: "100%" }}
                                         />
+                                        <p
+                                            style={{
+                                                marginTop: "5px",
+                                                marginBottom: "5px",
+                                            }}
+                                        >
+                                            Instructions Title Font
+                                        </p>
+                                        <div
+                                            style={{ maxHeight: "200px", overflowY: "auto" }}
+                                            onScroll={handleScroll}
+                                        >
+
+                                            <TextField2
+                                                select
+                                                value={fontSelected}
+                                                onChange={handleFontChange}
+                                                fullWidth
+                                                style={{ marginBottom: "20px" }}
+                                                InputProps={{
+                                                    style: { fontFamily: fontSelected }, // Apply selected font
+                                                }}
+                                                SelectProps={{
+                                                    MenuProps: {
+                                                        PaperProps: {
+                                                            onScroll: handleScroll, // Attach scroll event
+                                                            style: { maxHeight: 200, overflowY: "auto" }, // Enable scrolling
+                                                        },
+                                                    },
+                                                }}
+                                            >
+                                                {visibleFonts.map((font, index) => (
+                                                    <MenuItem
+                                                        key={index}
+                                                        value={font}
+                                                        style={{ fontFamily: font }} // Preview the font in the dropdown
+                                                    >
+                                                        {font}
+                                                    </MenuItem>
+                                                ))}
+                                            </TextField2>
+                                        </div>
+
                                         <p
                                             style={{
                                                 marginTop: "5px",
@@ -1783,6 +2011,58 @@ const Settings = () => {
                                         </Button>
                                     </div>
 
+                                    <p style={{ marginTop: "10px" }}>Steps Style</p>
+                                    <div style={{ display: "flex", gap: "12px" }}>
+
+                                        <RadioButton
+                                            label={<div
+                                                style={{
+                                                    width: "30px", // Outer circle size
+                                                    height: "30px",
+                                                    borderRadius: "50%",
+                                                    border: "2px solid gray", // Circle outline
+                                                    display: "flex", // Center content horizontally and vertically
+                                                    justifyContent: "center",
+                                                    alignItems: "center",
+                                                    fontSize: "16px", // Adjust font size for the number
+                                                    color: "black", // Text color
+                                                }}
+                                            >
+                                                1
+                                            </div>}
+                                            checked={count === 'circle'}
+                                            id="circle"
+                                            name="count"
+                                            onChange={handleCountChange}
+                                        />
+
+                                        <RadioButton
+                                            label={<div
+                                                style={{
+                                                    width: "30px", // Square size
+                                                    height: "30px",
+                                                    border: "2px solid gray", // Square outline
+                                                    display: "flex", // Center content horizontally and vertically
+                                                    justifyContent: "center",
+                                                    alignItems: "center",
+                                                    fontSize: "16px", // Adjust font size for the number
+                                                    color: "black", // Text color
+                                                }}
+                                            >
+                                                1
+                                            </div>}
+                                            id="square"
+                                            name="count"
+                                            checked={count === 'square'}
+                                            onChange={handleCountChange}
+                                        />
+
+                                    </div>
+
+
+
+
+
                                     <div
                                         style={{
                                             display: "flex",
@@ -1844,7 +2124,7 @@ const Settings = () => {
                                                     autoPlay
                                                     loop
                                                 ></video>
-                                                    <div onClick={handleRemoveAlreadyUploadedVideo} className="del-main-icon" >
+                                                <div onClick={handleRemoveAlreadyUploadedVideo} className="del-main-icon" >
                                                     {
                                                         activeTootlTip ? <Tooltip content="This is default setting. You can not change it.">
                                                             {/* <Icon source={CircleCancelMajor} color="critical" /> */}
@@ -2248,6 +2528,24 @@ const Settings = () => {
                                         }}
                                         className="colorOptions"
                                     ></div>
+                                    <p style={{ marginTop: "14px" }}>Button Style</p>
+                                    <div style={{ display: "flex", gap: "12px" }}>
+                                        <RadioButton
+                                            label="Square"
+                                            checked={btnStyle === 'squaree'}
+                                            id="squaree"
+                                            name="btnStyle"
+                                            onChange={handleBtnStyleChange}
+                                        />
+                                        <RadioButton
+                                            label="Round"
+                                            id="round"
+                                            name="btnStyle"
+                                            checked={btnStyle === 'round'}
+                                            onChange={handleBtnStyleChange}
+                                        />
+
+                                    </div>
                                 </Card>
 
 

@@ -409,7 +409,7 @@ function AdminDashboard(props) {
                                                 <div><Button onClick={() => router.get(route(`single-user-email-settings`, { id: user.id }))}>Email</Button></div>,
                                                 <div><Button onClick={() => router.get(route(`single-user-logs`, { id: user.id }))}>Logs</Button></div>,
                                                 <div><Button onClick={() => router.get(route(`single-user-approved-videos`, { id: user.id }))}>Approved Videos</Button></div>,
-                                                <div><Button onClick={() => router.get(route(`single-user-reviewd-videos`, { id: user.id }))}>Review Videos</Button></div>,
+                                                <div><Button onClick={() => router.get(route(`single-user-reviewed-videos`, { id: user.id }))}>Review Videos</Button></div>,
                                                 <div>{user.customers ? user.customers.length : 0}</div>,
                                                 <div>{user.email}</div>,
                                                 <div>{user.created_at}</div>,

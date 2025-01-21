@@ -39,6 +39,7 @@ class NotApprovedMailjob implements ShouldQueue
      */
     public function handle()
     {
+     
         $mgClient = Mailgun::create(
             env('MAILGUN_SECRET'), // Mailgun API Key
             env('MAILGUN_ENDPOINT')

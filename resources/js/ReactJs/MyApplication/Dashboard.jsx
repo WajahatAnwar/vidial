@@ -28,9 +28,9 @@ import Ticker from "./Ticker";
 import { downloadVideo } from "./utils";
 
 function Dashboard() {
-    const actions = window['app-bridge'].actions;
-    const Redirect = actions.Redirect;
-    const app = window.app;
+    // const actions = window['app-bridge'].actions;
+    // const Redirect = actions.Redirect;
+    // const app = window.app;
     const page = usePage().props;
     const query = page.ziggy.query;
 
@@ -101,8 +101,9 @@ function Dashboard() {
     });
 
     const handleRedirect = (path) => {
-        const redirect = Redirect.create(app);
-        redirect.dispatch(Redirect.Action.APP, path);
+        // const redirect = Redirect.create(app);
+        // redirect.dispatch(Redirect.Action.APP, path);
+        window.open(route(path, query), '_self');
     };
 
     // const activatorApprovedSuccessModel = <Button onClick={handleChangeApprovedSuccessModel}>Open</Button>;
@@ -403,7 +404,7 @@ function Dashboard() {
                                         size="slim"
                                         onClick={() => {
                                             // router.get(route('videos-to-review', query));
-                                            handleRedirect('/videos-to-review');
+                                            handleRedirect('videos-to-review');
                                         }}
                                     >
                                         See All
@@ -608,7 +609,7 @@ function Dashboard() {
                                     <Button
                                         size="slim"
                                         onClick={() => {
-                                            handleRedirect('/approved-videos');
+                                            handleRedirect('approved-videos');
                                         }}
                                     >
                                         See All

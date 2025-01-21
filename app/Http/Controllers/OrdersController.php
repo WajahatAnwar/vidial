@@ -18,6 +18,7 @@ class OrdersController extends Controller
         $shop = User::find($shop->id);
         $shop_settings =  $shop->settings;
         $orders = $shop->api()->rest('GET', '/admin/orders.json');
+        
         // Log::info($shop->settings->page_link);
         foreach ($orders['body']['orders'] as $order_item) {
             Orders::create([
@@ -45,7 +46,6 @@ class OrdersController extends Controller
         $temlateDetails['mail'] = auth()->user()->email;
         $temlateDetails['name'] = 'Merchant';
         $temlateDetails['storename'] = auth()->user()->store_name;
-        // $temlateDetails['url'] = env('APP_URL') . "/".(auth()->user()->store_handle ? auth()->user()->store_handle : auth()->user()->store_name) ."?order_id=" . Crypt::encryptString('1234');
         $temlateDetails['url'] = env('APP_URL') . "/s/" . (auth()->user()->store_handle ? auth()->user()->store_handle : auth()->user()->store_name);
         $temlateDetails['amount'] = auth()->user()->settings->store_credit;
         $temlateDetails['discount_code'] = '';

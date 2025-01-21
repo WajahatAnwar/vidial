@@ -124,7 +124,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::inertia('/single-user-logs', 'MyApplication/UserLogs')->name('single-user-logs');
     Route::inertia('/single-user-approved-videos', 'MyApplication/UserApprovedVideos')->name('single-user-approved-videos');
     Route::inertia('/single-user-reviewed-videos', 'MyApplication/UserReviewdVideos')->name('single-user-reviewed-videos');
-
     // Post-purchase emails
     Route::inertia('/single-post-purchase-email', 'MyApplication/PostPurchaseEmail')->name('single-post-purchase-email');
     Route::inertia('/single-reminder-email', 'MyApplication/ReminderEmail')->name('single-reminder-email');
@@ -225,6 +224,8 @@ Route::group(['middleware' => ['verify.embedded', 'verify.shopify', 'billable', 
     Route::get('sync-customers', [DashboardController::class, 'syncCustomers'])->name('sync-customers');
     Route::get('customer-webhook', [DashboardController::class, 'customerWebhook'])->name('customer-webhook');
     Route::post('save-klavio-settings', [SettingsController::class, 'saveKlavioCreds'])->name('connect.klavio');
+    Route::post('delete-klavio-settings', [SettingsController::class, 'deleteKlavioCreds'])->name('delete.klavio');
+    
     Route::get('logs-content', [SettingsController::class, 'logs'])->name('logs-content');
     Route::get('shop-id', function () {
         $users = User::where('role_id', '2')->get();
