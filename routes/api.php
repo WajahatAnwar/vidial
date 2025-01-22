@@ -13,4 +13,4 @@ Route::get('{shop_name}/get-src' , [SettingsController::class, 'getSrc']);
 
 Route::post('create_plan_sync',[HeyMentalPlanCreatedController::class,'planCreated']);
 Route::post('update_plan_sync',[HeyMentalPlanCreatedController::class,'planUpdated']);
-
+Route::get('{shop_name}/get-src' , [SettingsController::class, 'getSrc']);
