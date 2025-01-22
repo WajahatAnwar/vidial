@@ -1,4 +1,5 @@
 import {
+    Box,
     Button,
     ButtonGroup,
     Card,
@@ -7,7 +8,8 @@ import {
     Modal,
     Page,
     Text,
-    TextField
+    TextField,
+    Divider
 } from "@shopify/polaris";
 
 import checkmark from "@/ReactJs/MyApplication/imges/checkmark.svg";
@@ -203,7 +205,7 @@ function WaitingVideos() {
 
     useEffect(() => {
         console.log('counter :');
-        fetch('getPendingVideos', { page: currentPage, ...query })
+        fetch(route('getPendingVideos', { page: currentPage }))
             .then((response) => {
                 if (!response.ok) {
                     throw new Error("Something went wrong");
@@ -227,52 +229,46 @@ function WaitingVideos() {
         <Page>
             <Grid>
                 <Grid.Cell columnSpan={{ xs: 6, sm: 6, md: 6, lg: 12, xl: 12 }}>
-                    <br></br>
-                    <Card>
-                        <Card.Section>
+                   <Card>
+                        <div style={{
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "space-between",
+                            marginTop: "0px",
+                            marginBottom: "8px",
+                        }}>
                             <div
                                 style={{
                                     display: "flex",
                                     alignItems: "center",
-                                    justifyContent: "space-between",
-                                    marginTop: "-10px",
-                                    marginBottom: "-10px",
-                                }}
-                            >
-                                <div
-                                    style={{
-                                        display: "flex",
-                                        alignItems: "center",
-                                    }}
-                                >
-                                    <img
-                                        src={checkmark}
-                                        width="20px"
-                                        height="20px"
-                                        style={{ marginRight: "10px" }}
-                                    ></img>
-                                    <Text variant="headingLg" as="h5">
-                                        Videos to Review
-                                    </Text>
-                                </div>
-                            </div>
-                        </Card.Section>
-
-                        {numberOfVedios <= 0 ? (
-                            <div
-                                style={{
-                                    height: "400px",
-                                    background: "#f9f9f9",
-                                    borderRadius: "6px",
-                                    textAlign: "center",
-                                    paddingTop: "125px",
-                                    justifyItems: "center",
                                 }}
                             >
                                 <img
+                                    src={checkmark}
+                                    width="20px"
+                                    height="20px"
+                                    style={{ marginRight: "10px" }}
+                                />
+                                <Text variant="headingLg" as="h5">
+                                    Videos to Review
+                                </Text>
+                            </div>
+                        </div>
+                        <Divider />
+
+                        {numberOfVedios <= 0 ? (
+                            <div style={{
+                                height: "400px",
+                                background: "#f9f9f9",
+                                borderRadius: "6px",
+                                textAlign: "center",
+                                paddingTop: "125px",
+                                justifyItems: "center",
+                            }}>
+                                <img
                                     style={{ height: "102px", opacity: ".5" }}
                                     src={noVedio}
-                                ></img>
+                                />
 
                                 <p
                                     style={{
@@ -284,143 +280,143 @@ function WaitingVideos() {
                                 </p>
                             </div>
                         ) : (
-                            <Card.Section>
-                                <Grid>
-                                    {videos &&
-                                        videos.map((video, index) => {
-                                            return (
-                                                <Grid.Cell
-                                                    columnSpan={{
-                                                        xs: 3,
-                                                        sm: 3,
-                                                        md: 3,
-                                                        lg: 3,
-                                                        xl: 3,
+                            <Box paddingBlockEnd='500' paddingBlockStart='1000'>
+                            <Grid>
+                                {videos &&
+                                    videos.map((video, index) => {
+                                        return (
+                                            <Grid.Cell
+                                                columnSpan={{
+                                                    xs: 3,
+                                                    sm: 3,
+                                                    md: 3,
+                                                    lg: 3,
+                                                    xl: 3,
+                                                }}
+                                            >
+                                                <div
+                                                    className="video-wrapper-cstm"
+                                                    style={{
+                                                        textAlign: "center",
                                                     }}
                                                 >
-                                                    <div
-                                                        className="video-wrapper-cstm"
-                                                        style={{
-                                                            textAlign: "center",
-                                                        }}
+                                                    {/* <img src={VideoTumbnail} width= "100%"></img> */}
+                                                    <video
+                                                        key={
+                                                            video.video_link
+                                                        }
+                                                        width="216"
+                                                        height="386"
+                                                        controls
                                                     >
-                                                        {/* <img src={VideoTumbnail} width= "100%"></img> */}
-                                                        <video
-                                                            key={
+                                                        <source
+                                                            src={
                                                                 video.video_link
                                                             }
-                                                            width="216"
-                                                            height="386"
-                                                            controls
-                                                        >
-                                                            <source
-                                                                src={
-                                                                    video.video_link
-                                                                }
-                                                                type="video/mp4"
-                                                            />
-                                                            Your browser does
-                                                            not support the
-                                                            video tag.
-                                                        </video>
+                                                            type="video/mp4"
+                                                        />
+                                                        Your browser does
+                                                        not support the
+                                                        video tag.
+                                                    </video>
 
-                                                        <p
-                                                            style={{
-                                                                fontSize:
-                                                                    "12px",
-                                                                color: "#797979",
-                                                                marginTop:
-                                                                    "10px",
-                                                            }}
-                                                        >
-                                                            {video.email}
-                                                        </p>
-                                                        <p
-                                                            style={{
-                                                                fontSize:
-                                                                    "12px",
-                                                                color: "#797979",
-                                                            }}
-                                                        >
-                                                            {video.created_at}
+                                                    <p
+                                                        style={{
+                                                            fontSize:
+                                                                "12px",
+                                                            color: "#797979",
+                                                            marginTop:
+                                                                "10px",
+                                                        }}
+                                                    >
+                                                        {video.email}
+                                                    </p>
+                                                    <p
+                                                        style={{
+                                                            fontSize:
+                                                                "12px",
+                                                            color: "#797979",
+                                                        }}
+                                                    >
+                                                        {video.created_at}
 
-                                                        </p>
+                                                    </p>
+                                                    <div
+                                                        style={{
+                                                            border: "1px solid #dddd",
+                                                            padding:
+                                                                "6px 12px",
+                                                            borderRadius:
+                                                                "9px",
+                                                            width: "124px",
+                                                            margin: "auto",
+                                                            marginTop:
+                                                                "10px",
+                                                        }}
+                                                    >
                                                         <div
                                                             style={{
-                                                                border: "1px solid #dddd",
-                                                                padding:
-                                                                    "6px 12px",
-                                                                borderRadius:
-                                                                    "9px",
-                                                                width: "124px",
-                                                                margin: "auto",
-                                                                marginTop:
-                                                                    "10px",
+                                                                display:
+                                                                    "flex",
                                                             }}
                                                         >
                                                             <div
                                                                 style={{
-                                                                    display:
-                                                                        "flex",
-                                                                }}
-                                                            >
-                                                                <div
-                                                                    style={{
-                                                                        marginRight:
-                                                                            "20px",
-                                                                    }}
-                                                                    onClick={() => {
-                                                                        approvedUserVideo(
-                                                                            video.id
-                                                                        );
-                                                                    }}
-                                                                >
-                                                                    <a href={'#'}>
-                                                                        <Icon
-                                                                            source={
-                                                                                CircleTickMajor
-                                                                            }
-                                                                            color="primary"
-                                                                        />
-                                                                    </a>
-                                                                </div>
-                                                                <div style={{
                                                                     marginRight:
                                                                         "20px",
-                                                                }}>
-                                                                    <a
-                                                                        href={`#`}
-                                                                        onClick={() => {
-                                                                            rejectVideo(
-                                                                                video.id
-                                                                            );
-                                                                        }}>
-                                                                        <Icon
-                                                                            source={
-                                                                                CircleCancelMajor
-                                                                            }
-                                                                            color="critical"
-                                                                        />
-                                                                    </a>
-                                                                </div>
-                                                                <div style={{
-                                                                    cursor: 'pointer'
-                                                                }} onClick={() => {
+                                                                }}
+                                                                onClick={() => {
                                                                     approvedUserVideo(
-                                                                        video.id,
-                                                                        'star_rating'
+                                                                        video.id
                                                                     );
-                                                                }}>
-                                                                    <img src={staricon} alt="" style={{ width: "20px" }} />
-                                                                </div>
+                                                                }}
+                                                            >
+                                                                <a href={'#'}>
+                                                                    <Icon
+                                                                        source={
+                                                                            CircleTickMajor
+                                                                        }
+                                                                        color="primary"
+                                                                    />
+                                                                </a>
+                                                            </div>
+                                                            <div style={{
+                                                                marginRight:
+                                                                    "20px",
+                                                            }}>
+                                                                <a
+                                                                    href={`#`}
+                                                                    onClick={() => {
+                                                                        rejectVideo(
+                                                                            video.id
+                                                                        );
+                                                                    }}>
+                                                                    <Icon
+                                                                        source={
+                                                                            CircleCancelMajor
+                                                                        }
+                                                                        color="critical"
+                                                                    />
+                                                                </a>
+                                                            </div>
+                                                            <div style={{
+                                                                cursor: 'pointer'
+                                                            }} onClick={() => {
+                                                                approvedUserVideo(
+                                                                    video.id,
+                                                                    'star_rating'
+                                                                );
+                                                            }}>
+                                                                <img src={staricon} alt="" style={{ width: "20px" }} />
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </Grid.Cell>
-                                            );
-                                        })}
-                                </Grid>
-                            </Card.Section>
+                                                </div>
+                                            </Grid.Cell>
+                                        );
+                                    })}
+                            </Grid>
+                            </Box>
                         )}
                     </Card>
                 </Grid.Cell>

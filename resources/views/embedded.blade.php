@@ -46,4 +46,13 @@
                 return response;
             };
     </script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-N4VDTDHF16"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-N4VDTDHF16');
+</script>
+   <script src="https://cdn.heymantle.com/mantle_apptrack.js?appToken=47d2c6ef55518af760503c87715caf78"> </script>
 @endsection

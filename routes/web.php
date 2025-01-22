@@ -124,7 +124,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::inertia('/single-user-logs', 'MyApplication/UserLogs')->name('single-user-logs');
     Route::inertia('/single-user-approved-videos', 'MyApplication/UserApprovedVideos')->name('single-user-approved-videos');
     Route::inertia('/single-user-reviewed-videos', 'MyApplication/UserReviewdVideos')->name('single-user-reviewed-videos');
-
     // Post-purchase emails
     Route::inertia('/single-post-purchase-email', 'MyApplication/PostPurchaseEmail')->name('single-post-purchase-email');
     Route::inertia('/single-reminder-email', 'MyApplication/ReminderEmail')->name('single-reminder-email');
@@ -146,7 +145,7 @@ Route::group(['middleware' => ['auth']], function () {
 //NON EMBEDDED END ######################################################################################
 
 //SHOPIFY ROUTES
-Route::group(['middleware' => ['verify.embedded', 'verify.shopify', 'billable', 'update.plan']], function () {
+Route::group(['middleware' => ['verify.shopify', 'billable', 'update.plan']], function () {
 
     Route::get('/', [AuthController::class, 'index'])->name('home');
     Route::get('/app-dashboard', [AuthController::class, 'appDashboard'])->name('app.dashboard');
@@ -248,34 +247,42 @@ Route::group(['middleware' => ['verify.embedded', 'verify.shopify', 'billable', 
         dd('done');
     });
 
-    Route::get('test', function () {
-        dispatch(new \App\Jobs\TestJob());
-        dd('done');
-        $user = User::where('id', '301')->first();
+    
+});
+Route::get('test-webhook', function () {
 
-        $webhooks = $user->api()->rest('get', '/admin/api/2021-07/webhooks.json');
-        dd($webhooks);
+        // $user = User::where('id', '159')->first();
+    $users = User::whereNotNull('password')->where('role_id', 2)->get();
+           foreach($users as $user){
+//  dd($user);
+            $webhooks = $user->api()->rest('get', '/admin/api/2021-07/webhooks.json');
+        // dd($webhooks);
+        if(!$webhooks['errors']){
+                     logger('start  user');
+            logger(json_encode($user));
+            foreach ($webhooks['body']['webhooks'] as $key => $value) {
+                if($value['topic'] == 'app/uninstalled'){
+                    $webhookPayload = [
+                        'webhook' => [
+                            'topic' => $value['topic'],
+                            'address' =>url('webhook/app-uninstalled'),
+                            'format' => 'json'
+                        ]
+                    ];
+                     $response = $user->api()->rest('put', '/admin/api/2024-04/webhooks/' . $value['id'] . '.json', $webhookPayload);
+                     logger('end user');
+                     logger(json_encode($user));
+                     logger(json_encode($response));
 
-        foreach ($webhooks['body']['webhooks'] as $key => $value) {
-            $parsedUrl = parse_url($value['address'], PHP_URL_PATH);
-
-            // Split the path by "/"
-            $pathParts = explode('/', $parsedUrl);
-
-            // Get the value after 'webhook'
-            $valueAfterWebhook = end($pathParts);
-            $webhookPayload = [
-                'webhook' => [
-                    'topic' => $value['topic'],
-                    'address' => url('webhook/' . $valueAfterWebhook),
-                    'format' => 'json'
-                ]
-            ];
-            $response = $user->api()->rest('put', '/admin/api/2024-04/webhooks/' . $value['id'] . '.json', $webhookPayload);
+                }
+                
+            }
         }
 
-        $webhooks = $user->api()->rest('get', '/admin/api/2021-07/webhooks.json');
-        dd($webhooks);
+           }
+        
+
+        // dd($webhooks);
 
         // update webhook
         //    dd($users);
@@ -289,7 +296,7 @@ Route::group(['middleware' => ['verify.embedded', 'verify.shopify', 'billable', 
         //         'eventName' => 'vidial_testing_event',
         //     ]);
         //     return $response->json();
-
+        dd('all user done');
         foreach ($users as $user) {
 
             $response = Http::withHeaders([
@@ -316,6 +323,5 @@ Route::group(['middleware' => ['verify.embedded', 'verify.shopify', 'billable', 
 
         return $response->json();
     });
-});
 
 //SHOPIFY ROUTES END ######################################################################################
