@@ -789,12 +789,13 @@ class VideoController extends Controller
                 'data' => $data
             ]);
         } catch (\Exception $e) {
+            Log::error('An error occurred: ' . $e->getMessage());
+
             return response()->json([
                 'success' => false,
                 'message' => 'Something went wrong',
                 'data' => null
             ]);
-            Log::error('An error occurred: ' . $e->getMessage());
         }
     }
 

@@ -23,8 +23,6 @@ localStorage.setItem('store',storeName);
 */
 
 const Settings = () => {
-    const page = usePage().props;
-    const query = page.ziggy.query;
     const [storeHandle, setStoreHandle] = useState(null);
     const [approvedStoreHandle, setApprovedStoreHandle] = useState(null);
     const [isHandleAvailable, setIsHandleAvailable] = useState(true);
@@ -126,7 +124,7 @@ const Settings = () => {
 
     const removeInspirationalVideo = () => {
         var formData = {};
-        fetch(route('removeInspirationalVideo', query), {
+        fetch(route('removeInspirationalVideo'), {
             method: "post",
 
             body: formData,
@@ -148,7 +146,7 @@ const Settings = () => {
 
     const removeLogo = () => {
         var formData = {};
-        fetch(route("removeLogo", query), {
+        fetch(route("removeLogo"), {
             method: "post",
 
             body: formData,
@@ -472,7 +470,7 @@ const Settings = () => {
         setStoreHandleResponse(null);
         const formData = new FormData();
         formData.append('store_handle', newValue);
-        fetch(route("check-handle", query), {
+        fetch(route("check-handle"), {
             method: "POST",
             body: formData
         })
@@ -517,7 +515,7 @@ const Settings = () => {
         formData.append('endpoint', 'https://api.mailgun.net/v3/' + domain + '/messages');
         // formData.append('endpoint', mailgunEndpoint);
         formData.append('domain', domain);
-        fetch(route('save-email-creds', query), {
+        fetch(route('save-email-creds'), {
             method: "POST",
             body: formData
         })
@@ -619,7 +617,7 @@ const Settings = () => {
         const formData = new FormData();
         formData.append('api_key', klavioApi);
         formData.append('email', klavioEmail);
-        fetch(route('save-klavio-settings', query), {
+        fetch(route('save-klavio-settings'), {
             body: formData,
             method: 'POST'
         }).then(response => response.json()).then((data) => {
@@ -633,7 +631,7 @@ const Settings = () => {
         async function fetchSettings() {
 
             try {
-                const response = await fetch(route(`get_settings`, query));
+                const response = await fetch(route(`get_settings`));
                 if (!response.ok) {
                     throw new Error("Something went wrong");
                 }
@@ -930,7 +928,7 @@ const Settings = () => {
         } else {
             setError(false);
             // Generating request for sending Data to the server
-            fetch(route("save_settings", query), {
+            fetch(route("save_settings"), {
                 method: "post",
                 body: formData,
             }).then((response) => response.json())
@@ -955,7 +953,7 @@ const Settings = () => {
     };
 
     function handletestemail() {
-        fetch(route("send_test_email", query), {
+        fetch(route("send_test_email"), {
             method: "GET",
         })
             .then((response) => {
@@ -1144,7 +1142,7 @@ const Settings = () => {
         const formData = new FormData();
         if (!isHandleAvailable) {
             formData.append('store_handle', storeHandle);
-            fetch(route('store_handle', query), {
+            fetch(route('store_handle'), {
                 method: "POST",
                 body: formData
             }).then((response) => response.json()).then((data) => {
@@ -1246,7 +1244,7 @@ const Settings = () => {
                                 <Button
                                     onClick={() => {
                                         F
-                                        router.get(route(pageLink, query));
+                                        router.get(route(pageLink));
                                         setActiveRejectionConfirmModel(false);
                                         setEmailTemplateButton(true);
                                     }}
@@ -1256,12 +1254,12 @@ const Settings = () => {
                                 <Button primary onClick={() => {
                                     document.getElementById('sab_ok_id').click();
                                     setTimeout(() => {
-                                        router.get(route(pageLink, query));
+                                        router.get(route(pageLink));
 
                                     }, 5000);
 
                                     setActiveRejectionConfirmModel(false);
-                                    router.get(route(pageLink, query));
+                                    router.get(route(pageLink));
 
                                     setEmailTemplateButton(true);
                                 }}

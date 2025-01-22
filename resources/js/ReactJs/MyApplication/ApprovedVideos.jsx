@@ -1,6 +1,8 @@
 import {
+    Box,
     Button,
     Card,
+    Divider,
     Grid,
     Page,
     Text
@@ -14,9 +16,6 @@ import { downloadVideo } from "./utils";
 import { usePage } from "@inertiajs/react";
 function ApprovedVideos() {
 
-    const page = usePage().props;
-    const query = page.ziggy.query;
-
     const [numberOfVedios, setNumberOfVedios] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
@@ -25,7 +24,7 @@ function ApprovedVideos() {
 
     useEffect(() => {
 
-        fetch(route('getApprovedVideos', { page: currentPage, ...query }))
+        fetch(route('getApprovedVideos', { page: currentPage }))
             .then((response) => {
                 if (!response.ok) {
                     throw new Error("Something went wrong");
@@ -48,46 +47,44 @@ function ApprovedVideos() {
         <Page>
             <Grid>
                 <Grid.Cell columnSpan={{ xs: 6, sm: 6, md: 6, lg: 12, xl: 12 }}>
-                    {/* <Ticker></Ticker> */}
-                    <br></br>
                     <Card>
-                        <Card.Section>
+                        <div
+                            style={{
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "space-between",
+                                marginTop: "0px",
+                                marginBottom: "8px",
+                            }}
+                        >
                             <div
                                 style={{
                                     display: "flex",
                                     alignItems: "center",
-                                    justifyContent: "space-between",
-                                    marginTop: "-10px",
-                                    marginBottom: "-10px",
                                 }}
                             >
-                                <div
-                                    style={{
-                                        display: "flex",
-                                        alignItems: "center",
-                                    }}
-                                >
-                                    <img
-                                        src={checkmark}
-                                        width="20px"
-                                        height="20px"
-                                        style={{ marginRight: "10px" }}
-                                    ></img>
-                                    <Text variant="headingLg" as="h5">
-                                        Approved Videos
-                                    </Text>
-                                </div>
+                                <img
+                                    src={checkmark}
+                                    width="20px"
+                                    height="20px"
+                                    style={{ marginRight: "10px" }}
+                                />
+                                <Text variant="headingLg" as="h5">
+                                    Approved Videos
+                                </Text>
                             </div>
-                        </Card.Section>
+                        </div>
+                        <Divider />
+
                         {numberOfVedios <= 0 ? (
                             <div style={{ height: "400px", background: "#f9f9f9", borderRadius: "6px", textAlign: "center", paddingTop: "125px", justifyItems: "center" }}>
-                                <img style={{ height: "102px", opacity: ".5" }} src={noVedio}></img>
+                                <img style={{ height: "102px", opacity: ".5" }} src={noVedio} />
 
                                 <p style={{ color: "#d3c9c9", fontSize: "17px" }}>No Approved Videos</p>
 
                             </div>
                         ) :
-                            <Card.Section>
+                            <Box paddingBlockEnd='500' paddingBlockStart='1000'>
                                 <Grid>
                                     {videos &&
                                         videos.map((video) => {
@@ -102,7 +99,7 @@ function ApprovedVideos() {
                                                     }}
                                                 >
                                                     <div
-                                                    className="video-wrapper-cstm"
+                                                        className="video-wrapper-cstm"
                                                         style={{
                                                             display: "flex",
                                                             flexDirection: "column",
@@ -134,8 +131,8 @@ function ApprovedVideos() {
 
                                                         </p>
                                                         <p
-                                                        className="sent-video-email-wrapper"
-                                                        title={video.email}
+                                                            className="sent-video-email-wrapper"
+                                                            title={video.email}
                                                             style={{
                                                                 fontSize: "12px",
                                                                 color: "#797979",
@@ -145,6 +142,8 @@ function ApprovedVideos() {
                                                         </p>
                                                         <button
                                                             onClick={() => {
+                                                                console.log('Ok');
+                                                                
                                                                 downloadVideo(
                                                                     video.path
                                                                 );
@@ -166,7 +165,7 @@ function ApprovedVideos() {
                                                         >
                                                             <img
                                                                 src={downloadIcon}
-                                                            ></img>{" "}
+                                                            />{" "}
                                                             Download
                                                         </button>
                                                     </div>
@@ -174,7 +173,7 @@ function ApprovedVideos() {
                                             );
                                         })}
                                 </Grid>
-                            </Card.Section>
+                            </Box>
                         }
                     </Card>
                 </Grid.Cell>

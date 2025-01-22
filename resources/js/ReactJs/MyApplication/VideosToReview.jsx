@@ -1,4 +1,5 @@
 import {
+    Box,
     Button,
     ButtonGroup,
     Card,
@@ -7,7 +8,8 @@ import {
     Modal,
     Page,
     Text,
-    TextField
+    TextField,
+    Divider
 } from "@shopify/polaris";
 
 import checkmark from "@/ReactJs/MyApplication/imges/checkmark.svg";
@@ -196,14 +198,8 @@ function WaitingVideos() {
     };
 
     useEffect(() => {
-
-        console.log("Hiiiiiiiii");
-
-    }, []);
-
-    useEffect(() => {
         console.log('counter :');
-        fetch('getPendingVideos', { page: currentPage, ...query })
+        fetch(route('getPendingVideos', { page: currentPage }))
             .then((response) => {
                 if (!response.ok) {
                     throw new Error("Something went wrong");
@@ -227,52 +223,46 @@ function WaitingVideos() {
         <Page>
             <Grid>
                 <Grid.Cell columnSpan={{ xs: 6, sm: 6, md: 6, lg: 12, xl: 12 }}>
-                    <br></br>
                     <Card>
-                        <Card.Section>
+                        <div style={{
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "space-between",
+                            marginTop: "0px",
+                            marginBottom: "8px",
+                        }}>
                             <div
                                 style={{
                                     display: "flex",
                                     alignItems: "center",
-                                    justifyContent: "space-between",
-                                    marginTop: "-10px",
-                                    marginBottom: "-10px",
-                                }}
-                            >
-                                <div
-                                    style={{
-                                        display: "flex",
-                                        alignItems: "center",
-                                    }}
-                                >
-                                    <img
-                                        src={checkmark}
-                                        width="20px"
-                                        height="20px"
-                                        style={{ marginRight: "10px" }}
-                                    ></img>
-                                    <Text variant="headingLg" as="h5">
-                                        Videos to Review
-                                    </Text>
-                                </div>
-                            </div>
-                        </Card.Section>
-
-                        {numberOfVedios <= 0 ? (
-                            <div
-                                style={{
-                                    height: "400px",
-                                    background: "#f9f9f9",
-                                    borderRadius: "6px",
-                                    textAlign: "center",
-                                    paddingTop: "125px",
-                                    justifyItems: "center",
                                 }}
                             >
                                 <img
+                                    src={checkmark}
+                                    width="20px"
+                                    height="20px"
+                                    style={{ marginRight: "10px" }}
+                                />
+                                <Text variant="headingLg" as="h5">
+                                    Videos to Review
+                                </Text>
+                            </div>
+                        </div>
+                        <Divider />
+
+                        {numberOfVedios <= 0 ? (
+                            <div style={{
+                                height: "400px",
+                                background: "#f9f9f9",
+                                borderRadius: "6px",
+                                textAlign: "center",
+                                paddingTop: "125px",
+                                justifyItems: "center",
+                            }}>
+                                <img
                                     style={{ height: "102px", opacity: ".5" }}
                                     src={noVedio}
-                                ></img>
+                                />
 
                                 <p
                                     style={{
@@ -284,7 +274,7 @@ function WaitingVideos() {
                                 </p>
                             </div>
                         ) : (
-                            <Card.Section>
+                            <Box paddingBlockEnd='500' paddingBlockStart='1000'>
                                 <Grid>
                                     {videos &&
                                         videos.map((video, index) => {
@@ -304,7 +294,6 @@ function WaitingVideos() {
                                                             textAlign: "center",
                                                         }}
                                                     >
-                                                        {/* <img src={VideoTumbnail} width= "100%"></img> */}
                                                         <video
                                                             key={
                                                                 video.video_link
@@ -420,7 +409,7 @@ function WaitingVideos() {
                                             );
                                         })}
                                 </Grid>
-                            </Card.Section>
+                            </Box>
                         )}
                     </Card>
                 </Grid.Cell>

@@ -24,12 +24,9 @@ import Toggle from "./Toggle";
 
 function AdminDashboard(props) {
 
-    const page = usePage().props;
-    const query = page.ziggy.query;
-
     const [pagination, setPagination] = useState({
         // path: 'https://phpstack-953879-3439374.cloudwaysapps.com/getDataofallPlans',
-        path: route('getDataofallPlans', query),
+        path: route('getDataofallPlans'),
         next_cursor: null,
         next_page_url: null,
         prev_cursor: null,
@@ -262,7 +259,7 @@ function AdminDashboard(props) {
         })
             .then((response) => response.json())
             .then((data) => {
-                router.get(route('login', query));
+                router.get(route('login'));
             })
     }
 

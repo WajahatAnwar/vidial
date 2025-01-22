@@ -8,10 +8,6 @@ import {
 } from "@shopify/polaris";
 import React, { useEffect, useState } from 'react';
 export default function Logs() {
-
-    const page = usePage().props;
-    const query = page.ziggy.query;
-
     const [sorting, setSorting] = useState("desc");
     const [searchQuery, setSearchQuery] = useState(null);
     const [logs, setLogs] = useState([]);
@@ -42,10 +38,10 @@ export default function Logs() {
     };
 
     useEffect(() => {
-        let url = route('logs-content', { sort: sorting, ...query });
+        let url = route('logs-content', { sort: sorting });
         // search
         if (searchQuery) {
-             url = route('logs-content', { sort: sorting, q: searchQuery, ...query });
+             url = route('logs-content', { sort: sorting, q: searchQuery });
         }
         fetch(url)
             .then((response) => response.json())

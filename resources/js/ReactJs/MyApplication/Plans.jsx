@@ -86,13 +86,10 @@ export default Plans;
 
 // function Plans() {
 
-//     const page = usePage().props;
-//     const query = page.ziggy.query;
-
 //     const [plan, setPlan] = useState([]);
 //     const [users, setUser] = useState([]);
 //     useEffect(() => {
-//         fetch(route('get_plans', query))
+//         fetch(route('get_plans'))
 //             .then((response) => {
 //                 if (!response.ok) {
 //                     throw new Error("Something went wrong");

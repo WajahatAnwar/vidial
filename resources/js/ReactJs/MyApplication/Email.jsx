@@ -30,9 +30,6 @@ import { green } from "@mui/material/colors";
 
 const Email = () => {
 
-    const page = usePage().props;
-    const query = page.ziggy.query;
-
     const [klavioError, setKlavioError] = useState(false);
     const [klavioErrorMsg, setKlavioErrorMsg] = useState('');
     const [storeHandle, setStoreHandle] = useState(null);
@@ -128,7 +125,7 @@ const Email = () => {
 
     const removeInspirationalVideo = () => {
         var formData = {};
-        fetch(route('removeInspirationalVideo', query), {
+        fetch(route('removeInspirationalVideo'), {
             method: "post",
 
             body: formData,
@@ -150,7 +147,7 @@ const Email = () => {
 
     const removeLogo = () => {
         var formData = {};
-        fetch(route('removeLogo', query), {
+        fetch(route('removeLogo'), {
             method: "post",
 
             body: formData,
@@ -379,7 +376,7 @@ const Email = () => {
         const formData = new FormData();
         formData.append('api_key', klavioApi);
         formData.append('email', klavioEmail);
-        fetch(route('connect.klavio', query), {
+        fetch(route('connect.klavio'), {
             body: formData,
             method: 'POST'
         }).then(response => response.json()).then((data) => {
@@ -397,7 +394,7 @@ const Email = () => {
 
         const formData = new FormData();
     
-        fetch(route('delete.klavio', query), {
+        fetch(route('delete.klavio'), {
             body: formData,
             method: 'POST'
         }).then(response => response.json()).then((data) => {
@@ -423,7 +420,7 @@ const Email = () => {
         setStoreHandleResponse(null);
         const formData = new FormData();
         formData.append('store_handle', newValue);
-        fetch(route('check-handle', query), {
+        fetch(route('check-handle'), {
             method: "POST",
             body: formData
         })
@@ -468,7 +465,7 @@ const Email = () => {
         formData.append('endpoint', 'https://api.mailgun.net/v3/' + domain + '/messages');
         // formData.append('endpoint', mailgunEndpoint);
         formData.append('domain', domain);
-        fetch(route('save-email-creds', query), {
+        fetch(route('save-email-creds'), {
             method: "POST",
             body: formData
         })
@@ -549,7 +546,7 @@ const Email = () => {
         async function fetchSettings() {
 
             try {
-                const response = await fetch(route('get_settings', query))
+                const response = await fetch(route('get_settings'))
                 if (!response.ok) {
                     throw new Error("Something went wrong");
                 }
@@ -790,7 +787,7 @@ const Email = () => {
 
         // setError(false);
         // Generating request for sending Data to the server
-        fetch(route('save-email-tab', query), {
+        fetch(route('save-email-tab'), {
             method: "post",
             body: formData,
         }).then((response) => response.json())
@@ -814,7 +811,7 @@ const Email = () => {
     };
 
     function handletestemail() {
-        fetch(route('send_test_email', query), {
+        fetch(route('send_test_email'), {
             method: "GET",
         })
             .then((response) => {
@@ -1001,7 +998,7 @@ const Email = () => {
         const formData = new FormData();
         if (!isHandleAvailable) {
             formData.append('store_handle', storeHandle);
-            fetch(route('store_handle', query), {
+            fetch(route('store_handle'), {
                 method: "POST",
                 body: formData
             }).then((response) => response.json()).then((data) => {
@@ -1102,7 +1099,7 @@ const Email = () => {
                                 <Button
                                     onClick={() => {
 
-                                        router.get(route(pageLink, query));
+                                        router.get(route(pageLink));
                                         setActiveRejectionConfirmModel(false);
                                         setEmailTemplateButton(true);
                                     }}
@@ -1112,11 +1109,11 @@ const Email = () => {
                                 <Button primary onClick={() => {
                                     document.getElementById('sab_ok_id').click();
                                     setTimeout(() => {
-                                        router.get(route(pageLink, query));
+                                        router.get(route(pageLink));
                                     }, 5000);
 
                                     setActiveRejectionConfirmModel(false);
-                                    router.get(route(pageLink, query));
+                                    router.get(route(pageLink));
                                     setEmailTemplateButton(true);
                                 }}
                                 >
@@ -1409,7 +1406,7 @@ const Email = () => {
 
                                             }}
                                             onClick={() => {
-                                                router.get(route('post-purchase-email', query));
+                                                router.get(route('post-purchase-email'));
                                             }}
                                         >
                                             <div style={{ width: "550px" }}>
@@ -1446,7 +1443,7 @@ const Email = () => {
 
                                             }}
                                             onClick={() => {
-                                                router.get(route('reminder-email', query));
+                                                router.get(route('reminder-email'));
 
                                             }}
                                         >
@@ -1484,7 +1481,7 @@ const Email = () => {
 
                                             }}
                                             onClick={() => {
-                                                router.get(route('ugc-approved-email', query));
+                                                router.get(route('ugc-approved-email'));
 
                                             }}
                                         >
@@ -1522,7 +1519,7 @@ const Email = () => {
 
                                             }}
                                             onClick={() => {
-                                                router.get(route('ugc-star-approved', query));
+                                                router.get(route('ugc-star-approved'));
                                             }}
                                         >
                                             <div style={{ width: "550px" }}>
@@ -1559,7 +1556,7 @@ const Email = () => {
 
                                             }}
                                             onClick={() => {
-                                                router.get(route('ugc-declined-email', query));
+                                                router.get(route('ugc-declined-email'));
                                             }}
                                         >
                                             <div style={{ width: "550px" }}>

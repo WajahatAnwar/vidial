@@ -2,14 +2,10 @@ import { usePage } from "@inertiajs/react";
 import { useState } from "react";
 
 export const downloadVideo = (video_path) => {
-
-    const page = usePage().props;
-    const query = page.ziggy.query;
-
     if (video_path) {
         var formData = new FormData();
         formData.append("video_path", video_path);
-        fetch(route('downloadVideo', query), {
+        fetch(route('downloadVideo'), {
             method: "post",
             body: formData,
         })
@@ -46,7 +42,7 @@ export const videoOperation = (id, type) => {
     formData.append("video_id", id);
     formData.append("type", type);
     if (confirmed) {
-        fetch(route('videoOperation', query), {
+        fetch(route('videoOperation'), {
             method: "post",
             body: formData,
         })

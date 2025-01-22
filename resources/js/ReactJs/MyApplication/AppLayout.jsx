@@ -11,11 +11,9 @@ import { usePage } from "@inertiajs/react";
 
 export default function AppLayout({ auth, children }) {
 
-    const page = usePage().props;
-    const { query } = page.ziggy;
     const [customertoken, setCustomerToken] = useState();
     function fetchShop() {
-        fetch(route('settings.get.user', query))
+        fetch(route('settings.get.user'))
             .then(response => response.json())
             .then(data => {
                 console.log("Response Data:", data); 

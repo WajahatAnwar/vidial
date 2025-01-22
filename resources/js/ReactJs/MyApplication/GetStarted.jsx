@@ -1,14 +1,10 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Button, Card, Collapsible, Divider, Page, Text } from '@shopify/polaris';
-import { usePage } from '@inertiajs/react';
+import { router, usePage } from "@inertiajs/react";
+
 import Ticker from './Ticker';
 // import DownIcon from '../components/imges/downIcon.svg';
 function GetStarted() {
-    // const actions = window['app-bridge'].actions;
-    // const Redirect = actions.Redirect;
-    // const app = window.app;
-    const page = usePage().props;
-    const query = page.ziggy.query;
 
     const [open, setOpen] = useState(true);
     const [faqOne, setFaqOne] = useState(true);
@@ -25,7 +21,7 @@ function GetStarted() {
 
     const handleLandingPage = (path) => {
         if (!blockCheckbox) {
-            fetch(route('visitLandingPage', query)).then((response) => response.json()).then((data) => {
+            fetch(route('visitLandingPage')).then((response) => response.json()).then((data) => {
                 setBlockCheckbox(true);
                 setBlockConversion(true);
             });
@@ -39,21 +35,13 @@ function GetStarted() {
     }
 
     const handleRedirect = (path) => {
-        if (!blockCheckbox) {
-            fetch(route('visitLandingPage', query)).then((response) => response.json()).then((data) => {
-                setBlockCheckbox(true);
-                setBlockConversion(true);
-            });
-        }
-        console.log('path', path);
+        // open(path, '_self');
+        router.get(route(path));
 
-        // const redirect = Redirect.create(app);
-        // redirect.dispatch(Redirect.Action.APP, path);
-        window.open(route(path, query), '_self');
     };
 
     useEffect(() => {
-        fetch(route('currentUser', query)).then((response) => response.json()).then((data) => {
+        fetch(route('currentUser')).then((response) => response.json()).then((data) => {
             setBlockCheckbox(data.data.user.landing_page_visited);
             setBlockConversion(data.data.user.landing_page_visited);
             setUser(data.data.user);
@@ -77,7 +65,7 @@ function GetStarted() {
                         <div className='' style={{ display: "flex", marginTop: "10px", gap: "15px" }}>
                             <div onClick={() => { setBlockCheckbox(!blockCheckbox) }} role='button' type="button">
                                 {blockCheckbox ?
-                                    <svg width="20px" height="20px" viewBox="0 0 512 512" fill="#000000" xmlns="http://www.w3.org/2000/svg" version="1.1" id="Layer_1" xmlns: xlink="http://www.w3.org/1999/xlink" xml: space="preserve" stroke="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g> <g> <path d="M256,0C114.837,0,0,114.843,0,256s114.837,256,256,256s256-114.843,256-256S397.163,0,256,0z M376.239,227.501 L257.348,346.391c-13.043,13.043-34.174,13.044-47.218,0l-68.804-68.804c-13.044-13.038-13.044-34.179,0-47.218 c13.044-13.044,34.174-13.044,47.218,0l45.195,45.19l95.282-95.278c13.044-13.044,34.174-13.044,47.218,0 C389.283,193.321,389.283,214.462,376.239,227.501z"></path> </g> </g> </g></svg>
+                                    <svg width="20px" height="20px" viewBox="0 0 512 512" fill="#000000" xmlns="http://www.w3.org/2000/svg" version="1.1" id="Layer_1" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" stroke="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g> <g> <path d="M256,0C114.837,0,0,114.843,0,256s114.837,256,256,256s256-114.843,256-256S397.163,0,256,0z M376.239,227.501 L257.348,346.391c-13.043,13.043-34.174,13.044-47.218,0l-68.804-68.804c-13.044-13.038-13.044-34.179,0-47.218 c13.044-13.044,34.174-13.044,47.218,0l45.195,45.19l95.282-95.278c13.044-13.044,34.174-13.044,47.218,0 C389.283,193.321,389.283,214.462,376.239,227.501z"></path> </g> </g> </g></svg>
                                     :
                                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" class="custom-loading-circle" role="img"><circle cx="10" cy="10" r="8.75" stroke="#BABEC3" stroke-width="2.5" stroke-dasharray="3.5 3.5"></circle></svg>
 
@@ -120,14 +108,14 @@ function GetStarted() {
                         <div className='' style={{ display: "flex", marginTop: "10px", gap: "15px" }}>
                             <div onClick={() => { setBlockConversion(!blockConversion) }} role='button' type="button">
                                 {blockConversion ?
-                                    <svg width="20px" height="20px" viewBox="0 0 512 512" fill="#000000" xmlns="http://www.w3.org/2000/svg" version="1.1" id="Layer_1" xmlns: xlink="http://www.w3.org/1999/xlink" xml: space="preserve" stroke="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g> <g> <path d="M256,0C114.837,0,0,114.843,0,256s114.837,256,256,256s256-114.843,256-256S397.163,0,256,0z M376.239,227.501 L257.348,346.391c-13.043,13.043-34.174,13.044-47.218,0l-68.804-68.804c-13.044-13.038-13.044-34.179,0-47.218 c13.044-13.044,34.174-13.044,47.218,0l45.195,45.19l95.282-95.278c13.044-13.044,34.174-13.044,47.218,0 C389.283,193.321,389.283,214.462,376.239,227.501z"></path> </g> </g> </g></svg>
+                                    <svg width="20px" height="20px" viewBox="0 0 512 512" fill="#000000" xmlns="http://www.w3.org/2000/svg" version="1.1" id="Layer_1" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" stroke="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g> <g> <path d="M256,0C114.837,0,0,114.843,0,256s114.837,256,256,256s256-114.843,256-256S397.163,0,256,0z M376.239,227.501 L257.348,346.391c-13.043,13.043-34.174,13.044-47.218,0l-68.804-68.804c-13.044-13.038-13.044-34.179,0-47.218 c13.044-13.044,34.174-13.044,47.218,0l45.195,45.19l95.282-95.278c13.044-13.044,34.174-13.044,47.218,0 C389.283,193.321,389.283,214.462,376.239,227.501z"></path> </g> </g> </g></svg>
                                     :
                                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" class="custom-loading-circle" role="img"><circle cx="10" cy="10" r="8.75" stroke="#BABEC3" stroke-width="2.5" stroke-dasharray="3.5 3.5"></circle></svg>
 
                                 }
                             </div>
                             <div>
-                                <div role='button' type="button" onClick={() => handleRedirect('videos-to-review')}  ariaExpanded={open}
+                                <div role='button' type="button" onClick={() => handleRedirect('videos-to-review')} ariaExpanded={open}
                                     ariaControls="basic-collapsible">
                                     <Text variant='bodyMd' as='h4' fontWeight='bold'>Approve or deny your videos.</Text>
 
@@ -161,7 +149,7 @@ function GetStarted() {
                 </div>
                 <Card>
                     <div style={{ padding: "15px" }}>
-                        <div className='flex gap-4' style={{ display: "flex", gap: "10px", cursor:"pointer" }}>
+                        <div className='flex gap-4' style={{ display: "flex", gap: "10px", cursor: "pointer" }}>
                             {/* <div>
                                 <img style={{width:"10px"}} src={DownIcon}/>
 
@@ -194,7 +182,7 @@ function GetStarted() {
                                 </Collapsible>
                             </div>
                         </div>
-                        <div className='flex gap-4' style={{ display: "flex", gap: "10px", marginTop: "12px", cursor:"pointer" }}>
+                        <div className='flex gap-4' style={{ display: "flex", gap: "10px", marginTop: "12px", cursor: "pointer" }}>
                             <div>
                                 <div onClick={handleFAQTwoToggle}>
                                     <Text variant='bodyMd' as='h4' fontWeight='bold'>
@@ -225,7 +213,7 @@ function GetStarted() {
                             </div>
 
                         </div>
-                        <div className='flex gap-4' style={{ display: "flex", gap: "10px", marginTop: "12px", cursor:"pointer" }}>
+                        <div className='flex gap-4' style={{ display: "flex", gap: "10px", marginTop: "12px", cursor: "pointer" }}>
                             <div>
                                 <div onClick={handleFAQThreeToggle}>
                                     <Text variant='bodyMd' as='h4' fontWeight='bold'>

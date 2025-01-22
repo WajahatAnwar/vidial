@@ -34,7 +34,6 @@ localStorage.setItem('store',storeName);
 
 const PostPurchaseEmail = () => {
     const page = usePage().props;
-    const query = page.ziggy.query;
     const id = page.ziggy.query.id;
     const [activeTootlTip, setActiveTootlTip] = useState(false);
     const [activeToggle, setActiveToggle] = useState(false);
@@ -146,9 +145,9 @@ const PostPurchaseEmail = () => {
     const [gradientCheck, setGradientCheck] = useState(false);
     console.log(files)
     const handleSaveEmailSettings = () => {
-        let saveUrl = route('save-email-settings', query);
+        let saveUrl = route('save-email-settings');
         if (id) {
-            saveUrl = route('single-save-email-settings', { id: id, ...query });
+            saveUrl = route('single-save-email-settings', { id: id });
         }
         let logo_file;
         setContent(editorRef.current.getContent());
@@ -175,7 +174,7 @@ const PostPurchaseEmail = () => {
             .then((data) => {
 
                 if (data.success) {
-                    let redirect = route('email', query);
+                    let redirect = route('email');
                     if (id) {
                         redirect = route('single-user-email-settings', { id: id });
                     }
@@ -220,7 +219,7 @@ const PostPurchaseEmail = () => {
         if (id) {
             url = route('single-fetch-email-settings', { id: id, type: 'Post_Purchase' });
         }else{
-            url = route('fetch-email-settings', { type: 'Post_Purchase', ...query });
+            url = route('fetch-email-settings', { type: 'Post_Purchase' });
         }
         fetch(url, {
             method: "GET",
@@ -302,7 +301,7 @@ const PostPurchaseEmail = () => {
                                     router.get(route('single-user-email-settings',{id:id}));
                                 }
                                 else {
-                                    router.get(route('email', query));
+                                    router.get(route('email'));
                                 }
                             }} style={{ display: "flex", marginLeft: "10px", marginBottom: "10px", cursor: "pointer" }}>
                                 <div><img src={backIcon} style={{ marginTop: "4px", }}></img></div>

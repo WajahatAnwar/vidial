@@ -28,18 +28,12 @@ import Ticker from "./Ticker";
 import { downloadVideo } from "./utils";
 
 function Dashboard() {
-    // const actions = window['app-bridge'].actions;
-    // const Redirect = actions.Redirect;
-    // const app = window.app;
-    const page = usePage().props;
-    const query = page.ziggy.query;
 
     const [activeRejectionModel, setActiveRejectionModel] = useState(false);
     const handleChangeRejectionModel = useCallback(
         () => setActiveRejectionModel(!activeRejectionModel),
         [activeRejectionModel]
     );
-    // const activatorRejectionModel = <Button onClick={handleChangeRejectionModel}>Open</Button>;
 
     const [rejectionReason, setRejectionReason] = useState("");
     const handleRejectionReason = useCallback(
@@ -62,7 +56,7 @@ function Dashboard() {
         setActiveRejectionSuccessModel(!activeRejectionSuccessModel),
             [activeRejectionSuccessModel];
         setRejectionReason("");
-        router.get(route('home', query));
+        router.get(route('home'));
         setReload(new Date().getSeconds());
     });
 
@@ -96,14 +90,15 @@ function Dashboard() {
     const handleChangeApprovedSuccessModel = useCallback(() => {
         setActiveApprovedSuccessModel(!activeApprovedSuccessModel),
             [activeApprovedSuccessModel];
-        router.get(route('home', query));
+        router.get(route('home'));
         setReload(new Date().getSeconds());
     });
 
     const handleRedirect = (path) => {
         // const redirect = Redirect.create(app);
         // redirect.dispatch(Redirect.Action.APP, path);
-        window.open(route(path, query), '_self');
+        router.get(route(path));
+        // window.open(route(path), '_self');
     };
 
     // const activatorApprovedSuccessModel = <Button onClick={handleChangeApprovedSuccessModel}>Open</Button>;
@@ -119,7 +114,7 @@ function Dashboard() {
     const [approvedUserVideoId, setapprovedUserVideoId] = useState(false);
     const [approvedVideoType, setApprovedVideoType] = useState(null);
     const [isClicked, setisClicked] = useState(false);
-    const [modalType,setModalType] = useState(null);
+    const [modalType, setModalType] = useState(null);
 
 
     /******** Operation on Videos  ******/
@@ -129,7 +124,7 @@ function Dashboard() {
         var formData = new FormData();
         formData.append("video_id", id);
         if (confirmed) {
-            fetch(route('videoOperation', query), {
+            fetch(route('videoOperation'), {
                 method: "post",
                 body: formData,
             })
@@ -160,7 +155,7 @@ function Dashboard() {
     /******** move to plan page *****/
 
     const upgradePlan = () => {
-        router.get(route('plans', query));
+        router.get(route('plans'));
     };
     /******** Rejection popup   ******/
 
@@ -179,7 +174,7 @@ function Dashboard() {
             var formData = new FormData();
             formData.append("reason", rejectionReason);
             formData.append("video_id", rejectVideoId);
-            fetch(route('rejectVideo', query), {
+            fetch(route('rejectVideo'), {
                 method: "post",
                 body: formData,
             })
@@ -204,7 +199,7 @@ function Dashboard() {
                 })
                 .catch((error) => {
                     console.log(error);
-                    router.get(route('home', query));
+                    router.get(route('home'));
                 });
         } else {
             console.log("reason box empty");
@@ -246,7 +241,7 @@ function Dashboard() {
 
             }
             setVideoFeedbackPopupTitle("Please Confirm");
-            fetch(route('videoOperation', query), {
+            fetch(route('videoOperation'), {
                 method: "post",
                 body: formData,
             })
@@ -290,7 +285,7 @@ function Dashboard() {
     /********  get Settings Data  ******/
     useEffect(() => {
         setReloadPendingVideos(true);
-        fetch(route('getDashboardContent', query))
+        fetch(route('getDashboardContent'))
             .then((response) => {
                 if (!response.ok) {
                     throw new Error("Something went wrong");
@@ -403,7 +398,6 @@ function Dashboard() {
                                     <Button
                                         size="slim"
                                         onClick={() => {
-                                            // router.get(route('videos-to-review', query));
                                             handleRedirect('videos-to-review');
                                         }}
                                     >
@@ -453,7 +447,7 @@ function Dashboard() {
                                                     }}
                                                 >
                                                     <div
-                                                    className="video-wrapper-cstm"
+                                                        className="video-wrapper-cstm"
                                                         style={{
                                                             textAlign: "center",
                                                         }}
@@ -658,7 +652,7 @@ function Dashboard() {
                                                     }}
                                                 >
                                                     <div
-                                                    className="video-wrapper-cstm"
+                                                        className="video-wrapper-cstm"
                                                         style={{
                                                             display: "flex",
                                                             flexDirection: "column",
@@ -723,9 +717,9 @@ function Dashboard() {
                                                                 marginTop:
                                                                     "10px",
                                                                 cursor: "pointer",
-                                                                display:"flex",
-                                                                alignItems:"center",
-                                                                gap:"5px"
+                                                                display: "flex",
+                                                                alignItems: "center",
+                                                                gap: "5px"
                                                             }}
                                                         >
                                                             <img
@@ -794,9 +788,9 @@ function Dashboard() {
                                     Cancel
                                 </Button>
                                 <span className="black-global-btn">
-                                <Button primary onClick={handleRejectionPopup}>
-                                Confirm
-                                </Button>
+                                    <Button primary onClick={handleRejectionPopup}>
+                                        Confirm
+                                    </Button>
                                 </span>
                             </ButtonGroup>
                         </div>
