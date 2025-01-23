@@ -153,7 +153,9 @@ class OrdersController extends Controller
 
     public function get_plans()
     {
-        $all_plans = Plan::where('id', '>', 12)->get();
+        $all_plans = Plan::
+        where('id', '>', 12)->
+        get();
 
         return response()->json([
             'success' => true,
