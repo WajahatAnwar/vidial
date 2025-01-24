@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
 
@@ -46,5 +47,19 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
+    }
+
+    protected function unauthenticated($request, AuthenticationException $exception)
+    {
+        // Check if the request expects a JSON response (typically for API routes)
+        if ($request->is('api/*') || $request->expectsJson()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Invalid Token!'
+            ], 401);
+        }
+    
+        // For web routes, redirect to the login page or handle accordingly
+        return redirect()->guest(route('login'));
     }
 }

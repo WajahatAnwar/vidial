@@ -1,14 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>GoodAuthentic</title>
+    <link rel="shortcut icon" href="/favicon.ico" type="image/ico">
+    <link rel="icon" href="/favicon.ico" type="image/ico">
+    <title>Good Authentic</title>
+    @routes
+    @viteReactRefresh
+    @vite(['resources/js/app.jsx'])
+    {{-- @vite(['resources/js/app.jsx', "resources/js/Pages/{$page['component']}.jsx"]) --}}
+    @inertiaHead
 </head>
+
 <body>
-    <div id="root"></div>
-    {{ vite_assets() }}
+    @inertia
 </body>
 
 </html>

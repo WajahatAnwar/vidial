@@ -23,11 +23,10 @@ class UpdatePlan
      */
     public function handle(Request $request, Closure $next)
     {
-        $email_count  =  Plan::where('id',auth()->user()->plan_id)->first();
-        $charge = Charge::where('user_id',auth()->user()->id)
-        ->where('status','=','ACTIVE')
-        ->first();
-
+        $email_count  =  Plan::where('id', auth()->user()->plan_id)->first();
+        $charge = Charge::where('user_id', auth()->user()->id)
+            ->where('status', '=', 'ACTIVE')
+            ->first();
 
 
 
@@ -42,8 +41,8 @@ class UpdatePlan
             ->count();
 
         $current_user_approved_email_count = Log::where("user_id", auth()->user()->id)
-        ->where('created_at', '>=', $last_30_days)
-        ->count();
+            ->where('created_at', '>=', $last_30_days)
+            ->count();
         // $current_user_approved_email_count=Log::where("user_id", auth()->user()->id)
         // ->where('created_at', '>=',$charge->activated_on)
         // ->where('created_at', '<=',Carbon::now())
@@ -56,13 +55,13 @@ class UpdatePlan
         $update_plane = User::find(auth()->user()->id);
 
         // if(auth()->user()->remaining_email == 0 || auth()->user()->remaining_videos == 0  ){
-            $update_plane->update([
-                'ugc_email_count'   =>    $email_count->ugc_email_count,
-                'ugc_video_count'   =>    $email_count->ugc_video_count,
-                'ugc_email_count'   =>    $email_count->ugc_email_count,
-                'remaining_email'   =>    $remaining_email_count ,
-                'remaining_videos'  =>    $remaining_video_count
-            ]);
+        $update_plane->update([
+            'ugc_email_count'   =>    $email_count->ugc_email_count,
+            'ugc_video_count'   =>    $email_count->ugc_video_count,
+          //'ugc_email_count'   =>    $email_count->ugc_email_count,
+            'remaining_email'   =>    $remaining_email_count,
+            'remaining_videos'  =>    $remaining_video_count
+        ]);
         // } else{
         //     $update_plane->update([
         //         'ugc_email_count'   =>    $email_count->ugc_email_count,

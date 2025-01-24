@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -23,6 +24,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        url()->forceScheme('https');
+        // if (app()->environment(['production']) || str_contains(url()->current(), 'localto.net')) {
+            URL::forceScheme('https');
+        // }
     }
 }

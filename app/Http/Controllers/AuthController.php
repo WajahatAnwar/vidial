@@ -2,21 +2,28 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
+use App\Jobs\SaveMentalTokenJob;
 use App\Jobs\UserResetPasswordJob;
 use App\Models\EmailTemplate;
 use App\Models\PasswordReset;
+use App\Models\Setting;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
-use App\Models\Setting;
-
+use Inertia\Inertia;
 
 class AuthController extends Controller
 {
-    //
-    public function login(Request $request)
+    public function login()
+    {
+        return Inertia::render('Auth/login');
+    }
+
+    public function login_store(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'email' => 'required',
@@ -34,7 +41,7 @@ class AuthController extends Controller
             return $str;
         } else {
             $credentials = $request->only('email', 'password');
-            $remember_me = ($request->remember_me == 'on') ? true : false;
+            $remember_me = ($request->remember_me == "true") ? true : false;
             $user = null;
             if (Auth::attempt($credentials, $remember_me)) {
                 $user = Auth::user();
@@ -57,29 +64,12 @@ class AuthController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
+
         return response()->json([
             'success' => true,
             'message' => 'User Logged out successfully',
             'user' => null
         ]);
-    }
-
-    public function getSession(Request $request)
-    {
-        if (Auth::check()) {
-            $user = Auth::user();
-            return response()->json([
-                'success' => true,
-                'message' => 'Current User retrieved successfully!',
-                'data' => $user,
-            ]);
-        } else {
-            return response()->json([
-                'success' => false,
-                'message' => 'Session not exists!',
-                'data' => null
-            ]);
-        }
     }
 
     public function resetPasswordAction(Request $request)
@@ -96,7 +86,7 @@ class AuthController extends Controller
         $data = [
             'name' => $user->name,
             'email' => $user->email,
-            'link' => "https://5976-2400-adc5-1b3-b500-bcb0-202a-baea-9f0.ngrok-free.app/reset-password?token=$token&email=$request->email",
+            'link' => env('APP_URL') . "/reset-password?token=$token&email=$request->email",
         ];
         $passwordReset = PasswordReset::create([
             'email' => $user->email,
@@ -155,13 +145,22 @@ class AuthController extends Controller
     }
 
     /******* Installation App ******/
-    public function app_install_index()
+    public function index()
     {
         // $email_count  =  Plan::where('id',auth()->user()->plan_id)->first();
         // if(auth()->user()->init_flag == 0){
         // Auth::user()->update(['init_flag' => 1,'ugc_email_count' =>$email_count->ugc_email_count, 'ugc_video_count' =>$email_count->ugc_video_count,'remaining_email' => $email_count->ugc_email_count]);
         // }
+        // dd("resquest->all()");
+
         $shop = Auth::user();
+        $shop = User::find($shop->id);
+        Log::info('Shop identified and updated successfully'.$shop->customer_api_token);
+
+        // if(empty($shop->customer_api_token)){
+        //     Log::info('Shop identified and updated successfully');
+            SaveMentalTokenJob::dispatch($shop);
+        // }php
 
         $x_forwarded_for = $_SERVER["HTTP_X_FORWARDED_FOR"];
 
@@ -180,7 +179,7 @@ class AuthController extends Controller
         // if($handleExistance){
 
         //     $shop->store_handle = str_replace(' ','_', $shopData['body']['shop']['name'] . '_' . Str::random(5));
-            
+
         // }else {
         //     $shop->store_handle = str_replace(' ', '_', $shopData['body']['shop']['name']);
         // }
@@ -201,7 +200,7 @@ class AuthController extends Controller
          * check shop handle already exist
          */
 
-        if(User::where('id', $shop->id)->whereNull('store_handle')->first()){
+        if (User::where('id', $shop->id)->whereNull('store_handle')->first()) {
 
             $handleExistance = User::where(function ($query) use ($shop_store_name) {
                 $query->where('store_handle', $shop_store_name)
@@ -217,8 +216,8 @@ class AuthController extends Controller
                 ]);
             }
         }
-       
-       
+
+
         // adding settings on installation
         Setting::firstOrCreate([
             'user_id' => $shop->id
@@ -227,7 +226,7 @@ class AuthController extends Controller
             'store_credit' => 50,
             'logo' => '',
             'instructions' => $inst,
-            'instruction_title' => 'Send us a video to receive a ' . getCurrencySymbol($shop->store_currency) . '50 discount code',
+            'instruction_title' => 'Send us a video and receive a discount of up to ' . getCurrencySymbol($shop->store_currency) . '75 on your next purchase',
             'video' => '',
             'page_color' => '#28282B',
             'page_display_to_customers' => 3,
@@ -275,8 +274,8 @@ class AuthController extends Controller
         $response = curl_exec($curl);
         curl_close($curl);
         // dd($response);
-        
-        return view('embedded');
+
+        return Inertia::render('MyApplication/GetStarted');
     }
 
     /******************* on App Install Email Settings ***********************/
@@ -303,7 +302,8 @@ class AuthController extends Controller
         );
     }
 
-    public function videoApprovedTemplate($user_id,$user){
+    public function videoApprovedTemplate($user_id, $user)
+    {
         $emailTemplate['logo'] = '';
         $emailTemplate['user_id'] = $user_id;
         $emailTemplate['subject'] = "Claim your discount code";
@@ -319,8 +319,10 @@ class AuthController extends Controller
         $emailTemplate['btn_text'] = 'Shop Now';
         $emailTemplate['btn_color'] = '#28282B';
         $emailTemplate['from'] = auth()->user()->store_name;
-        EmailTemplate::firstOrCreate(['user_id'=> $user_id,'type'=> 'UGC_Approved']
-        ,$emailTemplate);
+        EmailTemplate::firstOrCreate(
+            ['user_id' => $user_id, 'type' => 'UGC_Approved'],
+            $emailTemplate
+        );
     }
 
     public function postPurchaseTemplate($user_id, $user)
@@ -330,7 +332,7 @@ class AuthController extends Controller
         $emailTemplate['user_id'] = $user_id;
         $emailTemplate['subject'] = "Send a video and we'll send a big discount";
 
-                           
+
         $emailTemplate['type'] = 'Post_Purchase';
         $emailTemplate['body'] = "<p style='text-align: left;'>Hello {{name}},</p>
 <p style='text-align: left;'>You recently made a purchase from us and we'd love to hear your thoughts!</p>
@@ -339,15 +341,15 @@ class AuthController extends Controller
         $emailTemplate['btn_text'] = 'Record Video';
         $emailTemplate['btn_color'] = '#28282B';
         $emailTemplate['from'] = auth()->user()->store_name;
-        EmailTemplate::firstOrCreate(['user_id' => $user_id, 'type' => 'Post_Purchase'],$emailTemplate);
+        EmailTemplate::firstOrCreate(['user_id' => $user_id, 'type' => 'Post_Purchase'], $emailTemplate);
     }
 
     public function videoDeclinedTemplate($user_id, $user)
     {
         $emailTemplate['logo'] = '';
         $emailTemplate['user_id'] = $user_id;
-        $emailTemplate['subject'] = "Update about your video" ;
-       
+        $emailTemplate['subject'] = "Update about your video";
+
         $emailTemplate['type'] = 'UGC_Declined';
         $emailTemplate['body'] = '<p style="text-align: left;">Hello,</p>
 <p style="text-align: left;">Sorry, your video was not approved for the following reason:</p>
@@ -369,7 +371,7 @@ class AuthController extends Controller
         $emailTemplate['logo'] = '';
         $emailTemplate['user_id'] = $user_id;
         $emailTemplate['subject'] = "Share your Thoughts on {{storename}}";
-                           
+
         $emailTemplate['type'] = 'Reminder';
         $emailTemplate['body'] = "<p style='text-align: left;'>Hello {{name}},</p>
 <p style='text-align: left;'>We noticed you haven't yet submitted your video review!&nbsp;</p>
@@ -385,4 +387,16 @@ class AuthController extends Controller
             $emailTemplate
         );
     }
+
+    public function appDashboard()
+    {
+        return Inertia::render('MyApplication/Dashboard');
+    }
+
+    public function  getuserSettings()
+    {
+        $user = Auth::user();
+        return responseJson(true, 'Settings fetched successfully', $user);
+    }
+
 }

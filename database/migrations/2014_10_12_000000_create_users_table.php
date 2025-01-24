@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+
     /**
      * Run the migrations.
      *
@@ -21,6 +22,9 @@ return new class extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->unsignedBigInteger('role_id')->default(2);
+            //AIO
+            $table->string('order_sync')->nullable();
+            $table->string('product_sync')->nullable();
             $table->timestamps();
         });
     }

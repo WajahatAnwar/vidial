@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Models;
+
 use Illuminate\Support\Carbon;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -20,7 +21,8 @@ class Video extends Model
         return Carbon::parse($value)->format('m/d/Y');
     }
 
-    public function order(){
+    public function order()
+    {
         return $this->belongsTo(Orders::class);
     }
 }

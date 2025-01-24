@@ -34,22 +34,23 @@ class UpdatePlan extends Command
      */
     public function handle()
     {
-        $email_count  =  Plan::where('id',12)->first();
-        $charge = Charge::where('user_id',12)
-        ->where('status','=','ACTIVE')
-        ->first();
+        $email_count  =  Plan::where('id', 12)->first();
+        $charge = Charge::where('user_id', 12)
+            ->where('status', '=', 'ACTIVE')
+            ->first();
 
         $current_user_approved_video_count = Video::where("user_id", 12)
-        ->where('status', config('constants.video_approved'))
-        ->where('created_at', '>=',$charge->activated_on)
-        ->where('created_at', '<=',Carbon::now())
-        ->count();
+            ->where('status', config('constants.video_approved'))
+            ->where('created_at', '>=', $charge->activated_on)
+            ->where('created_at', '<=', Carbon::now())
+            ->count();
+
         dd($current_user_approved_video_count);
 
-        $current_user_approved_email_count=Log::where("user_id", 12)
-        ->where('created_at', '>=',$charge->activated_on)
-        ->where('created_at', '<=',Carbon::now())
-        ->count();
+        // $current_user_approved_email_count=Log::where("user_id", 12)
+        // ->where('created_at', '>=',$charge->activated_on)
+        // ->where('created_at', '<=',Carbon::now())
+        // ->count();
 
         //count Remaining
         $remaining_video_count = $email_count->ugc_video_count - $current_user_approved_video_count;
@@ -58,13 +59,13 @@ class UpdatePlan extends Command
         $update_plane = User::find(auth()->user()->id);
 
         // if(auth()->user()->remaining_email == 0 || auth()->user()->remaining_videos == 0  ){
-            $update_plane->update([
-                'ugc_email_count'   =>    $email_count->ugc_email_count,
-                'ugc_video_count'   =>    $email_count->ugc_video_count,
-                'ugc_email_count'   =>    $email_count->ugc_email_count,
-                'remaining_email'   =>    $remaining_email_count ,
-                'remaining_videos'  =>    $remaining_video_count
-            ]);
+        $update_plane->update([
+            'ugc_email_count'   =>    $email_count->ugc_email_count,
+            'ugc_video_count'   =>    $email_count->ugc_video_count,
+            'ugc_email_count'   =>    $email_count->ugc_email_count,
+            'remaining_email'   =>    $remaining_email_count,
+            'remaining_videos'  =>    $remaining_video_count
+        ]);
         // } else{
         //     $update_plane->update([
         //         'ugc_email_count'   =>    $email_count->ugc_email_count,

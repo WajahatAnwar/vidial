@@ -15,19 +15,14 @@ use App\Models\EmailTemplate;
 
 class AdminController extends Controller
 {
-    public function showadminlogin()
-    {
-    }
     public function fetchingdataofusers(Request $request)
     {
-        
-   
         $user_info = User::with(['plan'])
-        ->withCount(['videos_count', 'emailsSent','customers'])
+            ->withCount(['videos_count', 'emailsSent', 'customers'])
             ->where('role_id', config('constants.user'))
-            ->when($request->s !='',function($query){
-                $query->where('name','like','%'.request()->s.'%')
-                ->orWhere('store_name','like','%'.request()->s.'%');
+            ->when($request->s != '', function ($query) {
+                $query->where('name', 'like', '%' . request()->s . '%')
+                    ->orWhere('store_name', 'like', '%' . request()->s . '%');
             })
             ->when($request->get('sorting') == "id desc", function ($q) {
                 $q->orderBy("id", "desc");
@@ -37,15 +32,15 @@ class AdminController extends Controller
             })->when($request->get('sorting') == "created_at desc", function ($q) {
                 $q->orderBy("created_at", "desc");
             })->when($request->get('sorting') == "created_at asc", function ($q) {
-            $q->orderBy("created_at", "asc");
+                $q->orderBy("created_at", "asc");
             })
             ->withCount('videos')
             ->withTrashed()->get();
-            return response()->json([
+        return response()->json([
             'success' => true,
             'message' => 'Users List',
             'user_details' => $user_info,
-            ]);
+        ]);
     }
 
     public function update_status_for_water_mark(Request $request)
@@ -71,21 +66,21 @@ class AdminController extends Controller
         $user = User::find(7);
         try {
             $customersCount = $user->api()->rest('GET', '/admin/api/2023-07/customers/count.json')['body'];
-            if(isset($customersCount['count'])){
+            if (isset($customersCount['count'])) {
                 return $customersCount['count'];
             }
             return false;
         } catch (Exception $e) {
             return $e->getMessage();
         }
-        
     }
 
     /**
      * get count of customers
      */
 
-     public function customersCount($user){
+    public function customersCount($user)
+    {
         try {
             $customersCount = $user->api()->rest('GET', '/admin/api/2023-07/customers/count.json')['body'];
             if (isset($customersCount['count'])) {
@@ -95,7 +90,5 @@ class AdminController extends Controller
         } catch (Exception $e) {
             return $e->getMessage();
         }
-     }
-
-      
+    }
 }

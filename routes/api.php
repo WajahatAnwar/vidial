@@ -1,22 +1,16 @@
 <?php
 
-use App\Http\Controllers\StoreFrontController;
+use App\Http\Controllers\SettingsController;
+use App\Http\Controllers\HeyMentalPlanCreatedController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+Route::get('{shop_name}/get-src' , [SettingsController::class, 'getSrc']);
 
-Route::post('get_campaign_discount',[StoreFrontController::class,'get_campaign_discount']);
+
+Route::post('create_plan_sync',[HeyMentalPlanCreatedController::class,'planCreated']);
+Route::post('update_plan_sync',[HeyMentalPlanCreatedController::class,'planUpdated']);
+Route::get('{shop_name}/get-src' , [SettingsController::class, 'getSrc']);

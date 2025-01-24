@@ -9,11 +9,10 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Osiset\ShopifyApp\Contracts\ShopModel as IShopModel;
 use Osiset\ShopifyApp\Traits\ShopModel;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Authenticatable implements IShopModel
 {
-    use HasApiTokens, HasFactory, Notifiable, ShopModel,SoftDeletes;
+    use HasApiTokens, HasFactory, Notifiable, ShopModel;
 
     /**
      * The attributes that are mass assignable.
@@ -33,7 +32,9 @@ class User extends Authenticatable implements IShopModel
         'gd_access_token',
         'star_credit',
         'store_id',
-        'mantle_token'
+        'mantle_token',
+        'customer_api_token',
+        'uuid'
     ];
 
     /**
@@ -55,22 +56,40 @@ class User extends Authenticatable implements IShopModel
         'email_verified_at' => 'datetime',
     ];
 
-    /*** Relationships  ***/
+    public function prev_orders()
+    {
+        return $this->hasMany(Order::class, 'user_id', 'id');
+    }
 
+    public function products()
+    {
+        return $this->hasMany(Product::class, 'user_id', 'id');
+    }
+
+    public function collections()
+    {
+        return $this->hasMany(Collection::class, 'user_id', 'id');
+    }
+
+    /*** Good Authentic Relationships  ***/
     public function settings()
     {
         return $this->hasOne(Setting::class);
     }
-    public function orders(){
+
+    public function orders()
+    {
         return $this->hasMany(Orders::class);
     }
-    public function videos(){
+
+    public function videos()
+    {
         return $this->hasMany(Video::class);
     }
 
     public function videos_count()
     {
-        return $this->hasMany(Video::class)->where('status','Approved');
+        return $this->hasMany(Video::class)->where('status', 'Approved');
     }
 
     public function emailsSent()
@@ -78,27 +97,30 @@ class User extends Authenticatable implements IShopModel
         return $this->hasMany(Log::class)->where('type', 'EMAIL');
     }
 
-    public function emailCreds(){
+    public function emailCreds()
+    {
         return $this->hasOne(EmailCredentials::class);
     }
 
-    public function googleDriveCreds(){
+    public function googleDriveCreds()
+    {
         return $this->hasOne(GoogleDriveCred::class);
     }
 
-    public function klavio(){
+    public function klavio()
+    {
         return $this->hasOne(KlavioCredential::class);
     }
 
     /**** Accessors ***/
-    
+
     public function getFormattedCreatedAtAttribute()
     {
         return $this->created_at->format(config('constants.date_format')); // Customize the format as needed
     }
 
-    public function customers(){
-       return $this->hasMany(Customer::class);
+    public function customers()
+    {
+        return $this->hasMany(Customer::class);
     }
-
 }

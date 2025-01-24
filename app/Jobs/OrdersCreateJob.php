@@ -2,22 +2,19 @@
 
 namespace App\Jobs;
 
-
+use stdClass;
+use App\Models\User;
+use Illuminate\Bus\Queueable;
+use Illuminate\Support\Facades\Log;
 use App\Models\KlavioCredential;
 use App\Models\Orders;
-use App\Models\User;
 use Carbon\Carbon;
-use Illuminate\Bus\Queueable;
+use Illuminate\Queue\SerializesModels;
+use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Log;
 use Osiset\ShopifyApp\Objects\Values\ShopDomain;
-use stdClass;
-use Osiset\ShopifyApp\Contracts\Commands\Shop as IShopCommand;
 use Osiset\ShopifyApp\Contracts\Queries\Shop as IShopQuery;
-use Osiset\ShopifyApp\Actions\CancelCurrentPlan;
 
 class OrdersCreateJob implements ShouldQueue
 {
@@ -28,13 +25,14 @@ class OrdersCreateJob implements ShouldQueue
      *
      * @var ShopDomain|string
      */
+    public $shopDomain;
 
     /**
      * The webhook data
      *
      * @var object
      */
-    // public $data;
+    public $data;
     public $timeout = 9999999999999999;
     public $tries = 2;
 
@@ -46,10 +44,10 @@ class OrdersCreateJob implements ShouldQueue
      *
      * @return void
      */
-    public $shopDomain;
-    public $data;
     public function __construct($shopDomain, $data)
     {
+        // config()->set('shopify-app.job_queues.webhooks', 'que_orders');
+
         $this->shopDomain = $shopDomain;
         $this->data = $data;
     }
@@ -57,29 +55,26 @@ class OrdersCreateJob implements ShouldQueue
     /**
      * Execute the job.
      *
-     * @param IShopCommand      $shopCommand             The commands for shops.
-     * @param IShopQuery        $shopQuery               The querier for shops.
-     * @param CancelCurrentPlan $cancelCurrentPlanAction The action for cancelling the current plan.
-     *
-     * @return bool
+     * @return void
      */
-    public function handle()
+    public function handle(IShopQuery $shopQuery): bool
     {
-        // $shop_domain = $this->shopDomain;
-        //Log::info($shop_domain);
-        //Log::info("order placed");
-
+        $this->shopDomain = ShopDomain::fromNative($this->shopDomain);
+        $shop = $shopQuery->getByDomain($this->shopDomain);
         $payload = $this->data;
         $order_id = $payload->id;
-        $this->shopDomain = ShopDomain::fromNative($this->shopDomain);
-        $shop = User::where('name', $this->shopDomain->toNative())->first();
+
+        Log::info("order create job" . $payload->name);
+
+        // $user = User::with('applications')->where('name', $shop->name)->first();
+
         $shop_settings =  $shop ? $shop->settings : null;
         if ($shop_settings) {
 
             // Log::info('order create job run successfully');
             $customer_details = $payload->customer;
             if ($payload->contact_email == null || $payload->contact_email == "") {
-                return;
+                return true;
             }
             /********* payload for order ********/
             $order_payload = [
@@ -108,6 +103,7 @@ class OrdersCreateJob implements ShouldQueue
             $order = Orders::updateOrCreate(['order_id' => $order_id], $order_payload);
             return true;
         }
+
         return true;
     }
 }

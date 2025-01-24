@@ -1,30 +1,31 @@
-import reactRefresh from '@vitejs/plugin-react-refresh';
+import { defineConfig } from 'vite';
+import laravel from 'laravel-vite-plugin';
+import react from '@vitejs/plugin-react';
 
-export default ({ command }) => ({
-    base: command === 'serve' ? '' : '/build/',
-    publicDir: 'fake_dir_so_nothing_gets_copied',
+export default defineConfig({
     build: {
-        manifest: true,
-        outDir: 'public/build',
-        rollupOptions: {
-            input: ['resources/css/app.css', 'resources/js/app.js'],
-        },
         chunkSizeWarningLimit: 5000,
+        rollupOptions: {
+            onwarn(warning, warn) {
+                if (warning.code === 'MODULE_LEVEL_DIRECTIVE') {
+                    return
+                }
+                warn(warning)
+            }
+        }
     },
     plugins: [
-        reactRefresh(),
+        laravel({
+            input: 'resources/js/app.jsx',
+            refresh: true,
+        }),
+        react(),
     ],
+    optimizeDeps: {
+        include: [
+            '@emotion/react',
+            '@emotion/styled',
+            '@mui/material/Tooltip'
+        ],
+    },
 });
-
-// import { defineConfig } from 'vite';
-// import laravel from 'laravel-vite-plugin';
-
-// export default defineConfig({
-//     plugins: [
-//         laravel({
-//             input: ['resources/css/app.css', 'resources/js/app.js'],
-//             refresh: true,
-//         }),
-//     ],
-// });
-

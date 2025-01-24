@@ -2,13 +2,25 @@
 
 namespace App\Models;
 
+use App\Models\Filter\FilterSet;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Collection extends Model
 {
     use HasFactory;
+
     protected $fillable = [
-        'user_id', 'collection_id','collection_title','collection_handle','collection_image'
+        'user_id', 'collection_id', 'collection_title', 'collection_handle', 'collection_image', 'collection_created_at', 'published_at'
     ];
+
+    public function products()
+    {
+        return $this->belongsToMany(Product::class, 'collection_products', 'collection_id', 'product_id', 'collection_id', 'product_id')->using(CollectionProduct::class)->withTimestamps();
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

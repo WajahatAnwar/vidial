@@ -15,7 +15,7 @@ class GoogleDriveController extends Controller
     {
 
 
-       
+
 
         // session()->put('token', $this->gClient->getAccessToken());
     }
@@ -53,7 +53,7 @@ class GoogleDriveController extends Controller
         if ($this->gClient->getAccessToken()) {
 
             //FOR LOGGED IN USER, GET DETAILS FROM GOOGLE USING ACCES
-            $user = User::where('name',$request->session()->get('current_user'))->first();
+            $user = User::where('name', $request->session()->get('current_user'))->first();
 
             $user->gd_access_token = json_encode($request->session()->get('token'));
 
@@ -138,8 +138,7 @@ class GoogleDriveController extends Controller
         $request->session()->put('client_id', trim($request->client_id));
         $request->session()->put('folder_name', trim($request->folder_name));
         // return redirect('google-login',['params'=>$request->all()]);
-        return redirect()->route('google.login',$request->all());
-
+        return redirect()->route('google.login', $request->all());
     }
     /**************  congratulations ***************/
     public function gdSuccess(Request $request)

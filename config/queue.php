@@ -62,11 +62,11 @@ return [
             'after_commit' => false,
         ],
 
-        'database' => [
+       'database' => [
             'driver' => 'redis',
             'connection' => 'default',
             'queue' => env('REDIS_QUEUE', 'default'),
-            'retry_after' => 90,
+            'retry_after' => 1800,
             'block_for' => null,
             'after_commit' => false,
         ],

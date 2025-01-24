@@ -11,17 +11,15 @@ class EmailTemplate extends Model
 
     protected $guarded = [];
 
-    public function user(){
+    public function user()
+    {
         return $this->belongsTo(User::class);
     }
 
-    public function getLogoAttribute($value){
-        if($value){
+    public function getLogoAttribute($value)
+    {
+        if ($value) {
             return url('emails_logo/' . $value);
         }
-
-    
-       //return  url('emails_logo/default.png');
-      
     }
 }

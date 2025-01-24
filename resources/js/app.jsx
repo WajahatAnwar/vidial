@@ -1,0 +1,33 @@
+import './bootstrap';
+import '../css/app.css';
+import "@shopify/polaris/build/esm/styles.css";
+import "@/ReactJs/MyApplication/css/style.css";
+import { createRoot } from 'react-dom/client';
+import { createInertiaApp } from '@inertiajs/react';
+import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
+import { Provider } from 'react-redux';
+import { store } from '@/ReactJs/ReduxStores/store';
+import { AppProvider } from '@shopify/polaris';
+import en from "@shopify/polaris/locales/en.json";
+
+const appName = window.document.getElementsByTagName('title')[0]?.innerText || 'Laravel';
+window.appURL = import.meta.env.VITE_APP_URL;
+
+createInertiaApp({
+    title: (title) => `${title} - ${appName}`,
+    resolve: (name) => resolvePageComponent(`./ReactJs/${name}.jsx`, import.meta.glob('./ReactJs/**/*.jsx')),
+    setup({ el, App, props }) {
+        const root = createRoot(el);
+        root.render(
+            <AppProvider i18n={en}>
+                <Provider store={store}>
+                    <App {...props} />
+                </Provider>
+            </AppProvider>,
+            document.getElementById('root')
+        );
+    },
+    progress: {
+        color: '#4B5563',
+    },
+});
