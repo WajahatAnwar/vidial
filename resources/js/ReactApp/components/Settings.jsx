@@ -1,53 +1,9 @@
-import React, { useEffect } from "react";
-import {
-    Page,
-    hsbToHex,
-    hsbToRgb,
-    hslToRgb,
-    rgbToHsb,
-    Card,
-    Button,
-    Select,
-    Icon,
-    Grid,
-    Modal,
-    Banner,
-    RadioButton,
-    TextField,
-    ColorPicker,
-    Spinner,
-    Collapsible,
-    Popover,
-    ButtonGroup,
-    Checkbox,
-    Label,
-} from "@shopify/polaris";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import {
-    DropZone,
-    Stack,
-    Thumbnail,
-    Text,
-    Frame,
-    Toast,
-    List,
-} from "@shopify/polaris";
-import { CircleCancelMinor, NoteMinor, CircleCancelMajor, ChevronUpMinor, PlayMinor, ConnectMinor, TickMinor } from "@shopify/polaris-icons";
-import {
-    DeleteMajor
-} from '@shopify/polaris-icons';
-import { useCallback } from "react";
-import UploadIcon from "./imges/uploadLogo.png";
-import ErrorIcon from "./imges/error.png";
-import DellIcon from "./imges/dellIcon.png";
-import ColorWheel from "./imges/collorWheel.png";
-import ChevronUp from "./imges/ChevronUpMinor.png";
-import arrowRight from "./imges/arrowRight.png";
-import Toggle from "./Toggle";
-import Dropzone from "dropzone";
+import { Banner, BlockStack, Button, ButtonGroup, Card, ColorPicker, DropZone, Frame, Grid, List, Modal, Page, Popover, Select, Spinner, Text, TextField, Thumbnail, Toast, Tooltip, hsbToHex } from "@shopify/polaris";
+import { NoteMinor } from "@shopify/polaris-icons";
+
+import { useCallback, useEffect, useState } from "react";
 import './css/editor.css';
-import EmailCredsToggle from "./EmailCredsToggle";
+import ColorWheel from "./imges/collorWheel.png";
 import Ticker from "./Ticker";
 // import { DeleteIcon } from '@shopify/polaris-icons';
 // import {DeleteIcon} from '@shopify/polaris-icons';
@@ -1282,6 +1238,7 @@ const Settings = () => {
 
                                 {toastMarkup}
                                 <div style={{ marginTop: "20px" }}></div>
+                                <BlockStack gap='300'>
                                 <Card sectioned>
                                     <div>
                                         <Text variant="headingLg" as="h5">
@@ -2253,6 +2210,7 @@ const Settings = () => {
                                         className="colorOptions"
                                     ></div>
                                 </Card>
+                                </BlockStack>
 
 
                                 {/* <Card sectioned>
