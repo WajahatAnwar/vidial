@@ -189,31 +189,7 @@
     $(document).ready(function() {
         $("#upload-form").submit(function(event) {
             event.preventDefault();
-            var form = new FormData();
-            form.append("video", $("#fileinput")[0].files[0]);
-
-            $.ajax({
-                url: "{{ url('/testUploaded') }}",
-                type: "POST",
-                data: form,
-                processData: false,
-                contentType: false,
-                success: function(response) {
-                    if (response.success) {
-                        console.log(response.message);
-                    }
-
-                    //alert(response);
-                },
-                error: function(response) {
-                    var errors = response.responseJSON.errors;
-                    $.each(errors, function(key, value) {
-                        console.log(key, value)
-                        // Display error message
-                    });
-                    //alert("Error: " + Body Texttatus + " - " + errorThrown);
-                }
-            });
+            console.log("The Functiona has been called in the Video Controller testUploaded may be but code not found other code is wipe out");
         });
     });
 </script>

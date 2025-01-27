@@ -55,40 +55,8 @@ class AdminController extends Controller
             'success' => true,
             'message' => 'WaterMark Status Updated',
             'user_details' => $user_info,
-            // 'updated_record' => $store_list
+
         ]);
     }
 
-    // test email
-
-    public function testEmail()
-    {
-        $user = User::find(7);
-        try {
-            $customersCount = $user->api()->rest('GET', '/admin/api/2023-07/customers/count.json')['body'];
-            if (isset($customersCount['count'])) {
-                return $customersCount['count'];
-            }
-            return false;
-        } catch (Exception $e) {
-            return $e->getMessage();
-        }
-    }
-
-    /**
-     * get count of customers
-     */
-
-    public function customersCount($user)
-    {
-        try {
-            $customersCount = $user->api()->rest('GET', '/admin/api/2023-07/customers/count.json')['body'];
-            if (isset($customersCount['count'])) {
-                return $customersCount['count'];
-            }
-            return false;
-        } catch (Exception $e) {
-            return $e->getMessage();
-        }
-    }
 }

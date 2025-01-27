@@ -20,8 +20,6 @@ import { CircleCancelMajor, CircleTickMajor } from "@shopify/polaris-icons";
 import { useCallback, useEffect, useState } from "react";
 
 function WaitingVideos() {
-    const page = usePage().props;
-    const query = page.ziggy.query;
 
     const [videoFeedback, setVideoFeedback] = useState(" Congratulations, you just approved the video.");
     const [videoFeedbackPopupTitle, setVideoFeedbackPopupTitle] = useState("Please Confirm");
@@ -76,7 +74,7 @@ function WaitingVideos() {
     }, [activeApprovedSuccessModel]);
 
     const upgradePlan = () => {
-        router.get(route('plans', query));
+        router.get(route('plans'));
     };
 
     /******** Rejection popup   ******/
@@ -95,7 +93,7 @@ function WaitingVideos() {
             var formData = new FormData();
             formData.append("reason", rejectionReason);
             formData.append("video_id", rejectVideoId);
-            fetch(route('rejectVideo', query), {
+            fetch(route('rejectVideo'), {
                 method: "post",
                 body: formData,
             })
@@ -158,7 +156,7 @@ function WaitingVideos() {
 
             }
             setVideoFeedbackPopupTitle("Please Confirm");
-            fetch(route('videoOperation', query), {
+            fetch(route('videoOperation'), {
                 method: "post",
                 body: formData,
             })

@@ -31,7 +31,6 @@ class SyncAllCustomers implements ShouldQueue
      */
     public function handle(): void
     {
-        syncCustomers($this->data);
-        // Log::info(json_encode(User::find(2)));
+        // Log::info("Sync Customer Job Called. . . . ! ");
     }
 }

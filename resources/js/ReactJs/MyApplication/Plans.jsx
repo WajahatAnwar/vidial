@@ -83,6 +83,7 @@ function Plans() {
 
     const [plan, setPlan] = useState([]);
     const [users, setUser] = useState([]);
+    
     useEffect(() => {
         fetch(route('get_plans'))
             .then((response) => {
@@ -112,23 +113,23 @@ function Plans() {
             });
     }, []);
 
-    function handlechangeplan(name, plan_id) {
-        fetch()
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error("Something went wrong");
-                }
-                return response.json();
-            })
-            .then((data) => {
-                if (data.success) {
-                    toggleActive();
-                }
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-    }
+    // function handlechangeplan(name, plan_id) {
+    //     fetch()
+    //         .then((response) => {
+    //             if (!response.ok) {
+    //                 throw new Error("Something went wrong");
+    //             }
+    //             return response.json();
+    //         })
+    //         .then((data) => {
+    //             if (data.success) {
+    //                 toggleActive();
+    //             }
+    //         })
+    //         .catch((error) => {
+    //             console.log(error);
+    //         });
+    // }
 
     return (
         <Page>

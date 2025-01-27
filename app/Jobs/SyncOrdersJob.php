@@ -36,7 +36,7 @@ class SyncOrdersJob implements ShouldQueue
      */
     public function handle()
     {
+        // We Are not using this At this Moment . . . . . . . . . . . . . . . . . . .
         Log::info("SYNC ORDERS JOB RUNNING: " . $this->user->name);
-        sync_orders($this->user);
     }
 }
