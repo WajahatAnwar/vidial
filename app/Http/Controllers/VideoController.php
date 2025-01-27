@@ -27,103 +27,13 @@ use Illuminate\Support\Facades\Auth;
 
 class VideoController extends Controller
 {
-    public function index(Request $request)
-    {
-        $client = new Client(env('DROPBOX_ACCEESS_TOKEN', ''), env('DROPBOX_APP_NAME', ''));
-        $file = $request->file('file');
-        $path = '/Videos/' . $file->getClientOriginalName();
-        $mode = \Dropbox\WriteMode::add();
-        $result = $client->uploadFile($path, $mode, fopen($file->getRealPath(), 'rb'));
-        if ($result) {
-            return response()->json(['success' => true]);
-        } else {
-            return response()->json(['success' => false]);
-        }
-    }
-    /****** test upload video on dropbox  ********/
 
     public function testupload(Request $request)
     {
         return view('landingPage.test');
     }
-    public function testUploaded(Request $request)
-    {
-
-
-
-
-
-        $file = $request->file('video');
-        $request->validate([
-            'video' => 'required|mimetypes:video/avi,video/mpeg,video/quicktime,video/mp4',
-        ], [
-            'video.required' => 'Please select a video file',
-            'video.mimetypes' => 'Please upload a valid video file'
-        ]);
-        $token = "Bearer sl.BZltdKFVlg8ZeudLmlBMk5SxuoZIfKxJ-BscwRA0PfBU5o76V01LAtq2qdY3My8dU6l7viS6L9cLh0VgHcE9vAiI2BXepeyb5QE2B3KdA8MRHYEAaSK8uM31g_oWm9brlp9Hk6GQ";
-        try {
-            $client = new Client([
-                'headers' => [
-                    'Authorization' => $token,
-                    'Content-Type' => 'application/octet-stream',
-                    'Dropbox-API-Arg' => json_encode([
-                        'path' => '/vidial/' . $file->getClientOriginalName(),
-                        'mode' => 'add',
-                        'autorename' => true,
-                        'mute' => false,
-                    ])
-                ]
-            ]);
-
-            $response = $client->request('POST', 'https://content.dropboxapi.com/2/files/upload', [
-                'body' => fopen($file, 'r'),
-            ]);
-        } catch (\Exception $e) {
-
-            Log::error('An error occurred: ' . $e->getMessage());
-        }
-
-        // Get response body
-        $body = $response->getBody()->getContents();
-        $data = json_decode($body, true);
-        dd($data['path_display']);
-        // fetching Preview Link
-        if (isset($data['path_display']) && !empty($data['path_display'])) {
-            try {
-                $client = new Client();
-                $response = $client->post('https://api.dropboxapi.com/2/files/get_temporary_link', [
-                    'headers' => [
-                        'Authorization' => $token
-                    ],
-                    'json' => [
-                        'path' => $data['path_display'],
-                    ],
-                ]);
-                $videoLink = json_decode($response->getBody()->getContents(), true)['link'];
-            } catch (\Exception $e) {
-                Log::error('An error occurred: ' . $e->getMessage());
-            }
-        }
-        // save Preview Link into DB
-        $video['video_link'] = $videoLink;
-        $video['email'] = 'test@gmail.com';
-        $video['status'] = config('constants.video_pending');
-        $video['user_id'] = 1;
-        if (Video::create($video)) {
-            return response()->json([
-                'success' => true,
-                'message' => 'Video Uploaded Successfully',
-            ]);
-        }
-        return response()->json([
-            'success' => false,
-            'message' => 'Something went wrong',
-        ]);
-    }
-
 
     /****** get pending videos  ********/
-
     public function getPendingVideos(Request $request)
     {
         if ($request->filled('id')) {
@@ -180,7 +90,6 @@ class VideoController extends Controller
             $data['remaining_emails'] = 1;
             return response()->json([
                 'success' => false,
-                'message' => 'Email Limitation has been expired',
                 'message' => 'You have reached the limit of emails allowed in your current plan.To
             accept more emails,please upgrade your plan',
                 'data' => $data
@@ -256,7 +165,7 @@ class VideoController extends Controller
             return response()->json([
                 'success' => true,
                 'message' => 'Status Changed Successfully',
-                'data' =>  $code,
+                'data' => $code,
             ]);
         }
         return response()->json([
@@ -272,13 +181,6 @@ class VideoController extends Controller
         $user = User::find(Auth::user()->id);
         $remainingVideos = $user->remaining_videos == null ? $user->remaining_videos : $user->ugc_video_count;
         $remaining_email = $user->remaining_email;
-        // remaining video
-        // if($remainingVideos <=0 ){
-        //     return response()->json([
-        //         'success' => false,
-        //         'message' => 'Video Limitation has been expired',
-        //     ]);
-        // }
         if ($remaining_email <= 0) {
             return response()->json([
                 'success' => false,
@@ -298,7 +200,7 @@ class VideoController extends Controller
 
             $details = [
                 'rejectionReason' => $request->reason,
-                'mail'            => $videos->email,
+                'mail' => $videos->email,
                 'name' => $name,
                 'storename' => Auth::user()->store_name,
                 'storeteam' => Auth::user()->name,
@@ -343,7 +245,7 @@ class VideoController extends Controller
             return response()->json([
                 'success' => true,
                 'message' => 'Status Changed Successfully',
-                'data' =>  null,
+                'data' => null,
             ]);
         }
         return response()->json([
@@ -401,25 +303,15 @@ class VideoController extends Controller
     // test function
     public function test(Request $request)
     {
-
-
-
-        $email_count  =  Plan::where('id', auth()->user()->plan_id)->first();
-        $charge   = Charge::where('user_id', auth()->user()->id)
+        $email_count = Plan::where('id', auth()->user()->plan_id)->first();
+        $charge = Charge::where('user_id', auth()->user()->id)
             ->where('status', '=', 'ACTIVE')
             ->first();
         $current_user_approved_video_count = Video::where("user_id", auth()->user()->id)->where('status', config('constants.video_approved'))
             ->where('created_at', '>=', $charge->billing_on)
             ->where('created_at', '<=', Carbon::now())
             ->get();
-
-        dd($current_user_approved_video_count);
-
-
-
         $current_user_approved_video_count = Video::where("user_id", auth()->user()->id)->where('status', config('constants.video_approved'))->whereMonth('created_at', Carbon::now()->month)->count();
-
-        dd(getDropboxToken());
         $dropbox = updateDropboxToken();
         $token = 'Bearer ' . $dropbox['access_token'];
         try {
@@ -435,12 +327,8 @@ class VideoController extends Controller
             $videoLink = json_decode($response->getBody()->getContents(), true)['link'];
             dd($videoLink);
         } catch (\Exception $e) {
-            dd($e->getMessage());
             Log::error('An error occurred: ' . $e->getMessage());
         }
-
-
-        dd('hi');
 
         try {
             $token = "Bearer sl.BZnaalQHjOM-wadrKh4Ek2Cxtp0lt1REIp7_wNMOu2OJWbUrgwzU8OyGErBf8HPeernpeIjyKVjXtrwbvzzPgXjvvF2NU4AEHqK0013EtI_W9JDnW_dbCGN4v0f3ijGwI3RqQBAi";
@@ -462,48 +350,8 @@ class VideoController extends Controller
             $videoLink = json_decode($response->getBody()->getContents(), true)['url'];
             $replaced = str_replace("www.dropbox.com", "dl.dropboxusercontent.com", $videoLink);
         } catch (\Exception $e) {
-            dd($e->getMessage());
             Log::error('An error occurred: ' . $e->getMessage());
         }
-
-
-
-        dd($videoLink, $replaced);
-
-        // successfully running code Create Price Rule
-
-
-        $shop = Auth::user();
-        $rules_requirements = [
-            "price_rule" => [
-                "title" => "goodauthentic_code",
-                "target_type" => "line_item",
-                "target_selection" => "all",
-                "allocation_method" => "across",
-                "value_type" => "fixed_amount",
-                "price_rule" => "-10.0",
-                "customer_selection" => "all",
-                "value" => "-10.0",
-                "starts_at" => Carbon::now()->toIso8601String(),
-            ]
-        ];
-        $priceRule = $shop->api()->rest('POST', '/admin/api/2022-10/price_rules.json', $rules_requirements);
-        // Generating Discount Code
-        if (isset($priceRule['body']['price_rule']['id']) && !empty($priceRule['body']['price_rule']['id'])) {
-
-            $discountCode = [
-                'discount_code' =>
-                [
-                    "price_rule_id" => $priceRule['body']['price_rule']['id'],
-                    "code" => $this->generateUniqueDiscountCode(),
-                ]
-            ];
-            $discount = $shop->api()->rest('POST', '/admin/api/2022-07/price_rules/' . $priceRule['body']['price_rule']['id'] . '/discount_codes.json', $discountCode);
-        }
-        dd($discount['discount_code']['id']);
-
-
-
         return;
     }
     //  Generating Unique Discount Code
@@ -587,27 +435,29 @@ class VideoController extends Controller
             'data' => $videoContent
         ]);
     }
-    // // save Preview Link into DB
-    // $video['video_link']=$videoLink;
-    // $video['email']='test@gmail.com';
-    // $video['status']='Pending';
-    // $video['user_id']=1;
-    // if(Video::create($video)){
-    //     return response()->json([
-    //         'success' => true,
-    //         'message' => 'Video Uploaded Successfully',
-    //     ]);
-    // }
-    // return response()->json([
-    //     'success' => false,
-    //     'message' => 'Something went wrong',
-    // ]);
-
-    // save User Uploaded data into database
     public function saveVideo(Request $request)
     {
 
         /****** check link expiration ******/
+
+        // // save Preview Link into DB
+        // $video['video_link']=$videoLink;
+        // $video['email']='test@gmail.com';
+        // $video['status']='Pending';
+        // $video['user_id']=1;
+        // if(Video::create($video)){
+        //     return response()->json([
+        //         'success' => true,
+        //         'message' => 'Video Uploaded Successfully',
+        //     ]);
+        // }
+        // return response()->json([
+        //     'success' => false,
+        //     'message' => 'Something went wrong',
+        // ]);
+
+        // save User Uploaded data into database
+
         $order = null;
         $order_id = null;
         if ($request->filled('order_id')) {
@@ -637,8 +487,6 @@ class VideoController extends Controller
             }
         }
 
-
-
         $video['video_link'] = $request->video_link;
         $video['email'] = $request->email;
         $video['status'] = config('constants.video_pending');
@@ -649,7 +497,7 @@ class VideoController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Store not found',
-            ]);    
+            ]);
         }
         $video['user_id'] = $user->id;
         if (Video::create($video)) {
@@ -695,55 +543,98 @@ class VideoController extends Controller
         ]);
     }
 
-    public function testing()
-    {
-        $settings = Setting::where('user_id', 2)->first();
-        $user = User::find(2);
-        $view = view('mailtemplate.ordereviewreminder', compact('settings', 'user'));
-        dd($view->render());
-        $shop = Auth::user();
-        $shopData = $shop->api()->rest('get', '/admin/api/2022-07/shop.json');
-        dd($shopData['body']['shop']['currency']);
-    }
-
     // create discount code
 
     public function createDiscountCode($type)
     {
-
         $shop = Auth::user();
         $shop = User::find($shop->id);
         $settings = Setting::where('user_id', Auth::user()->id)->first();
-        $discount_amount =  ($type == 'star_rating') ? $settings->star_credit : $settings->store_credit;
-        $rules_requirements = [
-            "price_rule" => [
-                "title" => "goodauthentic_code",
-                'usage_limit' => 1,
-                "target_type" => "line_item",
-                "target_selection" => "all",
-                "allocation_method" => "across",
-                "value_type" => "fixed_amount",
-                "price_rule" => "-" . $discount_amount,
-                "customer_selection" => "all",
-                "value" => "-" . $discount_amount,
-                "starts_at" => Carbon::now()->toIso8601String(),
-            ]
-        ];
-        $priceRule = $shop->api()->rest('POST', '/admin/api/2022-10/price_rules.json', $rules_requirements);
-        // Generating Discount Code
-        if (isset($priceRule['body']['price_rule']['id']) && !empty($priceRule['body']['price_rule']['id'])) {
-
-            $discountCode = [
-                'discount_code' =>
-                [
-                    "price_rule_id" => $priceRule['body']['price_rule']['id'],
-                    "code" => $this->generateUniqueDiscountCode(),
-                ]
-            ];
-            $discount = $shop->api()->rest('POST', '/admin/api/2022-07/price_rules/' . $priceRule['body']['price_rule']['id'] . '/discount_codes.json', $discountCode);
+        $discount_amount = ($type == 'star_rating') ? $settings->star_credit : $settings->store_credit;
+        $discountCodeCreateQuery = <<<GRAPHQL
+        mutation discountCodeBasicCreate(\$basicCodeDiscount: DiscountCodeBasicInput!) {
+          discountCodeBasicCreate(basicCodeDiscount: \$basicCodeDiscount) {
+        
+            codeDiscountNode {
+              codeDiscount {
+                ... on DiscountCodeBasic {
+                  title
+                  codes(first: 10) {
+                    nodes {
+                      code
+                    }
+                  }
+                  startsAt
+                  endsAt
+                  minimumRequirement {
+                    ...on DiscountMinimumQuantity {
+                       greaterThanOrEqualToQuantity
+                    }
+                  }
+                  customerSelection {
+                    ... on DiscountCustomerAll {
+                      allCustomers
+                    }
+                  }
+                  customerGets {
+                    value {
+                      ... on DiscountPercentage {
+                        percentage
+                      }
+                    }
+                    items {
+                      ... on AllDiscountItems {
+                        allItems
+                      }
+                    }
+                  }
+                  appliesOncePerCustomer
+                }
+              }
+            }
+            userErrors {
+              field
+              code
+              message
+            }
+          }
         }
-
-        return $discount['body']['discount_code'];
+        GRAPHQL;
+        $createDiscountCode = $shop->api()->graph($discountCodeCreateQuery, [
+            'basicCodeDiscount' => [
+                'title' => "goodauthentic_code",
+                "code" => $this->generateUniqueDiscountCode(),
+                "combinesWith" => [
+                    "orderDiscounts" => true,
+                    "productDiscounts" => true,
+                    "shippingDiscounts" => true
+                ],
+                "startsAt" => Carbon::now()->toIso8601String(),
+                "customerSelection" => [
+                    "all" => true
+                ],
+                "customerGets" => [
+                    "value" => [
+                        "discountAmount" => [
+                            "amount" => (float) $discount_amount,
+                            "appliesOnEachItem" => false
+                        ]
+                    ],
+                    "items" => [
+                        "all" => true
+                    ]
+                ],
+                "appliesOncePerCustomer" => true,
+                "usageLimit" => 1
+            ]
+        ]);
+        if (isset($createDiscountCode['body']['data']['discountCodeBasicCreate']['codeDiscountNode']['codeDiscount']['codes']['nodes'])) {
+            $dicount_code = $createDiscountCode['body']['data']['discountCodeBasicCreate']['codeDiscountNode']['codeDiscount']['codes']['nodes'];
+            Log::info(json_encode($dicount_code, JSON_PRETTY_PRINT));
+        } else {
+            Log::info(json_encode($createDiscountCode['body'], JSON_PRETTY_PRINT));
+        }
+        return $dicount_code;
     }
 
     /**** congratulations page ******/

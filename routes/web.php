@@ -9,15 +9,10 @@ use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\VideoController;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Auth;
 use App\Jobs\SyncProductsJob;
-use App\Models\Setting;
-use Illuminate\Support\Str;
 use App\Models\User;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Http;
-use Inertia\Inertia;
-
 use Osiset\ShopifyApp\Util;
 use Osiset\ShopifyApp\Contracts\Queries\Shop;
 use Osiset\ShopifyApp\Objects\Values\ShopDomain;
@@ -48,7 +43,6 @@ Route::get('/sync-collections', function () {
 
 Route::get('/jobs', function (Shop $query) {
     $users = User::whereNotNull('password')->where('role_id', 2)->get();
-    // $users = User::where('id',151)->get();
     foreach ($users as $user) {
         $shopName = ShopDomain::fromNative($user->name);
         $shop = $query->getByDomain($shopName);
@@ -75,15 +69,11 @@ Route::get('redirect_back', function () {
     return redirect()->back();
 });
 
-Route::get('/test-email', [EmailController::class, 'email']);
 
 
 Route::get('/cron', function () {
     Artisan::call('schedule:run');
 });
-
-//Email setting Portion
-Route::get('fatch_orders', [OrdersController::class, 'fetch_orders'])->middleware(['verify.shopify']);
 
 Route::get('send_test_email', [OrdersController::class, 'sendtest_email'])->name('send_test_email')->middleware(['verify.shopify']);
 
@@ -148,15 +138,11 @@ Route::group(['middleware' => ['auth']], function () {
 Route::group(['middleware' => ['verify.shopify', 'billable', 'update.plan']], function () {
 
     Route::get('/', [AuthController::class, 'index'])->name('home');
+
+    Route::get('/update-app', [AuthController::class, 'testForDiscount'])->name('update-app');
+
     Route::get('/app-dashboard', [AuthController::class, 'appDashboard'])->name('app.dashboard');
     Route::get('/settings-user-get', [AuthController::class, 'getuserSettings'])->name('settings.get.user');
-
-    Route::get('/get_shop_real', function () {
-        $user = Auth::user();
-        $user = User::find($user->id);
-        $response = $user->api()->rest('GET', 'admin/api/2024-01/webhooks.json');
-        return responseJson(true, 'Shop Name Retrieved', Auth::user()->name, $response);
-    })->name('get_shop_real.get');
 
     //VIDIAL ROUTES
 
@@ -223,105 +209,41 @@ Route::group(['middleware' => ['verify.shopify', 'billable', 'update.plan']], fu
     Route::post('check-handle', [SettingsController::class, 'checkHandle'])->name('check-handle');
     Route::post('store_handle', [SettingsController::class, 'saveHandle'])->name('store_handle');
     Route::post('save-email-creds', [SettingsController::class, 'saveEmailCredentials'])->name('save-email-creds');
-    Route::get('update-app', [DashboardController::class, 'updateApp'])->name('update-app');
-    Route::get('sync-customers', [DashboardController::class, 'syncCustomers'])->name('sync-customers');
-    Route::get('customer-webhook', [DashboardController::class, 'customerWebhook'])->name('customer-webhook');
     Route::post('save-klavio-settings', [SettingsController::class, 'saveKlavioCreds'])->name('connect.klavio');
     Route::post('delete-klavio-settings', [SettingsController::class, 'deleteKlavioCreds'])->name('delete.klavio');
-    
-    Route::get('logs-content', [SettingsController::class, 'logs'])->name('logs-content');
-    Route::get('shop-id', function () {
-        $users = User::where('role_id', '2')->get();
-        foreach ($users as $user) {
-            // shop api
-            $shop_id = null;
-            $response = $user->api()->rest('GET', '/admin/api/2024-07/shop.json');
-            if (isset($response['body']['shop']['id'])) {
-                $shop_id = $response['body']['shop']['id'];
-            }
-            if ($shop_id) {
-                $user->store_id = $shop_id;
-                $user->save();
-            }
-        }
-        dd('done');
-    });
 
-    
+    Route::get('logs-content', [SettingsController::class, 'logs'])->name('logs-content');
+
+
 });
 Route::get('test-webhook', function () {
-
-        // $user = User::where('id', '159')->first();
     $users = User::whereNotNull('password')->where('role_id', 2)->get();
-           foreach($users as $user){
-//  dd($user);
-            $webhooks = $user->api()->rest('get', '/admin/api/2021-07/webhooks.json');
-        // dd($webhooks);
-        if(!$webhooks['errors']){
-                     logger('start  user');
-            logger(json_encode($user));
-            foreach ($webhooks['body']['webhooks'] as $key => $value) {
-                if($value['topic'] == 'app/uninstalled'){
-                    $webhookPayload = [
-                        'webhook' => [
-                            'topic' => $value['topic'],
-                            'address' =>url('webhook/app-uninstalled'),
-                            'format' => 'json'
-                        ]
-                    ];
-                     $response = $user->api()->rest('put', '/admin/api/2024-04/webhooks/' . $value['id'] . '.json', $webhookPayload);
-                     logger('end user');
-                     logger(json_encode($user));
-                     logger(json_encode($response));
 
-                }
-                
-            }
-        }
+    foreach ($users as $user) {
 
-           }
-        
+        $response = Http::withHeaders([
+            'Content-Type' => 'application/json',
+            'X-Mantle-App-Api-Key' => env('MANTLE_API_KEY'),
+            'X-Mantle-App-Id' => env('MANTLE_AP_ID'),
+        ])->post('https://appapi.heymantle.com/v1/identify', [
+                    'platform' => 'shopify',
+                    'platformId' => $user->store_id,
+                    'myshopifyDomain' => $user->name,
+                    'name' => $user->store_name,
+                    'email' => $user->email,
+                    'accessToken' => $user->password,
+                ]);
 
-        // dd($webhooks);
+        $response = $response->json();
+        $user->mantle_token = $response['apiToken'];
+        $user->save();
+    }
 
-        // update webhook
-        //    dd($users);
-        //     $response = Http::withHeaders([
-        //         'Content-Type' => 'application/json',
-        //         'X-Mantle-Customer-Api-Token' => 'd8de0340-f3d1-4127-ac60-9d85a34140c6',
-        //         'X-Mantle-App-Id' => '58db85bd-50b1-4c84-82cf-8492b91913d4',
-        //     ])->post('https://appapi.heymantle.com/v1/usage_events', [
-        //         'customerId' => '46c5d728-f011-4f65-86cd-49b70aa562bf',
-        //         'eventId' => '1122',
-        //         'eventName' => 'vidial_testing_event',
-        //     ]);
-        //     return $response->json();
-        dd('all user done');
-        foreach ($users as $user) {
+    if ($response->status() === 401) {
+        return response()->json(['error' => 'Unauthorized'], 401);
+    }
 
-            $response = Http::withHeaders([
-                'Content-Type' => 'application/json',
-                'X-Mantle-App-Api-Key' => env('MANTLE_API_KEY'),
-                'X-Mantle-App-Id' => env('MANTLE_AP_ID'),
-            ])->post('https://appapi.heymantle.com/v1/identify', [
-                'platform' => 'shopify',
-                'platformId' => $user->store_id,
-                'myshopifyDomain' => $user->name,
-                'name' => $user->store_name,
-                'email' => $user->email,
-                'accessToken' => $user->password,
-            ]);
+    return $response->json();
+});
 
-            $response = $response->json();
-            $user->mantle_token = $response['apiToken'];
-            $user->save();
-        }
-
-        if ($response->status() === 401) {
-            return response()->json(['error' => 'Unauthorized'], 401);
-        }
-
-        return $response->json();
-    });
-
-//SHOPIFY ROUTES END ######################################################################################
+//SHOPIFY ROUTES END ######################################################  ################################

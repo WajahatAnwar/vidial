@@ -79,8 +79,6 @@ class OrdersUpdatedJob implements ShouldQueue
             $to_be_cancel->save();
         }
 
-        // sync_orders($shop);
-
         $inconnectOrder = InconnectOrder::where('shopify_order_id', $payload->id)->first();
         if (isset($inconnectOrder) && $payload->fulfillment_status == "fulfilled") {
             $inconnectOrder->fulfillment_status = $payload->fulfillment_status;
@@ -144,45 +142,6 @@ class OrdersUpdatedJob implements ShouldQueue
                 );
             }
         }
-
-        // $response8 = $user->api()->rest('GET', '/admin/api/2023-04/orders/' . $order->order_id . '/refunds.json');
-
-        // if ($response8['errors'] == false) {
-
-        //     // Log::info(json_encode("REFUNDS", $response8['errors']));
-
-        //     if (count($response8['body']['refunds']) > 0) {
-        //         foreach ($response8['body']['refunds'] as $key9 => $refund) {
-
-        //             $refund_amount = 0;
-
-        //             foreach ($refund->refund_line_items as $key10 => $refund_item) {
-        //                 $refund_amount = $refund_amount + $refund_item->subtotal;
-        //             }
-
-        //             // Log::info(json_encode("ORDER REFUND" . $refund_amount));
-
-        //             Refund::updateOrCreate(
-        //                 [
-        //                     'refund_id' => $refund->id,
-        //                 ],
-        //                 [
-        //                     'user_id' => $user->id,
-        //                     'local_order_id' => $order->id,
-        //                     'order_id' => $order->order_id,
-        //                     'refund_note' => $refund->note,
-        //                     'refund_amount' => $refund_amount,
-        //                 ]
-        //             );
-        //         }
-        //     }
-        // } else {
-        //     sendApiLog(false, 'API RESPONSE', $response8);
-        //     // DB::commit();
-        //     // return true;
-        // }
-
-        // Log::info(json_encode($order));
         return true;
     }
 }

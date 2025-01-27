@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
+use Carbon\Carbon;
 
 class AuthController extends Controller
 {
@@ -144,31 +145,146 @@ class AuthController extends Controller
         ]);
     }
 
-    /******* Installation App ******/
-    public function index()
+
+    public function testForDiscount()
     {
-        // $email_count  =  Plan::where('id',auth()->user()->plan_id)->first();
-        // if(auth()->user()->init_flag == 0){
-        // Auth::user()->update(['init_flag' => 1,'ugc_email_count' =>$email_count->ugc_email_count, 'ugc_video_count' =>$email_count->ugc_video_count,'remaining_email' => $email_count->ugc_email_count]);
-        // }
-        // dd("resquest->all()");
+        $type = 'star_rating';
 
         $shop = Auth::user();
         $shop = User::find($shop->id);
-        Log::info('Shop identified and updated successfully'.$shop->customer_api_token);
+
+        // $url = env('APP_URL') . "/authenticate?shop=" . $shop->name;
+
+
+        // return response()->json([
+        //     'url' => $url,
+        // ]);
+
+        // return redirect()->to($url);
+
+        
+
+        $settings = Setting::where('user_id', Auth::user()->id)->first();
+        $discount_amount = ($type == 'star_rating') ? $settings->star_credit : $settings->store_credit;
+
+        $discountCodeCreateQuery = <<<GRAPHQL
+        mutation discountCodeBasicCreate(\$basicCodeDiscount: DiscountCodeBasicInput!) {
+          discountCodeBasicCreate(basicCodeDiscount: \$basicCodeDiscount) {
+        
+            codeDiscountNode {
+              codeDiscount {
+                ... on DiscountCodeBasic {
+                  title
+                  codes(first: 10) {
+                    nodes {
+                      code
+                    }
+                  }
+                  startsAt
+                  endsAt
+                  minimumRequirement {
+                    ...on DiscountMinimumQuantity {
+                       greaterThanOrEqualToQuantity
+                    }
+                  }
+                  customerSelection {
+                    ... on DiscountCustomerAll {
+                      allCustomers
+                    }
+                  }
+                  customerGets {
+                    value {
+                      ... on DiscountPercentage {
+                        percentage
+                      }
+                    }
+                    items {
+                      ... on AllDiscountItems {
+                        allItems
+                      }
+                    }
+                  }
+                  appliesOncePerCustomer
+                }
+              }
+            }
+            userErrors {
+              field
+              code
+              message
+            }
+          }
+        }
+        GRAPHQL;
+
+        $createDiscountCode = $shop->api()->graph($discountCodeCreateQuery, [
+            'basicCodeDiscount' => [
+                'title' => "goodauthentic_code",
+                "code" => $this->generateUniqueDiscountCode(),
+                "combinesWith" => [
+                    "orderDiscounts" => true,
+                    "productDiscounts" => true,
+                    "shippingDiscounts" => true
+                ],
+                "startsAt" => Carbon::now()->toIso8601String(),
+                "customerSelection" => [
+                    "all" => true
+                ],
+                "customerGets" => [
+                    "value" => [
+                        "discountAmount" => [
+                            "amount" => (float) $discount_amount,
+                            "appliesOnEachItem" => false
+                        ]
+                    ],
+                    "items" => [
+                        "all" => true
+                    ]
+                ],
+                "appliesOncePerCustomer" => true,
+                "usageLimit" => 1
+            ]
+        ]);
+
+        if (isset($createDiscountCode['body']['data']['discountCodeBasicCreate']['codeDiscountNode']['codeDiscount']['codes']['nodes'])) {
+
+            $dicount_code = $createDiscountCode['body']['data']['discountCodeBasicCreate']['codeDiscountNode']['codeDiscount']['codes']['nodes'];
+            Log::info(json_encode($dicount_code, JSON_PRETTY_PRINT));
+        } else {
+            Log::info(json_encode($createDiscountCode['body'], JSON_PRETTY_PRINT));
+        }
+
+        return true;
+
+    }
+
+    /******* Installation App ******/
+    public function index()
+    {
+
+        $this->testForDiscount();
+
+        $shop = Auth::user();
+        $shop = User::find($shop->id);
+        $shop_query = '{
+            shop {
+                currencyCode
+                email
+                name
+            }
+        }';
+        $shopData = $shop->api()->graph($shop_query);
 
         // if(empty($shop->customer_api_token)){
         //     Log::info('Shop identified and updated successfully');
-            SaveMentalTokenJob::dispatch($shop);
-        // }php
+        SaveMentalTokenJob::dispatch($shop);
+        // }
 
-        $x_forwarded_for = $_SERVER["HTTP_X_FORWARDED_FOR"];
+        $shop->store_currency = $shopData['body']['data']['shop']['currencyCode'];
+        $shop->email = $shopData['body']['data']['shop']['email'];
+        $shop->store_name = $shopData['body']['data']['shop']['name'];
 
-        $shopData = $shop->api()->rest('get', '/admin/api/2022-07/shop.json');
-        $shop_store_name = $shopData['body']['shop']['name'];
-        $shop->store_currency = $shopData['body']['shop']['currency'];
-        $shop->email = $shopData['body']['shop']['email'];
-        $shop->store_name = $shop_store_name;
+        $shop_store_name = $shop->store_name;
         /**
          * check shop handle already exist
          */
@@ -249,6 +365,7 @@ class AuthController extends Controller
         $this->postPurchaseTemplate($shop->id, $user);
         $this->videoDeclinedTemplate($shop->id, $user);
         $this->reminderTemplate($shop->id, $user);
+        $x_forwarded_for = $_SERVER["HTTP_X_FORWARDED_FOR"];
 
         $json_array = [
             "api_key" => "pk_thN2QcHq",
@@ -393,10 +510,16 @@ class AuthController extends Controller
         return Inertia::render('MyApplication/Dashboard');
     }
 
-    public function  getuserSettings()
+    public function getuserSettings()
     {
         $user = Auth::user();
         return responseJson(true, 'Settings fetched successfully', $user);
+    }
+
+    public function generateUniqueDiscountCode()
+    {
+        $code = substr(base_convert(sha1(uniqid(mt_rand())), 16, 36), 0, 10);
+        return $code = 'GA' . $code;
     }
 
 }
