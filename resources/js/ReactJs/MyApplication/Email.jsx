@@ -19,7 +19,7 @@ import {
     Toast
 
 } from "@shopify/polaris";
-import { CircleCancelMajor, NoteMinor, TickMinor, ViewMinor, HideMinor, CancelMinor, DeleteMajor } from "@shopify/polaris-icons";
+import { CircleCancelMajor, NoteMinor, TickMinor,ViewMinor, HideMinor,CancelMinor,DeleteMajor} from "@shopify/polaris-icons";
 import { useCallback, useEffect, useState } from "react";
 import Ticker from "./Ticker";
 import Toggle from "./Toggle";
@@ -391,10 +391,10 @@ const Email = () => {
     const handleDeleteKlavio = () => {
 
         setKlavioError(false);
-
+        
 
         const formData = new FormData();
-
+    
         fetch(route('delete.klavio'), {
             body: formData,
             method: 'POST'
