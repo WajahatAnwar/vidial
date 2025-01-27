@@ -56,7 +56,10 @@ function AdminDashboard(props) {
     const toggleActive = useCallback(() => setActive((active) => !active), []);
 
     const toastMarkup = active ? (
-        <Toast content="Link Copied to Clipboard" onDismiss={toggleActive} />
+        // <Toast content="Link Copied to Clipboard" onDismiss={toggleActive} />
+        shopify.toast.show('Link Copied to Clipboard', {
+            duration: 5000,
+          })
     ) : null;
 
     const tabs = [

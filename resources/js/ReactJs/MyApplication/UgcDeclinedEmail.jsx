@@ -39,7 +39,10 @@ const UgcDeclinedEmail = () => {
     const [activeToggle, setActiveToggle] = useState(false);
     const toggleActive = useCallback(() => setActiveToggle((activeToggle) => !activeToggle), []);
     const toastMarkup = activeToggle ? (
-        <Toast content="Template Saved" onDismiss={toggleActive} />
+        // <Toast content="Template Saved" onDismiss={toggleActive} />
+        shopify.toast.show('Template Saved', {
+            duration: 5000,
+        })
     ) : null;
     const [alreadyUploadLogo, setAlreadyUploadedLogo] = useState('');
     const handleRemoveAlreadyUploadedLogo = () => {

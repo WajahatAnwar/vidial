@@ -38,8 +38,12 @@ const PostPurchaseEmail = () => {
     const [activeTootlTip, setActiveTootlTip] = useState(false);
     const [activeToggle, setActiveToggle] = useState(false);
     const toggleActive = useCallback(() => setActiveToggle((activeToggle) => !activeToggle), []);
+
     const toastMarkup = activeToggle ? (
-        <Toast content="Template Saved" onDismiss={toggleActive} />
+        // <Toast content="Template Saved" onDismiss={toggleActive} />
+        shopify.toast.show('Template Saved', {
+            duration: 5000,
+        })
     ) : null;
     const [active, setActive] = useState(false);
     const handleChange = useCallback(() => setActive(!active), [active]);
@@ -70,7 +74,10 @@ const PostPurchaseEmail = () => {
         []
     );
     const successToast = active ? (
-        <Toast content="Settings Saved" onDismiss={true} />
+        // <Toast content="Settings Saved" onDismiss={true} />
+        shopify.toast.show('Settings Saved', {
+            duration: 5000,
+        })
     ) : null;
 
     const handleRemoveAlreadyUploadedLogo = () => {

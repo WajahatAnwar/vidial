@@ -142,7 +142,10 @@ const UserSettings = () => {
     };
 
     const toastMarkup = active ? (
-        <Toast content={successMsg} onDismiss={toggleActive} />
+        // <Toast content={successMsg} onDismiss={toggleActive} />
+        shopify.toast.show('Settings Added Successfully', {
+            duration: 5000,
+        })
     ) : null;
     const [selected, setSelected] = useState("en");
 
@@ -880,7 +883,10 @@ const UserSettings = () => {
         []
     );
     const successToast = active ? (
-        <Toast content="Settings Saved" onDismiss={true} />
+        // <Toast content="Settings Saved" onDismiss={true} />
+        shopify.toast.show('Settings Saved', {
+            duration: 5000,
+        })
     ) : null;
 
     const handleRemoveAlreadyUploadedLogo = () => {

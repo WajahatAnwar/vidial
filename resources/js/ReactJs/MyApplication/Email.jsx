@@ -28,6 +28,8 @@ import ChevronUp from "./imges/ChevronUpMinor.png";
 import arrowRight from "./imges/arrowRight.png";
 import ColorWheel from "./imges/collorWheel.png";
 import { green } from "@mui/material/colors";
+import { useAppBridge } from "@shopify/app-bridge-react";
+
 
 const Email = () => {
 
@@ -175,7 +177,10 @@ const Email = () => {
     };
 
     const toastMarkup = active ? (
-        <Toast content={successMsg} onDismiss={toggleActive} />
+        // <Toast content={successMsg} onDismiss={toggleActive} />
+        shopify.toast.show('Settings Added Sucessfullt', {
+            duration: 3000,
+        })
     ) : null;
     const [selected, setSelected] = useState("en");
 
@@ -905,8 +910,13 @@ const Email = () => {
         []
     );
     const successToast = active ? (
-        <Toast content="Settings Saved" onDismiss={true} />
+        // <Toast content="Settings Saved" onDismiss={true} />
+        shopify.toast.show('Settings Saved', {
+            duration: 3000,
+        })
     ) : null;
+
+    
 
     const handleRemoveAlreadyUploadedLogo = () => {
         setLogoImage('');

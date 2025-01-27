@@ -1,4 +1,4 @@
-import { Banner, BlockStack, Button, ButtonGroup, Card, ColorPicker, DropZone, Frame, Grid, Icon, List, Modal, Page, Popover, RadioButton, Select, Spinner, Text, TextField, Thumbnail, Toast, Tooltip, hsbToHex } from "@shopify/polaris";
+import { Banner, BlockStack, Button, ButtonGroup, Card, ColorPicker, DropZone, Frame, Grid, Icon, List, Modal, Page, Popover, RadioButton, Select, Spinner, Text, TextField, Thumbnail, Tooltip, hsbToHex } from "@shopify/polaris";
 import { CircleCancelMajor, NoteMinor } from "@shopify/polaris-icons";
 
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -8,9 +8,13 @@ import { router } from "@inertiajs/react";
 import { MenuItem, TextField as TextField2 } from "@mui/material";
 import WebFont from "webfontloader";
 import Delete from "./imges/Delete.svg";
+import { useAppBridge } from "@shopify/app-bridge-react";
+
 
 
 const Settings = () => {
+    const shopify = useAppBridge();
+
     const [storeHandle, setStoreHandle] = useState(null);
     const [approvedStoreHandle, setApprovedStoreHandle] = useState(null);
     const [isHandleAvailable, setIsHandleAvailable] = useState(true);
@@ -39,11 +43,7 @@ const Settings = () => {
     const [open, setOpen] = useState(true);
     const [successMsg, setSuccessMsg] = useState('');
     const handleToggle = useCallback(() => setOpen((open) => !open), []);
-    const [activeRejectionModel, setActiveRejectionModel] = useState(false);
-    const handleChangeRejectionModel = useCallback(
-        () => setActiveRejectionModel(!activeRejectionModel),
-        [activeRejectionModel]
-    );
+
     const [videoTitle, setVideoTitle] = useState("");
     const [instructionSubTitle, setInstructionSubTitle] = useState("Please follow the instructions below:");
     const handleDropzoneText = useCallback((newValue) => setVideoTitle(newValue), []);
@@ -161,7 +161,9 @@ const Settings = () => {
     };
 
     const toastMarkup = active ? (
-        <Toast content={successMsg} onDismiss={toggleActive} />
+        shopify.toast.show('Product saved', {
+            duration: 5000,
+        })
     ) : null;
     const [selected, setSelected] = useState("en");
 
@@ -336,14 +338,8 @@ const Settings = () => {
     const [gdErrorMsg, setGdErrorMsg] = useState('');
     const [klavioErrorMsg, setKlavioErrorMsg] = useState('');
 
-    // const successToastVideo = active ? (
-    //     <Toast content="Settings Saved" onDismiss={true} />
-    // ) : null;
-
-    // alert(logoImage);
     const logoHandler = (e) => {
         setImagename(e.target.files[0].name);
-        // imagename
         setLogoImage(e.target.files[0]);
         setPreviwLogo(URL.createObjectURL(e.target.files[0]));
         setPreviewLogoHide(true);
@@ -952,17 +948,15 @@ const Settings = () => {
             })
             .then((data) => {
                 if (data.success) {
-                    setActiveRejectionModel(true);
+                    shopify.toast.show('Email Sent Sucessfully', {
+                        duration: 5000,
+                    })
                 }
             })
             .catch((error) => {
                 console.log(error);
             });
     }
-
-    // toast markup
-
-
 
     // copy Landing Page Link
     const copyLandingPageLink = () => {
@@ -1035,7 +1029,9 @@ const Settings = () => {
         []
     );
     const successToast = active ? (
-        <Toast content="Settings Saved" onDismiss={true} />
+        shopify.toast.show('Setting saved successfully', {
+            duration: 3000,
+        })
     ) : null;
 
     const handleRemoveAlreadyUploadedLogo = () => {
@@ -1374,12 +1370,12 @@ const Settings = () => {
                                 {toastMarkup}
                                 <div style={{ marginTop: "20px" }}></div>
                                 <BlockStack gap='300'>
-                                <Card sectioned>
-                                    <div>
-                                        <Text variant="headingLg" as="h5">
-                                            Landing Page Settings
-                                        </Text>
-                                        {/* <p
+                                    <Card sectioned>
+                                        <div>
+                                            <Text variant="headingLg" as="h5">
+                                                Landing Page Settings
+                                            </Text>
+                                            {/* <p
                                             style={{
                                                 marginTop: "5px",
                                                 marginBottom: "20px",
@@ -1389,350 +1385,350 @@ const Settings = () => {
                                             and receive by email
                                         </p> */}
 
-                                    </div>
-                                    <br></br>
-                                    <div
-                                        style={{
-                                            display: "flex",
-                                            alignItems: "center",
-                                            justifyContent: "space-between",
-                                        }}
-                                        className="polaris-black-btn-global"
-                                    >
-                                        <div>
-                                            <Text variant="headingLg" as="h5">
-                                                Preview Landing Page
-                                            </Text>
-                                            <p
-                                                style={{
-                                                    marginTop: "5px",
-                                                    marginBottom: "10px",
-                                                }}
-                                            >
-                                                View the page customers will see
-                                            </p>
                                         </div>
+                                        <br></br>
                                         <div
                                             style={{
-                                                width: "200px",
-                                                textAlign: "center",
+                                                display: "flex",
                                                 alignItems: "center",
-                                                justifyContent: "end"
-                                            }}
-                                            className="polaris-black-btn-global flex"
-                                        >
-                                            <Button
-                                                primary
-                                                onClick={() => {
-                                                    reviewPage(store);
-                                                }}
-                                            >
-                                                View Landing Page
-                                            </Button>
-
-                                            {/* <div style={{ cursor: "pointer" }} onClick={() => {
-                                                copyCode(store);
-                                            }}>
-                                                <Tooltip content="Copy code"
-                                                    preferredPosition="above"
-                                                >
-                                                    <img style={{ width: "20px" }} src={Copy} alt="" />
-
-
-                                                </Tooltip>
-                                            </div> */}
-
-                                        </div>
-                                    </div>
-                                    <div
-                                        style={{
-                                            display: "flex",
-                                            alignItems: "center",
-                                            justifyContent: "space-between",
-                                        }}
-                                        className="polaris-black-btn-global"
-                                    >
-                                        <div>
-                                               
-                                            <p
-                                                style={{
-                                                    marginTop: "5px",
-                                                    marginBottom: "10px",
-                                                }}
-                                            >
-                                                Copy the code to paste it on the customizer
-                                            </p>
-                                        </div>
-                                        <div
-                                            style={{
-                                                width: "200px",
-                                                textAlign: "center",
-                                                alignItems: "center",
-                                                justifyContent: "end"
-                                            }}
-                                            className="polaris-black-btn-global flex"
-                                        >
-                                            <Button
-                                                primary
-                                                onClick={() => {
-                                                    copyCode(store);
-                                                }}
-                                            >
-                                              Copy Landing Page Code
-                                            </Button>
-
-                                            {/* <div style={{ cursor: "pointer" }} onClick={() => {
-                                                copyCode(store);
-                                            }}>
-                                                <Tooltip content="Copy code"
-                                                    preferredPosition="above"
-                                                >
-                                                    <img style={{ width: "20px" }} src={Copy} alt="" />
-
-
-                                                </Tooltip>
-                                            </div> */}
-
-                                        </div>
-                                    </div>
-                                    <div
-                                        style={{
-                                            display: "flex",
-                                            alignItems: "center",
-                                            justifyContent: "space-between",
-                                        }}
-                                    >
-                                        <div>
-                                            <Text variant="headingLg" as="h5">
-                                                Landing Page Link
-                                            </Text>
-                                            <p
-                                                style={{
-                                                    marginTop: "5px",
-                                                    marginBottom: "10px",
-                                                }}
-                                            >
-                                                Copy the landing page link to send to your customers
-                                            </p>
-                                        </div>
-                                        <div
-                                            style={{
-                                                width: "200px",
-                                                textAlign: "end",
+                                                justifyContent: "space-between",
                                             }}
                                             className="polaris-black-btn-global"
                                         >
-                                            <Button
-                                                primary
-                                                onClick={() =>
-                                                    copyLandingPageLink()
+                                            <div>
+                                                <Text variant="headingLg" as="h5">
+                                                    Preview Landing Page
+                                                </Text>
+                                                <p
+                                                    style={{
+                                                        marginTop: "5px",
+                                                        marginBottom: "10px",
+                                                    }}
+                                                >
+                                                    View the page customers will see
+                                                </p>
+                                            </div>
+                                            <div
+                                                style={{
+                                                    width: "200px",
+                                                    textAlign: "center",
+                                                    alignItems: "center",
+                                                    justifyContent: "end"
+                                                }}
+                                                className="polaris-black-btn-global flex"
+                                            >
+                                                <Button
+                                                    primary
+                                                    onClick={() => {
+                                                        reviewPage(store);
+                                                    }}
+                                                >
+                                                    View Landing Page
+                                                </Button>
+
+                                                {/* <div style={{ cursor: "pointer" }} onClick={() => {
+                                                copyCode(store);
+                                            }}>
+                                                <Tooltip content="Copy code"
+                                                    preferredPosition="above"
+                                                >
+                                                    <img style={{ width: "20px" }} src={Copy} alt="" />
+
+
+                                                </Tooltip>
+                                            </div> */}
+
+                                            </div>
+                                        </div>
+                                        <div
+                                            style={{
+                                                display: "flex",
+                                                alignItems: "center",
+                                                justifyContent: "space-between",
+                                            }}
+                                            className="polaris-black-btn-global"
+                                        >
+                                            <div>
+
+                                                <p
+                                                    style={{
+                                                        marginTop: "5px",
+                                                        marginBottom: "10px",
+                                                    }}
+                                                >
+                                                    Copy the code to paste it on the customizer
+                                                </p>
+                                            </div>
+                                            <div
+                                                style={{
+                                                    width: "200px",
+                                                    textAlign: "center",
+                                                    alignItems: "center",
+                                                    justifyContent: "end"
+                                                }}
+                                                className="polaris-black-btn-global flex"
+                                            >
+                                                <Button
+                                                    primary
+                                                    onClick={() => {
+                                                        copyCode(store);
+                                                    }}
+                                                >
+                                                    Copy Landing Page Code
+                                                </Button>
+
+                                                {/* <div style={{ cursor: "pointer" }} onClick={() => {
+                                                copyCode(store);
+                                            }}>
+                                                <Tooltip content="Copy code"
+                                                    preferredPosition="above"
+                                                >
+                                                    <img style={{ width: "20px" }} src={Copy} alt="" />
+
+
+                                                </Tooltip>
+                                            </div> */}
+
+                                            </div>
+                                        </div>
+                                        <div
+                                            style={{
+                                                display: "flex",
+                                                alignItems: "center",
+                                                justifyContent: "space-between",
+                                            }}
+                                        >
+                                            <div>
+                                                <Text variant="headingLg" as="h5">
+                                                    Landing Page Link
+                                                </Text>
+                                                <p
+                                                    style={{
+                                                        marginTop: "5px",
+                                                        marginBottom: "10px",
+                                                    }}
+                                                >
+                                                    Copy the landing page link to send to your customers
+                                                </p>
+                                            </div>
+                                            <div
+                                                style={{
+                                                    width: "200px",
+                                                    textAlign: "end",
+                                                }}
+                                                className="polaris-black-btn-global"
+                                            >
+                                                <Button
+                                                    primary
+                                                    onClick={() =>
+                                                        copyLandingPageLink()
+                                                    }
+                                                >
+                                                    Copy Landing Page Link
+                                                </Button>
+                                            </div>
+                                        </div>
+                                        <div
+                                            style={{
+                                                display: "flex",
+                                                alignItems: "center",
+                                                justifyContent: "space-between",
+
+                                            }}
+                                        >
+                                            <div>
+                                                <Text variant="headingLg" as="h5">
+                                                    Send Test Email
+                                                </Text>
+                                                <p
+                                                    style={{
+                                                        marginTop: "5px",
+                                                    }}
+                                                >
+                                                    We'll send a test email to {email}
+                                                </p>
+                                            </div>
+                                            <div
+                                                style={{
+                                                    width: "200px",
+                                                    textAlign: "end",
+                                                }}
+                                                className="polaris-black-btn-global"
+                                            >
+                                                <Button
+                                                    primary
+                                                    onClick={handletestemail}
+                                                >
+                                                    Send Test Email
+                                                </Button>
+                                            </div>
+                                        </div>
+
+                                    </Card>
+                                    <Card sectioned>
+                                        <Text variant="headingLg" as="h5">
+                                            Landing Page URL
+                                        </Text>
+                                        <p
+                                            style={{
+                                                marginTop: "5px",
+                                                marginBottom: "20px",
+                                            }}
+                                        >
+                                            Update the URL of your landing page.
+                                        </p>
+
+                                        <div style={{ display: 'flex', alignItems: "center" }} className="storeHandleParent">
+                                            <div>
+                                                <TextField
+                                                    value={storeHandle}
+                                                    onChange={(handleStoreHandle)}
+                                                    autoComplete="off"
+                                                    prefix={baseUrl.replace('https://', '') + '/s/'}
+                                                />
+
+                                            </div>
+                                            <div style={{ marginLeft: "13px", }} className="polaris-black-btn-global">
+                                                {
+                                                    storeHandleState ? <Spinner accessibilityLabel="Spinner example" size="large" />
+                                                        : <Button primary disabled={isHandleAvailable} onClick={handleSaveStoreHandle}>Save</Button>
                                                 }
-                                            >
-                                                Copy Landing Page Link
-                                            </Button>
-                                        </div>
-                                    </div>
-                                    <div
-                                        style={{
-                                            display: "flex",
-                                            alignItems: "center",
-                                            justifyContent: "space-between",
 
-                                        }}
-                                    >
-                                        <div>
-                                            <Text variant="headingLg" as="h5">
-                                                Send Test Email
-                                            </Text>
-                                            <p
+
+                                            </div>
+
+                                        </div>
+                                        {storeHandleResponse ? <span style={{ marginTop: "10px", display: "inline-block", color: isHandleAvailable ? 'red' : 'green' }}>{storeHandleResponse}</span> : ''}
+                                    </Card>
+                                    <Card sectioned>
+                                        <div
+                                            style={{
+                                                display: "flex",
+                                                alignItems: "center",
+                                                justifyContent: "space-between",
+                                            }}
+                                        >
+                                            <div style={{}}>
+                                                <Text variant="headingLg" as="h5">
+                                                    Choose discount code amount for Standard approved videos
+                                                </Text>
+                                                <p style={{ marginTop: "15px" }}>
+
+                                                    We recommend offering a minimum of {storeCurrency}50 to improve response rates. This can be adjusted and there is no minimum.
+                                                </p>
+                                            </div>
+                                            <div
+                                                className="textFieldjoin"
                                                 style={{
-                                                    marginTop: "5px",
+                                                    marginLeft: "204px",
+                                                    width: "200px",
+                                                    textAlign: "end",
+                                                    display: "flex",
+                                                    alignItems: "center",
                                                 }}
                                             >
-                                                We'll send a test email to {email}
-                                            </p>
+                                                <div className="Polaris-TextField__Prefix prefixCustom">
+                                                    {storeCurrency}
+                                                </div>
+                                                <TextField
+                                                    value={priceValue}
+                                                    onChange={priceValueHandler}
+                                                    autoComplete="off"
+                                                />
+                                            </div>
                                         </div>
+                                    </Card>
+                                    <Card sectioned>
                                         <div
                                             style={{
-                                                width: "200px",
-                                                textAlign: "end",
+                                                display: "flex",
+                                                alignItems: "center",
+                                                justifyContent: "space-between",
                                             }}
-                                            className="polaris-black-btn-global"
                                         >
-                                            <Button
-                                                primary
-                                                onClick={handletestemail}
+                                            <div style={{}}>
+                                                <Text variant="headingLg" as="h5">
+                                                    Choose discount code amount for Star approved videos
+                                                </Text>
+                                                <p style={{ marginTop: "15px" }}>
+                                                    We recommend a minimum of {storeCurrency}75 to improve response rates and effort. This can be adjusted and there is no minimum.
+                                                </p>
+                                            </div>
+                                            <div
+                                                className="textFieldjoin"
+                                                style={{
+                                                    marginLeft: "204px",
+                                                    width: "200px",
+                                                    textAlign: "end",
+                                                    display: "flex",
+                                                    alignItems: "center",
+                                                }}
                                             >
-                                                Send Test Email
-                                            </Button>
+                                                <div className="Polaris-TextField__Prefix prefixCustom">
+                                                    {storeCurrency}
+                                                </div>
+                                                <TextField
+                                                    value={starStoreCredit}
+                                                    onChange={priceStarValueHandler}
+                                                    autoComplete="off"
+                                                />
+                                            </div>
                                         </div>
-                                    </div>
-
-                                </Card>
-                                <Card sectioned>
-                                    <Text variant="headingLg" as="h5">
-                                        Landing Page URL
-                                    </Text>
-                                    <p
-                                        style={{
-                                            marginTop: "5px",
-                                            marginBottom: "20px",
-                                        }}
-                                    >
-                                        Update the URL of your landing page.
-                                    </p>
-
-                                    <div style={{ display: 'flex', alignItems: "center" }} className="storeHandleParent">
-                                        <div>
-                                            <TextField
-                                                value={storeHandle}
-                                                onChange={(handleStoreHandle)}
-                                                autoComplete="off"
-                                                prefix={baseUrl.replace('https://', '') + '/s/'}
-                                            />
-
-                                        </div>
-                                        <div style={{ marginLeft: "13px", }} className="polaris-black-btn-global">
-                                            {
-                                                storeHandleState ? <Spinner accessibilityLabel="Spinner example" size="large" />
-                                                    : <Button primary disabled={isHandleAvailable} onClick={handleSaveStoreHandle}>Save</Button>
-                                            }
-
-
-                                        </div>
-
-                                    </div>
-                                    {storeHandleResponse ? <span style={{ marginTop: "10px", display: "inline-block", color: isHandleAvailable ? 'red' : 'green' }}>{storeHandleResponse}</span> : ''}
-                                </Card>
-                                <Card sectioned>
-                                    <div
-                                        style={{
-                                            display: "flex",
-                                            alignItems: "center",
-                                            justifyContent: "space-between",
-                                        }}
-                                    >
-                                        <div style={{}}>
-                                            <Text variant="headingLg" as="h5">
-                                                Choose discount code amount for Standard approved videos
-                                            </Text>
-                                            <p style={{ marginTop: "15px" }}>
-
-                                                We recommend offering a minimum of {storeCurrency}50 to improve response rates. This can be adjusted and there is no minimum.
-                                            </p>
-                                        </div>
-                                        <div
-                                            className="textFieldjoin"
+                                    </Card>
+                                    <Card sectioned>
+                                        <Text variant="headingXl" as="h4">
+                                            Language
+                                        </Text>
+                                        <p
                                             style={{
-                                                marginLeft: "204px",
-                                                width: "200px",
-                                                textAlign: "end",
-                                                display: "flex",
-                                                alignItems: "center",
+                                                marginTop: "5px",
+                                                marginBottom: "10px",
                                             }}
                                         >
-                                            <div className="Polaris-TextField__Prefix prefixCustom">
-                                                {storeCurrency}
-                                            </div>
-                                            <TextField
-                                                value={priceValue}
-                                                onChange={priceValueHandler}
-                                                autoComplete="off"
+                                            Select the language of your store
+                                        </p>
+
+                                        <div style={{ display: 'flex', alignItems: "center" }}>
+                                            <Select
+                                                options={options}
+                                                onChange={(e) => {
+                                                    handleSelectChange(e);
+                                                }}
+                                                value={selected}
                                             />
+                                            &nbsp;
+                                            <span className="black-global-btn">
+                                                <Button primary onClick={() => {
+                                                    //setPageLink("/post-purchase-email")
+                                                    document.getElementById('sab_ok_id').click();
+                                                    setEmailTemplateButton(true);
+                                                    //setActiveRejectionConfirmModel(true);
+                                                }} disabled={emailTemplateButton}>Save</Button>
+                                            </span>
                                         </div>
-                                    </div>
-                                </Card>
-                                <Card sectioned>
-                                    <div
-                                        style={{
-                                            display: "flex",
-                                            alignItems: "center",
-                                            justifyContent: "space-between",
-                                        }}
-                                    >
-                                        <div style={{}}>
-                                            <Text variant="headingLg" as="h5">
-                                                Choose discount code amount for Star approved videos
-                                            </Text>
-                                            <p style={{ marginTop: "15px" }}>
-                                                We recommend a minimum of {storeCurrency}75 to improve response rates and effort. This can be adjusted and there is no minimum.
-                                            </p>
-                                        </div>
+                                    </Card>
+
+                                    <Card sectioned>
+                                        <Text variant="headingXl" as="h4">
+                                            Landing Page Customization
+                                        </Text>
                                         <div
-                                            className="textFieldjoin"
                                             style={{
-                                                marginLeft: "204px",
-                                                width: "200px",
-                                                textAlign: "end",
                                                 display: "flex",
                                                 alignItems: "center",
+                                                justifyContent: "space-between",
+                                                marginTop: "20px",
                                             }}
                                         >
-                                            <div className="Polaris-TextField__Prefix prefixCustom">
-                                                {storeCurrency}
+                                            <div style={{ width: "450px" }}>
+                                                <Text variant="headingLg" as="h5">
+                                                    Your Store Logo (optional)
+                                                </Text>
+                                                <p style={{ marginTop: "5px", marginBottom: "5px" }}>
+                                                    Should be a PNG file, not bigger than 1 MB.
+                                                </p>
                                             </div>
-                                            <TextField
-                                                value={starStoreCredit}
-                                                onChange={priceStarValueHandler}
-                                                autoComplete="off"
-                                            />
-                                        </div>
-                                    </div>
-                                </Card>
-                                <Card sectioned>
-                                    <Text variant="headingXl" as="h4">
-                                        Language
-                                    </Text>
-                                    <p
-                                        style={{
-                                            marginTop: "5px",
-                                            marginBottom: "10px",
-                                        }}
-                                    >
-                                        Select the language of your store
-                                    </p>
-
-                                    <div style={{ display: 'flex', alignItems: "center" }}>
-                                        <Select
-                                            options={options}
-                                            onChange={(e) => {
-                                                handleSelectChange(e);
-                                            }}
-                                            value={selected}
-                                        />
-                                        &nbsp;
-                                        <span className="black-global-btn">
-                                            <Button primary onClick={() => {
-                                                //setPageLink("/post-purchase-email")
-                                                document.getElementById('sab_ok_id').click();
-                                                setEmailTemplateButton(true);
-                                                //setActiveRejectionConfirmModel(true);
-                                            }} disabled={emailTemplateButton}>Save</Button>
-                                        </span>
-                                    </div>
-                                </Card>
-
-                                <Card sectioned>
-                                    <Text variant="headingXl" as="h4">
-                                        Landing Page Customization
-                                    </Text>
-                                    <div
-                                        style={{
-                                            display: "flex",
-                                            alignItems: "center",
-                                            justifyContent: "space-between",
-                                            marginTop: "20px",
-                                        }}
-                                    >
-                                        <div style={{ width: "450px" }}>
-                                            <Text variant="headingLg" as="h5">
-                                                Your Store Logo (optional)
-                                            </Text>
-                                            <p style={{ marginTop: "5px", marginBottom: "5px" }}>
-                                                Should be a PNG file, not bigger than 1 MB.
-                                            </p>
-                                        </div>
-                                        {/* <div style={{ textAlign: "end" }}>
+                                            {/* <div style={{ textAlign: "end" }}>
                                             <div class="upload-btn-wrapper">
                                                 <button class="btnCustomUpload">
                                                     <img
@@ -1756,8 +1752,8 @@ const Settings = () => {
                                                 )}{" "}
                                             </p>
                                         </div> */}
-                                    </div>
-                                    {/* {previewLogoHide && (logoImage == 'undefined' || logoImage == '') ? '' :
+                                        </div>
+                                        {/* {previewLogoHide && (logoImage == 'undefined' || logoImage == '') ? '' :
                                         (
                                             <div style={{ width: "108px" }}>
 
@@ -1774,212 +1770,212 @@ const Settings = () => {
                                             </div>
                                         )
                                     } */}
-                                    <div style={{ maxWidth: "470px", marginBottom: "20px" }}>
-                                        <DropZone actionTitle="Upload Your Brand Logo" onDrop={handleDropZoneDrop} variableHeight allowMultiple={false}>
-                                            {uploadedFiles}
-                                            {fileUpload}
-                                        </DropZone>
-                                    </div>
-                                    {uploadedFilesPreview}
-                                    {(!files.length && !(alreadyUploadLogo == 'undefined' || alreadyUploadLogo == '')) &&
+                                        <div style={{ maxWidth: "470px", marginBottom: "20px" }}>
+                                            <DropZone actionTitle="Upload Your Brand Logo" onDrop={handleDropZoneDrop} variableHeight allowMultiple={false}>
+                                                {uploadedFiles}
+                                                {fileUpload}
+                                            </DropZone>
+                                        </div>
+                                        {uploadedFilesPreview}
+                                        {(!files.length && !(alreadyUploadLogo == 'undefined' || alreadyUploadLogo == '')) &&
 
-                                        <div style={{ padding: '0' }}>
-                                            <div style={{ width: "60px", marginBottom: "10px" }} >
-                                                <Thumbnail
-                                                    size="medium"
-                                                    alt="img"
-                                                    source={baseUrl + '/logo/' + alreadyUploadLogo}
-                                                />
-                                                <div onClick={handleRemoveAlreadyUploadedLogo} className="del-main-icon" >
-                                                    {
-                                                        activeTootlTip ? <Tooltip content="">
-                                                            {/* <Icon source={CircleCancelMajor} color="critical" /> */}
-                                                            {/* <Icon source={DeleteIcon}  tone="base"/> */}
-                                                            {/* <Icon source={DeleteMajor} color="critical" /> */}
-                                                            <img src={Delete} />
+                                            <div style={{ padding: '0' }}>
+                                                <div style={{ width: "60px", marginBottom: "10px" }} >
+                                                    <Thumbnail
+                                                        size="medium"
+                                                        alt="img"
+                                                        source={baseUrl + '/logo/' + alreadyUploadLogo}
+                                                    />
+                                                    <div onClick={handleRemoveAlreadyUploadedLogo} className="del-main-icon" >
+                                                        {
+                                                            activeTootlTip ? <Tooltip content="">
+                                                                {/* <Icon source={CircleCancelMajor} color="critical" /> */}
+                                                                {/* <Icon source={DeleteIcon}  tone="base"/> */}
+                                                                {/* <Icon source={DeleteMajor} color="critical" /> */}
+                                                                <img src={Delete} />
 
-                                                        </Tooltip> : <img src={Delete} className="del-main-icon" />
-                                                    }
+                                                            </Tooltip> : <img src={Delete} className="del-main-icon" />
+                                                        }
 
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    }
-                                    <div>
-                                        <p style={{ marginTop: "5px", marginBottom: "5px" }}>
-                                            Choose Favicon
-                                        </p>
+                                        }
+                                        <div>
+                                            <p style={{ marginTop: "5px", marginBottom: "5px" }}>
+                                                Choose Favicon
+                                            </p>
 
-                                    </div>
-                                    <div>
-                                        <input type="file" name="fav_icon" onChange={handleFavIcon}></input>
-                                    </div>
-                                    <div style={{ width: "60px" }} className="delete-btn-icons">
-                                        <div style={{ marginTop: "10px" }}>
-                                            {
-                                                favIconPreview ? <><Thumbnail
-                                                    size="medium"
-                                                    alt="img"
-                                                    source={favIconPreview}
-                                                />
-                                                    <div onClick={() => handleRemoveFavIcon()}>
-                                                        <Icon source={CircleCancelMajor} color="critical" />
-                                                    </div>
-                                                </>
-                                                    : ''
-                                            }
                                         </div>
+                                        <div>
+                                            <input type="file" name="fav_icon" onChange={handleFavIcon}></input>
+                                        </div>
+                                        <div style={{ width: "60px" }} className="delete-btn-icons">
+                                            <div style={{ marginTop: "10px" }}>
+                                                {
+                                                    favIconPreview ? <><Thumbnail
+                                                        size="medium"
+                                                        alt="img"
+                                                        source={favIconPreview}
+                                                    />
+                                                        <div onClick={() => handleRemoveFavIcon()}>
+                                                            <Icon source={CircleCancelMajor} color="critical" />
+                                                        </div>
+                                                    </>
+                                                        : ''
+                                                }
+                                            </div>
 
-                                    </div>
-                                    <div
-                                        style={{
-                                            width: "450px",
-                                            marginTop: "20px",
-                                        }}
-                                    >
-                                        <Text variant="headingLg" as="h5">
-                                            Instructions
-                                        </Text>
-                                        <p
-                                            style={{
-                                                marginTop: "5px",
-                                                marginBottom: "5px",
-                                            }}
-                                        >
-                                            Instructions Title
-                                        </p>
-                                        <TextField2
-                                            value={title}
-                                            onChange={handleTitle}
-                                            autoComplete="off"
-                                            sx={{ width: "100%" }}
-                                        />
-                                        <p
-                                            style={{
-                                                marginTop: "5px",
-                                                marginBottom: "5px",
-                                            }}
-                                        >
-                                            Instructions Title Font
-                                        </p>
+                                        </div>
                                         <div
-                                            style={{ maxHeight: "200px", overflowY: "auto" }}
-                                            onScroll={handleScroll}
+                                            style={{
+                                                width: "450px",
+                                                marginTop: "20px",
+                                            }}
                                         >
-
-                                            <TextField2
-                                                select
-                                                value={fontSelected}
-                                                onChange={handleFontChange}
-                                                fullWidth
-                                                style={{ marginBottom: "20px" }}
-                                                InputProps={{
-                                                    style: { fontFamily: fontSelected }, // Apply selected font
-                                                }}
-                                                SelectProps={{
-                                                    MenuProps: {
-                                                        PaperProps: {
-                                                            onScroll: handleScroll, // Attach scroll event
-                                                            style: { maxHeight: 200, overflowY: "auto" }, // Enable scrolling
-                                                        },
-                                                    },
+                                            <Text variant="headingLg" as="h5">
+                                                Instructions
+                                            </Text>
+                                            <p
+                                                style={{
+                                                    marginTop: "5px",
+                                                    marginBottom: "5px",
                                                 }}
                                             >
-                                                {visibleFonts.map((font, index) => (
-                                                    <MenuItem
-                                                        key={index}
-                                                        value={font}
-                                                        style={{ fontFamily: font }} // Preview the font in the dropdown
-                                                    >
-                                                        {font}
-                                                    </MenuItem>
-                                                ))}
-                                            </TextField2>
-                                        </div>
+                                                Instructions Title
+                                            </p>
+                                            <TextField2
+                                                value={title}
+                                                onChange={handleTitle}
+                                                autoComplete="off"
+                                                sx={{ width: "100%" }}
+                                            />
+                                            <p
+                                                style={{
+                                                    marginTop: "5px",
+                                                    marginBottom: "5px",
+                                                }}
+                                            >
+                                                Instructions Title Font
+                                            </p>
+                                            <div
+                                                style={{ maxHeight: "200px", overflowY: "auto" }}
+                                                onScroll={handleScroll}
+                                            >
 
+                                                <TextField2
+                                                    select
+                                                    value={fontSelected}
+                                                    onChange={handleFontChange}
+                                                    fullWidth
+                                                    style={{ marginBottom: "20px" }}
+                                                    InputProps={{
+                                                        style: { fontFamily: fontSelected }, // Apply selected font
+                                                    }}
+                                                    SelectProps={{
+                                                        MenuProps: {
+                                                            PaperProps: {
+                                                                onScroll: handleScroll, // Attach scroll event
+                                                                style: { maxHeight: 200, overflowY: "auto" }, // Enable scrolling
+                                                            },
+                                                        },
+                                                    }}
+                                                >
+                                                    {visibleFonts.map((font, index) => (
+                                                        <MenuItem
+                                                            key={index}
+                                                            value={font}
+                                                            style={{ fontFamily: font }} // Preview the font in the dropdown
+                                                        >
+                                                            {font}
+                                                        </MenuItem>
+                                                    ))}
+                                                </TextField2>
+                                            </div>
+
+                                            <p
+                                                style={{
+                                                    marginTop: "5px",
+                                                    marginBottom: "5px",
+                                                }}
+                                            >
+                                                Instructions
+                                            </p>
+                                            <TextField
+                                                value={instructionSubTitle}
+                                                onChange={handleInstruction}
+                                                autoComplete="off"
+                                            />
+                                        </div>
                                         <p
                                             style={{
-                                                marginTop: "5px",
+                                                marginTop: "20px",
                                                 marginBottom: "5px",
                                             }}
                                         >
-                                            Instructions
+                                            Adjust these instructions based on what kind of videos you want.
                                         </p>
-                                        <TextField
-                                            value={instructionSubTitle}
-                                            onChange={handleInstruction}
-                                            autoComplete="off"
-                                        />
-                                    </div>
-                                    <p
-                                        style={{
-                                            marginTop: "20px",
-                                            marginBottom: "5px",
-                                        }}
-                                    >
-                                        Adjust these instructions based on what kind of videos you want.
-                                    </p>
-                                    <div
-                                        style={{
-                                            display: "flex",
-                                            alignItems: "center",
-                                            marginTop: "20px",
-                                            marginBottom: "20px",
-                                        }}
-                                    >
-                                        {/* <img
+                                        <div
+                                            style={{
+                                                display: "flex",
+                                                alignItems: "center",
+                                                marginTop: "20px",
+                                                marginBottom: "20px",
+                                            }}
+                                        >
+                                            {/* <img
                                             src={ErrorIcon}
                                             style={{ marginRight: "12px" }}
                                         ></img> */}
 
-                                        <span style={{ fontSize: '30px' }} >💡</span>
-                                        <div>
-                                            <p>
-                                                Tip: Be very clear in your instructions. Keep it simple.
-                                            </p>
+                                            <span style={{ fontSize: '30px' }} >💡</span>
+                                            <div>
+                                                <p>
+                                                    Tip: Be very clear in your instructions. Keep it simple.
+                                                </p>
 
+                                            </div>
                                         </div>
-                                    </div>
-                                    <p>Instructions Steps</p>
-                                    {rows &&
-                                        rows.map((row, index) => (
-                                            <div
-                                                style={{
-                                                    display: "grid",
-                                                    gridTemplateColumns:
-                                                        "1fr .3fr",
-                                                    marginTop: "10px",
-                                                    marginBottom: "10px",
-                                                }}
-                                            >
-                                                <div>
-                                                    <TextField
-                                                        value={row.value}
-                                                        onChange={(e) =>
-                                                            handleTextChange(
-                                                                e,
-                                                                index
-                                                            )
-                                                        }
-                                                    />
-                                                </div>
+                                        <p>Instructions Steps</p>
+                                        {rows &&
+                                            rows.map((row, index) => (
                                                 <div
                                                     style={{
-                                                        marginLeft: "10px",
+                                                        display: "grid",
+                                                        gridTemplateColumns:
+                                                            "1fr .3fr",
+                                                        marginTop: "10px",
+                                                        marginBottom: "10px",
                                                     }}
                                                 >
                                                     <div>
-                                                        <img
-                                                            style={{ cursor: "pointer", width: '20px', height: '20px', marginTop: '8px' }}
-                                                            src={Delete}
-                                                            onClick={() =>
-                                                                handleRemoveRow(
-                                                                    row.id
+                                                        <TextField
+                                                            value={row.value}
+                                                            onChange={(e) =>
+                                                                handleTextChange(
+                                                                    e,
+                                                                    index
                                                                 )
                                                             }
-                                                        ></img>
+                                                        />
+                                                    </div>
+                                                    <div
+                                                        style={{
+                                                            marginLeft: "10px",
+                                                        }}
+                                                    >
+                                                        <div>
+                                                            <img
+                                                                style={{ cursor: "pointer", width: '20px', height: '20px', marginTop: '8px' }}
+                                                                src={Delete}
+                                                                onClick={() =>
+                                                                    handleRemoveRow(
+                                                                        row.id
+                                                                    )
+                                                                }
+                                                            ></img>
 
-                                                        {/* <Icon
+                                                            {/* <Icon
                                                             source={DeleteIcon}
                                                             tone="base"
                                                             onClick={() =>
@@ -1988,552 +1984,552 @@ const Settings = () => {
                                                                 )
                                                             }
                                                         /> */}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        <div style={{ marginTop: "20px" }} className="polaris-black-btn-global">
+                                            <Button primary onClick={handleAddRow}>
+                                                Add Step
+                                            </Button>
+                                        </div>
+
+                                        <p style={{ marginTop: "10px" }}>Steps Style</p>
+                                        <div style={{ display: "flex", gap: "12px" }}>
+
+                                            <RadioButton
+                                                label={<div
+                                                    style={{
+                                                        width: "30px", // Outer circle size
+                                                        height: "30px",
+                                                        borderRadius: "50%",
+                                                        border: "2px solid gray", // Circle outline
+                                                        display: "flex", // Center content horizontally and vertically
+                                                        justifyContent: "center",
+                                                        alignItems: "center",
+                                                        fontSize: "16px", // Adjust font size for the number
+                                                        color: "black", // Text color
+                                                    }}
+                                                >
+                                                    1
+                                                </div>}
+                                                checked={count === 'circle'}
+                                                id="circle"
+                                                name="count"
+                                                onChange={handleCountChange}
+                                            />
+
+                                            <RadioButton
+                                                label={<div
+                                                    style={{
+                                                        width: "30px", // Square size
+                                                        height: "30px",
+                                                        border: "2px solid gray", // Square outline
+                                                        display: "flex", // Center content horizontally and vertically
+                                                        justifyContent: "center",
+                                                        alignItems: "center",
+                                                        fontSize: "16px", // Adjust font size for the number
+                                                        color: "black", // Text color
+                                                    }}
+                                                >
+                                                    1
+                                                </div>}
+                                                id="square"
+                                                name="count"
+                                                checked={count === 'square'}
+                                                onChange={handleCountChange}
+                                            />
+
+                                        </div>
+
+
+
+
+
+                                        <div
+                                            style={{
+                                                display: "flex",
+                                                alignItems: "center",
+                                                justifyContent: "space-between",
+                                                marginTop: "20px",
+                                            }}
+                                        >
+                                            <div style={{ width: "500px" }}>
+                                                <Text variant="headingLg" as="h5">
+                                                    Inspirational Video (optional)
+                                                </Text>
+                                                <div
+                                                    style={{
+                                                        width: "450px",
+                                                        marginTop: "20px",
+                                                    }}
+                                                >
+
+                                                    <p
+                                                        style={{
+                                                            marginTop: "5px",
+                                                            marginBottom: "5px",
+                                                        }}
+                                                    >
+                                                        Inspirational Video Title
+                                                    </p>
+                                                    <TextField
+                                                        value={videoTitle}
+                                                        onChange={handleDropzoneText}
+                                                        autoComplete="off"
+                                                    />
+
+                                                </div>
+                                                <p style={{ marginTop: "5px", marginBottom: "5px" }}>
+                                                    Add an example video for your customers.
+                                                </p>
+                                            </div>
+
+                                        </div>
+
+                                        <div style={{ maxWidth: "470px", marginBottom: "20px" }}>
+                                            <DropZone onDrop={handleDropZoneVideo} variableHeight allowMultiple={false}>
+                                                {uploadedFilesVideos}
+                                                {fileUploadVideos}
+                                            </DropZone>
+                                        </div>
+                                        {uploadedFilesVideosPreview}
+                                        {(!filesVideos.length && !(alreadyUploadVideo == 'undefined' || alreadyUploadVideo == '')) &&
+
+                                            <div style={{ padding: '0' }}>
+                                                <div style={{ width: "108px", marginBottom: "10px", textAlign: "center" }} >
+
+                                                    <video
+                                                        width="108"
+                                                        height="193"
+                                                        src={baseUrl + '/video/' + alreadyUploadVideo}
+                                                        muted
+                                                        autoPlay
+                                                        loop
+                                                    ></video>
+                                                    <div onClick={handleRemoveAlreadyUploadedVideo} className="del-main-icon" >
+                                                        {
+                                                            activeTootlTip ? <Tooltip content="This is default setting. You can not change it.">
+                                                                {/* <Icon source={CircleCancelMajor} color="critical" /> */}
+                                                                <img src={Delete} />
+
+                                                            </Tooltip> : <img src={Delete} />
+                                                        }
+
                                                     </div>
                                                 </div>
                                             </div>
-                                        ))}
-                                    <div style={{ marginTop: "20px" }} className="polaris-black-btn-global">
-                                        <Button primary onClick={handleAddRow}>
-                                            Add Step
-                                        </Button>
-                                    </div>
-
-                                    <p style={{ marginTop: "10px" }}>Steps Style</p>
-                                    <div style={{ display: "flex", gap: "12px" }}>
-
-                                        <RadioButton
-                                            label={<div
-                                                style={{
-                                                    width: "30px", // Outer circle size
-                                                    height: "30px",
-                                                    borderRadius: "50%",
-                                                    border: "2px solid gray", // Circle outline
-                                                    display: "flex", // Center content horizontally and vertically
-                                                    justifyContent: "center",
-                                                    alignItems: "center",
-                                                    fontSize: "16px", // Adjust font size for the number
-                                                    color: "black", // Text color
-                                                }}
-                                            >
-                                                1
-                                            </div>}
-                                            checked={count === 'circle'}
-                                            id="circle"
-                                            name="count"
-                                            onChange={handleCountChange}
-                                        />
-
-                                        <RadioButton
-                                            label={<div
-                                                style={{
-                                                    width: "30px", // Square size
-                                                    height: "30px",
-                                                    border: "2px solid gray", // Square outline
-                                                    display: "flex", // Center content horizontally and vertically
-                                                    justifyContent: "center",
-                                                    alignItems: "center",
-                                                    fontSize: "16px", // Adjust font size for the number
-                                                    color: "black", // Text color
-                                                }}
-                                            >
-                                                1
-                                            </div>}
-                                            id="square"
-                                            name="count"
-                                            checked={count === 'square'}
-                                            onChange={handleCountChange}
-                                        />
-
-                                    </div>
-
-
-
-
-
-                                    <div
-                                        style={{
-                                            display: "flex",
-                                            alignItems: "center",
-                                            justifyContent: "space-between",
-                                            marginTop: "20px",
-                                        }}
-                                    >
-                                        <div style={{ width: "500px" }}>
-                                            <Text variant="headingLg" as="h5">
-                                                Inspirational Video (optional)
-                                            </Text>
-                                            <div
-                                                style={{
-                                                    width: "450px",
-                                                    marginTop: "20px",
-                                                }}
-                                            >
-
-                                                <p
-                                                    style={{
-                                                        marginTop: "5px",
-                                                        marginBottom: "5px",
-                                                    }}
-                                                >
-                                                    Inspirational Video Title
-                                                </p>
-                                                <TextField
-                                                    value={videoTitle}
-                                                    onChange={handleDropzoneText}
-                                                    autoComplete="off"
-                                                />
-
-                                            </div>
-                                            <p style={{ marginTop: "5px", marginBottom: "5px" }}>
-                                                Add an example video for your customers.
-                                            </p>
-                                        </div>
-
-                                    </div>
-
-                                    <div style={{ maxWidth: "470px", marginBottom: "20px" }}>
-                                        <DropZone onDrop={handleDropZoneVideo} variableHeight allowMultiple={false}>
-                                            {uploadedFilesVideos}
-                                            {fileUploadVideos}
-                                        </DropZone>
-                                    </div>
-                                    {uploadedFilesVideosPreview}
-                                    {(!filesVideos.length && !(alreadyUploadVideo == 'undefined' || alreadyUploadVideo == '')) &&
-
-                                        <div style={{ padding: '0' }}>
-                                            <div style={{ width: "108px", marginBottom: "10px", textAlign: "center" }} >
-
-                                                <video
-                                                    width="108"
-                                                    height="193"
-                                                    src={baseUrl + '/video/' + alreadyUploadVideo}
-                                                    muted
-                                                    autoPlay
-                                                    loop
-                                                ></video>
-                                                <div onClick={handleRemoveAlreadyUploadedVideo} className="del-main-icon" >
-                                                    {
-                                                        activeTootlTip ? <Tooltip content="This is default setting. You can not change it.">
-                                                            {/* <Icon source={CircleCancelMajor} color="critical" /> */}
-                                                            <img src={Delete} />
-
-                                                        </Tooltip> : <img src={Delete} />
-                                                    }
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                    }
-                                    <div
-                                        style={{
-                                            width: "450px",
-                                            marginTop: "20px",
-                                        }}
-                                    >
-
-
-                                        <p
-                                            style={{
-                                                marginTop: "5px",
-                                                marginBottom: "5px",
-                                            }}
-                                        >
-                                            Button Text
-                                        </p>
-                                        <TextField
-                                            value={buttonText}
-                                            onChange={handleButtonText}
-                                            autoComplete="off"
-                                        />
-                                    </div>
-                                    <div
-                                        style={{
-                                            display: "flex",
-                                            alignItems: "center",
-                                            justifyContent: "space-between",
-                                            marginTop: "20px",
-                                        }}
-                                    >
+                                        }
                                         <div
                                             style={{
                                                 width: "450px",
-                                                marginBottom: "20px",
+                                                marginTop: "20px",
                                             }}
                                         >
-                                            <Text variant="headingLg" as="h5">
-                                                Button Color
-                                            </Text>
-                                            <p style={{ marginTop: "5px" }}>
-                                                Choose the branding color of
-                                                your landing page.
+
+
+                                            <p
+                                                style={{
+                                                    marginTop: "5px",
+                                                    marginBottom: "5px",
+                                                }}
+                                            >
+                                                Button Text
                                             </p>
+                                            <TextField
+                                                value={buttonText}
+                                                onChange={handleButtonText}
+                                                autoComplete="off"
+                                            />
                                         </div>
-                                    </div>
-                                    <div
-                                        style={{
-                                            display: "flex",
-                                            alignItems: "center",
-                                            marginBottom: "10px",
-                                        }}
-                                    >
                                         <div
                                             style={{
-                                                background: "none",
-                                                border: "5px solid #24A3E1",
+                                                display: "flex",
+                                                alignItems: "center",
+                                                justifyContent: "space-between",
+                                                marginTop: "20px",
                                             }}
-                                            className="colorOptions"
-                                        ></div>
-                                        <div
-                                            onClick={() => {
-                                                chooseColor("#FF4A4B");
-                                            }}
-                                            style={{
-                                                background: "#FF4A4B",
-                                                cursor: "pointer",
-                                            }}
-                                            className="colorOptions"
-                                        ></div>
-                                        <div
-                                            onClick={() => {
-                                                chooseColor("#FF5175");
-                                            }}
-                                            style={{
-                                                background: "#FF5175",
-                                                cursor: "pointer",
-                                            }}
-                                            className="colorOptions"
-                                        ></div>
-                                        <div
-                                            onClick={() => {
-                                                chooseColor("#E91E62");
-                                            }}
-                                            style={{
-                                                background: "#E91E62",
-                                                cursor: "pointer",
-                                            }}
-                                            className="colorOptions"
-                                        ></div>
-                                        <div
-                                            onClick={() => {
-                                                chooseColor("#EB0045");
-                                            }}
-                                            style={{
-                                                background: "#EB0045",
-                                                cursor: "pointer",
-                                            }}
-                                            className="colorOptions"
-                                        ></div>
-                                        <div
-                                            onClick={() => {
-                                                chooseColor("#D70049");
-                                            }}
-                                            style={{
-                                                background: "#D70049",
-                                                cursor: "pointer",
-                                            }}
-                                            className="colorOptions"
-                                        ></div>
-                                        <div
-                                            onClick={() => {
-                                                chooseColor("#FF59DE");
-                                            }}
-                                            style={{
-                                                background: "#FF59DE",
-                                                cursor: "pointer",
-                                            }}
-                                            className="colorOptions"
-                                        ></div>
-                                        <div
-                                            onClick={() => {
-                                                chooseColor("#FF98F7");
-                                            }}
-                                            style={{
-                                                background: "#FF98F7",
-                                                cursor: "pointer",
-                                            }}
-                                            className="colorOptions"
-                                        ></div>
-                                        <div
-                                            onClick={() => {
-                                                chooseColor("#9C27B0");
-                                            }}
-                                            style={{
-                                                background: "#9C27B0",
-                                                cursor: "pointer",
-                                            }}
-                                            className="colorOptions"
-                                        ></div>
-                                        <div
-                                            onClick={() => {
-                                                chooseColor("#673AB6");
-                                            }}
-                                            style={{
-                                                background: "#673AB6",
-                                                cursor: "pointer",
-                                            }}
-                                            className="colorOptions"
-                                        ></div>
-                                    </div>
-                                    <div
-                                        style={{
-                                            display: "flex",
-                                            alignItems: "center",
-                                            marginBottom: "10px",
-                                        }}
-                                    >
-                                        <div
-                                            onClick={() => {
-                                                chooseColor("#3F50B5");
-                                            }}
-                                            style={{
-                                                background: "#3F50B5",
-                                                cursor: "pointer",
-                                            }}
-                                            className="colorOptions"
-                                        ></div>
-                                        <div
-                                            onClick={() => {
-                                                chooseColor("#0D0083");
-                                            }}
-                                            style={{
-                                                background: "#0D0083",
-                                                cursor: "pointer",
-                                            }}
-                                            className="colorOptions"
-                                        ></div>
-                                        <div
-                                            onClick={() => {
-                                                chooseColor("#2096F3");
-                                            }}
-                                            style={{
-                                                background: "#2096F3",
-                                                cursor: "pointer",
-                                            }}
-                                            className="colorOptions"
-                                        ></div>
-                                        <div
-                                            onClick={() => {
-                                                chooseColor("#3CBAFA");
-                                            }}
-                                            style={{
-                                                background: "#3CBAFA",
-                                                cursor: "pointer",
-                                            }}
-                                            className="colorOptions"
-                                        ></div>
-                                        <div
-                                            onClick={() => {
-                                                chooseColor("#74D4FF");
-                                            }}
-                                            style={{
-                                                background: "#74D4FF",
-                                                cursor: "pointer",
-                                            }}
-                                            className="colorOptions"
-                                        ></div>
-                                        <div
-                                            onClick={() => {
-                                                chooseColor("#00BCD4");
-                                            }}
-                                            style={{
-                                                background: "#00BCD4",
-                                                cursor: "pointer",
-                                            }}
-                                            className="colorOptions"
-                                        ></div>
-                                        <div
-                                            onClick={() => {
-                                                chooseColor("#009688");
-                                            }}
-                                            style={{
-                                                background: "#009688",
-                                                cursor: "pointer",
-                                            }}
-                                            className="colorOptions"
-                                        ></div>
-                                        <div
-                                            onClick={() => {
-                                                chooseColor("#01B780");
-                                            }}
-                                            style={{
-                                                background: "#01B780",
-                                                cursor: "pointer",
-                                            }}
-                                            className="colorOptions"
-                                        ></div>
-                                        <div
-                                            onClick={() => {
-                                                chooseColor("#03D39C");
-                                            }}
-                                            style={{
-                                                background: "#03D39C",
-                                                cursor: "pointer",
-                                            }}
-                                            className="colorOptions"
-                                        ></div>
-                                        <div
-                                            onClick={() => {
-                                                chooseColor("#4CAF4F");
-                                            }}
-                                            style={{
-                                                background: "#4CAF4F",
-                                                cursor: "pointer",
-                                            }}
-                                            className="colorOptions"
-                                        ></div>
-                                    </div>
-                                    <div
-                                        style={{
-                                            display: "flex",
-                                            alignItems: "center",
-                                            marginBottom: "10px",
-                                        }}
-                                    >
-                                        <div
-                                            onClick={() => {
-                                                chooseColor("#AEFF14");
-                                            }}
-                                            style={{
-                                                background: "#AEFF14",
-                                                cursor: "pointer",
-                                            }}
-                                            className="colorOptions"
-                                        ></div>
-                                        <div
-                                            onClick={() => {
-                                                chooseColor("#FFDB91");
-                                            }}
-                                            style={{
-                                                background: "#FFDB91",
-                                                cursor: "pointer",
-                                            }}
-                                            className="colorOptions"
-                                        ></div>
-                                        <div
-                                            onClick={() => {
-                                                chooseColor("#FFBA00");
-                                            }}
-                                            style={{
-                                                background: "#FFBA00",
-                                                cursor: "pointer",
-                                            }}
-                                            className="colorOptions"
-                                        ></div>
-                                        <div
-                                            onClick={() => {
-                                                chooseColor("#FF9800");
-                                            }}
-                                            style={{
-                                                background: "#FF9800",
-                                                cursor: "pointer",
-                                            }}
-                                            className="colorOptions"
-                                        ></div>
-                                        <div
-                                            onClick={() => {
-                                                chooseColor("#FFA383");
-                                            }}
-                                            style={{
-                                                background: "#FFA383",
-                                                cursor: "pointer",
-                                            }}
-                                            className="colorOptions"
-                                        ></div>
-                                        <div
-                                            onClick={() => {
-                                                chooseColor("#D64C1E");
-                                            }}
-                                            style={{
-                                                background: "#D64C1E",
-                                                cursor: "pointer",
-                                            }}
-                                            className="colorOptions"
-                                        ></div>
-                                        <div
-                                            onClick={() => {
-                                                chooseColor("#795548");
-                                            }}
-                                            style={{
-                                                background: "#795548",
-                                                cursor: "pointer",
-                                            }}
-                                            className="colorOptions"
-                                        ></div>
-                                        <div
-                                            onClick={() => {
-                                                chooseColor("#ACACAC");
-                                            }}
-                                            style={{
-                                                background: "#ACACAC",
-                                                cursor: "pointer",
-                                            }}
-                                            className="colorOptions"
-                                        ></div>
-                                        <div
-                                            onClick={() => {
-                                                chooseColor("#000000");
-                                            }}
-                                            style={{
-                                                background: "#000000",
-                                                cursor: "pointer",
-                                            }}
-                                            className="colorOptions"
-                                        ></div>
-
-                                        <Popover
-                                            active={popoverActive}
-                                            activator={activator}
-                                            autofocusTarget="first-node"
-                                            onClose={togglePopoverActive}
                                         >
-                                            <div style={{ padding: "20px" }}>
-                                                <ColorPicker
-                                                    onChange={(e) => {
-                                                        // console.log(hsbToRgb(e));
-                                                        setButtonColor(e);
-                                                        setButtonColorHex(
-                                                            hsbToHex(e)
-                                                        );
-                                                        setGradientCheck(false);
-                                                    }}
-                                                    color={buttonColor}
-                                                />
-                                                <div style={{ marginTop: "20px" }}></div>
-                                                <TextField
-                                                    value={buttonColorHex}
-                                                    onChange={handleInputColorChange}
-                                                />
+                                            <div
+                                                style={{
+                                                    width: "450px",
+                                                    marginBottom: "20px",
+                                                }}
+                                            >
+                                                <Text variant="headingLg" as="h5">
+                                                    Button Color
+                                                </Text>
+                                                <p style={{ marginTop: "5px" }}>
+                                                    Choose the branding color of
+                                                    your landing page.
+                                                </p>
                                             </div>
-                                        </Popover>
+                                        </div>
+                                        <div
+                                            style={{
+                                                display: "flex",
+                                                alignItems: "center",
+                                                marginBottom: "10px",
+                                            }}
+                                        >
+                                            <div
+                                                style={{
+                                                    background: "none",
+                                                    border: "5px solid #24A3E1",
+                                                }}
+                                                className="colorOptions"
+                                            ></div>
+                                            <div
+                                                onClick={() => {
+                                                    chooseColor("#FF4A4B");
+                                                }}
+                                                style={{
+                                                    background: "#FF4A4B",
+                                                    cursor: "pointer",
+                                                }}
+                                                className="colorOptions"
+                                            ></div>
+                                            <div
+                                                onClick={() => {
+                                                    chooseColor("#FF5175");
+                                                }}
+                                                style={{
+                                                    background: "#FF5175",
+                                                    cursor: "pointer",
+                                                }}
+                                                className="colorOptions"
+                                            ></div>
+                                            <div
+                                                onClick={() => {
+                                                    chooseColor("#E91E62");
+                                                }}
+                                                style={{
+                                                    background: "#E91E62",
+                                                    cursor: "pointer",
+                                                }}
+                                                className="colorOptions"
+                                            ></div>
+                                            <div
+                                                onClick={() => {
+                                                    chooseColor("#EB0045");
+                                                }}
+                                                style={{
+                                                    background: "#EB0045",
+                                                    cursor: "pointer",
+                                                }}
+                                                className="colorOptions"
+                                            ></div>
+                                            <div
+                                                onClick={() => {
+                                                    chooseColor("#D70049");
+                                                }}
+                                                style={{
+                                                    background: "#D70049",
+                                                    cursor: "pointer",
+                                                }}
+                                                className="colorOptions"
+                                            ></div>
+                                            <div
+                                                onClick={() => {
+                                                    chooseColor("#FF59DE");
+                                                }}
+                                                style={{
+                                                    background: "#FF59DE",
+                                                    cursor: "pointer",
+                                                }}
+                                                className="colorOptions"
+                                            ></div>
+                                            <div
+                                                onClick={() => {
+                                                    chooseColor("#FF98F7");
+                                                }}
+                                                style={{
+                                                    background: "#FF98F7",
+                                                    cursor: "pointer",
+                                                }}
+                                                className="colorOptions"
+                                            ></div>
+                                            <div
+                                                onClick={() => {
+                                                    chooseColor("#9C27B0");
+                                                }}
+                                                style={{
+                                                    background: "#9C27B0",
+                                                    cursor: "pointer",
+                                                }}
+                                                className="colorOptions"
+                                            ></div>
+                                            <div
+                                                onClick={() => {
+                                                    chooseColor("#673AB6");
+                                                }}
+                                                style={{
+                                                    background: "#673AB6",
+                                                    cursor: "pointer",
+                                                }}
+                                                className="colorOptions"
+                                            ></div>
+                                        </div>
+                                        <div
+                                            style={{
+                                                display: "flex",
+                                                alignItems: "center",
+                                                marginBottom: "10px",
+                                            }}
+                                        >
+                                            <div
+                                                onClick={() => {
+                                                    chooseColor("#3F50B5");
+                                                }}
+                                                style={{
+                                                    background: "#3F50B5",
+                                                    cursor: "pointer",
+                                                }}
+                                                className="colorOptions"
+                                            ></div>
+                                            <div
+                                                onClick={() => {
+                                                    chooseColor("#0D0083");
+                                                }}
+                                                style={{
+                                                    background: "#0D0083",
+                                                    cursor: "pointer",
+                                                }}
+                                                className="colorOptions"
+                                            ></div>
+                                            <div
+                                                onClick={() => {
+                                                    chooseColor("#2096F3");
+                                                }}
+                                                style={{
+                                                    background: "#2096F3",
+                                                    cursor: "pointer",
+                                                }}
+                                                className="colorOptions"
+                                            ></div>
+                                            <div
+                                                onClick={() => {
+                                                    chooseColor("#3CBAFA");
+                                                }}
+                                                style={{
+                                                    background: "#3CBAFA",
+                                                    cursor: "pointer",
+                                                }}
+                                                className="colorOptions"
+                                            ></div>
+                                            <div
+                                                onClick={() => {
+                                                    chooseColor("#74D4FF");
+                                                }}
+                                                style={{
+                                                    background: "#74D4FF",
+                                                    cursor: "pointer",
+                                                }}
+                                                className="colorOptions"
+                                            ></div>
+                                            <div
+                                                onClick={() => {
+                                                    chooseColor("#00BCD4");
+                                                }}
+                                                style={{
+                                                    background: "#00BCD4",
+                                                    cursor: "pointer",
+                                                }}
+                                                className="colorOptions"
+                                            ></div>
+                                            <div
+                                                onClick={() => {
+                                                    chooseColor("#009688");
+                                                }}
+                                                style={{
+                                                    background: "#009688",
+                                                    cursor: "pointer",
+                                                }}
+                                                className="colorOptions"
+                                            ></div>
+                                            <div
+                                                onClick={() => {
+                                                    chooseColor("#01B780");
+                                                }}
+                                                style={{
+                                                    background: "#01B780",
+                                                    cursor: "pointer",
+                                                }}
+                                                className="colorOptions"
+                                            ></div>
+                                            <div
+                                                onClick={() => {
+                                                    chooseColor("#03D39C");
+                                                }}
+                                                style={{
+                                                    background: "#03D39C",
+                                                    cursor: "pointer",
+                                                }}
+                                                className="colorOptions"
+                                            ></div>
+                                            <div
+                                                onClick={() => {
+                                                    chooseColor("#4CAF4F");
+                                                }}
+                                                style={{
+                                                    background: "#4CAF4F",
+                                                    cursor: "pointer",
+                                                }}
+                                                className="colorOptions"
+                                            ></div>
+                                        </div>
+                                        <div
+                                            style={{
+                                                display: "flex",
+                                                alignItems: "center",
+                                                marginBottom: "10px",
+                                            }}
+                                        >
+                                            <div
+                                                onClick={() => {
+                                                    chooseColor("#AEFF14");
+                                                }}
+                                                style={{
+                                                    background: "#AEFF14",
+                                                    cursor: "pointer",
+                                                }}
+                                                className="colorOptions"
+                                            ></div>
+                                            <div
+                                                onClick={() => {
+                                                    chooseColor("#FFDB91");
+                                                }}
+                                                style={{
+                                                    background: "#FFDB91",
+                                                    cursor: "pointer",
+                                                }}
+                                                className="colorOptions"
+                                            ></div>
+                                            <div
+                                                onClick={() => {
+                                                    chooseColor("#FFBA00");
+                                                }}
+                                                style={{
+                                                    background: "#FFBA00",
+                                                    cursor: "pointer",
+                                                }}
+                                                className="colorOptions"
+                                            ></div>
+                                            <div
+                                                onClick={() => {
+                                                    chooseColor("#FF9800");
+                                                }}
+                                                style={{
+                                                    background: "#FF9800",
+                                                    cursor: "pointer",
+                                                }}
+                                                className="colorOptions"
+                                            ></div>
+                                            <div
+                                                onClick={() => {
+                                                    chooseColor("#FFA383");
+                                                }}
+                                                style={{
+                                                    background: "#FFA383",
+                                                    cursor: "pointer",
+                                                }}
+                                                className="colorOptions"
+                                            ></div>
+                                            <div
+                                                onClick={() => {
+                                                    chooseColor("#D64C1E");
+                                                }}
+                                                style={{
+                                                    background: "#D64C1E",
+                                                    cursor: "pointer",
+                                                }}
+                                                className="colorOptions"
+                                            ></div>
+                                            <div
+                                                onClick={() => {
+                                                    chooseColor("#795548");
+                                                }}
+                                                style={{
+                                                    background: "#795548",
+                                                    cursor: "pointer",
+                                                }}
+                                                className="colorOptions"
+                                            ></div>
+                                            <div
+                                                onClick={() => {
+                                                    chooseColor("#ACACAC");
+                                                }}
+                                                style={{
+                                                    background: "#ACACAC",
+                                                    cursor: "pointer",
+                                                }}
+                                                className="colorOptions"
+                                            ></div>
+                                            <div
+                                                onClick={() => {
+                                                    chooseColor("#000000");
+                                                }}
+                                                style={{
+                                                    background: "#000000",
+                                                    cursor: "pointer",
+                                                }}
+                                                className="colorOptions"
+                                            ></div>
 
-                                    </div>
-                                    <p>Selected Color Preview</p>
-                                    <br />
-                                    <div
-                                        style={{
-                                            background: `${buttonColorHex}`,
-                                        }}
-                                        className="colorOptions"
-                                    ></div>
-                                    <p style={{ marginTop: "14px" }}>Button Style</p>
-                                    <div style={{ display: "flex", gap: "12px" }}>
-                                        <RadioButton
-                                            label="Square"
-                                            checked={btnStyle === 'squaree'}
-                                            id="squaree"
-                                            name="btnStyle"
-                                            onChange={handleBtnStyleChange}
-                                        />
-                                        <RadioButton
-                                            label="Round"
-                                            id="round"
-                                            name="btnStyle"
-                                            checked={btnStyle === 'round'}
-                                            onChange={handleBtnStyleChange}
-                                        />
+                                            <Popover
+                                                active={popoverActive}
+                                                activator={activator}
+                                                autofocusTarget="first-node"
+                                                onClose={togglePopoverActive}
+                                            >
+                                                <div style={{ padding: "20px" }}>
+                                                    <ColorPicker
+                                                        onChange={(e) => {
+                                                            // console.log(hsbToRgb(e));
+                                                            setButtonColor(e);
+                                                            setButtonColorHex(
+                                                                hsbToHex(e)
+                                                            );
+                                                            setGradientCheck(false);
+                                                        }}
+                                                        color={buttonColor}
+                                                    />
+                                                    <div style={{ marginTop: "20px" }}></div>
+                                                    <TextField
+                                                        value={buttonColorHex}
+                                                        onChange={handleInputColorChange}
+                                                    />
+                                                </div>
+                                            </Popover>
 
-                                    </div>
-                                </Card>
+                                        </div>
+                                        <p>Selected Color Preview</p>
+                                        <br />
+                                        <div
+                                            style={{
+                                                background: `${buttonColorHex}`,
+                                            }}
+                                            className="colorOptions"
+                                        ></div>
+                                        <p style={{ marginTop: "14px" }}>Button Style</p>
+                                        <div style={{ display: "flex", gap: "12px" }}>
+                                            <RadioButton
+                                                label="Square"
+                                                checked={btnStyle === 'squaree'}
+                                                id="squaree"
+                                                name="btnStyle"
+                                                onChange={handleBtnStyleChange}
+                                            />
+                                            <RadioButton
+                                                label="Round"
+                                                id="round"
+                                                name="btnStyle"
+                                                checked={btnStyle === 'round'}
+                                                onChange={handleBtnStyleChange}
+                                            />
+
+                                        </div>
+                                    </Card>
                                 </BlockStack>
 
 
@@ -2832,7 +2828,7 @@ const Settings = () => {
                             </Grid.Cell>
                         </Grid>
 
-                        <Modal
+                        {/* <Modal
                             open={activeRejectionModel}
                             onClose={handleChangeRejectionModel}
                             title="Test Email"
@@ -2849,7 +2845,7 @@ const Settings = () => {
                                     Email Sent Sucessfully
                                 </Text>
                             </Modal.Section>
-                        </Modal>
+                        </Modal> */}
                     </Frame>
                 </Page>
             )}
