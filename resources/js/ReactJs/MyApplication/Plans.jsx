@@ -81,6 +81,7 @@ function Plans() {
 
     const [plan, setPlan] = useState([]);
     const [users, setUser] = useState([]);
+
     useEffect(() => {
         fetch(route('get_plans'))
             .then((response) => {
