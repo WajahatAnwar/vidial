@@ -64,9 +64,12 @@ class VideoController extends Controller
     }
     /****** operation on Videos  ********/
 
+    public function videoOperationOld(Request $request){
+        dd($request->all());
+    }
+
     public function videoOperation(Request $request)
     {
-
         $user = User::find(Auth::user()->id);
         if ($user->remaining_videos === NULL || $user->remaining_videos == '') {
             $remainingVideos = $user->ugc_video_count;

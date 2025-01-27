@@ -88,8 +88,6 @@ class HeyMentalPlanCreatedController extends Controller
             'on_install' => $payload['customFields']['on_install'] ?? 0,
             'test' => $payload['customFields']['test'] ?? 0,
         ]);
-
-        // Return success response
         return response()->json(['message' => 'Webhook received and data stored'], 200);
 
     }

@@ -1,8 +1,8 @@
-import { router, usePage } from "@inertiajs/react";
+import { router } from "@inertiajs/react";
 import {
     Banner,
+    BlockStack,
     Button,
-    ButtonGroup,
     Card,
     Collapsible,
     DropZone,
@@ -10,23 +10,20 @@ import {
     Grid,
     Icon,
     List,
-    Modal,
     Page,
     Spinner,
     Text,
     TextField,
-    Thumbnail,
-    Toast
+    Thumbnail
 } from "@shopify/polaris";
-import { CircleCancelMajor, NoteMinor, TickMinor,ViewMinor, HideMinor,CancelMinor,DeleteMajor} from "@shopify/polaris-icons";
+import { CircleCancelMajor, HideMinor, NoteMinor, ViewMinor } from "@shopify/polaris-icons";
 import { useCallback, useEffect, useState } from "react";
-import Ticker from "./Ticker";
 import Toggle from "./Toggle";
 import './css/editor.css';
 import ChevronUp from "./imges/ChevronUpMinor.png";
 import arrowRight from "./imges/arrowRight.png";
 import ColorWheel from "./imges/collorWheel.png";
-import { green } from "@mui/material/colors";
+
 
 const Email = () => {
 
@@ -174,7 +171,10 @@ const Email = () => {
     };
 
     const toastMarkup = active ? (
-        <Toast content={successMsg} onDismiss={toggleActive} />
+        // <Toast content={successMsg} onDismiss={toggleActive} />
+        shopify.toast.show('Settings Added Sucessfullt', {
+            duration: 3000,
+        })
     ) : null;
     const [selected, setSelected] = useState("en");
 
@@ -390,10 +390,10 @@ const Email = () => {
     const handleDeleteKlavio = () => {
 
         setKlavioError(false);
-        
+
 
         const formData = new FormData();
-    
+
         fetch(route('delete.klavio'), {
             body: formData,
             method: 'POST'
@@ -904,8 +904,13 @@ const Email = () => {
         []
     );
     const successToast = active ? (
-        <Toast content="Settings Saved" onDismiss={true} />
+        // <Toast content="Settings Saved" onDismiss={true} />
+        shopify.toast.show('Settings Saved', {
+            duration: 3000,
+        })
     ) : null;
+
+
 
     const handleRemoveAlreadyUploadedLogo = () => {
         setLogoImage('');
@@ -1078,52 +1083,6 @@ const Email = () => {
 
     return (
         <div>
-            <Modal
-                open={activeRejectionConfirmModel}
-                onClose={handleChangeRejectionConfirmModel}
-                title={'Important Notice'}
-            >
-                <Modal.Section>
-                    <div style={{ textAlign: "center" }}>
-                        <Text variant="headingMd" as="h6">
-                            Your current email content will be replaced with the new content. Are you absolutely certain that you wish to proceed with the replacement? on cancellation email will remain same.
-                        </Text>
-                        <div
-                            style={{
-                                display: "flex",
-                                justifyContent: "center",
-                                marginTop: "20px",
-                            }}
-                        >
-                            <ButtonGroup>
-                                <Button
-                                    onClick={() => {
-
-                                        router.get(route(pageLink));
-                                        setActiveRejectionConfirmModel(false);
-                                        setEmailTemplateButton(true);
-                                    }}
-                                >
-                                    Customize Content
-                                </Button>
-                                <Button primary onClick={() => {
-                                    document.getElementById('sab_ok_id').click();
-                                    setTimeout(() => {
-                                        router.get(route(pageLink));
-                                    }, 5000);
-
-                                    setActiveRejectionConfirmModel(false);
-                                    router.get(route(pageLink));
-                                    setEmailTemplateButton(true);
-                                }}
-                                >
-                                    Sure
-                                </Button>
-                            </ButtonGroup>
-                        </div>
-                    </div>
-                </Modal.Section>
-            </Modal>
             {isLoading ? (
                 <div>
                     <Spinner
@@ -1206,227 +1165,77 @@ const Email = () => {
 
 
 
-
-                                <Card sectioned>
-                                    <div
-                                        style={{
-                                            display: "flex",
-                                            alignItems: "center",
-                                            justifyContent: "space-between",
-                                            marginBottom: "20px",
-                                        }}
-                                    >
-                                        <div style={{ width: "450px" }}>
-                                            <Text variant="headingLg" as="h5">
-                                                Send Emails from GoodAuthentic
-                                            </Text>
-                                            <p style={{ marginTop: "5px" }}>
-                                                If you want this app to send your emails, toggle this on. Turn off if you are sending your own.
-                                            </p>
-                                        </div>
-                                        <div
-                                            style={{
-                                                width: "170px",
-                                                textAlign: "end",
-                                            }}
-                                        >
-                                            <Toggle
-                                                toggled={toggled}
-                                                onClick={handleChange}
-                                            />
-
-                                        </div>
-                                    </div>
-
-                                    <div
-                                        style={{
-                                            display: "flex",
-                                            alignItems: "center",
-                                            justifyContent: "space-between",
-                                            marginBottom: "20px",
-                                        }}
-                                    >
-                                        <div style={{ width: "550px" }}>
-                                            <Text variant="headingLg" as="h5">
-                                                Post Purchase Emails
-
-                                            </Text>
-                                            <p style={{ marginTop: "5px" }}>
-                                                This is the timing of the first email sent to your customer.
-                                            </p>
-                                        </div>
-                                        <div
-                                            className="textFieldjoinRight"
-                                            style={{
-                                                marginLeft: "204px",
-                                                width: "103px",
-                                                textAlign: "end",
-                                                display: "flex",
-                                                alignItems: "center",
-                                            }}
-                                        >
-                                            <TextField
-                                                value={
-                                                    landingPageDisplayedValue
-                                                }
-                                                onChange={
-                                                    landingPageDisplayedValueHandler
-                                                }
-                                                autoComplete="off"
-                                            />
-                                            <div className="Polaris-TextField__Prefix prefixCustomRight">
-                                                days
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div
-                                        style={{
-                                            display: "flex",
-                                            alignItems: "center",
-                                            justifyContent: "space-between",
-                                            marginBottom: "20px",
-                                        }}
-                                    >
-                                        <div style={{ width: "550px" }}>
-                                            <Text variant="headingLg" as="h5">
-                                                Reminder Email Cadence
-                                            </Text>
-                                            <p style={{ marginTop: "5px" }}>
-                                                Design the reminder emails sent by GoodAuthentic
-                                            </p>
-                                        </div>
-                                        <div
-                                            className="textFieldjoinRight"
-                                            style={{
-                                                marginLeft: "204px",
-                                                width: "103px",
-                                                textAlign: "end",
-                                                display: "flex",
-                                                alignItems: "center",
-                                            }}
-                                        >
-                                            <TextField
-                                                value={emailSentToValue}
-                                                onChange={
-                                                    emailSentToValueHandler
-                                                }
-                                                autoComplete="off"
-                                            />
-                                            <div className="Polaris-TextField__Prefix prefixCustomRight">
-                                                weeks
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div
-                                        style={{
-                                            display: "flex",
-                                            alignItems: "center",
-                                            justifyContent: "space-between",
-                                        }}
-                                    >
-                                        <div style={{ width: "550px" }}>
-                                            <Text variant="headingLg" as="h5">
-                                                Number of Emails to Send
-                                            </Text>
-                                            <p style={{ marginTop: "5px" }}>
-                                                GoodAuthentic will stop sending emails after this many to each customer.
-                                            </p>
-                                        </div>
-                                        <div
-                                            className="textFieldjoinRight"
-                                            style={{
-                                                marginLeft: "204px",
-                                                width: "103px",
-                                                textAlign: "end",
-                                                display: "flex",
-                                                alignItems: "center",
-                                            }}
-                                        >
-                                            <TextField
-                                                value={landingPageValue}
-                                                onChange={landingPageHandler}
-                                                autoComplete="off"
-                                            />
-                                            <div className="Polaris-TextField__Prefix prefixCustomRight">
-                                                emails
-                                            </div>
-                                        </div>
-                                    </div>
-                                </Card>
-                                <Card sectioned>
-                                    <div
-                                        style={{
-                                            display: "flex",
-                                            alignItems: "center",
-                                            justifyContent: "space-between",
-                                            cursor: "pointer",
-
-                                        }}
-                                        onClick={handleToggle}
-                                        ariaExpanded={open}
-                                    >
-                                        <div style={{ width: "450px" }}>
-                                            <Text variant="headingLg" as="h5">
-                                                Email Customization
-                                            </Text>
-                                        </div>
-                                        <div
-                                            style={{
-
-                                                textAlign: "end",
-                                            }}
-                                        >
-                                            <img
-                                                className=""
-                                                src={ChevronUp}
-                                                style={{ transition: "transform 0.5s ease-in-out 0s", transform: open ? 'rotate(180deg)' : '' }}
-                                            ></img>
-                                        </div>
-                                    </div>
-                                    <Collapsible
-                                        open={open}
-                                        id="basic-collapsible"
-                                        transition={{ duration: '500ms', timingFunction: 'ease-in-out' }}
-                                        expandOnPrint
-                                    >
-                                        <div style={{ marginTop: "20px" }}></div>
-
-
+                                <BlockStack gap='500'>
+                                    <Card sectioned>
                                         <div
                                             style={{
                                                 display: "flex",
                                                 alignItems: "center",
                                                 justifyContent: "space-between",
                                                 marginBottom: "20px",
-                                                marginTop: "20px",
-                                                border: "1px solid #C9CCCF",
-                                                borderRadius: "10px",
-                                                padding: "8px 20px",
-                                                cursor: "pointer",
-
-                                            }}
-                                            onClick={() => {
-                                                router.get(route('post-purchase-email'));
                                             }}
                                         >
-                                            <div style={{ width: "550px" }}>
+                                            <div style={{ width: "450px" }}>
                                                 <Text variant="headingLg" as="h5">
-                                                    Post Purchase
+                                                    Send Emails from GoodAuthentic
                                                 </Text>
                                                 <p style={{ marginTop: "5px" }}>
-                                                    Design the post purchase emails sent by GoodAuthentic
+                                                    If you want this app to send your emails, toggle this on. Turn off if you are sending your own.
                                                 </p>
                                             </div>
                                             <div
-
+                                                style={{
+                                                    width: "170px",
+                                                    textAlign: "end",
+                                                }}
                                             >
-                                                <img
-                                                    className=""
-                                                    src={arrowRight}
-                                                    style={{
-                                                        marginTop: "8px",
-                                                    }}
-                                                ></img>
+                                                <Toggle
+                                                    toggled={toggled}
+                                                    onClick={handleChange}
+                                                />
+
+                                            </div>
+                                        </div>
+
+                                        <div
+                                            style={{
+                                                display: "flex",
+                                                alignItems: "center",
+                                                justifyContent: "space-between",
+                                                marginBottom: "20px",
+                                            }}
+                                        >
+                                            <div style={{ width: "550px" }}>
+                                                <Text variant="headingLg" as="h5">
+                                                    Post Purchase Emails
+
+                                                </Text>
+                                                <p style={{ marginTop: "5px" }}>
+                                                    This is the timing of the first email sent to your customer.
+                                                </p>
+                                            </div>
+                                            <div
+                                                className="textFieldjoinRight"
+                                                style={{
+                                                    marginLeft: "204px",
+                                                    width: "103px",
+                                                    textAlign: "end",
+                                                    display: "flex",
+                                                    alignItems: "center",
+                                                }}
+                                            >
+                                                <TextField
+                                                    value={
+                                                        landingPageDisplayedValue
+                                                    }
+                                                    onChange={
+                                                        landingPageDisplayedValueHandler
+                                                    }
+                                                    autoComplete="off"
+                                                />
+                                                <div className="Polaris-TextField__Prefix prefixCustomRight">
+                                                    days
+                                                </div>
                                             </div>
                                         </div>
                                         <div
@@ -1435,36 +1244,36 @@ const Email = () => {
                                                 alignItems: "center",
                                                 justifyContent: "space-between",
                                                 marginBottom: "20px",
-                                                marginTop: "20px",
-                                                border: "1px solid #C9CCCF",
-                                                borderRadius: "10px",
-                                                padding: "8px 20px",
-                                                cursor: "pointer",
-
-                                            }}
-                                            onClick={() => {
-                                                router.get(route('reminder-email'));
-
                                             }}
                                         >
                                             <div style={{ width: "550px" }}>
                                                 <Text variant="headingLg" as="h5">
-                                                    Reminder
+                                                    Reminder Email Cadence
                                                 </Text>
                                                 <p style={{ marginTop: "5px" }}>
                                                     Design the reminder emails sent by GoodAuthentic
                                                 </p>
                                             </div>
                                             <div
-
+                                                className="textFieldjoinRight"
+                                                style={{
+                                                    marginLeft: "204px",
+                                                    width: "103px",
+                                                    textAlign: "end",
+                                                    display: "flex",
+                                                    alignItems: "center",
+                                                }}
                                             >
-                                                <img
-                                                    className=""
-                                                    src={arrowRight}
-                                                    style={{
-                                                        marginTop: "8px",
-                                                    }}
-                                                ></img>
+                                                <TextField
+                                                    value={emailSentToValue}
+                                                    onChange={
+                                                        emailSentToValueHandler
+                                                    }
+                                                    autoComplete="off"
+                                                />
+                                                <div className="Polaris-TextField__Prefix prefixCustomRight">
+                                                    weeks
+                                                </div>
                                             </div>
                                         </div>
                                         <div
@@ -1472,183 +1281,333 @@ const Email = () => {
                                                 display: "flex",
                                                 alignItems: "center",
                                                 justifyContent: "space-between",
-                                                marginBottom: "20px",
-                                                marginTop: "20px",
-                                                border: "1px solid #C9CCCF",
-                                                borderRadius: "10px",
-                                                padding: "8px 20px",
-                                                cursor: "pointer",
-
-                                            }}
-                                            onClick={() => {
-                                                router.get(route('ugc-approved-email'));
-
                                             }}
                                         >
                                             <div style={{ width: "550px" }}>
                                                 <Text variant="headingLg" as="h5">
-                                                    Standard Approval
+                                                    Number of Emails to Send
                                                 </Text>
                                                 <p style={{ marginTop: "5px" }}>
-                                                    Design the standard approval emails sent by GoodAuthentic
+                                                    GoodAuthentic will stop sending emails after this many to each customer.
                                                 </p>
                                             </div>
                                             <div
-
+                                                className="textFieldjoinRight"
+                                                style={{
+                                                    marginLeft: "204px",
+                                                    width: "103px",
+                                                    textAlign: "end",
+                                                    display: "flex",
+                                                    alignItems: "center",
+                                                }}
                                             >
-                                                <img
-                                                    className=""
-                                                    src={arrowRight}
-                                                    style={{
-                                                        marginTop: "8px",
-                                                    }}
-                                                ></img>
+                                                <TextField
+                                                    value={landingPageValue}
+                                                    onChange={landingPageHandler}
+                                                    autoComplete="off"
+                                                />
+                                                <div className="Polaris-TextField__Prefix prefixCustomRight">
+                                                    emails
+                                                </div>
                                             </div>
                                         </div>
+                                    </Card>
+                                    <Card sectioned>
                                         <div
                                             style={{
                                                 display: "flex",
                                                 alignItems: "center",
                                                 justifyContent: "space-between",
-                                                marginBottom: "20px",
-                                                marginTop: "20px",
-                                                border: "1px solid #C9CCCF",
-                                                borderRadius: "10px",
-                                                padding: "8px 20px",
                                                 cursor: "pointer",
 
                                             }}
-                                            onClick={() => {
-                                                router.get(route('ugc-star-approved'));
-                                            }}
+                                            onClick={handleToggle}
+                                            ariaExpanded={open}
                                         >
-                                            <div style={{ width: "550px" }}>
+                                            <div style={{ width: "450px" }}>
                                                 <Text variant="headingLg" as="h5">
-                                                    Star Approval
+                                                    Email Customization
                                                 </Text>
-                                                <p style={{ marginTop: "5px" }}>
-                                                    Design the star approval emails sent by GoodAuthentic
-                                                </p>
                                             </div>
                                             <div
+                                                style={{
 
+                                                    textAlign: "end",
+                                                }}
                                             >
                                                 <img
                                                     className=""
-                                                    src={arrowRight}
-                                                    style={{
-                                                        marginTop: "8px",
-                                                    }}
+                                                    src={ChevronUp}
+                                                    style={{ transition: "transform 0.5s ease-in-out 0s", transform: open ? 'rotate(180deg)' : '' }}
                                                 ></img>
                                             </div>
                                         </div>
-                                        <div
-                                            style={{
-                                                display: "flex",
-                                                alignItems: "center",
-                                                justifyContent: "space-between",
-                                                marginBottom: "20px",
-                                                marginTop: "20px",
-                                                border: "1px solid #C9CCCF",
-                                                borderRadius: "10px",
-                                                padding: "8px 20px",
-                                                cursor: "pointer",
-
-                                            }}
-                                            onClick={() => {
-                                                router.get(route('ugc-declined-email'));
-                                            }}
+                                        <Collapsible
+                                            open={open}
+                                            id="basic-collapsible"
+                                            transition={{ duration: '500ms', timingFunction: 'ease-in-out' }}
+                                            expandOnPrint
                                         >
-                                            <div style={{ width: "550px" }}>
-                                                <Text variant="headingLg" as="h5">
-                                                    UGC Declined
-                                                </Text>
-                                                <p style={{ marginTop: "5px" }}>
-                                                    Design the declined emails sent by GoodAuthentic
-                                                </p>
+                                            <div style={{ marginTop: "20px" }}></div>
+
+
+                                            <div
+                                                style={{
+                                                    display: "flex",
+                                                    alignItems: "center",
+                                                    justifyContent: "space-between",
+                                                    marginBottom: "20px",
+                                                    marginTop: "20px",
+                                                    border: "1px solid #C9CCCF",
+                                                    borderRadius: "10px",
+                                                    padding: "8px 20px",
+                                                    cursor: "pointer",
+
+                                                }}
+                                                onClick={() => {
+                                                    router.get(route('post-purchase-email'));
+                                                }}
+                                            >
+                                                <div style={{ width: "550px" }}>
+                                                    <Text variant="headingLg" as="h5">
+                                                        Post Purchase
+                                                    </Text>
+                                                    <p style={{ marginTop: "5px" }}>
+                                                        Design the post purchase emails sent by GoodAuthentic
+                                                    </p>
+                                                </div>
+                                                <div
+
+                                                >
+                                                    <img
+                                                        className=""
+                                                        src={arrowRight}
+                                                        style={{
+                                                            marginTop: "8px",
+                                                        }}
+                                                    ></img>
+                                                </div>
                                             </div>
                                             <div
+                                                style={{
+                                                    display: "flex",
+                                                    alignItems: "center",
+                                                    justifyContent: "space-between",
+                                                    marginBottom: "20px",
+                                                    marginTop: "20px",
+                                                    border: "1px solid #C9CCCF",
+                                                    borderRadius: "10px",
+                                                    padding: "8px 20px",
+                                                    cursor: "pointer",
 
+                                                }}
+                                                onClick={() => {
+                                                    router.get(route('reminder-email'));
+
+                                                }}
                                             >
-                                                <img
-                                                    className=""
-                                                    src={arrowRight}
-                                                    style={{
-                                                        marginTop: "8px",
-                                                    }}
-                                                ></img>
+                                                <div style={{ width: "550px" }}>
+                                                    <Text variant="headingLg" as="h5">
+                                                        Reminder
+                                                    </Text>
+                                                    <p style={{ marginTop: "5px" }}>
+                                                        Design the reminder emails sent by GoodAuthentic
+                                                    </p>
+                                                </div>
+                                                <div
+
+                                                >
+                                                    <img
+                                                        className=""
+                                                        src={arrowRight}
+                                                        style={{
+                                                            marginTop: "8px",
+                                                        }}
+                                                    ></img>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </Collapsible>
+                                            <div
+                                                style={{
+                                                    display: "flex",
+                                                    alignItems: "center",
+                                                    justifyContent: "space-between",
+                                                    marginBottom: "20px",
+                                                    marginTop: "20px",
+                                                    border: "1px solid #C9CCCF",
+                                                    borderRadius: "10px",
+                                                    padding: "8px 20px",
+                                                    cursor: "pointer",
+
+                                                }}
+                                                onClick={() => {
+                                                    router.get(route('ugc-approved-email'));
+
+                                                }}
+                                            >
+                                                <div style={{ width: "550px" }}>
+                                                    <Text variant="headingLg" as="h5">
+                                                        Standard Approval
+                                                    </Text>
+                                                    <p style={{ marginTop: "5px" }}>
+                                                        Design the standard approval emails sent by GoodAuthentic
+                                                    </p>
+                                                </div>
+                                                <div
+
+                                                >
+                                                    <img
+                                                        className=""
+                                                        src={arrowRight}
+                                                        style={{
+                                                            marginTop: "8px",
+                                                        }}
+                                                    ></img>
+                                                </div>
+                                            </div>
+                                            <div
+                                                style={{
+                                                    display: "flex",
+                                                    alignItems: "center",
+                                                    justifyContent: "space-between",
+                                                    marginBottom: "20px",
+                                                    marginTop: "20px",
+                                                    border: "1px solid #C9CCCF",
+                                                    borderRadius: "10px",
+                                                    padding: "8px 20px",
+                                                    cursor: "pointer",
+
+                                                }}
+                                                onClick={() => {
+                                                    router.get(route('ugc-star-approved'));
+                                                }}
+                                            >
+                                                <div style={{ width: "550px" }}>
+                                                    <Text variant="headingLg" as="h5">
+                                                        Star Approval
+                                                    </Text>
+                                                    <p style={{ marginTop: "5px" }}>
+                                                        Design the star approval emails sent by GoodAuthentic
+                                                    </p>
+                                                </div>
+                                                <div
+
+                                                >
+                                                    <img
+                                                        className=""
+                                                        src={arrowRight}
+                                                        style={{
+                                                            marginTop: "8px",
+                                                        }}
+                                                    ></img>
+                                                </div>
+                                            </div>
+                                            <div
+                                                style={{
+                                                    display: "flex",
+                                                    alignItems: "center",
+                                                    justifyContent: "space-between",
+                                                    marginBottom: "20px",
+                                                    marginTop: "20px",
+                                                    border: "1px solid #C9CCCF",
+                                                    borderRadius: "10px",
+                                                    padding: "8px 20px",
+                                                    cursor: "pointer",
+
+                                                }}
+                                                onClick={() => {
+                                                    router.get(route('ugc-declined-email'));
+                                                }}
+                                            >
+                                                <div style={{ width: "550px" }}>
+                                                    <Text variant="headingLg" as="h5">
+                                                        UGC Declined
+                                                    </Text>
+                                                    <p style={{ marginTop: "5px" }}>
+                                                        Design the declined emails sent by GoodAuthentic
+                                                    </p>
+                                                </div>
+                                                <div
+
+                                                >
+                                                    <img
+                                                        className=""
+                                                        src={arrowRight}
+                                                        style={{
+                                                            marginTop: "8px",
+                                                        }}
+                                                    ></img>
+                                                </div>
+                                            </div>
+                                        </Collapsible>
 
 
-                                </Card>
+                                    </Card>
 
-                                {
+                                    {
 
-                                    (planName == 'Premium' || planName == 'Enterprise' || planName == 'Standard' || planName == 'Free') ?
-                                        <>
-                                            {/********* Klavio  *********/}
-                                            <Card sectioned>
-  {klavioError ? (
-    <Banner>
-      <List type="bullet">
-        <List.Item>{klavioErrorMsg}</List.Item>
-      </List>
-    </Banner>
-  ) : (
-    ''
-  )}
-  <div className="googledrivesection">
-    <div style={{ marginBottom: '15px' }}>
-      <Text variant="headingLg" as="h5">
-        Connect Klaviyo
-      </Text>
-    </div>
-
-
-    <div style={{ marginTop: '10px', width: '450px', position: 'relative' }}>
-  {console.log("data", klavioApi)}
-  <TextField
-    value={klavioApi}
-    onChange={handleKlavioApi}
-    autoComplete="off"
-    placeholder="Set Klaviyo API Key"
-    type={showApiKey ? 'password' :'text'  }
-  />
-  {klavioApi && (
-    <div
-      style={{
-        position: 'absolute',
-        top: '8px',
-        right: '10px',
-        zIndex: '9999999',
-        cursor: 'pointer',
-      }}
-      onClick={() => setShowApiKey(!showApiKey)}
-    >
-      <Icon
-        source={showApiKey ? HideMinor : ViewMinor}
-        color={error ? "critical" : "success"}
-      />
-    </div>
-  )}
-</div>
+                                        (planName == 'Premium' || planName == 'Enterprise' || planName == 'Standard' || planName == 'Free') ?
+                                            <>
+                                                {/********* Klavio  *********/}
+                                                <Card sectioned>
+                                                    {klavioError ? (
+                                                        <Banner>
+                                                            <List type="bullet">
+                                                                <List.Item>{klavioErrorMsg}</List.Item>
+                                                            </List>
+                                                        </Banner>
+                                                    ) : (
+                                                        ''
+                                                    )}
+                                                    <div className="googledrivesection">
+                                                        <div style={{ marginBottom: '15px' }}>
+                                                            <Text variant="headingLg" as="h5">
+                                                                Connect Klaviyo
+                                                            </Text>
+                                                        </div>
 
 
+                                                        <div style={{ marginTop: '10px', width: '450px', position: 'relative' }}>
+                                                            {console.log("data", klavioApi)}
+                                                            <TextField
+                                                                value={klavioApi}
+                                                                onChange={handleKlavioApi}
+                                                                autoComplete="off"
+                                                                placeholder="Set Klaviyo API Key"
+                                                                type={showApiKey ? 'password' : 'text'}
+                                                            />
+                                                            {klavioApi && (
+                                                                <div
+                                                                    style={{
+                                                                        position: 'absolute',
+                                                                        top: '8px',
+                                                                        right: '10px',
+                                                                        zIndex: '9999999',
+                                                                        cursor: 'pointer',
+                                                                    }}
+                                                                    onClick={() => setShowApiKey(!showApiKey)}
+                                                                >
+                                                                    <Icon
+                                                                        source={showApiKey ? HideMinor : ViewMinor}
+                                                                        color={error ? "critical" : "success"}
+                                                                    />
+                                                                </div>
+                                                            )}
+                                                        </div>
 
 
-    <div style={{ marginTop: '10px', width: '450px' }}>
-      <TextField
-        value={klavioEmail}
-        onChange={handleKlavioEmail}
-        autoComplete="off"
-        placeholder="Set Email"
-      />
-    </div>
 
-    <div style={{ marginTop: '20px' }} className="polaris-black-btn-global">
-      {/* {klavioConnected ? (
+
+                                                        <div style={{ marginTop: '10px', width: '450px' }}>
+                                                            <TextField
+                                                                value={klavioEmail}
+                                                                onChange={handleKlavioEmail}
+                                                                autoComplete="off"
+                                                                placeholder="Set Email"
+                                                            />
+                                                        </div>
+
+                                                        <div style={{ marginTop: '20px' }} className="polaris-black-btn-global">
+                                                            {/* {klavioConnected ? (
         // <Button info>
         //   <div style={{ display: 'flex' }}>
         //     <div>Connected</div>
@@ -1665,59 +1624,60 @@ const Email = () => {
       ) : ( */}
 
 
-<div style={{ display: "flex", alignItems: "center", }}>
- 
+                                                            <div style={{ display: "flex", alignItems: "center", }}>
 
-                                                {
-                                                            klavioConnected ?
-                                                            <div id="greenDisButton" className="green-disconnect-button">    
-                                                            <Button  onClick={handleDeleteKlavio}
-  
-  style={{ marginRight: "10px" }}
->
-  {/* <div style={{ display: "flex" }}>
+
+                                                                {
+                                                                    klavioConnected ?
+                                                                        <div id="greenDisButton" className="green-disconnect-button">
+                                                                            <Button onClick={handleDeleteKlavio}
+
+                                                                                style={{ marginRight: "10px" }}
+                                                                            >
+                                                                                {/* <div style={{ display: "flex" }}>
     <div> */}
-        Disconnect 
-        {/* </div> */}
-</Button>
-  </div>
+                                                                                Disconnect
+                                                                                {/* </div> */}
+                                                                            </Button>
+                                                                        </div>
 
-                                                          
-                                                                : <Button primary onClick={handleConnectKlavio} style={{marginRight: "10px" }} >
-                                                                    Connect
-                                                                </Button>
-                                                        } 
-                                                        {/* <Button style={{marginLeft: "10px" }} primary onClick={handleDeleteKlavio}>
+
+                                                                        : <Button primary onClick={handleConnectKlavio} style={{ marginRight: "10px" }} >
+                                                                            Connect
+                                                                        </Button>
+                                                                }
+                                                                {/* <Button style={{marginLeft: "10px" }} primary onClick={handleDeleteKlavio}>
                                                                     Delete Credientials
                                                                 </Button> */}
 
-{/* {klavioConnected ?
+                                                                {/* {klavioConnected ?
                                                                 <div style={{marginLeft:"20px",cursor: 'pointer'}} onClick={handleDeleteKlavio}   > */}
-    {/* <Icon 
+                                                                {/* <Icon 
     source={DeleteMajor} 
     color="critical" // Red color for a delete action
     accessibilityLabel="Delete Credentials"
     
     style={{ cursor: 'pointer', marginLeft: '10px' }}
 /> */}
-{/* <Button primary  style={{marginRight: "10px" }} >
+                                                                {/* <Button primary  style={{marginRight: "10px" }} >
                                                                     Disconnet
                                                                 </Button> */}
 
-{/* </div> : ""
+                                                                {/* </div> : ""
 } */}
 
-  
-</div>
+
+                                                            </div>
 
 
-      {/* )} */}
-    </div>
-  </div>
-</Card>
+                                                            {/* )} */}
+                                                        </div>
+                                                    </div>
+                                                </Card>
 
 
-                                            {/* <Card sectioned>
+
+                                                {/* <Card sectioned>
                                         <div className="googledrivesection">
                                             <div style={{ marginTop: "20px" }}></div>
                                             <div style={{ display: "flex", alignItems: "center", marginRight: "5px" }} >
@@ -1849,10 +1809,11 @@ const Email = () => {
                                                     </>
                                         </div>
                                     </Card> */}
-                                        </>
-                                        : null
+                                            </>
+                                            : null
 
-                                }
+                                    }
+                                </BlockStack>
                                 <div
                                     style={{
                                         textAlign: "right",
@@ -1872,25 +1833,6 @@ const Email = () => {
                                 </div>
                             </Grid.Cell>
                         </Grid>
-
-                        <Modal
-                            open={activeRejectionModel}
-                            onClose={handleChangeRejectionModel}
-                            title="Test Email"
-
-                            secondaryActions={[
-                                {
-                                    content: "Cancel",
-                                    onAction: handleChangeRejectionModel,
-                                },
-                            ]}
-                        >
-                            <Modal.Section>
-                                <Text variant="headingMd" as="h6">
-                                    Email Sent Sucessfully
-                                </Text>
-                            </Modal.Section>
-                        </Modal>
                     </Frame>
                 </Page>
             )}

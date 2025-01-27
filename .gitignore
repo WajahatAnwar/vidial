@@ -13,6 +13,13 @@ Homestead.yaml
 auth.json
 npm-debug.log
 yarn-error.log
+/public/favicons/*
+/public/fav_icons/*
+/public/emails_logo/*
+/public/images/*
+/public/logo/*
+/public/video/*
+/public/fonts/*
 /.fleet
 /.idea
 /.vscode

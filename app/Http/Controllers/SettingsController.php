@@ -365,7 +365,6 @@ class SettingsController extends Controller
         }
         $data['user'] = $currentUser;
 
-
         return response()->json([
             'success' => true,
             'message' => "Fetch data successfully",
@@ -607,14 +606,12 @@ class SettingsController extends Controller
         if ($credential) {
             // Delete the credential
             $credential->delete();
-
             return response()->json([
                 'success' => true,
                 'message' => "Settings Deleted",
                 'data' => null
             ]);
         }
-
         // Return a failure response if no credential is found
         return response()->json([
             'success' => false,

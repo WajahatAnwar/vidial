@@ -13,12 +13,11 @@ import {
     Spinner,
     Tabs,
     TextContainer,
-    TextField,
-    Toast
+    TextField
 } from "@shopify/polaris";
 import { useCallback, useEffect, useState } from 'react';
 
-import { router, usePage } from "@inertiajs/react";
+import { router } from "@inertiajs/react";
 import Toggle from "./Toggle";
 
 
@@ -56,7 +55,10 @@ function AdminDashboard(props) {
     const toggleActive = useCallback(() => setActive((active) => !active), []);
 
     const toastMarkup = active ? (
-        <Toast content="Link Copied to Clipboard" onDismiss={toggleActive} />
+        // <Toast content="Link Copied to Clipboard" onDismiss={toggleActive} />
+        shopify.toast.show('Link Copied to Clipboard', {
+            duration: 5000,
+        })
     ) : null;
 
     const tabs = [
