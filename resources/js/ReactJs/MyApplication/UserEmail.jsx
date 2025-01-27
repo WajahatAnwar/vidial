@@ -1,3 +1,8 @@
+import Toggle from "@/ReactJs/MyApplication/Toggle";
+import '@/ReactJs/MyApplication/css/editor.css';
+import ChevronUp from "@/ReactJs/MyApplication/imges/ChevronUpMinor.png";
+import arrowRight from "@/ReactJs/MyApplication/imges/arrowRight.png";
+import ColorWheel from "@/ReactJs/MyApplication/imges/collorWheel.png";
 import { router, usePage } from "@inertiajs/react";
 import {
     Banner,
@@ -15,16 +20,10 @@ import {
     Spinner,
     Text,
     TextField,
-    Thumbnail,
-    Toast
+    Thumbnail
 } from "@shopify/polaris";
 import { CircleCancelMajor, NoteMinor, TickMinor } from "@shopify/polaris-icons";
 import { useCallback, useEffect, useState } from "react";
-import Toggle from "@/ReactJs/MyApplication/Toggle";
-import '@/ReactJs/MyApplication/css/editor.css';
-import ChevronUp from "@/ReactJs/MyApplication/imges/ChevronUpMinor.png";
-import arrowRight from "@/ReactJs/MyApplication/imges/arrowRight.png";
-import ColorWheel from "@/ReactJs/MyApplication/imges/collorWheel.png";
 /**
 const urlParams = new URLSearchParams(location.search);
 const shopParam = urlParams.get('shop');
@@ -1560,8 +1559,8 @@ const UserEmail = () => {
                                             </List>
                                         </Banner> : ''
                                     } */}
-                                    {/* <div className="googledrivesection"> */}
-                                        {/* <div style={{ marginBottom: "15px" }}>
+                                {/* <div className="googledrivesection"> */}
+                                {/* <div style={{ marginBottom: "15px" }}>
                                             <Text variant="headingLg" as="h5">
                                                 Google Drive
                                             </Text>
@@ -1640,7 +1639,7 @@ const UserEmail = () => {
                                                     </Button>
                                             }
                                         </div> */}
-                                    {/* </div> */}
+                                {/* </div> */}
                                 {/* </Card> */}
 
                                 {/********* Klavio  *********/}

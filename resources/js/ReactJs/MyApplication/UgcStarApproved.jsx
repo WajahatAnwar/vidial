@@ -14,13 +14,11 @@ import {
     Text,
     TextField,
     Thumbnail,
-    Toast,
     Tooltip
 } from "@shopify/polaris";
 import { CircleCancelMajor, NoteMinor } from "@shopify/polaris-icons";
 import { Editor } from '@tinymce/tinymce-react';
 import { useCallback, useEffect, useRef, useState } from "react";
-import { useParams } from "react-router-dom";
 import backIcon from "./imges/backIcon.png";
 import ColorWheel from "./imges/collorWheel.png";
 import Delete from "./imges/Delete.svg";
@@ -111,7 +109,7 @@ const UgcStarApproved = () => {
     );
     const uploadedFilesPreview = files.length > 0 && (
         <div style={{ padding: '0' }}>
-            <div className="delete-btn-icons"  style={{ width: "60px", marginBottom: "10px" }} >
+            <div className="delete-btn-icons" style={{ width: "60px", marginBottom: "10px" }} >
                 {files.map((file, index) => (
                     <div key={index}>
                         <Thumbnail
@@ -214,7 +212,7 @@ const UgcStarApproved = () => {
         let url = ''
         if (id) {
             url = route('single-fetch-email-settings', { id: id, type: 'UGC_Star_Approved' });
-        }else{
+        } else {
             url = route('fetch-email-settings', { type: 'UGC_Star_Approved', ...query });
         }
         fetch(url, {
@@ -336,7 +334,7 @@ const UgcStarApproved = () => {
                                             {uploadedFilesPreview}
                                             {(!files.length && alreadyUploadLogo) &&
                                                 <div style={{ padding: '0' }}>
-                                                    <div className="delete-btn-icons"  style={{ width: "60px", marginBottom: "10px" }} >
+                                                    <div className="delete-btn-icons" style={{ width: "60px", marginBottom: "10px" }} >
                                                         <Thumbnail
                                                             size="medium"
                                                             alt="img"

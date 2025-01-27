@@ -1,23 +1,21 @@
 import {
     Box,
     Button,
-    ButtonGroup,
     Card,
+    Divider,
     Grid,
     Icon,
     Page,
-    Text,
-    TextField,
-    Divider
+    Text
 } from "@shopify/polaris";
 
 import checkmark from "@/ReactJs/MyApplication/imges/checkmark.svg";
 import noVedio from "@/ReactJs/MyApplication/imges/film.png";
 import staricon from "@/ReactJs/MyApplication/imges/Staricon.svg";
-import { router, usePage } from "@inertiajs/react";
+import { router } from "@inertiajs/react";
+import { Modal, TitleBar, useAppBridge } from "@shopify/app-bridge-react";
 import { CircleCancelMajor, CircleTickMajor } from "@shopify/polaris-icons";
 import { useCallback, useEffect, useState } from "react";
-import { TitleBar, useAppBridge, Modal } from "@shopify/app-bridge-react";
 
 function WaitingVideos() {
     const shopify = useAppBridge();
@@ -32,13 +30,8 @@ function WaitingVideos() {
     const [activeRejectionConfirmModel, setActiveRejectionConfirmModel] = useState(false);
     const [activeRejectionSuccessModel, setActiveRejectionSuccessModel] = useState(false);
     const [upgradeButton, setupgradeButton] = useState(false);
-
-
-
     const [activeApprovedConfirmModel, setActiveApprovedConfirmModel] = useState(false);
     const [activeApprovedSuccessModel, setActiveApprovedSuccessModel] = useState(false);
-
-
     const [numberOfVedios, setNumberOfVedios] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
@@ -56,18 +49,17 @@ function WaitingVideos() {
     const [videoId, setVideoId] = useState();
 
     const handleClickCancel = () => {
-        console.log("AOA");
         shopify.modal.hide('popup-modal');
 
     }
 
     const handleClickConfirm = () => {
-        console.log("WS");
         console.log(approvalType);
-        if(approvalType == 'approved'){
+
+        if (approvalType == 'approved') {
             handleApprovedUserVideo();
         }
-        else if(approvalType == 'rejected'){
+        else if (approvalType == 'rejected') {
 
         }
     }
@@ -742,6 +734,7 @@ function WaitingVideos() {
                     </Text>
                 </Box>
             </Modal>
+
         </Page>
     );
 }

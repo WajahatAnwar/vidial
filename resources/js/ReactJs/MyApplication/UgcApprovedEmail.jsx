@@ -1,3 +1,6 @@
+import backIcon from "@/ReactJs/MyApplication/imges/backIcon.png";
+import ColorWheel from "@/ReactJs/MyApplication/imges/collorWheel.png";
+import Delete from "@/ReactJs/MyApplication/imges/Delete.svg";
 import { router, usePage } from "@inertiajs/react";
 import {
     Button,
@@ -14,15 +17,11 @@ import {
     Text,
     TextField,
     Thumbnail,
-    Toast,
     Tooltip
 } from "@shopify/polaris";
 import { CircleCancelMajor, NoteMinor } from "@shopify/polaris-icons";
 import { Editor } from '@tinymce/tinymce-react';
 import { useCallback, useEffect, useRef, useState } from "react";
-import backIcon from "@/ReactJs/MyApplication/imges/backIcon.png";
-import ColorWheel from "@/ReactJs/MyApplication/imges/collorWheel.png";
-import Delete from "@/ReactJs/MyApplication/imges/Delete.svg";
 
 /**
 const urlParams = new URLSearchParams(location.search);
@@ -109,7 +108,7 @@ const UgcApprovedEmail = () => {
     );
     const uploadedFilesPreview = files.length > 0 && (
         <div style={{ padding: '0' }}>
-            <div className="delete-btn-icons"  style={{ width: "60px", marginBottom: "10px" }} >
+            <div className="delete-btn-icons" style={{ width: "60px", marginBottom: "10px" }} >
                 {files.map((file, index) => (
                     <div key={index}>
                         <Thumbnail
@@ -177,7 +176,7 @@ const UgcApprovedEmail = () => {
         formData.append('logo', logo_file)
         let saveUrl = route('save-email-settings');
         if (id) {
-            saveUrl = route('single-save-email-settings', { id: id});
+            saveUrl = route('single-save-email-settings', { id: id });
         }
 
         fetch(saveUrl, {
@@ -214,8 +213,8 @@ const UgcApprovedEmail = () => {
         let url = ''
         if (id) {
             url = route('single-fetch-email-settings', { id: id, type: 'UGC_Approved' });
-        }else{
-            url = route('fetch-email-settings', { type: 'UGC_Approved'} );
+        } else {
+            url = route('fetch-email-settings', { type: 'UGC_Approved' });
         }
         fetch(url, {
             method: "GET",
@@ -336,7 +335,7 @@ const UgcApprovedEmail = () => {
                                             {uploadedFilesPreview}
                                             {(!files.length && alreadyUploadLogo) &&
                                                 <div style={{ padding: '0' }}>
-                                                    <div className="delete-btn-icons"  style={{ width: "60px", marginBottom: "10px" }} >
+                                                    <div className="delete-btn-icons" style={{ width: "60px", marginBottom: "10px" }} >
                                                         <Thumbnail
                                                             size="medium"
                                                             alt="img"

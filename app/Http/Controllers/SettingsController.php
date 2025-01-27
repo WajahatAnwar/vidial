@@ -365,7 +365,6 @@ class SettingsController extends Controller
         }
         $data['user'] = $currentUser;
 
-
         return response()->json([
             'success' => true,
             'message' => "Fetch data successfully",

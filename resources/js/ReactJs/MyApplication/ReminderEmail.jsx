@@ -14,13 +14,11 @@ import {
     Text,
     TextField,
     Thumbnail,
-    Toast,
     Tooltip
 } from "@shopify/polaris";
 import { CircleCancelMajor, NoteMinor } from "@shopify/polaris-icons";
 import { Editor } from '@tinymce/tinymce-react';
 import { useCallback, useEffect, useRef, useState } from "react";
-import { useParams } from "react-router-dom";
 import "./css/style.css";
 import backIcon from "./imges/backIcon.png";
 import ColorWheel from "./imges/collorWheel.png";
@@ -114,7 +112,7 @@ const ReminderEmail = () => {
     );
     const uploadedFilesPreview = files.length > 0 && (
         <div style={{ padding: '0' }}>
-            <div className="delete-btn-icons"  style={{ width: "60px", marginBottom: "10px" }} >
+            <div className="delete-btn-icons" style={{ width: "60px", marginBottom: "10px" }} >
                 {files.map((file, index) => (
                     <div key={index}>
                         <Thumbnail
@@ -219,9 +217,8 @@ const ReminderEmail = () => {
     useEffect(() => {
         let url = ''
         if (id) {
-            url = route('single-fetch-email-settings', { id: id,type:'Reminder' });
-        }else
-        {
+            url = route('single-fetch-email-settings', { id: id, type: 'Reminder' });
+        } else {
             url = route('fetch-email-settings', { type: 'Reminder', ...query });
         }
         fetch(url, {
@@ -302,7 +299,7 @@ const ReminderEmail = () => {
                         >
                             <div onClick={() => {
                                 if (id) {
-                                    router.get(route('single-user-email-settings',{id:id}));
+                                    router.get(route('single-user-email-settings', { id: id }));
                                 }
                                 else {
                                     router.get(route('email', query));
@@ -343,7 +340,7 @@ const ReminderEmail = () => {
                                             {uploadedFilesPreview}
                                             {(!files.length && alreadyUploadLogo) &&
                                                 <div style={{ padding: '0' }}>
-                                                    <div className="delete-btn-icons"  style={{ width: "60px", marginBottom: "10px" }} >
+                                                    <div className="delete-btn-icons" style={{ width: "60px", marginBottom: "10px" }} >
                                                         <Thumbnail
                                                             size="medium"
                                                             alt="img"

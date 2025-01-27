@@ -16,14 +16,14 @@
 //         returnUrl: "/pricing",
 //         ...(plan?.customFields?.test && { billingProvider: "test" }),
 //       };
-  
+
 //       console.log(data);
-      
-  
+
+
 //       const subscription = await subscribe(data);
 //       const url = subscription.confirmationUrl;
 //       open(url, "_top");
-    
+
 //       if (subscription.confirmationUrl) {
 //         console.log(subscription.confirmationUrl);
 //       } else {
@@ -42,7 +42,6 @@
 //       <Layout>
 //         <Layout.Section>
 //           {/*  */}
-          
 //           <PlanCardStack
 //             cardType={PlanCardType.Highlighted}
 //             customer={customer}
@@ -68,7 +67,6 @@
 
 import AppLayout from '../MyApplication/AppLayout';
 
-import { usePage } from "@inertiajs/react";
 import {
     Badge,
     Button,
@@ -83,7 +81,6 @@ function Plans() {
 
     const [plan, setPlan] = useState([]);
     const [users, setUser] = useState([]);
-    
     useEffect(() => {
         fetch(route('get_plans'))
             .then((response) => {
@@ -113,23 +110,6 @@ function Plans() {
             });
     }, []);
 
-    function handlechangeplan(name, plan_id) {
-        fetch()
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error("Something went wrong");
-                }
-                return response.json();
-            })
-            .then((data) => {
-                if (data.success) {
-                    toggleActive();
-                }
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-    }
 
     return (
         <Page>
@@ -216,8 +196,7 @@ function Plans() {
                                     padding: "10px",
                                     borderRadius: "10px",
                                     height: "520px",
-                                    minHeight: "520px",
-                                    // minWidth:"350px"
+                                    minHeight: "520px"
                                 }}
                             >
                                 {/* @if($data.name == "Premium") */}
@@ -355,7 +334,7 @@ function Plans() {
                                 >
                                     <div
                                         style={{
-                                            background: "#F9F9F9B2", 
+                                            background: "#F9F9F9B2",
                                         }}
                                     >
                                         {
@@ -374,27 +353,21 @@ function Plans() {
                                 >
                                     <div
                                         style={{
-                                            background: "#F9F9F9B2", 
+                                            background: "#F9F9F9B2",
                                         }}
                                     >
                                         {
-                                            (data.name == 'Free') || (data.name == 'Standard')  || (data.name == 'Premium') ? '' : 'Managed Services'
+                                            (data.name == 'Free') || (data.name == 'Standard') || (data.name == 'Premium') ? '' : 'Managed Services'
                                         }
                                     </div>
                                 </p>
-                                
+
                             </div>
                         </Grid.Cell>
 
 
 
                     ))}
-
-
-                    {/*  */}
-
-
-
                     {/* <Grid.Cell columnSpan={{xs: 6, sm: 6, md: 6, lg: 3, xl: 3}}>
                                     <div style={{    border: "1px solid #C9CCCF",padding: "10px",borderRadius: "10px"}}>
                                         <Text variant="headingXl" as="h4">

@@ -1,14 +1,14 @@
 import { Banner, BlockStack, Button, ButtonGroup, Card, ColorPicker, DropZone, Frame, Grid, Icon, List, Modal, Page, Popover, RadioButton, Select, Spinner, Text, TextField, Thumbnail, Tooltip, hsbToHex } from "@shopify/polaris";
 import { CircleCancelMajor, NoteMinor } from "@shopify/polaris-icons";
 
-import { useCallback, useEffect, useRef, useState } from "react";
-import './css/editor.css';
-import ColorWheel from "./imges/collorWheel.png";
 import { router } from "@inertiajs/react";
 import { MenuItem, TextField as TextField2 } from "@mui/material";
-import WebFont from "webfontloader";
-import Delete from "./imges/Delete.svg";
 import { useAppBridge } from "@shopify/app-bridge-react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import WebFont from "webfontloader";
+import './css/editor.css';
+import ColorWheel from "./imges/collorWheel.png";
+import Delete from "./imges/Delete.svg";
 
 
 
@@ -1393,7 +1393,7 @@ const Settings = () => {
                                                 alignItems: "center",
                                                 justifyContent: "space-between",
                                             }}
-                                            className="polaris-black-btn-global"
+                                            className="polaris-black-btn-global flex"
                                         >
                                             <div>
                                                 <Text variant="headingLg" as="h5">
@@ -1440,6 +1440,7 @@ const Settings = () => {
 
                                             </div>
                                         </div>
+                                        <br></br>
                                         <div
                                             style={{
                                                 display: "flex",
@@ -1449,7 +1450,6 @@ const Settings = () => {
                                             className="polaris-black-btn-global"
                                         >
                                             <div>
-
                                                 <p
                                                     style={{
                                                         marginTop: "5px",

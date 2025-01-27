@@ -1,3 +1,6 @@
+import '@/ReactJs/MyApplication/css/editor.css';
+import ColorWheel from "@/ReactJs/MyApplication/imges/collorWheel.png";
+import DellIcon from "@/ReactJs/MyApplication/imges/dellIcon.png";
 import { router, usePage } from "@inertiajs/react";
 import {
     Banner,
@@ -18,14 +21,10 @@ import {
     Text,
     TextField,
     Thumbnail,
-    Toast,
     hsbToHex
 } from "@shopify/polaris";
-import { CircleCancelMajor, NoteMinor, TickMinor } from "@shopify/polaris-icons";
+import { CircleCancelMajor, NoteMinor } from "@shopify/polaris-icons";
 import { useCallback, useEffect, useState } from "react";
-import '@/ReactJs/MyApplication/css/editor.css';
-import ColorWheel from "@/ReactJs/MyApplication/imges/collorWheel.png";
-import DellIcon from "@/ReactJs/MyApplication/imges/dellIcon.png";
 /**
 const urlParams = new URLSearchParams(location.search);
 const shopParam = urlParams.get('shop');

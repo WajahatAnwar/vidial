@@ -1,14 +1,13 @@
-import { useCallback, useEffect, useState } from 'react';
+import { router } from "@inertiajs/react";
 import { Button, Card, Collapsible, Divider, Page, Text } from '@shopify/polaris';
-import { router, usePage } from "@inertiajs/react";
+import { useCallback, useEffect, useState } from 'react';
 
 import Ticker from './Ticker';
 // import DownIcon from '../components/imges/downIcon.svg';
-import DownIcon from '@/ReactJs/MyApplication/imges/DownIcon.svg';
 import RightIcon from '@/ReactJs/MyApplication/imges/righticon.png';
 function GetStarted() {
 
-  
+
 
   const [open, setOpen] = useState(true);
   const [faqOne, setFaqOne] = useState(true);

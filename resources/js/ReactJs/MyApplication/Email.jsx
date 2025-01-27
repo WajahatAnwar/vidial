@@ -1,9 +1,8 @@
-import { router, usePage } from "@inertiajs/react";
+import { router } from "@inertiajs/react";
 import {
     Banner,
     BlockStack,
     Button,
-    ButtonGroup,
     Card,
     Collapsible,
     DropZone,
@@ -15,20 +14,15 @@ import {
     Spinner,
     Text,
     TextField,
-    Thumbnail,
-    Toast
-
+    Thumbnail
 } from "@shopify/polaris";
-import { CircleCancelMajor, NoteMinor, TickMinor,ViewMinor, HideMinor,CancelMinor,DeleteMajor} from "@shopify/polaris-icons";
+import { CircleCancelMajor, HideMinor, NoteMinor, ViewMinor } from "@shopify/polaris-icons";
 import { useCallback, useEffect, useState } from "react";
-import Ticker from "./Ticker";
 import Toggle from "./Toggle";
 import './css/editor.css';
 import ChevronUp from "./imges/ChevronUpMinor.png";
 import arrowRight from "./imges/arrowRight.png";
 import ColorWheel from "./imges/collorWheel.png";
-import { green } from "@mui/material/colors";
-import { useAppBridge } from "@shopify/app-bridge-react";
 
 
 const Email = () => {
@@ -396,10 +390,10 @@ const Email = () => {
     const handleDeleteKlavio = () => {
 
         setKlavioError(false);
-        
+
 
         const formData = new FormData();
-    
+
         fetch(route('delete.klavio'), {
             body: formData,
             method: 'POST'
@@ -916,7 +910,6 @@ const Email = () => {
         })
     ) : null;
 
-    
 
     const handleRemoveAlreadyUploadedLogo = () => {
         setLogoImage('');
