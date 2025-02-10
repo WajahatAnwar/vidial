@@ -41,27 +41,27 @@ class ThanksMailjob implements ShouldQueue
         $mgClient = Mailgun::create(
             env('MAILGUN_SECRET'), // Mailgun API Key
             env('MAILGUN_ENDPOINT')
-       );
-       $domain = env('MAILGUN_DOMAIN');
-       Log::info($this->details['url']);
-       $params = array(
-        'from' => env('MAIL_USERNAME'),
-        'to' => $this->details['mail'],
-        'subject' => 'New Video on The Store',
-        // 'template' => $this->details['locale']=='en' ? 'inform_merchant_new_ugc_uploaded' : "inform_merchant_new_ugc_uploaded_".$this->details['locale'],
-        'template' => 'inform_merchant_new_ugc_uploaded',
-        // 'v:storename' => $this->details['url'],
-        // 'v:url' => $this->details['url'],
-        'h:X-Mailgun-Variables' => json_encode([
-            'url' => $this->details['url'],
-        ]),
-        'o:tracking-clicks' => 'no',
-    );
-    logger('params');
-    logger(json_encode($params));
+        );
+        $domain = env('MAILGUN_DOMAIN');
+        //    Log::info($this->details['url']);
+        $params = array(
+            'from' => env('MAIL_USERNAME'),
+            'to' => $this->details['mail'],
+            'subject' => 'New Video on The Store',
+            // 'template' => $this->details['locale']=='en' ? 'inform_merchant_new_ugc_uploaded' : "inform_merchant_new_ugc_uploaded_".$this->details['locale'],
+            'template' => 'inform_merchant_new_ugc_uploaded',
+            // 'v:storename' => $this->details['url'],
+            // 'v:url' => $this->details['url'],
+            'h:X-Mailgun-Variables' => json_encode([
+                'url' => $this->details['url'],
+            ]),
+            'o:tracking-clicks' => 'no',
+        );
+        // logger('params');
+        // logger(json_encode($params));
 
-    $mgClient->messages()->send($domain, $params);
-  
+        $mgClient->messages()->send($domain, $params);
+
         // Mail::to($this->details['mail'])->send(new thanksyouMail($this->details));
     }
 }

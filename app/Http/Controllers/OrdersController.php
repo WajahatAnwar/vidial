@@ -125,17 +125,15 @@ class OrdersController extends Controller
         return 'Review Send Sucessfully';
     }
 
-    public function get_plans()
+    public function getPlans()
     {
-        $all_plans = Plan::
-        where('id', '>', 12)->
-        get();
+        $all_plans = Plan::where('id', '>', 12)->where('status', '=', '1')->get();
 
         return response()->json([
             'success' => true,
             'message' => 'Fetch Plans Successfully',
             'data' => $all_plans,
-            'users' =>  Auth::user()
+            'users' => Auth::user()
         ]);
     }
 }

@@ -658,6 +658,7 @@ if (!function_exists('sendMail')) {
                 'to' => $to,
                 'subject' => $subject,
                 'html' => $html,
+                'o:tracking-clicks' => 'no',
             ];
 
             $mgClient->messages()->send($domain, $params);

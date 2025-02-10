@@ -1,5 +1,6 @@
 <?php
 
+use App\Console\Commands\EmailSendToCustomerCron;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
@@ -69,10 +70,8 @@ Route::get('redirect_back', function () {
     return redirect()->back();
 });
 
-
-
 Route::get('/cron', function () {
-    Artisan::call('schedule:run');
+    Artisan::call('emailtocustomer:cron');
 });
 
 Route::get('send_test_email', [OrdersController::class, 'sendtest_email'])->name('send_test_email')->middleware(['verify.shopify']);
@@ -81,7 +80,7 @@ Route::get('send_customers', [OrdersController::class, 'customers_send_email'])-
 
 Route::get('review_updated/{id}', [OrdersController::class, 'review_updated'])->name('review_updated');
 
-Route::get('get_plans', [OrdersController::class, 'get_plans'])->name('get_plans')->middleware(['verify.shopify']);
+Route::get('get-plans', [OrdersController::class, 'getPlans'])->name('get-plans')->middleware(['verify.shopify']);
 Route::get('testEmail', [AdminController::class, 'testEmail']);
 
 Route::get('s/{handle}', [SettingsController::class, 'landingPage2'])->withoutMiddleware([IframeProtection::class]);
@@ -92,7 +91,7 @@ Route::get('google-login', [GoogleDriveController::class, 'googleLogin'])->name(
 
 Route::get('gd-success', [GoogleDriveController::class, 'gdSuccess'])->name('google.success');
 
-//PUBLIC END ############################################################################################
+//PUBLIC END
 
 //NON EMBEDDED
 Route::group(['middleware' => ['auth']], function () {
@@ -201,6 +200,8 @@ Route::group(['middleware' => ['verify.shopify', 'billable', 'update.plan']], fu
     Route::post('removeLogo', [SettingsController::class, 'removeLogo'])->name('removeLogo');
     Route::post('fetchCurrentUser', [SettingsController::class, 'fetchCurrentUser'])->name('fetchCurrentUser');
     Route::get('curent-user', [SettingsController::class, 'currentUser'])->name('currentUser');
+    Route::get('update-version', [SettingsController::class, 'updateVersion'])->name('update-version');
+
     Route::get('visit-landing', [SettingsController::class, 'visitLandingPage'])->name('visitLandingPage');
 
     Route::post('save-email-settings', [SettingsController::class, 'saveEmailSettings'])->name('save-email-settings');

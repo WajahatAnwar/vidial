@@ -272,6 +272,7 @@ const Email = () => {
     const [successToastVideo, setSuccessToastVideo] = useState("");
     const [favIcon, setFavIcon] = useState(null);
     const [planName, setPlanName] = useState(null);
+    const [plan, setPlan] = useState([]);
     const [favIconPreview, setFavIconPreview] = useState(null);
 
     const [gdError, setGdError] = useState(false);
@@ -553,6 +554,7 @@ const Email = () => {
                 const data = await response.json();
                 if (data.success) {
                     setPlanName(data.data.plan_name)
+                    setPlan(data.data.plan)
                     setFavIconPreview(data.data.fav_icon ?? null);
                     data.data.email_creds ? setterEmailCreds(data) : ''
                     data.data.gd_creds ? setterGdCreds(data) : setGDConnected(false)
@@ -1544,7 +1546,8 @@ const Email = () => {
 
                                     {
 
-                                        (planName == 'Premium' || planName == 'Enterprise' || planName == 'Standard' || planName == 'Free') ?
+                                        // (planName == 'Premium' || planName == 'Enterprise' || planName == 'Standard' || planName == 'Free') ?
+                                        plan.klaviyo_access ?
                                             <>
                                                 {/********* Klavio  *********/}
                                                 <Card sectioned>
@@ -1607,20 +1610,20 @@ const Email = () => {
 
                                                         <div style={{ marginTop: '20px' }} className="polaris-black-btn-global">
                                                             {/* {klavioConnected ? (
-        // <Button info>
-        //   <div style={{ display: 'flex' }}>
-        //     <div>Connected</div>
-        //     <div>
-        //       <Icon source={TickMinor} color="base" />
-        //     </div>
-        //   </div>
-        // </Button>
-        <Button primary onClick={handleConnectKlavio}>
-        Connect
-      </Button>  
+                                                                // <Button info>
+                                                                //   <div style={{ display: 'flex' }}>
+                                                                //     <div>Connected</div>
+                                                                //     <div>
+                                                                //       <Icon source={TickMinor} color="base" />
+                                                                //     </div>
+                                                                //   </div>
+                                                                // </Button>
+                                                                <Button primary onClick={handleConnectKlavio}>
+                                                                Connect
+                                                            </Button>  
 
 
-      ) : ( */}
+                                                            ) : ( */}
 
 
                                                             <div style={{ display: "flex", alignItems: "center", }}>
@@ -1634,7 +1637,7 @@ const Email = () => {
                                                                                 style={{ marginRight: "10px" }}
                                                                             >
                                                                                 {/* <div style={{ display: "flex" }}>
-    <div> */}
+                                                                                <div> */}
                                                                                 Disconnect
                                                                                 {/* </div> */}
                                                                             </Button>
@@ -1652,18 +1655,18 @@ const Email = () => {
                                                                 {/* {klavioConnected ?
                                                                 <div style={{marginLeft:"20px",cursor: 'pointer'}} onClick={handleDeleteKlavio}   > */}
                                                                 {/* <Icon 
-    source={DeleteMajor} 
-    color="critical" // Red color for a delete action
-    accessibilityLabel="Delete Credentials"
-    
-    style={{ cursor: 'pointer', marginLeft: '10px' }}
-/> */}
+                                                                    source={DeleteMajor} 
+                                                                    color="critical" // Red color for a delete action
+                                                                    accessibilityLabel="Delete Credentials"
+                                                                    
+                                                                    style={{ cursor: 'pointer', marginLeft: '10px' }}
+                                                                /> */}
                                                                 {/* <Button primary  style={{marginRight: "10px" }} >
                                                                     Disconnet
                                                                 </Button> */}
 
                                                                 {/* </div> : ""
-} */}
+                                                                } */}
 
 
                                                             </div>

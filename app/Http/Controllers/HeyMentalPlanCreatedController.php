@@ -12,12 +12,6 @@ class HeyMentalPlanCreatedController extends Controller
     {
         $calculatedSignature = hash_hmac('sha256', $data, $secret);
 
-        // Log calculated signature for debugging
-        Log::debug('Calculated signature', [
-            'calculated_signature' => $calculatedSignature,
-            'expected_signature' => $expectedSignature,
-        ]);
-
         return hash_equals($calculatedSignature, $expectedSignature);
     }
     public function planCreated(Request $request)
@@ -28,7 +22,6 @@ class HeyMentalPlanCreatedController extends Controller
             'body' => $request->getContent(),
         ]);
 
-        // Replace these with your actual secret and headers
         $secret = env('REACT_APP_MANTLE_APP_API_KEY');
         $timestamp = $request->header('X-Timestamp');
         $expectedSignature = $request->header('X-Mantle-Hmac-SHA256');
@@ -55,15 +48,15 @@ class HeyMentalPlanCreatedController extends Controller
         }
 
         // Log successful verification
-        Log::info('Webhook signature verified successfully');
+        // Log::info('Webhook signature verified successfully');
 
         // Process the webhook payload
         $payload = json_decode($body, true);
 
         // Log the payload for debugging
-        Log::info('Webhook payload processed', [
-            'payload' => $payload,
-        ]);
+        // Log::info('Webhook payload processed', [
+        //     'payload' => $payload,
+        // ]);
 
 
         if (!empty($payload['customFields']['on_install']) && $payload['customFields']['on_install'] == 1) {
@@ -78,31 +71,45 @@ class HeyMentalPlanCreatedController extends Controller
             'interval' => $payload['interval'] ?? null,
             'terms' => "Terms " ?? null,
             'trial_days' => $payload['trialDays'] ?? null,
+            'description' => $payload['customFields']['feature_1'] ?? null,
+            'description_1' => $payload['customFields']['feature_2'] ?? null,
+            'description_2' => $payload['customFields']['feature_3'] ?? null,
+            'description_3' => $payload['customFields']['feature_4'] ?? null,
+            'description_4' => $payload['customFields']['feature_5'] ?? null,
+            'klaviyo_access' => $payload['customFields']['klaviyo_access'] ?? 0,
+            'status' => $payload['public'] ?? 0,
+
             'created_at' => $payload['createdAt'] ?? null,
             'updated_at' => $payload['updatedAt'] ?? null,
             'ugc_video_count' => $payload['customFields']['ugc_video_count'] ?? 0,
             'ugc_email_count' => $payload['customFields']['ugc_email_count'] ?? 0,
-            'description' => $payload['description'] ?? null,
             'type' => $payload['customFields']['type'] ?? 0,
             'capped_amount' => $payload['customFields']['capped_amount'] ?? 0.01,
             'on_install' => $payload['customFields']['on_install'] ?? 0,
-            'test' => $payload['customFields']['test'] ?? 0,
+            // 'test' => $payload['customFields']['test'] ?? 0,
         ]);
         return response()->json(['message' => 'Webhook received and data stored'], 200);
 
     }
     public function planUpdated(Request $request)
     {
+        // Log::info('Webhook update received');
+        // Log::info(json_encode($request->getContent(), JSON_PRETTY_PRINT));
+        // Log::info(json_encode($request->headers->all(), JSON_PRETTY_PRINT));
+
         $secret = env('REACT_APP_MANTLE_APP_API_KEY');
         $timestamp = $request->header('X-Timestamp');
         $expectedSignature = $request->header('X-Mantle-Hmac-SHA256');
         $body = $request->getContent();
         $data = $timestamp . "." . $body;
         if (!$this->verifySignature($secret, $data, $expectedSignature)) {
+            Log::info("We Found an invalid signature");
             return response()->json(['error' => 'Invalid signature'], 401);
         }
 
         $payload = json_decode($body, true);
+
+        // Log::info($payload);
 
         if (!empty($payload['customFields']['on_install']) && $payload['customFields']['on_install'] == 1) {
             Plan::where('on_install', 1)->update(['on_install' => 0]);
@@ -119,11 +126,17 @@ class HeyMentalPlanCreatedController extends Controller
                 'updated_at' => $payload['updatedAt'] ?? null,
                 'ugc_video_count' => $payload['customFields']['ugc_video_count'] ?? 0,
                 'ugc_email_count' => $payload['customFields']['ugc_email_count'] ?? 0,
-                'description' => $payload['description'] ?? null,
+                'description' => $payload['customFields']['feature_1'] ?? null,
+                'description_1' => $payload['customFields']['feature_2'] ?? null,
+                'description_2' => $payload['customFields']['feature_3'] ?? null,
+                'description_3' => $payload['customFields']['feature_4'] ?? null,
+                'description_4' => $payload['customFields']['feature_5'] ?? null,
+                'klaviyo_access' => $payload['customFields']['klaviyo_access'] ?? 0,
+                'status' => $payload['public'] ?? 0,
                 'type' => $payload['customFields']['type'] ?? 0,
                 'capped_amount' => $payload['customFields']['capped_amount'] ?? 0.01,
                 'on_install' => $payload['customFields']['on_install'] ?? 0,
-                'test' => $payload['customFields']['test'] ?? 0,
+                // 'test' => $payload['customFields']['test'] ?? 0,
                 'terms' => "Terms " ?? null,
 
             ]

@@ -52,7 +52,6 @@ class SettingsController extends Controller
 
     public function change_pop_up_type(Request $request)
     {
-        // return $request;
         $current_user = Auth::user();
         $shop = User::find($current_user->id);
 
@@ -116,6 +115,7 @@ class SettingsController extends Controller
         $data['klavio'] = $store->klavio;
         $data['plan_id'] = $store->plan_id;
         $data['plan_name'] = $plan->name;
+        $data['plan'] = $plan;
         return response()->json([
             'success' => true,
             'message' => "Settings get Successfully",
@@ -375,11 +375,27 @@ class SettingsController extends Controller
     public function currentUser(Request $request)
     {
         $currentUser = Auth::user();
-        $data['user'] = $currentUser;
+
+        $user = User::find($currentUser->id);
+
+        $data['user'] = $user;
         return response()->json([
             'success' => true,
             'message' => "Fetch data successfully",
             'data' => $data
+        ]);
+    }
+
+
+    public function updateVersion(Request $request)
+    {
+        $user = Auth::user();
+        $user->version_update = true;
+        $user->save();
+        return response()->json([
+            'success' => true,
+            'message' => "Version Updated",
+            'data' => null
         ]);
     }
 

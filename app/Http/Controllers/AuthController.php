@@ -249,7 +249,7 @@ class AuthController extends Controller
         if (isset($createDiscountCode['body']['data']['discountCodeBasicCreate']['codeDiscountNode']['codeDiscount']['codes']['nodes'])) {
 
             $dicount_code = $createDiscountCode['body']['data']['discountCodeBasicCreate']['codeDiscountNode']['codeDiscount']['codes']['nodes'];
-            Log::info(json_encode($dicount_code, JSON_PRETTY_PRINT));
+            // Log::info(json_encode($dicount_code, JSON_PRETTY_PRINT));
         } else {
             Log::info(json_encode($createDiscountCode['body'], JSON_PRETTY_PRINT));
         }

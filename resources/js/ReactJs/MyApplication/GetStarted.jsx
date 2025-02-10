@@ -1,5 +1,5 @@
 import { router } from "@inertiajs/react";
-import { Button, Card, Collapsible, Divider, Page, Text } from '@shopify/polaris';
+import { Banner, Button, Card, Collapsible, Divider, Page, Text } from '@shopify/polaris';
 import { useCallback, useEffect, useState } from 'react';
 
 import Ticker from './Ticker';
@@ -8,6 +8,7 @@ import RightIcon from '@/ReactJs/MyApplication/imges/righticon.png';
 function GetStarted() {
 
 
+  const app_url = 'https://phpstack-953879-3439374.cloudwaysapps.com';
 
   const [open, setOpen] = useState(true);
   const [faqOne, setFaqOne] = useState(true);
@@ -43,17 +44,58 @@ function GetStarted() {
 
   };
 
+  const handleVersionUpdate = () => {
+    let go_to_url = `${app_url}/authenticate?shop=${user.name}`;
+    window.location.href = go_to_url;
+
+    setTimeout(() => {
+      fetch(route('update-version'))
+        .then(response => response.json())
+        .then(data => {
+          console.log('Version Updated:', data);
+        })
+        .catch(error => console.error('Error updating version:', error));
+    }, 3000);
+
+
+  };
+
   useEffect(() => {
     fetch(route('currentUser')).then((response) => response.json()).then((data) => {
       setBlockCheckbox(data.data.user.landing_page_visited);
       setBlockConversion(data.data.user.landing_page_visited);
       setUser(data.data.user);
     });
-  });
+  }, []);
   return (
     <div>
       <Page >
         <Ticker></Ticker>
+
+        {
+          user && user.version_update === 0 && (
+            <div className="setting_banner" style={{ marginTop: "20px" }}>
+              <Banner
+                title={`Update Available 🚀`}
+                tone="critical"
+                onDismiss={() => { }}
+              >
+                <p>A new version is ready! Update now for the latest features and improvements.📢</p>
+                <a style={{ textDecoration: "none" }} href="#">
+                  <button
+                    onClick={handleVersionUpdate}
+                    style={{
+                      cursor: 'pointer',
+                      display: "flex", padding: "7px 10px",
+                      marginTop: "20px", background: "rgba(255, 255, 255, 0.01)", border: "1px solid #95c9b4", borderRadius: "4px"
+                    }}>
+                    <span style={{ marginLeft: "10px" }}>Update Now</span>
+                  </button>
+                </a>
+              </Banner>
+            </div>
+          )
+        }
 
       </Page>
       <Page title="Get Started" subtitle='Get started by following the instructions below'>

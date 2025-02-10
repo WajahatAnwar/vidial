@@ -24,6 +24,7 @@ use App\Jobs\UploadVideoGoogleDrive;
 use Illuminate\Support\Facades\Crypt;
 use App\Models\Customer;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class VideoController extends Controller
 {
@@ -64,11 +65,115 @@ class VideoController extends Controller
     }
     /****** operation on Videos  ********/
 
-    public function videoOperationOld(Request $request){
-        dd($request->all());
+    public function videoOperation(Request $request)
+    {
+        DB::beginTransaction();
+
+        try {
+            $user = Auth::user();
+            $remainingVideos = $user->remaining_videos ?? $user->ugc_video_count;
+            $remainingEmails = $user->remaining_email;
+
+            if ($remainingVideos <= 0) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'You have reached the limit of videos allowed in your current plan. To accept more videos, please upgrade your plan.',
+                    'data' => ['remaining_videos' => 1]
+                ], 403);
+            }
+
+            if ($remainingEmails <= 0) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'You have reached the limit of emails allowed in your current plan. To accept more emails, please upgrade your plan.',
+                    'data' => ['remaining_emails' => 1]
+                ], 403);
+            }
+
+            $video = Video::with('order')
+                ->where('user_id', $user->id)
+                ->where('id', $request->video_id)
+                ->where('status', '!=', config('constants.video_approved'))
+                ->firstOrFail();
+
+            $video->update([
+                'approved_video_type' => $request->type == 'star_rating' ? 'star_rating' : null,
+                'status' => config('constants.video_approved')
+            ]);
+
+            $discount_code = $this->createDiscountCode($request->type);
+
+            $parts = explode('/', $discount_code[0]->id);
+            $code_id = end($parts);
+
+            $code = $discount_code[0]->code;
+
+            $templateDetails = [
+                'amount' => $user->settings->{$request->type == 'star_rating' ? 'star_credit' : 'store_credit'},
+                'type' => $request->type == 'star_rating' ? 'UGC_Star_Approved' : 'UGC_Approved',
+                'view' => $request->type == 'star_rating' ? 'emails.ugc_star_approved' : 'emails.ugc_approved',
+                'user_id' => $user->id,
+                'mail' => $video->email,
+                'name' => optional($video->order)->customer_name,
+                'storename' => $user->store_name,
+                'url' => 'https://' . $user->name,
+                'discount_code' => $code,
+                'reason_decline' => ''
+            ];
+
+            $klavio = KlavioCredential::where('user_id', $user->id)->first();
+            $job = $klavio
+                ? new KlavioEmailJob($klavio->api_key, $klavio->email, null, $templateDetails, $video->id)
+                : new EmailTemplateJob($templateDetails);
+            dispatch($job);
+
+            $logDetails = [
+                'type' => "EMAIL",
+                'send_to' => $video->email,
+                'user_id' => $user->id,
+                'customer_name' => optional($video->order)->customer_name,
+                'customer_email' => $video->email,
+                'email_type' => config('constants.video_approved'),
+            ];
+            update_log_file($logDetails);
+            SendMantleEventJob::dispatch($user, config('constants.video_approved'), $logDetails);
+
+            // Update user's remaining videos and emails
+            $user->remaining_videos -= 1;
+            $user->remaining_email -= 1;
+
+            // Save discount history
+            Discount::create([
+                'discount_code' => $code,
+                'discount_id' => $code_id,
+                'video_id' => $video->id,
+                'discount_meta' => json_encode($discount_code)
+            ]);
+
+            // Upload video to Google Drive if access token exists
+            if ($user->gd_access_token) {
+                dispatch(new UploadVideoGoogleDrive($user, $video->video_link, $video->path));
+            }
+
+            DB::commit(); // Commit the transaction if everything is successful
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Status Changed Successfully',
+                'data' => $code,
+            ]);
+
+        } catch (\Exception $e) {
+            DB::rollBack(); // Roll back the transaction in case of an error
+            Log::error('Video Operation Error: ' . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Something went wrong. Please try again later.',
+            ], 500);
+        }
     }
 
-    public function videoOperation(Request $request)
+    public function videoOperationOLD(Request $request)
     {
         $user = User::find(Auth::user()->id);
         if ($user->remaining_videos === NULL || $user->remaining_videos == '') {
@@ -78,7 +183,7 @@ class VideoController extends Controller
         } else {
             $remainingVideos = $user->remaining_videos;
         }
-        $remaining_email = $user->remaining_email;
+        $remainingEmail = $user->remaining_email;
         // remaining video
         if ($remainingVideos <= 0) {
             $data['remaining_Videos'] = 1;
@@ -89,7 +194,7 @@ class VideoController extends Controller
                 'data' => $data
             ]);
         }
-        if ($remaining_email <= 0) {
+        if ($remainingEmail <= 0) {
             $data['remaining_emails'] = 1;
             return response()->json([
                 'success' => false,
@@ -145,7 +250,7 @@ class VideoController extends Controller
             SendMantleEventJob::dispatch($user, config('constants.video_approved'), $log_details);
 
             $updateUser = User::find(Auth::user()->id);
-            $updateUser->remaining_email = $remaining_email - 1;
+            $updateUser->remaining_email = $remainingEmail - 1;
             $updateUser->remaining_videos = $remainingVideos - 1;
             $updateUser->save();
 
@@ -180,37 +285,42 @@ class VideoController extends Controller
     /******** reject video *****/
     public function rejectVideo(Request $request)
     {
-
         $user = User::find(Auth::user()->id);
         $remainingVideos = $user->remaining_videos == null ? $user->remaining_videos : $user->ugc_video_count;
-        $remaining_email = $user->remaining_email;
-        if ($remaining_email <= 0) {
+        $remainingEmail = $user->remaining_email;
+
+        if ($remainingEmail <= 0) {
             return response()->json([
                 'success' => false,
                 'message' => 'Email Limitation has been expired',
             ]);
         }
+
         $videos = video::with('order')->where('user_id', Auth::user()->id)
             ->where('id', $request->video_id)
             ->where('status', '!=', config('constants.video_approved'))
             ->first();
+
         if ($videos) {
             $videos->status = config('constants.video_reject');
             $videos->save();
+
             $email_parts = explode('@', $videos->email);
             $name = $email_parts[0];
             $customerName = optional($videos->order)->customer_name;
 
-            $details = [
-                'rejectionReason' => $request->reason,
-                'mail' => $videos->email,
-                'name' => $name,
-                'storename' => Auth::user()->store_name,
-                'storeteam' => Auth::user()->name,
-                'url' => env('APP_URL') . "/landingPage" . "/" . Auth::user()->settings->locale . "?store=" . Auth::user()->name,
-                'locale' => $user->settings->locale,
-            ];
+            // $details = [
+            //     'rejectionReason' => $request->reason,
+            //     'mail' => $videos->email,
+            //     'name' => $name,
+            //     'storename' => Auth::user()->store_name,
+            //     'storeteam' => Auth::user()->name,
+            //     'url' => env('APP_URL') . "/landingPage" . "/" . Auth::user()->settings->locale . "?store=" . Auth::user()->name,
+            //     'locale' => $user->settings->locale,
+            // ];
+
             //dispatch(new NotApprovedMailjob($details));
+
             $temlateDetails['user_id'] = Auth::user()->id;
             $temlateDetails['type'] = 'UGC_Declined';
             $temlateDetails['view'] = 'emails.ugc_declined';
@@ -237,11 +347,13 @@ class VideoController extends Controller
                 'email_type' => config('constants.video_reject'),
             ];
             update_log_file($log_details);
+
             SendMantleEventJob::dispatch($user, config('constants.video_reject'), $log_details);
 
             //dispatch(new videoMail($details));
+
             $updateUser = User::find(Auth::user()->id);
-            $updateUser->remaining_email = $remaining_email - 1;
+            $updateUser->remaining_email = $remainingEmail - 1;
             $updateUser->remaining_videos = $remainingVideos - 1;
             $updateUser->save();
 
@@ -564,6 +676,7 @@ class VideoController extends Controller
                   title
                   codes(first: 10) {
                     nodes {
+                      id
                       code
                     }
                   }
@@ -633,7 +746,6 @@ class VideoController extends Controller
         ]);
         if (isset($createDiscountCode['body']['data']['discountCodeBasicCreate']['codeDiscountNode']['codeDiscount']['codes']['nodes'])) {
             $dicount_code = $createDiscountCode['body']['data']['discountCodeBasicCreate']['codeDiscountNode']['codeDiscount']['codes']['nodes'];
-            Log::info(json_encode($dicount_code, JSON_PRETTY_PRINT));
         } else {
             Log::info(json_encode($createDiscountCode['body'], JSON_PRETTY_PRINT));
         }

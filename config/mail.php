@@ -51,6 +51,9 @@ return [
 
         'mailgun' => [
             'transport' => 'mailgun',
+            'options' => [
+                'o:tracking-clicks' => 'no',
+            ],
         ],
 
         'postmark' => [

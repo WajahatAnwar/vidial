@@ -1,7 +1,5 @@
-import { Banner, BlockStack, Button, ButtonGroup, Card, ColorPicker, DropZone, Frame, Grid, Icon, List, Modal, Page, Popover, RadioButton, Select, Spinner, Text, TextField, Thumbnail, Tooltip, hsbToHex } from "@shopify/polaris";
+import { Banner, BlockStack, Button, Card, ColorPicker, DropZone, Frame, Grid, Icon, List, Page, Popover, RadioButton, Select, Spinner, Text, TextField, Thumbnail, Tooltip, hsbToHex } from "@shopify/polaris";
 import { CircleCancelMajor, NoteMinor } from "@shopify/polaris-icons";
-
-import { router } from "@inertiajs/react";
 import { MenuItem, TextField as TextField2 } from "@mui/material";
 import { useAppBridge } from "@shopify/app-bridge-react";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -9,166 +7,11 @@ import WebFont from "webfontloader";
 import './css/editor.css';
 import ColorWheel from "./imges/collorWheel.png";
 import Delete from "./imges/Delete.svg";
-
-
-
 const Settings = () => {
+
     const shopify = useAppBridge();
-
-    const [storeHandle, setStoreHandle] = useState(null);
-    const [approvedStoreHandle, setApprovedStoreHandle] = useState(null);
-    const [isHandleAvailable, setIsHandleAvailable] = useState(true);
-    const [storeHandleState, setStoreHandleState] = useState(false);
-    const [storeHandleResponse, setStoreHandleResponse] = useState(null);
-    const [emailCredsError, setEmailCredsError] = useState(false);
-    const [emailCredsMsg, setEmailCredsMsg] = useState('');
-    const [emailCredsToggle, setEmailCredsToggle] = useState(false);
-    const [gDConnected, setGDConnected] = useState(true);
-    const [klavioConnected, setKlavioConnected] = useState(true);
-    const [planName, setPlanName] = useState(null);
-
-    const [isEmailActive, setIsEmailActive] = useState(false);
-    const handleIsEmailActive = useCallback(
-        (e) => setIsEmailActive(e),
-        [],
-    );
-    const [activeTootlTip, setActiveTootlTip] = useState(false);
-    const [activeRejectionConfirmModel, setActiveRejectionConfirmModel] =
-        useState(false);
-    const handleChangeRejectionConfirmModel = useCallback(
-        () => setActiveRejectionConfirmModel(!activeRejectionConfirmModel),
-        [activeRejectionConfirmModel]
-    );
-
-    const [open, setOpen] = useState(true);
-    const [successMsg, setSuccessMsg] = useState('');
-    const handleToggle = useCallback(() => setOpen((open) => !open), []);
-
-    const [videoTitle, setVideoTitle] = useState("");
-    const [instructionSubTitle, setInstructionSubTitle] = useState("Please follow the instructions below:");
-    const handleDropzoneText = useCallback((newValue) => setVideoTitle(newValue), []);
-    const [senderEmail, setSenderEmail] = useState("");
-    const [gdApi, setGdApi] = useState("");
-    const [gdClientId, setGdClientId] = useState("");
-    const [gdSecretKey, setGdSecretKey] = useState("");
-    const [gdFolder, setGdFolder] = useState("");
-
-    const [klavioApi, setKlavioApi] = useState("");
-    const [klavioEmail, setKlavioEmail] = useState("");
-
-
-    const handleSenderApi = useCallback((newValue) => setGdApi(newValue), []);
-    const handleSenderClientId = useCallback((newValue) => setGdClientId(newValue), []);
-    const handleSenderSecKey = useCallback((newValue) => setGdSecretKey(newValue), []);
-    const handleSenderFolder = useCallback((newValue) => setGdFolder(newValue), []);
-    const handleSenderEmail = useCallback((newValue) => setSenderEmail(newValue), []);
-    const handleKlavioApi = useCallback((newValue) => setKlavioApi(newValue), []);
-    const handleKlavioEmail = useCallback((newValue) => setKlavioEmail(newValue), []);
-
-
-    const [mailgunAPI, setMailgunAPI] = useState("");
-    const [mailgunDomain, setMailgunDomain] = useState("");
-    const [mailgunEndpoint, setMailgunEndpoint] = useState("");
-
-
-    const handleMailgunAPI = useCallback((newValue) => setMailgunAPI(newValue), []);
-    const handleMailgunDomain = useCallback((newValue) => setMailgunDomain(newValue), []);
-    const handleMailgunEndPoint = useCallback((newValue) => setMailgunEndpoint(newValue), []);
-    const [title, setTitle] = useState("");
-    const handleTitle = (event) => {
-        console.log(event.target.value)
-        setTitle(event.target.value);
-    }
-
-    const handleInstruction = useCallback((newValue) => setInstructionSubTitle(newValue), []);
-    const [buttonText, setButtonText] = useState(null);
-    const handleButtonText = useCallback((newValue) => setButtonText(newValue), []);
-    const [active, setActive] = useState(false);
-    const [error, setError] = useState(false);
-    const toggleActive = useCallback(() => setActive((active) => !active), []);
-    const [toggled, setToggled] = useState(true);
-    const [isLoading, setIsLoading] = useState(false);
-    const [storeCurrency, setStoreCurrency] = useState("");
-    const [errorMessages, setErorrMessages] = useState([]);
-    const [currentLang, setCurrentLang] = useState("en");
-    const [isSettingSave, setIsSettingSave] = useState("");
-    const [emailTemplateButton, setEmailTemplateButton] = useState(true);
-    const [files, setFiles] = useState([]);
-    const [alreadyUploadLogo, setAlreadyUploadedLogo] = useState('');
-
-
-
-    function handleChange() {
-        let isChecked;
-        if (toggled == "false" || toggled == false) {
-            isChecked = false;
-        } else if (toggled == "true" || toggled == true) {
-            isChecked = true;
-        }
-        setToggled(!isChecked);
-    }
-
-    // remove inpirational video
-
-    const removeInspirationalVideo = () => {
-        var formData = {};
-        fetch(route('removeInspirationalVideo'), {
-            method: "post",
-
-            body: formData,
-        })
-            .then((response) => response.json())
-            .then((data) => {
-                if (data.success) {
-                    setPreviewVedio("")
-                    setPreviewVedioHide(false);
-                    setIsSettingSave(new Date().getSeconds());
-                } else {
-                }
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-    }
-    // remove inpirational video
-
-    const removeLogo = () => {
-        var formData = {};
-        fetch(route("removeLogo"), {
-            method: "post",
-
-            body: formData,
-        })
-            .then((response) => response.json())
-            .then((data) => {
-                if (data.success) {
-                    //setPreviewVedio("")
-                    setPreviewLogoHide(false);
-                    setPreviwLogo("");
-                    setIsSettingSave(new Date().getSeconds());
-                } else {
-                }
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-    }
-
-    // Choose selected color
-
-    const chooseColor = (color) => {
-        setButtonColorHex(color);
-    };
-
-    const toastMarkup = active ? (
-        shopify.toast.show('Product saved', {
-            duration: 5000,
-        })
-    ) : null;
-    const [selected, setSelected] = useState("en");
-
-    //const handleSelectChange = useCallback((value) => setSelected(value), ["english"]);
-
+    const loadedFonts = useRef(new Set());
+    const batchSize = 20;
     const options = [
         { label: "English", value: "en" },
         { label: "French", value: "fr" },
@@ -177,33 +20,213 @@ const Settings = () => {
         { label: "Italian", value: "it" },
         { label: "German", value: "de" },
     ];
-
+    const [approvedStoreHandle, setApprovedStoreHandle] = useState(null);
+    const [selected, setSelected] = useState("en");
     const [fontOptions, setFontOptions] = useState([]);
     const [fontSelected, setFontSelected] = useState('');
     const [visibleFonts, setVisibleFonts] = useState([]);
-    const batchSize = 20;
-    const loadedFonts = useRef(new Set());
-    useEffect(() => {
-        const fetchGoogleFonts = async () => {
-            try {
-                setIsLoading(true);
-                const response = await axios.get(
-                    `https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyBWdgWr0bOPpqBlROejxCqeiaGnXd35ACM`
-                );
-                const fonts = response.data.items.map((font) => font.family);
+    const [storeHandle, setStoreHandle] = useState(null);
+    const [isHandleAvailable, setIsHandleAvailable] = useState(false);
+    const [storeHandleState, setStoreHandleState] = useState(false);
+    const [storeHandleResponse, setStoreHandleResponse] = useState(null);
+    const [activeTootlTip, setActiveTootlTip] = useState(false);
+    const [videoTitle, setVideoTitle] = useState("");
+    const [instructionSubTitle, setInstructionSubTitle] = useState("Please follow the instructions below:");
+    const [title, setTitle] = useState("");
+    const [buttonText, setButtonText] = useState(null);
+    const [error, setError] = useState(false);
+    const [toggled, setToggled] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
+    const [storeCurrency, setStoreCurrency] = useState("");
+    const [errorMessages, setErorrMessages] = useState([]);
+    const [files, setFiles] = useState([]);
+    const [alreadyUploadLogo, setAlreadyUploadedLogo] = useState('');
+    const [btnStyle, setBtnStyle] = useState('squaree');
+    const [count, setCount] = useState('circle');
+    const [standardDiscount, setStandardDiscount] = useState("50");
+    const [starDiscount, setStarDiscount] = useState("75");
+    const [landingPageValue, setLandingPage] = useState("12");
+    const [emailSentToValue, setEmailSentToValue] = useState("2");
+    const [landingPageDisplayedValue, setLandingPageDisplayedValue] = useState("5");
+    const [rows, setRows] = useState([]);
+    const [buttonColorHex, setButtonColorHex] = useState("#000000");
+    const [buttonColor, setButtonColor] = useState({
+        hue: 0,
+        brightness: 0,
+        saturation: 0,
+    });
+    const [gradientCheck, setGradientCheck] = useState(false);
+    const [logoImage, setLogoImage] = useState("");
+    const [video, setVideo] = useState("");
+    const [baseUrl, setBaseUrl] = useState("https://phpstack-953879-3439374.cloudwaysapps.com");
+    const [previewLogo, setPreviwLogo] = useState("");
+    const [previewLogoHide, setPreviewLogoHide] = useState(false);
+    const [previewVedio, setPreviewVedio] = useState("");
+    const [previewVedioHide, setPreviewVedioHide] = useState(false);
+    const [email, setEmail] = useState("");
+    const [storeName, setstoreName] = useState("");
+    const [favIcon, setFavIcon] = useState(null);
+    const [favIconPreview, setFavIconPreview] = useState(null);
+    const [popoverActive, setPopoverActive] = useState(false);
+   
+    const [filesVideos, setFilesVideos] = useState([]);
+    const [alreadyUploadVideo, setAlreadyUploadedVideo] = useState('');
+    const validImageTypes = ['image/gif', 'image/jpeg', 'image/png'];
+    const validVideoTypes = ['video'];
+    const handleDropzoneText = useCallback((newValue) => setVideoTitle(newValue), []);
+    const handleTitle = (event) => {
+        setTitle(event.target.value);
+    };
+    const handleInstruction = useCallback((newValue) => setInstructionSubTitle(newValue), []);
+    const handleButtonText = useCallback((newValue) => setButtonText(newValue), []);
+    const handleStandardDiscount = useCallback((value) => setStandardDiscount(value), []);
+    const handleStarDiscount = useCallback((value) => setStarDiscount(value), []);
+    const handleInputColorChange = useCallback((newValue) => setButtonColorHex(newValue), []);
+    const handleStoreHandle = useCallback((newValue) => {
+        setStoreHandle(newValue);
+        // setIsHandleAvailable(true);
+        setStoreHandleState(true);
+        setStoreHandleResponse(null);
+        const formData = new FormData();
+        formData.append('store_handle', newValue);
+        fetch(route("check-handle"), {
+            method: "POST",
+            body: formData
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.success) {
+                    setIsHandleAvailable(false);
+                    setStoreHandleResponse('Available');
 
-                setFontOptions(fonts); // Store all fonts
-                setVisibleFonts(fonts.slice(0, batchSize)); // Load the first batch
-                preloadFonts(fonts.slice(0, batchSize)); // Preload the first batch
-                setIsLoading(false);
-            } catch (error) {
-                console.error("Error fetching Google Fonts:", error);
-                setIsLoading(false);
-            }
-        };
+                } else {
+                    setIsHandleAvailable(true);
+                    setStoreHandleResponse('Un Available');
 
-        fetchGoogleFonts();
+                }
+                setStoreHandleState(false)
+            })
     }, []);
+
+    const togglePopoverActive = useCallback(
+        () => setPopoverActive((popoverActive) => !popoverActive),
+        [],
+    );
+
+    const handleDropZoneDrop = useCallback(
+        (_dropFiles, acceptedFiles, _rejectedFiles) => {
+            setFiles((files) => acceptedFiles);
+        },
+        []
+    );
+
+    const handleDropZoneVideo = useCallback(
+        (_dropFiles, acceptedFiles, _rejectedFiles) => {
+            setVideo(acceptedFiles[0]);
+            setFilesVideos((filesVideos) => acceptedFiles);
+        },
+        []
+    );
+
+
+    const activator = (
+        <button
+            style={{
+                marginRight: "10px",
+                background: "none",
+                border: "none",
+                marginLeft: "6px",
+            }}
+            onClick={togglePopoverActive}
+        >
+            <img
+                className="colorWheel"
+                src={ColorWheel}
+                style={{
+                    marginTop: "3px",
+                    marginLeft: "4px",
+                }}
+            ></img>
+        </button>
+    );    
+
+    const viewLandingPage = () => {
+        window.open(
+            "/s/" + approvedStoreHandle
+        );
+    };
+
+    const copyCode = () => {
+        const baseUrl = window.location.origin;
+        const iframeSrc = `${baseUrl}/s/${approvedStoreHandle}`;
+
+        const codeToCopy = `<style>
+                                iframe {
+                                    width: 100%;
+                                    border: none; /* Disable border */
+                                    outline: none !important; /* Disable focus outline */
+                                    box-shadow: none !important; /* Disable shadow */
+                                    overflow: hidden; /* Ensure no scrollbars */
+                                    height: 160vh;
+                                }
+                            </style>
+                            <iframe src="${iframeSrc}" frameborder="0" scrolling="no"></iframe>`;
+        navigator.clipboard.writeText(codeToCopy)
+            .then(() => {
+                shopify.toast.show('Code Copied Successfully', {
+                    duration: 3000,
+                });
+            })
+            .catch(err => {
+                shopify.toast.show('Failed to copy code', {
+                    duration: 3000,
+                    isError: true
+                });
+                console.error('Failed to copy code:', err);
+            });
+    };
+
+    const copyLandingPageLink = () => {
+        const landingPageDisplayedValue = baseUrl + "/s/" + approvedStoreHandle;
+        navigator.clipboard.writeText(landingPageDisplayedValue);
+        shopify.toast.show('Copy to clipboard', {
+            duration: 3000,
+        });
+    };
+
+    const sendTestMail = () => {
+        fetch(route("send_test_email"), {
+            method: "GET",
+        })
+            .then((response) => {
+                if (!response.ok) {
+                    shopify.toast.show('Something went wrong', {
+                        duration: 3000,
+                        isError: true
+                    });
+                    throw new Error("Something went wrong");
+                }
+                return response.json();
+            })
+            .then((data) => {
+                if (data.success) {
+                    shopify.toast.show('Email Sent Sucessfully', {
+                        duration: 5000,
+                    })
+                }
+            })
+            .catch((error) => {
+                shopify.toast.show('Something went wrong', {
+                    duration: 3000,
+                    isError: true
+                });
+                console.log(error);
+            });
+    };
+
+    const chooseColor = (color) => {
+        setButtonColorHex(color);
+    };
 
     const preloadFonts = (fonts) => {
         fonts.forEach((font) => {
@@ -237,53 +260,13 @@ const Settings = () => {
         setIsLoading(false);
     };
 
-    const [count, setCount] = useState('circle');
-
     const handleCountChange = (bol, value) => {
         setCount(value);
-    }
-    const [btnStyle, setBtnStyle] = useState('squaree');
+    };
 
     const handleBtnStyleChange = (bol, value) => {
         setBtnStyle(value);
-    }
-
-    const [priceValue, setPriceValue] = useState("50");
-    const [starStoreCredit, setStarStoreCredit] = useState("75");
-
-    const priceValueHandler = useCallback((value) => setPriceValue(value), []);
-    const priceStarValueHandler = useCallback((value) => setStarStoreCredit(value), []);
-
-    const [landingPageValue, setLandingPage] = useState("12");
-
-    const landingPageHandler = useCallback(
-        (value) => setLandingPage(value),
-        []
-    );
-    const [emailSentToValue, setEmailSentToValue] = useState("2");
-
-    const emailSentToValueHandler = useCallback(
-        (value) => setEmailSentToValue(value),
-        []
-    );
-    const [landingPageDisplayedValue, setLandingPageDisplayedValue] =
-        useState("5");
-
-    const landingPageDisplayedValueHandler = useCallback(
-        (value) => setLandingPageDisplayedValue(value),
-        []
-    );
-    const [instructionFieldValue, setinstructionFieldValue] = useState(
-        "Record a video (up to 30 seconds)"
-    );
-
-    const handleInstructionFieldChange = useCallback(
-        (value) => setinstructionFieldValue(value),
-        []
-    );
-    // add row code start
-    const [rows, setRows] = useState([]);
-
+    };
 
     const handleAddRow = () => {
         setRows([
@@ -295,6 +278,7 @@ const Settings = () => {
     const handleRemoveRow = (id) => {
         setRows(rows.filter((row) => row.id !== id));
     };
+
     const handleTextChange = (e, index) => {
         let temp = [...rows];
 
@@ -302,89 +286,7 @@ const Settings = () => {
 
         setRows(temp);
     };
-    // add row code end
 
-    const [buttonColorHide, setButtonColorHide] = useState(false);
-    const [buttonColorHex, setButtonColorHex] = useState("#000000");
-    const handleInputColorChange = useCallback((newValue) => setButtonColorHex(newValue), []);
-    const [buttonColor, setButtonColor] = useState({
-        hue: 0,
-        brightness: 0,
-        saturation: 0,
-    });
-    const [gradientCheck, setGradientCheck] = useState(false);
-    const [logoImage, setLogoImage] = useState("");
-    // console.log(logoImage);
-    const [video, setVideo] = useState("");
-    const [store, setStore] = useState("");
-    // const [baseUrl, setBaseUrl] = useState("https://031b-72-255-40-111.ngrok-free.app");
-    //const [baseUrl, setBaseUrl] = useState("https://031b-72-255-40-111.ngrok-free.app");
-    const [baseUrl, setBaseUrl] = useState("https://phpstack-953879-3439374.cloudwaysapps.com");
-    const [imagename, setImagename] = useState("");
-    const [videoname, setVideoname] = useState("");
-    const [previewLogo, setPreviwLogo] = useState("");
-    const [previewLogoHide, setPreviewLogoHide] = useState(false);
-    const [previewVedio, setPreviewVedio] = useState("");
-    const [previewVedioHide, setPreviewVedioHide] = useState(false);
-    const [email, setEmail] = useState("");
-    const [storeName, setstoreName] = useState("");
-    const [successToastVideo, setSuccessToastVideo] = useState("");
-    const [favIcon, setFavIcon] = useState(null);
-    const [finalFavIcon, setFinalFavIcon] = useState(null);
-    const [favIconPreview, setFavIconPreview] = useState(null);
-
-    const [gdError, setGdError] = useState(false);
-    const [klavioError, setKlavioError] = useState(false);
-    const [gdErrorMsg, setGdErrorMsg] = useState('');
-    const [klavioErrorMsg, setKlavioErrorMsg] = useState('');
-
-    const logoHandler = (e) => {
-        setImagename(e.target.files[0].name);
-        setLogoImage(e.target.files[0]);
-        setPreviwLogo(URL.createObjectURL(e.target.files[0]));
-        setPreviewLogoHide(true);
-    };
-    const videoHandler = (e) => {
-        setVideoname(e.target.files[0].name);
-        setVideo(e.target.files[0]);
-        setPreviewVedio(URL.createObjectURL(e.target.files[0]));
-        setPreviewVedioHide(true);
-        console.log(e.target.files[0]);
-    };
-
-    // Review Landing Page
-    const reviewPage = (store) => {
-        // window.open(
-        //     baseUrl + "/landingPage/" + currentLang + "?store=" + store
-        // );
-        window.open(
-            "/s/" + approvedStoreHandle
-        );
-    };
-    const copyCode = (store) => {
-        const baseUrl = window.location.origin;
-        const iframeSrc = `${baseUrl}/s/${approvedStoreHandle}`;
-        const codeToCopy = `<style>
-            iframe {
-                width: 100%;
-                border: none; /* Disable border */
-                outline: none !important; /* Disable focus outline */
-                box-shadow: none !important; /* Disable shadow */
-                overflow: hidden; /* Ensure no scrollbars */
-                height: 160vh;
-            }
-            </style>
-            <iframe src="${iframeSrc}" frameborder="0" scrolling="no">
-            </iframe>`;
-        navigator.clipboard.writeText(codeToCopy)
-            .then(() => {
-                setSuccessMsg("Code Copied Successfully");
-                toggleActive();
-            })
-            .catch(err => {
-                console.error('Failed to copy code:', err);
-            });
-    };
     const handleFontChange = (event) => {
         const selectedFont = event.target.value;
         setFontSelected(selectedFont);
@@ -394,6 +296,7 @@ const Settings = () => {
             },
         });
     };
+
     const setByDefaultSettings = ($columnType, $locale) => {
 
         if ($locale == 'en') {
@@ -446,271 +349,17 @@ const Settings = () => {
         }
 
         return
-    }
-    const handleStoreHandle = useCallback((newValue) => {
-        setStoreHandle(newValue);
-        setIsHandleAvailable(true);
-        setStoreHandleState(true);
-        setStoreHandleResponse(null);
-        const formData = new FormData();
-        formData.append('store_handle', newValue);
-        fetch(route("check-handle"), {
-            method: "POST",
-            body: formData
-        })
-            .then((response) => response.json())
-            .then((data) => {
-                if (data.success) {
-                    setIsHandleAvailable(false);
-                    setStoreHandleResponse('Available');
+    };
 
-                } else {
-                    setIsHandleAvailable(true);
-                    setStoreHandleResponse('Un Available');
-
-                }
-                setStoreHandleState(false)
-            })
-    }, []);
-
-
-    /**
-     * Save Merchent Email Creds
-     */
-    const handleSaveEmailCredentials = () => {
-        setEmailCredsError(false);
-        setEmailCredsMsg('');
-        if (mailgunAPI.length <= 0) {
-            setEmailCredsError(true);
-            setEmailCredsMsg('Api field is required');
-            return;
-        }
-        if (senderEmail.length <= 0) {
-            setEmailCredsError(true);
-            setEmailCredsMsg('Email field is required');
-            return;
-        }
-        const domain = getEmailDomain(senderEmail);
-
-        const formData = new FormData();
-        formData.append('is_active', emailCredsToggle);
-        formData.append('sender_email', senderEmail);
-        formData.append('api_key', mailgunAPI);
-        formData.append('endpoint', 'https://api.mailgun.net/v3/' + domain + '/messages');
-        // formData.append('endpoint', mailgunEndpoint);
-        formData.append('domain', domain);
-        fetch(route('save-email-creds'), {
-            method: "POST",
-            body: formData
-        })
-            .then((response) => response.json()).then((data) => {
-                if (data.success) {
-                    setSuccessMsg("Settings Added Successfully");
-                    toggleActive();
-                    setIsSettingSave(new Date().getSeconds());
-                }
-            })
-    }
-    const setterEmailCreds = (data) => {
-        setMailgunAPI(data.data.email_creds.api_secret_key);
-        setIsEmailActive(data.data.email_creds.is_active);
-        setEmailCredsToggle(data.data.email_creds.is_active);
-        setSenderEmail(data.data.email_creds.mail_user_name);
-        setMailgunDomain(data.data.email_creds.domain);
-        setMailgunEndpoint(data.data.email_creds.endpoint);
-    }
-    const setterGdCreds = (data) => {
-        setGDConnected(true);
-        setGdApi(data.data.gd_creds.api_key);
-        setGdClientId(data.data.gd_creds.client_id);
-        setGdSecretKey(data.data.gd_creds.secret_key);
-        setGdFolder(data.data.gd_creds.folder_name);
-    }
-
-    /******* setter for klavio *********/
-    const setterKlavio = (data) => {
-        setKlavioConnected(true);
-        setKlavioApi(data.data.klavio.api_key);
-        setKlavioEmail(data.data.klavio.email);
-    }
-
-    function getEmailDomain(email) {
-        // Find the index of the "@" symbol
-        const atIndex = email.indexOf("@");
-
-        // Extract the domain by slicing the string after the "@"
-        const domain = email.slice(atIndex + 1);
-
-        return domain;
-    }
-
-    /******** handle fav icon **********/
     const handleFavIcon = (e) => {
         setFavIcon(e.target.files[0]);
-
-    }
+    };
 
     const handleRemoveFavIcon = () => {
         setFavIcon(null);
         setFavIconPreview(null);
-    }
+    };
 
-    /************** handle Connect to Google Drive **************/
-    const handleConnectGD = () => {
-        setGdError(false);
-        if (gdApi.length <= 0) {
-            setGdError(true);
-            setGdErrorMsg('Api key is required');
-            return;
-        }
-        if (gdClientId.length <= 0) {
-            setGdError(true);
-            setGdErrorMsg('Client id is required');
-            return;
-        }
-        if (gdSecretKey.length <= 0) {
-            setGdError(true);
-            setGdErrorMsg('Secret key is required');
-            return;
-        }
-        if (gdFolder.length <= 0) {
-            setGdError(true);
-            setGdErrorMsg('Folder name is required');
-            return;
-        }
-        let url = baseUrl + `/connect-gd?api_key=${gdApi}&client_id=${gdClientId}
-        &secret_key=${gdSecretKey}&folder_name=${gdFolder}&shop=${store}`
-        window.open(url, '_blank');
-    }
-
-    /************** handle Connect to Klavio **************/
-    const handleConnectKlavio = () => {
-
-        setKlavioError(false);
-        if (klavioApi.length <= 0) {
-            setKlavioError(true);
-            setKlavioErrorMsg('Api key is required');
-            return;
-        }
-        if (klavioEmail.length <= 0) {
-            setKlavioError(true);
-            setKlavioErrorMsg('Email is required');
-            return;
-        }
-
-        const formData = new FormData();
-        formData.append('api_key', klavioApi);
-        formData.append('email', klavioEmail);
-        fetch(route('save-klavio-settings'), {
-            body: formData,
-            method: 'POST'
-        }).then(response => response.json()).then((data) => {
-            console.log(data);
-        })
-    }
-
-    /********  get Settings Data  ******/
-    useEffect(() => {
-
-        async function fetchSettings() {
-
-            try {
-                const response = await fetch(route(`get_settings`));
-                if (!response.ok) {
-                    throw new Error("Something went wrong");
-                }
-                const data = await response.json();
-                if (data.success) {
-                    setPlanName(data.data.plan_name)
-                    console.log(data);
-                    console.log('data');
-                    setFavIconPreview(data.data.fav_icon ?? null);
-                    data.data.email_creds ? setterEmailCreds(data) : ''
-                    data.data.gd_creds ? setterGdCreds(data) : setGDConnected(false)
-                    data.data.klavio ? setterKlavio(data) : setKlavioConnected(false)
-
-                    setApprovedStoreHandle(data.data.storeHandle);
-                    setStoreHandle(data.data.storeHandle);
-                    // setting for already existing users
-                    data.data.inspirational_video_title ? setVideoTitle(data.data.inspirational_video_title)
-                        : setByDefaultSettings('video_title', data.data.locale)
-                    data.data.video_btn_text ? setButtonText(data.data.video_btn_text)
-                        : setByDefaultSettings('btn_txt', data.data.locale)
-
-
-
-                    setToggled(data.data.email_status);
-                    setPriceValue(data.data.store_credit);
-                    setLandingPage(data.data.page_display_to_customers);
-                    setEmailSentToValue(data.data.email_sent_to_customer);
-                    setLandingPageDisplayedValue(data.data.page_link);
-                    setInstructionSubTitle(data.data.instruction_subtitle ?? 'Please follow the instructions below:');
-                    setFontSelected(data.data.instruction_title_font);
-                    setCount(data.data.instruction_count);
-                    setBtnStyle(data.data.instruction_button_style);
-                    WebFont.load({
-                        google: {
-                            families: [data.data.instruction_title_font],
-                        },
-                    });
-                    if (!visibleFonts.includes(data.data.instruction_title_font)) {
-                        setVisibleFonts((prevFonts) => [data.data.instruction_title_font, ...prevFonts]); // Add it if not present
-                    }
-                    setLogoImage(data.data.logo);
-                    //setVideoTitle(data.data.dropzone_text)
-                    setAlreadyUploadedLogo(data.data.logo)
-                    setAlreadyUploadedVideo(data.data.video)
-                    setStarStoreCredit(data.data.star_credit);
-                    setVideo(data.data.video);
-                    setStore(data.data.store);
-                    setSelected(data.data?.locale ?? "en");
-                    setCurrentLang(data.data.locale);
-                    setStoreCurrency(data.data.store_currency);
-                    setTitle(data.data.instruction_title);
-                    setEmail(data.data.email);
-                    setstoreName(data.data.store_name)
-                    setButtonColorHex(data.data.btn_color);
-                    setRows(
-                        data.data.instructions
-                            ? data.data.instructions
-                            : [
-                                {
-                                    id: 1,
-                                    value: "Record a video (up to 30 seconds)",
-                                },
-                                {
-                                    id: 2,
-                                    value: "Share your genuine experience of the product",
-                                },
-                                { id: 3, value: "Showcase the product" },
-                                {
-                                    id: 4,
-                                    value: "Explain why you've decided to try the product",
-                                },
-                                {
-                                    id: 5,
-                                    value: "Describe the main benefits of the product",
-                                },
-                            ]
-                    );
-                    if (data.data.logo) {
-                        setPreviewLogoHide(true);
-                        setPreviwLogo(baseUrl + "/" + "logo/" + data.data.logo);
-                    }
-
-                    if (data.data.video && data.data.video !== "undefined") {
-                        setPreviewVedioHide(true);
-                        setPreviewVedio(
-                            baseUrl + "/" + "video/" + data.data.video
-                        );
-                    }
-                }
-            } catch (error) {
-                console.log(error);
-            }
-        }
-        fetchSettings();
-    }, [isSettingSave]);
 
     const languageConvert = (value) => {
         if (value === "en") {
@@ -730,7 +379,7 @@ const Settings = () => {
                     value: "Describe the main benefits of the product",
                 },
             ]);
-            setTitle(`Send us a video and receive a discount of up to ${storeCurrency}${priceValue} on your next purchase`);
+            setTitle(`Send us a video and receive a discount of up to ${storeCurrency}${standardDiscount} on your next purchase`);
             setVideoTitle("Here's an example of a great video");
             setButtonText('Upload Your Video');
 
@@ -754,7 +403,7 @@ const Settings = () => {
                     value: "Décrire les principaux avantages de " + storeName,
                 },
             ]);
-            setTitle(`Envoyez-nous une vidéo pour obtenir une carte cadeau de ${storeCurrency}${priceValue}`);
+            setTitle(`Envoyez-nous une vidéo pour obtenir une carte cadeau de ${storeCurrency}${standardDiscount}`);
             setVideoTitle('Voici un exemple de vidéo que vous pouvez enregistrer:');
             setButtonText('Téléchargez une courte vidéo');
         } else if (value === "es") {
@@ -774,7 +423,7 @@ const Settings = () => {
                     value: "Describir los principales beneficios de " + storeName,
                 },
             ]);
-            setTitle(`Envíanos un video para obtener una tarjeta de regalo de ${storeCurrency}${priceValue}`);
+            setTitle(`Envíanos un video para obtener una tarjeta de regalo de ${storeCurrency}${standardDiscount}`);
             setVideoTitle('Aquí hay un ejemplo de video que puede grabar:');
             setButtonText('Cargue un breve video');
 
@@ -795,7 +444,7 @@ const Settings = () => {
                     value: "Descrever os principais benefícios da " + storeName,
                 },
             ]);
-            setTitle(`Envie-nos um vídeo para receber um cartão presente de ${storeCurrency}${priceValue}`);
+            setTitle(`Envie-nos um vídeo para receber um cartão presente de ${storeCurrency}${standardDiscount}`);
             setVideoTitle('Aqui está um exemplo de vídeo que você pode gravar:');
             setButtonText('Carregue um breve vídeo');
 
@@ -817,7 +466,7 @@ const Settings = () => {
                     value: "Descrivi i principali vantaggi di " + storeName,
                 },
             ]);
-            setTitle(`Invia un video per ottenere una carta regalo da ${storeCurrency}${priceValue}`);
+            setTitle(`Invia un video per ottenere una carta regalo da ${storeCurrency}${standardDiscount}`);
             setVideoTitle('Ecco un esempio di video che potete registrare:');
             setButtonText('Caricare un breve video');
 
@@ -841,40 +490,30 @@ const Settings = () => {
                     value: "Beschreiben Sie die Hauptvorteile von " + storeName,
                 },
             ]);
-            setTitle(`Senden Sie uns ein Video, um eine Geschenkkarte im Wert von ${storeCurrency}${priceValue} zu erhalten`);
+            setTitle(`Senden Sie uns ein Video, um eine Geschenkkarte im Wert von ${storeCurrency}${standardDiscount} zu erhalten`);
             setVideoTitle('Hier ist ein Beispiel für ein Video, das Sie aufnehmen können:');
             setButtonText('Laden Sie ein kurzes Video hoch');
 
         }
-    }
+    };
 
     const handleSelectChange = (value) => {
-        setEmailTemplateButton(false);
         setSelected(value);
-        languageConvert(value)
-    };
-    const customStyles = {
-        option: (provided, state) => ({
-            ...provided,
-            fontFamily: state.data.value, // Apply the font dynamically
-        }),
-        singleValue: (provided, state) => ({
-            ...provided,
-            fontFamily: state.data.value, // Show selected font in preview
-        }),
+        languageConvert(value);
+        shopify.toast.show('Language converted successfully', {
+            duration: 3000
+        });
     };
 
 
-    /******** save settings into DB ******/
     const saveSettings = (e) => {
-
         e.preventDefault();
         setIsLoading(true);
-        setSuccessMsg('');
+        setError(null);
 
         const formData = new FormData();
 
-        formData.append("store_credit", priceValue);
+        formData.append("store_credit", standardDiscount);
         formData.append("page_display_to_customers", landingPageValue);
         formData.append("email_sent_to_customer", emailSentToValue);
         formData.append("page_link", landingPageDisplayedValue);
@@ -882,14 +521,13 @@ const Settings = () => {
         formData.append("page_color", buttonColorHex);
         formData.append("logo", files.length > 0 ? files[0] : logoImage);
         formData.append("video", filesVideos.length > 0 ? filesVideos[0] : video);
-
         formData.append("setting_status", toggled);
         formData.append("instruction_title", title);
         formData.append("video_title", videoTitle);
         formData.append("instruction_subtitle", instructionSubTitle);
         formData.append("video_btn_text", buttonText);
         formData.append('fav_icon', favIcon);
-        formData.append('star_credit', starStoreCredit);
+        formData.append('star_credit', starDiscount);
         formData.append('instruction_title_font', fontSelected);
         formData.append('instruction_count', count);
         formData.append('instruction_button_style', btnStyle);
@@ -900,7 +538,7 @@ const Settings = () => {
 
         formData.append("locale", selected);
         if (
-            (priceValue == "" ||
+            (standardDiscount == "" ||
                 landingPageValue == "" ||
                 emailSentToValue == "" ||
                 landingPageDisplayedValue == "" ||
@@ -919,9 +557,11 @@ const Settings = () => {
                 .then((data) => {
                     if (data.success) {
                         setIsLoading(false);
-                        setSuccessMsg("Settings Added Successfully");
-                        toggleActive();
-                        setIsSettingSave(new Date().getSeconds());
+                        shopify.toast.show('Setting saved successfully', {
+                            duration: 3000,
+                        });
+
+                        // setIsSettingSave(new Date().getSeconds());
                     } else {
                         setIsLoading(false);
                         setError(true);
@@ -931,117 +571,24 @@ const Settings = () => {
                 .catch((error) => {
                     setIsLoading(false);
                     setError(true);
-                    // console.log(error);
                 });
         }
     };
-
-    function handletestemail() {
-        fetch(route("send_test_email"), {
-            method: "GET",
-        })
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error("Something went wrong");
-                }
-                return response.json();
-            })
-            .then((data) => {
-                if (data.success) {
-                    shopify.toast.show('Email Sent Sucessfully', {
-                        duration: 5000,
-                    })
-                }
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-    }
-
-    // copy Landing Page Link
-    const copyLandingPageLink = () => {
-
-        // const landingPageDisplayedValue =
-        //     baseUrl + "/landingPage/" + currentLang + "?store=" + store;
-        const landingPageDisplayedValue = baseUrl + "/s/" + approvedStoreHandle;
-
-
-        navigator.clipboard.writeText(landingPageDisplayedValue);
-        setSuccessMsg("Copied to Clipboard");
-
-        toggleActive();
-
-    };
-
-
-    const handleChatClick = () => {
-        if (window.$crisp) {
-            window.$crisp.push(['do', 'chat:toggle']);
-        } else {
-            console.warn('Crisp chat script not loaded yet!');
-
-        }
-    };
-    // popover code start
-    const [popoverActive, setPopoverActive] = useState(false);
-
-    const togglePopoverActive = useCallback(
-        () => setPopoverActive((popoverActive) => !popoverActive),
-        [],
-    );
-
-    const [pageLink, setPageLink] = useState('');
-
-    const activator = (
-        <button
-            style={{
-                marginRight: "10px",
-                background: "none",
-                border: "none",
-                marginLeft: "6px",
-            }}
-            onClick={togglePopoverActive}
-        >
-            <img
-                className="colorWheel"
-                src={ColorWheel}
-                style={{
-                    marginTop: "3px",
-                    marginLeft: "4px",
-                }}
-            ></img>
-        </button>
-    );
-    // popover code end
-    // drop zone code start
-
-
 
     const handleRemoveLogoThumbnail = () => {
         setFiles([]);
         //setLogoImage('')
         console.log('handle Remove thumbnail');
     };
-    const handleDropZoneDrop = useCallback(
-        (_dropFiles, acceptedFiles, _rejectedFiles) => {
-            setFiles((files) => acceptedFiles);
-        },
-        []
-    );
-    const successToast = active ? (
-        shopify.toast.show('Setting saved successfully', {
-            duration: 3000,
-        })
-    ) : null;
 
     const handleRemoveAlreadyUploadedLogo = () => {
         setLogoImage('');
         setAlreadyUploadedLogo('');
-    }
+    };
 
-    const validImageTypes = ['image/gif', 'image/jpeg', 'image/png'];
 
     const fileUpload = !files.length && <DropZone.FileUpload actionHint="Accepts .jpg, and .png" actionTitle="Upload Your Brand Logo" />;
+
     const uploadedFiles = files.length > 0 && (
         <div style={{ padding: '0' }}>
             <div>
@@ -1068,6 +615,7 @@ const Settings = () => {
             </div>
         </div>
     );
+
     const uploadedFilesPreview = files.length > 0 && (
         <div style={{ padding: '0' }}>
             <div style={{ width: "60px", marginBottom: "10px" }} >
@@ -1093,33 +641,16 @@ const Settings = () => {
             </div>
         </div>
     );
-    // drop zone code end
-    // drop zone code start
-    const [filesVideos, setFilesVideos] = useState([]);
-    const [alreadyUploadVideo, setAlreadyUploadedVideo] = useState('');
-
 
     const handleRemoveThumbnailVideo = () => {
         setFilesVideos([]);
         //console.log('handle Remove thumbnail');
     };
-    const handleDropZoneVideo = useCallback(
-        (_dropFiles, acceptedFiles, _rejectedFiles) => {
-            setVideo(acceptedFiles[0]);
-            //setAlreadyUploadedLogo('');
-            setFilesVideos((filesVideos) => acceptedFiles);
-            // setAlreadyUploadedVideo((filesVideos) => acceptedFiles);
-        },
-        []
-    );
-
 
     const handleRemoveAlreadyUploadedVideo = () => {
-        // setActiveTootlTip(true);
         setAlreadyUploadedVideo('');
         setVideo('');
-
-    }
+    };
 
     const handleSaveStoreHandle = () => {
 
@@ -1131,18 +662,22 @@ const Settings = () => {
                 body: formData
             }).then((response) => response.json()).then((data) => {
                 if (data.success) {
-                    setSuccessMsg('save store handle');
-                    toggleActive();
-                    setIsSettingSave(new Date().getSeconds());
+                    shopify.toast.show('Landing page url saved successfully', {
+                        duration: 3000
+                    });
                 }
             })
+        }else{
+            shopify.toast.show('Store handle already exists', {
+                duration: 3000,
+                isError: true
+            });
         }
 
-    }
-
-    const validVideoTypes = ['video'];
+    };
 
     const fileUploadVideos = !filesVideos.length && <DropZone.FileUpload actionHint="Accepts .mp4, .avi, .mov" actionTitle="Upload Your Inspirational Video" />;
+
     const uploadedFilesVideos = filesVideos.length > 0 && (
         <div style={{ padding: '0' }}>
             <div>
@@ -1169,6 +704,7 @@ const Settings = () => {
             </div>
         </div>
     );
+
     const uploadedFilesVideosPreview = filesVideos.length > 0 && (
         <div style={{ padding: '0' }}>
             <div style={{ width: "108px", marginBottom: "10px" }} >
@@ -1202,59 +738,131 @@ const Settings = () => {
             </div>
         </div>
     );
-    // drop zone code end
 
+    async function fetchSettings() {
+
+        try {
+            const response = await fetch(route(`get_settings`));
+            if (!response.ok) {
+                throw new Error("Something went wrong");
+            }
+            const data = await response.json();
+            if (data.success) {
+                // setPlanName(data.data.plan_name)
+                console.log(data);
+                console.log('data');
+                setFavIconPreview(data.data.fav_icon ?? null);
+                // data.data.email_creds ? setterEmailCreds(data) : ''
+                // data.data.gd_creds ? setterGdCreds(data) : setGDConnected(false)
+                // data.data.klavio ? setterKlavio(data) : setKlavioConnected(false)
+
+                setApprovedStoreHandle(data.data.storeHandle);
+                setStoreHandle(data.data.storeHandle);
+                // setting for already existing users
+                data.data.inspirational_video_title ? setVideoTitle(data.data.inspirational_video_title)
+                    : setByDefaultSettings('video_title', data.data.locale)
+                data.data.video_btn_text ? setButtonText(data.data.video_btn_text)
+                    : setByDefaultSettings('btn_txt', data.data.locale)
+
+
+
+                setToggled(data.data.email_status);
+                setStandardDiscount(data.data.store_credit);
+                setLandingPage(data.data.page_display_to_customers);
+                setEmailSentToValue(data.data.email_sent_to_customer);
+                setLandingPageDisplayedValue(data.data.page_link);
+                setInstructionSubTitle(data.data.instruction_subtitle ?? 'Please follow the instructions below:');
+                setFontSelected(data.data.instruction_title_font);
+                setCount(data.data.instruction_count);
+                setBtnStyle(data.data.instruction_button_style);
+                WebFont.load({
+                    google: {
+                        families: [data.data.instruction_title_font],
+                    },
+                });
+                if (!visibleFonts.includes(data.data.instruction_title_font)) {
+                    setVisibleFonts((prevFonts) => [data.data.instruction_title_font, ...prevFonts]); // Add it if not present
+                }
+                setLogoImage(data.data.logo);
+                //setVideoTitle(data.data.dropzone_text)
+                setAlreadyUploadedLogo(data.data.logo)
+                setAlreadyUploadedVideo(data.data.video)
+                setStarDiscount(data.data.star_credit);
+                setVideo(data.data.video);
+                // setStore(data.data.store);
+                setSelected(data.data?.locale ?? "en");
+                // setCurrentLang(data.data.locale);
+                setStoreCurrency(data.data.store_currency);
+                setTitle(data.data.instruction_title);
+                setEmail(data.data.email);
+                setstoreName(data.data.store_name)
+                setButtonColorHex(data.data.btn_color);
+                setRows(
+                    data.data.instructions
+                        ? data.data.instructions
+                        : [
+                            {
+                                id: 1,
+                                value: "Record a video (up to 30 seconds)",
+                            },
+                            {
+                                id: 2,
+                                value: "Share your genuine experience of the product",
+                            },
+                            { id: 3, value: "Showcase the product" },
+                            {
+                                id: 4,
+                                value: "Explain why you've decided to try the product",
+                            },
+                            {
+                                id: 5,
+                                value: "Describe the main benefits of the product",
+                            },
+                        ]
+                );
+                if (data.data.logo) {
+                    setPreviewLogoHide(true);
+                    setPreviwLogo(baseUrl + "/" + "logo/" + data.data.logo);
+                }
+
+                if (data.data.video && data.data.video !== "undefined") {
+                    setPreviewVedioHide(true);
+                    setPreviewVedio(
+                        baseUrl + "/" + "video/" + data.data.video
+                    );
+                }
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    async function fetchGoogleFonts() {
+        try {
+            setIsLoading(true);
+            const response = await axios.get(
+                `https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyBWdgWr0bOPpqBlROejxCqeiaGnXd35ACM`
+            );
+            const fonts = response.data.items.map((font) => font.family);
+
+            setFontOptions(fonts); // Store all fonts
+            setVisibleFonts(fonts.slice(0, batchSize)); // Load the first batch
+            preloadFonts(fonts.slice(0, batchSize)); // Preload the first batch
+            setIsLoading(false);
+        } catch (error) {
+            console.error("Error fetching Google Fonts:", error);
+            setIsLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        fetchSettings();
+        fetchGoogleFonts();
+    }, []);
 
     return (
         <div>
-            <Modal
-                open={activeRejectionConfirmModel}
-                onClose={handleChangeRejectionConfirmModel}
-                title={'Important Notice'}
-            >
-                <Modal.Section>
-                    <div style={{ textAlign: "center" }}>
-                        <Text variant="headingMd" as="h6">
-                            Your current email content will be replaced with the new content. Are you absolutely certain that you wish to proceed with the replacement? on cancellation email will remain same.
-                        </Text>
-                        <div
-                            style={{
-                                display: "flex",
-                                justifyContent: "center",
-                                marginTop: "20px",
-                            }}
-                        >
-                            <ButtonGroup>
-                                <Button
-                                    onClick={() => {
-                                        F
-                                        router.get(route(pageLink));
-                                        setActiveRejectionConfirmModel(false);
-                                        setEmailTemplateButton(true);
-                                    }}
-                                >
-                                    Customize Content
-                                </Button>
-                                <Button primary onClick={() => {
-                                    document.getElementById('sab_ok_id').click();
-                                    setTimeout(() => {
-                                        router.get(route(pageLink));
 
-                                    }, 5000);
-
-                                    setActiveRejectionConfirmModel(false);
-                                    router.get(route(pageLink));
-
-                                    setEmailTemplateButton(true);
-                                }}
-                                >
-                                    Sure
-                                </Button>
-                            </ButtonGroup>
-                        </div>
-                    </div>
-                </Modal.Section>
-            </Modal>
             {isLoading ? (
                 <div>
                     <Spinner
@@ -1367,7 +975,6 @@ const Settings = () => {
                                     </Card>
                                 )}
 
-                                {toastMarkup}
                                 <div style={{ marginTop: "20px" }}></div>
                                 <BlockStack gap='300'>
                                     <Card sectioned>
@@ -1375,16 +982,6 @@ const Settings = () => {
                                             <Text variant="headingLg" as="h5">
                                                 Landing Page Settings
                                             </Text>
-                                            {/* <p
-                                            style={{
-                                                marginTop: "5px",
-                                                marginBottom: "20px",
-                                            }}
-                                        >
-                                            Here’s what your customers will see
-                                            and receive by email
-                                        </p> */}
-
                                         </div>
                                         <br></br>
                                         <div
@@ -1393,7 +990,7 @@ const Settings = () => {
                                                 alignItems: "center",
                                                 justifyContent: "space-between",
                                             }}
-                                            className="polaris-black-btn-global flex"
+                                            className="polaris-black-btn-global"
                                         >
                                             <div>
                                                 <Text variant="headingLg" as="h5">
@@ -1419,25 +1016,10 @@ const Settings = () => {
                                             >
                                                 <Button
                                                     primary
-                                                    onClick={() => {
-                                                        reviewPage(store);
-                                                    }}
+                                                    onClick={viewLandingPage}
                                                 >
                                                     View Landing Page
                                                 </Button>
-
-                                                {/* <div style={{ cursor: "pointer" }} onClick={() => {
-                                                copyCode(store);
-                                            }}>
-                                                <Tooltip content="Copy code"
-                                                    preferredPosition="above"
-                                                >
-                                                    <img style={{ width: "20px" }} src={Copy} alt="" />
-
-
-                                                </Tooltip>
-                                            </div> */}
-
                                             </div>
                                         </div>
                                         <br></br>
@@ -1470,25 +1052,10 @@ const Settings = () => {
                                             >
                                                 <Button
                                                     primary
-                                                    onClick={() => {
-                                                        copyCode(store);
-                                                    }}
+                                                    onClick={copyCode}
                                                 >
                                                     Copy Landing Page Code
                                                 </Button>
-
-                                                {/* <div style={{ cursor: "pointer" }} onClick={() => {
-                                                copyCode(store);
-                                            }}>
-                                                <Tooltip content="Copy code"
-                                                    preferredPosition="above"
-                                                >
-                                                    <img style={{ width: "20px" }} src={Copy} alt="" />
-
-
-                                                </Tooltip>
-                                            </div> */}
-
                                             </div>
                                         </div>
                                         <div
@@ -1520,9 +1087,7 @@ const Settings = () => {
                                             >
                                                 <Button
                                                     primary
-                                                    onClick={() =>
-                                                        copyLandingPageLink()
-                                                    }
+                                                    onClick={copyLandingPageLink}
                                                 >
                                                     Copy Landing Page Link
                                                 </Button>
@@ -1557,7 +1122,7 @@ const Settings = () => {
                                             >
                                                 <Button
                                                     primary
-                                                    onClick={handletestemail}
+                                                    onClick={sendTestMail}
                                                 >
                                                     Send Test Email
                                                 </Button>
@@ -1585,18 +1150,15 @@ const Settings = () => {
                                                     onChange={(handleStoreHandle)}
                                                     autoComplete="off"
                                                     prefix={baseUrl.replace('https://', '') + '/s/'}
+                                                    error={isHandleAvailable ? 'Not Available' : ''}
                                                 />
-
                                             </div>
                                             <div style={{ marginLeft: "13px", }} className="polaris-black-btn-global">
                                                 {
                                                     storeHandleState ? <Spinner accessibilityLabel="Spinner example" size="large" />
                                                         : <Button primary disabled={isHandleAvailable} onClick={handleSaveStoreHandle}>Save</Button>
                                                 }
-
-
                                             </div>
-
                                         </div>
                                         {storeHandleResponse ? <span style={{ marginTop: "10px", display: "inline-block", color: isHandleAvailable ? 'red' : 'green' }}>{storeHandleResponse}</span> : ''}
                                     </Card>
@@ -1631,8 +1193,8 @@ const Settings = () => {
                                                     {storeCurrency}
                                                 </div>
                                                 <TextField
-                                                    value={priceValue}
-                                                    onChange={priceValueHandler}
+                                                    value={standardDiscount}
+                                                    onChange={handleStandardDiscount}
                                                     autoComplete="off"
                                                 />
                                             </div>
@@ -1668,8 +1230,8 @@ const Settings = () => {
                                                     {storeCurrency}
                                                 </div>
                                                 <TextField
-                                                    value={starStoreCredit}
-                                                    onChange={priceStarValueHandler}
+                                                    value={starDiscount}
+                                                    onChange={handleStarDiscount}
                                                     autoComplete="off"
                                                 />
                                             </div>
@@ -1697,15 +1259,15 @@ const Settings = () => {
                                                 value={selected}
                                             />
                                             &nbsp;
-                                            <span className="black-global-btn">
-                                                <Button primary onClick={() => {
-                                                    //setPageLink("/post-purchase-email")
-                                                    document.getElementById('sab_ok_id').click();
-                                                    setEmailTemplateButton(true);
-                                                    //setActiveRejectionConfirmModel(true);
-                                                }} disabled={emailTemplateButton}>Save</Button>
-                                            </span>
+                                            <div style={{ cursor: "pointer" }} className="polaris-black-btn-global">
+                                                <Button primary
+                                                    onClick={() => {
+                                                        saveSettings
+                                                    }}
+                                                >Save</Button>
+                                            </div>
                                         </div>
+
                                     </Card>
 
                                     <Card sectioned>
@@ -1728,48 +1290,7 @@ const Settings = () => {
                                                     Should be a PNG file, not bigger than 1 MB.
                                                 </p>
                                             </div>
-                                            {/* <div style={{ textAlign: "end" }}>
-                                            <div class="upload-btn-wrapper">
-                                                <button class="btnCustomUpload">
-                                                    <img
-                                                        style={{
-                                                            marginRight: "10px",
-                                                        }}
-                                                        src={UploadIcon}
-                                                    ></img>
-                                                    Upload Your Logo
-                                                </button>
-                                                <input
-                                                    type="file"
-                                                    name="myfile"
-                                                    onChange={logoHandler}
-                                                />
-                                            </div>
-                                            <p>
-                                                {`${imagename}`}{" "}
-                                                {imagename && (
-                                                    <span>Uploaded</span>
-                                                )}{" "}
-                                            </p>
-                                        </div> */}
                                         </div>
-                                        {/* {previewLogoHide && (logoImage == 'undefined' || logoImage == '') ? '' :
-                                        (
-                                            <div style={{ width: "108px" }}>
-
-                                                <img
-                                                    style={{
-                                                        marginTop: "20px",
-                                                        boxShadow:
-                                                            "0px 0px 6px 2px rgb(0 0 0 / 20%) !important",
-                                                    }}
-                                                    width="100px"
-                                                    src={previewLogo}
-                                                ></img>
-                                                <div onClick={removeLogo} > <Icon source={CircleCancelMajor} color="critical" /></div>
-                                            </div>
-                                        )
-                                    } */}
                                         <div style={{ maxWidth: "470px", marginBottom: "20px" }}>
                                             <DropZone actionTitle="Upload Your Brand Logo" onDrop={handleDropZoneDrop} variableHeight allowMultiple={false}>
                                                 {uploadedFiles}
@@ -1789,9 +1310,6 @@ const Settings = () => {
                                                     <div onClick={handleRemoveAlreadyUploadedLogo} className="del-main-icon" >
                                                         {
                                                             activeTootlTip ? <Tooltip content="">
-                                                                {/* <Icon source={CircleCancelMajor} color="critical" /> */}
-                                                                {/* <Icon source={DeleteIcon}  tone="base"/> */}
-                                                                {/* <Icon source={DeleteMajor} color="critical" /> */}
                                                                 <img src={Delete} />
 
                                                             </Tooltip> : <img src={Delete} className="del-main-icon" />
@@ -1923,10 +1441,6 @@ const Settings = () => {
                                                 marginBottom: "20px",
                                             }}
                                         >
-                                            {/* <img
-                                            src={ErrorIcon}
-                                            style={{ marginRight: "12px" }}
-                                        ></img> */}
 
                                             <span style={{ fontSize: '30px' }} >💡</span>
                                             <div>
@@ -1974,16 +1488,6 @@ const Settings = () => {
                                                                     )
                                                                 }
                                                             ></img>
-
-                                                            {/* <Icon
-                                                            source={DeleteIcon}
-                                                            tone="base"
-                                                            onClick={() =>
-                                                                handleRemoveRow(
-                                                                    row.id
-                                                                )
-                                                            }
-                                                        /> */}
                                                         </div>
                                                     </div>
                                                 </div>
@@ -2110,7 +1614,6 @@ const Settings = () => {
                                                     <div onClick={handleRemoveAlreadyUploadedVideo} className="del-main-icon" >
                                                         {
                                                             activeTootlTip ? <Tooltip content="This is default setting. You can not change it.">
-                                                                {/* <Icon source={CircleCancelMajor} color="critical" /> */}
                                                                 <img src={Delete} />
 
                                                             </Tooltip> : <img src={Delete} />
@@ -2485,7 +1988,6 @@ const Settings = () => {
                                                 <div style={{ padding: "20px" }}>
                                                     <ColorPicker
                                                         onChange={(e) => {
-                                                            // console.log(hsbToRgb(e));
                                                             setButtonColor(e);
                                                             setButtonColorHex(
                                                                 hsbToHex(e)
@@ -2532,8 +2034,119 @@ const Settings = () => {
                                     </Card>
                                 </BlockStack>
 
+                                <div
+                                    style={{
+                                        textAlign: "right",
+                                        marginTop: "20px",
+                                        marginBottom: "100px",
+                                    }}
+                                    className="polaris-black-btn-global"
+                                >
+                                    <Button
+                                        primary
+                                        onClick={saveSettings}
+                                        disabled={isLoading}
+                                    >
+                                        Save Landing Page
+                                    </Button>
+                                </div>
+                            </Grid.Cell>
+                        </Grid>
 
-                                {/* <Card sectioned>
+
+                    </Frame>
+                </Page>
+            )}
+        </div>
+    );
+};
+
+export default Settings;
+
+// Commented Code for BackUP if needed Only 
+
+/************** handle Connect to Google Drive **************/
+// const handleConnectGD = () => {
+//     setGdError(false);
+//     if (gdApi.length <= 0) {
+//         setGdError(true);
+//         setGdErrorMsg('Api key is required');
+//         return;
+//     }
+//     if (gdClientId.length <= 0) {
+//         setGdError(true);
+//         setGdErrorMsg('Client id is required');
+//         return;
+//     }
+//     if (gdSecretKey.length <= 0) {
+//         setGdError(true);
+//         setGdErrorMsg('Secret key is required');
+//         return;
+//     }
+//     if (gdFolder.length <= 0) {
+//         setGdError(true);
+//         setGdErrorMsg('Folder name is required');
+//         return;
+//     }
+//     let url = baseUrl + `/connect-gd?api_key=${gdApi}&client_id=${gdClientId}
+//     &secret_key=${gdSecretKey}&folder_name=${gdFolder}&shop=${store}`
+//     window.open(url, '_blank');
+// };
+
+/************** handle Connect to Klavio **************/
+// const handleConnectKlavio = () => {
+
+//     setKlavioError(false);
+//     if (klavioApi.length <= 0) {
+//         setKlavioError(true);
+//         setKlavioErrorMsg('Api key is required');
+//         return;
+//     }
+//     if (klavioEmail.length <= 0) {
+//         setKlavioError(true);
+//         setKlavioErrorMsg('Email is required');
+//         return;
+//     }
+
+//     const formData = new FormData();
+//     formData.append('api_key', klavioApi);
+//     formData.append('email', klavioEmail);
+//     fetch(route('save-klavio-settings'), {
+//         body: formData,
+//         method: 'POST'
+//     }).then(response => response.json()).then((data) => {
+//         console.log(data);
+//     })
+// };
+
+/******** save settings into DB ******/
+// copy Landing Page Link
+
+// const handleLanguageSaveClick = () => {
+//     saveSettings();
+// };
+
+{/* <Modal
+                            open={activeRejectionModel}
+                            onClose={handleChangeRejectionModel}
+                            title="Test Email"
+
+                            secondaryActions={[
+                                {
+                                    content: "Cancel",
+                                    onAction: handleChangeRejectionModel,
+                                },
+                            ]}
+                        >
+                            <Modal.Section>
+                                <Text variant="headingMd" as="h6">
+                                    Email Sent Sucessfully
+                                </Text>
+                            </Modal.Section>
+                        </Modal> */}
+
+
+{/* <Card sectioned>
                                     <div
                                         style={{
                                             display: "flex",
@@ -2683,7 +2296,7 @@ const Settings = () => {
 
 
 
-                                {/* <Card sectioned>
+{/* <Card sectioned>
                                     {
                                         gdError ? <Banner>
                                             <List type="bullet">
@@ -2788,7 +2401,7 @@ const Settings = () => {
 
 
 
-                                {/* <Card sectioned>
+{/* <Card sectioned>
                                     <div className="polaris-black-btn-global">
                                         <Text variant="headingLg" as="h5">
                                             Remove GoodAuthentic Watermark
@@ -2806,51 +2419,341 @@ const Settings = () => {
                                         </Button>
                                     </div>
                                 </Card> */}
+                                
+                                        {/* {previewLogoHide && (logoImage == 'undefined' || logoImage == '') ? '' :
+                                        (
+                                            <div style={{ width: "108px" }}>
+
+                                                <img
+                                                    style={{
+                                                        marginTop: "20px",
+                                                        boxShadow:
+                                                            "0px 0px 6px 2px rgb(0 0 0 / 20%) !important",
+                                                    }}
+                                                    width="100px"
+                                                    src={previewLogo}
+                                                ></img>
+                                                <div onClick={removeLogo} > <Icon source={CircleCancelMajor} color="critical" /></div>
+                                            </div>
+                                        )
+                                    } */}
+                                    
+                                                                {/* <Icon source={CircleCancelMajor} color="critical" /> */}
+                                                                {/* <Icon source={DeleteIcon}  tone="base"/> */}
+                                                                {/* <Icon source={DeleteMajor} color="critical" /> */}
+                                                                
+                                            {/* <img
+                                            src={ErrorIcon}
+                                            style={{ marginRight: "12px" }}
+                                        ></img> */}
+                                        
+
+                                                            {/* <Icon
+                                                            source={DeleteIcon}
+                                                            tone="base"
+                                                            onClick={() =>
+                                                                handleRemoveRow(
+                                                                    row.id
+                                                                )
+                                                            }
+                                                        /> */}
+                                                          {/* <div style={{ textAlign: "end" }}>
+                                            <div class="upload-btn-wrapper">
+                                                <button class="btnCustomUpload">
+                                                    <img
+                                                        style={{
+                                                            marginRight: "10px",
+                                                        }}
+                                                        src={UploadIcon}
+                                                    ></img>
+                                                    Upload Your Logo
+                                                </button>
+                                                <input
+                                                    type="file"
+                                                    name="myfile"
+                                                    onChange={logoHandler}
+                                                />
+                                            </div>
+                                            <p>
+                                                {`${imagename}`}{" "}
+                                                {imagename && (
+                                                    <span>Uploaded</span>
+                                                )}{" "}
+                                            </p>
+                                        </div> */}
+
+    /**
+     * Save Merchent Email Creds
+     */
+    // const handleSaveEmailCredentials = () => {
+    //     setEmailCredsError(false);
+    //     setEmailCredsMsg('');
+    //     if (mailgunAPI.length <= 0) {
+    //         setEmailCredsError(true);
+    //         setEmailCredsMsg('Api field is required');
+    //         return;
+    //     }
+    //     if (senderEmail.length <= 0) {
+    //         setEmailCredsError(true);
+    //         setEmailCredsMsg('Email field is required');
+    //         return;
+    //     }
+    //     const domain = getEmailDomain(senderEmail);
+
+    //     const formData = new FormData();
+    //     formData.append('is_active', emailCredsToggle);
+    //     formData.append('sender_email', senderEmail);
+    //     formData.append('api_key', mailgunAPI);
+    //     formData.append('endpoint', 'https://api.mailgun.net/v3/' + domain + '/messages');
+    //     // formData.append('endpoint', mailgunEndpoint);
+    //     formData.append('domain', domain);
+    //     fetch(route('save-email-creds'), {
+    //         method: "POST",
+    //         body: formData
+    //     })
+    //         .then((response) => response.json()).then((data) => {
+    //             if (data.success) {
+    //                 setSuccessMsg("Settings Added Successfully");
+    //                 toggleActive();
+    //                 setIsSettingSave(new Date().getSeconds());
+    //             }
+    //         })
+    // }
+
+    // const setterEmailCreds = (data) => {
+    //     setMailgunAPI(data.data.email_creds.api_secret_key);
+    //     // setIsEmailActive(data.data.email_creds.is_active);
+    //     // setEmailCredsToggle(data.data.email_creds.is_active);
+    //     // setSenderEmail(data.data.email_creds.mail_user_name);
+    //     setMailgunDomain(data.data.email_creds.domain);
+    //     setMailgunEndpoint(data.data.email_creds.endpoint);
+    // };
+
+    // const setterGdCreds = (data) => {
+    //     // setGDConnected(true);
+    //     setGdApi(data.data.gd_creds.api_key);
+    //     setGdClientId(data.data.gd_creds.client_id);
+    //     setGdSecretKey(data.data.gd_creds.secret_key);
+    //     setGdFolder(data.data.gd_creds.folder_name);
+    // };
+
+    /******* setter for klavio *********/
+    // const setterKlavio = (data) => {
+    //     // setKlavioConnected(true);
+    //     setKlavioApi(data.data.klavio.api_key);
+    //     setKlavioEmail(data.data.klavio.email);
+    // };
+
+    // function getEmailDomain(email) {
+    //     // Find the index of the "@" symbol
+    //     const atIndex = email.indexOf("@");
+
+    //     // Extract the domain by slicing the string after the "@"
+    //     const domain = email.slice(atIndex + 1);
+
+    //     return domain;
+    // };
+
+        // const customStyles = {
+    //     option: (provided, state) => ({
+    //         ...provided,
+    //         fontFamily: state.data.value, // Apply the font dynamically
+    //     }),
+    //     singleValue: (provided, state) => ({
+    //         ...provided,
+    //         fontFamily: state.data.value, // Show selected font in preview
+    //     }),
+    // };
 
 
-                                <div
-                                    style={{
-                                        textAlign: "right",
-                                        marginTop: "20px",
-                                        marginBottom: "100px",
-                                    }}
-                                    className="polaris-black-btn-global"
-                                >
-                                    <Button
-                                        primary
-                                        onClick={saveSettings}
-                                        disabled={isLoading}
-                                        id="sab_ok_id"
-                                    >
-                                        Save Landing Page
-                                    </Button>
-                                </div>
-                            </Grid.Cell>
-                        </Grid>
 
-                        {/* <Modal
-                            open={activeRejectionModel}
-                            onClose={handleChangeRejectionModel}
-                            title="Test Email"
 
-                            secondaryActions={[
-                                {
-                                    content: "Cancel",
-                                    onAction: handleChangeRejectionModel,
-                                },
-                            ]}
-                        >
-                            <Modal.Section>
-                                <Text variant="headingMd" as="h6">
-                                    Email Sent Sucessfully
-                                </Text>
-                            </Modal.Section>
-                        </Modal> */}
-                    </Frame>
-                </Page>
-            )}
-        </div>
-    );
-};
+    // const handleChatClick = () => {
+    //     if (window.$crisp) {
+    //         window.$crisp.push(['do', 'chat:toggle']);
+    //     } else {
+    //         console.warn('Crisp chat script not loaded yet!');
 
-export default Settings;
+    //     }
+    // };
+
+
+
+    /******** handle fav icon **********/
+    
+    // add row code end
+
+
+    // const logoHandler = (e) => {
+    //     setImagename(e.target.files[0].name);
+    //     setLogoImage(e.target.files[0]);
+    //     setPreviwLogo(URL.createObjectURL(e.target.files[0]));
+    //     setPreviewLogoHide(true);
+    // };
+
+    // const videoHandler = (e) => {
+    //     setVideoname(e.target.files[0].name);
+    //     setVideo(e.target.files[0]);
+    //     setPreviewVedio(URL.createObjectURL(e.target.files[0]));
+    //     setPreviewVedioHide(true);
+    //     console.log(e.target.files[0]);
+    // };
+
+    // Review Landing Page
+
+
+
+    // function handleChange() {
+    //     let isChecked;
+    //     if (toggled == "false" || toggled == false) {
+    //         isChecked = false;
+    //     } else if (toggled == "true" || toggled == true) {
+    //         isChecked = true;
+    //     }
+    //     setToggled(!isChecked);
+    // }
+
+    // remove inpirational video
+
+    // const removeInspirationalVideo = () => {
+    //     var formData = {};
+    //     fetch(route('removeInspirationalVideo'), {
+    //         method: "post",
+
+    //         body: formData,
+    //     })
+    //         .then((response) => response.json())
+    //         .then((data) => {
+    //             if (data.success) {
+    //                 setPreviewVedio("")
+    //                 setPreviewVedioHide(false);
+    //                 setIsSettingSave(new Date().getSeconds());
+    //             } else {
+    //             }
+    //         })
+    //         .catch((error) => {
+    //             console.log(error);
+    //         });
+    // }
+    // remove inpirational video
+
+    // const removeLogo = () => {
+    //     var formData = {};
+    //     fetch(route("removeLogo"), {
+    //         method: "post",
+
+    //         body: formData,
+    //     })
+    //         .then((response) => response.json())
+    //         .then((data) => {
+    //             if (data.success) {
+    //                 //setPreviewVedio("")
+    //                 setPreviewLogoHide(false);
+    //                 setPreviwLogo("");
+    //                 setIsSettingSave(new Date().getSeconds());
+    //             } else {
+    //             }
+    //         })
+    //         .catch((error) => {
+    //             console.log(error);
+    //         });
+    // }
+
+    // Choose selected color
+
+
+    
+    
+    // const [finalFavIcon, setFinalFavIcon] = useState(null);
+    // const [successToastVideo, setSuccessToastVideo] = useState("");
+    // const [gdError, setGdError] = useState(false);
+    // const [klavioError, setKlavioError] = useState(false);
+    // const [gdErrorMsg, setGdErrorMsg] = useState('');
+    // const [klavioErrorMsg, setKlavioErrorMsg] = useState('');
+        // const [senderEmail, setSenderEmail] = useState("");
+    
+    // const [active, setActive] = useState(false);
+    // const [activeRejectionConfirmModel, setActiveRejectionConfirmModel] = useState(false);
+    // const [open, setOpen] = useState(true);
+    // const [successMsg, setSuccessMsg] = useState('');
+    // const [gdApi, setGdApi] = useState("");
+    // const [gdClientId, setGdClientId] = useState("");
+    // const [gdSecretKey, setGdSecretKey] = useState("");
+    // const [gdFolder, setGdFolder] = useState("");
+    // const [klavioApi, setKlavioApi] = useState("");
+    // const [klavioEmail, setKlavioEmail] = useState("");
+    // const [mailgunAPI, setMailgunAPI] = useState("");
+    // const [mailgunDomain, setMailgunDomain] = useState("");
+    // const [mailgunEndpoint, setMailgunEndpoint] = useState("");
+    // const [currentLang, setCurrentLang] = useState("en");
+    // const [isSettingSave, setIsSettingSave] = useState("");
+    // const [emailTemplateButton, setEmailTemplateButton] = useState(true);
+
+
+    // const [imagename, setImagename] = useState("");
+    // const [videoname, setVideoname] = useState("");
+    
+    // const [store, setStore] = useState("");
+    
+    // const [instructionFieldValue, setinstructionFieldValue] = useState("Record a video (up to 30 seconds)");
+
+    // const [buttonColorHide, setButtonColorHide] = useState(false);
+    // const [pageLink, setPageLink] = useState('');
+    // const successToast = active ? (
+    //     shopify.toast.show('Setting saved successfully', {
+    //         duration: 3000,
+    //     })
+    // ) : null;
+
+
+    // const handleChangeRejectionConfirmModel = useCallback(
+    //     () => setActiveRejectionConfirmModel(!activeRejectionConfirmModel),
+    //     [activeRejectionConfirmModel]
+    // );
+
+    
+
+    // const handleToggle = useCallback(() => setOpen((open) => !open), []);
+
+    // const handleSenderApi = useCallback((newValue) => setGdApi(newValue), []);
+
+    // const handleSenderClientId = useCallback((newValue) => setGdClientId(newValue), []);
+
+    // const handleSenderSecKey = useCallback((newValue) => setGdSecretKey(newValue), []);
+
+    // const handleSenderFolder = useCallback((newValue) => setGdFolder(newValue), []);
+
+    // const handleSenderEmail = useCallback((newValue) => setSenderEmail(newValue), []);
+
+    // const handleKlavioApi = useCallback((newValue) => setKlavioApi(newValue), []);
+
+    // const handleKlavioEmail = useCallback((newValue) => setKlavioEmail(newValue), []);
+
+    // const handleMailgunAPI = useCallback((newValue) => setMailgunAPI(newValue), []);
+
+    // const handleMailgunDomain = useCallback((newValue) => setMailgunDomain(newValue), []);
+
+    // const handleMailgunEndPoint = useCallback((newValue) => setMailgunEndpoint(newValue), []);
+
+    
+
+    // const landingPageHandler = useCallback(
+    //     (value) => setLandingPage(value),
+    //     []
+    // );
+
+    // const emailSentToValueHandler = useCallback(
+    //     (value) => setEmailSentToValue(value),
+    //     []
+    // );
+
+    // const landingPageDisplayedValueHandler = useCallback(
+    //     (value) => setLandingPageDisplayedValue(value),
+    //     []
+    // );
+
+    // const handleInstructionFieldChange = useCallback(
+    //     (value) => setinstructionFieldValue(value),
+    //     []
+    // );
+    // const toggleActive = useCallback(() => setActive((active) => !active), []);

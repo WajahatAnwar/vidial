@@ -139,8 +139,6 @@ function AdminDashboard(props) {
     }
 
     useEffect(() => {
-        console.log(sorting);
-        console.log("sorting");
         let url = new URL(pagination.path);
         if (searchQuery) {
             url.searchParams.set('s', searchQuery);
