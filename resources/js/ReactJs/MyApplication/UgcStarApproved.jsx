@@ -4,7 +4,7 @@ import {
     Card,
     ColorPicker,
     DropZone,
-    Frame,
+    Box,
     Grid,
     hsbToHex,
     Icon,
@@ -278,7 +278,7 @@ const UgcStarApproved = () => {
 
             <Page>
 
-                <Frame>
+                <Box>
 
                     <Grid>
                         <Grid.Cell
@@ -516,7 +516,7 @@ const UgcStarApproved = () => {
                         </div>
                     </Modal>
                     {toastMarkup && toastMarkup}
-                </Frame>
+                </Box>
 
             </Page>
         </div>

@@ -1,4 +1,4 @@
-import { Banner, Button, ButtonGroup, Card, ColorPicker, DropZone, Frame, Grid, Icon, List, Modal, Page, Popover, RadioButton, Select, Spinner, Text, TextField, Thumbnail, Toast, Tooltip, hsbToHex } from "@shopify/polaris";
+import { Banner, Button, ButtonGroup, Card, ColorPicker, DropZone, Box, Grid, Icon, List, Modal, Page, Popover, RadioButton, Select, Spinner, Text, TextField, Thumbnail, Toast, Tooltip, hsbToHex } from "@shopify/polaris";
 import { CircleCancelMajor, NoteMinor, ClipboardMinor } from "@shopify/polaris-icons";
 
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -379,9 +379,9 @@ const Settings = () => {
     };
     const copyCode = (store) => {
         const baseUrl = window.location.origin;
-        const iframeSrc = `${baseUrl}/s/${approvedStoreHandle}`;
+        const iBoxSrc = `${baseUrl}/s/${approvedStoreHandle}`;
         const codeToCopy = `<style>
-            iframe {
+            iBox {
                 width: 100%;
                 border: none; /* Disable border */
                 outline: none !important; /* Disable focus outline */
@@ -390,8 +390,8 @@ const Settings = () => {
                 height: 160vh;
             }
             </style>
-            <iframe src="${iframeSrc}" frameborder="0" scrolling="no">
-            </iframe>`;
+            <iBox src="${iBoxSrc}" Boxborder="0" scrolling="no">
+            </iBox>`;
         navigator.clipboard.writeText(codeToCopy)
             .then(() => {
                 setSuccessMsg("Code Copied Successfully");
@@ -1280,7 +1280,7 @@ const Settings = () => {
                 </div>
             ) : (
                 <Page>
-                    <Frame>
+                    <Box>
                         <Grid>
 
                             <Grid.Cell
@@ -2860,7 +2860,7 @@ const Settings = () => {
                                 </Text>
                             </Modal.Section>
                         </Modal>
-                    </Frame>
+                    </Box>
                 </Page>
             )}
         </div>

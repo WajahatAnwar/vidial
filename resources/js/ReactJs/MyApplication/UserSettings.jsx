@@ -6,7 +6,7 @@ import {
     Card,
     ColorPicker,
     DropZone,
-    Frame,
+    Box,
     Grid,
     Icon,
     List,
@@ -1111,7 +1111,7 @@ const UserSettings = () => {
                 </div>
             ) : (
                 <Page>
-                    <Frame>
+                    <Box>
                         <Grid>
 
                             <Grid.Cell
@@ -2242,7 +2242,7 @@ const UserSettings = () => {
                                 </Text>
                             </Modal.Section>
                         </Modal>
-                    </Frame>
+                    </Box>
                 </Page>
             )}
         </div>

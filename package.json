@@ -35,6 +35,7 @@
         "@mui/icons-material": "^6.1.10",
         "@mui/material": "^6.1.10",
         "@reduxjs/toolkit": "^1.8.6",
+        "@shopify/app-bridge": "^3.7.10",
         "@shopify/app-bridge-react": "^4.1.6",
         "@shopify/polaris": "^13.9.2",
         "@shopify/polaris-icons": "^6.4.0",

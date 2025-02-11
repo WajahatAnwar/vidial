@@ -3,7 +3,7 @@ import {
     Button,
     Card,
     DataTable,
-    Frame,
+    Box,
     Grid,
     Page,
     Select,
@@ -12,16 +12,13 @@ import {
     SkeletonPage,
     Spinner,
     Tabs,
-    TextContainer,
+    Text,
     TextField,
     Toast
 } from "@shopify/polaris";
 import { useCallback, useEffect, useState } from 'react';
-
 import { router, usePage } from "@inertiajs/react";
 import Toggle from "./Toggle";
-
-
 function AdminDashboard(props) {
 
     const [pagination, setPagination] = useState({
@@ -56,7 +53,7 @@ function AdminDashboard(props) {
     const toggleActive = useCallback(() => setActive((active) => !active), []);
 
     const toastMarkup = active ? (
-        <Toast content="Link Copied to Clipboard" onDismiss={toggleActive} />
+        shopify.toast.show('Link Copied to Clipboard')
     ) : null;
 
     const tabs = [
@@ -271,34 +268,34 @@ function AdminDashboard(props) {
                         <div className="loadingStateCustom">
                             <SkeletonBodyText />
                             <Card>
-                                <TextContainer>
+                                <Text>
                                     <SkeletonDisplayText size="small" />
                                     <SkeletonBodyText />
-                                </TextContainer>
+                                </Text>
                             </Card>
                             <Card>
-                                <TextContainer>
+                                <Text>
                                     <SkeletonDisplayText size="small" />
                                     <SkeletonBodyText />
-                                </TextContainer>
+                                </Text>
                             </Card>
 
 
                             <Card>
-                                <TextContainer>
+                                <Text>
                                     <SkeletonDisplayText size="small" />
                                     <SkeletonBodyText lines={2} />
-                                </TextContainer>
+                                </Text>
                             </Card>
                             <Card>
                                 <SkeletonBodyText lines={1} />
                             </Card>
 
                             <Card>
-                                <TextContainer>
+                                <Text>
                                     <SkeletonDisplayText size="small" />
                                     <SkeletonBodyText lines={2} />
-                                </TextContainer>
+                                </Text>
                             </Card>
                             <Card>
                                 <SkeletonBodyText lines={2} />
@@ -310,9 +307,9 @@ function AdminDashboard(props) {
                         <Grid.Cell columnSpan={{ xs: 6, sm: 6, md: 12, lg: 12, xl: 12 }}>
                             <div style={{ height: "0px" }}>
 
-                                <Frame>
+                                <Box>
                                     {toastMarkup}
-                                </Frame>
+                                </Box>
                             </div>
                             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                                 <h1 className="Polaris-Header-Title" style={{ paddingBottom: "10px", paddingTop: "10px" }}>Stores List</h1>

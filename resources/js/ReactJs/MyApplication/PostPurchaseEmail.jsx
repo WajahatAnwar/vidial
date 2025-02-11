@@ -4,7 +4,7 @@ import {
     Card,
     ColorPicker,
     DropZone,
-    Frame,
+    Box,
     Grid,
     hsbToHex,
     Icon,
@@ -285,7 +285,7 @@ const PostPurchaseEmail = () => {
         <div >
 
             <Page>
-                <Frame>
+                <Box>
                     <Grid>
                         <Grid.Cell
                             columnSpan={{
@@ -519,7 +519,7 @@ const PostPurchaseEmail = () => {
                         </Modal.Section>
                     </Modal>
                     {toastMarkup && toastMarkup}
-                </Frame>
+                </Box>
             </Page>
         </div>
     );

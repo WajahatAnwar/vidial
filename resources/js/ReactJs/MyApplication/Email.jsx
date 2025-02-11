@@ -6,7 +6,7 @@ import {
     Card,
     Collapsible,
     DropZone,
-    Frame,
+    Box,
     Grid,
     Icon,
     List,
@@ -1133,7 +1133,7 @@ const Email = () => {
                 </div>
             ) : (
                 <Page>
-                    <Frame>
+                    <Box>
                         <Grid>
 
                             <Grid.Cell
@@ -1891,7 +1891,7 @@ const Email = () => {
                                 </Text>
                             </Modal.Section>
                         </Modal>
-                    </Frame>
+                    </Box>
                 </Page>
             )}
         </div>

@@ -4,7 +4,7 @@ import {
     Card,
     ColorPicker,
     DropZone,
-    Frame,
+    Box,
     Grid,
     hsbToHex,
     Icon,
@@ -277,7 +277,7 @@ const UgcDeclinedEmail = () => {
         <div>
 
             <Page>
-                <Frame>
+                <Box>
                     <Grid>
                         <Grid.Cell
                             columnSpan={{
@@ -514,7 +514,7 @@ const UgcDeclinedEmail = () => {
                         </div>
                     </Modal>
                     {toastMarkup && toastMarkup}
-                </Frame>
+                </Box>
             </Page>
         </div>
     );

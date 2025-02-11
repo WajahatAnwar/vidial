@@ -4,7 +4,7 @@ import {
     Card,
     ColorPicker,
     DropZone,
-    Frame,
+    Box,
     Grid,
     hsbToHex,
     Icon,
@@ -286,7 +286,7 @@ const ReminderEmail = () => {
         <div>
 
             <Page>
-                <Frame>
+                <Box>
                     <Grid>
                         <Grid.Cell
                             columnSpan={{
@@ -519,7 +519,7 @@ const ReminderEmail = () => {
                         </div>
                     </Modal>
                     {toastMarkup && toastMarkup}
-                </Frame>
+                </Box>
             </Page>
         </div>
     );
