@@ -24,7 +24,7 @@ import Toggle from "./Toggle";
 function AdminDashboard(props) {
 
     const [pagination, setPagination] = useState({
-        // path: 'https://phpstack-953879-3439374.cloudwaysapps.com/getDataofallPlans',
+        // path: 'https://app.goodauthentic.com/getDataofallPlans',
         path: route('getDataofallPlans'),
         next_cursor: null,
         next_page_url: null,

@@ -63,6 +63,8 @@ class CollectionsCreateJob implements ShouldQueue
      */
     public function handle(IShopCommand $shopCommand, IShopQuery $shopQuery, CancelCurrentPlan $cancelCurrentPlanAction): bool
     {
+        logger()->info("CollectionCreateJobCalled");
+
         $this->domain = ShopDomain::fromNative($this->domain);
         $shop = $shopQuery->getByDomain($this->domain);
         $payload = $this->data;

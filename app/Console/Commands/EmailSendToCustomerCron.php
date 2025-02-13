@@ -41,31 +41,61 @@ class EmailSendToCustomerCron extends Command
      */
     public function handle()
     {
-        $order_list = Orders::with('marchent')->whereHas('marchent', function ($query) {
+        // Old Query 
+        // $order_list = Orders::with('marchent')->whereHas('marchent', function ($query) {
 
-            $query->whereHas('settings', function ($subQuery) {
-                $subQuery->where('email_status', '=', 'true');
-            });
-        })
+        //     $query->whereHas('settings', function ($subQuery) {
+        //         $subQuery->where('email_status', '=', 'true');
+        //     });
+        // })
+        //     ->where('remaining_mail', '>', 0)
+        //     ->where('replied', '=', 0)
+        //     ->where('email_service', '=', 'mailgun')
+        //     ->lazy();
+        $order_list = Orders::with('marchent')
+            ->whereHas('marchent', function ($query) {
+                $query->whereHas('settings', function ($subQuery) {
+                    $subQuery->where('email_status', 'true');
+                })
+                    ->where('remaining_email', '>', 0);
+            })
             ->where('remaining_mail', '>', 0)
-            ->where('replied', '=', 0)
-            ->where('email_service', '=', 'mailgun')
+            ->where('replied', 0)
+            ->where('email_service', 'mailgun')
+            ->where(function ($query) {
+                $query->whereRaw("STR_TO_DATE(email_send_at, '%Y-%m-%d %H:%i:%s') <= NOW()")
+                    ->orWhereRaw("STR_TO_DATE(reminder_mail, '%Y-%m-%d %H:%i:%s') <= NOW()");
+            })
             ->lazy();
+
+        $count = Orders::with('marchent')
+
+            ->whereHas('marchent', function ($query) {
+                $query->whereHas('settings', function ($subQuery) {
+                    $subQuery->where('email_status', 'true');
+                })
+                    ->where('remaining_email', '>', 0);
+            })
+            ->where('remaining_mail', '>', 0)
+            ->where('replied', 0)
+            ->where('email_service', 'mailgun')
+            ->where(function ($query) {
+                $query->whereRaw("STR_TO_DATE(email_send_at, '%Y-%m-%d %H:%i:%s') <= NOW()")
+                    ->orWhereRaw("STR_TO_DATE(reminder_mail, '%Y-%m-%d %H:%i:%s') <= NOW()");
+            })
+            ->count();
+
+        Log::info(json_encode($count));
         foreach ($order_list as $order) {
-            /******** check user activate email settings *********/
-            // if ($order->marchent->settings->email_status) {
 
             $settings = Setting::where('user_id', $order->user_id)->first();
-            // $current_user = User::find($order->user_id);
             $current_user = $order->marchent;
-            // check merchant plan has email to send
-            //  //  \Log::info(json_encode($order->marchent, JSON_PRETTY_PRINT));
             if ($order->marchent != null) {
-                /** check merchant has email in subscription */
                 if ($order->marchent->remaining_email > 0) {
                     $email_parts = explode('@', $order->email);
                     $name = $email_parts[0];
                     App::setLocale($settings->locale);
+
                     $details = [
                         'id' => $order->id,
                         'order_id' => Crypt::encryptString($order->id),
@@ -82,31 +112,16 @@ class EmailSendToCustomerCron extends Command
                         'store_name' => $current_user->store_name,
                         'shopify_store_name' => $settings->user->store_name,
                         'store_currency' => $current_user->store_currency,
-                        // 'url' => env('APP_URL') . "/landingPage" . "/" . $settings->locale
-                        //     . "?store=" . $settings->user->name . "&order_id=" . Crypt::encryptString($order->id)
                         'url' => env('APP_URL') . '/s/' . ($current_user->store_handle ? $current_user->store_handle : str_replace(' ', '_', $current_user->store_name)) . '?order_id=' . Crypt::encryptString($order->id)
 
                     ];
-                    // Log::info(json_encode($details));
                     if ($order->email_status == 1) {
-
-                        // Log::info("Order Email Status is 1");
+                        // Log::info(json_encode($order));
+                        // Log::info("This is from Reminder mail");
                         if ($order->replied == 0) {
-
-                            // Log::info("Order Email is 0");
-                            if ($order->email_send == 1 && $order->replied == 0 && $order->remaining_mail > 0) {
-                                // Log::info('We are good in the if Loop where we got email_send 1, replied 0 and remaining email is greater than 0');
-
-                                $date1 = Carbon::parse(Carbon::now());
-                                $date2 = Carbon::parse($order->reminder_mail);
-                                $diffInHours = $date1->diffInHours($date2);
-
-                                // if ($diffInHours <= 0) {
-                                //comment code email by ali
-                                /* $mgClient = Mailgun::create(
-                                env('MAILGUN_SECRET'), // Mailgun API Key
-                                env('MAILGUN_ENDPOINT')
-                                );*/
+                            $date1 = Carbon::parse(Carbon::now());
+                            $date2 = Carbon::parse($order->reminder_mail);
+                            if ($order->email_send == 1 && $order->replied == 0 && $order->remaining_mail > 0 && $date2->isPast()) {
                                 $domain = env('MAILGUN_DOMAIN');
                                 $subject_reminder = "Share your feedback and receive " . getCurrencySymbol($details['store_currency'])
                                     . $details['discount_amount'] . " from " . $details['shopify_store_name'];
@@ -153,8 +168,7 @@ class EmailSendToCustomerCron extends Command
                                 $temlateDetails['name'] = $order->customer_name;
                                 $temlateDetails['discount_code'] = '';
                                 $temlateDetails['reason_decline'] = '';
-
-
+                                // Log::info('sending reminder email at: ' . $order->email);
 
                                 dispatch(new EmailTemplateJob($temlateDetails));
                                 $log_details = [
@@ -179,20 +193,7 @@ class EmailSendToCustomerCron extends Command
                                 $order->marchent()->update([
                                     'remaining_email' => $order->marchent->remaining_email - 1,
                                 ]);
-                                // } else {
-                                //     Log::info("Diff should be zerooo ");
-                                //     Log::info($diffInHours);
-                                //     Log::info($date1);
-                                //     Log::info($date2);
-                                //     Log::info(json_encode($order, JSON_PRETTY_PRINT ));
 
-                                // }
-                            } else {
-
-                                // Log::info("Order Email Send is not 1 , Order Replied is not 0 or Order Remaining mail is 0 ");
-                                // Log::info(json_encode($order->email_send, JSON_PRETTY_PRINT));
-                                // Log::info(json_encode($order->replied, JSON_PRETTY_PRINT));
-                                // Log::info(json_encode($order->remaining_mail, JSON_PRETTY_PRINT));
                             }
                         } else {
 
@@ -200,18 +201,13 @@ class EmailSendToCustomerCron extends Command
                             // Log::info(json_encode($order, JSON_PRETTY_PRINT));
                         }
                     } else {
-                        // \Log::info(var_dump(Carbon::now()->gte(Carbon::parse($order->email_send_at))));
+                        // Log::info(json_encode($order));
+                        // Log::info("This is from Post Purchase mail");
 
-                        $date1 = Carbon::parse(Carbon::now());
-                        $date2 = Carbon::parse($order->email_send_at);
-                        $diffInHours = $date1->diffInHours($date2);
+                        $date1 = Carbon::parse($order->email_send_at);
+                        $date2 = Carbon::parse(Carbon::now());
+                        if ($date1->isPast() && $order->remaining_mail > 0 && $order->email_send == 0) {
 
-                        if ($diffInHours <= 0 && $order->remaining_mail > 0 && $order->email_send == 0) {
-                            //comment email code by ali
-                            /*$mgClient = Mailgun::create(
-                            env('MAILGUN_SECRET'), // Mailgun API Key
-                            env('MAILGUN_ENDPOINT')
-                            );*/
                             $domain = env('MAILGUN_DOMAIN');
 
                             $subject = "Win a " . getCurrencySymbol($details['store_currency'])
@@ -246,9 +242,6 @@ class EmailSendToCustomerCron extends Command
                                 'v:amount' => getCurrencySymbol($details['store_currency']) . $details['discount_amount'],
                                 'v:url' => $details['url'],
                             );
-
-                            //  \Log::info(json_encode($params, JSON_PRETTY_PRINT));
-                            //comment email code by ali
                             $temlateDetails['user_id'] = $order->user_id;
                             $temlateDetails['type'] = 'Post_Purchase';
                             $temlateDetails['view'] = 'emails.post_purchase';
@@ -259,10 +252,8 @@ class EmailSendToCustomerCron extends Command
                             $temlateDetails['amount'] = $settings->store_credit ?? 15;
                             $temlateDetails['discount_code'] = '';
                             $temlateDetails['reason_decline'] = '';
-                            //  \Log::info('sending email');
+                            Log::info('sending post email at: ' . $order->email);
                             dispatch(new EmailTemplateJob($temlateDetails));
-                            //$mgClient->messages()->send($domain, $params);
-
                             $log_details = [
                                 'type' => "EMAIL",
                                 'send_to' => $order->email,
@@ -270,7 +261,7 @@ class EmailSendToCustomerCron extends Command
                                 'order_id' => $order->order_id,
                                 'email_type' => config('constants.post_purchase'),
                                 'customer_name' => $order->customer_name,
-                                'customer_email' => $order->customer_email
+                                'customer_email' => $order->emailA
                             ];
                             update_log_file($log_details);
                             SendMantleEventJob::dispatch($settings->user, config('constants.post_purchase'), $log_details);
@@ -280,27 +271,25 @@ class EmailSendToCustomerCron extends Command
                                 'email_status' => 1,
                                 'remaining_mail' => $order->remaining_mail - 1,
                             ]);
-                            //update from merchant  that email sent
                             $order->marchent()->update([
                                 'remaining_email' => $order->marchent->remaining_email - 1,
                             ]);
                         } else {
-                            Log::info('Required Date Time: ' . $date2);
-                            Log::info('Current Date Time: ' . $date1);
-                            // Log::info(json_encode($order, JSON_PRETTY_PRINT));
+                            // Log::info('Required Date Time: ' . $date2);
+                            // Log::info('Current Date Time: ' . $date1);
                         }
                     }
                 } else {
-                    Log::info("Email Limit Reached for Below User");
-                    Log::info(json_encode($order->merchant, JSON_PRETTY_PRINT));
+                    // Log::info("Email Limit Reached for Below User");
+                    // Log::info(json_encode($order->user_id, JSON_PRETTY_PRINT));
                 }
             } else {
-                Log::info("User Not found in Email Send Customer Cron Job");
+                // Log::info("User Not found in Email Send Customer Cron Job");
             }
-            // }
         }
 
-        // Log::info("Good Bye Signing OFFFF. . . . . .");
+        Log::info("Email Send to Customer Cron Job Called Completed");
+
 
         return true;
     }

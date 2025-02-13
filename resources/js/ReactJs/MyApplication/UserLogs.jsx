@@ -34,11 +34,10 @@ export default function UserLogs() {
 
     useEffect(() => {
         let url = `/u-logs?sort=${sorting}&id=${id}`;
-        // search
         if (searchQuery) {
             url += `&q=${searchQuery}`;
         }
-        console.log(url);
+
         fetch(url)
             .then((response) => response.json())
             .then((data) => {
@@ -76,8 +75,6 @@ export default function UserLogs() {
                         />
                     </div>
                     <div>
-
-
                         <Button onClick={() => setReload(!reload)}>
                             Search
                         </Button>

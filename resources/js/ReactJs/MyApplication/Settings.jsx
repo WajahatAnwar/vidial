@@ -58,7 +58,7 @@ const Settings = () => {
     const [gradientCheck, setGradientCheck] = useState(false);
     const [logoImage, setLogoImage] = useState("");
     const [video, setVideo] = useState("");
-    const [baseUrl, setBaseUrl] = useState("https://phpstack-953879-3439374.cloudwaysapps.com");
+    const [baseUrl, setBaseUrl] = useState("https://app.goodauthentic.com");
     const [previewLogo, setPreviwLogo] = useState("");
     const [previewLogoHide, setPreviewLogoHide] = useState(false);
     const [previewVedio, setPreviewVedio] = useState("");

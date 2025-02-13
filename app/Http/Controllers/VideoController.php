@@ -37,6 +37,29 @@ class VideoController extends Controller
     /****** get pending videos  ********/
     public function getPendingVideos(Request $request)
     {
+
+        $user = Auth::user();
+        $user = User::find(id: $user->id);
+
+        // $user = User::find(id: '333');
+        // Log::info(json_encode($user, JSON_PRETTY_PRINT));
+        // $response = $user->api()->rest('GET', 'admin/api/2024-01/webhooks.json');
+
+        // Log::info("OKOKOKO");
+        // Log::info(json_encode($response, JSON_PRETTY_PRINT));
+
+
+        // $res2 = $user->api()->rest('POST', '/admin/api/2023-10/webhooks.json', [
+        //         'webhook' => [
+        //             'topic' => 'customers/create',
+        //             'format' => 'json',
+        //             'address' => 'https://app.goodauthentic.com/webhook/customers-create'
+        //         ]
+        //     ]);
+
+        // Log::info(json_encode($res2, JSON_PRETTY_PRINT));
+
+
         if ($request->filled('id')) {
             $user = User::find($request->id);
             if (!$user) {
@@ -77,7 +100,7 @@ class VideoController extends Controller
             if ($remainingVideos <= 0) {
                 return response()->json([
                     'success' => false,
-                    'message' => 'You have reached the limit of videos allowed in your current plan. To accept more videos, please upgrade your plan.',
+                    'message' => 'You have reached the limit of videos allowed in your current plan, please upgrade your plan.',
                     'data' => ['remaining_videos' => 1]
                 ], 403);
             }
@@ -85,7 +108,7 @@ class VideoController extends Controller
             if ($remainingEmails <= 0) {
                 return response()->json([
                     'success' => false,
-                    'message' => 'You have reached the limit of emails allowed in your current plan. To accept more emails, please upgrade your plan.',
+                    'message' => 'You have reached the limit of emails allowed in your current plan, please upgrade your plan.',
                     'data' => ['remaining_emails' => 1]
                 ], 403);
             }
@@ -127,11 +150,15 @@ class VideoController extends Controller
                 : new EmailTemplateJob($templateDetails);
             dispatch($job);
 
+            $customerName = $video->order
+                ? ($video->order->customer_name ?: 'No Customer Name')
+                : 'No Order Given';
+
             $logDetails = [
                 'type' => "EMAIL",
                 'send_to' => $video->email,
                 'user_id' => $user->id,
-                'customer_name' => optional($video->order)->customer_name,
+                'customer_name' => $customerName,
                 'customer_email' => $video->email,
                 'email_type' => config('constants.video_approved'),
             ];
@@ -216,7 +243,10 @@ class VideoController extends Controller
             $current_settings = Setting::where('user_id', $user->id)->first();
             $code = $this->createDiscountCode($request->type);
             $redirect = 'https://' . $user->name;
-            $customerName = optional($videos->order)->customer_name;
+            $customerName = $videos->order
+                ? ($videos->order->customer_name ?: 'No Customer Name')
+                : 'No Order Given';
+            // $customerName = optional($videos->order)->customer_name;
             if ($request->type == 'star_rating') {
                 $temlateDetails['amount'] = Auth::user()->settings->star_credit;
                 $temlateDetails['type'] = 'UGC_Star_Approved';
@@ -307,8 +337,9 @@ class VideoController extends Controller
 
             $email_parts = explode('@', $videos->email);
             $name = $email_parts[0];
-            $customerName = optional($videos->order)->customer_name;
-
+            $customerName = $videos->order
+                ? ($videos->order->customer_name ?: 'No Customer Name')
+                : 'No Order Given';
             // $details = [
             //     'rejectionReason' => $request->reason,
             //     'mail' => $videos->email,
@@ -329,8 +360,6 @@ class VideoController extends Controller
             $temlateDetails['storename'] = auth()->user()->store_name;
             $temlateDetails['amount'] = Auth::user()->settings->store_credit;
             $temlateDetails['url'] = env('APP_URL') . "/landingPage" . "/" . Auth::user()->settings->locale . "?store=" . Auth::user()->name;
-
-            //$temlateDetails['name'] = $videos->email;
             $temlateDetails['discount_code'] = '';
             $temlateDetails['reason_decline'] = $request->reason;
             $klavio = KlavioCredential::where('user_id', $user->id)->first();
@@ -642,6 +671,10 @@ class VideoController extends Controller
                 // $log_details['customer_id'] = $customer->customer_id;
                 $log_details['customer_name'] = $customer->first_name . ' ' . $customer->last_name;
                 $log_details['customer_email'] = $customer->email;
+            }else{
+                $log_details['customer_name'] = 'Name not given';
+                $log_details['customer_email'] = 'Email not given';
+
             }
             update_log_file($log_details);
 

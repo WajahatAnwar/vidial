@@ -115,35 +115,20 @@ function WaitingVideos() {
                 body: formData,
             })
                 .then((response) => {
-                    if (!response.ok) {
-                        throw new Error("Something went wrong");
-                    }
                     return response.json();
                 })
                 .then((data) => {
-                    console.log(data);
-                    console.log("data");
 
                     if (data.success) {
-                        // Show a Toast of Success
                         shopify.toast.show(data.message, {
                             duration: 5000,
-                        })
+                        });
 
                     } else {
                         shopify.toast.show(data.message, {
                             duration: 5000,
-                        })
-                        // if (
-                        //     data.data.remaining_Videos ||
-                        //     data.data.remaining_emails
-                        // ) {
-                        //     setupgradeButton(true);
-                        //  We need to show a popup which says upgrade your plan as now it's limit reached . . . 
-                        // }
-                        // Show a Toast of Error
-
-                        // setVideoFeedback(data.message);
+                            isError: true
+                        });
                     }
                     setReload(true);
                     handleClickCancel();

@@ -40,6 +40,7 @@ class KlavioEmailJob implements ShouldQueue
      */
     public function handle()
     {
+        logger()->info("KlaviyoEmailJobCalled");
         // logger('KlavioEmailJob');
         $client = new \GuzzleHttp\Client();
         $this->eventName = $this->order ? 'Post Purchase '.$this->order['order_id'] : $this->video['type'].'_GoodAuthentic';

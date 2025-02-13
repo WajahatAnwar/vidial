@@ -177,7 +177,7 @@ function Plans() {
                                     )}
                                 </div>
                                 {Object.keys(data)
-                                    .filter((key) => key.startsWith("description")) // Get only keys that start with "description"
+                                    .filter((key) => key.startsWith("description_")) // Get only keys that start with "description"
                                     .map((descKey) => (
                                         <p
                                             key={descKey}

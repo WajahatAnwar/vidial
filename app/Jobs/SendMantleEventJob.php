@@ -24,8 +24,9 @@ class SendMantleEventJob implements ShouldQueue
      *
      * @return void
      */
-    public function __construct($user,$event_name,$details)
+    public function __construct($user, $event_name, $details)
     {
+        $this->onQueue('mantle_events');
         $this->user = $user;
         $this->details = $details;
         $this->event_name = $event_name;
@@ -38,21 +39,22 @@ class SendMantleEventJob implements ShouldQueue
      */
     public function handle()
     {
-       
+        // logger()->info('Mantle Event Job Triggered. . . ');
         $customer = Customer::where('email', $this->details['customer_email'])->first();
-        LaravelLog::info(json_encode($customer));
-        if($customer){
+        // LaravelLog::info(json_encode($customer));
+        if ($customer) {
             $cid = (string) $customer->customer_id;
             $token = (string) $this->user->mantle_token;
             $response = Http::withHeaders([
-            'Content-Type' => 'application/json',
-            'X-Mantle-Customer-Api-Token' => $token,
-            'X-Mantle-App-Id' => env('MANTLE_AP_ID'),
+                'Content-Type' => 'application/json',
+                'X-Mantle-Customer-Api-Token' => $token,
+                'X-Mantle-App-Id' => env('MANTLE_AP_ID'),
             ])->post('https://appapi.heymantle.com/v1/usage_events', [
-                'customerId' => $cid,
-                'eventId' => rand(1, 1000),
-                'eventName' => env('APP_ENV') == 'staging' ? 'ST_'.$this->event_name : $this->event_name,
-            ]);
+                        'customerId' => $cid,
+                        'eventId' => rand(1, 1000),
+                        'eventName' => env('APP_ENV') == 'staging' ? 'ST_' . $this->event_name : $this->event_name,
+                    ]);
         }
+        return;
     }
 }

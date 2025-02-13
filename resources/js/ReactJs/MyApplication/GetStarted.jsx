@@ -8,7 +8,7 @@ import RightIcon from '@/ReactJs/MyApplication/imges/righticon.png';
 function GetStarted() {
 
 
-  const app_url = 'https://phpstack-953879-3439374.cloudwaysapps.com';
+  const app_url = 'https://app.goodauthentic.com';
 
   const [open, setOpen] = useState(true);
   const [faqOne, setFaqOne] = useState(true);
@@ -46,7 +46,7 @@ function GetStarted() {
 
   const handleVersionUpdate = () => {
     let go_to_url = `${app_url}/authenticate?shop=${user.name}`;
-    window.location.href = go_to_url;
+    
 
     setTimeout(() => {
       fetch(route('update-version'))
@@ -56,8 +56,7 @@ function GetStarted() {
         })
         .catch(error => console.error('Error updating version:', error));
     }, 3000);
-
-
+    window.open(go_to_url);
   };
 
   useEffect(() => {

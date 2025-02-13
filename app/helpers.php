@@ -649,9 +649,10 @@ if (!function_exists('sendMail')) {
                 $api_secret_key, // Mailgun API Key
                 $end_point
             );
-            //$domain = env('MAILGUN_DOMAIN');
+            $domain = env('MAILGUN_DOMAIN');
 
             $html = view($view, $data)->render();
+            // logger()->info($to);
 
             $params = [
                 'from' => $from . " < " . $mail_user_name . " >",
@@ -667,6 +668,8 @@ if (!function_exists('sendMail')) {
             return true;
         } catch (\Exception $e) {
             // Log the error
+            logger()->info(json_encode($params));
+
             CustomLog::info('Error sending email: ' . $e->getMessage());
 
             // Return false to indicate failure
@@ -1268,7 +1271,7 @@ if (!function_exists('connectGoogleDrive')) {
 if (!function_exists('customerCreateUpdate')) {
     function customerCreateUpdate($payload, $shop)
     {
-        $user = User::where('name', $shop->name)->first();
+        $user = User::where('name', $shop?->name)->first();
 
         try {
 
@@ -1279,8 +1282,8 @@ if (!function_exists('customerCreateUpdate')) {
                 [
                     'user_id' => $user->id,
                     'customer_id' => $payload->id,
-                    'first_name' => $payload->first_name,
-                    'last_name' => $payload->last_name,
+                    'first_name' => $payload?->first_name,
+                    'last_name' => $payload?->last_name,
                     'email' => $payload->email,
                     'customer_created_at' => $payload->created_at,
                 ]

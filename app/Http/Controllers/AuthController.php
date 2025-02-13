@@ -165,7 +165,7 @@ class AuthController extends Controller
         
 
         $settings = Setting::where('user_id', Auth::user()->id)->first();
-        $discount_amount = ($type == 'star_rating') ? $settings->star_credit : $settings->store_credit;
+        $discount_amount = ($type == 'star_rating') ? $settings?->star_credit : $settings?->store_credit;
 
         $discountCodeCreateQuery = <<<GRAPHQL
         mutation discountCodeBasicCreate(\$basicCodeDiscount: DiscountCodeBasicInput!) {
@@ -280,117 +280,126 @@ class AuthController extends Controller
         SaveMentalTokenJob::dispatch($shop);
         // }
 
-        $shop->store_currency = $shopData['body']['data']['shop']['currencyCode'];
-        $shop->email = $shopData['body']['data']['shop']['email'];
-        $shop->store_name = $shopData['body']['data']['shop']['name'];
+        if (isset($shopData['body']['data']) && isset($shopData['body']['data']['shop']['name'])) {
+            $shop->store_currency = $shopData['body']['data']['shop']['currencyCode'];
+            $shop->email = $shopData['body']['data']['shop']['email'];
+            $shop->store_name = $shopData['body']['data']['shop']['name'];
 
-        $shop_store_name = $shop->store_name;
-        /**
-         * check shop handle already exist
-         */
-        // $handleExistance = User::where(function ($query) use ($shop_store_name) {
-        //     $query->where('store_handle',$shop_store_name)
-        //     ->orWhere('store_name', $shop_store_name);
-        // })->where('id', '!=', Auth::user()->id)->first();
-        // if($handleExistance){
+            $shop_store_name = $shop->store_name;
+            /**
+             * check shop handle already exist
+             */
+            // $handleExistance = User::where(function ($query) use ($shop_store_name) {
+            //     $query->where('store_handle',$shop_store_name)
+            //     ->orWhere('store_name', $shop_store_name);
+            // })->where('id', '!=', Auth::user()->id)->first();
+            // if($handleExistance){
 
-        //     $shop->store_handle = str_replace(' ','_', $shopData['body']['shop']['name'] . '_' . Str::random(5));
+            //     $shop->store_handle = str_replace(' ','_', $shopData['body']['shop']['name'] . '_' . Str::random(5));
 
-        // }else {
-        //     $shop->store_handle = str_replace(' ', '_', $shopData['body']['shop']['name']);
-        // }
+            // }else {
+            //     $shop->store_handle = str_replace(' ', '_', $shopData['body']['shop']['name']);
+            // }
 
-        // $shop->plan_id = 1;
-        $shop->save();
+            // $shop->plan_id = 1;
+            $shop->save();
 
-        $inst = json_encode([
-            ['id' => 1, 'value' => 'Record a video (up to 30 seconds)'],
-            ['id' => 2, 'value' => 'Share your genuine experience of the product'],
-            ['id' => 3, 'value' => 'Showcase the product'],
-            // ['id' => 4, 'value' => "Tell why you've decided to try  " . $shop->store_name],
-            ['id' => 4, 'value' => "Explain why you've decided to try the product"],
-            ['id' => 5, 'value' => "Describe the main benefits of the product"],
-        ]);
+            $inst = json_encode([
+                ['id' => 1, 'value' => 'Record a video (up to 30 seconds)'],
+                ['id' => 2, 'value' => 'Share your genuine experience of the product'],
+                ['id' => 3, 'value' => 'Showcase the product'],
+                // ['id' => 4, 'value' => "Tell why you've decided to try  " . $shop->store_name],
+                ['id' => 4, 'value' => "Explain why you've decided to try the product"],
+                ['id' => 5, 'value' => "Describe the main benefits of the product"],
+            ]);
 
-        /**
-         * check shop handle already exist
-         */
+            /**
+             * check shop handle already exist
+             */
 
-        if (User::where('id', $shop->id)->whereNull('store_handle')->first()) {
+            if (User::where('id', $shop->id)->whereNull('store_handle')->first()) {
 
-            $handleExistance = User::where(function ($query) use ($shop_store_name) {
-                $query->where('store_handle', $shop_store_name)
-                    ->orWhere('store_name', $shop_store_name);
-            })->where('id', '!=', Auth::user()->id)->first();
-            if ($handleExistance) {
-                User::where('id', $shop->id)->update([
-                    'store_handle' => str_replace(' ', '_', $shopData['body']['shop']['name'] . '_' . Str::random(5))
-                ]);
-            } else {
-                User::where('id', $shop->id)->update([
-                    'store_handle' => str_replace(' ', '_', $shopData['body']['shop']['name'])
-                ]);
+                $handleExistance = User::where(function ($query) use ($shop_store_name) {
+                    $query->where('store_handle', $shop_store_name)
+                        ->orWhere('store_name', $shop_store_name);
+                })->where('id', '!=', Auth::user()->id)->first();
+                if ($handleExistance) {
+                    User::where('id', $shop->id)->update([
+                        'store_handle' => str_replace(' ', '_', $shopData['body']['shop']['name'] . '_' . Str::random(5))
+                    ]);
+                } else {
+                    if(isset($shopData['body']['shop']['name'])){
+                        User::where('id', $shop->id)->update([
+                            'store_handle' => str_replace(' ', '_', $shopData['body']['shop']['name'])
+                        ]);
+                    }
+                }
             }
+
+
+            // adding settings on installation
+            Setting::firstOrCreate([
+                'user_id' => $shop->id
+            ], [
+                'user_id' => $shop->id,
+                'store_credit' => 50,
+                'logo' => '',
+                'instructions' => $inst,
+                'instruction_title' => 'Send us a video and receive a discount of up to ' . getCurrencySymbol($shop->store_currency) . '75 on your next purchase',
+                'video' => '',
+                'page_color' => '#28282B',
+                'page_display_to_customers' => 3,
+                'email_sent_to_customer' => 2,
+                'page_link' => 10,
+                'locale' => 'en',
+                'email_status' => 'true'
+            ]);
+
+
+            $current_user = User::find(Auth::user()->id);
+
+            if ($current_user->role_id == null) {
+                $current_user->role_id = 2;
+                $current_user->save();
+            }
+            $user = User::with('settings')->find($shop->id);
+            $this->starVideoApprovedTemplate($shop->id, $user);
+            $this->videoApprovedTemplate($shop->id, $user);
+            $this->postPurchaseTemplate($shop->id, $user);
+            $this->videoDeclinedTemplate($shop->id, $user);
+            $this->reminderTemplate($shop->id, $user);
+            $x_forwarded_for = $_SERVER["HTTP_X_FORWARDED_FOR"];
+
+            $json_array = [
+                "api_key" => "pk_thN2QcHq",
+                "shopName" => "$shop->name",
+                "appId" => "31461507073",
+                "XFF" => "$x_forwarded_for"
+            ];
+            $curl = curl_init();
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => 'https://platform.shoffi.app/v1/newMerchant',
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => '',
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => 'POST',
+                CURLOPT_POSTFIELDS => json_encode($json_array),
+                CURLOPT_HTTPHEADER => array(
+                    'Content-Type: application/json'
+                ),
+            ));
+            $response = curl_exec($curl);
+            curl_close($curl);
+            // dd($response);
+
+        } else {
+
+            logger()->info("Got An Error While fetching Shop Data");
+            logger()->info(json_encode($shopData, JSON_PRETTY_PRINT));
         }
-
-
-        // adding settings on installation
-        Setting::firstOrCreate([
-            'user_id' => $shop->id
-        ], [
-            'user_id' => $shop->id,
-            'store_credit' => 50,
-            'logo' => '',
-            'instructions' => $inst,
-            'instruction_title' => 'Send us a video and receive a discount of up to ' . getCurrencySymbol($shop->store_currency) . '75 on your next purchase',
-            'video' => '',
-            'page_color' => '#28282B',
-            'page_display_to_customers' => 3,
-            'email_sent_to_customer' => 2,
-            'page_link' => 10,
-            'locale' => 'en',
-            'email_status' => 'true'
-        ]);
-
-
-        $current_user = User::find(Auth::user()->id);
-
-        if ($current_user->role_id == null) {
-            $current_user->role_id = 2;
-            $current_user->save();
-        }
-        $user = User::with('settings')->find($shop->id);
-        $this->starVideoApprovedTemplate($shop->id, $user);
-        $this->videoApprovedTemplate($shop->id, $user);
-        $this->postPurchaseTemplate($shop->id, $user);
-        $this->videoDeclinedTemplate($shop->id, $user);
-        $this->reminderTemplate($shop->id, $user);
-        $x_forwarded_for = $_SERVER["HTTP_X_FORWARDED_FOR"];
-
-        $json_array = [
-            "api_key" => "pk_thN2QcHq",
-            "shopName" => "$shop->name",
-            "appId" => "31461507073",
-            "XFF" => "$x_forwarded_for"
-        ];
-        $curl = curl_init();
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => 'https://platform.shoffi.app/v1/newMerchant',
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => '',
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => 'POST',
-            CURLOPT_POSTFIELDS => json_encode($json_array),
-            CURLOPT_HTTPHEADER => array(
-                'Content-Type: application/json'
-            ),
-        ));
-        $response = curl_exec($curl);
-        curl_close($curl);
-        // dd($response);
 
         return Inertia::render('MyApplication/GetStarted');
     }

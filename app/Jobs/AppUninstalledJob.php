@@ -68,7 +68,6 @@ class AppUninstalledJob extends \Osiset\ShopifyApp\Messaging\Jobs\AppUninstalled
             logger()->info("customer_api_token");
             logger()->info($user);
             $user->save();
-            
             $shopId = $shop->getId();
             $shopCommand->softDelete($shopId);
         } else {

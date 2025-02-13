@@ -64,6 +64,7 @@ class CollectionsDeleteJob implements ShouldQueue
      */
     public function handle(IShopCommand $shopCommand, IShopQuery $shopQuery, CancelCurrentPlan $cancelCurrentPlanAction): bool
     {
+        logger()->info(json_encode("delete collection job"));
         $this->domain = ShopDomain::fromNative($this->domain);
 
         $shop = $shopQuery->getByDomain($this->domain);
