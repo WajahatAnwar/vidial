@@ -1,3 +1,6 @@
+import '@/ReactJs/MyApplication/css/editor.css';
+import ColorWheel from "@/ReactJs/MyApplication/imges/collorWheel.png";
+import DellIcon from "@/ReactJs/MyApplication/imges/dellIcon.png";
 import { router, usePage } from "@inertiajs/react";
 import {
     Banner,
@@ -18,14 +21,10 @@ import {
     Text,
     TextField,
     Thumbnail,
-    Toast,
     hsbToHex
 } from "@shopify/polaris";
-import { CircleCancelMajor, NoteMinor, TickMinor } from "@shopify/polaris-icons";
+import { CircleCancelMajor, NoteMinor } from "@shopify/polaris-icons";
 import { useCallback, useEffect, useState } from "react";
-import '@/ReactJs/MyApplication/css/editor.css';
-import ColorWheel from "@/ReactJs/MyApplication/imges/collorWheel.png";
-import DellIcon from "@/ReactJs/MyApplication/imges/dellIcon.png";
 /**
 const urlParams = new URLSearchParams(location.search);
 const shopParam = urlParams.get('shop');
@@ -142,7 +141,10 @@ const UserSettings = () => {
     };
 
     const toastMarkup = active ? (
-        <Toast content={successMsg} onDismiss={toggleActive} />
+        // <Toast content={successMsg} onDismiss={toggleActive} />
+        shopify.toast.show('Settings Added Successfully', {
+            duration: 5000,
+        })
     ) : null;
     const [selected, setSelected] = useState("en");
 
@@ -228,7 +230,7 @@ const UserSettings = () => {
     const [store, setStore] = useState("");
     // const [baseUrl, setBaseUrl] = useState("https://8737-72-255-40-111.ngrok-free.app");
     //const [baseUrl, setBaseUrl] = useState("https://8737-72-255-40-111.ngrok-free.app");
-    const [baseUrl, setBaseUrl] = useState("https://phpstack-953879-3439374.cloudwaysapps.com");
+    const [baseUrl, setBaseUrl] = useState("https://app.goodauthentic.com");
     const [imagename, setImagename] = useState("");
     const [videoname, setVideoname] = useState("");
     const [previewLogo, setPreviwLogo] = useState("");
@@ -880,7 +882,10 @@ const UserSettings = () => {
         []
     );
     const successToast = active ? (
-        <Toast content="Settings Saved" onDismiss={true} />
+        // <Toast content="Settings Saved" onDismiss={true} />
+        shopify.toast.show('Settings Saved', {
+            duration: 5000,
+        })
     ) : null;
 
     const handleRemoveAlreadyUploadedLogo = () => {

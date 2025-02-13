@@ -1,3 +1,6 @@
+import backIcon from "@/ReactJs/MyApplication/imges/backIcon.png";
+import ColorWheel from "@/ReactJs/MyApplication/imges/collorWheel.png";
+import Delete from "@/ReactJs/MyApplication/imges/Delete.svg";
 import { router, usePage } from "@inertiajs/react";
 import {
     Button,
@@ -14,15 +17,11 @@ import {
     Text,
     TextField,
     Thumbnail,
-    Toast,
     Tooltip
 } from "@shopify/polaris";
 import { CircleCancelMajor, NoteMinor } from "@shopify/polaris-icons";
 import { Editor } from '@tinymce/tinymce-react';
 import { useCallback, useEffect, useRef, useState } from "react";
-import backIcon from "@/ReactJs/MyApplication/imges/backIcon.png";
-import ColorWheel from "@/ReactJs/MyApplication/imges/collorWheel.png";
-import Delete from "@/ReactJs/MyApplication/imges/Delete.svg";
 // import './css/editor.css'
 /**
 const urlParams = new URLSearchParams(location.search);
@@ -39,7 +38,10 @@ const UgcDeclinedEmail = () => {
     const [activeToggle, setActiveToggle] = useState(false);
     const toggleActive = useCallback(() => setActiveToggle((activeToggle) => !activeToggle), []);
     const toastMarkup = activeToggle ? (
-        <Toast content="Template Saved" onDismiss={toggleActive} />
+        // <Toast content="Template Saved" onDismiss={toggleActive} />
+        shopify.toast.show('Template Saved', {
+            duration: 5000,
+        })
     ) : null;
     const [alreadyUploadLogo, setAlreadyUploadedLogo] = useState('');
     const handleRemoveAlreadyUploadedLogo = () => {
@@ -103,7 +105,7 @@ const UgcDeclinedEmail = () => {
     );
     const uploadedFilesPreview = files.length > 0 && (
         <div style={{ padding: '0' }}>
-            <div className="delete-btn-icons"  style={{ width: "60px", marginBottom: "10px" }} >
+            <div className="delete-btn-icons" style={{ width: "60px", marginBottom: "10px" }} >
                 {files.map((file, index) => (
                     <div key={index}>
                         <Thumbnail
@@ -207,7 +209,7 @@ const UgcDeclinedEmail = () => {
         let url = ''
         if (id) {
             url = route('single-fetch-email-settings', { id: id, type: 'UGC_Declined' });
-        }else{
+        } else {
             url = route('fetch-email-settings', { type: 'UGC_Declined', ...query });
 
         }
@@ -330,7 +332,7 @@ const UgcDeclinedEmail = () => {
                                             {uploadedFilesPreview}
                                             {(!files.length && alreadyUploadLogo) &&
                                                 <div style={{ padding: '0' }}>
-                                                    <div className="delete-btn-icons"  style={{ width: "60px", marginBottom: "10px" }} >
+                                                    <div className="delete-btn-icons" style={{ width: "60px", marginBottom: "10px" }} >
                                                         <Thumbnail
                                                             size="medium"
                                                             alt="img"

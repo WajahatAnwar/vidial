@@ -63,6 +63,8 @@ class CollectionsUpdateJob implements ShouldQueue
      */
     public function handle(IShopCommand $shopCommand, IShopQuery $shopQuery, CancelCurrentPlan $cancelCurrentPlanAction): bool
     {
+        logger()->info(json_encode("update collection job"));
+
         $this->domain = ShopDomain::fromNative($this->domain);
         $shop = $shopQuery->getByDomain($this->domain);
         $payload = $this->data;

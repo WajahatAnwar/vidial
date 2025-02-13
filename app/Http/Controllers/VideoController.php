@@ -24,108 +24,42 @@ use App\Jobs\UploadVideoGoogleDrive;
 use Illuminate\Support\Facades\Crypt;
 use App\Models\Customer;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class VideoController extends Controller
 {
-    public function index(Request $request)
-    {
-        $client = new Client(env('DROPBOX_ACCEESS_TOKEN', ''), env('DROPBOX_APP_NAME', ''));
-        $file = $request->file('file');
-        $path = '/Videos/' . $file->getClientOriginalName();
-        $mode = \Dropbox\WriteMode::add();
-        $result = $client->uploadFile($path, $mode, fopen($file->getRealPath(), 'rb'));
-        if ($result) {
-            return response()->json(['success' => true]);
-        } else {
-            return response()->json(['success' => false]);
-        }
-    }
-    /****** test upload video on dropbox  ********/
 
     public function testupload(Request $request)
     {
         return view('landingPage.test');
     }
-    public function testUploaded(Request $request)
-    {
-
-
-
-
-
-        $file = $request->file('video');
-        $request->validate([
-            'video' => 'required|mimetypes:video/avi,video/mpeg,video/quicktime,video/mp4',
-        ], [
-            'video.required' => 'Please select a video file',
-            'video.mimetypes' => 'Please upload a valid video file'
-        ]);
-        $token = "Bearer sl.BZltdKFVlg8ZeudLmlBMk5SxuoZIfKxJ-BscwRA0PfBU5o76V01LAtq2qdY3My8dU6l7viS6L9cLh0VgHcE9vAiI2BXepeyb5QE2B3KdA8MRHYEAaSK8uM31g_oWm9brlp9Hk6GQ";
-        try {
-            $client = new Client([
-                'headers' => [
-                    'Authorization' => $token,
-                    'Content-Type' => 'application/octet-stream',
-                    'Dropbox-API-Arg' => json_encode([
-                        'path' => '/vidial/' . $file->getClientOriginalName(),
-                        'mode' => 'add',
-                        'autorename' => true,
-                        'mute' => false,
-                    ])
-                ]
-            ]);
-
-            $response = $client->request('POST', 'https://content.dropboxapi.com/2/files/upload', [
-                'body' => fopen($file, 'r'),
-            ]);
-        } catch (\Exception $e) {
-
-            Log::error('An error occurred: ' . $e->getMessage());
-        }
-
-        // Get response body
-        $body = $response->getBody()->getContents();
-        $data = json_decode($body, true);
-        dd($data['path_display']);
-        // fetching Preview Link
-        if (isset($data['path_display']) && !empty($data['path_display'])) {
-            try {
-                $client = new Client();
-                $response = $client->post('https://api.dropboxapi.com/2/files/get_temporary_link', [
-                    'headers' => [
-                        'Authorization' => $token
-                    ],
-                    'json' => [
-                        'path' => $data['path_display'],
-                    ],
-                ]);
-                $videoLink = json_decode($response->getBody()->getContents(), true)['link'];
-            } catch (\Exception $e) {
-                Log::error('An error occurred: ' . $e->getMessage());
-            }
-        }
-        // save Preview Link into DB
-        $video['video_link'] = $videoLink;
-        $video['email'] = 'test@gmail.com';
-        $video['status'] = config('constants.video_pending');
-        $video['user_id'] = 1;
-        if (Video::create($video)) {
-            return response()->json([
-                'success' => true,
-                'message' => 'Video Uploaded Successfully',
-            ]);
-        }
-        return response()->json([
-            'success' => false,
-            'message' => 'Something went wrong',
-        ]);
-    }
-
 
     /****** get pending videos  ********/
-
     public function getPendingVideos(Request $request)
     {
+
+        $user = Auth::user();
+        $user = User::find(id: $user->id);
+
+        // $user = User::find(id: '333');
+        // Log::info(json_encode($user, JSON_PRETTY_PRINT));
+        // $response = $user->api()->rest('GET', 'admin/api/2024-01/webhooks.json');
+
+        // Log::info("OKOKOKO");
+        // Log::info(json_encode($response, JSON_PRETTY_PRINT));
+
+
+        // $res2 = $user->api()->rest('POST', '/admin/api/2023-10/webhooks.json', [
+        //         'webhook' => [
+        //             'topic' => 'customers/create',
+        //             'format' => 'json',
+        //             'address' => 'https://app.goodauthentic.com/webhook/customers-create'
+        //         ]
+        //     ]);
+
+        // Log::info(json_encode($res2, JSON_PRETTY_PRINT));
+
+
         if ($request->filled('id')) {
             $user = User::find($request->id);
             if (!$user) {
@@ -156,7 +90,118 @@ class VideoController extends Controller
 
     public function videoOperation(Request $request)
     {
+        DB::beginTransaction();
 
+        try {
+            $user = Auth::user();
+            $remainingVideos = $user->remaining_videos ?? $user->ugc_video_count;
+            $remainingEmails = $user->remaining_email;
+
+            if ($remainingVideos <= 0) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'You have reached the limit of videos allowed in your current plan, please upgrade your plan.',
+                    'data' => ['remaining_videos' => 1]
+                ], 403);
+            }
+
+            if ($remainingEmails <= 0) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'You have reached the limit of emails allowed in your current plan, please upgrade your plan.',
+                    'data' => ['remaining_emails' => 1]
+                ], 403);
+            }
+
+            $video = Video::with('order')
+                ->where('user_id', $user->id)
+                ->where('id', $request->video_id)
+                ->where('status', '!=', config('constants.video_approved'))
+                ->firstOrFail();
+
+            $video->update([
+                'approved_video_type' => $request->type == 'star_rating' ? 'star_rating' : null,
+                'status' => config('constants.video_approved')
+            ]);
+
+            $discount_code = $this->createDiscountCode($request->type);
+
+            $parts = explode('/', $discount_code[0]->id);
+            $code_id = end($parts);
+
+            $code = $discount_code[0]->code;
+
+            $templateDetails = [
+                'amount' => $user->settings->{$request->type == 'star_rating' ? 'star_credit' : 'store_credit'},
+                'type' => $request->type == 'star_rating' ? 'UGC_Star_Approved' : 'UGC_Approved',
+                'view' => $request->type == 'star_rating' ? 'emails.ugc_star_approved' : 'emails.ugc_approved',
+                'user_id' => $user->id,
+                'mail' => $video->email,
+                'name' => optional($video->order)->customer_name,
+                'storename' => $user->store_name,
+                'url' => 'https://' . $user->name,
+                'discount_code' => $code,
+                'reason_decline' => ''
+            ];
+
+            $klavio = KlavioCredential::where('user_id', $user->id)->first();
+            $job = $klavio
+                ? new KlavioEmailJob($klavio->api_key, $klavio->email, null, $templateDetails, $video->id)
+                : new EmailTemplateJob($templateDetails);
+            dispatch($job);
+
+            $customerName = $video->order
+                ? ($video->order->customer_name ?: 'No Customer Name')
+                : 'No Order Given';
+
+            $logDetails = [
+                'type' => "EMAIL",
+                'send_to' => $video->email,
+                'user_id' => $user->id,
+                'customer_name' => $customerName,
+                'customer_email' => $video->email,
+                'email_type' => config('constants.video_approved'),
+            ];
+            update_log_file($logDetails);
+            SendMantleEventJob::dispatch($user, config('constants.video_approved'), $logDetails);
+
+            // Update user's remaining videos and emails
+            $user->remaining_videos -= 1;
+            $user->remaining_email -= 1;
+
+            // Save discount history
+            Discount::create([
+                'discount_code' => $code,
+                'discount_id' => $code_id,
+                'video_id' => $video->id,
+                'discount_meta' => json_encode($discount_code)
+            ]);
+
+            // Upload video to Google Drive if access token exists
+            if ($user->gd_access_token) {
+                dispatch(new UploadVideoGoogleDrive($user, $video->video_link, $video->path));
+            }
+
+            DB::commit(); // Commit the transaction if everything is successful
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Status Changed Successfully',
+                'data' => $code,
+            ]);
+
+        } catch (\Exception $e) {
+            DB::rollBack(); // Roll back the transaction in case of an error
+            Log::error('Video Operation Error: ' . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Something went wrong. Please try again later.',
+            ], 500);
+        }
+    }
+
+    public function videoOperationOLD(Request $request)
+    {
         $user = User::find(Auth::user()->id);
         if ($user->remaining_videos === NULL || $user->remaining_videos == '') {
             $remainingVideos = $user->ugc_video_count;
@@ -165,7 +210,7 @@ class VideoController extends Controller
         } else {
             $remainingVideos = $user->remaining_videos;
         }
-        $remaining_email = $user->remaining_email;
+        $remainingEmail = $user->remaining_email;
         // remaining video
         if ($remainingVideos <= 0) {
             $data['remaining_Videos'] = 1;
@@ -176,11 +221,10 @@ class VideoController extends Controller
                 'data' => $data
             ]);
         }
-        if ($remaining_email <= 0) {
+        if ($remainingEmail <= 0) {
             $data['remaining_emails'] = 1;
             return response()->json([
                 'success' => false,
-                'message' => 'Email Limitation has been expired',
                 'message' => 'You have reached the limit of emails allowed in your current plan.To
             accept more emails,please upgrade your plan',
                 'data' => $data
@@ -199,7 +243,10 @@ class VideoController extends Controller
             $current_settings = Setting::where('user_id', $user->id)->first();
             $code = $this->createDiscountCode($request->type);
             $redirect = 'https://' . $user->name;
-            $customerName = optional($videos->order)->customer_name;
+            $customerName = $videos->order
+                ? ($videos->order->customer_name ?: 'No Customer Name')
+                : 'No Order Given';
+            // $customerName = optional($videos->order)->customer_name;
             if ($request->type == 'star_rating') {
                 $temlateDetails['amount'] = Auth::user()->settings->star_credit;
                 $temlateDetails['type'] = 'UGC_Star_Approved';
@@ -233,7 +280,7 @@ class VideoController extends Controller
             SendMantleEventJob::dispatch($user, config('constants.video_approved'), $log_details);
 
             $updateUser = User::find(Auth::user()->id);
-            $updateUser->remaining_email = $remaining_email - 1;
+            $updateUser->remaining_email = $remainingEmail - 1;
             $updateUser->remaining_videos = $remainingVideos - 1;
             $updateUser->save();
 
@@ -256,7 +303,7 @@ class VideoController extends Controller
             return response()->json([
                 'success' => true,
                 'message' => 'Status Changed Successfully',
-                'data' =>  $code,
+                'data' => $code,
             ]);
         }
         return response()->json([
@@ -268,44 +315,43 @@ class VideoController extends Controller
     /******** reject video *****/
     public function rejectVideo(Request $request)
     {
-
         $user = User::find(Auth::user()->id);
         $remainingVideos = $user->remaining_videos == null ? $user->remaining_videos : $user->ugc_video_count;
-        $remaining_email = $user->remaining_email;
-        // remaining video
-        // if($remainingVideos <=0 ){
-        //     return response()->json([
-        //         'success' => false,
-        //         'message' => 'Video Limitation has been expired',
-        //     ]);
-        // }
-        if ($remaining_email <= 0) {
+        $remainingEmail = $user->remaining_email;
+
+        if ($remainingEmail <= 0) {
             return response()->json([
                 'success' => false,
                 'message' => 'Email Limitation has been expired',
             ]);
         }
+
         $videos = video::with('order')->where('user_id', Auth::user()->id)
             ->where('id', $request->video_id)
             ->where('status', '!=', config('constants.video_approved'))
             ->first();
+
         if ($videos) {
             $videos->status = config('constants.video_reject');
             $videos->save();
+
             $email_parts = explode('@', $videos->email);
             $name = $email_parts[0];
-            $customerName = optional($videos->order)->customer_name;
+            $customerName = $videos->order
+                ? ($videos->order->customer_name ?: 'No Customer Name')
+                : 'No Order Given';
+            // $details = [
+            //     'rejectionReason' => $request->reason,
+            //     'mail' => $videos->email,
+            //     'name' => $name,
+            //     'storename' => Auth::user()->store_name,
+            //     'storeteam' => Auth::user()->name,
+            //     'url' => env('APP_URL') . "/landingPage" . "/" . Auth::user()->settings->locale . "?store=" . Auth::user()->name,
+            //     'locale' => $user->settings->locale,
+            // ];
 
-            $details = [
-                'rejectionReason' => $request->reason,
-                'mail'            => $videos->email,
-                'name' => $name,
-                'storename' => Auth::user()->store_name,
-                'storeteam' => Auth::user()->name,
-                'url' => env('APP_URL') . "/landingPage" . "/" . Auth::user()->settings->locale . "?store=" . Auth::user()->name,
-                'locale' => $user->settings->locale,
-            ];
             //dispatch(new NotApprovedMailjob($details));
+
             $temlateDetails['user_id'] = Auth::user()->id;
             $temlateDetails['type'] = 'UGC_Declined';
             $temlateDetails['view'] = 'emails.ugc_declined';
@@ -314,8 +360,6 @@ class VideoController extends Controller
             $temlateDetails['storename'] = auth()->user()->store_name;
             $temlateDetails['amount'] = Auth::user()->settings->store_credit;
             $temlateDetails['url'] = env('APP_URL') . "/landingPage" . "/" . Auth::user()->settings->locale . "?store=" . Auth::user()->name;
-
-            //$temlateDetails['name'] = $videos->email;
             $temlateDetails['discount_code'] = '';
             $temlateDetails['reason_decline'] = $request->reason;
             $klavio = KlavioCredential::where('user_id', $user->id)->first();
@@ -332,18 +376,20 @@ class VideoController extends Controller
                 'email_type' => config('constants.video_reject'),
             ];
             update_log_file($log_details);
+
             SendMantleEventJob::dispatch($user, config('constants.video_reject'), $log_details);
 
             //dispatch(new videoMail($details));
+
             $updateUser = User::find(Auth::user()->id);
-            $updateUser->remaining_email = $remaining_email - 1;
+            $updateUser->remaining_email = $remainingEmail - 1;
             $updateUser->remaining_videos = $remainingVideos - 1;
             $updateUser->save();
 
             return response()->json([
                 'success' => true,
                 'message' => 'Status Changed Successfully',
-                'data' =>  null,
+                'data' => null,
             ]);
         }
         return response()->json([
@@ -401,25 +447,15 @@ class VideoController extends Controller
     // test function
     public function test(Request $request)
     {
-
-
-
-        $email_count  =  Plan::where('id', auth()->user()->plan_id)->first();
-        $charge   = Charge::where('user_id', auth()->user()->id)
+        $email_count = Plan::where('id', auth()->user()->plan_id)->first();
+        $charge = Charge::where('user_id', auth()->user()->id)
             ->where('status', '=', 'ACTIVE')
             ->first();
         $current_user_approved_video_count = Video::where("user_id", auth()->user()->id)->where('status', config('constants.video_approved'))
             ->where('created_at', '>=', $charge->billing_on)
             ->where('created_at', '<=', Carbon::now())
             ->get();
-
-        dd($current_user_approved_video_count);
-
-
-
         $current_user_approved_video_count = Video::where("user_id", auth()->user()->id)->where('status', config('constants.video_approved'))->whereMonth('created_at', Carbon::now()->month)->count();
-
-        dd(getDropboxToken());
         $dropbox = updateDropboxToken();
         $token = 'Bearer ' . $dropbox['access_token'];
         try {
@@ -435,12 +471,8 @@ class VideoController extends Controller
             $videoLink = json_decode($response->getBody()->getContents(), true)['link'];
             dd($videoLink);
         } catch (\Exception $e) {
-            dd($e->getMessage());
             Log::error('An error occurred: ' . $e->getMessage());
         }
-
-
-        dd('hi');
 
         try {
             $token = "Bearer sl.BZnaalQHjOM-wadrKh4Ek2Cxtp0lt1REIp7_wNMOu2OJWbUrgwzU8OyGErBf8HPeernpeIjyKVjXtrwbvzzPgXjvvF2NU4AEHqK0013EtI_W9JDnW_dbCGN4v0f3ijGwI3RqQBAi";
@@ -462,48 +494,8 @@ class VideoController extends Controller
             $videoLink = json_decode($response->getBody()->getContents(), true)['url'];
             $replaced = str_replace("www.dropbox.com", "dl.dropboxusercontent.com", $videoLink);
         } catch (\Exception $e) {
-            dd($e->getMessage());
             Log::error('An error occurred: ' . $e->getMessage());
         }
-
-
-
-        dd($videoLink, $replaced);
-
-        // successfully running code Create Price Rule
-
-
-        $shop = Auth::user();
-        $rules_requirements = [
-            "price_rule" => [
-                "title" => "goodauthentic_code",
-                "target_type" => "line_item",
-                "target_selection" => "all",
-                "allocation_method" => "across",
-                "value_type" => "fixed_amount",
-                "price_rule" => "-10.0",
-                "customer_selection" => "all",
-                "value" => "-10.0",
-                "starts_at" => Carbon::now()->toIso8601String(),
-            ]
-        ];
-        $priceRule = $shop->api()->rest('POST', '/admin/api/2022-10/price_rules.json', $rules_requirements);
-        // Generating Discount Code
-        if (isset($priceRule['body']['price_rule']['id']) && !empty($priceRule['body']['price_rule']['id'])) {
-
-            $discountCode = [
-                'discount_code' =>
-                [
-                    "price_rule_id" => $priceRule['body']['price_rule']['id'],
-                    "code" => $this->generateUniqueDiscountCode(),
-                ]
-            ];
-            $discount = $shop->api()->rest('POST', '/admin/api/2022-07/price_rules/' . $priceRule['body']['price_rule']['id'] . '/discount_codes.json', $discountCode);
-        }
-        dd($discount['discount_code']['id']);
-
-
-
         return;
     }
     //  Generating Unique Discount Code
@@ -587,27 +579,29 @@ class VideoController extends Controller
             'data' => $videoContent
         ]);
     }
-    // // save Preview Link into DB
-    // $video['video_link']=$videoLink;
-    // $video['email']='test@gmail.com';
-    // $video['status']='Pending';
-    // $video['user_id']=1;
-    // if(Video::create($video)){
-    //     return response()->json([
-    //         'success' => true,
-    //         'message' => 'Video Uploaded Successfully',
-    //     ]);
-    // }
-    // return response()->json([
-    //     'success' => false,
-    //     'message' => 'Something went wrong',
-    // ]);
-
-    // save User Uploaded data into database
     public function saveVideo(Request $request)
     {
 
         /****** check link expiration ******/
+
+        // // save Preview Link into DB
+        // $video['video_link']=$videoLink;
+        // $video['email']='test@gmail.com';
+        // $video['status']='Pending';
+        // $video['user_id']=1;
+        // if(Video::create($video)){
+        //     return response()->json([
+        //         'success' => true,
+        //         'message' => 'Video Uploaded Successfully',
+        //     ]);
+        // }
+        // return response()->json([
+        //     'success' => false,
+        //     'message' => 'Something went wrong',
+        // ]);
+
+        // save User Uploaded data into database
+
         $order = null;
         $order_id = null;
         if ($request->filled('order_id')) {
@@ -637,8 +631,6 @@ class VideoController extends Controller
             }
         }
 
-
-
         $video['video_link'] = $request->video_link;
         $video['email'] = $request->email;
         $video['status'] = config('constants.video_pending');
@@ -649,7 +641,7 @@ class VideoController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Store not found',
-            ]);    
+            ]);
         }
         $video['user_id'] = $user->id;
         if (Video::create($video)) {
@@ -679,6 +671,10 @@ class VideoController extends Controller
                 // $log_details['customer_id'] = $customer->customer_id;
                 $log_details['customer_name'] = $customer->first_name . ' ' . $customer->last_name;
                 $log_details['customer_email'] = $customer->email;
+            }else{
+                $log_details['customer_name'] = 'Name not given';
+                $log_details['customer_email'] = 'Email not given';
+
             }
             update_log_file($log_details);
 
@@ -695,55 +691,98 @@ class VideoController extends Controller
         ]);
     }
 
-    public function testing()
-    {
-        $settings = Setting::where('user_id', 2)->first();
-        $user = User::find(2);
-        $view = view('mailtemplate.ordereviewreminder', compact('settings', 'user'));
-        dd($view->render());
-        $shop = Auth::user();
-        $shopData = $shop->api()->rest('get', '/admin/api/2022-07/shop.json');
-        dd($shopData['body']['shop']['currency']);
-    }
-
     // create discount code
 
     public function createDiscountCode($type)
     {
-
         $shop = Auth::user();
         $shop = User::find($shop->id);
         $settings = Setting::where('user_id', Auth::user()->id)->first();
-        $discount_amount =  ($type == 'star_rating') ? $settings->star_credit : $settings->store_credit;
-        $rules_requirements = [
-            "price_rule" => [
-                "title" => "goodauthentic_code",
-                'usage_limit' => 1,
-                "target_type" => "line_item",
-                "target_selection" => "all",
-                "allocation_method" => "across",
-                "value_type" => "fixed_amount",
-                "price_rule" => "-" . $discount_amount,
-                "customer_selection" => "all",
-                "value" => "-" . $discount_amount,
-                "starts_at" => Carbon::now()->toIso8601String(),
-            ]
-        ];
-        $priceRule = $shop->api()->rest('POST', '/admin/api/2022-10/price_rules.json', $rules_requirements);
-        // Generating Discount Code
-        if (isset($priceRule['body']['price_rule']['id']) && !empty($priceRule['body']['price_rule']['id'])) {
-
-            $discountCode = [
-                'discount_code' =>
-                [
-                    "price_rule_id" => $priceRule['body']['price_rule']['id'],
-                    "code" => $this->generateUniqueDiscountCode(),
-                ]
-            ];
-            $discount = $shop->api()->rest('POST', '/admin/api/2022-07/price_rules/' . $priceRule['body']['price_rule']['id'] . '/discount_codes.json', $discountCode);
+        $discount_amount = ($type == 'star_rating') ? $settings->star_credit : $settings->store_credit;
+        $discountCodeCreateQuery = <<<GRAPHQL
+        mutation discountCodeBasicCreate(\$basicCodeDiscount: DiscountCodeBasicInput!) {
+          discountCodeBasicCreate(basicCodeDiscount: \$basicCodeDiscount) {
+        
+            codeDiscountNode {
+              codeDiscount {
+                ... on DiscountCodeBasic {
+                  title
+                  codes(first: 10) {
+                    nodes {
+                      id
+                      code
+                    }
+                  }
+                  startsAt
+                  endsAt
+                  minimumRequirement {
+                    ...on DiscountMinimumQuantity {
+                       greaterThanOrEqualToQuantity
+                    }
+                  }
+                  customerSelection {
+                    ... on DiscountCustomerAll {
+                      allCustomers
+                    }
+                  }
+                  customerGets {
+                    value {
+                      ... on DiscountPercentage {
+                        percentage
+                      }
+                    }
+                    items {
+                      ... on AllDiscountItems {
+                        allItems
+                      }
+                    }
+                  }
+                  appliesOncePerCustomer
+                }
+              }
+            }
+            userErrors {
+              field
+              code
+              message
+            }
+          }
         }
-
-        return $discount['body']['discount_code'];
+        GRAPHQL;
+        $createDiscountCode = $shop->api()->graph($discountCodeCreateQuery, [
+            'basicCodeDiscount' => [
+                'title' => "goodauthentic_code",
+                "code" => $this->generateUniqueDiscountCode(),
+                "combinesWith" => [
+                    "orderDiscounts" => true,
+                    "productDiscounts" => true,
+                    "shippingDiscounts" => true
+                ],
+                "startsAt" => Carbon::now()->toIso8601String(),
+                "customerSelection" => [
+                    "all" => true
+                ],
+                "customerGets" => [
+                    "value" => [
+                        "discountAmount" => [
+                            "amount" => (float) $discount_amount,
+                            "appliesOnEachItem" => false
+                        ]
+                    ],
+                    "items" => [
+                        "all" => true
+                    ]
+                ],
+                "appliesOncePerCustomer" => true,
+                "usageLimit" => 1
+            ]
+        ]);
+        if (isset($createDiscountCode['body']['data']['discountCodeBasicCreate']['codeDiscountNode']['codeDiscount']['codes']['nodes'])) {
+            $dicount_code = $createDiscountCode['body']['data']['discountCodeBasicCreate']['codeDiscountNode']['codeDiscount']['codes']['nodes'];
+        } else {
+            Log::info(json_encode($createDiscountCode['body'], JSON_PRETTY_PRINT));
+        }
+        return $dicount_code;
     }
 
     /**** congratulations page ******/

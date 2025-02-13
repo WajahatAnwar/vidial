@@ -49,6 +49,7 @@ class CustomersDataRequestJob implements ShouldQueue
      */
     public function handle()
     {
+        logger()->info("CustomersDataRequestJobCalled");
         // Convert domain
         $this->shopDomain = ShopDomain::fromNative($this->shopDomain);
 

@@ -12,17 +12,17 @@ import {
     SkeletonPage,
     Spinner,
     Tabs,
-    Text,
-    TextField,
-    Toast
+    TextContainer,
+    TextField
 } from "@shopify/polaris";
 import { useCallback, useEffect, useState } from 'react';
-import { router, usePage } from "@inertiajs/react";
+
+import { router } from "@inertiajs/react";
 import Toggle from "./Toggle";
 function AdminDashboard(props) {
 
     const [pagination, setPagination] = useState({
-        // path: 'https://phpstack-953879-3439374.cloudwaysapps.com/getDataofallPlans',
+        // path: 'https://app.goodauthentic.com/getDataofallPlans',
         path: route('getDataofallPlans'),
         next_cursor: null,
         next_page_url: null,
@@ -53,7 +53,10 @@ function AdminDashboard(props) {
     const toggleActive = useCallback(() => setActive((active) => !active), []);
 
     const toastMarkup = active ? (
-        shopify.toast.show('Link Copied to Clipboard')
+        // <Toast content="Link Copied to Clipboard" onDismiss={toggleActive} />
+        shopify.toast.show('Link Copied to Clipboard', {
+            duration: 5000,
+        })
     ) : null;
 
     const tabs = [
@@ -134,8 +137,6 @@ function AdminDashboard(props) {
     }
 
     useEffect(() => {
-        console.log(sorting);
-        console.log("sorting");
         let url = new URL(pagination.path);
         if (searchQuery) {
             url.searchParams.set('s', searchQuery);

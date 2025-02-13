@@ -88,7 +88,7 @@ if (!function_exists('syncProductsV2')) {
         $fetchedCollections = [];
 
         $query = function ($products_next, $collections_next = null, $variants_next = null) {
-            $products_next = $products_next ?  '"' . $products_next . '"' : 'null';
+            $products_next = $products_next ? '"' . $products_next . '"' : 'null';
             $collections_next = $collections_next ? '"' . $collections_next . '"' : 'null';
             $variants_next = $variants_next ? '"' . $variants_next . '"' : 'null';
 
@@ -479,94 +479,6 @@ if (!function_exists('deleteCollections')) {
     }
 }
 
-if (!function_exists('sync_orders')) {
-    function sync_orders($request)
-    {
-        DB::beginTransaction();
-
-        $user = User::where('name', $request->name)->first();
-        // CustomLog::info(json_encode($user));
-
-        $perPage = 250;
-        $response6 = $user->api()->rest('GET', '/admin/api/2023-04/orders/count.json', [
-            'status' => 'any'
-        ]);
-
-        // CustomLog::info(json_encode($response6));
-
-        if ($response6['errors'] == false) {
-
-            // CustomLog::info(json_encode("ORDER COUNT" . $response6['body']['count']));
-
-            // $productCount = $response6['body']['count'];
-
-            // $iterations = ceil($productCount / $perPage);
-
-            // CustomLog::info($iterations);
-
-            // $next = null;
-
-            // for ($i = 0; $i < $iterations; $i++) {
-
-            //     if ($i == 0) {
-            //         $response7 = $user->api()->rest('GET', '/admin/api/2023-04/orders.json', [
-            //             'status' => 'any',
-            //             'limit' => $perPage,
-            //             'page_info' => $next,
-            //         ]);
-            //     } else {
-            //         $response7 = $user->api()->rest('GET', '/admin/api/2023-04/orders.json', [
-            //             'limit' => $perPage,
-            //             'page_info' => $next,
-            //         ]);
-            //     }
-
-            //     // CustomLog::info(json_encode($response7));
-
-            //     if ($response7['errors'] == false) {
-
-            //         CustomLog::info(json_encode("ORDER" . $response7['errors']));
-
-            //         foreach ($response7['body']['orders'] as $order) {
-            //             OrderSeparatedJob::dispatch($order, $user);
-            //         }
-
-            //         CustomLog::info("THIS IS MY LINK");
-            //         CustomLog::info(json_encode($response7['link']));
-
-            //         if (!$response7['link']) {
-            //             // CustomLog::info("HERE IS THE BREAK 2 INSIDE");
-            //             break;
-            //         }
-
-            //         $link = $response7['link'];
-            //         if ($link) {
-            //             $next = $link->next;
-            //         }
-            //     } else {
-            //         sendApiLog(false, 'API RESPONSE', $response7);
-            //         // DB::commit();
-            //         // return true;
-            //     }
-            // }
-
-            DB::commit();
-
-            $user->order_sync = Carbon::now();
-            $user->save();
-
-            // sendApiLog(true, "ORDERS SYNC SUCCESS", 'ORDERS SYNC SUCCESS');
-            //
-            //
-        } else {
-
-            sendApiLog(false, 'API RESPONSE', $response6);
-            DB::commit();
-            return true;
-        }
-    }
-}
-
 if (!function_exists('removeNodesAndEdges')) {
 
     // $collections['body']['data']['collections']->toArray()
@@ -625,9 +537,9 @@ if (!function_exists('getDropboxToken')) {
         $dropbox = Http::withHeaders([
             'Authorization' => 'Basic ' . base64_encode(env('DROPBOX_CLIENT_ID') . ':' . env('DROPBOX_SECRET_ID'))
         ])->asForm()->post('https://api.dropboxapi.com/oauth2/token', [
-            'grant_type' => 'authorization_code',
-            'code' => env('AUTHORIZATION_CODE', '_UAy1dwO1s4AAAAAAAAAHEFoDnr9-Ppfe8hkLu_Ougw')
-        ]);
+                    'grant_type' => 'authorization_code',
+                    'code' => env('AUTHORIZATION_CODE', '_UAy1dwO1s4AAAAAAAAAHEFoDnr9-Ppfe8hkLu_Ougw')
+                ]);
         return $dropbox->json();
     }
 }
@@ -638,9 +550,9 @@ if (!function_exists('updateDropboxToken')) {
         $dropbox = Http::withHeaders([
             'Authorization' => 'Basic ' . base64_encode(env('DROPBOX_CLIENT_ID') . ':' . env('DROPBOX_SECRET_ID'))
         ])->asForm()->post('https://api.dropboxapi.com/oauth2/token', [
-            'grant_type' => 'refresh_token',
-            'refresh_token' => env('REFRESH_TOKEN')
-        ]);
+                    'grant_type' => 'refresh_token',
+                    'refresh_token' => env('REFRESH_TOKEN')
+                ]);
         // Config::set('dropbox.accessToken', $dropbox['access_token']);
         return $dropbox->json();
     }
@@ -648,8 +560,7 @@ if (!function_exists('updateDropboxToken')) {
     if (!function_exists('dateFormat')) {
         function dateFormat($date)
         {
-            return $date;
-            return $newDate = Carbon::createFromFormat('Y-m-d H:i:s', $date)
+            return Carbon::createFromFormat('Y-m-d H:i:s', $date)
                 ->format('m/d/Y');
         }
     }
@@ -720,7 +631,7 @@ if (!function_exists('getCurrencySymbol')) {
 /****** sending mail ******/
 
 if (!function_exists('sendMail')) {
-    function sendMail($to, $subject, $view, $user_id,$data = [], $from = 'Good Authentic')
+    function sendMail($to, $subject, $view, $user_id, $data = [], $from = 'Good Authentic')
     {
         try {
             $api_secret_key = env('MAILGUN_SECRET');
@@ -738,15 +649,17 @@ if (!function_exists('sendMail')) {
                 $api_secret_key, // Mailgun API Key
                 $end_point
             );
-            //$domain = env('MAILGUN_DOMAIN');
+            $domain = env('MAILGUN_DOMAIN');
 
             $html = view($view, $data)->render();
+            // logger()->info($to);
 
             $params = [
                 'from' => $from . " < " . $mail_user_name . " >",
                 'to' => $to,
                 'subject' => $subject,
                 'html' => $html,
+                'o:tracking-clicks' => 'no',
             ];
 
             $mgClient->messages()->send($domain, $params);
@@ -755,6 +668,8 @@ if (!function_exists('sendMail')) {
             return true;
         } catch (\Exception $e) {
             // Log the error
+            logger()->info(json_encode($params));
+
             CustomLog::info('Error sending email: ' . $e->getMessage());
 
             // Return false to indicate failure
@@ -1352,10 +1267,11 @@ if (!function_exists('connectGoogleDrive')) {
         return $gClient;
     }
 }
+
 if (!function_exists('customerCreateUpdate')) {
     function customerCreateUpdate($payload, $shop)
     {
-        $user = User::where('name', $shop->name)->first();
+        $user = User::where('name', $shop?->name)->first();
 
         try {
 
@@ -1365,9 +1281,9 @@ if (!function_exists('customerCreateUpdate')) {
                 ],
                 [
                     'user_id' => $user->id,
-                    'customer_id' =>  $payload->id,
-                    'first_name' => $payload->first_name,
-                    'last_name' => $payload->last_name,
+                    'customer_id' => $payload->id,
+                    'first_name' => $payload?->first_name,
+                    'last_name' => $payload?->last_name,
                     'email' => $payload->email,
                     'customer_created_at' => $payload->created_at,
                 ]
@@ -1384,67 +1300,4 @@ if (!function_exists('customerCreateUpdate')) {
         }
     }
 }
-/*************** sync customers ************/
-if (!function_exists('syncCustomers')) {
-    function syncCustomers($request)
-    {
-        $user = User::where('name', $request->name)->first();
 
-        $perPage = 250;
-        $customersCount = $user->api()->rest('GET', '/admin/api/2023-10/customers/count.json')['body']['count'];
-        CustomLog::info($customersCount);
-        CustomLog::info("cusotmer count");
-
-        $iterations = ceil($customersCount / $perPage);
-
-        $next = null;
-
-        // DB::beginTransaction();
-
-        try {
-
-            for ($i = 0; $i < $iterations; $i++) {
-                $response = $user->api()->rest('GET', '/admin/api/2023-10/customers.json', [
-                    'limit' => $perPage,
-                    'page_info' => $next,
-                ]);
-                foreach ($response['body']['customers'] as $customer) {
-                    CustomLog::info('eeewwwmy customers create eewww');
-
-
-                    Customer::updateOrCreate(
-                        [
-                            'customer_id' => $customer->id,
-                        ],
-                        [
-                            'user_id' => $user->id,
-                            'customer_id' =>  $customer->id,
-                            'first_name' => $customer->first_name,
-                            'last_name' => $customer->last_name,
-                            'email' => $customer->email,
-                            'customer_created_at' => $customer->created_at,
-                            'orders_count' => $customer->orders_count
-                        ]
-                    );
-                }
-                $link = $response['link'];
-                if ($link) {
-                    $next = $link->next;
-                }
-            }
-
-            // DB::commit();
-
-            // $new = Product::where('user_id', $user->id)->get();
-
-            return response()->json([
-                'success' => true,
-                'message' => 'Customer Created/Updated',
-            ]);
-        } catch (Exception $e) {
-            // DB::rollBack();
-            CustomLog::info($e);
-            return $e->getMessage();
-        }
-    }
-}

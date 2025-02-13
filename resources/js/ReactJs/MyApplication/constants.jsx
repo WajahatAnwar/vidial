@@ -1,1 +1,1 @@
-export const baseUrl = "https://phpstack-953879-3439374.cloudwaysapps.com";
+export const baseUrl = "https://app.goodauthentic.com";

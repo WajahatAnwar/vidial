@@ -37,22 +37,11 @@ class DashboardController extends Controller
 
         $user = Auth::user();
         $user = User::find($user->id);
-        $response = $user->api()->rest('GET', '/admin/api/2022-10/webhooks.json');
-
         $data['pendingVideos'] = $pendingVideos;
         $data['approvedVideos'] = $approvedVideos;
         $data['pendingVideosCount'] = $pendingVideosCount;
         $data['approvedVideosCount'] = $approvedVideosCount;
-        $data['webhooks'] = $response;
         $data['user'] = Auth::user();
-
-        //   $response = $data['user']->api()->rest('POST', '/admin/api/2022-07/webhooks.json', [
-        //     'webhook' => [
-        //         'topic' => 'orders/create',
-        //         'format' => 'json',
-        //         'address' => 'https://www.google.com'
-        //     ]
-        //   ]);
 
         return response()->json([
             'success' => true,
@@ -76,49 +65,4 @@ class DashboardController extends Controller
         ]);
     }
 
-    /**
-     * Update App
-     */
-
-    public function updateApp()
-    {
-        $user = Auth::user();
-        $data['user'] = $user;
-        return response()->json([
-            'success' => true,
-            'message' => 'user data',
-            'data' => $data,
-        ]);
-    }
-
-    public function syncCustomers()
-    {
-        dd('stop');
-        $user = User::find(236);
-
-        syncCustomers($user);
-        dd('synced customer');
-    }
-    public function customerWebhook()
-    {
-        dd('stop');
-
-        $users = User::where('role_id', 2)->withTrashed()->get();
-        foreach ($users as $user) {
-            if ($user->id != 236) {
-                SyncAllCustomers::dispatch($user);
-            }
-            // $webhook = [
-            //     'webhook' => [
-            //         'address' => "https://031b-72-255-40-111.ngrok-free.app/webhook/customers-create",
-            //         'topic' => "customers/create",
-            //         'format' => "json"
-            //     ]
-            // ];
-            // $request = $user->api()->rest('POST', '/admin/api/2023-01/webhooks.json', $webhook);
-        }
-
-        // dd('job run customers');
-        // dd($request);
-    }
 }

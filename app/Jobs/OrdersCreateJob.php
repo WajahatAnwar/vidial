@@ -64,30 +64,32 @@ class OrdersCreateJob implements ShouldQueue
         $payload = $this->data;
         $order_id = $payload->id;
 
-        Log::info("order create job" . $payload->name);
+        // Log::info("order create job" . $payload->name);
 
         // $user = User::with('applications')->where('name', $shop->name)->first();
 
-        $shop_settings =  $shop ? $shop->settings : null;
+        $shop_settings = $shop ? $shop->settings : null;
         if ($shop_settings) {
 
             // Log::info('order create job run successfully');
             $customer_details = $payload->customer;
             if ($payload->contact_email == null || $payload->contact_email == "") {
+                Log::info("We did not Found any contact Email against this order");
+                Log::info(json_encode($payload));
                 return true;
             }
             /********* payload for order ********/
             $order_payload = [
-                'user_id' =>  $shop->id,
+                'user_id' => $shop->id,
                 'order_id' => $order_id,
-                'email' =>  $payload->email ?? $payload->contact_email,
-                'contect_email' =>  $payload->contact_email,
+                'email' => $payload->email ?? $payload->contact_email,
+                'contect_email' => $payload->contact_email,
                 'phone_no' => isset($customer_details->phone) ? $customer_details->phone : '00',
-                'confirmed' =>  "",
+                'confirmed' => "",
                 'order_created_at' => $payload->created_at,
                 'remaining_mail' => $shop_settings->page_display_to_customers,
                 'email_send_at' => Carbon::parse($payload->created_at)->addDays($shop->settings->page_link),
-                'reminder_mail' => Carbon::parse($payload->created_at)->addWeek($shop->settings->email_sent_to_customer),
+                'reminder_mail' => Carbon::parse($payload->created_at)->addWeeks($shop_settings->email_sent_to_customer),
                 'email_status' => $shop_settings->email_status,
                 'customer_name' => $payload->billing_address->first_name ?? ($payload->billing_address->last_name ?? 'Customer'),
                 'email_service' => 'mailgun',
@@ -100,8 +102,13 @@ class OrdersCreateJob implements ShouldQueue
                 /********* sent event to klavio *********/
                 KlavioEmailJob::dispatch($klavio->api_key, $klavio->email, $order_payload);
             }
+            // Log::info(json_encode($order_payload));
+            // Log::info("order_payload");
+
             $order = Orders::updateOrCreate(['order_id' => $order_id], $order_payload);
-            return true;
+        } else {
+            Log::info("We did not Found any Setting against this shop");
+            Log::info(json_encode($shop));
         }
 
         return true;

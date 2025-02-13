@@ -13,10 +13,6 @@ class GoogleDriveController extends Controller
 
     function __construct(Request $request)
     {
-
-
-
-
         // session()->put('token', $this->gClient->getAccessToken());
     }
 

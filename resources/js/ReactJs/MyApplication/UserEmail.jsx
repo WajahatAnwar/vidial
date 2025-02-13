@@ -1,3 +1,8 @@
+import Toggle from "@/ReactJs/MyApplication/Toggle";
+import '@/ReactJs/MyApplication/css/editor.css';
+import ChevronUp from "@/ReactJs/MyApplication/imges/ChevronUpMinor.png";
+import arrowRight from "@/ReactJs/MyApplication/imges/arrowRight.png";
+import ColorWheel from "@/ReactJs/MyApplication/imges/collorWheel.png";
 import { router, usePage } from "@inertiajs/react";
 import {
     Banner,
@@ -15,16 +20,10 @@ import {
     Spinner,
     Text,
     TextField,
-    Thumbnail,
-    Toast
+    Thumbnail
 } from "@shopify/polaris";
 import { CircleCancelMajor, NoteMinor, TickMinor } from "@shopify/polaris-icons";
 import { useCallback, useEffect, useState } from "react";
-import Toggle from "@/ReactJs/MyApplication/Toggle";
-import '@/ReactJs/MyApplication/css/editor.css';
-import ChevronUp from "@/ReactJs/MyApplication/imges/ChevronUpMinor.png";
-import arrowRight from "@/ReactJs/MyApplication/imges/arrowRight.png";
-import ColorWheel from "@/ReactJs/MyApplication/imges/collorWheel.png";
 /**
 const urlParams = new URLSearchParams(location.search);
 const shopParam = urlParams.get('shop');
@@ -128,7 +127,10 @@ const UserEmail = () => {
         setToggled(!isChecked);
     }
     const toastMarkup = active ? (
-        <Toast content={successMsg} onDismiss={toggleActive} />
+        // <Toast content={successMsg} onDismiss={toggleActive} />
+        shopify.toast.show('Settings Added Successfully', {
+            duration: 5000,
+        })
     ) : null;
     const [selected, setSelected] = useState("en");
 
@@ -214,7 +216,7 @@ const UserEmail = () => {
     const [store, setStore] = useState("");
     // const [baseUrl, setBaseUrl] = useState("https://031b-72-255-40-111.ngrok-free.app");
     //const [baseUrl, setBaseUrl] = useState("https://031b-72-255-40-111.ngrok-free.app");
-    const [baseUrl, setBaseUrl] = useState("https://phpstack-953879-3439374.cloudwaysapps.com");
+    const [baseUrl, setBaseUrl] = useState("https://app.goodauthentic.com");
     const [imagename, setImagename] = useState("");
     const [videoname, setVideoname] = useState("");
     const [previewLogo, setPreviwLogo] = useState("");
@@ -835,7 +837,10 @@ const UserEmail = () => {
         []
     );
     const successToast = active ? (
-        <Toast content="Settings Saved" onDismiss={true} />
+        // <Toast content="Settings Saved" onDismiss={true} />
+        shopify.toast.show('Settings Saved', {
+            duration: 5000,
+        })
     ) : null;
 
     const handleRemoveAlreadyUploadedLogo = () => {
@@ -1554,8 +1559,8 @@ const UserEmail = () => {
                                             </List>
                                         </Banner> : ''
                                     } */}
-                                    {/* <div className="googledrivesection"> */}
-                                        {/* <div style={{ marginBottom: "15px" }}>
+                                {/* <div className="googledrivesection"> */}
+                                {/* <div style={{ marginBottom: "15px" }}>
                                             <Text variant="headingLg" as="h5">
                                                 Google Drive
                                             </Text>
@@ -1634,7 +1639,7 @@ const UserEmail = () => {
                                                     </Button>
                                             }
                                         </div> */}
-                                    {/* </div> */}
+                                {/* </div> */}
                                 {/* </Card> */}
 
                                 {/********* Klavio  *********/}

@@ -51,11 +51,12 @@ class CustomersCreateJob implements ShouldQueue
      */
     public function handle(IShopQuery $shopQuery)
     {
+        // logger()->info("CustomersCreateJobCalled");
         // Convert domain
         $this->shopDomain = ShopDomain::fromNative($this->shopDomain);
         $shop = $shopQuery->getByDomain($this->shopDomain);
         customerCreateUpdate($this->data, $shop);
-        return true;
+        return;
         // Do what you wish with the data
         // Access domain name as $this->shopDomain->toNative()
     }

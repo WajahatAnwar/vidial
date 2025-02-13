@@ -1,101 +1,74 @@
 import {
     Box,
     Button,
-    ButtonGroup,
     Card,
+    Divider,
     Grid,
     Icon,
-    Modal,
     Page,
     Text,
-    TextField,
-    Divider
+    TextField
 } from "@shopify/polaris";
 
 import checkmark from "@/ReactJs/MyApplication/imges/checkmark.svg";
 import noVedio from "@/ReactJs/MyApplication/imges/film.png";
 import staricon from "@/ReactJs/MyApplication/imges/Staricon.svg";
-import { router, usePage } from "@inertiajs/react";
+import { router } from "@inertiajs/react";
+import { Modal, TitleBar, useAppBridge } from "@shopify/app-bridge-react";
 import { CircleCancelMajor, CircleTickMajor } from "@shopify/polaris-icons";
 import { useCallback, useEffect, useState } from "react";
 
 function WaitingVideos() {
-    const page = usePage().props;
-    const query = page.ziggy.query;
-
-    const [videoFeedback, setVideoFeedback] = useState(" Congratulations, you just approved the video.");
-    const [videoFeedbackPopupTitle, setVideoFeedbackPopupTitle] = useState("Please Confirm");
-    const [rejectVideoFeedback, setRejectVideoFeedback] = useState("Are you sure you want to Reject?");
-    const [rejectVideoFeedbackTitlePopup, setrejectVideoFeedbackTitlePopup] = useState("Please confirm");
-    const [rejectVideoBodyText, setrejectVideoBodyText] = useState("Video Rejected Successfully");
-    const [activeRejectionModel, setActiveRejectionModel] = useState(false);
-    const [rejectionReason, setRejectionReason] = useState("");
-    const [activeRejectionConfirmModel, setActiveRejectionConfirmModel] = useState(false);
-    const [activeRejectionSuccessModel, setActiveRejectionSuccessModel] = useState(false);
-    const [upgradeButton, setupgradeButton] = useState(false);
-    const [activeApprovedConfirmModel, setActiveApprovedConfirmModel] = useState(false);
-    const [numberOfVedios, setNumberOfVedios] = useState(0);
+    const shopify = useAppBridge();
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [reload, setReload] = useState(false);
-    const [videos, setVideos] = useState([]);
-    const [rejectVideoId, setRejectVideoId] = useState(false);
-    const [approvedUserVideoId, setapprovedUserVideoId] = useState(false);
-    const [approvedVideoType, setApprovedVideoType] = useState(null);
     const [isClicked, setisClicked] = useState(false);
-    const [activeApprovedSuccessModel, setActiveApprovedSuccessModel] = useState(false);
+    const [modalTitleBar, setModalTitle] = useState();
+    const [approvalType, setApprovalType] = useState();
+    const [videoId, setVideoId] = useState();
+    const [rejectionReason, setRejectionReason] = useState("");
+    const [videos, setVideos] = useState([]);
+    const [videoCount, setVideoCount] = useState(0);
+
+    const handleClickCancel = () => {
+        shopify.modal.hide('popup-modal');
+        shopify.modal.hide('rejectionModal');
+    }
+
+    const handleClickConfirm = () => {
+        if (approvalType == 'rejected') {
+            shopify.modal.show('rejectionModal');
+        }
+        else {
+            handleApprovedUserVideo();
+        }
+        shopify.modal.hide('popup-modal');
+    }
+
+    const handleModalOpen = (id, type, message) => {
+        shopify.modal.show('popup-modal');
+        setModalTitle(message);
+        setApprovalType(type);
+        setVideoId(id);
+    }
 
     const handleRejectionReason = useCallback(
         (newValue) => setRejectionReason(newValue),
         []
     );
-    const handleChangeRejectionModel = useCallback(
-        () => setActiveRejectionModel(!activeRejectionModel),
-        [activeRejectionModel]
-    );
-    const handleChangeRejectionConfirmModel = useCallback(
-        () => setActiveRejectionConfirmModel(!activeRejectionConfirmModel),
-        [activeRejectionConfirmModel]
-    );
-
-    const handleChangeRejectionSuccessModel = useCallback(() => {
-        setActiveRejectionSuccessModel(!activeRejectionSuccessModel);
-        setRejectionReason("");
-        setReload(!reload);
-    }, [activeRejectionSuccessModel]);
-
-    const handleChangeApprovedConfirmModel = useCallback(
-        () => setActiveApprovedConfirmModel(!activeApprovedConfirmModel),
-        [activeApprovedConfirmModel]
-    );
-
-    const handleChangeApprovedSuccessModel = useCallback(() => {
-        setActiveApprovedSuccessModel(!activeApprovedSuccessModel);
-
-        setReload(new Date().getSeconds());
-    }, [activeApprovedSuccessModel]);
 
     const upgradePlan = () => {
-        router.get(route('plans', query));
-    };
-
-    /******** Rejection popup   ******/
-
-    const handleRejectionPopup = () => {
-        setActiveRejectionConfirmModel(false);
-        setActiveRejectionModel(true);
-        return;
+        router.get(route('plans'));
     };
 
     /******** Reject Video Handle   ******/
     const handleRejectVideo = () => {
-        if (rejectionReason && rejectVideoId) {
-            setrejectVideoBodyText("Video Rejected Successfully");
-            setrejectVideoFeedbackTitlePopup("Confirmation for reject video");
+        if (rejectionReason && videoId) {
             var formData = new FormData();
             formData.append("reason", rejectionReason);
-            formData.append("video_id", rejectVideoId);
-            fetch(route('rejectVideo', query), {
+            formData.append("video_id", videoId);
+            fetch(route('rejectVideo'), {
                 method: "post",
                 body: formData,
             })
@@ -107,15 +80,18 @@ function WaitingVideos() {
                 })
                 .then((data) => {
                     if (data.success) {
-                        setActiveRejectionModel(false);
-                        setActiveRejectionSuccessModel(true);
+                        shopify.toast.show(data.message, {
+                            duration: 5000,
+                        })
                     } else {
-                        setActiveRejectionModel(false);
-                        setActiveRejectionSuccessModel(true);
-
-                        setrejectVideoFeedbackTitlePopup("Warning");
-                        setrejectVideoBodyText(data.message);
+                        shopify.toast.show(data.message, {
+                            duration: 5000,
+                        })
                     }
+                    setisClicked(false);
+                    setReload(true);
+                    handleClickCancel();
+
                 })
                 .catch((error) => {
                     console.log(error);
@@ -125,80 +101,50 @@ function WaitingVideos() {
         }
     };
 
-    /**** Reject video ***/
-    const rejectVideo = (id) => {
-        var formData = new FormData();
-        setRejectVideoId(id);
-        setActiveRejectionConfirmModel(true);
-        return;
-    };
-
-    /**** approved video ***/
-
-    const approvedUserVideo = (id, type = null) => {
-        setapprovedUserVideoId(id);
-        setApprovedVideoType(type);
-
-        setActiveApprovedConfirmModel(true);
-    };
-
     /****** handle approved video *****/
     const handleApprovedUserVideo = () => {
         setisClicked(true);
         var formData = new FormData();
-        formData.append("video_id", approvedUserVideoId);
-        formData.append("type", approvedVideoType);
+        formData.append("video_id", videoId);
+        formData.append("type", approvalType);
 
 
-        if (approvedUserVideoId) {
-            if (approvedVideoType == 'star_rating') {
-                setVideoFeedback("Congratulations, you just approved the star rating video.");
-            } else {
-                setVideoFeedback("Congratulations, you just approved the video.");
-
-            }
-            setVideoFeedbackPopupTitle("Please Confirm");
-            fetch(route('videoOperation', query), {
+        if (videoId) {
+            fetch(route('videoOperation'), {
                 method: "post",
                 body: formData,
             })
                 .then((response) => {
-                    if (!response.ok) {
-                        throw new Error("Something went wrong");
-                    }
                     return response.json();
                 })
                 .then((data) => {
-                    if (data.success) {
-                        setActiveApprovedConfirmModel(false);
-                        setActiveApprovedSuccessModel(true);
 
-                        //setReload(new Date().getSeconds());
+                    if (data.success) {
+                        shopify.toast.show(data.message, {
+                            duration: 5000,
+                        });
+
                     } else {
-                        if (
-                            data.data.remaining_Videos ||
-                            data.data.remaining_emails
-                        ) {
-                            setupgradeButton(true);
-                        }
-                        setActiveApprovedConfirmModel(false);
-                        setActiveApprovedSuccessModel(true);
-                        setVideoFeedbackPopupTitle("Warning");
-                        setVideoFeedback(data.message);
+                        shopify.toast.show(data.message, {
+                            duration: 5000,
+                            isError: true
+                        });
                     }
-                    setisClicked(false);
                     setReload(true);
-                    return;
+                    handleClickCancel();
                 })
                 .catch((error) => {
-                    setisClicked(false);
                     console.log(error);
+                    shopify.toast.show(error, {
+                        duration: 5000,
+                    })
                 });
+            setisClicked(false);
+
         }
     };
 
     useEffect(() => {
-        console.log('counter :');
         fetch(route('getPendingVideos', { page: currentPage }))
             .then((response) => {
                 if (!response.ok) {
@@ -210,9 +156,8 @@ function WaitingVideos() {
                 if (data.success) {
                     setVideos(data.data);
                     setTotalPages(data.totalPages);
-                    setNumberOfVedios(data.videoCount);
+                    setVideoCount(data.videoCount);
                 }
-                console.log('count :' + data.videoCount);
             })
             .catch((error) => {
                 console.log(error);
@@ -250,7 +195,7 @@ function WaitingVideos() {
                         </div>
                         <Divider />
 
-                        {numberOfVedios <= 0 ? (
+                        {videoCount <= 0 ? (
                             <div style={{
                                 height: "400px",
                                 background: "#f9f9f9",
@@ -359,9 +304,7 @@ function WaitingVideos() {
                                                                             "20px",
                                                                     }}
                                                                     onClick={() => {
-                                                                        approvedUserVideo(
-                                                                            video.id
-                                                                        );
+                                                                        handleModalOpen(video.id, 'approved', ' mark this Approved');
                                                                     }}
                                                                 >
                                                                     <a href={'#'}>
@@ -380,10 +323,9 @@ function WaitingVideos() {
                                                                     <a
                                                                         href={`#`}
                                                                         onClick={() => {
-                                                                            rejectVideo(
-                                                                                video.id
-                                                                            );
-                                                                        }}>
+                                                                            handleModalOpen(video.id, 'rejected', ' Reject');
+                                                                        }}
+                                                                    >
                                                                         <Icon
                                                                             source={
                                                                                 CircleCancelMajor
@@ -394,12 +336,11 @@ function WaitingVideos() {
                                                                 </div>
                                                                 <div style={{
                                                                     cursor: 'pointer'
-                                                                }} onClick={() => {
-                                                                    approvedUserVideo(
-                                                                        video.id,
-                                                                        'star_rating'
-                                                                    );
-                                                                }}>
+                                                                }}
+                                                                    onClick={() => {
+                                                                        handleModalOpen(video.id, 'star_rating', '  mark this Star Approved');
+                                                                    }}
+                                                                >
                                                                     <img src={staricon} alt="" style={{ width: "20px" }} />
                                                                 </div>
                                                             </div>
@@ -426,22 +367,48 @@ function WaitingVideos() {
                     </Button>
                 </div>
             )}
+
+            {/* For All Type of Approval Reject, Approved or Star Approved */}
+            <Modal id="popup-modal">
+                <TitleBar title='Please Confirm'>
+                    <button
+                        onClick={handleClickCancel}
+                    >
+                        Cancel
+                    </button>
+                    <button
+                        disabled={isClicked}
+                        variant="primary"
+                        onClick={handleClickConfirm}
+                    >
+                        Confirm
+                    </button>
+                </TitleBar>
+                <Box padding='500'>
+
+                    <Text variant="headingMd" as="h6" alignment="center">
+                        {`Are you sure you want to ${modalTitleBar}?`}
+                    </Text>
+                </Box>
+            </Modal>
+
             <Modal
-                open={activeRejectionModel}
-                onClose={handleChangeRejectionModel}
-                title="Reason for rejecting video"
-                primaryAction={{
-                    content: "Send Reason",
-                    onAction: handleRejectVideo,
-                }}
-                secondaryActions={[
-                    {
-                        content: "Cancel",
-                        onAction: handleChangeRejectionModel,
-                    },
-                ]}
-            >
-                <Modal.Section>
+                id="rejectionModal">
+                <TitleBar title='Reason for rejecting video'>
+
+                    <button
+                        onClick={handleClickCancel}
+                    >
+                        Cancel
+                    </button>
+                    <button
+                        variant="primary"
+                        onClick={handleRejectVideo}
+                    >
+                        Confirm
+                    </button>
+                </TitleBar>
+                <Box padding='500'>
                     <TextField
                         label="Reason for rejection"
                         value={rejectionReason}
@@ -449,131 +416,8 @@ function WaitingVideos() {
                         multiline={4}
                         autoComplete="off"
                     />
-                </Modal.Section>
+                </Box>
             </Modal>
-            <Modal
-                open={activeRejectionConfirmModel}
-                onClose={handleChangeRejectionConfirmModel}
-                title={rejectVideoFeedbackTitlePopup}
-            >
-                <Modal.Section>
-                    <div style={{ textAlign: "center" }}>
-                        <Text variant="headingMd" as="h6">
-                            {rejectVideoFeedback}
-                        </Text>
-                        <div
-                            style={{
-                                display: "flex",
-                                justifyContent: "center",
-                                marginTop: "20px",
-                            }}
-                        >
-                            <ButtonGroup>
-                                <Button
-                                    onClick={handleChangeRejectionConfirmModel}
-                                >
-                                    Cancel
-                                </Button>
-                                <span className="black-global-btn">
-                                    <Button primary onClick={handleRejectionPopup}>
-                                        Confirm
-                                    </Button>
-                                </span>
-                            </ButtonGroup>
-                        </div>
-                    </div>
-                </Modal.Section>
-            </Modal>
-            <Modal
-                open={activeRejectionSuccessModel}
-                onClose={handleChangeRejectionSuccessModel}
-                title={rejectVideoFeedbackTitlePopup}
-            >
-                <Modal.Section>
-                    <div
-                        style={{
-                            textAlign: "center",
-                            marginTop: "20px",
-                            marginBottom: "20px",
-                        }}
-                    >
-                        <Text variant="headingMd" as="h6">
-                            {rejectVideoBodyText}
-                        </Text>
-                    </div>
-                </Modal.Section>
-            </Modal>
-
-            <Modal
-                open={activeApprovedConfirmModel}
-                onClose={handleChangeApprovedConfirmModel}
-                title={videoFeedbackPopupTitle}
-            >
-                <Modal.Section>
-                    <div style={{ textAlign: "center" }}>
-                        <Text variant="headingMd" as="h6">
-                            {`Are you sure you want to mark this ${approvedVideoType ? 'Star Approved' : 'Approved'}?`}
-
-                        </Text>
-                        <div
-                            style={{
-                                display: "flex",
-                                justifyContent: "center",
-                                marginTop: "20px",
-                            }}
-
-                        >
-                            <ButtonGroup>
-                                <Button
-                                    onClick={handleChangeApprovedConfirmModel}
-                                >
-                                    Cancel
-                                </Button>
-
-                                <div className="polaris-black-btn-global">
-                                    <Button
-                                        disabled={isClicked}
-                                        primary
-                                        onClick={handleApprovedUserVideo}
-                                    >
-                                        Confirm
-                                    </Button>
-                                </div>
-                            </ButtonGroup>
-                        </div>
-                    </div>
-                </Modal.Section>
-            </Modal>
-
-            <Modal
-                open={activeApprovedSuccessModel}
-                onClose={handleChangeApprovedSuccessModel}
-                title={videoFeedbackPopupTitle}
-            >
-                <Modal.Section>
-                    <div
-                        style={{
-                            textAlign: "center",
-                            marginTop: "20px",
-                            marginBottom: "20px",
-                        }}
-                    >
-                        <Text variant="headingMd" as="h6">
-                            {videoFeedback}
-                            <br />
-                            <br />
-                            {upgradeButton ? (
-                                <Button primary onClick={upgradePlan}>
-                                    Upgrade
-                                </Button>
-                            ) : (
-                                ""
-                            )}
-                        </Text>
-                    </div>
-                </Modal.Section>
-            </Modal>
-
         </Page>
     );
 }

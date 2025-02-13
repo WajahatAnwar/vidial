@@ -1,3 +1,6 @@
+import backIcon from "@/ReactJs/MyApplication/imges/backIcon.png";
+import ColorWheel from "@/ReactJs/MyApplication/imges/collorWheel.png";
+import Delete from "@/ReactJs/MyApplication/imges/Delete.svg";
 import { router, usePage } from "@inertiajs/react";
 import {
     Button,
@@ -14,15 +17,11 @@ import {
     Text,
     TextField,
     Thumbnail,
-    Toast,
     Tooltip
 } from "@shopify/polaris";
 import { CircleCancelMajor, NoteMinor } from "@shopify/polaris-icons";
 import { Editor } from '@tinymce/tinymce-react';
 import { useCallback, useEffect, useRef, useState } from "react";
-import backIcon from "@/ReactJs/MyApplication/imges/backIcon.png";
-import ColorWheel from "@/ReactJs/MyApplication/imges/collorWheel.png";
-import Delete from "@/ReactJs/MyApplication/imges/Delete.svg";
 
 
 /**
@@ -37,20 +36,22 @@ const PostPurchaseEmail = () => {
     const id = page.ziggy.query.id;
     const [activeTootlTip, setActiveTootlTip] = useState(false);
     const [activeToggle, setActiveToggle] = useState(false);
-    const toggleActive = useCallback(() => setActiveToggle((activeToggle) => !activeToggle), []);
+
     const toastMarkup = activeToggle ? (
-        <Toast content="Template Saved" onDismiss={toggleActive} />
+        shopify.toast.show('Template Saved', {
+            duration: 5000,
+        })
     ) : null;
     const [active, setActive] = useState(false);
-    const handleChange = useCallback(() => setActive(!active), [active]);
+
     const [content, setContent] = useState('');
     const [subject, setSubject] = useState('');
     const [from, setFrom] = useState('');
     const [buttonText, setButtonText] = useState('Record Video');
-    const [notes1, setNotes1] = useState(`Use {{order_number}} for the customer’s order number`);
-    const [notes2, setNotes2] = useState(`Use {{name}} or {{last_name}} as a placeholder for the user’s first or last name`);
-    const [notes3, setNotes3] = useState(`Use {{amount}} for the store credit you are offering to your customers`);
-    const [contentPlaceholder, setContentPlaceholder] = useState(``);
+    // const [notes1, setNotes1] = useState(`Use {{order_number}} for the customer’s order number`);
+    // const [notes2, setNotes2] = useState(`Use {{name}} or {{last_name}} as a placeholder for the user’s first or last name`);
+    // const [notes3, setNotes3] = useState(`Use {{amount}} for the store credit you are offering to your customers`);
+    // const [contentPlaceholder, setContentPlaceholder] = useState(``);
 
 
     // drop zone code start
@@ -69,15 +70,15 @@ const PostPurchaseEmail = () => {
         },
         []
     );
-    const successToast = active ? (
-        <Toast content="Settings Saved" onDismiss={true} />
-    ) : null;
 
     const handleRemoveAlreadyUploadedLogo = () => {
         setActiveTootlTip(true);
         setAlreadyUploadedLogo('');
 
-    }
+    };
+    
+    const handleChange = useCallback(() => setActive(!active), [active]);
+    const toggleActive = useCallback(() => setActiveToggle((activeToggle) => !activeToggle), []);
 
     const validImageTypes = ['image/gif', 'image/jpeg', 'image/png'];
 
@@ -110,7 +111,7 @@ const PostPurchaseEmail = () => {
     );
     const uploadedFilesPreview = files.length > 0 && (
         <div style={{ padding: '0' }}>
-            <div className="delete-btn-icons"  style={{ width: "60px", marginBottom: "10px" }} >
+            <div className="delete-btn-icons" style={{ width: "60px", marginBottom: "10px" }} >
                 {files.map((file, index) => (
                     <div key={index}>
                         <Thumbnail
@@ -134,7 +135,7 @@ const PostPurchaseEmail = () => {
         </div>
     );
     // drop zone code end
-    const [buttonColorHide, setButtonColorHide] = useState(false);
+    // const [buttonColorHide, setButtonColorHide] = useState(false);
     const [buttonColorHex, setButtonColorHex] = useState("#000000");
     const handleInputColorChange = useCallback((newValue) => setButtonColorHex(newValue), []);
     const [buttonColor, setButtonColor] = useState({
@@ -142,8 +143,8 @@ const PostPurchaseEmail = () => {
         brightness: 0,
         saturation: 0,
     });
-    const [gradientCheck, setGradientCheck] = useState(false);
-    console.log(files)
+    // const [gradientCheck, setGradientCheck] = useState(false);
+    // console.log(files)
     const handleSaveEmailSettings = () => {
         let saveUrl = route('save-email-settings');
         if (id) {
@@ -184,19 +185,18 @@ const PostPurchaseEmail = () => {
                         router.get(redirect);
                     }, 3000);
 
-                    //alert('save settings successfully');
-                    //successToast();
                 }
             })
 
 
     };
+
     const editorRef = useRef(null);
-    const log = () => {
-        if (editorRef.current) {
-            console.log(editorRef.current.getContent());
-        }
-    };
+    // const log = () => {
+    //     if (editorRef.current) {
+    //         console.log(editorRef.current.getContent());
+    //     }
+    // };
     const [htmlContent, setHtmlContent] = useState(`<p>Hello {{name}},</p>
     <p><br>The feedback of our customers about our products is extremely valuable to us.</p>
     <p><br>That's why we would like to offer you a {{amount}} gift card to our store in exchange for a video where you share your opinion about our products.</p>`);
@@ -205,20 +205,20 @@ const PostPurchaseEmail = () => {
         setContent(content);
     };
 
-    const createUrl = (url, paramsObj) => {
-        const params = new URLSearchParams(window.location.search);
-        for (const [key, value] of Object.entries(paramsObj)) {
-            params.set(key, value);
-        }
-        return `${url}?${params.toString()}`;
-    };
+    // const createUrl = (url, paramsObj) => {
+    //     const params = new URLSearchParams(window.location.search);
+    //     for (const [key, value] of Object.entries(paramsObj)) {
+    //         params.set(key, value);
+    //     }
+    //     return `${url}?${params.toString()}`;
+    // };
 
 
     useEffect(() => {
         let url = ''
         if (id) {
             url = route('single-fetch-email-settings', { id: id, type: 'Post_Purchase' });
-        }else{
+        } else {
             url = route('fetch-email-settings', { type: 'Post_Purchase' });
         }
         fetch(url, {
@@ -298,7 +298,7 @@ const PostPurchaseEmail = () => {
                         >
                             <div onClick={() => {
                                 if (id) {
-                                    router.get(route('single-user-email-settings',{id:id}));
+                                    router.get(route('single-user-email-settings', { id: id }));
                                 }
                                 else {
                                     router.get(route('email'));
@@ -340,7 +340,7 @@ const PostPurchaseEmail = () => {
                                             {(!files.length && alreadyUploadLogo) &&
 
                                                 <div style={{ padding: '0' }}>
-                                                    <div className="delete-btn-icons"  style={{ width: "60px", marginBottom: "10px" }} >
+                                                    <div className="delete-btn-icons" style={{ width: "60px", marginBottom: "10px" }} >
                                                         <Thumbnail
                                                             size="medium"
                                                             alt="img"
@@ -435,7 +435,7 @@ const PostPurchaseEmail = () => {
                                                             setButtonColorHex(
                                                                 hsbToHex(e)
                                                             );
-                                                            setGradientCheck(false);
+                                                            // setGradientCheck(false);
                                                         }}
                                                         color={buttonColor}
                                                     />

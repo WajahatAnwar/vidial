@@ -26,7 +26,7 @@ class SaveMentalTokenJob implements ShouldQueue
 
     public function __construct($c_user)
     {
-        Log::info($c_user);
+        // Log::info($c_user);
         $this->c_user = $c_user;
     }
 
@@ -88,7 +88,7 @@ class SaveMentalTokenJob implements ShouldQueue
 
                 // Update the user's customer API token
                 User::where('name', $user->name)->update(['customer_api_token' => $mantleResult['apiToken']]);
-                Log::info('Shop identified and updated successfully', ['data' => $mantleResult]);
+                // Log::info('Shop identified and updated successfully', ['data' => $mantleResult]);
             } else {
                 Log::error('Failed to identify shop with Mantle API', [
                     'status' => $mantleResponse->status(),

@@ -41,42 +41,64 @@ class EmailSendToCustomerCron extends Command
      */
     public function handle()
     {
-        Log::info("message from emailtocustomer:cron");
-        // $order_list = Orders::with('marchent')
-        // ->where('remaining_mail','>',0)
-        // ->where('replied', '=', 0)
+        // Old Query 
+        // $order_list = Orders::with('marchent')->whereHas('marchent', function ($query) {
 
-        // ->get();
-        $order_list = Orders::with('marchent')->whereHas('marchent', function ($query) {
-
-            $query->whereHas('settings', function ($subQuery) {
-                $subQuery->where('email_status', '=', 'true');
-            });
-        })
+        //     $query->whereHas('settings', function ($subQuery) {
+        //         $subQuery->where('email_status', '=', 'true');
+        //     });
+        // })
+        //     ->where('remaining_mail', '>', 0)
+        //     ->where('replied', '=', 0)
+        //     ->where('email_service', '=', 'mailgun')
+        //     ->lazy();
+        $order_list = Orders::with('marchent')
+            ->whereHas('marchent', function ($query) {
+                $query->whereHas('settings', function ($subQuery) {
+                    $subQuery->where('email_status', 'true');
+                })
+                    ->where('remaining_email', '>', 0);
+            })
             ->where('remaining_mail', '>', 0)
-            ->where('replied', '=', 0)
-            ->where('email_service', '=', 'mailgun')
+            ->where('replied', 0)
+            ->where('email_service', 'mailgun')
+            ->where(function ($query) {
+                $query->whereRaw("STR_TO_DATE(email_send_at, '%Y-%m-%d %H:%i:%s') <= NOW()")
+                    ->orWhereRaw("STR_TO_DATE(reminder_mail, '%Y-%m-%d %H:%i:%s') <= NOW()");
+            })
             ->lazy();
-        foreach ($order_list as $Orders_send_mail) {
-            /******** check user activate email settings *********/
-            // if ($Orders_send_mail->marchent->settings->email_status) {
 
-            $settings = Setting::where('user_id', $Orders_send_mail->user_id)->first();
-            // $current_user = User::find($Orders_send_mail->user_id);
-            $current_user = $Orders_send_mail->marchent;
-            // check merchant plan has email to send
-            //  //  \Log::info(json_encode($Orders_send_mail->marchent, JSON_PRETTY_PRINT));
-            if ($Orders_send_mail->marchent != null) {
-                /** check merchant has email in subscription */
-                if ($Orders_send_mail->marchent->remaining_email > 0) {
-                    // \Log::info("true 1");
-                    //check if setting Activated
-                    $email_parts = explode('@', $Orders_send_mail->email);
+        $count = Orders::with('marchent')
+
+            ->whereHas('marchent', function ($query) {
+                $query->whereHas('settings', function ($subQuery) {
+                    $subQuery->where('email_status', 'true');
+                })
+                    ->where('remaining_email', '>', 0);
+            })
+            ->where('remaining_mail', '>', 0)
+            ->where('replied', 0)
+            ->where('email_service', 'mailgun')
+            ->where(function ($query) {
+                $query->whereRaw("STR_TO_DATE(email_send_at, '%Y-%m-%d %H:%i:%s') <= NOW()")
+                    ->orWhereRaw("STR_TO_DATE(reminder_mail, '%Y-%m-%d %H:%i:%s') <= NOW()");
+            })
+            ->count();
+
+        Log::info(json_encode($count));
+        foreach ($order_list as $order) {
+
+            $settings = Setting::where('user_id', $order->user_id)->first();
+            $current_user = $order->marchent;
+            if ($order->marchent != null) {
+                if ($order->marchent->remaining_email > 0) {
+                    $email_parts = explode('@', $order->email);
                     $name = $email_parts[0];
                     App::setLocale($settings->locale);
+
                     $details = [
-                        'id' => $Orders_send_mail->id,
-                        'order_id' => Crypt::encryptString($Orders_send_mail->id),
+                        'id' => $order->id,
+                        'order_id' => Crypt::encryptString($order->id),
                         'name' => $name,
                         'user_id' => $settings->user_id,
                         'instruction_title' => $settings->instruction_title,
@@ -90,129 +112,102 @@ class EmailSendToCustomerCron extends Command
                         'store_name' => $current_user->store_name,
                         'shopify_store_name' => $settings->user->store_name,
                         'store_currency' => $current_user->store_currency,
-                        // 'url' => env('APP_URL') . "/landingPage" . "/" . $settings->locale
-                        //     . "?store=" . $settings->user->name . "&order_id=" . Crypt::encryptString($Orders_send_mail->id)
-                        'url' => env('APP_URL') . '/s/' . ($current_user->store_handle ? $current_user->store_handle : str_replace(' ', '_', $current_user->store_name)) . '?order_id=' . Crypt::encryptString($Orders_send_mail->id)
+                        'url' => env('APP_URL') . '/s/' . ($current_user->store_handle ? $current_user->store_handle : str_replace(' ', '_', $current_user->store_name)) . '?order_id=' . Crypt::encryptString($order->id)
 
                     ];
-                    // Log::info(json_encode($details));
-                    if ($Orders_send_mail->email_status == 1) {
-
-                        // \Log::info("if already replied ignore");
-                        //  \Log::info("email status -- ". $Orders_send_mail->email);
-                        //if already replied ignore
-                        if ($Orders_send_mail->replied == 0) {
-                            //  \Log::info("replied 0 " . $Orders_send_mail->email);
-                            // reminder mail check
-                            // \Log::info(Carbon::now()->diffInDays(Carbon::parse($Orders_send_mail->reminder_mail)));
-                            if ($Orders_send_mail->email_send == 1 && $Orders_send_mail->replied == 0 && $Orders_send_mail->remaining_mail > 0) {
-                                // \Log::info(Carbon::now()->format('Y-m-d h:i:s'));
-                                // \Log::info($Orders_send_mail->reminder_mail);
-                                $date1 = Carbon::parse(Carbon::now());
-                                $date2 = Carbon::parse($Orders_send_mail->reminder_mail);
-                                $diffInHours = $date1->diffInHours($date2);
-                                //  \Log::info($diffInHours);
-                                //  \Log::info($Orders_send_mail->order_id);
-
-                                if ($diffInHours == 0) {
-                                    //comment code email by ali
-                                    /* $mgClient = Mailgun::create(
-                                    env('MAILGUN_SECRET'), // Mailgun API Key
-                                    env('MAILGUN_ENDPOINT')
-                               );*/
-                                    $domain = env('MAILGUN_DOMAIN');
-                                    $subject_reminder = "Share your feedback and receive " . getCurrencySymbol($details['store_currency'])
-                                        . $details['discount_amount'] . " from " . $details['shopify_store_name'];
-                                    if ($settings->locale == "en") {
-                                        $subject_reminder = "Share your feedback and receive "
-                                            . getCurrencySymbol($details['store_currency']) . $details['discount_amount'] . " from " . $details['shopify_store_name'];
-                                    } else if ($settings->locale == "de") {
-                                        $subject_reminder = "Teilen Sie Ihr Feedback und erhalten Sie "
-                                            . getCurrencySymbol($details['store_currency']) . $details['discount_amount'] . " von " . $details['shopify_store_name'];
-                                    } else if ($settings->locale == "es") {
-                                        $subject_reminder = "Comparte tus comentarios y recibe "
-                                            . getCurrencySymbol($details['store_currency']) . $details['discount_amount'] . " de " . $details['shopify_store_name'];
-                                    } else if ($settings->locale == "fr") {
-                                        $subject_reminder = "Donnez votre avis et recevez "
-                                            . getCurrencySymbol($details['store_currency']) . $details['discount_amount'] . " de " . $details['shopify_store_name'];
-                                    } else if ($settings->locale == "it") {
-                                        $subject_reminder = "Condividi i tuoi commenti e ricevi "
-                                            . getCurrencySymbol($details['store_currency']) . $details['discount_amount'] . " da " . $details['shopify_store_name'];
-                                    } else if ($settings->locale == "pt") {
-                                        $subject_reminder = "Compartilhe seus comentários e receba "
-                                            . getCurrencySymbol($details['store_currency']) . $details['discount_amount'] . " de " . $details['shopify_store_name'];
-                                    }
-                                    $params = array(
-
-                                        'from' => "GoodAuthentic < " . env('MAIL_USERNAME') . " >",
-                                        'to' => $Orders_send_mail->email,
-                                        'subject' => $subject_reminder,
-                                        'template' => $settings->locale == 'en' ? 'reminder-email' : "reminder-email_" . $settings->locale,
-                                        'v:name' => $details['name'],
-                                        'v:store' => $details['shopify_store_name'],
-                                        'v:storename' => $details['store_name'],
-                                        'v:store_name' => $details['shopify_store_name'],
-                                        'v:amount' => getCurrencySymbol($details['store_currency']) . $details['discount_amount'],
-                                        'v:url' => $details['url'],
-
-                                    );
-                                    //comment code by ali
-                                    // $mgClient->messages()->send($domain, $params);
-                                    $temlateDetails['user_id'] = $Orders_send_mail->user_id;
-                                    $temlateDetails['type'] = 'Reminder';
-                                    $temlateDetails['view'] = 'emails.reminder';
-                                    $temlateDetails['mail'] = $Orders_send_mail->email;
-                                    $temlateDetails['storename'] = $details['shopify_store_name'];
-                                    $temlateDetails['url'] = $details['url'];
-                                    $temlateDetails['amount'] = $settings->store_credit;
-                                    $temlateDetails['name'] = $Orders_send_mail->customer_name;
-                                    $temlateDetails['discount_code'] = '';
-                                    $temlateDetails['reason_decline'] = '';
-
-
-
-                                    dispatch(new EmailTemplateJob($temlateDetails));
-                                    $log_details = [
-                                        'type' => "EMAIL",
-                                        'send_to' => $Orders_send_mail->email,
-                                        'user_id' => $settings->user->id,
-                                        'order_id' => $Orders_send_mail->order_id,
-                                        'email_type' => config('constants.reminder_mail'),
-                                        'customer_name' => $Orders_send_mail->customer_name,
-                                        'customer_email' => $Orders_send_mail->email
-                                    ];
-                                    update_log_file($log_details);
-                                    SendMantleEventJob::dispatch($settings->user, config('constants.reminder_mail'), $log_details);
-
-                                    // \Mail::to($Orders_send_mail->email)->send(new orderReviewReminderMail($details));
-
-                                    Orders::where('id', $Orders_send_mail->id)->update([
-                                        'remaining_mail' => $Orders_send_mail->remaining_mail - 1,
-                                        'reminder_mail' => Carbon::parse($Orders_send_mail->reminder_mail)->addWeeks($settings->email_sent_to_customer)
-                                    ]);
-                                    //update from merchant  that email sent
-                                    $Orders_send_mail->marchent()->update([
-                                        'remaining_email' =>  $Orders_send_mail->marchent->remaining_email - 1,
-                                    ]);
+                    if ($order->email_status == 1) {
+                        // Log::info(json_encode($order));
+                        // Log::info("This is from Reminder mail");
+                        if ($order->replied == 0) {
+                            $date1 = Carbon::parse(Carbon::now());
+                            $date2 = Carbon::parse($order->reminder_mail);
+                            if ($order->email_send == 1 && $order->replied == 0 && $order->remaining_mail > 0 && $date2->isPast()) {
+                                $domain = env('MAILGUN_DOMAIN');
+                                $subject_reminder = "Share your feedback and receive " . getCurrencySymbol($details['store_currency'])
+                                    . $details['discount_amount'] . " from " . $details['shopify_store_name'];
+                                if ($settings->locale == "en") {
+                                    $subject_reminder = "Share your feedback and receive "
+                                        . getCurrencySymbol($details['store_currency']) . $details['discount_amount'] . " from " . $details['shopify_store_name'];
+                                } else if ($settings->locale == "de") {
+                                    $subject_reminder = "Teilen Sie Ihr Feedback und erhalten Sie "
+                                        . getCurrencySymbol($details['store_currency']) . $details['discount_amount'] . " von " . $details['shopify_store_name'];
+                                } else if ($settings->locale == "es") {
+                                    $subject_reminder = "Comparte tus comentarios y recibe "
+                                        . getCurrencySymbol($details['store_currency']) . $details['discount_amount'] . " de " . $details['shopify_store_name'];
+                                } else if ($settings->locale == "fr") {
+                                    $subject_reminder = "Donnez votre avis et recevez "
+                                        . getCurrencySymbol($details['store_currency']) . $details['discount_amount'] . " de " . $details['shopify_store_name'];
+                                } else if ($settings->locale == "it") {
+                                    $subject_reminder = "Condividi i tuoi commenti e ricevi "
+                                        . getCurrencySymbol($details['store_currency']) . $details['discount_amount'] . " da " . $details['shopify_store_name'];
+                                } else if ($settings->locale == "pt") {
+                                    $subject_reminder = "Compartilhe seus comentários e receba "
+                                        . getCurrencySymbol($details['store_currency']) . $details['discount_amount'] . " de " . $details['shopify_store_name'];
                                 }
+                                $params = array(
+                                    'from' => "GoodAuthentic < " . env('MAIL_USERNAME') . " >",
+                                    'to' => $order->email,
+                                    'subject' => $subject_reminder,
+                                    'template' => $settings->locale == 'en' ? 'reminder-email' : "reminder-email_" . $settings->locale,
+                                    'v:name' => $details['name'],
+                                    'v:store' => $details['shopify_store_name'],
+                                    'v:storename' => $details['store_name'],
+                                    'v:store_name' => $details['shopify_store_name'],
+                                    'v:amount' => getCurrencySymbol($details['store_currency']) . $details['discount_amount'],
+                                    'v:url' => $details['url'],
+                                );
+                                //comment code by ali
+                                // $mgClient->messages()->send($domain, $params);
+                                $temlateDetails['user_id'] = $order->user_id;
+                                $temlateDetails['type'] = 'Reminder';
+                                $temlateDetails['view'] = 'emails.reminder';
+                                $temlateDetails['mail'] = $order->email;
+                                $temlateDetails['storename'] = $details['shopify_store_name'];
+                                $temlateDetails['url'] = $details['url'];
+                                $temlateDetails['amount'] = $settings->store_credit;
+                                $temlateDetails['name'] = $order->customer_name;
+                                $temlateDetails['discount_code'] = '';
+                                $temlateDetails['reason_decline'] = '';
+                                // Log::info('sending reminder email at: ' . $order->email);
+
+                                dispatch(new EmailTemplateJob($temlateDetails));
+                                $log_details = [
+                                    'type' => "EMAIL",
+                                    'send_to' => $order->email,
+                                    'user_id' => $settings->user->id,
+                                    'order_id' => $order->order_id,
+                                    'email_type' => config('constants.reminder_mail'),
+                                    'customer_name' => $order->customer_name,
+                                    'customer_email' => $order->email
+                                ];
+                                update_log_file($log_details);
+                                SendMantleEventJob::dispatch($settings->user, config('constants.reminder_mail'), $log_details);
+
+                                // \Mail::to($order->email)->send(new orderReviewReminderMail($details));
+
+                                Orders::where('id', $order->id)->update([
+                                    'remaining_mail' => $order->remaining_mail - 1,
+                                    'reminder_mail' => Carbon::parse($order->reminder_mail)->addWeeks($settings->email_sent_to_customer)
+                                ]);
+                                //update from merchant  that email sent
+                                $order->marchent()->update([
+                                    'remaining_email' => $order->marchent->remaining_email - 1,
+                                ]);
+
                             }
+                        } else {
+
+                            // Log::info("Order Email Replied is True means 1");
+                            // Log::info(json_encode($order, JSON_PRETTY_PRINT));
                         }
                     } else {
-                        // \Log::info(var_dump(Carbon::now()->gte(Carbon::parse($Orders_send_mail->email_send_at))));
+                        // Log::info(json_encode($order));
+                        // Log::info("This is from Post Purchase mail");
 
-                        $date1 = Carbon::parse(Carbon::now());
-                        $date2 = Carbon::parse($Orders_send_mail->email_send_at);
-                        $diffInHours = $date1->diffInHours($date2);
-                        //  \Log::info('difference in hours --'.$diffInHours);
-                        //  \Log::info($Orders_send_mail->order_id);
+                        $date1 = Carbon::parse($order->email_send_at);
+                        $date2 = Carbon::parse(Carbon::now());
+                        if ($date1->isPast() && $order->remaining_mail > 0 && $order->email_send == 0) {
 
-
-                        if ($diffInHours == 0 && $Orders_send_mail->remaining_mail > 0 && $Orders_send_mail->email_send == 0) {
-                            //comment email code by ali
-                            /*$mgClient = Mailgun::create(
-                            env('MAILGUN_SECRET'), // Mailgun API Key
-                            env('MAILGUN_ENDPOINT')
-                    );*/
                             $domain = env('MAILGUN_DOMAIN');
 
                             $subject = "Win a " . getCurrencySymbol($details['store_currency'])
@@ -238,7 +233,7 @@ class EmailSendToCustomerCron extends Command
                             }
                             $params = array(
                                 'from' => "GoodAuthentic < " . env('MAIL_USERNAME') . " >",
-                                'to' => $Orders_send_mail->email,
+                                'to' => $order->email,
                                 'subject' => $subject,
                                 'template' => $settings->locale == 'en' ? 'mail_post_purchase' : "mail_post_purchase_" . $settings->locale,
                                 'v:name' => $details['name'],
@@ -247,49 +242,55 @@ class EmailSendToCustomerCron extends Command
                                 'v:amount' => getCurrencySymbol($details['store_currency']) . $details['discount_amount'],
                                 'v:url' => $details['url'],
                             );
-
-                            //  \Log::info(json_encode($params, JSON_PRETTY_PRINT));
-                            //comment email code by ali
-                            $temlateDetails['user_id'] = $Orders_send_mail->user_id;
+                            $temlateDetails['user_id'] = $order->user_id;
                             $temlateDetails['type'] = 'Post_Purchase';
                             $temlateDetails['view'] = 'emails.post_purchase';
-                            $temlateDetails['mail'] = $Orders_send_mail->email;
-                            $temlateDetails['name'] = $Orders_send_mail->customer_name;
+                            $temlateDetails['mail'] = $order->email;
+                            $temlateDetails['name'] = $order->customer_name;
                             $temlateDetails['storename'] = $details['store_name'];
                             $temlateDetails['url'] = $details['url'];
                             $temlateDetails['amount'] = $settings->store_credit ?? 15;
                             $temlateDetails['discount_code'] = '';
                             $temlateDetails['reason_decline'] = '';
-                            //  \Log::info('sending email');
+                            Log::info('sending post email at: ' . $order->email);
                             dispatch(new EmailTemplateJob($temlateDetails));
-                            //$mgClient->messages()->send($domain, $params);
-
                             $log_details = [
                                 'type' => "EMAIL",
-                                'send_to' => $Orders_send_mail->email,
+                                'send_to' => $order->email,
                                 'user_id' => $settings->user->id,
-                                'order_id' => $Orders_send_mail->order_id,
+                                'order_id' => $order->order_id,
                                 'email_type' => config('constants.post_purchase'),
-                                'customer_name' => $Orders_send_mail->customer_name,
-                                'customer_email' => $Orders_send_mail->customer_email
+                                'customer_name' => $order->customer_name,
+                                'customer_email' => $order->emailA
                             ];
                             update_log_file($log_details);
                             SendMantleEventJob::dispatch($settings->user, config('constants.post_purchase'), $log_details);
 
-                            Orders::where('id', $Orders_send_mail->id)->update([
+                            Orders::where('id', $order->id)->update([
                                 'email_send' => 1,
                                 'email_status' => 1,
-                                'remaining_mail' => $Orders_send_mail->remaining_mail - 1,
+                                'remaining_mail' => $order->remaining_mail - 1,
                             ]);
-                            //update from merchant  that email sent
-                            $Orders_send_mail->marchent()->update([
-                                'remaining_email' =>  $Orders_send_mail->marchent->remaining_email - 1,
+                            $order->marchent()->update([
+                                'remaining_email' => $order->marchent->remaining_email - 1,
                             ]);
+                        } else {
+                            // Log::info('Required Date Time: ' . $date2);
+                            // Log::info('Current Date Time: ' . $date1);
                         }
                     }
+                } else {
+                    // Log::info("Email Limit Reached for Below User");
+                    // Log::info(json_encode($order->user_id, JSON_PRETTY_PRINT));
                 }
+            } else {
+                // Log::info("User Not found in Email Send Customer Cron Job");
             }
-            // }
         }
+
+        Log::info("Email Send to Customer Cron Job Called Completed");
+
+
+        return true;
     }
 }

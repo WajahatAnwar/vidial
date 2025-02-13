@@ -12,32 +12,6 @@ use App\Models\User;
 
 class OrdersController extends Controller
 {
-    public function fetch_orders(Request $request)
-    {
-        $shop = Auth::user();
-        $shop = User::find($shop->id);
-        $shop_settings =  $shop->settings;
-        $orders = $shop->api()->rest('GET', '/admin/orders.json');
-        
-        // Log::info($shop->settings->page_link);
-        foreach ($orders['body']['orders'] as $order_item) {
-            Orders::create([
-                'user_id' =>  $shop->id,
-                'order_id' => $order_item['id'],
-                'email' =>  $order_item['email'] ?? $order_item['contact_email'],
-                'contect_email' =>  $order_item['contact_email'],
-                'phone_no' => $order_item['phone'],
-                'confirmed' =>  "",
-                'order_created_at' => $order_item['created_at'],
-                'remaining_mail' => $shop_settings->page_display_to_customers,
-                'email_send_at' => Carbon::parse($order_item['created_at'])->addDays($shop->settings->page_link),
-                'reminder_mail' => Carbon::parse($order_item['created_at'])->addWeek($shop->settings->email_sent_to_customer),
-                'email_status' => $shop_settings->email_status,
-            ]);
-        }
-        return 'orders fatched';
-    }
-
     public function sendtest_email()
     {
         $temlateDetails['user_id'] = auth()->user()->id;
@@ -151,17 +125,15 @@ class OrdersController extends Controller
         return 'Review Send Sucessfully';
     }
 
-    public function get_plans()
+    public function getPlans()
     {
-        $all_plans = Plan::
-        where('id', '>', 12)->
-        get();
+        $all_plans = Plan::where('id', '>', 12)->where('status', '=', '1')->get();
 
         return response()->json([
             'success' => true,
             'message' => 'Fetch Plans Successfully',
             'data' => $all_plans,
-            'users' =>  Auth::user()
+            'users' => Auth::user()
         ]);
     }
 }
