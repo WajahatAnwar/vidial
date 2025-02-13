@@ -1,9 +1,9 @@
 import {
     Badge,
+    BlockStack,
     Button,
     Card,
     DataTable,
-    Box,
     Grid,
     Page,
     Select,
@@ -12,14 +12,18 @@ import {
     SkeletonPage,
     Spinner,
     Tabs,
-    TextContainer,
     TextField
 } from "@shopify/polaris";
+
+
 import { useCallback, useEffect, useState } from 'react';
 
 import { router } from "@inertiajs/react";
 import Toggle from "./Toggle";
 function AdminDashboard(props) {
+
+    // const shopify = useAppBridge();
+
 
     const [pagination, setPagination] = useState({
         // path: 'https://app.goodauthentic.com/getDataofallPlans',
@@ -52,12 +56,12 @@ function AdminDashboard(props) {
     const [active, setActive] = useState(false);
     const toggleActive = useCallback(() => setActive((active) => !active), []);
 
-    const toastMarkup = active ? (
-        // <Toast content="Link Copied to Clipboard" onDismiss={toggleActive} />
-        shopify.toast.show('Link Copied to Clipboard', {
-            duration: 5000,
-        })
-    ) : null;
+    // const toastMarkup = active ? (
+    //     // <Toast content="Link Copied to Clipboard" onDismiss={toggleActive} />
+    //     shopify.toast.show('Link Copied to Clipboard', {
+    //         duration: 5000,
+    //     })
+    // ) : null;
 
     const tabs = [
         {
@@ -135,6 +139,64 @@ function AdminDashboard(props) {
     const handleApplySearch = () => {
         setReload(!reload);
     }
+    function handlewatermark(id, status) {
+        const requestData = {
+            user_id: id,
+            status: status,
+        };
+
+        fetch("/update_status_for_water_mark", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json", // tell the server to expect JSON data
+            },
+            body: JSON.stringify(requestData), // convert the data to a JSON string
+        })
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error("Something went wrong");
+                }
+                return response.json();
+            })
+            .then((data) => {
+                if (data.user_details == 1) {
+
+                    const updatedUsers = users.map((user) => {
+                        if (user.id === id) {
+                            console.log(user);
+                            return { ...user, Watermark: !status };
+                        }
+                        return user;
+                    });
+                    setUsers(updatedUsers);
+                    location.reload();
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }
+
+    const logoutHandler = () => {
+
+        fetch("/logout", {
+            method: "POST",
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                router.get(route('login'));
+            })
+    }
+
+    const handleNavigation = (routeName, userId, userDeletedAt) => {
+        if (!userDeletedAt) {
+            router.get(route(routeName, { id: userId }));
+        }
+        else {
+            console.log("User does not exist anymore");
+            // shopify.toast.show("User does not exist anymore", { duration: 3000, isError: true });
+        }
+    };
 
     useEffect(() => {
         let url = new URL(pagination.path);
@@ -212,54 +274,6 @@ function AdminDashboard(props) {
 
     }, [reload]);
 
-    function handlewatermark(id, status) {
-        const requestData = {
-            user_id: id,
-            status: status,
-        };
-
-        fetch("/update_status_for_water_mark", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json", // tell the server to expect JSON data
-            },
-            body: JSON.stringify(requestData), // convert the data to a JSON string
-        })
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error("Something went wrong");
-                }
-                return response.json();
-            })
-            .then((data) => {
-                if (data.user_details == 1) {
-
-                    const updatedUsers = users.map((user) => {
-                        if (user.id === id) {
-                            console.log(user);
-                            return { ...user, Watermark: !status };
-                        }
-                        return user;
-                    });
-                    setUsers(updatedUsers);
-                    location.reload();
-                }
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-    }
-
-    const logoutHandler = () => {
-
-        fetch("/logout", {
-            method: "POST",
-        })
-            .then((response) => response.json())
-            .then((data) => {
-                router.get(route('login'));
-            })
-    }
 
     return (
         <Page fullWidth>
@@ -269,34 +283,34 @@ function AdminDashboard(props) {
                         <div className="loadingStateCustom">
                             <SkeletonBodyText />
                             <Card>
-                                <Text>
+                                <BlockStack>
                                     <SkeletonDisplayText size="small" />
                                     <SkeletonBodyText />
-                                </Text>
+                                </BlockStack>
                             </Card>
                             <Card>
-                                <Text>
+                                <BlockStack>
                                     <SkeletonDisplayText size="small" />
                                     <SkeletonBodyText />
-                                </Text>
+                                </BlockStack>
                             </Card>
 
 
                             <Card>
-                                <Text>
+                                <BlockStack>
                                     <SkeletonDisplayText size="small" />
                                     <SkeletonBodyText lines={2} />
-                                </Text>
+                                </BlockStack>
                             </Card>
                             <Card>
                                 <SkeletonBodyText lines={1} />
                             </Card>
 
                             <Card>
-                                <Text>
+                                <BlockStack>
                                     <SkeletonDisplayText size="small" />
                                     <SkeletonBodyText lines={2} />
-                                </Text>
+                                </BlockStack>
                             </Card>
                             <Card>
                                 <SkeletonBodyText lines={2} />
@@ -307,10 +321,10 @@ function AdminDashboard(props) {
                     <Grid>
                         <Grid.Cell columnSpan={{ xs: 6, sm: 6, md: 12, lg: 12, xl: 12 }}>
                             <div style={{ height: "0px" }}>
-
-                                <Box>
+                                {/* 
+                                <Frame>
                                     {toastMarkup}
-                                </Box>
+                                </Frame> */}
                             </div>
                             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                                 <h1 className="Polaris-Header-Title" style={{ paddingBottom: "10px", paddingTop: "10px" }}>Stores List</h1>
@@ -400,11 +414,12 @@ function AdminDashboard(props) {
                                                 <Badge>{user.plan ? user.plan.name : null}</Badge>,
                                                 user.videos_count ? user.videos_count.length : 0,
                                                 user.emails_sent ? user.emails_sent.length : 0,
-                                                <div ><Button onClick={() => router.get(route(`single-user-settings`, { id: user.id }))}>Landing Page</Button></div>,
-                                                <div><Button onClick={() => router.get(route(`single-user-email-settings`, { id: user.id }))}>Email</Button></div>,
-                                                <div><Button onClick={() => router.get(route(`single-user-logs`, { id: user.id }))}>Logs</Button></div>,
-                                                <div><Button onClick={() => router.get(route(`single-user-approved-videos`, { id: user.id }))}>Approved Videos</Button></div>,
-                                                <div><Button onClick={() => router.get(route(`single-user-reviewed-videos`, { id: user.id }))}>Review Videos</Button></div>,
+
+                                                <div><Button disabled={user.deleted_at} onClick={() => handleNavigation('single-user-settings', user.id, user.deleted_at)}>Landing Page</Button></div>,
+                                                <div><Button disabled={user.deleted_at} onClick={() => handleNavigation('single-user-email-settings', user.id, user.deleted_at)}>Email</Button></div>,
+                                                <div><Button disabled={user.deleted_at} onClick={() => handleNavigation('single-user-logs', user.id, user.deleted_at)}>Logs</Button></div>,
+                                                <div><Button disabled={user.deleted_at} onClick={() => handleNavigation('single-user-approved-videos', user.id, user.deleted_at)}>Approved Videos</Button></div>,
+                                                <div><Button disabled={user.deleted_at} onClick={() => handleNavigation('single-user-reviewed-videos', user.id, user.deleted_at)}>Review Videos</Button></div>,
                                                 <div>{user.customers ? user.customers.length : 0}</div>,
                                                 <div>{user.email}</div>,
                                                 <div>{user.created_at}</div>,

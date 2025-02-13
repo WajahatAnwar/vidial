@@ -104,88 +104,88 @@ function UserReviewdVideos() {
 
                         <br></br>
                         <Card>
-                            <Card.Section>
+                            {/* <Card.Section> */}
+                            <div
+                                style={{
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent: "space-between",
+                                    marginTop: "-10px",
+                                    marginBottom: "-10px",
+                                }}
+                            >
                                 <div
                                     style={{
                                         display: "flex",
                                         alignItems: "center",
-                                        justifyContent: "space-between",
-                                        marginTop: "-10px",
-                                        marginBottom: "-10px",
                                     }}
                                 >
-                                    <div
-                                        style={{
-                                            display: "flex",
-                                            alignItems: "center",
-                                        }}
-                                    >
-                                        <img
-                                            src={WaitingIcon}
-                                            width="20px"
-                                            height="20px"
-                                            style={{ marginRight: "10px" }}
-                                        ></img>
-                                        <Text variant="headingLg" as="h5">
-                                            Review Videos
-                                        </Text>
-                                    </div>
+                                    <img
+                                        src={WaitingIcon}
+                                        width="20px"
+                                        height="20px"
+                                        style={{ marginRight: "10px" }}
+                                    ></img>
+                                    <Text variant="headingLg" as="h5">
+                                        Review Videos
+                                    </Text>
                                 </div>
-                            </Card.Section>
+                            </div>
+                            {/* </Card.Section> */}
                             {numberOfVedios <= 0 ? (
                                 <div style={{ height: "400px", background: "#f9f9f9", borderRadius: "6px", textAlign: "center", paddingTop: "125px", }}>
                                     <img style={{ height: "102px", opacity: ".5" }} src={noVedio}></img>
                                     <p style={{ color: "#d3c9c9", fontSize: "17px" }}>No Approved Videos</p>
                                 </div>
                             ) :
-                                <Card.Section>
-                                    <Grid>
-                                        {videos &&
-                                            videos.map((video, index) => {
-                                                return (
-                                                    <Grid.Cell
-                                                        columnSpan={{
-                                                            xs: 3,
-                                                            sm: 3,
-                                                            md: 3,
-                                                            lg: 3,
-                                                            xl: 3,
-                                                        }}
-                                                    >
-                                                        <div
+                                // <Card.Section>
+                                <Grid>
+                                    {videos &&
+                                        videos.map((video, index) => {
+                                            return (
+                                                <Grid.Cell
+                                                    columnSpan={{
+                                                        xs: 3,
+                                                        sm: 3,
+                                                        md: 3,
+                                                        lg: 3,
+                                                        xl: 3,
+                                                    }}
+                                                >
+                                                    <div
                                                         className="video-wrapper-cstm"
-                                                            style={{
-                                                                textAlign: "center",
-                                                            }}
-                                                            onContextMenu={handleContextMenu}
+                                                        style={{
+                                                            textAlign: "center",
+                                                        }}
+                                                        onContextMenu={handleContextMenu}
+                                                    >
+                                                        <video
+                                                            width="216"
+                                                            height="386"
+                                                            ref={(el) => (videoRefs.current[index] = el)}
+                                                            muted
+                                                            onClick={() => playVideo(index)} // Play on click
                                                         >
-                                                            <video
-                                                                width="216"
-                                                                height="386"
-                                                                ref={(el) => (videoRefs.current[index] = el)}
-                                                                muted
-                                                                onClick={() => playVideo(index)} // Play on click
-                                                            >
-                                                                <source
-                                                                    src={
-                                                                        video.video_link
-                                                                    }
-                                                                    type="video/mp4"
-                                                                />
-                                                                Your browser does not
-                                                                support the video tag.
-                                                            </video>
+                                                            <source
+                                                                src={
+                                                                    video.video_link
+                                                                }
+                                                                type="video/mp4"
+                                                            />
+                                                            Your browser does not
+                                                            support the video tag.
+                                                        </video>
 
-                                                            <p
-                                                                style={{
-                                                                    fontSize: "12px",
-                                                                    color: "#797979",
-                                                                }}
-                                                            >
-                                                                Sent by {video.email}
-                                                            </p>
+                                                        <p
+                                                            style={{
+                                                                fontSize: "12px",
+                                                                color: "#797979",
+                                                            }}
+                                                        >
+                                                            Sent by {video.email}
+                                                        </p>
 
-                                                            {/* <button
+                                                        {/* <button
                                                                 onClick={playVideo}
                                                                 style={{
                                                                     background:
@@ -205,12 +205,12 @@ function UserReviewdVideos() {
                                                                 Play
                                                             </button> */}
 
-                                                        </div>
-                                                    </Grid.Cell>
-                                                );
-                                            })}
-                                    </Grid>
-                                </Card.Section>
+                                                    </div>
+                                                </Grid.Cell>
+                                            );
+                                        })}
+                                </Grid>
+                                // </Card.Section>
                             }
                         </Card>
                     </Grid.Cell>
