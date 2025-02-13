@@ -1,5 +1,6 @@
 @php 
-$fav_icon = $settings->fav_icon ??  "/images/favicon2.png"
+  $settings = \App\Models\Setting::where('user_id',$current_user_id)->first();
+  $fav_icon = $settings->fav_icon ??  "/images/favicon2.png"
 @endphp
 
 <!doctype html>
