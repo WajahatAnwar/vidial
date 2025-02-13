@@ -366,7 +366,7 @@ function Dashboard() {
                 </Grid.Cell>
                 <Grid.Cell columnSpan={{ xs: 6, sm: 6, md: 6, lg: 12, xl: 12 }}>
                     <Card>
-                        <Card.Section>
+                        {/* <Card.Section> */}
                             <div
                                 style={{
                                     display: "flex",
@@ -405,7 +405,7 @@ function Dashboard() {
                                     </Button>
                                 )}
                             </div>
-                        </Card.Section>
+                        {/* </Card.Section> */}
                         {pendingVideosCount <= 0 ? (
                             <div
                                 style={{
@@ -432,7 +432,7 @@ function Dashboard() {
                                 </p>
                             </div>
                         ) : (
-                            <Card.Section>
+                            // <Card.Section>
                                 <Grid>
                                     {pendingVideos &&
                                         pendingVideos.map((video) => {
@@ -565,13 +565,13 @@ function Dashboard() {
                                             );
                                         })}
                                 </Grid>
-                            </Card.Section>
+                            // </Card.Section>
                         )}
                     </Card>
                 </Grid.Cell>
                 <Grid.Cell columnSpan={{ xs: 6, sm: 6, md: 6, lg: 12, xl: 12 }}>
                     <Card>
-                        <Card.Section>
+                        {/* <Card.Section> */}
                             <div
                                 style={{
                                     display: "flex",
@@ -610,7 +610,7 @@ function Dashboard() {
                                     </Button>
                                 )}
                             </div>
-                        </Card.Section>
+                        {/* </Card.Section> */}
                         {approvedVideosCount <= 0 ? (
                             <div
                                 style={{
@@ -637,7 +637,7 @@ function Dashboard() {
                                 </p>
                             </div>
                         ) : (
-                            <Card.Section>
+                            // <Card.Section>
                                 <Grid>
                                     {approvedVideos &&
                                         approvedVideos.map((video) => {
@@ -734,7 +734,7 @@ function Dashboard() {
                                             );
                                         })}
                                 </Grid>
-                            </Card.Section>
+                            // </Card.Section>
                         )}
                     </Card>
                 </Grid.Cell>

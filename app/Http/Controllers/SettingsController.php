@@ -640,10 +640,9 @@ class SettingsController extends Controller
 
     public function logs(Request $request)
     {
-        // dd($request->all());
         $now = Carbon::now();
         if ($request->filled('id')) {
-            $user = User::find($request->id);
+            $user = User::find((int) $request->input('id'));
             if (!$user) {
                 return redirect()->to('admin-dashboard');
             }

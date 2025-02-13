@@ -35,7 +35,7 @@ class AdminController extends Controller
                 $q->orderBy("created_at", "asc");
             })
             ->withCount('videos')
-            ->withTrashed()->get();
+            ->withTrashed()->take('10')->get();
         return response()->json([
             'success' => true,
             'message' => 'Users List',
