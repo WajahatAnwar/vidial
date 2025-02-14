@@ -1,8 +1,9 @@
-@php 
-  ##$settings = \App\Models\Setting::where('user_id',Illuminate\Support\Facades\Auth::user()->id)->first();
-  $fav_icon = $settings->fav_icon ??  "/images/favicon2.png"
-
+@php
+    $fav_icon = isset($settings) && $settings->fav_icon 
+        ? url('fav_icons/' . $settings->fav_icon) 
+        : "/images/favicon2.png";
 @endphp
+
 
 <!doctype html>
 <html lang="en" style="overflow-x: hidden;">

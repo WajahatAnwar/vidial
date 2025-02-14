@@ -38,6 +38,8 @@ function WaitingVideos() {
 
     const handleClickConfirm = () => {
         if (approvalType == 'rejected') {
+            
+            setRejectionReason("");
             shopify.modal.show('rejectionModal');
         }
         else {
@@ -47,6 +49,7 @@ function WaitingVideos() {
     }
 
     const handleModalOpen = (id, type, message) => {
+        console.log(id, type, message);
         shopify.modal.show('popup-modal');
         setModalTitle(message);
         setApprovalType(type);
@@ -64,6 +67,8 @@ function WaitingVideos() {
 
     /******** Reject Video Handle   ******/
     const handleRejectVideo = () => {
+        console.log(rejectionReason , videoId);
+        // return; // Stops execution here
         if (rejectionReason && videoId) {
             var formData = new FormData();
             formData.append("reason", rejectionReason);
@@ -89,7 +94,11 @@ function WaitingVideos() {
                         })
                     }
                     setisClicked(false);
-                    setReload(true);
+                    setReload(!reload);
+
+                    console.log('reload value hare set ');
+                    console.log('reload value hare set ');
+
                     handleClickCancel();
 
                 })
@@ -130,7 +139,7 @@ function WaitingVideos() {
                             isError: true
                         });
                     }
-                    setReload(true);
+                    setReload(!reload);
                     handleClickCancel();
                 })
                 .catch((error) => {
@@ -145,6 +154,7 @@ function WaitingVideos() {
     };
 
     useEffect(() => {
+        console.log(reload);
         fetch(route('getPendingVideos', { page: currentPage }))
             .then((response) => {
                 if (!response.ok) {
