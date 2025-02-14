@@ -151,11 +151,11 @@ class VideoController extends Controller
             dispatch($job);
 
             $customerName = $video->order
-                ? ($video->order->customer_name ?: 'No Customer Name')
-                : 'No Order Given';
+                ? ($video->order->customer_name ?: '  ')
+                : '';
 
             $logDetails = [
-                'type' => "EMAIL",
+                'type' => "EMAIL", 
                 'send_to' => $video->email,
                 'user_id' => $user->id,
                 'customer_name' => $customerName,
@@ -244,8 +244,8 @@ class VideoController extends Controller
             $code = $this->createDiscountCode($request->type);
             $redirect = 'https://' . $user->name;
             $customerName = $videos->order
-                ? ($videos->order->customer_name ?: 'No Customer Name')
-                : 'No Order Given';
+                ? ($videos->order->customer_name ?: '')
+                : '';
             // $customerName = optional($videos->order)->customer_name;
             if ($request->type == 'star_rating') {
                 $temlateDetails['amount'] = Auth::user()->settings->star_credit;
@@ -338,8 +338,8 @@ class VideoController extends Controller
             $email_parts = explode('@', $videos->email);
             $name = $email_parts[0];
             $customerName = $videos->order
-                ? ($videos->order->customer_name ?: 'No Customer Name')
-                : 'No Order Given';
+                ? ($videos->order->customer_name ?: '')
+                : '';
             // $details = [
             //     'rejectionReason' => $request->reason,
             //     'mail' => $videos->email,
@@ -402,15 +402,17 @@ class VideoController extends Controller
     {
         if ($request->filled('id')) {
             $user = User::find($request->id);
+            $page = $request->currentPage;
             if (!$user) {
                 return redirect()->to('admin-dashboard');
             }
         } else {
+            $page = $request->page;
             $user = Auth::user();
         }
 
         $videosPerPage = 4;
-        $limit = $request->page * $videosPerPage;
+        $limit = $page * $videosPerPage;
         $totalVideos = video::where('user_id', $user->id)
             ->where('status', '=', config('constants.video_approved'))
             ->count();
@@ -673,7 +675,7 @@ class VideoController extends Controller
                 $log_details['customer_email'] = $customer->email;
             }else{
                 $log_details['customer_name'] = 'Name not given';
-                $log_details['customer_email'] = 'Email not given';
+                $log_details['customer_email'] = $request->email;
 
             }
             update_log_file($log_details);

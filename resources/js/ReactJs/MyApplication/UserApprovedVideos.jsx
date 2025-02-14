@@ -1,4 +1,5 @@
 import {
+    Box,
     Button,
     Card,
     Grid,
@@ -101,16 +102,14 @@ function UserApprovedVideos() {
             <Page>
                 <Grid>
                     <Grid.Cell columnSpan={{ xs: 6, sm: 6, md: 6, lg: 12, xl: 12 }}>
-
-                        <br></br>
                         <Card>
                             <div
                                 style={{
                                     display: "flex",
                                     alignItems: "center",
                                     justifyContent: "space-between",
-                                    marginTop: "-10px",
-                                    marginBottom: "-10px",
+                                    marginTop: "0px",
+                                    marginBottom: "8px",
                                 }}
                             >
                                 <div
@@ -131,68 +130,85 @@ function UserApprovedVideos() {
                                 </div>
                             </div>
                             {numberOfVedios <= 0 ? (
-                                <div style={{ height: "400px", background: "#f9f9f9", borderRadius: "6px", textAlign: "center", paddingTop: "125px", justifyItems: "center", }}>
-                                    <img style={{ height: "102px", opacity: ".5" }} src={noVedio}></img>
+                                <div style={{
+                                    height: "400px",
+                                    background: "#f9f9f9",
+                                    borderRadius: "6px",
+                                    textAlign: "center",
+                                    paddingTop: "125px",
+                                    justifyItems: "center",
+                                }}>
+                                    <img
+                                        style={{ height: "102px", opacity: ".5" }}
+                                        src={noVedio}
+                                    />
 
-                                    <p style={{ color: "#d3c9c9", fontSize: "17px" }}>No Approved Videos</p>
-
+                                    <p
+                                        style={{
+                                            color: "#d3c9c9",
+                                            fontSize: "17px",
+                                        }}
+                                    >
+                                        No Videos To Review
+                                    </p>
                                 </div>
                             ) :
-                                <Grid>
-                                    {videos &&
-                                        videos.map((video, index) => {
-                                            return (
-                                                <Grid.Cell
-                                                    columnSpan={{
-                                                        xs: 3,
-                                                        sm: 3,
-                                                        md: 3,
-                                                        lg: 3,
-                                                        xl: 3,
-                                                    }}
-                                                >
-                                                    <div
-                                                        style={{
-                                                            textAlign: "center",
+                                <Box paddingBlockEnd='500' paddingBlockStart='1000'>
+                                    <Grid>
+                                        {videos &&
+                                            videos.map((video, index) => {
+                                                return (
+                                                    <Grid.Cell
+                                                        columnSpan={{
+                                                            xs: 3,
+                                                            sm: 3,
+                                                            md: 3,
+                                                            lg: 3,
+                                                            xl: 3,
                                                         }}
-                                                        onContextMenu={handleContextMenu}
                                                     >
-                                                        <video
-                                                            width="216"
-                                                            height="386"
-                                                            ref={(el) => (videoRefs.current[index] = el)}
-                                                            muted
-                                                            onClick={() => playVideo(index)} // Play on click
-                                                        >
-                                                            <source
-                                                                src={
-                                                                    video.video_link
-                                                                }
-                                                                type="video/mp4"
-                                                            />
-                                                            Your browser does not
-                                                            support the video tag.
-                                                        </video>
-                                                        <p
+                                                        <div
                                                             style={{
-                                                                fontSize: "12px",
-                                                                color: "#797979",
-                                                                marginTop: "10px",
+                                                                textAlign: "center",
                                                             }}
+                                                            onContextMenu={handleContextMenu}
                                                         >
-                                                            {video.approved_video_type == 'star_rating' ? 'Star Approved' : 'Approved'} {video.updated_at}
+                                                            <video
+                                                                width="216"
+                                                                height="386"
+                                                                ref={(el) => (videoRefs.current[index] = el)}
+                                                                muted
+                                                                onClick={() => playVideo(index)} // Play on click
+                                                            >
+                                                                <source
+                                                                    src={
+                                                                        video.video_link
+                                                                    }
+                                                                    type="video/mp4"
+                                                                />
+                                                                Your browser does not
+                                                                support the video tag.
+                                                            </video>
+                                                            <p
+                                                                style={{
+                                                                    fontSize: "12px",
+                                                                    color: "#797979",
+                                                                    marginTop: "10px",
+                                                                }}
+                                                            >
+                                                                {video.approved_video_type == 'star_rating' ? 'Star Approved' : 'Approved'} {video.updated_at}
 
-                                                        </p>
-                                                        <p
-                                                            style={{
-                                                                fontSize: "12px",
-                                                                color: "#797979",
-                                                            }}
-                                                        >
-                                                            Sent by {video.email}
-                                                        </p>
+                                                            </p>
+                                                            <p
+                                                                style={{
+                                                                    fontSize: "12px",
+                                                                    color: "#797979",
+                                                                }}
+                                                            >
+                                                                Sent by {video.email}
+                                                            </p>
 
-                                                        {/* <button
+                                                            {/* <button
                                                                 onClick={playVideo}
                                                                 style={{
                                                                     background:
@@ -212,11 +228,12 @@ function UserApprovedVideos() {
                                                                 Play
                                                             </button> */}
 
-                                                    </div>
-                                                </Grid.Cell>
-                                            );
-                                        })}
-                                </Grid>
+                                                        </div>
+                                                    </Grid.Cell>
+                                                );
+                                            })}
+                                    </Grid>
+                                </Box>
                             }
                         </Card>
                     </Grid.Cell>

@@ -261,7 +261,7 @@ class EmailSendToCustomerCron extends Command
                                 'order_id' => $order->order_id,
                                 'email_type' => config('constants.post_purchase'),
                                 'customer_name' => $order->customer_name,
-                                'customer_email' => $order->emailA
+                                'customer_email' => $order->email
                             ];
                             update_log_file($log_details);
                             SendMantleEventJob::dispatch($settings->user, config('constants.post_purchase'), $log_details);

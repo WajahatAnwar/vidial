@@ -68,7 +68,7 @@ const Settings = () => {
     const [favIcon, setFavIcon] = useState(null);
     const [favIconPreview, setFavIconPreview] = useState(null);
     const [popoverActive, setPopoverActive] = useState(false);
-   
+
     const [filesVideos, setFilesVideos] = useState([]);
     const [alreadyUploadVideo, setAlreadyUploadedVideo] = useState('');
     const validImageTypes = ['image/gif', 'image/jpeg', 'image/png'];
@@ -148,7 +148,7 @@ const Settings = () => {
                 }}
             ></img>
         </button>
-    );    
+    );
 
     const viewLandingPage = () => {
         window.open(
@@ -353,6 +353,7 @@ const Settings = () => {
 
     const handleFavIcon = (e) => {
         setFavIcon(e.target.files[0]);
+        // setFavIconPreview(true);
     };
 
     const handleRemoveFavIcon = () => {
@@ -539,13 +540,20 @@ const Settings = () => {
         formData.append("locale", selected);
         if (
             (standardDiscount == "" ||
+                starDiscount == "" ||
                 landingPageValue == "" ||
                 emailSentToValue == "" ||
                 landingPageDisplayedValue == "" ||
                 rows == ""
             )
         ) {
-            setError(true);
+            // alert("Please fill all the fields");
+            // setError(true);
+
+            shopify.toast.show('Please fill in all required fields!', {
+                duration: 3000,
+            });
+
             setIsLoading(false);
         } else {
             setError(false);
@@ -667,7 +675,7 @@ const Settings = () => {
                     });
                 }
             })
-        }else{
+        } else {
             shopify.toast.show('Store handle already exists', {
                 duration: 3000,
                 isError: true
@@ -748,13 +756,9 @@ const Settings = () => {
             }
             const data = await response.json();
             if (data.success) {
-                // setPlanName(data.data.plan_name)
-                console.log(data);
-                console.log('data');
                 setFavIconPreview(data.data.fav_icon ?? null);
-                // data.data.email_creds ? setterEmailCreds(data) : ''
-                // data.data.gd_creds ? setterGdCreds(data) : setGDConnected(false)
-                // data.data.klavio ? setterKlavio(data) : setKlavioConnected(false)
+                setFavIcon(data.data.fav_icon ?? null);
+                // setFavIcon(true);
 
                 setApprovedStoreHandle(data.data.storeHandle);
                 setStoreHandle(data.data.storeHandle);
@@ -899,6 +903,19 @@ const Settings = () => {
                                                             );
                                                         }
                                                     )}
+
+
+                                                {errorMessages.star_credit &&
+                                                    errorMessages.star_credit.map(
+                                                        (error) => {
+                                                            return (
+                                                                <List.Item>
+                                                                    {error}
+                                                                </List.Item>
+                                                            );
+                                                        }
+                                                    )}
+
 
                                                 {errorMessages.page_display_to_customers &&
                                                     errorMessages.page_display_to_customers.map(
@@ -1319,28 +1336,31 @@ const Settings = () => {
                                                 </div>
                                             </div>
                                         }
-                                        <div>
-                                            <p style={{ marginTop: "5px", marginBottom: "5px" }}>
-                                                Choose Favicon
-                                            </p>
 
-                                        </div>
-                                        <div>
-                                            <input type="file" name="fav_icon" onChange={handleFavIcon}></input>
-                                        </div>
                                         <div style={{ width: "60px" }} className="delete-btn-icons">
                                             <div style={{ marginTop: "10px" }}>
                                                 {
-                                                    favIconPreview ? <><Thumbnail
-                                                        size="medium"
-                                                        alt="img"
-                                                        source={favIconPreview}
-                                                    />
+                                                    favIconPreview ? <>
+                                                        <Thumbnail
+                                                            size="medium"
+                                                            alt="img"
+                                                            source={ baseUrl + '/fav_icons/' +favIcon}
+                                                        />
                                                         <div onClick={() => handleRemoveFavIcon()}>
                                                             <Icon source={CircleCancelMajor} color="critical" />
                                                         </div>
                                                     </>
-                                                        : ''
+                                                        : <>
+                                                            <div>
+                                                                <p style={{ marginTop: "5px", marginBottom: "5px" }}>
+                                                                    Choose Favicon
+                                                                </p>
+
+                                                            </div>
+                                                            <div>
+                                                                <input type="file" name="fav_icon" onChange={handleFavIcon}></input>
+                                                            </div>
+                                                        </>
                                                 }
                                             </div>
 

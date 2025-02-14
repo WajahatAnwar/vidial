@@ -15,11 +15,11 @@ class Setting extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function getFavIconAttribute($value)
-    {
-        if ($value) {
-            return url('fav_icons/' . $value);
-        }
-        return $value;
-    }
+    // public function getFavIconAttribute($value)
+    // {
+    //     if ($value) {
+    //         return url('fav_icons/' . $value);
+    //     }
+    //     return $value;
+    // }
 }
