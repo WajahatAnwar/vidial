@@ -143,20 +143,21 @@ class SettingsController extends Controller
         if ($request->file('video')) {
             $video_mimes = '|mimetypes:video/quicktime,video/x-quicktime,video/mp4';
         }
-        $validatedData = $request->validate([
-            'store_credit' => 'required|numeric|min:1',
-            'page_display_to_customers' => 'required|numeric|min:1',
-            'email_sent_to_customer' => 'required|numeric|min:1',
-            'page_link' => 'required|numeric|min:1',
-            'instructions' => 'required',
-            'logo' => $image_mimes,
-            'video' => $video_mimes,
-            'star_credit' => 'required|numeric|min:1',
-        ],
-        [
-            'store_credit.min' => 'The standard credit must be at least 1'
-        ]
-    );
+        $validatedData = $request->validate(
+            [
+                'store_credit' => 'required|numeric|min:1',
+                'page_display_to_customers' => 'required|numeric|min:1',
+                'email_sent_to_customer' => 'required|numeric|min:1',
+                'page_link' => 'required|numeric|min:1',
+                'instructions' => 'required',
+                'logo' => $image_mimes,
+                'video' => $video_mimes,
+                'star_credit' => 'required|numeric|min:1',
+            ],
+            [
+                'store_credit.min' => 'The standard credit must be at least 1'
+            ]
+        );
         if ($request->file('logo')) {
             $image = time() . '.' . $request->file('logo')->extension();
             $request->file('logo')->move(public_path('logo'), $image);
@@ -173,10 +174,10 @@ class SettingsController extends Controller
         if ($request->file('fav_icon')) {
             $fav_icon = time() . '.' . $request->file('fav_icon')->extension();
             $request->file('fav_icon')->move(public_path('fav_icons'), $fav_icon);
-        }else{
+        } else {
             $url = $request->fav_icon;
             $filename = basename($url);
-            if($filename != 'null'){
+            if ($filename != 'null'){
                 $fav_icon = $filename;
             }
 
@@ -639,6 +640,10 @@ class SettingsController extends Controller
                 'data' => null
             ]);
         }
+
+        $settings = Setting::where('user_id', Auth::user()->id)->first();
+        $settings->email_status = "false";
+        $settings->save();
         // Return a failure response if no credential is found
         return response()->json([
             'success' => false,

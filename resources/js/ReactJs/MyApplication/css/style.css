@@ -112,11 +112,11 @@
     display: none;
 }
 #greenDisButton.green-disconnect-button button.Polaris-Button {
-    background: #007f5f !important;
+    background: #e40404 !important;
     border: none !important;
 }
 #greenDisButton.green-disconnect-button button.Polaris-Button:hover {
-    background: #007f5f !important;
+    background: #e40404 !important;
     border: none !important;
 }
 @media (max-width: 784.98px) {

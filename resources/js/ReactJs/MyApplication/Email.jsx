@@ -16,7 +16,7 @@ const Email = () => {
     const [klavioErrorMsg, setKlavioErrorMsg] = useState(false);
     const [klavioApi, setKlavioApi] = useState("");
     const [klavioEmail, setKlavioEmail] = useState("");
-    const [klavioConnected, setKlavioConnected] = useState(true);
+    const [klavioConnected, setKlavioConnected] = useState(false);
     const [showApiKey, setShowApiKey] = useState(true);
     const [isSettingSave, setIsSettingSave] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
@@ -59,8 +59,11 @@ const Email = () => {
         }).then(response => response.json()).then((data) => {
             // setSuccessMsg("Connected Successfully");
             setIsSettingSave(!isSettingSave);
+            shopify.toast.show('Klaviyo connected sucessfully', {
+                duration: 3000,
+            });
 
-            toggleActive();
+
         })
     };
 
@@ -72,11 +75,15 @@ const Email = () => {
             method: 'POST'
         }).then(response => response.json()).then((data) => {
             // setSuccessMsg("Deleted Klaviyo Credentials Successfully");
-            setIsSettingSave(!isSettingSave);
+            // setIsSettingSave(!isSettingSave);
             setKlavioApi('');
             setKlavioEmail('');
-            toggleActive();
+            setKlavioConnected(false);
             setIsEmail(true);
+
+            shopify.toast.show('Klaviyo disconnected sucessfully', {
+                duration: 3000,
+            });
         });
     };
 
@@ -170,12 +177,13 @@ const Email = () => {
             const data = await response.json();
             if (data.success) {
                 setPlan(data.data.plan);
-                data.data.klavio ? setterKlavio(data) : null;
-                if (data.data.email_status == 'false') {
-                    setIsEmail(false);
-                } else {
-                    setIsEmail(true);
-                }
+                // if (data.data.email_status == 'false') {
+                //     setIsEmail(false);
+                // } else {
+                //     setIsEmail(true);
+                // }
+
+                data.data.klavio ? setterKlavio(data) : setIsEmail(true);
                 setVideoSendCount(data.data.page_display_to_customers);
                 setReminderEmailDelayWeeks(data.data.email_sent_to_customer);
                 setPostEmailDelayDays(data.data.page_link);
