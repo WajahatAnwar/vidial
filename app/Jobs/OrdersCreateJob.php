@@ -15,6 +15,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Osiset\ShopifyApp\Objects\Values\ShopDomain;
 use Osiset\ShopifyApp\Contracts\Queries\Shop as IShopQuery;
+use App\Models\Setting;
 
 class OrdersCreateJob implements ShouldQueue
 {
@@ -95,15 +96,26 @@ class OrdersCreateJob implements ShouldQueue
                 'email_service' => 'mailgun',
             ];
 
-            /*********** klavio settings **************/
-            $klavio = KlavioCredential::where('user_id', $shop->id)->first();
-            if ($klavio) {
+            $email_status = Setting::where('user_id', $shop->id)->first()->email_status;
+            if ($email_status != 'true') {
                 $order_payload['email_service'] = 'klavio';
-                /********* sent event to klavio *********/
+                $klavio = KlavioCredential::where('user_id', $shop->id)->first();
+
                 KlavioEmailJob::dispatch($klavio->api_key, $klavio->email, $order_payload);
             }
-            // Log::info(json_encode($order_payload));
-            // Log::info("order_payload");
+            // if ($klavio) {
+            //     $order_payload['email_service'] = 'klavio';
+            //     /********* sent event to klavio *********/
+            // }
+
+
+            // /*********** klavio settings **************/
+            // $email_status = Setting::where('user_id', $user->id)->first()->email_status;
+            // if ($email_status != 'true') {
+            //     $order_payload['email_service'] = 'klavio';
+            //     /********* sent event to klavio *********/
+            //     KlavioEmailJob::dispatch($klavio->api_key, $klavio->email, $order_payload);
+            // }
 
             $order = Orders::updateOrCreate(['order_id' => $order_id], $order_payload);
         } else {

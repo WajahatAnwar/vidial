@@ -144,18 +144,20 @@ class VideoController extends Controller
                 'reason_decline' => ''
             ];
 
-            $klavio = KlavioCredential::where('user_id', $user->id)->first();
-            $job = $klavio
-                ? new KlavioEmailJob($klavio->api_key, $klavio->email, null, $templateDetails, $video->id)
-                : new EmailTemplateJob($templateDetails);
-            dispatch($job);
-
+            $email_status = Setting::where('user_id', $user->id)->first()->email_status;
+            if ($email_status != 'false') {
+                dispatch(new EmailTemplateJob($templateDetails));
+            } else {
+                $klavio = KlavioCredential::where('user_id', $user->id)->first();
+                Log::info(json_encode($klavio));
+                dispatch(new KlavioEmailJob($klavio->api_key, $klavio->email, null, $templateDetails, $video->id));
+            }
             $customerName = $video->order
                 ? ($video->order->customer_name ?: '  ')
                 : '';
 
             $logDetails = [
-                'type' => "EMAIL", 
+                'type' => "EMAIL",
                 'send_to' => $video->email,
                 'user_id' => $user->id,
                 'customer_name' => $customerName,
@@ -264,9 +266,13 @@ class VideoController extends Controller
             //$temlateDetails['name'] = $videos->email;
             $temlateDetails['discount_code'] = $code['code'];
             $temlateDetails['reason_decline'] = '';
-            $klavio = KlavioCredential::where('user_id', $user->id)->first();
-            $klavio ? dispatch(new KlavioEmailJob($klavio->api_key, $klavio->email, null, $temlateDetails, $videos->id)) :
+            $email_status = Setting::where('user_id', $user->id)->first()->email_status;
+            if ($email_status != 'false') {
                 dispatch(new EmailTemplateJob($temlateDetails));
+            } else {
+                $klavio = KlavioCredential::where('user_id', $user->id)->first();
+                dispatch(new KlavioEmailJob($klavio->api_key, $klavio->email, null, $temlateDetails, $videos->id));
+            }
 
             $log_details = [
                 'type' => "EMAIL",
@@ -362,10 +368,13 @@ class VideoController extends Controller
             $temlateDetails['url'] = env('APP_URL') . "/landingPage" . "/" . Auth::user()->settings->locale . "?store=" . Auth::user()->name;
             $temlateDetails['discount_code'] = '';
             $temlateDetails['reason_decline'] = $request->reason;
-            $klavio = KlavioCredential::where('user_id', $user->id)->first();
-            $klavio ? dispatch(new KlavioEmailJob($klavio->api_key, $klavio->email, null, $temlateDetails, $videos->id)) :
+            $email_status = Setting::where('user_id', $user->id)->first()->email_status;
+            if ($email_status != 'false') {
                 dispatch(new EmailTemplateJob($temlateDetails));
-
+            } else {
+                $klavio = KlavioCredential::where('user_id', $user->id)->first();
+                dispatch(new KlavioEmailJob($klavio->api_key, $klavio->email, null, $temlateDetails, $videos->id));
+            }
 
             $log_details = [
                 'type' => "EMAIL",
@@ -541,7 +550,6 @@ class VideoController extends Controller
                 'body' => fopen($file, 'r'),
             ]);
         } catch (\Exception $e) {
-            dd($e->getMessage());
             Log::error('An error occurred: ' . $e->getMessage());
         }
 
@@ -673,7 +681,7 @@ class VideoController extends Controller
                 // $log_details['customer_id'] = $customer->customer_id;
                 $log_details['customer_name'] = $customer->first_name . ' ' . $customer->last_name;
                 $log_details['customer_email'] = $customer->email;
-            }else{
+            } else{
                 $log_details['customer_name'] = 'Name not given';
                 $log_details['customer_email'] = $request->email;
 
