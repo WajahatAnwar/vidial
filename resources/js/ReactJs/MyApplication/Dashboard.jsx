@@ -392,28 +392,7 @@ function Dashboard() {
                                 </Text>
                             </div>
                             {pendingVideosCount <= 0 ? (
-                                <div style={{
-                                    height: "400px",
-                                    background: "#f9f9f9",
-                                    borderRadius: "6px",
-                                    textAlign: "center",
-                                    paddingTop: "125px",
-                                    justifyItems: "center",
-                                }}>
-                                    <img
-                                        style={{ height: "102px", opacity: ".5" }}
-                                        src={noVedio}
-                                    />
-
-                                    <p
-                                        style={{
-                                            color: "#d3c9c9",
-                                            fontSize: "17px",
-                                        }}
-                                    >
-                                        No Videos To Review
-                                    </p>
-                                </div>
+                                <></>
                             ) : (
                                 <Button
                                     size="slim"
@@ -614,28 +593,7 @@ function Dashboard() {
                                 </Text>
                             </div>
                             {approvedVideosCount <= 0 ? (
-                                <div style={{
-                                    height: "400px",
-                                    background: "#f9f9f9",
-                                    borderRadius: "6px",
-                                    textAlign: "center",
-                                    paddingTop: "125px",
-                                    justifyItems: "center",
-                                }}>
-                                    <img
-                                        style={{ height: "102px", opacity: ".5" }}
-                                        src={noVedio}
-                                    />
-
-                                    <p
-                                        style={{
-                                            color: "#d3c9c9",
-                                            fontSize: "17px",
-                                        }}
-                                    >
-                                        No Videos To Review
-                                    </p>
-                                </div>
+                                <></>
                             ) : (
                                 <Button
                                     size="slim"
