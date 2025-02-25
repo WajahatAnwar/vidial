@@ -8,7 +8,7 @@ import chevronUp from "./imges/ChevronUpMinor.png";
 import arrowRight from "./imges/arrowRight.png";
 
 const Email = () => {
-    const [isEmail, setIsEmail] = useState(true);
+    const [isEmail, setIsEmail] = useState(null);
     const [postEmailDelayDays, setPostEmailDelayDays] = useState("5");
     const [reminderEmailDelayWeeks, setReminderEmailDelayWeeks] = useState("2");
     const [videoSendCount, setVideoSendCount] = useState("12");
@@ -39,7 +39,6 @@ const Email = () => {
     );
 
     const handleConnectKlavio = () => {
-
         setKlavioErrorMsg(false);
         if (klavioApi.length <= 0) {
             setKlavioErrorMsg('Api key is required');
@@ -49,7 +48,6 @@ const Email = () => {
             setKlavioErrorMsg('Email is required');
             return;
         }
-
         const formData = new FormData();
         formData.append('api_key', klavioApi);
         formData.append('email', klavioEmail);
@@ -57,13 +55,11 @@ const Email = () => {
             body: formData,
             method: 'POST'
         }).then(response => response.json()).then((data) => {
-            // setSuccessMsg("Connected Successfully");
             setIsSettingSave(!isSettingSave);
             shopify.toast.show('Klaviyo connected sucessfully', {
                 duration: 3000,
             });
-
-
+            setIsEmail(false);
         })
     };
 
@@ -91,6 +87,13 @@ const Email = () => {
         setKlavioConnected(true);
         setKlavioApi(data.data.klavio.api_key);
         setKlavioEmail(data.data.klavio.email);
+
+        if (data.data.email_status == 'false') {
+            setIsEmail(false);
+        } else {
+            setIsEmail(true);
+        }
+
     };
 
     function handleIsEmail() {
@@ -114,8 +117,8 @@ const Email = () => {
     const saveSettings = (e) => {
 
         e.preventDefault();
-
         setIsLoading(true);
+
 
         const formData = new FormData();
         formData.append("page_display_to_customers", videoSendCount);
@@ -127,7 +130,7 @@ const Email = () => {
 
         if (!isEmail && (!klavioEmail || !klavioApi)) {
             if (!klavioEmail && !klavioApi) {
-                setKlavioErrorMsg('Api key and Email are required to connect Klaviyo');
+                setKlavioErrorMsg('API Key and Email are required to connect to Klaviyo');
             } else if (!klavioApi) {
                 setKlavioErrorMsg('Api key is required to connect Klaviyo');
             } else if (!klavioEmail) {
@@ -169,6 +172,7 @@ const Email = () => {
 
     async function fetchSettings() {
 
+        setIsLoading(true);
         try {
             const response = await fetch(route('get_settings'))
             if (!response.ok) {
@@ -191,6 +195,8 @@ const Email = () => {
         } catch (error) {
             console.log(error);
         }
+        setIsLoading(false);
+
     };
 
     useEffect(() => {
@@ -200,7 +206,7 @@ const Email = () => {
     return (
         <div>
             {isLoading ? (
-                <div>
+                <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
                     <Spinner
                         accessibilityLabel="Spinner example"
                         size="large"

@@ -618,6 +618,10 @@ class SettingsController extends Controller
             'email' => $request->email,
         ]);
 
+        $settings = Setting::where('user_id', Auth::user()->id)->first();
+        $settings->email_status = "false";
+        $settings->save();
+
         return response()->json([
             'success' => true,
             'message' => "Settings saved",

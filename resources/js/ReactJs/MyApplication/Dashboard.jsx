@@ -7,7 +7,8 @@ import {
     Modal,
     Page,
     Text,
-    TextField
+    TextField,
+    Box
 } from "@shopify/polaris";
 import { useCallback, useEffect, useState } from "react";
 import boxkbackground from "@/ReactJs/MyApplication/imges/box-background.svg";
@@ -313,16 +314,15 @@ function Dashboard() {
     return (
         <Page>
             <Grid>
-
-                <Grid.Cell columnSpan={{ xs: 6, sm: 6, md: 6, lg: 12, xl: 12 }}>
-                    {/* <Ticker></Ticker> */}
+                {/* <Grid.Cell columnSpan={{ xs: 6, sm: 6, md: 6, lg: 12, xl: 12 }}>
+                    <Ticker></Ticker>
                     <br></br>
-                    {/* <Text variant="headingXl" as="h4">
+                    <Text variant="headingXl" as="h4">
                         Welcome to GoodAuthentic 👋
-                    </Text> */}
-                </Grid.Cell>
+                    </Text>
+                </Grid.Cell> */}
                 <Grid.Cell columnSpan={{ xs: 6, sm: 6, md: 4, lg: 4, xl: 4 }}>
-                    <Card sectioned>
+                    <Card>
                         <div style={{ display: "flex" }}>
                             <img src={boxkbackground}></img>
                             <div style={{ marginLeft: "10px" }}>
@@ -366,45 +366,65 @@ function Dashboard() {
                 </Grid.Cell>
                 <Grid.Cell columnSpan={{ xs: 6, sm: 6, md: 6, lg: 12, xl: 12 }}>
                     <Card>
-                        {/* <Card.Section> */}
+                        <div
+                            style={{
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "space-between",
+                                marginTop: "0px",
+                                marginBottom: "8px",
+                            }}
+                        >
                             <div
                                 style={{
                                     display: "flex",
                                     alignItems: "center",
-                                    justifyContent: "space-between",
-                                    marginTop: "-10px",
-                                    marginBottom: "-10px",
                                 }}
                             >
-                                <div
-                                    style={{
-                                        display: "flex",
-                                        alignItems: "center",
-                                    }}
-                                >
+                                <img
+                                    src={timericon}
+                                    width="20px"
+                                    height="20px"
+                                    style={{ marginRight: "10px" }}
+                                ></img>
+                                <Text variant="headingLg" as="h5">
+                                    Videos to Review
+                                </Text>
+                            </div>
+                            {pendingVideosCount <= 0 ? (
+                                <div style={{
+                                    height: "400px",
+                                    background: "#f9f9f9",
+                                    borderRadius: "6px",
+                                    textAlign: "center",
+                                    paddingTop: "125px",
+                                    justifyItems: "center",
+                                }}>
                                     <img
-                                        src={timericon}
-                                        width="20px"
-                                        height="20px"
-                                        style={{ marginRight: "10px" }}
-                                    ></img>
-                                    <Text variant="headingLg" as="h5">
-                                        Videos to Review
-                                    </Text>
-                                </div>
-                                {pendingVideosCount <= 0 ? (
-                                    ""
-                                ) : (
-                                    <Button
-                                        size="slim"
-                                        onClick={() => {
-                                            handleRedirect('videos-to-review');
+                                        style={{ height: "102px", opacity: ".5" }}
+                                        src={noVedio}
+                                    />
+
+                                    <p
+                                        style={{
+                                            color: "#d3c9c9",
+                                            fontSize: "17px",
                                         }}
                                     >
-                                        See All
-                                    </Button>
-                                )}
-                            </div>
+                                        No Videos To Review
+                                    </p>
+                                </div>
+                            ) : (
+                                <Button
+                                    size="slim"
+                                    onClick={() => {
+                                        handleRedirect('videos-to-review');
+                                    }}
+                                >
+                                    See All
+                                </Button>
+                            )}
+                        </div>
                         {/* </Card.Section> */}
                         {pendingVideosCount <= 0 ? (
                             <div
@@ -432,7 +452,7 @@ function Dashboard() {
                                 </p>
                             </div>
                         ) : (
-                            // <Card.Section>
+                            <Box paddingBlockEnd='500' paddingBlockStart='1000'>
                                 <Grid>
                                     {pendingVideos &&
                                         pendingVideos.map((video) => {
@@ -513,11 +533,7 @@ function Dashboard() {
                                                                             "20px",
                                                                     }}
                                                                     onClick={() => {
-                                                                        approvedUserVideo(
-                                                                            video.id,
-
-
-                                                                        );
+                                                                        approvedUserVideo(video.id);
                                                                     }}
                                                                 >
                                                                     <a href={`#`}>
@@ -565,51 +581,72 @@ function Dashboard() {
                                             );
                                         })}
                                 </Grid>
-                            // </Card.Section>
+                            </Box>
                         )}
                     </Card>
                 </Grid.Cell>
                 <Grid.Cell columnSpan={{ xs: 6, sm: 6, md: 6, lg: 12, xl: 12 }}>
                     <Card>
                         {/* <Card.Section> */}
+                        <div
+                            style={{
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "space-between",
+                                marginTop: "0px",
+                                marginBottom: "8px",
+                            }}
+                        >
                             <div
                                 style={{
                                     display: "flex",
                                     alignItems: "center",
-                                    justifyContent: "space-between",
-                                    marginTop: "-10px",
-                                    marginBottom: "-10px",
                                 }}
                             >
-                                <div
-                                    style={{
-                                        display: "flex",
-                                        alignItems: "center",
-                                    }}
-                                >
+                                <img
+                                    src={checkmark}
+                                    width="20px"
+                                    height="20px"
+                                    style={{ marginRight: "10px" }}
+                                ></img>
+                                <Text variant="headingLg" as="h5">
+                                    Approved Videos
+                                </Text>
+                            </div>
+                            {approvedVideosCount <= 0 ? (
+                                <div style={{
+                                    height: "400px",
+                                    background: "#f9f9f9",
+                                    borderRadius: "6px",
+                                    textAlign: "center",
+                                    paddingTop: "125px",
+                                    justifyItems: "center",
+                                }}>
                                     <img
-                                        src={checkmark}
-                                        width="20px"
-                                        height="20px"
-                                        style={{ marginRight: "10px" }}
-                                    ></img>
-                                    <Text variant="headingLg" as="h5">
-                                        Approved Videos
-                                    </Text>
-                                </div>
-                                {approvedVideosCount <= 0 ? (
-                                    ""
-                                ) : (
-                                    <Button
-                                        size="slim"
-                                        onClick={() => {
-                                            handleRedirect('approved-videos');
+                                        style={{ height: "102px", opacity: ".5" }}
+                                        src={noVedio}
+                                    />
+
+                                    <p
+                                        style={{
+                                            color: "#d3c9c9",
+                                            fontSize: "17px",
                                         }}
                                     >
-                                        See All
-                                    </Button>
-                                )}
-                            </div>
+                                        No Videos To Review
+                                    </p>
+                                </div>
+                            ) : (
+                                <Button
+                                    size="slim"
+                                    onClick={() => {
+                                        handleRedirect('approved-videos');
+                                    }}
+                                >
+                                    See All
+                                </Button>
+                            )}
+                        </div>
                         {/* </Card.Section> */}
                         {approvedVideosCount <= 0 ? (
                             <div
@@ -637,7 +674,7 @@ function Dashboard() {
                                 </p>
                             </div>
                         ) : (
-                            // <Card.Section>
+                            <Box paddingBlockEnd='500' paddingBlockStart='1000'>
                                 <Grid>
                                     {approvedVideos &&
                                         approvedVideos.map((video) => {
@@ -693,8 +730,17 @@ function Dashboard() {
                                                                 color: "#797979",
                                                             }}
                                                         >
-                                                            Sent by{" "}
+                                                            Sent by
+                                                        </p>
+                                                        <p
+                                                            style={{
+                                                                fontSize:
+                                                                    "12px",
+                                                                color: "#797979",
+                                                            }}
+                                                        >
                                                             {video.email}
+
                                                         </p>
                                                         <button
                                                             onClick={() => {
@@ -734,7 +780,7 @@ function Dashboard() {
                                             );
                                         })}
                                 </Grid>
-                            // </Card.Section>
+                            </Box>
                         )}
                     </Card>
                 </Grid.Cell>
@@ -890,7 +936,7 @@ function Dashboard() {
                     </div>
                 </Modal.Section>
             </Modal>
-        </Page>
+        </Page >
     );
 }
 export default Dashboard;

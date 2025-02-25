@@ -868,7 +868,7 @@ const Settings = () => {
         <div>
 
             {isLoading ? (
-                <div>
+                <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
                     <Spinner
                         accessibilityLabel="Spinner example"
                         size="large"
@@ -1344,7 +1344,7 @@ const Settings = () => {
                                                         <Thumbnail
                                                             size="medium"
                                                             alt="img"
-                                                            source={ baseUrl + '/fav_icons/' +favIcon}
+                                                            source={baseUrl + '/fav_icons/' + favIcon}
                                                         />
                                                         <div onClick={() => handleRemoveFavIcon()}>
                                                             <Icon source={CircleCancelMajor} color="critical" />

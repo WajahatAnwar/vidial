@@ -12,6 +12,7 @@ import { usePage } from "@inertiajs/react";
 export default function AppLayout({ auth, children }) {
 
     const [customertoken, setCustomerToken] = useState();
+
     function fetchShop() {
         fetch(route('settings.get.user'))
             .then(response => response.json())
@@ -38,14 +39,11 @@ export default function AppLayout({ auth, children }) {
             .catch(error => {
                 console.error("Error fetching data:", error);
             });
-    }
+    };
     
     useEffect(() => {
         fetchShop();
     }, []);
-
-
-
 
     return (
         <AppProvider i18n={en}>

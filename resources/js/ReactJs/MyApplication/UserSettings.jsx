@@ -490,7 +490,7 @@ const UserSettings = () => {
 
     /********  get Settings Data  ******/
     useEffect(() => {
-        console.log('here is my code',id)
+        console.log('here is my code', id)
         async function fetchSettings() {
 
             try {
@@ -979,7 +979,7 @@ const UserSettings = () => {
         const formData = new FormData();
         if (!isHandleAvailable) {
             formData.append('store_handle', storeHandle);
-            fetch('user-store-handle?id='+id, {
+            fetch('user-store-handle?id=' + id, {
                 method: "POST",
                 body: formData
             }).then((response) => response.json()).then((data) => {
@@ -1108,7 +1108,7 @@ const UserSettings = () => {
                 </Modal.Section>
             </Modal>
             {isLoading ? (
-                <div>
+                <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
                     <Spinner
                         accessibilityLabel="Spinner example"
                         size="large"
@@ -1232,7 +1232,7 @@ const UserSettings = () => {
                                             marginBottom: "20px",
                                         }}
                                     >
-                                       Update the URL of your landing page.
+                                        Update the URL of your landing page.
                                     </p>
 
                                     <div style={{ display: 'flex', alignItems: "center" }} className="storeHandleParent">
@@ -1355,12 +1355,12 @@ const UserSettings = () => {
                                         />
                                         &nbsp;
                                         <span className="black-global-btn">
-                                        <Button primary onClick={() => {
-                                            //setPageLink("/post-purchase-email")
-                                            document.getElementById('sab_ok_id').click();
-                                            setEmailTemplateButton(true);
-                                            //setActiveRejectionConfirmModel(true);
-                                        }} disabled={emailTemplateButton}>Save</Button>
+                                            <Button primary onClick={() => {
+                                                //setPageLink("/post-purchase-email")
+                                                document.getElementById('sab_ok_id').click();
+                                                setEmailTemplateButton(true);
+                                                //setActiveRejectionConfirmModel(true);
+                                            }} disabled={emailTemplateButton}>Save</Button>
                                         </span>
                                     </div>
                                 </Card>
@@ -1653,7 +1653,7 @@ const UserSettings = () => {
                                                         activeTootlTip ? <Tooltip content="This is default setting. You can not change it.">
                                                             <Icon source={CircleCancelMajor} color="critical" />
 
-                                                            </Tooltip> : <Icon source={CircleCancelMajor} color="critical" className="del-main-icon" />
+                                                        </Tooltip> : <Icon source={CircleCancelMajor} color="critical" className="del-main-icon" />
                                                     }
 
                                                 </div>
@@ -2204,7 +2204,7 @@ const UserSettings = () => {
 
 
 
-                               
+
 
 
 

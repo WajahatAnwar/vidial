@@ -1061,7 +1061,7 @@ const UserEmail = () => {
                 </Modal.Section>
             </Modal>
             {isLoading ? (
-                <div>
+                <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
                     <Spinner
                         accessibilityLabel="Spinner example"
                         size="large"
