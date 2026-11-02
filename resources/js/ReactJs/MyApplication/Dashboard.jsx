@@ -57,7 +57,7 @@ function Dashboard() {
         setActiveRejectionSuccessModel(!activeRejectionSuccessModel),
             [activeRejectionSuccessModel];
         setRejectionReason("");
-        router.get(route('home'));
+        // router.get(route('home'));
         setReload(new Date().getSeconds());
     });
 
@@ -91,7 +91,7 @@ function Dashboard() {
     const handleChangeApprovedSuccessModel = useCallback(() => {
         setActiveApprovedSuccessModel(!activeApprovedSuccessModel),
             [activeApprovedSuccessModel];
-        router.get(route('home'));
+        // router.get(route('home'));
         setReload(new Date().getSeconds());
     });
 
@@ -200,7 +200,7 @@ function Dashboard() {
                 })
                 .catch((error) => {
                     console.log(error);
-                    router.get(route('home'));
+                    // router.get(route('home'));
                 });
         } else {
             console.log("reason box empty");

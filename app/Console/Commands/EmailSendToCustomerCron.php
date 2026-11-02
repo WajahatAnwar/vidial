@@ -112,7 +112,7 @@ class EmailSendToCustomerCron extends Command
                         'store_name' => $current_user->store_name,
                         'shopify_store_name' => $settings->user->store_name,
                         'store_currency' => $current_user->store_currency,
-                        'url' => env('APP_URL') . '/s/' . ($current_user->store_handle ? $current_user->store_handle : str_replace(' ', '_', $current_user->store_name)) . '?order_id=' . Crypt::encryptString($order->id)
+                        'url' => config('app.url') . '/s/' . ($current_user->store_handle ? $current_user->store_handle : str_replace(' ', '_', $current_user->store_name)) . '?order_id=' . Crypt::encryptString($order->id)
 
                     ];
                     if ($order->email_status == 1) {
@@ -122,7 +122,7 @@ class EmailSendToCustomerCron extends Command
                             $date1 = Carbon::parse(Carbon::now());
                             $date2 = Carbon::parse($order->reminder_mail);
                             if ($order->email_send == 1 && $order->replied == 0 && $order->remaining_mail > 0 && $date2->isPast()) {
-                                $domain = env('MAILGUN_DOMAIN');
+                                $domain = config('services.mailgun.domain');
                                 $subject_reminder = "Share your feedback and receive " . getCurrencySymbol($details['store_currency'])
                                     . $details['discount_amount'] . " from " . $details['shopify_store_name'];
                                 if ($settings->locale == "en") {
@@ -145,7 +145,7 @@ class EmailSendToCustomerCron extends Command
                                         . getCurrencySymbol($details['store_currency']) . $details['discount_amount'] . " de " . $details['shopify_store_name'];
                                 }
                                 $params = array(
-                                    'from' => "GoodAuthentic < " . env('MAIL_USERNAME') . " >",
+                                    'from' => "GoodAuthentic < " . config('services.mailgun.username') . " >",
                                     'to' => $order->email,
                                     'subject' => $subject_reminder,
                                     'template' => $settings->locale == 'en' ? 'reminder-email' : "reminder-email_" . $settings->locale,
@@ -208,7 +208,7 @@ class EmailSendToCustomerCron extends Command
                         $date2 = Carbon::parse(Carbon::now());
                         if ($date1->isPast() && $order->remaining_mail > 0 && $order->email_send == 0) {
 
-                            $domain = env('MAILGUN_DOMAIN');
+                            $domain = config('services.mailgun.domain');
 
                             $subject = "Win a " . getCurrencySymbol($details['store_currency'])
                                 . $details['discount_amount'] . " gift card from " . $details['store'];
@@ -232,7 +232,7 @@ class EmailSendToCustomerCron extends Command
                                     . getCurrencySymbol($details['store_currency']) . $details['discount_amount'] . " para " . $details['store'];
                             }
                             $params = array(
-                                'from' => "GoodAuthentic < " . env('MAIL_USERNAME') . " >",
+                                'from' => "GoodAuthentic < " . config('services.mailgun.username') . " >",
                                 'to' => $order->email,
                                 'subject' => $subject,
                                 'template' => $settings->locale == 'en' ? 'mail_post_purchase' : "mail_post_purchase_" . $settings->locale,

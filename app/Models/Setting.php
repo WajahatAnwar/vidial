@@ -10,6 +10,11 @@ class Setting extends Model
     use HasFactory;
     protected $guarded = [];
 
+    protected $casts = [
+        'email_sent_to_customer' => 'integer',
+        'page_link' => 'integer',
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class);

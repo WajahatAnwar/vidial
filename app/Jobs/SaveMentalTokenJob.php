@@ -37,12 +37,12 @@ class SaveMentalTokenJob implements ShouldQueue
      */
     public function handle()
     {
-        $mantleApiUrl = env('REACT_APP_MANTLE_API_URL');
-        $mantleAppId = env('REACT_APP_MANTLE_APP_ID');
-        $mantleApiKey = env('REACT_APP_MANTLE_APP_API_KEY');
+        $mantleApiUrl = config('services.mantle.api_url');
+        $mantleAppId = config('services.mantle.app_id');
+        $mantleApiKey = config('services.mantle.api_key');
         $user = $this->c_user;
         $shopifyAdminApiUrl = 'https://'.$user->name.'/admin/api/2023-04/shop.json';
-        $accessToken = $user->password;
+        $accessToken = \App\Support\ShopifyAccessToken::forShop($user);
 
         try {
             // Step 1: Get the shop details

@@ -34,10 +34,10 @@ class videoMail implements ShouldQueue
     public function handle()
     {
         $mgClient = Mailgun::create(
-            env('MAILGUN_SECRET'), // Mailgun API Key
-            env('MAILGUN_ENDPOINT')
+            config('services.mailgun.secret'), // Mailgun API Key
+            config('services.mailgun.endpoint')
        );
-       $domain = env('MAILGUN_DOMAIN');
+       $domain = config('services.mailgun.domain');
        $subject = "Here's your ".$this->details['store_currency'].$this->details['store_credit']." discount code for ".$this->details['store_name'];
        if($this->details['locale'] == "en"){
             $subject = "Here's your ".$this->details['store_currency'].$this->details['store_credit']." discount code for ".$this->details['store_name'];
@@ -54,7 +54,7 @@ class videoMail implements ShouldQueue
        }
 
        $params = array(
-        'from' => "GoodAuthentic < ".env('MAIL_USERNAME')." >",
+        'from' => "GoodAuthentic < ".config('services.mailgun.username')." >",
         'to' => $this->details['mail'],
         'subject' => $subject,
         'template' => $this->details['locale']=='en' ? 'videoapproved' : "videoapproved_".$this->details['locale'],

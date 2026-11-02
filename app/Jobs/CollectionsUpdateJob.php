@@ -80,7 +80,7 @@ class CollectionsUpdateJob implements ShouldQueue
         ], [
             'collection_title' => $payload->title,
             'collection_handle' => $payload->handle,
-            'collection_image' => env('APP_URL') . '/images/ph_front.jpg',
+            'collection_image' => config('app.url') . '/images/ph_front.jpg',
             'user_id' => $user->id,
             'collection_created_at' => $payload->published_at
         ]);

@@ -39,13 +39,13 @@ class ThanksMailjob implements ShouldQueue
     public function handle()
     {
         $mgClient = Mailgun::create(
-            env('MAILGUN_SECRET'), // Mailgun API Key
-            env('MAILGUN_ENDPOINT')
+            config('services.mailgun.secret'), // Mailgun API Key
+            config('services.mailgun.endpoint')
         );
-        $domain = env('MAILGUN_DOMAIN');
+        $domain = config('services.mailgun.domain');
         //    Log::info($this->details['url']);
         $params = array(
-            'from' => env('MAIL_USERNAME'),
+            'from' => config('services.mailgun.username'),
             'to' => $this->details['mail'],
             'subject' => 'New Video on The Store',
             // 'template' => $this->details['locale']=='en' ? 'inform_merchant_new_ugc_uploaded' : "inform_merchant_new_ugc_uploaded_".$this->details['locale'],

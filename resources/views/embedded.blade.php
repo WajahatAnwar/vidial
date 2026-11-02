@@ -15,8 +15,8 @@
 @section('scripts')
     @parent
     <ui-nav-menu>
-        <a href="/app-dashboard" rel="home">Dashboard</a>
         <a href="/">Get Started</a>
+        <a href="/app-dashboard">Dashboard</a>
         <a href="/videos-to-review">Videos to Review</a>
         <a href="/approved-videos">Approved Videos</a>
         <a href="/settings">Settings</a>

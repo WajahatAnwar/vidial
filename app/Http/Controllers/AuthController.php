@@ -87,7 +87,7 @@ class AuthController extends Controller
         $data = [
             'name' => $user->name,
             'email' => $user->email,
-            'link' => env('APP_URL') . "/reset-password?token=$token&email=$request->email",
+            'link' => config('app.url') . "/reset-password?token=$token&email=$request->email",
         ];
         $passwordReset = PasswordReset::create([
             'email' => $user->email,
@@ -153,7 +153,7 @@ class AuthController extends Controller
         $shop = Auth::user();
         $shop = User::find($shop->id);
 
-        // $url = env('APP_URL') . "/authenticate?shop=" . $shop->name;
+        // $url = config('app.url') . "/authenticate?shop=" . $shop->name;
 
 
         // return response()->json([

@@ -41,10 +41,10 @@ class NotApprovedMailjob implements ShouldQueue
     {
      
         $mgClient = Mailgun::create(
-            env('MAILGUN_SECRET'), // Mailgun API Key
-            env('MAILGUN_ENDPOINT')
+            config('services.mailgun.secret'), // Mailgun API Key
+            config('services.mailgun.endpoint')
        );
-       $domain = env('MAILGUN_DOMAIN');
+       $domain = config('services.mailgun.domain');
        $subject = "Message for your Video about ".$this->detail['storename'];
        if($this->detail['locale'] == "en"){
             $subject = "Message for your Video about ".$this->detail['storename'];
@@ -61,7 +61,7 @@ class NotApprovedMailjob implements ShouldQueue
        }
 
        $params = array(
-        'from' => "GoodAuthentic < ".env('MAIL_USERNAME')." >",
+        'from' => "GoodAuthentic < ".config('services.mailgun.username')." >",
         'to' => $this->detail['mail'],
         'subject' => $subject,
         'template' => $this->detail['locale']=='en' ? 'videodeclined' : "videodeclined_".$this->detail['locale'] ,

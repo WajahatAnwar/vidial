@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <base target="_top">
-        <meta name="shopify-api-key" content="{{ \Osiset\ShopifyApp\Util::getShopifyConfig('api_key', $shopDomain ?? Auth::user()->name ) }}"/>
+        <meta name="shopify-api-key" content="{{ \Osiset\ShopifyApp\Util::getShopifyConfig('api_key', $shopDomain ?? Auth::user()?->name ) }}"/>
 
         <title>Redirecting...</title>
 

@@ -243,7 +243,7 @@ if (!function_exists('syncProductsV2')) {
                         'product_type' => $product['node']['productType'],
                         'user_id' => $user->id,
                         'description' => "default description",
-                        'product_image' => $product['node']['featuredImage']['url'] ?? env('APP_URL') . '/images/ph_front.jpg',
+                        'product_image' => $product['node']['featuredImage']['url'] ?? config('app.url') . '/images/ph_front.jpg',
                         'status' => $product['node']['status'],
                         'product_created_at' => $product['node']['createdAt'],
                         'product_tracked' => $product['node']['tracksInventory'],
@@ -289,7 +289,7 @@ if (!function_exists('syncProductsV2')) {
                                 'option2' => @$variant['node']['selectedOptions'][1]['value'],
                                 'option3' => @$variant['node']['selectedOptions'][2]['value'],
                                 'price' => $variant['node']['price'],
-                                'image_url' => $variant['node']['image']['url'] ?? env('APP_URL') . '/images/ph_front.jpg',
+                                'image_url' => $variant['node']['image']['url'] ?? config('app.url') . '/images/ph_front.jpg',
                                 'quantity' => $variant['node']['inventoryQuantity'] ?? 0,
                                 // 'inventory_tracked' => $variant['node']['inventoryItem']['tracked'],
                                 'sku' => $variant['node']['sku'],
@@ -341,7 +341,7 @@ if (!function_exists('syncProductsV2')) {
                                 'collection_id' => $collection['node']['legacyResourceId'],
                                 'collection_title' => $collection['node']['title'],
                                 'collection_handle' => $collection['node']['handle'],
-                                'collection_image' => $collection['node']['image']['src'] ?? env('APP_URL') . '/images/ph_front.jpg',
+                                'collection_image' => $collection['node']['image']['src'] ?? config('app.url') . '/images/ph_front.jpg',
                                 'user_id' => $user->id,
                                 'collection_created_at' => $collection['node']['updatedAt'],
                                 // 'published_at' => @$status['publishDate'],
@@ -535,10 +535,10 @@ if (!function_exists('getDropboxToken')) {
     function getDropboxToken()
     {
         $dropbox = Http::withHeaders([
-            'Authorization' => 'Basic ' . base64_encode(env('DROPBOX_CLIENT_ID') . ':' . env('DROPBOX_SECRET_ID'))
+            'Authorization' => 'Basic ' . base64_encode(config('services.dropbox.client_id') . ':' . config('services.dropbox.secret_id'))
         ])->asForm()->post('https://api.dropboxapi.com/oauth2/token', [
                     'grant_type' => 'authorization_code',
-                    'code' => env('AUTHORIZATION_CODE', '_UAy1dwO1s4AAAAAAAAAHEFoDnr9-Ppfe8hkLu_Ougw')
+                    'code' => config('services.dropbox.authorization_code')
                 ]);
         return $dropbox->json();
     }
@@ -548,10 +548,10 @@ if (!function_exists('updateDropboxToken')) {
     function updateDropboxToken()
     {
         $dropbox = Http::withHeaders([
-            'Authorization' => 'Basic ' . base64_encode(env('DROPBOX_CLIENT_ID') . ':' . env('DROPBOX_SECRET_ID'))
+            'Authorization' => 'Basic ' . base64_encode(config('services.dropbox.client_id') . ':' . config('services.dropbox.secret_id'))
         ])->asForm()->post('https://api.dropboxapi.com/oauth2/token', [
                     'grant_type' => 'refresh_token',
-                    'refresh_token' => env('REFRESH_TOKEN')
+                    'refresh_token' => config('services.dropbox.refresh_token')
                 ]);
         // Config::set('dropbox.accessToken', $dropbox['access_token']);
         return $dropbox->json();
@@ -634,10 +634,10 @@ if (!function_exists('sendMail')) {
     function sendMail($to, $subject, $view, $user_id, $data = [], $from = 'Good Authentic')
     {
         try {
-            $api_secret_key = env('MAILGUN_SECRET');
-            $end_point = env('MAILGUN_ENDPOINT');
-            $domain = env('MAILGUN_DOMAIN');
-            $mail_user_name = env('MAIL_USERNAME');
+            $api_secret_key = config('services.mailgun.secret');
+            $end_point = config('services.mailgun.endpoint');
+            $domain = config('services.mailgun.domain');
+            $mail_user_name = config('services.mailgun.username');
             $emailCreds = EmailCredentials::where('user_id', $user_id)->where('is_active', 1)->first();
             if ($emailCreds) {
                 $api_secret_key = $emailCreds->api_secret_key;
@@ -649,7 +649,7 @@ if (!function_exists('sendMail')) {
                 $api_secret_key, // Mailgun API Key
                 $end_point
             );
-            $domain = env('MAILGUN_DOMAIN');
+            $domain = config('services.mailgun.domain');
 
             $html = view($view, $data)->render();
             // logger()->info($to);

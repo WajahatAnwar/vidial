@@ -43,7 +43,8 @@ class User extends Authenticatable implements IShopModel
      * @var array<int, string>
      */
     protected $hidden = [
-        // 'password',
+        'password',
+        'shopify_offline_refresh_token',
         'remember_token',
     ];
 
@@ -123,4 +124,7 @@ class User extends Authenticatable implements IShopModel
     {
         return $this->hasMany(Customer::class);
     }
+
+
+
 }

@@ -123,7 +123,7 @@ class ProductsCreateJob implements ShouldQueue
         if (isset($payload->image)) {
             $image_link = $payload->image->src;
         } else {
-            $image_link = env('APP_URL') . '/images/ph_front.jpg';
+            $image_link = config('app.url') . '/images/ph_front.jpg';
         }
 
         $current_product = Product::updateOrCreate([
@@ -199,7 +199,7 @@ class ProductsCreateJob implements ShouldQueue
                     'option2' => @$variant['node']['selectedOptions'][1]['value'],
                     'option3' => @$variant['node']['selectedOptions'][2]['value'],
                     'price' => $variant['node']['price'],
-                    'image_url' => isset($variant['node']['image']['url']) ? $variant['node']['image']['url'] : env('APP_URL') . '/images/ph_front.jpg',
+                    'image_url' => isset($variant['node']['image']['url']) ? $variant['node']['image']['url'] : config('app.url') . '/images/ph_front.jpg',
                     'quantity' => isset($variant['node']['inventoryQuantity']) ? $variant['node']['inventoryQuantity'] : 0,
                     // 'inventory_tracked' => $variant['node']['inventoryItem']['tracked'],
                     'sku' => $variant['node']['sku'],

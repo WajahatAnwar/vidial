@@ -22,7 +22,7 @@ class HeyMentalPlanCreatedController extends Controller
             'body' => $request->getContent(),
         ]);
 
-        $secret = env('REACT_APP_MANTLE_APP_API_KEY');
+        $secret = config('services.mantle.api_key');
         $timestamp = $request->header('X-Timestamp');
         $expectedSignature = $request->header('X-Mantle-Hmac-SHA256');
         $body = $request->getContent(); // Raw body of the webhook
@@ -98,7 +98,7 @@ class HeyMentalPlanCreatedController extends Controller
         // Log::info(json_encode($request->getContent(), JSON_PRETTY_PRINT));
         // Log::info(json_encode($request->headers->all(), JSON_PRETTY_PRINT));
 
-        $secret = env('REACT_APP_MANTLE_APP_API_KEY');
+        $secret = config('services.mantle.api_key');
         $timestamp = $request->header('X-Timestamp');
         $expectedSignature = $request->header('X-Mantle-Hmac-SHA256');
         $body = $request->getContent();

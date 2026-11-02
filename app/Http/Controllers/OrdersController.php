@@ -20,7 +20,7 @@ class OrdersController extends Controller
         $temlateDetails['mail'] = auth()->user()->email;
         $temlateDetails['name'] = 'Merchant';
         $temlateDetails['storename'] = auth()->user()->store_name;
-        $temlateDetails['url'] = env('APP_URL') . "/s/" . (auth()->user()->store_handle ? auth()->user()->store_handle : auth()->user()->store_name);
+        $temlateDetails['url'] = config('app.url') . "/s/" . (auth()->user()->store_handle ? auth()->user()->store_handle : auth()->user()->store_name);
         $temlateDetails['amount'] = auth()->user()->settings->store_credit;
         $temlateDetails['discount_code'] = '';
         $temlateDetails['reason_decline'] = '';
@@ -67,10 +67,10 @@ class OrdersController extends Controller
         // foreach ($get_customers as $value) {
             //auth()->user()->email
             $mgClient = Mailgun::create(
-                env('MAILGUN_SECRET'), // Mailgun API Key
-                env('MAILGUN_ENDPOINT')
+                config('services.mailgun.secret'), // Mailgun API Key
+                config('services.mailgun.endpoint')
            );
-           $domain = env('MAILGUN_DOMAIN');
+           $domain = config('services.mailgun.domain');
            $subject = "Test Email from Good Authentic";
            if($settings->locale == "en"){
             $subject = "Test Email from Good Authentic";
@@ -87,11 +87,11 @@ class OrdersController extends Controller
            }
 
            $params = array(
-            'from' => "Good Authentic < ".env('MAIL_USERNAME')." >",
+            'from' => "Good Authentic < ".config('services.mailgun.username')." >",
             'to' => auth()->user()->email,
             'subject' => $subject,
             'template' => auth()->user()->settings->locale=='en' ? "test_mail_for_merchant" : "test_mail_for_merchant_".auth()->user()->settings->locale,
-            'v:url' => env('APP_URL')."/landingPage"."/". $settings->locale ."?store=".$settings->user->name,
+            'v:url' => config('app.url')."/landingPage"."/". $settings->locale ."?store=".$settings->user->name,
             'v:amount'=>getCurrencySymbol(auth()->user()->store_currency).$settings->store_credit,
             'v:storename'=>$settings->user->store_name
         );

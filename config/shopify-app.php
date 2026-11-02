@@ -10,6 +10,12 @@ return [
     |
     */
 
+    'expiring_offline_tokens' => (bool) env('SHOPIFY_EXPIRING_OFFLINE_TOKENS', false),
+    'auto_migrate_legacy' => (bool) env('SHOPIFY_AUTO_MIGRATE_LEGACY', false),
+    'refresh_offline_token_before_api_call' => (bool) env('SHOPIFY_REFRESH_OFFLINE_TOKEN_BEFORE_API_CALL', true),
+    'offline_access_token_refresh_skew_seconds' => (int) env('SHOPIFY_OFFLINE_ACCESS_TOKEN_REFRESH_SKEW', 60),
+    'offline_refresh_token_renewal_days' => (int) env('SHOPIFY_OFFLINE_REFRESH_TOKEN_RENEWAL_DAYS', 14),
+
     'debug' => (bool) env('SHOPIFY_DEBUG', false),
 
     /*

@@ -15,7 +15,10 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
+        $schedule->command('shopify-app:refresh-expiring-offline-tokens')
+            ->daily()
+            ->withoutOverlapping()
+            ->when(fn () => (bool) config('shopify-app.expiring_offline_tokens'));
     }
 
     /**

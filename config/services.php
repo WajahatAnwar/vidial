@@ -14,11 +14,26 @@ return [
     |
     */
 
+    'mantle' => [
+        'api_url' => env('REACT_APP_MANTLE_API_URL'),
+        'app_id' => env('REACT_APP_MANTLE_APP_ID'),
+        'api_key' => env('REACT_APP_MANTLE_APP_API_KEY'),
+        'event_app_id' => env('MANTLE_AP_ID'),
+    ],
+
+    'dropbox' => [
+        'client_id' => env('DROPBOX_CLIENT_ID'),
+        'secret_id' => env('DROPBOX_SECRET_ID'),
+        'authorization_code' => env('AUTHORIZATION_CODE'),
+        'refresh_token' => env('REFRESH_TOKEN'),
+    ],
+
     'mailgun' => [
         'domain' => env('MAILGUN_DOMAIN'),
         'secret' => env('MAILGUN_SECRET'),
         'endpoint' => env('MAILGUN_ENDPOINT', 'api.mailgun.net'),
         'scheme' => 'https',
+        'username' => env('MAIL_USERNAME'),
     ],
 
     'postmark' => [

@@ -352,7 +352,7 @@ class VideoController extends Controller
             //     'name' => $name,
             //     'storename' => Auth::user()->store_name,
             //     'storeteam' => Auth::user()->name,
-            //     'url' => env('APP_URL') . "/landingPage" . "/" . Auth::user()->settings->locale . "?store=" . Auth::user()->name,
+            //     'url' => config('app.url') . "/landingPage" . "/" . Auth::user()->settings->locale . "?store=" . Auth::user()->name,
             //     'locale' => $user->settings->locale,
             // ];
 
@@ -365,7 +365,7 @@ class VideoController extends Controller
             $temlateDetails['name'] = $customerName;
             $temlateDetails['storename'] = auth()->user()->store_name;
             $temlateDetails['amount'] = Auth::user()->settings->store_credit;
-            $temlateDetails['url'] = env('APP_URL') . "/landingPage" . "/" . Auth::user()->settings->locale . "?store=" . Auth::user()->name;
+            $temlateDetails['url'] = config('app.url') . "/landingPage" . "/" . Auth::user()->settings->locale . "?store=" . Auth::user()->name;
             $temlateDetails['discount_code'] = '';
             $temlateDetails['reason_decline'] = $request->reason;
             $email_status = Setting::where('user_id', $user->id)->first()->email_status;
