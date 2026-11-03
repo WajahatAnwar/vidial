@@ -23,7 +23,15 @@ class UpdatePlan
      */
     public function handle(Request $request, Closure $next)
     {
-        $email_count = Plan::where('id', auth()->user()->plan_id)->first();
+        $user = $request->user();
+        if (! $user) {
+            return $next($request);
+        }
+
+        $email_count = Plan::find($user->plan_id);
+        if (! $email_count) {
+            return $next($request);
+        }
         // $charge = Charge::where('user_id', auth()->user()->id)
         //     ->where('status', '=', 'ACTIVE')
         //     ->first();
@@ -32,6 +40,12 @@ class UpdatePlan
             ->where('status', '=', 'ACTIVE')
             ->orderBy('created_at', 'desc')
             ->first();
+
+        // A shop can reach the app before its first active charge exists.
+        // Keep existing quotas until there is a billing period to calculate.
+        if (! $charge) {
+            return $next($request);
+        }
 
         $activated_on = Carbon::parse($charge->created_at);
         $end_date = $activated_on->copy()->addDays(30);
