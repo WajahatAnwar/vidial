@@ -127,13 +127,28 @@ class OrdersController extends Controller
 
     public function getPlans()
     {
-        $all_plans = Plan::where('id', '>', 12)->where('status', '=', '1')->get();
+        $names = array_keys(config('shopify-billing.plans', []));
+        $all_plans = collect($names)->map(function (string $name) {
+            return Plan::query()
+                ->where('name', $name)
+                ->where('status', 1)
+                ->orderByDesc('id')
+                ->first();
+        })->filter()->values();
 
         return response()->json([
             'success' => true,
             'message' => 'Fetch Plans Successfully',
             'data' => $all_plans,
-            'users' => Auth::user()
+            'users' => Auth::user(),
+            'billing' => [
+                'enabled' => (bool) config('shopify-app.billing_enabled'),
+                'subscribe' => [
+                    'method' => 'POST',
+                    'path' => '/api/billing/manual-plan-charge',
+                    'routeName' => 'billing.manual-plan-charge',
+                ],
+            ],
         ]);
     }
 }

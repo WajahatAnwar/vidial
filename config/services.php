@@ -14,6 +14,11 @@ return [
     |
     */
 
+    /*
+    | Kept so existing env files still load. Billing and quotas must not read
+    | these values. Leave the Mantle env vars in place until a staging host
+    | is confirmed; do not retarget them at Cloudways production.
+    */
     'mantle' => [
         'api_url' => env('REACT_APP_MANTLE_API_URL'),
         'app_id' => env('REACT_APP_MANTLE_APP_ID'),

@@ -61,7 +61,10 @@ return [
     |
     */
 
-    'manual_routes' => env('SHOPIFY_MANUAL_ROUTES', false),
+    // billing.process is replaced by ShopifyBillingReturnController, which
+    // redirects to /plans with the charge query params the Plans screen reads.
+    // Keep "billing.process" in this list if SHOPIFY_MANUAL_ROUTES is set.
+    'manual_routes' => env('SHOPIFY_MANUAL_ROUTES', 'billing.process'),
 
     /*
     |--------------------------------------------------------------------------
@@ -299,6 +302,10 @@ return [
     |--------------------------------------------------------------------------
     |
     | Enable billing component to the package.
+    |
+    | Default stays false. Do not set this on Cloudways ~/public_html until
+    | Sanwal confirms a staging host. Staging uses Shopify manual plans
+    | (see docs/shopify-manual-billing.md). Leave Mantle env vars alone.
     |
     */
 

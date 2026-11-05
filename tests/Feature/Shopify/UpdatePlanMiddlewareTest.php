@@ -38,6 +38,7 @@ class UpdatePlanMiddlewareTest extends TestCase
         Schema::create('charges', function (Blueprint $table) {
             $table->id();
             $table->unsignedInteger('user_id');
+            $table->unsignedInteger('plan_id')->nullable();
             $table->string('status');
             $table->timestamps();
         });
@@ -60,7 +61,7 @@ class UpdatePlanMiddlewareTest extends TestCase
         }
         $request = Request::create('/');
         $request->setUserResolver(fn () => $user);
-        $response = (new UpdatePlan())->handle($request, fn () => response('continued'));
+        $response = (new UpdatePlan)->handle($request, fn () => response('continued'));
         $this->assertSame('continued', $response->getContent());
     }
 
@@ -96,5 +97,28 @@ class UpdatePlanMiddlewareTest extends TestCase
         $user = DB::table('users')->where('id', 1)->first();
         $this->assertSame(9, $user->remaining_videos);
         $this->assertSame(19, $user->remaining_email);
+    }
+
+    public function test_active_charge_plan_overrides_the_shop_plan(): void
+    {
+        DB::table('plans')->insert(['id' => 2, 'ugc_video_count' => 100, 'ugc_email_count' => 40]);
+        DB::table('charges')->insert([
+            'user_id' => 1,
+            'plan_id' => 2,
+            'status' => 'ACTIVE',
+            'created_at' => now()->subDays(2),
+        ]);
+        DB::table('videos')->insert([
+            'user_id' => 1,
+            'status' => config('constants.video_approved'),
+            'created_at' => now(),
+        ]);
+        DB::table('logs')->insert(['user_id' => 1, 'created_at' => now()]);
+        $this->runMiddleware(User::find(1));
+        $user = DB::table('users')->where('id', 1)->first();
+        $this->assertSame(99, $user->remaining_videos);
+        $this->assertSame(39, $user->remaining_email);
+        $this->assertSame(100, $user->ugc_video_count);
+        $this->assertSame(40, $user->ugc_email_count);
     }
 }
