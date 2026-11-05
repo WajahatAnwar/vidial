@@ -1,51 +1,36 @@
 /**
  * Shopify Manual Plan charge confirmation (App Bridge).
  *
- * Vidial Backend owns the charge-confirm route. It is not in this tree yet,
- * so this module does not call a guessed path. When Backend publishes the
- * contract, set SHOPIFY_MANUAL_PLAN_CHARGE_URL and this UI will POST and open
- * the returned confirmation URL with App Bridge.
+ * Backend contract (POST /api/billing/manual-plan-charge, route
+ * billing.manual-plan-charge). The embedded layout adds
+ * Authorization: Bearer <Shopify id token> on window.fetch.
  *
- * Expected request (same session as get-plans; the embedded layout adds
- * Authorization: Bearer <Shopify id token> on window.fetch):
- *   POST <SHOPIFY_MANUAL_PLAN_CHARGE_URL>
+ *   POST /api/billing/manual-plan-charge
  *   Content-Type: application/json
  *   Body: { "plan_id": <id from get-plans data[].id> }
  *
- * Expected JSON (200):
- *   { "success": true, "confirmation_url": "https://..." }
- *   confirmationUrl is accepted as an alias of confirmation_url.
- *   The URL must be absolute https. App Bridge opens it with window.open(url, "_top").
+ * Charge success (open the absolute https URL with window.open(url, "_top");
+ * confirmation_url and confirmationUrl are the same value, either is enough):
+ *   { "success": true, "confirmation_url": "https://...", "confirmationUrl": "https://..." }
  *
- * Freemium (no Shopify charge; Plans refreshes quotas from get-plans):
- *   { "success": true, "freemium": true, "message": "optional" }
- *   or { "success": false, "error": "freemium", "message": "optional" }
+ * Freemium (Backend only when SHOPIFY_BILLING_FREEMIUM_ENABLED=true and price is 0).
+ * No Shopify charge. Plans refreshes quotas from get-plans:
+ *   { "success": true, "freemium": true }
  *
- * Declined charge, either as the POST response or when Shopify returns the
- * merchant to /plans:
- *   { "success": false, "error": "declined", "message": "optional" }
- *   /plans?error=declined
- *   /plans?charge_status=declined
- *   /plans?status=declined
- *   Optional message query param is shown when present.
+ * Declined:
+ *   { "success": false, "error": "declined" }
  *
- * Accepted return (Plans refreshes get-plans and shows current quotas):
- *   /plans?charge_status=accepted
- *   /plans?status=accepted
- *   /plans?charge_id=<id> with no error param
+ * Other failure:
+ *   { "success": false, "error": "<code>", "message": "<optional>" }
  *
- * Any other failure:
- *   { "success": false, "error": "string", "message": "optional" }
- *   or a non-OK response.
- *
- * TODO(backend): replace SHOPIFY_MANUAL_PLAN_CHARGE_URL = null with the
- * published path or absolute URL. Do not point this at Mantle.
- *
- * GET /billing/{plan} from the Shopify package is a server redirect, not this
- * contract. This module does not call that route.
+ * After the merchant leaves Shopify, Backend GET /billing/process/{planId}
+ * redirects to /plans. This module does not call that route. Plans reads:
+ *   Accepted: charge_status=accepted&status=accepted&charge_id=
+ *   Declined: error=declined&charge_status=declined&status=declined
+ * and reloads quotas with get-plans.
  */
 
-export const SHOPIFY_MANUAL_PLAN_CHARGE_URL = null;
+export const SHOPIFY_MANUAL_PLAN_CHARGE_URL = '/api/billing/manual-plan-charge';
 
 const PLAN_ORDER = ['free', 'standard', 'premium', 'enterprise'];
 
@@ -151,11 +136,11 @@ export function classifyChargeResponse(payload) {
         };
     }
 
-    const confirmationUrl = body.confirmation_url || body.confirmationUrl;
-    if (isShopifyConfirmationUrl(confirmationUrl)) {
+    const confirmationUrl = [body.confirmation_url, body.confirmationUrl].find(isShopifyConfirmationUrl);
+    if (confirmationUrl) {
         return { kind: 'redirect', confirmationUrl };
     }
-    if (confirmationUrl) {
+    if (body.confirmation_url || body.confirmationUrl) {
         return {
             kind: 'error',
             message: 'Shopify returned a charge confirmation URL that is not an absolute https URL.',
