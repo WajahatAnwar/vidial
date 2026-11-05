@@ -47,20 +47,52 @@
 
 export const SHOPIFY_MANUAL_PLAN_CHARGE_URL = null;
 
-const PLAN_ORDER = ['free', 'standard', 'premium', 'advanced'];
+const PLAN_ORDER = ['free', 'standard', 'premium', 'enterprise'];
+
+function planNameKey(plan) {
+    return String(plan?.name || '').trim().toLowerCase();
+}
+
+function planRank(plan) {
+    const key = planNameKey(plan) === 'advanced' ? 'enterprise' : planNameKey(plan);
+    const rank = PLAN_ORDER.indexOf(key);
+    return rank === -1 ? PLAN_ORDER.length : rank;
+}
 
 export function sortPlanCards(plans) {
     const list = Array.isArray(plans) ? plans : [];
     return [...list].sort((a, b) => {
-        const aRank = PLAN_ORDER.indexOf(String(a?.name || '').trim().toLowerCase());
-        const bRank = PLAN_ORDER.indexOf(String(b?.name || '').trim().toLowerCase());
-        const aOrder = aRank === -1 ? PLAN_ORDER.length : aRank;
-        const bOrder = bRank === -1 ? PLAN_ORDER.length : bRank;
+        const aOrder = planRank(a);
+        const bOrder = planRank(b);
         if (aOrder !== bOrder) {
             return aOrder - bOrder;
         }
         return Number(a?.id || 0) - Number(b?.id || 0);
     });
+}
+
+/**
+ * Ops plan names are Free, Standard, Premium, Enterprise.
+ * If get-plans still returns Advanced, show that row as Enterprise and keep
+ * its id so Select plan POSTs the id the API actually returned.
+ * When Enterprise is already present, drop the temporary Advanced row.
+ */
+export function presentPlanCards(plans) {
+    const list = Array.isArray(plans) ? plans : [];
+    const hasEnterprise = list.some((plan) => planNameKey(plan) === 'enterprise');
+    const visible = list.reduce((cards, plan) => {
+        const key = planNameKey(plan);
+        if (key === 'advanced') {
+            if (hasEnterprise) {
+                return cards;
+            }
+            cards.push({ ...plan, name: 'Enterprise' });
+            return cards;
+        }
+        cards.push(plan);
+        return cards;
+    }, []);
+    return sortPlanCards(visible);
 }
 
 export function isShopifyConfirmationUrl(value) {

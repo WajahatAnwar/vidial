@@ -3,7 +3,7 @@ import {
     openShopifyChargeConfirmation,
     readChargeReturnState,
     requestShopifyManualPlanCharge,
-    sortPlanCards,
+    presentPlanCards,
 } from './shopifyManualPlanCharge';
 
 import {
@@ -81,7 +81,7 @@ function Plans() {
             if (!data.success) {
                 throw new Error(data.message || "Plans could not be loaded.");
             }
-            setPlans(sortPlanCards(data.data));
+            setPlans(presentPlanCards(data.data));
             setShop(data.users && typeof data.users === "object" && !Array.isArray(data.users) ? data.users : null);
         } catch (error) {
             if (!silent) {
