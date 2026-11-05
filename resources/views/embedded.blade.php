@@ -54,5 +54,5 @@
 
   gtag('config', 'G-N4VDTDHF16');
 </script>
-   <script src="https://cdn.heymantle.com/mantle_apptrack.js?appToken=47d2c6ef55518af760503c87715caf78"> </script>
+    {{-- HeyMantle track script removed (Frontend). Plans billing uses Shopify Manual Plan charge confirmation via App Bridge. Backend/Ops: do not re-add cdn.heymantle.com on this layout. --}}
 @endsection
