@@ -8,12 +8,13 @@ use App\Http\Controllers\EmailController;
 use App\Http\Controllers\GoogleDriveController;
 use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\SettingsController;
+use App\Http\Controllers\ShopifyBillingReturnController;
+use App\Http\Controllers\ShopifyPlanSubscribeController;
 use App\Http\Controllers\VideoController;
 use Illuminate\Support\Facades\Route;
 use App\Jobs\SyncProductsJob;
 use App\Models\User;
 use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Http;
 use Osiset\ShopifyApp\Util;
 use Osiset\ShopifyApp\Contracts\Queries\Shop;
 use Osiset\ShopifyApp\Objects\Values\ShopDomain;
@@ -81,6 +82,24 @@ Route::get('send_customers', [OrdersController::class, 'customers_send_email'])-
 Route::get('review_updated/{id}', [OrdersController::class, 'review_updated'])->name('review_updated');
 
 Route::get('get-plans', [OrdersController::class, 'getPlans'])->name('get-plans')->middleware(['verify.shopify']);
+
+// SHOPIFY_MANUAL_PLAN_CHARGE_URL. Same verify.shopify bearer session as get-plans.
+// Contract: docs/shopify-manual-billing.md
+Route::post('api/billing/manual-plan-charge', ShopifyPlanSubscribeController::class)
+    ->name('billing.manual-plan-charge')
+    ->middleware(['verify.shopify']);
+
+// Plans stays reachable without an active charge so Select plan and the
+// Shopify return banner can render. Other embedded pages stay behind billable.
+Route::inertia('/plans', 'MyApplication/Plans')
+    ->name('plans')
+    ->middleware(['verify.shopify', 'update.plan']);
+
+// Package billing.process is excluded so this return can land on /plans.
+Route::get('billing/process/{plan?}', ShopifyBillingReturnController::class)
+    ->name('billing.process')
+    ->middleware(['verify.shopify'])
+    ->where('plan', '^([0-9]+|)$');
 Route::get('testEmail', [AdminController::class, 'testEmail']);
 
 Route::get('s/{handle}', [SettingsController::class, 'landingPage2'])->withoutMiddleware([IframeProtection::class]);
@@ -156,7 +175,6 @@ Route::group(['middleware' => ['verify.shopify', 'billable', 'update.plan']], fu
 
     // Email-related routes
     Route::inertia('/email', 'MyApplication/Email')->name('email');
-    Route::inertia('/plans', 'MyApplication/Plans')->name('plans');
     Route::inertia('/resources', 'MyApplication/Resources')->name('resources');
 
     // Admin dashboard
@@ -216,35 +234,6 @@ Route::group(['middleware' => ['verify.shopify', 'billable', 'update.plan']], fu
     Route::get('logs-content', [SettingsController::class, 'logs'])->name('logs-content');
 
 
-});
-Route::get('test-webhook', function () {
-    $users = User::whereNotNull('password')->where('role_id', 2)->get();
-
-    foreach ($users as $user) {
-
-        $response = Http::withHeaders([
-            'Content-Type' => 'application/json',
-            'X-Mantle-App-Api-Key' => env('MANTLE_API_KEY'),
-            'X-Mantle-App-Id' => env('MANTLE_AP_ID'),
-        ])->post('https://appapi.heymantle.com/v1/identify', [
-                    'platform' => 'shopify',
-                    'platformId' => $user->store_id,
-                    'myshopifyDomain' => $user->name,
-                    'name' => $user->store_name,
-                    'email' => $user->email,
-                    'accessToken' => $user->password,
-                ]);
-
-        $response = $response->json();
-        $user->mantle_token = $response['apiToken'];
-        $user->save();
-    }
-
-    if ($response->status() === 401) {
-        return response()->json(['error' => 'Unauthorized'], 401);
-    }
-
-    return $response->json();
 });
 
 //SHOPIFY ROUTES END ######################################################  ################################

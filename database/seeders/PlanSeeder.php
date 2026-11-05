@@ -2,10 +2,17 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
+/**
+ * Upserts the Shopify manual-plan catalog: Free, Standard, Premium, Enterprise.
+ *
+ * Do not run this on Cloudways until Sanwal confirms a staging host.
+ * Existing rows keep their price and ugc_* counts. A missing name is inserted
+ * from config/shopify-billing.php, which copies the current database catalog.
+ * This seeder does not rename Advanced and does not delete legacy rows.
+ */
 class PlanSeeder extends Seeder
 {
     /**
@@ -15,31 +22,56 @@ class PlanSeeder extends Seeder
      */
     public function run()
     {
-        $faker = \Faker\Factory::create();
-        DB::table("plans")->insert([
-            "type" => 'Month',
-            "name" => 'Standard',
-            "price" => 49.99,
-            'description' =>"For small brands who wants to collect fews videos UGC for their Ads, Reviews & Social Networks.",
-            'ugc_video_count' =>10,
-            'ugc_email_count' => 2000,
-        ]);
-        DB::table("plans")->insert([
-            "type" => 'Month',
-            "name" => 'Premium',
-            "price" => 99.99,
-            'description' =>"For medium brands who wants to collect fews videos UGC for their Ads, Reviews & Social Networks.",
-            'ugc_video_count' =>50,
-            'ugc_email_count' => 10000,
-        ]);
-        DB::table("plans")->insert([
-            "type" => 'Month',
-            "name" => 'Advanced',
-            "price" => 299.99,
-            'description' => "For bigs brands and Shopify Plus who wants to collect fews videos UGC for their Ads, Reviews & Social Networks.",
-            'ugc_video_count' =>200,
-            'ugc_email_count' =>50000,
-        ]);
+        foreach (config('shopify-billing.plans', []) as $name => $plan) {
+            $existing = DB::table('plans')->where('name', $name)->orderByDesc('id')->first();
 
+            if ($existing) {
+                $this->normalizeBillingColumns($existing);
+
+                continue;
+            }
+
+            DB::table('plans')->insert([
+                'type' => 'RECURRING',
+                'name' => $name,
+                'price' => $plan['price'],
+                'interval' => 'EVERY_30_DAYS',
+                'capped_amount' => $plan['capped_amount'],
+                'terms' => 'Terms',
+                'trial_days' => 0,
+                'test' => config('shopify-billing.test_charges') ? 1 : 0,
+                'on_install' => 0,
+                'description' => $plan['description'],
+                'ugc_video_count' => $plan['ugc_video_count'],
+                'ugc_email_count' => $plan['ugc_email_count'],
+                'status' => 1,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+        }
+    }
+
+    private function normalizeBillingColumns(object $existing): void
+    {
+        $updates = [];
+
+        if (strtoupper((string) $existing->type) !== 'RECURRING') {
+            $updates['type'] = 'RECURRING';
+        }
+
+        if ($existing->interval !== null && ! in_array($existing->interval, ['EVERY_30_DAYS', 'ANNUAL'], true)) {
+            $updates['interval'] = 'EVERY_30_DAYS';
+        }
+
+        if ((float) $existing->capped_amount > 0 && ($existing->terms === null || $existing->terms === '')) {
+            $updates['terms'] = 'Terms';
+        }
+
+        if ($updates === []) {
+            return;
+        }
+
+        $updates['updated_at'] = now();
+        DB::table('plans')->where('id', $existing->id)->update($updates);
     }
 }

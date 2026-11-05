@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Jobs\SaveMentalTokenJob;
 use App\Jobs\UserResetPasswordJob;
 use App\Models\EmailTemplate;
 use App\Models\PasswordReset;
@@ -274,11 +273,6 @@ class AuthController extends Controller
             }
         }';
         $shopData = $shop->api()->graph($shop_query);
-
-        // if(empty($shop->customer_api_token)){
-        //     Log::info('Shop identified and updated successfully');
-        SaveMentalTokenJob::dispatch($shop);
-        // }
 
         if (isset($shopData['body']['data']) && isset($shopData['body']['data']['shop']['name'])) {
             $shop->store_currency = $shopData['body']['data']['shop']['currencyCode'];
